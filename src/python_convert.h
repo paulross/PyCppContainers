@@ -1,0 +1,190 @@
+//
+//  python_convert.hpp
+//  PythonC++
+//
+// This contains hand crafted conversion of C++ <-> Python containers of homogeneous types.
+// These are further instantiated by auto-generated code for a specific cartesian product of types and containers.
+// That product is controlled by code_gen.py
+// That auto-generated file is included by #include "auto_py_convert_internal.h" at the end of this file.p
+//
+// Usage:
+//
+//
+//
+//  Created by Paul Ross on 22/11/2018.
+//  Copyright © 2018 Paul Ross. All rights reserved.
+//
+
+#ifndef PYTHONC__HOMOGENEOUSCONTAINERS_PYTHON_CONVERT_H
+#define PYTHONC__HOMOGENEOUSCONTAINERS_PYTHON_CONVERT_H
+
+#include <Python.h>
+
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+// TODO: Add namespace. PYTHON_CPP_HOMOGENEOUS_CONTAINERS ?
+
+// This is a hand written generic function to convert a C++ vector to a Python tuple.
+// The template is instantiated with a C++ type and a conversion function to create a Python object from that type.
+//
+// Example:
+//
+//      template <>
+//      PyObject *
+//      std_vector_to_py_tuple<double>(const std::vector<double> &container) {
+//          return generic_cpp_std_vector_to_py_tuple<double, &py_float_from_double>(container);
+//      }
+template<typename T, PyObject *(*Convert)(const T&)>
+PyObject *
+generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
+    assert(! PyErr_Occurred());
+    PyObject *ret = PyTuple_New(vec.size());
+    if (ret) {
+        for (size_t i = 0; i < vec.size(); ++i) {
+            PyObject *op = (*Convert)(vec[i]);
+            if (! op) {
+                // Failure, clean up
+                for (size_t j = 0; j < i; ++j) {
+                    Py_XDECREF(PyTuple_GET_ITEM(ret, j));
+                }
+                goto except;
+            }
+            PyTuple_SET_ITEM(ret, i, op);
+        }
+    }
+    assert(! PyErr_Occurred());
+    assert(ret);
+    goto finally;
+except:
+    Py_XDECREF(ret);
+    assert(PyErr_Occurred());
+    ret = NULL;
+finally:
+    return ret;
+}
+
+// This is a hand written generic function to convert a  Python tuple to a C++ vector.
+// The template is instantiated with a C++ type a check function and a conversion function to create a Python object
+// to that C++ type.
+//
+// Example:
+//
+//  template <> int
+//  py_tuple_to_std_vector<double>(PyObject *op, std::vector<double> &container) {
+//      return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &PyFloat_AsDouble>(op, container);
+//  }
+template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
+int generic_py_tuple_to_cpp_std_vector(PyObject *tuple, std::vector<T> &vec) {
+    assert(! PyErr_Occurred());
+    vec.clear();
+    Py_INCREF(tuple); // Borrowed reference
+    if (! PyTuple_Check(tuple)) {
+        Py_DECREF(tuple);
+        PyErr_Format(PyExc_ValueError, "Python object must be a tuple not a %s", tuple->ob_type->tp_name);
+        return -1;
+    }
+    for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(tuple); ++i) {
+        PyObject *value = PyTuple_GET_ITEM(tuple, i);
+        if (! (*Check)(value)) {
+            vec.clear();
+            Py_DECREF(tuple);
+            PyErr_Format(PyExc_ValueError, "Python value of type %s can not be converted", value->ob_type->tp_name);
+            return -2;
+        }
+        vec.push_back((*Convert)(value));
+        // Check !PyErr_Occurred() which could never happen as we check first.
+    }
+    Py_DECREF(tuple);
+    assert(! PyErr_Occurred());
+    return 0;
+}
+
+// This is a hand written generic function to convert a C++ unordered_map to a Python dict.
+// The template is instantiated with C++ type(s) and a conversion function(s) to create Python object(s) from those
+// types.
+//
+// Example:
+//
+//  template <>
+//  PyObject *
+//  std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double, double> &map) {
+//      return generic_cpp_std_unordered_map_to_py_dict<
+//            double, double,
+//            &py_float_from_double, &py_float_from_double
+//      >(map);
+//  }
+// TODO: Here
+template<
+        typename K,
+        typename V,
+        PyObject *(*Convert_K)(const K&),
+        PyObject *(*Convert_V)(const V&)
+>
+PyObject *
+generic_cpp_std_unordered_map_to_py_dict(const std::unordered_map<K, V> &map) {
+    PyObject *ret = PyDict_New();
+    if (ret) {
+        for (const auto &k_v: map) {
+            PyObject *py_k = (*Convert_K)(k_v.first);
+            // Failure, clean up
+            PyObject *py_v = (*Convert_V)(k_v.second);
+            if (! py_k || ! py_v || ! PyDict_SetItem(ret, py_k, py_v)) {
+                PyObject *keys = PyDict_Keys(ret);
+                for (Py_ssize_t i = 0; i < PyList_Size(keys); ++i) {
+                    if (PyDict_DelItem(ret, PyList_GetItem(keys, i))) {
+                        // Something terrible has happened, this might leak.
+                        return NULL;
+                    }
+                }
+                Py_DECREF(keys);
+                Py_DECREF(ret);
+            }
+        }
+    }
+    return ret;
+}
+
+template<
+        typename K,
+        typename V,
+        int (*Check_K)(PyObject *),
+        int (*Check_V)(PyObject *),
+        K (*Convert_K)(PyObject *),
+        V (*Convert_V)(PyObject *)
+>
+int generic_py_dict_to_cpp_std_unordered_map(PyObject *dict,
+                                             std::unordered_map<K, V> &map) {
+    map.clear();
+
+    Py_INCREF(dict); // Borrowed reference
+    if (! PyDict_Check(dict)) {
+        Py_DECREF(dict);
+        return -1;
+    }
+    PyObject *key, *value;
+    Py_ssize_t pos = 0;
+
+    while (PyDict_Next(dict, &pos, &key, &value)) {
+        if (! Check_K(key)) {
+            map.clear();
+            Py_DECREF(dict);
+            return -2;
+        }
+        if (! Check_V(value)) {
+            map.clear();
+            Py_DECREF(dict);
+            return -3;
+        }
+        map[Convert_K(key)] = Convert_V(value);
+        // Check !PyErr_Occurred() which could never happen as we check first.
+    }
+    Py_DECREF(dict);
+    return 0;
+}
+
+// Now include the auto generated instantiations.
+#include "auto_py_convert_internal.h"
+
+#endif //PYTHONC__HOMOGENEOUSCONTAINERS_PYTHON_CONVERT_H
