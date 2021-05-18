@@ -11,6 +11,7 @@
 namespace Python_Cpp_Homogeneous_Containers {
 
 // Conversion functions.
+// Float/double
     PyObject *py_float_from_double(const double &d) {
         return PyFloat_FromDouble(d);
     }
@@ -18,10 +19,19 @@ namespace Python_Cpp_Homogeneous_Containers {
     double py_float_as_double(PyObject *op) {
         return PyFloat_AsDouble(op);
     }
-
-//PyObject *py_long_from_long(const long &l) {
-//    return PyLong_FromLong(l);
-//}
+    int py_float_check(PyObject *op) {
+        return PyFloat_Check(op);
+    }
+// Long/long
+    PyObject *py_long_from_long(const long &l) {
+        return PyLong_FromLong(l);
+    }
+    long py_long_as_long(PyObject *op) {
+        return PyLong_AsLong(op);
+    }
+    int py_long_check(PyObject *op) {
+        return PyLong_Check(op);
+    }
 //
 //PyObject *py_bytes_from_string(const std::string &s) {
 //    return PyBytes_FromStringAndSize(s.c_str(), s.size());
@@ -32,12 +42,5 @@ namespace Python_Cpp_Homogeneous_Containers {
 //    return ret;
 //}
 
-// Check functions
-    int py_float_check(PyObject *op) {
-        return PyFloat_Check(op);
-    }
-//int py_long_check(PyObject *op) {
-//    return PyLong_Check(op);
-//}
 
 } // namespace Python_Cpp_Homogeneous_Containers

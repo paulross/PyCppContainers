@@ -27,7 +27,7 @@ class CppFunctions(typing.NamedTuple):
 
 CPP_TYPE_TO_FUNCS = {
     'double': CppFunctions('py_float_from_double', 'py_float_check', 'py_float_as_double'),
-    # 'long': CppFunctions('py_long_from_long', 'py_long_check', 'PyLong_AsLong'),
+    'long': CppFunctions('py_long_from_long', 'py_long_check', 'py_long_as_long'),
     # 'std::string': CppFunctions('py_str_from_std_string', 'py_str_check', 'py_str_as_std_sting'),
     # 'bool': CppFunctions('py_bool_from_bool', 'py_bool_check', 'py_bool_as_bool'),
 }
