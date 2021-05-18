@@ -26,16 +26,16 @@
 
 namespace Python_Cpp_Homogeneous_Containers {
 
-// This is a hand written generic function to convert a C++ vector to a Python tuple.
-// The template is instantiated with a C++ type and a conversion function to create a Python object from that type.
-//
-// Example:
-//
-//      template <>
-//      PyObject *
-//      std_vector_to_py_tuple<double>(const std::vector<double> &container) {
-//          return generic_cpp_std_vector_to_py_tuple<double, &py_float_from_double>(container);
-//      }
+    // This is a hand written generic function to convert a C++ vector to a Python tuple.
+    // The template is instantiated with a C++ type and a conversion function to create a Python object from that type.
+    //
+    // Example:
+    //
+    //      template <>
+    //      PyObject *
+    //      std_vector_to_py_tuple<double>(const std::vector<double> &container) {
+    //          return generic_cpp_std_vector_to_py_tuple<double, &py_float_from_double>(container);
+    //      }
     template<typename T, PyObject *(*Convert)(const T &)>
     PyObject *
     generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
@@ -65,16 +65,16 @@ namespace Python_Cpp_Homogeneous_Containers {
         return ret;
     }
 
-// This is a hand written generic function to convert a  Python tuple to a C++ vector.
-// The template is instantiated with a C++ type a check function and a conversion function to create a Python object
-// to that C++ type.
-//
-// Example:
-//
-//  template <> int
-//  py_tuple_to_std_vector<double>(PyObject *op, std::vector<double> &container) {
-//      return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &PyFloat_AsDouble>(op, container);
-//  }
+    // This is a hand written generic function to convert a  Python tuple to a C++ vector.
+    // The template is instantiated with a C++ type a check function and a conversion function to create a Python object
+    // to that C++ type.
+    //
+    // Example:
+    //
+    //  template <> int
+    //  py_tuple_to_std_vector<double>(PyObject *op, std::vector<double> &container) {
+    //      return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &PyFloat_AsDouble>(op, container);
+    //  }
     template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
     int generic_py_tuple_to_cpp_std_vector(PyObject *tuple, std::vector<T> &vec) {
         assert(!PyErr_Occurred());
@@ -101,21 +101,21 @@ namespace Python_Cpp_Homogeneous_Containers {
         return 0;
     }
 
-// This is a hand written generic function to convert a C++ unordered_map to a Python dict.
-// The template is instantiated with C++ type(s) and a conversion function(s) to create Python object(s) from those
-// types.
-//
-// Example:
-//
-//  template <>
-//  PyObject *
-//  std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double, double> &map) {
-//      return generic_cpp_std_unordered_map_to_py_dict<
-//            double, double,
-//            &py_float_from_double, &py_float_from_double
-//      >(map);
-//  }
-// TODO: Here
+    // This is a hand written generic function to convert a C++ unordered_map to a Python dict.
+    // The template is instantiated with C++ type(s) and a conversion function(s) to create Python object(s) from those
+    // types.
+    //
+    // Example:
+    //
+    //  template <>
+    //  PyObject *
+    //  std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double, double> &map) {
+    //      return generic_cpp_std_unordered_map_to_py_dict<
+    //            double, double,
+    //            &py_float_from_double, &py_float_from_double
+    //      >(map);
+    //  }
+    // TODO: Here
     template<
             typename K,
             typename V,
