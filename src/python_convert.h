@@ -39,7 +39,7 @@ namespace Python_Cpp_Homogeneous_Containers {
     template<typename T, PyObject *(*Convert)(const T &)>
     PyObject *
     generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
-        assert(!PyErr_Occurred());
+        assert(! PyErr_Occurred());
         PyObject *ret = PyTuple_New(vec.size());
         if (ret) {
             for (size_t i = 0; i < vec.size(); ++i) {
