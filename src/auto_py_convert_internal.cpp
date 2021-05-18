@@ -14,11 +14,13 @@
 // 
 #include "python_convert.h"
 
+namespace Python_Cpp_Homogeneous_Containers {
+
 //**************** Unary collections <-> Python collections ***************
 //---------------------- std::vector -> Python tuple ----------------------
 template <>
 PyObject *
-std_vector_to_py_tuple<double>(const std::vector<double> &container) {
+cpp_std_vector_to_py_tuple<double>(const std::vector<double> &container) {
     return generic_cpp_std_vector_to_py_tuple<double, &py_float_from_double>(container);
 }
 
@@ -26,8 +28,8 @@ std_vector_to_py_tuple<double>(const std::vector<double> &container) {
 
 //---------------------- Python tuple -> std::vector ----------------------
 template <> int
-py_tuple_to_std_vector<double>(PyObject *op, std::vector<double> &container) {
-    return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &PyFloat_AsDouble>(op, container);
+py_tuple_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container) {
+    return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &py_float_as_double>(op, container);
 }
 
 //-------------------- END: Python tuple -> std::vector -------------------
@@ -39,21 +41,21 @@ py_tuple_to_std_vector<double>(PyObject *op, std::vector<double> &container) {
 //------------- to a Python dict of { double : double, ...}    ------------
 template <>
 PyObject *
-std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double, double> &map) {
+cpp_std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double, double> &map) {
     return generic_cpp_std_unordered_map_to_py_dict<
-            double, double,
-            &py_float_from_double, &py_float_from_double
+        double, double,
+        &py_float_from_double, &py_float_from_double
     >(map);
 }
 
 //------------ Converts a Python dict of {double : double, ...} -----------
 //---------------- to a std::unordered_map<double, double> ----------------
 template <> int
-py_dict_to_std_unordered_map<double, double>(PyObject* op, std::unordered_map<double, double> &map) {
+py_dict_to_cpp_std_unordered_map<double, double>(PyObject* op, std::unordered_map<double, double> &map) {
     return generic_py_dict_to_cpp_std_unordered_map<
-            double, double,
-            &py_float_check, &py_float_check,
-            &PyFloat_AsDouble, &PyFloat_AsDouble
+        double, double,
+        &py_float_check, &py_float_check,
+        &py_float_as_double, &py_float_as_double
     >(op, map);
 }
 
@@ -63,5 +65,8 @@ py_dict_to_std_unordered_map<double, double>(PyObject* op, std::unordered_map<do
 //#########################################################################
 //#### END: Auto-generated code - do not edit. Seriously, do NOT edit. ####
 //#########################################################################
+
+} // namespace Python_Cpp_Homogeneous_Containers
+
 //========================== END: Definition file =========================
 

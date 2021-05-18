@@ -1,5 +1,5 @@
 """
-Writes out .hpp and .cpp files to support Python/C++ homogeneous containers.
+Writes out .h and .cpp files to support Python/C++ homogeneous containers.
 
 This facilitates conversion between Python and C++ containers where the Python types are consistent.
 
@@ -16,6 +16,8 @@ import typing
 
 logger = logging.getLogger(__file__)
 
+CPP_NAMESPACE = 'Python_Cpp_Homogeneous_Containers'
+
 
 class CppFunctions(typing.NamedTuple):
     to_py_type: str
@@ -24,7 +26,7 @@ class CppFunctions(typing.NamedTuple):
 
 
 CPP_TYPE_TO_FUNCS = {
-    'double': CppFunctions('py_float_from_double', 'py_float_check', 'PyFloat_AsDouble'),
+    'double': CppFunctions('py_float_from_double', 'py_float_check', 'py_float_as_double'),
     # 'long': CppFunctions('py_long_from_long', 'py_long_check', 'PyLong_AsLong'),
     # 'std::string': CppFunctions('py_str_from_std_string', 'py_str_check', 'py_str_as_std_sting'),
     # 'bool': CppFunctions('py_bool_from_bool', 'py_bool_check', 'py_bool_as_bool'),
@@ -40,7 +42,7 @@ class UnaryFunctions(typing.NamedTuple):
 
 
 UNARY_COLLECTIONS = {
-    'tuple': UnaryFunctions('std::vector', 'std_vector_to_py_tuple', 'py_tuple_to_std_vector'),
+    'tuple': UnaryFunctions('std::vector', 'cpp_std_vector_to_py_tuple', 'py_tuple_to_cpp_std_vector'),
     # 'set': UnaryFunctions('std::unordered_set', 'std_unordered_set_to_py_set', 'py_set_to_std_unordered_set'),
 }
 
@@ -123,28 +125,28 @@ CPP_UNARY_FUNCTION_FROM_PY_DEFN = """template <> int
 CPP_STD_UNORDERED_MAP_TO_PY_DICT_BASE_DECL = """// Base declaration
 template<typename K, typename V>
 PyObject *
-std_unordered_map_to_py_dict(const std::unordered_map<K, V> &map);
+cpp_std_unordered_map_to_py_dict(const std::unordered_map<K, V> &map);
 // Instantiations"""
 
 CPP_STD_UNORDERED_MAP_TO_PY_DICT_DECL = """template <>
 PyObject *
-std_unordered_map_to_py_dict<{cpp_type_K}, {cpp_type_V}>(const std::unordered_map<{cpp_type_K}, {cpp_type_V}> &map);"""
+cpp_std_unordered_map_to_py_dict<{cpp_type_K}, {cpp_type_V}>(const std::unordered_map<{cpp_type_K}, {cpp_type_V}> &map);"""
 
 CPP_PY_DICT_TO_STD_UNORDERED_MAP_BASE_DECL = """// Base declaration
 template<typename K, typename V>
 int 
-py_dict_to_std_unordered_map(PyObject *op, std::unordered_map<K, V> &map);
+py_dict_to_cpp_std_unordered_map(PyObject *op, std::unordered_map<K, V> &map);
 // Instantiations"""
 
 CPP_PY_DICT_TO_STD_UNORDERED_MAP_DECL = """template <>
 int
-py_dict_to_std_unordered_map<{cpp_type_K}, {cpp_type_V}>(PyObject* op, std::unordered_map<{cpp_type_K}, {cpp_type_V}> &map);"""
+py_dict_to_cpp_std_unordered_map<{cpp_type_K}, {cpp_type_V}>(PyObject* op, std::unordered_map<{cpp_type_K}, {cpp_type_V}> &map);"""
 
 # Definitions to go in implementation file
 CPP_STD_UNORDERED_MAP_TO_PY_DICT_DEFN = """template <>
 PyObject *
-std_unordered_map_to_py_dict<{type_K}, {type_V}>(const std::unordered_map<{type_K}, {type_V}> &map) {{
-    return _std_unordered_map_to_py_dict<
+cpp_std_unordered_map_to_py_dict<{type_K}, {type_V}>(const std::unordered_map<{type_K}, {type_V}> &map) {{
+    return generic_cpp_std_unordered_map_to_py_dict<
         {type_K}, {type_V},
         &{convert_K_to_py}, &{convert_V_to_py}
     >(map);
@@ -152,8 +154,8 @@ std_unordered_map_to_py_dict<{type_K}, {type_V}>(const std::unordered_map<{type_
 """
 
 CPP_PY_DICT_TO_STD_UNORDERED_MAP_DEFN = """template <> int
-py_dict_to_std_unordered_map<{type_K}, {type_V}>(PyObject* op, std::unordered_map<{type_K}, {type_V}> &map) {{
-    return _py_dict_to_std_unordered_map<
+py_dict_to_cpp_std_unordered_map<{type_K}, {type_V}>(PyObject* op, std::unordered_map<{type_K}, {type_V}> &map) {{
+    return generic_py_dict_to_cpp_std_unordered_map<
         {type_K}, {type_V},
         &{py_check_K}, &{py_check_V},
         &{convert_K_from_py}, &{convert_V_from_py}
@@ -188,7 +190,7 @@ def cpp_comment_section(str_list: typing.List[str], title:str, sep:str):
 
 def defn_name_from_decl_name(name: str) -> str:
     """Returns the definition name given the declaration name by convention."""
-    return '_{}'.format(name)
+    return 'generic_{}'.format(name)
 
 
 def comment_str(s: str) -> str:
@@ -370,6 +372,8 @@ def declarations() -> typing.List[str]:
         for include in REQUIRED_INCLUDES:
             ret.append('#include {}'.format(include))
         ret.append('')
+        ret.append(f'namespace {CPP_NAMESPACE} {{\n')
+        ret.append('')
         with cpp_comment_section(ret, 'Required conversion functions', '-'):
             ret.extend(required_function_declarations())
         count_decl = 0
@@ -382,6 +386,8 @@ def declarations() -> typing.List[str]:
         ret.extend(code_count.code)
         ret.append('// Declarations written: {}'.format(count_decl))
         ret.extend(get_codegen_warning(True))
+        ret.append('')
+        ret.append(f'}} // namespace {CPP_NAMESPACE}\n')
     return ret
 
 
@@ -391,8 +397,9 @@ def definitions() -> typing.List[str]:
         ret.extend(get_codegen_warning(False))
         ret.extend(documentation())
         # TODO: Hard coded name in two places ???
-        ret.append('#include "python_convert.hpp"')
+        ret.append('#include "python_convert.h"')
         ret.append('')
+        ret.append(f'namespace {CPP_NAMESPACE} {{\n')
         count_defn = 0
         code_count = unary_definitions()
         count_defn += code_count.count
@@ -402,6 +409,8 @@ def definitions() -> typing.List[str]:
         ret.extend(code_count.code)
         ret.append('// Definitions written: {}'.format(count_defn))
         ret.extend(get_codegen_warning(True))
+        ret.append('')
+        ret.append(f'}} // namespace {CPP_NAMESPACE}\n')
     return ret
 
 

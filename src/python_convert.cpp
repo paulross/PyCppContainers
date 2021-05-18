@@ -8,10 +8,16 @@
 
 #include "python_convert.h"
 
+namespace Python_Cpp_Homogeneous_Containers {
+
 // Conversion functions.
-PyObject *py_float_from_double(const double &d) {
-    return PyFloat_FromDouble(d);
-}
+    PyObject *py_float_from_double(const double &d) {
+        return PyFloat_FromDouble(d);
+    }
+
+    double py_float_as_double(PyObject *op) {
+        return PyFloat_AsDouble(op);
+    }
 
 //PyObject *py_long_from_long(const long &l) {
 //    return PyLong_FromLong(l);
@@ -27,9 +33,11 @@ PyObject *py_float_from_double(const double &d) {
 //}
 
 // Check functions
-int py_float_check(PyObject *op) {
-    return PyFloat_Check(op);
-}
+    int py_float_check(PyObject *op) {
+        return PyFloat_Check(op);
+    }
 //int py_long_check(PyObject *op) {
 //    return PyLong_Check(op);
 //}
+
+} // namespace Python_Cpp_Homogeneous_Containers
