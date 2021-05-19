@@ -29,7 +29,8 @@ namespace Python_Cpp_Homogeneous_Containers {
     // This is a hand written generic function to convert a C++ vector to a Python tuple.
     // The template is instantiated with a C++ type and a conversion function to create a Python object from that type.
     //
-    // Example:
+    // Example of an instantiation of this template to create a function that will convert a C++ std::vector<double> to
+    // a Python tuple of floats:
     //
     //      template <>
     //      PyObject *
@@ -51,52 +52,53 @@ namespace Python_Cpp_Homogeneous_Containers {
                     }
                     goto except;
                 }
-                PyTuple_SET_ITEM(ret, i, op);
+                PyTuple_SET_ITEM(ret, i, op); // Stolen reference.
             }
         }
         assert(!PyErr_Occurred());
         assert(ret);
         goto finally;
-        except:
+    except:
         Py_XDECREF(ret);
         assert(PyErr_Occurred());
         ret = NULL;
-        finally:
+    finally:
         return ret;
     }
 
-    // This is a hand written generic function to convert a  Python tuple to a C++ vector.
+    // This is a hand written generic function to convert a Python tuple to a C++ vector.
     // The template is instantiated with a C++ type a check function and a conversion function to create a Python object
     // to that C++ type.
     //
-    // Example:
+    // Example of an instantiation of this template to create a function that will convert a Python tuple of floats to
+    // a C++ std::vector<double>:
     //
     //  template <> int
     //  py_tuple_to_std_vector<double>(PyObject *op, std::vector<double> &container) {
-    //      return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &PyFloat_AsDouble>(op, container);
+    //      return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &py_float_as_double>(op, container);
     //  }
     template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
-    int generic_py_tuple_to_cpp_std_vector(PyObject *tuple, std::vector<T> &vec) {
+    int generic_py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
         assert(!PyErr_Occurred());
         vec.clear();
-        Py_INCREF(tuple); // Borrowed reference
-        if (!PyTuple_Check(tuple)) {
-            Py_DECREF(tuple);
-            PyErr_Format(PyExc_ValueError, "Python object must be a tuple not a %s", tuple->ob_type->tp_name);
+        Py_INCREF(op); // Borrowed reference
+        if (!PyTuple_Check(op)) {
+            Py_DECREF(op);
+            PyErr_Format(PyExc_ValueError, "Python object must be a tuple not a %s", op->ob_type->tp_name);
             return -1;
         }
-        for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(tuple); ++i) {
-            PyObject *value = PyTuple_GET_ITEM(tuple, i);
+        for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(op); ++i) {
+            PyObject *value = PyTuple_GET_ITEM(op, i);
             if (!(*Check)(value)) {
                 vec.clear();
-                Py_DECREF(tuple);
+                Py_DECREF(op);
                 PyErr_Format(PyExc_ValueError, "Python value of type %s can not be converted", value->ob_type->tp_name);
                 return -2;
             }
             vec.push_back((*Convert)(value));
             // Check !PyErr_Occurred() which could never happen as we check first.
         }
-        Py_DECREF(tuple);
+        Py_DECREF(op); // Borrowed reference
         assert(!PyErr_Occurred());
         return 0;
     }

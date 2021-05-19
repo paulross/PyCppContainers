@@ -19,15 +19,15 @@ logger = logging.getLogger(__file__)
 CPP_NAMESPACE = 'Python_Cpp_Homogeneous_Containers'
 
 
-class CppFunctions(typing.NamedTuple):
+class CppTypeFunctions(typing.NamedTuple):
     to_py_type: str
     py_check: str
     from_py_type: str
 
 
 CPP_TYPE_TO_FUNCS = {
-    'double': CppFunctions('py_float_from_double', 'py_float_check', 'py_float_as_double'),
-    'long': CppFunctions('py_long_from_long', 'py_long_check', 'py_long_as_long'),
+    'double': CppTypeFunctions('py_float_from_double', 'py_float_check', 'py_float_as_double'),
+    'long': CppTypeFunctions('py_long_from_long', 'py_long_check', 'py_long_as_long'),
     # 'std::string': CppFunctions('py_str_from_std_string', 'py_str_check', 'py_str_as_std_sting'),
     # 'bool': CppFunctions('py_bool_from_bool', 'py_bool_check', 'py_bool_as_bool'),
 }
@@ -210,11 +210,7 @@ def comment_list_str(input: typing.List[str]) -> typing.List[str]:
 
 
 def documentation() -> typing.List[str]:
-    ret = [
-        'Conversion from homogeneous data structures in Python and C++',
-        '',
-    ]
-    ret.append('Unary conversions')
+    ret = ['Conversion from homogeneous data structures in Python and C++', '', 'Unary conversions']
     for py_container in UNARY_COLLECTIONS:
         ret.append('{}:'.format(py_container))
         for typ in CPP_TYPE_TO_FUNCS:
