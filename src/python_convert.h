@@ -37,6 +37,9 @@ namespace Python_Cpp_Homogeneous_Containers {
     //      std_vector_to_py_tuple<double>(const std::vector<double> &container) {
     //          return generic_cpp_std_vector_to_py_tuple<double, &py_float_from_double>(container);
     //      }
+    //
+    // Partial template specialisation: Need PyTuple_New, PyTuple_GET_ITEM, PyTuple_SET_ITEM.
+    // Also error messages such as 'tuple'.
     template<typename T, PyObject *(*Convert)(const T &)>
     PyObject *
     generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
@@ -45,17 +48,22 @@ namespace Python_Cpp_Homogeneous_Containers {
         if (ret) {
             for (size_t i = 0; i < vec.size(); ++i) {
                 PyObject *op = (*Convert)(vec[i]);
-                if (!op) {
+                if (! op) {
                     // Failure, clean up
                     for (size_t j = 0; j < i; ++j) {
+                        // Inspection of PyTuple_New shows that the members are NULL on construction.
                         Py_XDECREF(PyTuple_GET_ITEM(ret, j));
                     }
                     goto except;
                 }
+                // This is a void function, always succeeds.
                 PyTuple_SET_ITEM(ret, i, op); // Stolen reference.
             }
+        } else {
+            PyErr_Format(PyExc_ValueError, "Can not create Python tuple of size %ld", vec.size());
+            goto except;
         }
-        assert(!PyErr_Occurred());
+        assert(! PyErr_Occurred());
         assert(ret);
         goto finally;
     except:
@@ -77,6 +85,9 @@ namespace Python_Cpp_Homogeneous_Containers {
     //  py_tuple_to_std_vector<double>(PyObject *op, std::vector<double> &container) {
     //      return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &py_float_as_double>(op, container);
     //  }
+    //
+    // Partial template specialisation: Need PyTuple_Check, PyTuple_GET_SIZE, PyTuple_GET_ITEM.
+    // Also error messages.
     template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
     int generic_py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
         assert(!PyErr_Occurred());
