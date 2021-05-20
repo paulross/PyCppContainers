@@ -26,15 +26,17 @@
 
 namespace Python_Cpp_Homogeneous_Containers {
 
-    // Tuple wrappers around PyTuple_Check, PyTuple_New, PyTuple_SET_ITEM, PyTuple_GET_ITEM
+    // Tuple wrappers around PyTuple_Check, PyTuple_New, PyTuple_Size, PyTuple_SET_ITEM, PyTuple_GET_ITEM
     int py_tuple_check(PyObject *op);
     PyObject *py_tuple_new(size_t len);
+    Py_ssize_t py_tuple_len(PyObject *op);
     int py_tuple_set(PyObject *tuple_p, size_t pos, PyObject *op);
     PyObject *py_tuple_get(PyObject *tuple_p, size_t pos);
 
-    // List wrappers around PyList_Check, PyList_New, PyList_SET_ITEM, PyList_GET_ITEM
+    // List wrappers around PyList_Check, PyList_New, PyList_Size, PyList_SET_ITEM, PyList_GET_ITEM
     int py_list_check(PyObject *op);
     PyObject *py_list_new(size_t len);
+    Py_ssize_t py_list_len(PyObject *op);
     int py_list_set(PyObject *list_p, size_t pos, PyObject *op);
     PyObject *py_list_get(PyObject *list_p, size_t pos);
 
@@ -73,10 +75,12 @@ namespace Python_Cpp_Homogeneous_Containers {
                 if (!op) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     // e.g. tupledealloc(): https://github.com/python/cpython/blob/main/Objects/tupleobject.c#L268
+                    PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
                     goto except;
                 }
                 // This usually wraps a void function, always succeeds.
                 if (PyUnary_Set(ret, i, op)) { // Stolen reference.
+                    PyErr_Format(PyExc_RuntimeError, "Can not set unary value.");
                     goto except;
                 }
             }
@@ -122,30 +126,48 @@ namespace Python_Cpp_Homogeneous_Containers {
     //
     // Partial template specialisation: Need PyTuple_Check, PyTuple_GET_SIZE, PyTuple_GET_ITEM.
     // Also error messages.
-    template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
-    int generic_py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
+    template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *), int(*PyUnary_Check)(PyObject *),
+            Py_ssize_t(*PyUnary_Size)(PyObject *), PyObject *(*PyUnary_Get)(PyObject *, size_t)>
+    int generic_py_unary_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
         assert(!PyErr_Occurred());
+        int ret = 0;
         vec.clear();
         Py_INCREF(op); // Borrowed reference
-        if (!PyTuple_Check(op)) {
-            Py_DECREF(op);
-            PyErr_Format(PyExc_ValueError, "Python object must be a tuple not a %s", op->ob_type->tp_name);
-            return -1;
+        if (!PyUnary_Check(op)) {
+            PyErr_Format(PyExc_ValueError, "Python object must be a tuple/list not a %s", op->ob_type->tp_name);
+            ret = -1;
+            goto except;
         }
-        for (Py_ssize_t i = 0; i < PyTuple_GET_SIZE(op); ++i) {
-            PyObject *value = PyTuple_GET_ITEM(op, i);
+        for (Py_ssize_t i = 0; i < PyUnary_Size(op); ++i) {
+            PyObject *value = PyUnary_Get(op, i);
             if (!(*Check)(value)) {
                 vec.clear();
-                Py_DECREF(op);
                 PyErr_Format(PyExc_ValueError, "Python value of type %s can not be converted", value->ob_type->tp_name);
-                return -2;
+                ret = -2;
+                goto except;
             }
             vec.push_back((*Convert)(value));
             // Check !PyErr_Occurred() which could never happen as we check first.
         }
-        Py_DECREF(op); // Borrowed reference
         assert(!PyErr_Occurred());
-        return 0;
+        goto finally;
+    except:
+        assert(PyErr_Occurred());
+    finally:
+        Py_DECREF(op); // Borrowed reference
+        return ret;
+    }
+
+    template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
+    int generic_py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
+        return generic_py_unary_to_cpp_std_vector<T, Check, Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get>(op,
+                                                                                                                   vec);
+    }
+
+    template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
+    int generic_py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
+        return generic_py_unary_to_cpp_std_vector<T, Check, Convert, &py_list_check, &py_list_len, &py_list_get>(op,
+                                                                                                                 vec);
     }
 
     // This is a hand written generic function to convert a C++ unordered_map to a Python dict.

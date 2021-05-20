@@ -22,6 +22,10 @@ namespace Python_Cpp_Homogeneous_Containers {
         return PyTuple_New(len);
     }
 
+    Py_ssize_t py_tuple_len(PyObject *op) {
+        return PyTuple_Size(op);
+    }
+
     int py_tuple_set(PyObject *tuple_p, size_t pos, PyObject *op) {
         PyTuple_SET_ITEM(tuple_p, pos, op);
         return 0;
@@ -38,6 +42,10 @@ namespace Python_Cpp_Homogeneous_Containers {
 
     PyObject *py_list_new(size_t len) {
         return PyList_New(len);
+    }
+
+    Py_ssize_t py_list_len(PyObject *op) {
+        return PyList_Size(op);
     }
 
     int py_list_set(PyObject *list_p, size_t pos, PyObject *op) {

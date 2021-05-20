@@ -33,7 +33,9 @@ int test_vector_double_to_py_tuple() {
     }
     Py_DECREF(op);
     if (result) {
-        std::cout << "    FAIL: " << __FUNCTION__ << "()" << std::endl;
+        std::cout << "    FAIL: " << __FUNCTION__ << "():" << result << std::endl;
+        PyErr_Print();
+        PyErr_Clear();
     } else {
         std::cout << "      OK: " << __FUNCTION__ << "()" << std::endl;
     }
@@ -75,7 +77,9 @@ int test_py_tuple_to_vector_double() {
     }
     Py_DECREF(op);
     if (result) {
-        std::cout << "    FAIL: " << __FUNCTION__ << "()" << std::endl;
+        std::cout << "    FAIL: " << __FUNCTION__ << "():" << result << std::endl;
+        PyErr_Print();
+        PyErr_Clear();
     } else {
         std::cout << "      OK: " << __FUNCTION__ << "()" << std::endl;
     }
@@ -111,7 +115,9 @@ int test_vector_long_to_py_tuple() {
     }
     Py_DECREF(op);
     if (result) {
-        std::cout << "    FAIL: " << __FUNCTION__ << "()" << std::endl;
+        std::cout << "    FAIL: " << __FUNCTION__ << "():" << result << std::endl;
+        PyErr_Print();
+        PyErr_Clear();
     } else {
         std::cout << "      OK: " << __FUNCTION__ << "()" << std::endl;
     }
@@ -154,7 +160,9 @@ int test_py_tuple_to_vector_long() {
     }
     Py_DECREF(op);
     if (result) {
-        std::cout << "    FAIL: " << __FUNCTION__ << "()" << std::endl;
+        std::cout << "    FAIL: " << __FUNCTION__ << "():" << result << std::endl;
+        PyErr_Print();
+        PyErr_Clear();
     } else {
         std::cout << "      OK: " << __FUNCTION__ << "()" << std::endl;
     }
