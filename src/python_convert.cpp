@@ -13,7 +13,11 @@
 
 namespace Python_Cpp_Homogeneous_Containers {
 
-    // Tuple create, set, get functions.
+    // Tuple check, create, set, get functions.
+    int py_tuple_check(PyObject *op) {
+        return PyTuple_Check(op);
+    }
+
     PyObject *py_tuple_new(size_t len) {
         return PyTuple_New(len);
     }
@@ -27,7 +31,11 @@ namespace Python_Cpp_Homogeneous_Containers {
         return PyTuple_GET_ITEM(tuple_p, pos);
     }
 
-    // List wrappers around PyList_New, PyList_SET_ITEM, PyList_GET_ITEM
+    // List wrappers around PyList_Check, PyList_New, PyList_SET_ITEM, PyList_GET_ITEM
+    int py_list_check(PyObject *op) {
+        return PyList_Check(op);
+    }
+
     PyObject *py_list_new(size_t len) {
         return PyList_New(len);
     }

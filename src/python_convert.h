@@ -26,12 +26,14 @@
 
 namespace Python_Cpp_Homogeneous_Containers {
 
-    // Tuple wrappers around PyTuple_New, PyTuple_SET_ITEM, PyTuple_GET_ITEM
+    // Tuple wrappers around PyTuple_Check, PyTuple_New, PyTuple_SET_ITEM, PyTuple_GET_ITEM
+    int py_tuple_check(PyObject *op);
     PyObject *py_tuple_new(size_t len);
     int py_tuple_set(PyObject *tuple_p, size_t pos, PyObject *op);
     PyObject *py_tuple_get(PyObject *tuple_p, size_t pos);
 
-    // List wrappers around PyList_New, PyList_SET_ITEM, PyList_GET_ITEM
+    // List wrappers around PyList_Check, PyList_New, PyList_SET_ITEM, PyList_GET_ITEM
+    int py_list_check(PyObject *op);
     PyObject *py_list_new(size_t len);
     int py_list_set(PyObject *list_p, size_t pos, PyObject *op);
     PyObject *py_list_get(PyObject *list_p, size_t pos);
@@ -59,28 +61,27 @@ namespace Python_Cpp_Homogeneous_Containers {
     //
     // Partial template specialisation: Need PyTuple_New, PyTuple_GET_ITEM, PyTuple_SET_ITEM.
     // Also error messages such as 'tuple'.
-    template<typename T, PyObject *(*Convert)(const T &), PyObject *(*PyUnary_New)(size_t), int(*PyUnary_Set)(
-            PyObject *, size_t, PyObject *), PyObject *(*PyUnary_Get)(PyObject *, size_t)>
+    template<typename T, PyObject *(*Convert)(const T &), PyObject *(*PyUnary_New)(size_t),
+            int(*PyUnary_Set)(PyObject *, size_t, PyObject *)>
     PyObject *
     generic_cpp_std_vector_to_py_unary(const std::vector<T> &vec) {
         assert(!PyErr_Occurred());
-        PyObject *ret = PyTuple_New(vec.size());
+        PyObject *ret = PyUnary_New(vec.size());
         if (ret) {
             for (size_t i = 0; i < vec.size(); ++i) {
                 PyObject *op = (*Convert)(vec[i]);
                 if (!op) {
-                    // Failure, clean up
-                    for (size_t j = 0; j < i; ++j) {
-                        // Inspection of PyTuple_New shows that the members are NULL on construction.
-                        Py_XDECREF(PyTuple_GET_ITEM(ret, j));
-                    }
+                    // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                    // e.g. tupledealloc(): https://github.com/python/cpython/blob/main/Objects/tupleobject.c#L268
                     goto except;
                 }
-                // This is a void function, always succeeds.
-                PyTuple_SET_ITEM(ret, i, op); // Stolen reference.
+                // This usually wraps a void function, always succeeds.
+                if (PyUnary_Set(ret, i, op)) { // Stolen reference.
+                    goto except;
+                }
             }
         } else {
-            PyErr_Format(PyExc_ValueError, "Can not create Python tuple of size %ld", vec.size());
+            PyErr_Format(PyExc_ValueError, "Can not create Python container of size %ld", vec.size());
             goto except;
         }
         assert(!PyErr_Occurred());
@@ -97,13 +98,13 @@ namespace Python_Cpp_Homogeneous_Containers {
     template<typename T, PyObject *(*Convert)(const T &)>
     PyObject *
     generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
-        return generic_cpp_std_vector_to_py_unary<T, Convert, &py_tuple_new, &py_tuple_set, &py_tuple_get>(vec);
+        return generic_cpp_std_vector_to_py_unary<T, Convert, &py_tuple_new, &py_tuple_set>(vec);
     }
     
     template<typename T, PyObject *(*Convert)(const T &)>
     PyObject *
     generic_cpp_std_vector_to_py_list(const std::vector<T> &vec) {
-        return generic_cpp_std_vector_to_py_unary<T, Convert, &py_list_new, &py_list_set, &py_list_get>(vec);
+        return generic_cpp_std_vector_to_py_unary<T, Convert, &py_list_new, &py_list_set>(vec);
     }
     
     
