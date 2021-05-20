@@ -23,6 +23,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace Python_Cpp_Homogeneous_Containers {
 
@@ -110,8 +111,7 @@ namespace Python_Cpp_Homogeneous_Containers {
     generic_cpp_std_vector_to_py_list(const std::vector<T> &vec) {
         return generic_cpp_std_vector_to_py_unary<T, Convert, &py_list_new, &py_list_set>(vec);
     }
-    
-    
+
     // This is a hand written generic function to convert a Python tuple to a C++ vector.
     // The template is instantiated with a C++ type a check function and a conversion function to create a Python object
     // to that C++ type.
@@ -168,6 +168,97 @@ namespace Python_Cpp_Homogeneous_Containers {
     int generic_py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
         return generic_py_unary_to_cpp_std_vector<T, Check, Convert, &py_list_check, &py_list_len, &py_list_get>(op,
                                                                                                                  vec);
+    }
+
+    // This is a hand written generic function to convert a C++ unordered_set to a Python set.
+    template<typename T, PyObject *(*Convert)(const T &)>
+    PyObject *
+    generic_cpp_std_unordered_to_py_set(const std::unordered_set<T> &vec) {
+        assert(!PyErr_Occurred());
+        PyObject *ret = PySet_New(NULL);
+        if (ret) {
+            for (size_t i = 0; i < vec.size(); ++i) {
+                PyObject *op = (*Convert)(vec[i]);
+                if (!op) {
+                    // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                    PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
+                    goto except;
+                }
+                // This usually wraps a void function, always succeeds.
+                if (PySet_Add(ret, op)) { // Stolen reference.
+                    PyErr_Format(PyExc_RuntimeError, "Can not set value into the set.");
+                    goto except;
+                }
+            }
+        } else {
+            PyErr_Format(PyExc_ValueError, "Can not create Python set");
+            goto except;
+        }
+        assert(!PyErr_Occurred());
+        assert(ret);
+        goto finally;
+    except:
+        Py_XDECREF(ret);
+        assert(PyErr_Occurred());
+        ret = NULL;
+    finally:
+        return ret;
+    }
+
+    template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
+    int generic_py_set_to_cpp_std_unordered_set(PyObject *op, std::unordered_set<T> &set) {
+        assert(!PyErr_Occurred());
+        int ret = 0;
+        PyObject *py_iter = NULL;
+        PyObject *py_item = NULL;
+
+        set.clear();
+        Py_INCREF(op); // Borrowed reference
+        if (!PySet_Check(op)) {
+            PyErr_Format(PyExc_ValueError, "Python object must be a set not a %s", op->ob_type->tp_name);
+            ret =  -1;
+            goto except;
+        }
+        py_iter = PyObject_GetIter(op);
+        if (! py_iter) {
+            ret = -2;
+            PyErr_Format(PyExc_ValueError, "Can not create Python iterator on type %s", op->ob_type->tp_name);
+            goto except;
+        }
+        while ((py_item = PyIter_Next(py_iter))) {
+            /* do something with item */
+            if (!(*Check)(py_item)) {
+                set.clear();
+                PyErr_Format(PyExc_ValueError, "Python value of type %s can not be converted",
+                             py_item->ob_type->tp_name);
+                ret = -3;
+                goto except;
+            }
+            T cpp_item = (*Convert)(py_item);
+            if (set.count(cpp_item) != 0) {
+                // Something horribly wrong.
+                PyErr_Format(PyExc_ValueError,
+                             "Python values of type %s are distinct in the Python set but conversion makes"
+                             "them unique in C++ set (previous value already seen in C++ set)",
+                             py_item->ob_type->tp_name);
+                ret = -4;
+                goto except;
+            }
+            set.insert(cpp_item);
+            /* release reference when done */
+            Py_DECREF(py_item);
+            py_item = NULL; // NOTE: There is a decref in finally: label so must do this otherwise a double decref.
+        }
+        assert(!PyErr_Occurred());
+        goto finally;
+    except:
+        set.clear();
+        assert(PyErr_Occurred());
+    finally:
+        Py_DECREF(op); // Borrowed reference
+        Py_XDECREF(py_item);
+        Py_XDECREF(py_iter);
+        return ret;
     }
 
     // This is a hand written generic function to convert a C++ unordered_map to a Python dict.
