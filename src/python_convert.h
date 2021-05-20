@@ -216,7 +216,7 @@ namespace Python_Cpp_Homogeneous_Containers {
         Py_INCREF(op); // Borrowed reference
         if (!PySet_Check(op)) {
             PyErr_Format(PyExc_ValueError, "Python object must be a set not a %s", op->ob_type->tp_name);
-            ret =  -1;
+            ret = -1;
             goto except;
         }
         py_iter = PyObject_GetIter(op);
@@ -285,24 +285,39 @@ namespace Python_Cpp_Homogeneous_Containers {
     PyObject *
     generic_cpp_std_unordered_map_to_py_dict(const std::unordered_map<K, V> &map) {
         PyObject *ret = PyDict_New();
+        PyObject *py_k = NULL;
+        PyObject *py_v = NULL;
         if (ret) {
             for (const auto &k_v: map) {
-                PyObject *py_k = (*Convert_K)(k_v.first);
-                // Failure, clean up
-                PyObject *py_v = (*Convert_V)(k_v.second);
-                if (!py_k || !py_v || !PyDict_SetItem(ret, py_k, py_v)) {
-                    PyObject *keys = PyDict_Keys(ret);
-                    for (Py_ssize_t i = 0; i < PyList_Size(keys); ++i) {
-                        if (PyDict_DelItem(ret, PyList_GetItem(keys, i))) {
-                            // Something terrible has happened, this might leak.
-                            return NULL;
-                        }
-                    }
-                    Py_DECREF(keys);
-                    Py_DECREF(ret);
+                py_k = (*Convert_K)(k_v.first);
+                if (! py_k) {
+                    // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                    PyErr_Format(PyExc_ValueError, "C++ key of can not be converted.");
+                    goto except;
+                }
+                py_v = (*Convert_V)(k_v.second);
+                if (! py_v) {
+                    // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                    PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
+                    goto except;
+                }
+                if (! PyDict_SetItem(ret, py_k, py_v)) {
+                    // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                    PyErr_Format(PyExc_ValueError, "Can not set and item in the Python dict.");
+                    goto except;
                 }
             }
+        } else {
+            PyErr_Format(PyExc_ValueError, "Can not create Python dict");
+            goto except;
         }
+        assert(!PyErr_Occurred());
+        goto finally;
+    except:
+        assert(PyErr_Occurred());
+        Py_XDECREF(py_k);
+        Py_XDECREF(py_v);
+    finally:
         return ret;
     }
 
@@ -316,32 +331,42 @@ namespace Python_Cpp_Homogeneous_Containers {
     >
     int generic_py_dict_to_cpp_std_unordered_map(PyObject *dict,
                                                  std::unordered_map<K, V> &map) {
+        int ret = 0;
+        PyObject *key = NULL;
+        PyObject *val = NULL;
+        Py_ssize_t pos = 0;
         map.clear();
 
         Py_INCREF(dict); // Borrowed reference
         if (!PyDict_Check(dict)) {
-            Py_DECREF(dict);
-            return -1;
+            PyErr_Format(PyExc_ValueError, "Python object must be a dict not a %s", dict->ob_type->tp_name);
+            ret = -1;
+            goto except;
         }
-        PyObject *key, *value;
-        Py_ssize_t pos = 0;
 
-        while (PyDict_Next(dict, &pos, &key, &value)) {
+        while (PyDict_Next(dict, &pos, &key, &val)) {
+            // key, val are borrowed references.
             if (!Check_K(key)) {
-                map.clear();
-                Py_DECREF(dict);
-                return -2;
+                PyErr_Format(PyExc_ValueError, "Python dict key is wrong type of %s", key->ob_type->tp_name);
+                ret = -2;
+                goto except;
             }
-            if (!Check_V(value)) {
-                map.clear();
-                Py_DECREF(dict);
-                return -3;
+            if (!Check_V(val)) {
+                PyErr_Format(PyExc_ValueError, "Python dict value is wrong type of %s", val->ob_type->tp_name);
+                ret = -3;
+                goto except;
             }
-            map[Convert_K(key)] = Convert_V(value);
+            map[Convert_K(key)] = Convert_V(val);
             // Check !PyErr_Occurred() which could never happen as we check first.
         }
-        Py_DECREF(dict);
-        return 0;
+        assert(!PyErr_Occurred());
+        goto finally;
+    except:
+        map.clear();
+        assert(PyErr_Occurred());
+    finally:
+        Py_DECREF(dict); // Borrowed reference
+        return ret;
     }
 
 } // namespace Python_Cpp_Homogeneous_Containers
