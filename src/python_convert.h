@@ -20,12 +20,34 @@
 
 #include <Python.h>
 
+#include <complex>
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
 
 namespace Python_Cpp_Homogeneous_Containers {
+    // Conversion functions.
+    // Bool/bool
+    PyObject *py_bool_from_bool(bool b);
+    bool py_bool_as_bool(PyObject *op);
+    int py_bool_check(PyObject *op);
+    // Long/long
+    PyObject *py_long_from_long(const long &l);
+    long py_long_as_long(PyObject *op);
+    int py_long_check(PyObject *op);
+    // Float/double
+    PyObject *py_float_from_double(const double &d);
+    double py_float_as_double(PyObject *op);
+    int py_float_check(PyObject *op);
+    // Complex/complex
+    PyObject *py_complex_from_complex(const std::complex<double> &c);
+    std::complex<double> py_complex_as_complex(PyObject *op);
+    int py_complex_check(PyObject *op);
+    // Bytes to/from string
+    PyObject *py_bytes_from_string(const std::string &s);
+    std::string py_bytes_as_string(PyObject *op);
+    int py_bytes_check(PyObject *op);
 
     // Tuple wrappers around PyTuple_Check, PyTuple_New, PyTuple_Size, PyTuple_SET_ITEM, PyTuple_GET_ITEM
     int py_tuple_check(PyObject *op);
@@ -343,7 +365,6 @@ namespace Python_Cpp_Homogeneous_Containers {
             ret = -1;
             goto except;
         }
-
         while (PyDict_Next(dict, &pos, &key, &val)) {
             // key, val are borrowed references.
             if (!Check_K(key)) {
