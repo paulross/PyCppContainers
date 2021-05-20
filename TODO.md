@@ -59,11 +59,12 @@ The functions that support Python `set` <-> C++ `std::unordered_set` are very si
 
 ## Testing
 
-* Convert the current tests in `main()` to returning a value, 0 for pass.
+* ~~Convert the current tests in `main()` to returning a value, 0 for pass.~~
+* Round tripping.
+* Random strings, something like `A...Z[rand() % 26]`
 * Move test generation to `code_gen_test.py` that creates `auto_test...` `.h/.cpp`
 * Create performance tests `code_gen_perf.py` that creates `auto_perf...` `.h/.cpp`
 * Performance tests need to have some scale element to show time growth with size.
-* Random strings, something like `A...Z[rand() % 26]`  
 
 ## Source Code Layout
 
