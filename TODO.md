@@ -9,7 +9,7 @@
 | `True`, `False`   | `bool`            |                                   |
 | `int`             | `long`            | Overflow?                         |
 | `float`           | `double`          |                                   |
-| `complex`         | `std::complex`    |                                   |
+| `complex`         | `std::complex`    | Not for dicts/sets as Python complex is hashable but std::complex is not. Do not support for the moment. |
 | `str`             | `std::string`     | Just support `bytes` initially?   |
 | `bytes`           | `std::string`     |                                   |
 | `bytearray`       | N/A               |                                   |

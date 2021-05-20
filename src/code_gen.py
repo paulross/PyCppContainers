@@ -26,10 +26,11 @@ class CppTypeFunctions(typing.NamedTuple):
 
 
 CPP_TYPE_TO_FUNCS = {
-    'double': CppTypeFunctions('py_float_from_double', 'py_float_check', 'py_float_as_double'),
+    'bool': CppTypeFunctions('py_bool_from_bool', 'py_bool_check', 'py_bool_as_bool'),
     'long': CppTypeFunctions('py_long_from_long', 'py_long_check', 'py_long_as_long'),
-    # 'std::string': CppFunctions('py_str_from_std_string', 'py_str_check', 'py_str_as_std_sting'),
-    # 'bool': CppFunctions('py_bool_from_bool', 'py_bool_check', 'py_bool_as_bool'),
+    'double': CppTypeFunctions('py_float_from_double', 'py_float_check', 'py_float_as_double'),
+    # 'std::complex<double>': CppTypeFunctions('py_complex_from_complex', 'py_complex_check', 'py_complex_as_complex'),
+    'std::string': CppTypeFunctions('py_bytes_from_string', 'py_bytes_check', 'py_bytes_as_string'),
 }
 
 # TODO: Sort out nomenclature, here we use to_py, to_cpp. In other places we use to/from
@@ -43,12 +44,13 @@ class UnaryFunctions(typing.NamedTuple):
 
 UNARY_COLLECTIONS = {
     'tuple': UnaryFunctions('std::vector', 'cpp_std_vector_to_py_tuple', 'py_tuple_to_cpp_std_vector'),
-    # 'set': UnaryFunctions('std::unordered_set', 'std_unordered_set_to_py_set', 'py_set_to_std_unordered_set'),
+    'list': UnaryFunctions('std::vector', 'cpp_std_vector_to_py_list', 'py_list_to_cpp_std_vector'),
+    'set': UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_set', 'py_set_to_cpp_std_unordered_set'),
 }
 
 REQUIRED_INCLUDES = [
-    '<vector>',
-    '<unordered_map>',
+    # '<vector>',
+    # '<unordered_map>',
 ]
 
 
@@ -370,8 +372,8 @@ def declarations() -> typing.List[str]:
         ret.append('')
         ret.append(f'namespace {CPP_NAMESPACE} {{\n')
         ret.append('')
-        with cpp_comment_section(ret, 'Required conversion functions', '-'):
-            ret.extend(required_function_declarations())
+        # with cpp_comment_section(ret, 'Required conversion functions', '-'):
+        #     ret.extend(required_function_declarations())
         count_decl = 0
         # Unary functions
         code_count = unary_declarations()

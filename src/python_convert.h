@@ -29,7 +29,7 @@
 namespace Python_Cpp_Homogeneous_Containers {
     // Conversion functions.
     // Bool/bool
-    PyObject *py_bool_from_bool(bool b);
+    PyObject *py_bool_from_bool(bool const &b);
     bool py_bool_as_bool(PyObject *op);
     int py_bool_check(PyObject *op);
     // Long/long
@@ -195,12 +195,12 @@ namespace Python_Cpp_Homogeneous_Containers {
     // This is a hand written generic function to convert a C++ unordered_set to a Python set.
     template<typename T, PyObject *(*Convert)(const T &)>
     PyObject *
-    generic_cpp_std_unordered_to_py_set(const std::unordered_set<T> &vec) {
+    generic_cpp_std_unordered_set_to_py_set(const std::unordered_set<T> &set) {
         assert(!PyErr_Occurred());
         PyObject *ret = PySet_New(NULL);
         if (ret) {
-            for (size_t i = 0; i < vec.size(); ++i) {
-                PyObject *op = (*Convert)(vec[i]);
+            for (auto const &iter: set) {
+                PyObject *op = (*Convert)(iter);
                 if (!op) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");

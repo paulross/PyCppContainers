@@ -14,7 +14,7 @@
 namespace Python_Cpp_Homogeneous_Containers {
     // Conversion functions.
     // Bool/bool
-    PyObject *py_bool_from_bool(bool b) {
+    PyObject *py_bool_from_bool(bool const &b) {
         if (b) {
             Py_RETURN_TRUE;
         }
