@@ -14,9 +14,10 @@
 TestResult::TestResult(std::string name,
                        int failed,
                        double execTime,
-                       size_t testCount) : _name(name)
+                       size_t testCount,
+                       size_t scale) : _name(name)
 {
-    _results[1] = {testCount, failed, {execTime}};
+    _results[scale] = {testCount, failed, {execTime}};
 }
 
 int TestResult::failed(size_t scale) const {

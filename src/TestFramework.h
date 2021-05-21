@@ -104,7 +104,8 @@ public:
     TestResult(std::string name,
                int failed,
                double execTime,
-               size_t testCount=1);
+               size_t testCount=1,
+               size_t scale=1);
     // Constructor for a test that will accumulate performance data.
     // Use execTimeAdd() to add a result.
     TestResult(std::string name) : _name(name) {}
