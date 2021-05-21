@@ -187,13 +187,14 @@ int test_py_tuple_to_vector_long(TestResultS &test_results) {
     return result;
 }
 
-int test_vector_double_to_py_tuple_round_trip(TestResultS &test_results) {
+template<typename T>
+int test_vector_to_py_tuple_round_trip(TestResultS &test_results, const std::string &type) {
 //    std::cout << "Starting: " << __FUNCTION__ << "()" << std::endl;
     size_t SIZE = 1024;
-    std::vector<double> cpp_vector;
-    std::vector<double> cpp_vector_result;
+    std::vector<T> cpp_vector;
+    std::vector<T> cpp_vector_result;
     for (size_t i = 0; i < SIZE; ++i) {
-        cpp_vector.push_back(static_cast<double>(i));
+        cpp_vector.push_back(static_cast<T>(i));
     }
     int result = 0;
     double exec_time = -1.0;
@@ -220,7 +221,7 @@ int test_vector_double_to_py_tuple_round_trip(TestResultS &test_results) {
     } else {
         std::cout << "      OK: " << __FUNCTION__ << "()" << std::endl;
     }
-    test_results.push_back(TestResult(__FUNCTION__, result, exec_time, 1, SIZE));
+    test_results.push_back(TestResult(std::string(__FUNCTION__) + type , result, exec_time, 1, SIZE));
     return result;
 }
 
@@ -229,5 +230,6 @@ void test_functional_all(TestResultS &test_results) {
     test_py_tuple_to_vector_double(test_results);
     test_vector_long_to_py_tuple(test_results);
     test_py_tuple_to_vector_long(test_results);
-    test_vector_double_to_py_tuple_round_trip(test_results);
+    test_vector_to_py_tuple_round_trip<long>(test_results, "<long>");
+    test_vector_to_py_tuple_round_trip<double>(test_results, "<double>");
 }
