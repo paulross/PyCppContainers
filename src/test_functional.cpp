@@ -230,6 +230,7 @@ void test_functional_all(TestResultS &test_results) {
     test_py_tuple_to_vector_double(test_results);
     test_vector_long_to_py_tuple(test_results);
     test_py_tuple_to_vector_long(test_results);
+    test_vector_to_py_tuple_round_trip<bool>(test_results, "<bool>");
     test_vector_to_py_tuple_round_trip<long>(test_results, "<long>");
     test_vector_to_py_tuple_round_trip<double>(test_results, "<double>");
 }
