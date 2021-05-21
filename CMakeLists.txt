@@ -41,7 +41,7 @@ add_executable(
         src/auto_py_convert_internal.h
         src/auto_py_convert_internal.cpp
         src/python_convert.h
-        src/python_convert.cpp src/TestFramework.cpp src/TestFramework.h src/save_stream_state.h)
+        src/python_convert.cpp src/TestFramework.cpp src/TestFramework.h src/save_stream_state.h src/test_functional.cpp src/test_functional.h)
 
 target_link_libraries(PythonCppHomogeneousContainers ${PYTHON_LIBRARIES})
 
