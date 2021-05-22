@@ -38,11 +38,12 @@ int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, 
         Py_DECREF(op);
     }
     if (result) {
-        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << result << std::endl;
+        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]" << result
+                  << std::endl;
         PyErr_Print();
         PyErr_Clear();
     } else {
-        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << std::endl;
+        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl;
     }
     test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size));
     return result;
@@ -85,11 +86,12 @@ int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, 
         Py_DECREF(op);
     }
     if (result) {
-        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << result << std::endl;
+        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]" << result
+                  << std::endl;
         PyErr_Print();
         PyErr_Clear();
     } else {
-        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << std::endl;
+        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl;
     }
     test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size));
     return result;
@@ -121,11 +123,12 @@ int test_vector_to_py_tuple_round_trip(TestResultS &test_results, const std::str
         result |= 1 << 2;
     }
     if (result) {
-        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << result << std::endl;
+        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]" << result
+                  << std::endl;
         PyErr_Print();
         PyErr_Clear();
     } else {
-        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << std::endl;
+        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl;
     }
     test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size));
     return result;
@@ -169,15 +172,26 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
         Py_DECREF(op);
     }
     if (result) {
-        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << result << std::endl;
+        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]" << result
+                  << std::endl;
         PyErr_Print();
         PyErr_Clear();
     } else {
-        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << std::endl;
+        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl;
     }
     test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size));
     return result;
 }
+
+template<typename T, T (*ConvertPyToCpp)(PyObject *)>
+int test_perf_vector_to_py_tuple(TestResultS &test_results, const std::string &type) {
+    int result = 0;
+    for (size_t size = 2; size < 1 << 24; size *= 2) {
+        result |= test_vector_to_py_tuple<T, ConvertPyToCpp>(test_results, "<bool>", size);
+    }
+    return result;
+}
+
 
 void test_functional_all(TestResultS &test_results) {
     test_vector_to_py_tuple<bool, &Python_Cpp_Homogeneous_Containers::py_bool_as_bool>(test_results, "<bool>", 1024);
@@ -198,4 +212,7 @@ void test_functional_all(TestResultS &test_results) {
                                                                                                     "<long>", 1024);
     test_py_tuple_to_vector_round_trip<double, &Python_Cpp_Homogeneous_Containers::py_float_from_double>(test_results,
                                                                                                          "<double>", 1024);
+
+    test_perf_vector_to_py_tuple<double, &Python_Cpp_Homogeneous_Containers::py_float_as_double>(test_results, "<double>");
+
 }

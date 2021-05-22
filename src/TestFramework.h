@@ -18,8 +18,8 @@ public:
     /* Returns seconds to a resolution of one microsecond. */
     double seconds() {
         auto end = std::chrono::high_resolution_clock::now();
-        auto us = std::chrono::duration_cast<std::chrono::microseconds>(end - _start).count();
-        return (static_cast<double>(us) + 0.5) / 1e6;
+        auto count = std::chrono::duration_cast<std::chrono::nanoseconds>(end - _start).count();
+        return (static_cast<double>(count) + 0.5) / 1e9;
     }
 private:
     std::chrono::time_point<std::chrono::high_resolution_clock> _start;

@@ -127,6 +127,8 @@ std::vector<size_t> TestResult::scaleValues() const {
 
 std::ostream &operator<<(std::ostream &os, const TestResult &result) {
     StreamFormatState stream_state(os); // Preserve state
+    const int TIME_PRECISION = 9;
+    const int TIME_WIDTH = 16;
     for (auto scale: result.scaleValues()) {
         os << "TEST: ";
         os << std::setw(4) << result.failed(scale);
@@ -134,24 +136,24 @@ std::ostream &operator<<(std::ostream &os, const TestResult &result) {
         os << std::setw(8) << scale;
         // Repeat
         os << std::setw(8) << result.numTests(scale);
-        os << std::setw(12) << std::fixed << std::setprecision(6);
+        os << std::setw(TIME_WIDTH) << std::fixed << std::setprecision(TIME_PRECISION);
         os << result.execTime(scale);
         // Standard deviation
         if (result.hasExecTimeStdDev(scale)) {
-            os << std::setw(12) << std::fixed << std::setprecision(6);
+            os << std::setw(TIME_WIDTH) << std::fixed << std::setprecision(TIME_PRECISION);
             os << result.execTimeStdDev(scale);
         } else {
-            os << std::setw(12) << "N/A";
+            os << std::setw(TIME_WIDTH) << "N/A";
         }
         // Min and Max
         if (result.hasExecTimeStdDev(scale)) {
-            os << std::setw(12) << std::fixed << std::setprecision(6);
+            os << std::setw(TIME_WIDTH) << std::fixed << std::setprecision(TIME_PRECISION);
             os << result.execTimeMin(scale);
-            os << std::setw(12) << std::fixed << std::setprecision(6);
+            os << std::setw(TIME_WIDTH) << std::fixed << std::setprecision(TIME_PRECISION);
             os << result.execTimeMax(scale);
         } else {
-            os << std::setw(12) << "N/A";
-            os << std::setw(12) << "N/A";
+            os << std::setw(TIME_WIDTH) << "N/A";
+            os << std::setw(TIME_WIDTH) << "N/A";
         }
         // Count
         os << std::setw(10) << result.testCount(scale);
