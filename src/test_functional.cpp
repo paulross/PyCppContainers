@@ -221,7 +221,57 @@ int test_vector_to_py_tuple_round_trip(TestResultS &test_results, const std::str
     } else {
         std::cout << "      OK: " << __FUNCTION__ << "()" << std::endl;
     }
-    test_results.push_back(TestResult(std::string(__FUNCTION__) + type , result, exec_time, 1, SIZE));
+    test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, SIZE));
+    return result;
+}
+
+template<typename T, PyObject *(*Convert)(const T &)>
+int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::string &type) {
+//    std::cout << "Starting: " << __FUNCTION__ << "()" << std::endl;
+    size_t SIZE = 1024;
+    PyObject *op = PyTuple_New(SIZE);
+    int result = 0;
+    double exec_time = -1.0;
+    int err = 0;
+    if (! op) {
+        result |= 1;
+    } else {
+        for (size_t i = 0; i < SIZE; ++i) {
+            err = PyTuple_SetItem(op, i, Convert(static_cast<T>(i)));
+            if (err != 0) {
+                result |= 1 << 1;
+            }
+        }
+        if (result == 0) {
+            std::vector<T> cpp_vector;
+            ExecClock exec_clock;
+            err = Python_Cpp_Homogeneous_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+            exec_time = exec_clock.seconds();
+            if (err != 0) {
+                result |= 1 << 2;
+            } else {
+                //  int PyObject_RichCompareBool(PyObject *o1, PyObject *o2, int opid) Py_EQ -1 error 0 false 1 true
+                PyObject *op_new = Python_Cpp_Homogeneous_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
+                if (op_new) {
+                    if (PyObject_RichCompareBool(op, op_new, Py_EQ) != 1) {
+                        result |= 1 << 3;
+                    }
+                    Py_DECREF(op_new);
+                } else {
+                    result |= 1 << 4;
+                }
+            }
+        }
+    }
+    Py_DECREF(op);
+    if (result) {
+        std::cout << "    FAIL: " << __FUNCTION__ << "():" << result << std::endl;
+        PyErr_Print();
+        PyErr_Clear();
+    } else {
+        std::cout << "      OK: " << __FUNCTION__ << "()" << std::endl;
+    }
+    test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, SIZE));
     return result;
 }
 
@@ -233,4 +283,10 @@ void test_functional_all(TestResultS &test_results) {
     test_vector_to_py_tuple_round_trip<bool>(test_results, "<bool>");
     test_vector_to_py_tuple_round_trip<long>(test_results, "<long>");
     test_vector_to_py_tuple_round_trip<double>(test_results, "<double>");
+    test_py_tuple_to_vector_round_trip<bool, &Python_Cpp_Homogeneous_Containers::py_bool_from_bool>(test_results,
+                                                                                                         "<bool>");
+    test_py_tuple_to_vector_round_trip<long, &Python_Cpp_Homogeneous_Containers::py_long_from_long>(test_results,
+                                                                                                         "<long>");
+    test_py_tuple_to_vector_round_trip<double, &Python_Cpp_Homogeneous_Containers::py_float_from_double>(test_results,
+                                                                                                         "<double>");
 }
