@@ -5,7 +5,7 @@
 #ifndef PYTHONCPPHOMOGENEOUSCONTAINERS_TEST_FUNCTIONAL_H
 #define PYTHONCPPHOMOGENEOUSCONTAINERS_TEST_FUNCTIONAL_H
 
-#include "TestFramework.h"
+#include "test_common.h"
 
 void test_functional_all(TestResultS &test_results);
 

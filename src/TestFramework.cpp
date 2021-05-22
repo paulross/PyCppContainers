@@ -271,6 +271,6 @@ std::string unique_string(int width) {
         os << str_count;
     }
     ++str_count;
-    return os.str()
+    return os.str();
 }
 
