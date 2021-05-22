@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <cmath>
 #include <cassert>
+#include <sstream>
 
 #include "TestFramework.h"
 #include "save_stream_state.h"
@@ -125,10 +126,11 @@ std::vector<size_t> TestResult::scaleValues() const {
     return r;
 }
 
+static const int TIME_PRECISION = 9;
+static const int TIME_WIDTH = 16;
+
 std::ostream &operator<<(std::ostream &os, const TestResult &result) {
     StreamFormatState stream_state(os); // Preserve state
-    const int TIME_PRECISION = 9;
-    const int TIME_WIDTH = 16;
     for (auto scale: result.scaleValues()) {
         os << "TEST: ";
         os << std::setw(4) << result.failed(scale);
@@ -190,10 +192,10 @@ void TestResultS::dump_header(std::ostream &os) const {
     os << std::setw(4) << "Fail";
     os << std::setw(8) << "Scale";
     os << std::setw(8) << "Repeat";
-    os << std::setw(12) << "Time(s)";
-    os << std::setw(12) << "Std.Dev.(s)";
-    os << std::setw(12) << "Min.(s)";
-    os << std::setw(12) << "Max.(s)";
+    os << std::setw(TIME_WIDTH) << "Time(s)";
+    os << std::setw(TIME_WIDTH) << "Std.Dev.(s)";
+    os << std::setw(TIME_WIDTH) << "Min.(s)";
+    os << std::setw(TIME_WIDTH) << "Max.(s)";
     os << std::setw(10) << "Count";
     os << std::setw(14) << "Rate(/s)";
     os << " Name";
@@ -253,3 +255,22 @@ std::vector<size_t> SubTestCount::test_failures() const {
     }
     return r;
 }
+
+/**
+ * Creates a unique string.
+ *
+ * @param width If > 0 the string will be at least this width.
+ * @return The unique string.
+ */
+std::string unique_string(int width) {
+    static size_t str_count = 0;
+    std::ostringstream os;
+    if (width > 0) {
+        os << std::setfill(' ') << std::setw(width) << str_count;
+    } else {
+        os << str_count;
+    }
+    ++str_count;
+    return os.str()
+}
+

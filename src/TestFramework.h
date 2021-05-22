@@ -192,4 +192,6 @@ protected:
     size_t m_test_count;
 };
 
+std::string unique_string(int width=0);
+
 #endif //PYTHONCPPHOMOGENEOUSCONTAINERS_TESTFRAMEWORK_H
