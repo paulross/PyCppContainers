@@ -10,6 +10,7 @@
 #include "python_convert.h"
 #include "TestFramework.h"
 
+
 template<typename T, T (*ConvertPyToCpp)(PyObject *)>
 int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, size_t size) {
     std::vector<T> cpp_vector;
@@ -23,14 +24,14 @@ int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, 
     if (! op) {
         result |= 1;
     } else {
-        if (! PyTuple_CheckExact(op)) {
+        if (! Python_Cpp_Homogeneous_Containers::py_tuple_check(op)) {
             result |= 1 << 1;
         } else {
-            if ((unsigned long) PyTuple_Size(op) != cpp_vector.size()) {
+            if ((unsigned long) Python_Cpp_Homogeneous_Containers::py_tuple_len(op) != cpp_vector.size()) {
                 result |= 1 << 2;
             } else {
                 for (size_t i = 0; i < size; ++i) {
-                    T value = ConvertPyToCpp(PyTuple_GetItem(op, i));
+                    T value = ConvertPyToCpp(Python_Cpp_Homogeneous_Containers::py_tuple_get(op, i));
                     if (value != cpp_vector[i]) {
                         result |= 1 << 2;
                     }
@@ -53,14 +54,14 @@ int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, 
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &), T (*ConvertPyToCpp)(PyObject *)>
 int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, size_t size) {
-    PyObject *op = PyTuple_New(size);
+    PyObject *op = Python_Cpp_Homogeneous_Containers::py_tuple_new(size);
     int result = 0;
     double exec_time = -1.0;
     if (! op) {
         result |= 1;
     } else {
         for (size_t i = 0; i < size; ++i) {
-            int err = PyTuple_SetItem(op, i, ConvertCppToPy(static_cast<T>(i)));
+            int err = Python_Cpp_Homogeneous_Containers::py_tuple_set(op, i, ConvertCppToPy(static_cast<T>(i)));
             if (err != 0) {
                 result |= 1 << 1;
             }
@@ -73,11 +74,11 @@ int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, 
             if (err != 0) {
                 result |= 1 << 2;
             } else {
-                if ((unsigned long) PyTuple_Size(op) != cpp_vector.size()) {
+                if ((unsigned long) Python_Cpp_Homogeneous_Containers::py_tuple_len(op) != cpp_vector.size()) {
                     result |= 1 << 3;
                 } else {
                     for (size_t i = 0; i < size; ++i) {
-                        T value = ConvertPyToCpp(PyTuple_GetItem(op, i));
+                        T value = ConvertPyToCpp(Python_Cpp_Homogeneous_Containers::py_tuple_get(op, i));
                         if (value != cpp_vector[i]) {
                             result |= 1 << 4;
                         }
@@ -138,7 +139,7 @@ int test_vector_to_py_tuple_round_trip(TestResultS &test_results, const std::str
 
 template<typename T, PyObject *(*Convert)(const T &)>
 int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::string &type, size_t size) {
-    PyObject *op = PyTuple_New(size);
+    PyObject *op = Python_Cpp_Homogeneous_Containers::py_tuple_new(size);
     int result = 0;
     double exec_time = -1.0;
     int err = 0;
@@ -146,7 +147,7 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
         result |= 1;
     } else {
         for (size_t i = 0; i < size; ++i) {
-            err = PyTuple_SetItem(op, i, Convert(static_cast<T>(i)));
+            err = Python_Cpp_Homogeneous_Containers::py_tuple_set(op, i, Convert(static_cast<T>(i)));
             if (err != 0) {
                 result |= 1 << 1;
             }
