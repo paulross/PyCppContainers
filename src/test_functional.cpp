@@ -27,4 +27,6 @@ void test_functional_all(TestResultS &test_results) {
                                                                                                     "<long>", 1024);
     test_py_tuple_to_vector_round_trip<double, &Python_Cpp_Homogeneous_Containers::py_float_from_double>(test_results,
                                                                                                          "<double>", 1024);
+    test_vector_string_to_py_tuple(test_results, 1024, 32);
+    test_py_tuple_string_to_vector(test_results, 1024, 32);
 }

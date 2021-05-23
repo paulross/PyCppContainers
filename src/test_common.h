@@ -10,7 +10,6 @@
 #include "python_convert.h"
 #include "TestFramework.h"
 
-
 template<typename T, T (*ConvertPyToCpp)(PyObject *)>
 int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, size_t size) {
     std::vector<T> cpp_vector;
@@ -185,5 +184,8 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
     test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size));
     return result;
 }
+
+int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len);
 
 #endif //PYTHONCPPHOMOGENEOUSCONTAINERS_TEST_COMMON_H

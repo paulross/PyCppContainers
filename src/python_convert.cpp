@@ -12,7 +12,7 @@
 #include "python_convert.h"
 
 namespace Python_Cpp_Homogeneous_Containers {
-    // Conversion functions.
+    // Conversion functions - objects.
     // Bool/bool
     PyObject *py_bool_from_bool(bool const &b) {
         if (b) {
@@ -68,13 +68,16 @@ namespace Python_Cpp_Homogeneous_Containers {
         return PyBytes_FromStringAndSize(s.c_str(), s.size());
     }
     std::string py_bytes_as_string(PyObject *op) {
+        assert(op);
         assert(py_bytes_check(op));
-        std::string ret(PyUnicode_AsUTF8(op), PyUnicode_GET_LENGTH(op));
+        std::string ret(PyBytes_AS_STRING(op), PyBytes_GET_SIZE(op));
         return ret;
     }
     int py_bytes_check(PyObject *op) {
         return PyBytes_Check(op);
     }
+
+    // Conversion functions - Containers
     // Tuple check, create, set, get functions.
     int py_tuple_check(PyObject *op) {
         return PyTuple_Check(op);
