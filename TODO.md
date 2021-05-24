@@ -68,6 +68,8 @@ The functions that support Python `set` <-> C++ `std::unordered_set` are very si
 ~~* Random strings, something like `A...Z[rand() % 26]`. No static integer as string, incremented on every call.~~
 * Move test generation to `code_gen_test.py` that creates `auto_test...` `.h/.cpp`
 * Create performance tests `code_gen_perf.py` that creates `auto_perf...` `.h/.cpp`
+* Add dict functional tests.
+* Add set tests.
 
 ## Source Code Layout
 
