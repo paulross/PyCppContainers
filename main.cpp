@@ -13,7 +13,7 @@ int main() {
     TestResultS test_results;
 
     test_functional_all(test_results);
-    test_performance_all(test_results);
+//    test_performance_all(test_results);
 
     std::cout << test_results << std::endl;
     return 0;
