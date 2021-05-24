@@ -30,13 +30,13 @@ void test_functional_all(TestResultS &test_results) {
     test_vector_string_to_py_tuple(test_results, 1024, 32);
     test_py_tuple_string_to_vector(test_results, 1024, 32);
     // Dicts
-    test_generic_cpp_std_unordered_map_to_py_dict<
+    test_cpp_std_unordered_map_to_py_dict<
             double,
             double,
             &Python_Cpp_Homogeneous_Containers::py_float_from_double,
             &Python_Cpp_Homogeneous_Containers::py_float_from_double
     >(test_results, "<double>", 1024);
-    test_generic_py_dict_to_cpp_std_unordered_map<
+    test_py_dict_to_cpp_std_unordered_map<
             double,
             double,
             &Python_Cpp_Homogeneous_Containers::py_float_from_double,

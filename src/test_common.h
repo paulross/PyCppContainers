@@ -224,7 +224,7 @@ template<
         PyObject *(*Convert_K)(const K &),
         PyObject *(*Convert_V)(const V &)
 >
-int test_generic_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::string &type, size_t size) {
+int test_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::string &type, size_t size) {
     std::unordered_map<K, V> cpp_map;
     for (size_t i = 0; i < size; ++i) {
         cpp_map[static_cast<K>(i)] = static_cast<V>(i);
@@ -265,7 +265,7 @@ template<
         PyObject *(*Convert_K)(const K &),
         PyObject *(*Convert_V)(const V &)
 >
-int test_generic_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::string &type, size_t size) {
+int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::string &type, size_t size) {
     PyObject *op = Python_Cpp_Homogeneous_Containers::py_dict_new();
     int result = 0;
     double exec_time = -1.0;
