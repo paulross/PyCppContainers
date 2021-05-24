@@ -15,7 +15,7 @@
 | `bytearray`       | N/A               |                                   |
 | `datetime`        | `<chrono>` ???    | Leave for the moment. C++20.      |
 
-So the initial number of supported types is five.
+So the initial number of supported types is four.
 All are hashable so they are all candidates for dictionary keys.
 
 ## Supported Containers
@@ -28,15 +28,17 @@ All are hashable so they are all candidates for dictionary keys.
 | `frozenset`   | N/A                   |                           |
 | `dict`        | `std::unordered_map`  |                           |
 
+There are four supported containers.
+
 ## Type and Container Combinations
 
 There are three unary containers and one pair container.
 
-Total unary containers: 3 containers * 5 types * 2 way conversion = 30 functions.
+Total unary containers: 3 containers * 4 types * 2 way conversion = 24 functions.
 
-Dict: 1 container * 5**2 types * 2 way conversion = 50 functions.
+Dict: 1 container * 4**2 types * 2 way conversion = 32 functions.
 
-Total 80 functions.
+Total 56 functions.
 
 Supported by two hand coded templates in `python_convert.h` for each container, eight in total.
 
@@ -63,7 +65,7 @@ The functions that support Python `set` <-> C++ `std::unordered_set` are very si
 * ~~Add test performance capture [TestFramework].~~
 ~~* Performance tests need to have some scale element to show time growth with size.~~
 * Round tripping.
-* Random strings, something like `A...Z[rand() % 26]`
+~~* Random strings, something like `A...Z[rand() % 26]`. No static integer as string, incremented on every call.~~
 * Move test generation to `code_gen_test.py` that creates `auto_test...` `.h/.cpp`
 * Create performance tests `code_gen_perf.py` that creates `auto_perf...` `.h/.cpp`
 

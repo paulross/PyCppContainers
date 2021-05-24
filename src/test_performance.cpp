@@ -44,8 +44,8 @@ void test_performance_all(TestResultS &test_results) {
                                                                                                  "<long>");
     test_perf_vector_to_py_tuple<double, &Python_Cpp_Homogeneous_Containers::py_float_as_double>(test_results,
                                                                                                  "<double>");
-//    test_perf_vector_string_to_py_tuple(test_results);
-//    test_perf_py_tuple_string_to_vector(test_results);
+    test_perf_vector_string_to_py_tuple(test_results);
+    test_perf_py_tuple_string_to_vector(test_results);
 }
 
 
