@@ -36,4 +36,10 @@ void test_functional_all(TestResultS &test_results) {
             &Python_Cpp_Homogeneous_Containers::py_float_from_double,
             &Python_Cpp_Homogeneous_Containers::py_float_from_double
     >(test_results, "<double>", 1024);
+    test_generic_py_dict_to_cpp_std_unordered_map<
+            double,
+            double,
+            &Python_Cpp_Homogeneous_Containers::py_float_from_double,
+            &Python_Cpp_Homogeneous_Containers::py_float_from_double
+    >(test_results, "<double>", 1024);
 }

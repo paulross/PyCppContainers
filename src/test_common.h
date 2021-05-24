@@ -195,6 +195,35 @@ template<
         PyObject *(*Convert_K)(const K &),
         PyObject *(*Convert_V)(const V &)
 >
+int compare_dict(std::unordered_map<K, V> &cpp_map, PyObject *op) {
+    int result = 0;
+    for (auto iter = cpp_map.begin(); iter != cpp_map.end(); ++iter) {
+        K key = iter->first;
+        V val = iter->second;
+        // New reference
+        PyObject *py_key = Convert_K(key);
+        PyObject *py_val = Convert_V(val);
+        // Borrowed reference.
+        PyObject *py_dict_val = Python_Cpp_Homogeneous_Containers::py_dict_get(op, py_key);
+        if (py_dict_val == NULL) {
+            result |= 1 << 2;
+        } else {
+            if (PyObject_RichCompareBool(py_val, py_dict_val, Py_EQ) != 1) {
+                result |= 1 << 3;
+            }
+        }
+        Py_DECREF(py_key);
+        Py_DECREF(py_val);
+    }
+    return result;
+}
+
+template<
+        typename K,
+        typename V,
+        PyObject *(*Convert_K)(const K &),
+        PyObject *(*Convert_V)(const V &)
+>
 int test_generic_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::string &type, size_t size) {
     std::unordered_map<K, V> cpp_map;
     for (size_t i = 0; i < size; ++i) {
@@ -213,24 +242,7 @@ int test_generic_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, con
             if ((unsigned long) Python_Cpp_Homogeneous_Containers::py_dict_len(op) != cpp_map.size()) {
                 result |= 1 << 2;
             } else {
-                for(auto iter = cpp_map.begin(); iter != cpp_map.end(); ++iter) {
-                    K key = iter->first;
-                    V val = iter->second;
-                    // New reference
-                    PyObject *py_key = Convert_K(key);
-                    PyObject *py_val = Convert_V(val);
-                    // Borrowed reference.
-                    PyObject *py_dict_val = Python_Cpp_Homogeneous_Containers::py_dict_get(op, py_key);
-                    if (py_dict_val == NULL) {
-                        result |= 1 << 2;
-                    } else {
-                        if (PyObject_RichCompareBool(py_val, py_dict_val, Py_EQ) != 1) {
-                            result |= 1 << 3;
-                        }
-                    }
-                    Py_DECREF(py_key);
-                    Py_DECREF(py_val);
-                }
+                result |= compare_dict<K, V, Convert_K, Convert_V>(cpp_map, op);
             }
         }
         Py_DECREF(op);
@@ -247,52 +259,49 @@ int test_generic_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, con
     return result;
 }
 
-//template<typename T, PyObject *(*ConvertCppToPy)(const T &), T (*ConvertPyToCpp)(PyObject *)>
-//int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, size_t size) {
-//    PyObject *op = Python_Cpp_Homogeneous_Containers::py_tuple_new(size);
-//    int result = 0;
-//    double exec_time = -1.0;
-//    if (! op) {
-//        result |= 1;
-//    } else {
-//        for (size_t i = 0; i < size; ++i) {
-//            int err = Python_Cpp_Homogeneous_Containers::py_tuple_set(op, i, ConvertCppToPy(static_cast<T>(i)));
-//            if (err != 0) {
-//                result |= 1 << 1;
-//            }
-//        }
-//        if (result == 0) {
-//            std::vector<T> cpp_vector;
-//            ExecClock exec_clock;
-//            int err = Python_Cpp_Homogeneous_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
-//            exec_time = exec_clock.seconds();
-//            if (err != 0) {
-//                result |= 1 << 2;
-//            } else {
-//                if ((unsigned long) Python_Cpp_Homogeneous_Containers::py_tuple_len(op) != cpp_vector.size()) {
-//                    result |= 1 << 3;
-//                } else {
-//                    for (size_t i = 0; i < size; ++i) {
-//                        T value = ConvertPyToCpp(Python_Cpp_Homogeneous_Containers::py_tuple_get(op, i));
-//                        if (value != cpp_vector[i]) {
-//                            result |= 1 << 4;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        Py_DECREF(op);
-//    }
-//    if (result) {
-//        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]" << result
-//                  << std::endl;
-//        PyErr_Print();
-//        PyErr_Clear();
-//    } else {
-//        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl;
-//    }
-//    test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size));
-//    return result;
-//}
+template<
+        typename K,
+        typename V,
+        PyObject *(*Convert_K)(const K &),
+        PyObject *(*Convert_V)(const V &)
+>
+int test_generic_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::string &type, size_t size) {
+    PyObject *op = Python_Cpp_Homogeneous_Containers::py_dict_new();
+    int result = 0;
+    double exec_time = -1.0;
+    if (! op) {
+        result |= 1;
+    } else {
+        for (size_t i = 0; i < size; ++i) {
+            int err = Python_Cpp_Homogeneous_Containers::py_dict_set(op, Convert_K(static_cast<K>(i)),
+                                                                     Convert_V(static_cast<V>(i)));
+            if (err != 0) {
+                result |= 1 << 1;
+            }
+        }
+        if (result == 0) {
+            std::unordered_map<K, V> cpp_map;
+            ExecClock exec_clock;
+            int err = Python_Cpp_Homogeneous_Containers::py_dict_to_cpp_std_unordered_map(op, cpp_map);
+            exec_time = exec_clock.seconds();
+            if (err != 0) {
+                result |= 1 << 2;
+            } else {
+                result |= compare_dict<K, V, Convert_K, Convert_V>(cpp_map, op);
+            }
+        }
+        Py_DECREF(op);
+    }
+    if (result) {
+        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]" << result
+                  << std::endl;
+        PyErr_Print();
+        PyErr_Clear();
+    } else {
+        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl;
+    }
+    test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size));
+    return result;
+}
 
 #endif // PYTHONCPPHOMOGENEOUSCONTAINERS_TEST_COMMON_H
