@@ -335,6 +335,11 @@ namespace Python_Cpp_Homogeneous_Containers {
                     PyErr_Format(PyExc_ValueError, "Can not set an item in the Python dict.");
                     goto except;
                 }
+                // Oh this is nasty.
+                // PyDict_SetItem() increfs the key and the value rather than stealing a reference.
+                // insertdict(): https://github.com/python/cpython/blob/main/Objects/dictobject.c#L1074
+                Py_DECREF(py_k);
+                Py_DECREF(py_v);
             }
         } else {
             PyErr_Format(PyExc_ValueError, "Can not create Python dict");
