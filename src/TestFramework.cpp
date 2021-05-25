@@ -256,6 +256,7 @@ std::vector<size_t> SubTestCount::test_failures() const {
     return r;
 }
 
+static size_t str_count = 0;
 /**
  * Creates a unique string.
  *
@@ -263,7 +264,6 @@ std::vector<size_t> SubTestCount::test_failures() const {
  * @return The unique string.
  */
 std::string unique_string(int width) {
-    static size_t str_count = 0;
     std::ostringstream os;
     if (width > 0) {
         os << std::setfill(' ') << std::setw(width) << str_count;
@@ -274,3 +274,6 @@ std::string unique_string(int width) {
     return os.str();
 }
 
+size_t count_of_unique_string() {
+    return str_count;
+}

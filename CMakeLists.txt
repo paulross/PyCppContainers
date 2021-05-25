@@ -50,7 +50,7 @@ add_executable(
         src/test_performance.cpp
         src/test_performance.h
         src/test_common.h
-        src/test_common.cpp)
+        src/test_common.cpp src/test_memory.cpp src/test_memory.h)
 
 target_link_libraries(PythonCppHomogeneousContainers ${PYTHON_LIBRARIES})
 

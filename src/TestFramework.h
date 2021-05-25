@@ -193,5 +193,6 @@ protected:
 };
 
 std::string unique_string(int width=0);
+size_t count_of_unique_string();
 
 #endif //PYTHONCPPHOMOGENEOUSCONTAINERS_TESTFRAMEWORK_H

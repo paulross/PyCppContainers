@@ -10,6 +10,19 @@
 #include "python_convert.h"
 #include "TestFramework.h"
 
+#define REPORT_TEST_OUTPUT \
+    do {                       \
+        if (result) { \
+            std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]"; \
+            std::cout << result << std::endl; \
+            PyErr_Print(); \
+            PyErr_Clear(); \
+        } else { \
+            std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl; \
+        } \
+        test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size)); \
+    } while (0)
+
 template<typename T, T (*ConvertPyToCpp)(PyObject *)>
 int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, size_t size) {
     std::vector<T> cpp_vector;
@@ -39,15 +52,7 @@ int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, 
         }
         Py_DECREF(op);
     }
-    if (result) {
-        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]" << result
-                  << std::endl;
-        PyErr_Print();
-        PyErr_Clear();
-    } else {
-        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl;
-    }
-    test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size));
+    REPORT_TEST_OUTPUT;
     return result;
 }
 
@@ -87,15 +92,7 @@ int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, 
         }
         Py_DECREF(op);
     }
-    if (result) {
-        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]" << result
-                  << std::endl;
-        PyErr_Print();
-        PyErr_Clear();
-    } else {
-        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl;
-    }
-    test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size));
+    REPORT_TEST_OUTPUT;
     return result;
 }
 
@@ -124,15 +121,7 @@ int test_vector_to_py_tuple_round_trip(TestResultS &test_results, const std::str
     } else {
         result |= 1 << 2;
     }
-    if (result) {
-        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]" << result
-                  << std::endl;
-        PyErr_Print();
-        PyErr_Clear();
-    } else {
-        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl;
-    }
-    test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size));
+    REPORT_TEST_OUTPUT;
     return result;
 }
 
@@ -173,21 +162,12 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
         }
         Py_DECREF(op);
     }
-    if (result) {
-        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]" << result
-                  << std::endl;
-        PyErr_Print();
-        PyErr_Clear();
-    } else {
-        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl;
-    }
-    test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size));
+    REPORT_TEST_OUTPUT;
     return result;
 }
 
 int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len);
-
 
 template<
         typename K,
@@ -247,15 +227,7 @@ int test_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::
         }
         Py_DECREF(op);
     }
-    if (result) {
-        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]" << result
-                  << std::endl;
-        PyErr_Print();
-        PyErr_Clear();
-    } else {
-        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl;
-    }
-    test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size));
+    REPORT_TEST_OUTPUT;
     return result;
 }
 
@@ -292,15 +264,7 @@ int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::
         }
         Py_DECREF(op);
     }
-    if (result) {
-        std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]" << result
-                  << std::endl;
-        PyErr_Print();
-        PyErr_Clear();
-    } else {
-        std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl;
-    }
-    test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size));
+    REPORT_TEST_OUTPUT;
     return result;
 }
 
