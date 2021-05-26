@@ -34,16 +34,7 @@ int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_
         }
         Py_DECREF(op);
     }
-    std::ostringstream title;
-    title << __FUNCTION__  << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
-    if (result) {
-        std::cout << "    FAIL: " << title.str() << " " << result << std::endl;
-        PyErr_Print();
-        PyErr_Clear();
-    } else {
-        std::cout << "      OK: " << title.str() << " " << result << std::endl;
-    }
-    test_results.push_back(TestResult(title.str(), result, exec_time, 1, size));
+    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
     return result;
 }
 
@@ -87,16 +78,7 @@ int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_
         }
         Py_DECREF(op);
     }
-    std::ostringstream title;
-    title << __FUNCTION__  << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
-    if (result) {
-        std::cout << "    FAIL: " << title.str() << " " << result << std::endl;
-        PyErr_Print();
-        PyErr_Clear();
-    } else {
-        std::cout << "      OK: " << title.str() << " " << result << std::endl;
-    }
-    test_results.push_back(TestResult(title.str(), result, exec_time, 1, size));
+    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
     return result;
 }
 

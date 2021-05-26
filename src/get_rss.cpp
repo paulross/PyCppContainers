@@ -1,8 +1,11 @@
 //
 // Created by Paul Ross on 26/05/2021.
 //
+#include <iomanip>
 
 #include "get_rss.h"
+#include "save_stream_state.h"
+
 
 // For information: https://stackoverflow.com/questions/669438/how-to-get-memory-usage-at-runtime-using-c
 // This gives the link: http://nadeausoftware.com/articles/2012/07/c_c_tip_how_get_process_resident_set_size_physical_memory_use
@@ -142,3 +145,50 @@ const double MEGABYTES = (1 << 20);
 double getPeakRSSMb() { return getPeakRSS() / MEGABYTES; }
 double getCurrentRSSMb() { return getCurrentRSS() / MEGABYTES; }
 double getCurrentRSS_alternateMb() { return getCurrentRSS_alternate() / MEGABYTES; }
+
+//static const int MB_PRECISION = 6;
+//static const int MB_WIDTH = 14;
+static const int MB_PRECISION = 3;
+static const int MB_WIDTH = 10;
+
+#define RSS_SNAPSHOT_REPORT_PAGES 0
+
+#if RSS_SNAPSHOT_REPORT_PAGES
+std::ostream &operator<<(std::ostream &os, const RSSSnapshot &rss) {
+    StreamFormatState stream_state(os); // Preserve state
+    os << "RSS(pages):";
+    os << " was: " << std::setw(MB_WIDTH) << std::fixed << std::setprecision(MB_PRECISION);
+    os << rss.rss_initial_pages();
+    os << " now: " << std::setw(MB_WIDTH) << std::fixed << std::setprecision(MB_PRECISION);
+    os << rss.rss_now_pages();
+    os << " diff: " << std::setw(MB_WIDTH) << std::showpos << std::fixed << std::setprecision(MB_PRECISION);
+    os << rss.rss_now_diff_pages() << std::noshowpos;
+    os << " Peak was: " << std::setw(MB_WIDTH) << std::fixed << std::setprecision(MB_PRECISION);
+    os << rss.rss_peak_initial_pages();
+    os << " now: " << std::setw(MB_WIDTH) << std::fixed << std::setprecision(MB_PRECISION);
+    os << rss.rss_peak_now_pages();
+    os << " diff: " << std::setw(MB_WIDTH) << std::showpos << std::fixed << std::setprecision(MB_PRECISION);
+    os << rss.rss_peak_diff_pages() << std::noshowpos;
+    os << " " << rss.name();
+    return os;
+}
+#else
+std::ostream &operator<<(std::ostream &os, const RSSSnapshot &rss) {
+    StreamFormatState stream_state(os); // Preserve state
+    os << "RSS(Mb):";
+    os << " was: " << std::setw(MB_WIDTH) << std::fixed << std::setprecision(MB_PRECISION);
+    os << rss.rss_initial_mb();
+    os << " now: " << std::setw(MB_WIDTH) << std::fixed << std::setprecision(MB_PRECISION);
+    os << rss.rss_now_mb();
+    os << " diff: " << std::setw(MB_WIDTH) << std::showpos << std::fixed << std::setprecision(MB_PRECISION);
+    os << rss.rss_now_diff_mb() << std::noshowpos;
+    os << " Peak was: " << std::setw(MB_WIDTH) << std::fixed << std::setprecision(MB_PRECISION);
+    os << rss.rss_peak_initial_mb();
+    os << " now: " << std::setw(MB_WIDTH) << std::fixed << std::setprecision(MB_PRECISION);
+    os << rss.rss_peak_now_mb();
+    os << " diff: " << std::setw(MB_WIDTH) << std::showpos << std::fixed << std::setprecision(MB_PRECISION);
+    os << rss.rss_peak_diff_mb() << std::noshowpos;
+    os << " " << rss.name();
+    return os;
+}
+#endif

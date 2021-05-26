@@ -8,6 +8,7 @@
 #include <Python.h>
 
 #include "python_convert.h"
+#include "get_rss.h"
 #include "TestFramework.h"
 
 #define REPORT_OK_OR_FAIL 0
@@ -25,10 +26,31 @@
         }                  \
         test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size)); \
     } while (0)
+
+#define REPORT_TEST_OUTPUT_WITH_STRING_LENGTH \
+    do {                              \
+        std::ostringstream title; \
+        title << __FUNCTION__  << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]"; \
+        if (result) { \
+            std::cout << "    FAIL: " << title.str() << " " << result << std::endl; \
+            PyErr_Print(); \
+            PyErr_Clear(); \
+        } else { \
+            std::cout << "      OK: " << title.str() << " " << result << std::endl; \
+        } \
+        test_results.push_back(TestResult(title.str(), result, exec_time, 1, size)); \
+    } while (0)
 #else
 #define REPORT_TEST_OUTPUT \
     do {                   \
         test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size)); \
+    } while (0)
+
+#define REPORT_TEST_OUTPUT_WITH_STRING_LENGTH \
+    do {                              \
+        std::ostringstream title; \
+        title << __FUNCTION__  << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]"; \
+        test_results.push_back(TestResult(title.str(), result, exec_time, 1, size)); \
     } while (0)
 #endif
 
