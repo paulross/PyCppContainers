@@ -277,3 +277,7 @@ std::string unique_string(int width) {
 size_t count_of_unique_string() {
     return str_count;
 }
+
+void reset_count_of_unique_string() {
+    str_count = 0;
+}

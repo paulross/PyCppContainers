@@ -6,7 +6,8 @@
 int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len) {
     std::vector<std::string> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
-        cpp_vector.push_back(unique_string(str_len));
+//        cpp_vector.push_back(unique_string(str_len));
+        cpp_vector.push_back(std::string(str_len, ' '));
     }
     ExecClock exec_clock;
     PyObject *op = Python_Cpp_Homogeneous_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
@@ -54,7 +55,8 @@ int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_
         result |= 1;
     } else {
         for (size_t i = 0; i < size; ++i) {
-            std::string str = unique_string(str_len);
+//            std::string str = unique_string(str_len);
+            std::string str(str_len, ' ');
             int err = Python_Cpp_Homogeneous_Containers::py_tuple_set(
                     op, i, Python_Cpp_Homogeneous_Containers::py_bytes_from_string(str)
                     );

@@ -9,6 +9,7 @@
 
 #include <Python.h>
 
+#include "get_rss.h"
 #include "python_convert.h"
 #include "test_common.h"
 
@@ -104,6 +105,8 @@ finally:
 }
 
 void test_memory_all(TestResultS &test_results) {
+    double rss = getCurrentRSSMb();
+    double rss_peak = getPeakRSSMb();
     for (int i = 0; i < 100; ++i) {
         // Running this on its own give the following memory profile, values in MB and the delta:
         // Start, Python initialised:                        3.0
@@ -117,6 +120,13 @@ void test_memory_all(TestResultS &test_results) {
         // Repeating this 1000 times gives the identical memory profile.
         test_memory_py_tuple(test_results, "<double>", 1 << 20);
     }
+    std::cout << "test_memory_py_tuple()" << " RSS was: " << rss << " now: " << getCurrentRSSMb();
+    std::cout << " diff: " << getCurrentRSSMb() - rss;
+    std::cout << " peak was: " << rss_peak  << " now: " << getPeakRSSMb();
+    std::cout << " diff: " << getPeakRSSMb() - rss_peak;
+    std::cout << std::endl;
+    rss = getCurrentRSSMb();
+    rss_peak = getPeakRSSMb();
     for (int i = 0; i < 100; ++i) {
         // Running this on its own give the following memory profile, values in MB and the delta:
         // Start, Python initialised:                        3.1
@@ -130,4 +140,9 @@ void test_memory_all(TestResultS &test_results) {
         // Repeating this 1000 times gives the identical memory profile.
         test_memory_py_dict(test_results, "<double>", 1 << 20);
     }
+    std::cout << "test_memory_py_dict()" << " RSS was: " << rss << " now: " << getCurrentRSSMb();
+    std::cout << " diff: " << getCurrentRSSMb() - rss;
+    std::cout << " peak was: " << rss_peak  << " now: " << getPeakRSSMb();
+    std::cout << " diff: " << getPeakRSSMb() - rss_peak;
+    std::cout << std::endl;
 }

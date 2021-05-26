@@ -10,8 +10,11 @@
 #include "python_convert.h"
 #include "TestFramework.h"
 
+#define REPORT_OK_OR_FAIL 0
+
+#if REPORT_OK_OR_FAIL
 #define REPORT_TEST_OUTPUT \
-    do {                       \
+    do {                   \
         if (result) { \
             std::cout << "    FAIL: " << std::string(__FUNCTION__) + type << "():" << "[" << size << "]"; \
             std::cout << result << std::endl; \
@@ -19,9 +22,15 @@
             PyErr_Clear(); \
         } else { \
             std::cout << "      OK: " << std::string(__FUNCTION__) + type << "()" << "[" << size << "]" << std::endl; \
-        } \
+        }                  \
         test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size)); \
     } while (0)
+#else
+#define REPORT_TEST_OUTPUT \
+    do {                   \
+        test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size)); \
+    } while (0)
+#endif
 
 template<typename T, T (*ConvertPyToCpp)(PyObject *)>
 int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, size_t size) {
