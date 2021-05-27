@@ -61,7 +61,7 @@ int test_memory_py_dict(TestResultS &test_results, const std::string &type, size
     int result = 0;
     double exec_time = -1.0;
     ExecClock exec_clock;
-    PyObject *p_container = Python_Cpp_Homogeneous_Containers::py_dict_new();
+    PyObject *p_container = PyDict_New();
     PyObject *py_k = NULL;
     PyObject *py_v = NULL;
     if (p_container) {

@@ -215,7 +215,7 @@ int compare_dict(std::unordered_map<K, V> &cpp_map, PyObject *op) {
         PyObject *py_key = Convert_K(key);
         PyObject *py_val = Convert_V(val);
         // Borrowed reference.
-        PyObject *py_dict_val = Python_Cpp_Homogeneous_Containers::py_dict_get(op, py_key);
+        PyObject *py_dict_val = PyDict_GetItem(op, py_key);
         if (py_dict_val == NULL) {
             result |= 1 << 2;
         } else {
@@ -247,10 +247,10 @@ int test_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::
     if (! op) {
         result |= 1;
     } else {
-        if (! Python_Cpp_Homogeneous_Containers::py_dict_check(op)) {
+        if (! PyDict_Check(op)) {
             result |= 1 << 1;
         } else {
-            if ((unsigned long) Python_Cpp_Homogeneous_Containers::py_dict_len(op) != cpp_map.size()) {
+            if ((unsigned long) PyDict_Size(op) != cpp_map.size()) {
                 result |= 1 << 2;
             } else {
                 result |= compare_dict<K, V, Convert_K, Convert_V>(cpp_map, op);
@@ -269,15 +269,15 @@ template<
         PyObject *(*Convert_V)(const V &)
 >
 int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::string &type, size_t size) {
-    PyObject *op = Python_Cpp_Homogeneous_Containers::py_dict_new();
+    PyObject *op = PyDict_New();
     int result = 0;
     double exec_time = -1.0;
     if (! op) {
         result |= 1;
     } else {
         for (size_t i = 0; i < size; ++i) {
-            int err = Python_Cpp_Homogeneous_Containers::py_dict_set(op, Convert_K(static_cast<K>(i)),
-                                                                     Convert_V(static_cast<V>(i)));
+            // TODO: This is a memory leak.
+            int err = PyDict_SetItem(op, Convert_K(static_cast<K>(i)), Convert_V(static_cast<V>(i)));
             if (err != 0) {
                 result |= 1 << 1;
             }

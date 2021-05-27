@@ -27,27 +27,48 @@
 #include <unordered_set>
 
 namespace Python_Cpp_Homogeneous_Containers {
+#pragma mark == Object Conversion Code
+
     // Conversion functions.
+
+#pragma mark -- Boolean/bool Conversion Code
+
     // Bool/bool
     PyObject *py_bool_from_bool(bool const &b);
     bool py_bool_as_bool(PyObject *op);
     int py_bool_check(PyObject *op);
+
+#pragma mark -- Long Integer/long Conversion Code
+
     // Long/long
     PyObject *py_long_from_long(const long &l);
     long py_long_as_long(PyObject *op);
     int py_long_check(PyObject *op);
+
+#pragma mark -- Float/double Conversion Code
+
     // Float/double
     PyObject *py_float_from_double(const double &d);
     double py_float_as_double(PyObject *op);
     int py_float_check(PyObject *op);
+
+#pragma mark -- Complex Conversion Code
+
     // Complex/complex
     PyObject *py_complex_from_complex(const std::complex<double> &c);
     std::complex<double> py_complex_as_complex(PyObject *op);
     int py_complex_check(PyObject *op);
+
+#pragma mark -- Bytes/std::string Conversion Code
+
     // Bytes to/from string
     PyObject *py_bytes_from_string(const std::string &s);
     std::string py_bytes_as_string(PyObject *op);
     int py_bytes_check(PyObject *op);
+
+#pragma mark == Container Check, Create, Len, Set, Get
+
+#pragma mark -- Tuple Check, Create, Len, Set, Get
 
     // Tuple wrappers around PyTuple_Check, PyTuple_New, PyTuple_Size, PyTuple_SET_ITEM, PyTuple_GET_ITEM
     int py_tuple_check(PyObject *op);
@@ -56,6 +77,8 @@ namespace Python_Cpp_Homogeneous_Containers {
     int py_tuple_set(PyObject *tuple_p, size_t pos, PyObject *op);
     PyObject *py_tuple_get(PyObject *tuple_p, size_t pos);
 
+#pragma mark -- List Check, Create, Len, Set, Get
+
     // List wrappers around PyList_Check, PyList_New, PyList_Size, PyList_SET_ITEM, PyList_GET_ITEM
     int py_list_check(PyObject *op);
     PyObject *py_list_new(size_t len);
@@ -63,12 +86,18 @@ namespace Python_Cpp_Homogeneous_Containers {
     int py_list_set(PyObject *list_p, size_t pos, PyObject *op);
     PyObject *py_list_get(PyObject *list_p, size_t pos);
 
-    // Dict wrappers
-    int py_dict_check(PyObject *op);
-    PyObject *py_dict_new();
-    Py_ssize_t py_dict_len(PyObject *op);
-    int py_dict_set(PyObject *dict_p, PyObject *key, PyObject *value);
-    PyObject *py_dict_get(PyObject *dict_p, PyObject *key);
+#pragma mark -- Dict Check, Create, Len, Set, Get
+
+//    // Dict wrappers
+//    int py_dict_check(PyObject *op);
+//    PyObject *py_dict_new();
+//    Py_ssize_t py_dict_len(PyObject *op);
+//    int py_dict_set(PyObject *dict_p, PyObject *key, PyObject *value);
+//    PyObject *py_dict_get(PyObject *dict_p, PyObject *key);
+
+#pragma mark == Generic Container Conversion Code
+
+#pragma mark -- Generic Tuple/List Container Conversion Code
 
     // This is a hand written generic function to convert a C++ vector to a Python tuple or list.
     // The template is instantiated with a C++ type and a conversion function to create a Python object from that type.
@@ -132,18 +161,6 @@ namespace Python_Cpp_Homogeneous_Containers {
         return ret;
     }
 
-    template<typename T, PyObject *(*Convert)(const T &)>
-    PyObject *
-    generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
-        return generic_cpp_std_vector_to_py_unary<T, Convert, &py_tuple_new, &py_tuple_set>(vec);
-    }
-    
-    template<typename T, PyObject *(*Convert)(const T &)>
-    PyObject *
-    generic_cpp_std_vector_to_py_list(const std::vector<T> &vec) {
-        return generic_cpp_std_vector_to_py_unary<T, Convert, &py_list_new, &py_list_set>(vec);
-    }
-
     // This is a hand written generic function to convert a Python tuple to a C++ vector.
     // The template is instantiated with a C++ type a check function and a conversion function to create a Python object
     // to that C++ type.
@@ -190,10 +207,26 @@ namespace Python_Cpp_Homogeneous_Containers {
         return ret;
     }
 
+#pragma mark -- Specific Tuple Container Conversion Code
+
+    template<typename T, PyObject *(*Convert)(const T &)>
+    PyObject *
+    generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
+        return generic_cpp_std_vector_to_py_unary<T, Convert, &py_tuple_new, &py_tuple_set>(vec);
+    }
+
     template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
     int generic_py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
         return generic_py_unary_to_cpp_std_vector<T, Check, Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get>(op,
                                                                                                                    vec);
+    }
+
+#pragma mark -- Specific List Container Conversion Code
+
+    template<typename T, PyObject *(*Convert)(const T &)>
+    PyObject *
+    generic_cpp_std_vector_to_py_list(const std::vector<T> &vec) {
+        return generic_cpp_std_vector_to_py_unary<T, Convert, &py_list_new, &py_list_set>(vec);
     }
 
     template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
@@ -201,6 +234,8 @@ namespace Python_Cpp_Homogeneous_Containers {
         return generic_py_unary_to_cpp_std_vector<T, Check, Convert, &py_list_check, &py_list_len, &py_list_get>(op,
                                                                                                                  vec);
     }
+
+#pragma mark -- Specific Set Container Conversion Code
 
     // This is a hand written generic function to convert a C++ unordered_set to a Python set.
     template<typename T, PyObject *(*Convert)(const T &)>
@@ -295,6 +330,8 @@ namespace Python_Cpp_Homogeneous_Containers {
         Py_XDECREF(py_iter);
         return ret;
     }
+
+#pragma mark -- Specific Dict Container Conversion Code
 
     // This is a hand written generic function to convert a C++ unordered_map to a Python dict.
     // The template is instantiated with C++ type(s) and a conversion function(s) to create Python object(s) from those
