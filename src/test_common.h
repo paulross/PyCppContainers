@@ -291,6 +291,7 @@ int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::
             if (! py_v) {
                 // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                 PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
+                Py_DECREF(py_k);
                 result |= 1 << 2;
                 break;
             }

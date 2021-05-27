@@ -10,15 +10,16 @@
 void test_all() {
     TestResultS test_results;
 
-//    test_functional_all(test_results);
+    test_functional_all(test_results);
     test_performance_all(test_results);
-//    test_memory_all(test_results);
+    test_memory_all(test_results);
 
     std::cout << test_results << std::endl;
 }
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
+    ExecClock exec_clock;
     Py_Initialize();
 
     RSSSnapshot rss_overall("main.cpp");
@@ -43,6 +44,7 @@ int main() {
 
     std::cout << "====" << rss_overall << std::endl;
 
+    std::cout << "Total execution time: " << exec_clock.seconds() << std::endl;
     std::cout << "Bye, bye!" << std::endl;
     return 0;
 }

@@ -76,80 +76,80 @@ int test_perf_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const 
 
 void test_performance_all(TestResultS &test_results) {
     RSSSnapshot rss_overall("==== test_performance.cpp");
-//    {
-//        RSSSnapshot rss("test_perf_vector_to_py_tuple<bool>");
-//        test_perf_vector_to_py_tuple<
-//                bool, &Python_Cpp_Homogeneous_Containers::py_bool_as_bool
-//        >(test_results, "<bool>");
-//        std::cout << rss << std::endl;
-//    }
-//    {
-//        RSSSnapshot rss("test_perf_vector_to_py_tuple<long>");
-//        test_perf_vector_to_py_tuple<
-//                long, &Python_Cpp_Homogeneous_Containers::py_long_as_long
-//        >(test_results, "<long>");
-//        std::cout << rss << std::endl;
-//    }
-//    {
-//        RSSSnapshot rss("test_perf_vector_to_py_tuple<double>");
-//        test_perf_vector_to_py_tuple<
-//                double,
-//                &Python_Cpp_Homogeneous_Containers::py_float_as_double
-//        >(test_results, "<double>");
-//        std::cout << rss << std::endl;
-//    }
-//    {
-//        RSSSnapshot rss("test_perf_py_tuple_to_vector<bool>");
-//        test_perf_py_tuple_to_vector<
-//                bool,
-//                &Python_Cpp_Homogeneous_Containers::py_bool_from_bool,
-//                &Python_Cpp_Homogeneous_Containers::py_bool_as_bool
-//        >(test_results, "<bool>");
-//        std::cout << rss << std::endl;
-//    }
-//    {
-//        RSSSnapshot rss("test_perf_py_tuple_to_vector<long>");
-//        test_perf_py_tuple_to_vector<
-//                long,
-//                &Python_Cpp_Homogeneous_Containers::py_long_from_long,
-//                &Python_Cpp_Homogeneous_Containers::py_long_as_long
-//        >(test_results, "<long>");
-//        std::cout << rss << std::endl;
-//    }
-//    {
-//        RSSSnapshot rss("test_perf_py_tuple_to_vector<double>");
-//        test_perf_py_tuple_to_vector<
-//                double,
-//                &Python_Cpp_Homogeneous_Containers::py_float_from_double,
-//                &Python_Cpp_Homogeneous_Containers::py_float_as_double
-//        >(test_results, "<double>");
-//        std::cout << rss << std::endl;
-//    }
-//    {
-//        RSSSnapshot rss("test_perf_vector_string_to_py_tuple[0]");
-//        test_perf_vector_string_to_py_tuple(test_results);
-//        std::cout << rss << std::endl;
-//    }
-//    {
-//        RSSSnapshot rss("test_perf_vector_string_to_py_tuple[1]");
-//        test_perf_vector_string_to_py_tuple(test_results);
-//        std::cout << rss << std::endl;
-//    }
-//    {
-//        RSSSnapshot rss("test_perf_py_tuple_string_to_vector");
-//        test_perf_py_tuple_string_to_vector(test_results);
-//        std::cout << rss << std::endl;
-//    }
-//    {
-//        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict<double>");
-//        test_perf_cpp_std_unordered_map_to_py_dict<
-//                double,
-//                double,
-//                &Python_Cpp_Homogeneous_Containers::py_float_from_double,
-//                &Python_Cpp_Homogeneous_Containers::py_float_from_double
-//        >(test_results, "<double>");
-//        std::cout << rss << std::endl;
-//    }
+    {
+        RSSSnapshot rss("test_perf_vector_to_py_tuple<bool>");
+        test_perf_vector_to_py_tuple<
+                bool, &Python_Cpp_Homogeneous_Containers::py_bool_as_bool
+        >(test_results, "<bool>");
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_vector_to_py_tuple<long>");
+        test_perf_vector_to_py_tuple<
+                long, &Python_Cpp_Homogeneous_Containers::py_long_as_long
+        >(test_results, "<long>");
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_vector_to_py_tuple<double>");
+        test_perf_vector_to_py_tuple<
+                double,
+                &Python_Cpp_Homogeneous_Containers::py_float_as_double
+        >(test_results, "<double>");
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_py_tuple_to_vector<bool>");
+        test_perf_py_tuple_to_vector<
+                bool,
+                &Python_Cpp_Homogeneous_Containers::py_bool_from_bool,
+                &Python_Cpp_Homogeneous_Containers::py_bool_as_bool
+        >(test_results, "<bool>");
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_py_tuple_to_vector<long>");
+        test_perf_py_tuple_to_vector<
+                long,
+                &Python_Cpp_Homogeneous_Containers::py_long_from_long,
+                &Python_Cpp_Homogeneous_Containers::py_long_as_long
+        >(test_results, "<long>");
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_py_tuple_to_vector<double>");
+        test_perf_py_tuple_to_vector<
+                double,
+                &Python_Cpp_Homogeneous_Containers::py_float_from_double,
+                &Python_Cpp_Homogeneous_Containers::py_float_as_double
+        >(test_results, "<double>");
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_vector_string_to_py_tuple[0]");
+        test_perf_vector_string_to_py_tuple(test_results);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_vector_string_to_py_tuple[1]");
+        test_perf_vector_string_to_py_tuple(test_results);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_py_tuple_string_to_vector");
+        test_perf_py_tuple_string_to_vector(test_results);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict<double>");
+        test_perf_cpp_std_unordered_map_to_py_dict<
+                double,
+                double,
+                &Python_Cpp_Homogeneous_Containers::py_float_from_double,
+                &Python_Cpp_Homogeneous_Containers::py_float_from_double
+        >(test_results, "<double>");
+        std::cout << rss << std::endl;
+    }
     {
         RSSSnapshot rss("test_perf_py_dict_to_cpp_std_unordered_map<double>");
         test_perf_py_dict_to_cpp_std_unordered_map<
