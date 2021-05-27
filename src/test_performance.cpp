@@ -125,16 +125,16 @@ void test_performance_all(TestResultS &test_results) {
 //        >(test_results, "<double>");
 //        std::cout << rss << std::endl;
 //    }
-    {
-        RSSSnapshot rss("test_perf_vector_string_to_py_tuple[0]");
-        test_perf_vector_string_to_py_tuple(test_results);
-        std::cout << rss << std::endl;
-    }
-    {
-        RSSSnapshot rss("test_perf_vector_string_to_py_tuple[1]");
-        test_perf_vector_string_to_py_tuple(test_results);
-        std::cout << rss << std::endl;
-    }
+//    {
+//        RSSSnapshot rss("test_perf_vector_string_to_py_tuple[0]");
+//        test_perf_vector_string_to_py_tuple(test_results);
+//        std::cout << rss << std::endl;
+//    }
+//    {
+//        RSSSnapshot rss("test_perf_vector_string_to_py_tuple[1]");
+//        test_perf_vector_string_to_py_tuple(test_results);
+//        std::cout << rss << std::endl;
+//    }
 //    {
 //        RSSSnapshot rss("test_perf_py_tuple_string_to_vector");
 //        test_perf_py_tuple_string_to_vector(test_results);
@@ -150,15 +150,15 @@ void test_performance_all(TestResultS &test_results) {
 //        >(test_results, "<double>");
 //        std::cout << rss << std::endl;
 //    }
-//    {
-//        RSSSnapshot rss("test_perf_py_dict_to_cpp_std_unordered_map<double>");
-//        test_perf_py_dict_to_cpp_std_unordered_map<
-//                double,
-//                double,
-//                &Python_Cpp_Homogeneous_Containers::py_float_from_double,
-//                &Python_Cpp_Homogeneous_Containers::py_float_from_double
-//        >(test_results, "<double>");
-//        std::cout << rss << std::endl;
-//    }
+    {
+        RSSSnapshot rss("test_perf_py_dict_to_cpp_std_unordered_map<double>");
+        test_perf_py_dict_to_cpp_std_unordered_map<
+                double,
+                double,
+                &Python_Cpp_Homogeneous_Containers::py_float_from_double,
+                &Python_Cpp_Homogeneous_Containers::py_float_from_double
+        >(test_results, "<double>");
+        std::cout << rss << std::endl;
+    }
     std::cout << "====" << rss_overall << std::endl;
 }

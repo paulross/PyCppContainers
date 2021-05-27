@@ -270,17 +270,53 @@ template<
 >
 int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::string &type, size_t size) {
     PyObject *op = PyDict_New();
+    PyObject *py_k = NULL;
+    PyObject *py_v = NULL;
     int result = 0;
     double exec_time = -1.0;
     if (! op) {
         result |= 1;
     } else {
         for (size_t i = 0; i < size; ++i) {
-            // TODO: This is a memory leak.
-            int err = PyDict_SetItem(op, Convert_K(static_cast<K>(i)), Convert_V(static_cast<V>(i)));
-            if (err != 0) {
+            py_k = (*Convert_K)(static_cast<K>(i));
+            if (! py_k) {
+                // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                PyErr_Format(PyExc_ValueError, "C++ key of can not be converted.");
                 result |= 1 << 1;
+                break;
             }
+            // Refcount may well be >> 1 for interned objects.
+            Py_ssize_t py_k_ob_refcnt = py_k->ob_refcnt;
+            py_v = (*Convert_V)(static_cast<V>(i));
+            if (! py_v) {
+                // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
+                result |= 1 << 2;
+                break;
+            }
+            // Refcount may well be >> 1 for interned objects.
+            Py_ssize_t py_v_ob_refcnt = py_v->ob_refcnt;
+            if (PyDict_SetItem(op, py_k, py_v)) {
+                // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                PyErr_Format(PyExc_ValueError, "Can not set an item in the Python dict.");
+                result |= 1 << 3;
+                break;
+            }
+            // Oh this is nasty.
+            // PyDict_SetItem() increfs the key and the value rather than stealing a reference.
+            // insertdict(): https://github.com/python/cpython/blob/main/Objects/dictobject.c#L1074
+            assert(py_k->ob_refcnt == py_k_ob_refcnt + 1 && "PyDict_SetItem failed to increment key refcount.");
+            Py_DECREF(py_k);
+            assert(py_k->ob_refcnt == py_k_ob_refcnt);
+            assert(py_v->ob_refcnt == py_v_ob_refcnt + 1 && "PyDict_SetItem failed to increment value refcount.");
+            Py_DECREF(py_v);
+            assert(py_v->ob_refcnt == py_v_ob_refcnt);
+
+//            // TODO: This is a memory leak.
+//            int err = PyDict_SetItem(op, Convert_K(static_cast<K>(i)), Convert_V(static_cast<V>(i)));
+//            if (err != 0) {
+//                result |= 1 << 1;
+//            }
         }
         if (result == 0) {
             std::unordered_map<K, V> cpp_map;
