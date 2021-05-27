@@ -108,11 +108,14 @@ namespace Python_Cpp_Homogeneous_Containers {
                     PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
                     goto except;
                 }
+                // Refcount may well be >> 1 for interned objects.
+                Py_ssize_t op_ob_refcnt = op->ob_refcnt;
                 // This usually wraps a void function, always succeeds.
                 if (PyUnary_Set(ret, i, op)) { // Stolen reference.
                     PyErr_Format(PyExc_RuntimeError, "Can not set unary value.");
                     goto except;
                 }
+                assert(op->ob_refcnt == op_ob_refcnt && "Reference count incremented instead of stolen.");
             }
         } else {
             PyErr_Format(PyExc_ValueError, "Can not create Python container of size %ld", vec.size());
@@ -213,11 +216,14 @@ namespace Python_Cpp_Homogeneous_Containers {
                     PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
                     goto except;
                 }
+                // Refcount may well be >> 1 for interned objects.
+                Py_ssize_t op_ob_refcnt = op->ob_refcnt;
                 // This usually wraps a void function, always succeeds.
                 if (PySet_Add(ret, op)) { // Stolen reference.
                     PyErr_Format(PyExc_RuntimeError, "Can not set value into the set.");
                     goto except;
                 }
+                assert(op->ob_refcnt == op_ob_refcnt && "Reference count incremented instead of stolen.");
             }
         } else {
             PyErr_Format(PyExc_ValueError, "Can not create Python set");
@@ -324,12 +330,16 @@ namespace Python_Cpp_Homogeneous_Containers {
                     PyErr_Format(PyExc_ValueError, "C++ key of can not be converted.");
                     goto except;
                 }
+                // Refcount may well be >> 1 for interned objects.
+                Py_ssize_t py_k_ob_refcnt = py_k->ob_refcnt;
                 py_v = (*Convert_V)(k_v.second);
                 if (! py_v) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
                     goto except;
                 }
+                // Refcount may well be >> 1 for interned objects.
+                Py_ssize_t py_v_ob_refcnt = py_v->ob_refcnt;
                 if (PyDict_SetItem(ret, py_k, py_v)) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     PyErr_Format(PyExc_ValueError, "Can not set an item in the Python dict.");
@@ -338,8 +348,12 @@ namespace Python_Cpp_Homogeneous_Containers {
                 // Oh this is nasty.
                 // PyDict_SetItem() increfs the key and the value rather than stealing a reference.
                 // insertdict(): https://github.com/python/cpython/blob/main/Objects/dictobject.c#L1074
+                assert(py_k->ob_refcnt == py_k_ob_refcnt + 1 && "PyDict_SetItem failed to increment key refcount.");
                 Py_DECREF(py_k);
+                assert(py_k->ob_refcnt == py_k_ob_refcnt);
+                assert(py_v->ob_refcnt == py_v_ob_refcnt + 1 && "PyDict_SetItem failed to increment value refcount.");
                 Py_DECREF(py_v);
+                assert(py_v->ob_refcnt == py_v_ob_refcnt);
             }
         } else {
             PyErr_Format(PyExc_ValueError, "Can not create Python dict");

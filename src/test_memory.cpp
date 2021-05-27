@@ -173,7 +173,7 @@ void test_memory_all(TestResultS &test_results) {
 //    }
     {
         for (int i = 0; i < 100; ++i) {
-            RSSSnapshot rss("test_memory_vector_string_to_py_tuple(1024, 2048, 512, 1<<16");
+            RSSSnapshot rss("test_memory_vector_string_to_py_tuple(1024, 2048, 512, 1<<16)");
             test_memory_vector_string_to_py_tuple(test_results, 1024, 2048, 512, 1 << 16);
             std::cout << rss << std::endl;
         }
