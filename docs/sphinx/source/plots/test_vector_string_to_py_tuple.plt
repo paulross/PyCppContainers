@@ -4,7 +4,7 @@ set title "Time to copy a C++ std::vector<std::string> to a Python tuple with di
 set xlabel "Vector Size"
 
 set logscale y
-set ylabel "Time (s)"
+set ylabel "Time per Item (µs)"
 # set yrange [8:35]
 # set ytics 8,35,3
 
@@ -24,10 +24,9 @@ set key left
 set terminal svg size 1000,700           # choose the file format
 set output "test_vector_string_to_py_tuple.svg"   # choose the output device
 
-plot "test_vector_string_to_py_tuple.dat" using 1:2 t "1" with linespoints axes x1y1 pt 1 lw 1, \
-    "test_vector_string_to_py_tuple.dat" using 1:6 t "16" with linespoints axes x1y1 pt 5 lw 1, \
-    "test_vector_string_to_py_tuple.dat" using 1:8 t "64" with linespoints axes x1y1 pt 7 lw 1, \
-    "test_vector_string_to_py_tuple.dat" using 1:10 t "256" with linespoints axes x1y1 pt 2 lw 1, \
-    "test_vector_string_to_py_tuple.dat" using 1:11 t "512" with linespoints axes x1y1 pt 3 lw 1
+plot "test_vector_string_to_py_tuple.dat" using 1:(1e6 * $2 / $1) t "String length 8" with linespoints axes x1y1 pt 1 lw 1, \
+    "test_vector_string_to_py_tuple.dat" using 1:(1e6 * $5 / $1) t "String length 64" with linespoints axes x1y1 pt 5 lw 1, \
+    "test_vector_string_to_py_tuple.dat" using 1:(1e6 * $8 / $1) t "String length 512" with linespoints axes x1y1 pt 7 lw 1, \
+    "test_vector_string_to_py_tuple.dat" using 1:(1e6 * $11 / $1) t "String length 4096" with linespoints axes x1y1 pt 2 lw 1
     
 reset
