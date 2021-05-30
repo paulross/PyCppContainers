@@ -77,7 +77,8 @@ int test_perf_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const 
 int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results) {
     int result = 0;
     for (size_t str_len = 8; str_len <= 4096; str_len *= 2) {
-        for (size_t size = 2; size <= 1 << 21; size *= 2) {
+        size_t size_limit = (1 << 21) * 8  / (str_len / 2);
+        for (size_t size = 2; size <= size_limit; size *= 2) {
             result |= test_cpp_std_unordered_map_to_py_dict_string(test_results, size, str_len);
         }
     }
