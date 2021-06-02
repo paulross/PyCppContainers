@@ -4,7 +4,7 @@
 
 #include <Python.h>
 
-#include "python_convert.h"
+#include "cpy/python_convert.h"
 #include "test_common.h"
 #include "test_performance.h"
 

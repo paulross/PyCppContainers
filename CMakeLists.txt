@@ -37,20 +37,26 @@ ENDIF()
 
 add_executable(
         PythonCppHomogeneousContainers
-        main.cpp
-        src/auto_py_convert_internal.h
-        src/auto_py_convert_internal.cpp
-        src/python_convert.h
-        src/python_convert.cpp
-        src/TestFramework.cpp
-        src/TestFramework.h
-        src/save_stream_state.h
-        src/test_functional.cpp
-        src/test_functional.h
-        src/test_performance.cpp
-        src/test_performance.h
-        src/test_common.h
-        src/test_common.cpp src/test_memory.cpp src/test_memory.h src/get_rss.cpp src/get_rss.h src/PyMemAllocator.cpp src/PyMemAllocator.h)
+        src/main.cpp
+        src/cpy/auto_py_convert_internal.h
+        src/cpy/auto_py_convert_internal.cpp
+        src/cpy/python_convert.h
+        src/cpy/python_convert.cpp
+        src/cpp/TestFramework.cpp
+        src/cpp/TestFramework.h
+        src/cpp/save_stream_state.h
+        src/cpy/tests/test_functional.cpp
+        src/cpy/tests/test_functional.h
+        src/cpy/tests/test_performance.cpp
+        src/cpy/tests/test_performance.h
+        src/cpy/tests/test_common.h
+        src/cpy/tests/test_common.cpp
+        src/cpy/tests/test_memory.cpp
+        src/cpy/tests/test_memory.h
+        src/cpp/get_rss.cpp
+        src/cpp/get_rss.h
+        src/cpy/PyMemAllocator.cpp
+        src/cpy/PyMemAllocator.h)
 
 target_link_libraries(PythonCppHomogeneousContainers ${PYTHON_LIBRARIES})
 

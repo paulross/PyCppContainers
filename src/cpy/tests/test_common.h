@@ -7,9 +7,9 @@
 
 #include <Python.h>
 
-#include "python_convert.h"
-#include "get_rss.h"
-#include "TestFramework.h"
+#include "cpy/python_convert.h"
+#include "cpp/get_rss.h"
+#include "cpp/TestFramework.h"
 
 #define REPORT_OK_OR_FAIL 0
 

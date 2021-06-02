@@ -11,8 +11,8 @@
 
 #include <Python.h>
 
-#include "get_rss.h"
-#include "python_convert.h"
+#include "cpp/get_rss.h"
+#include "cpy/python_convert.h"
 #include "test_common.h"
 
 int test_memory_py_tuple(TestResultS &test_results, const std::string &type, size_t size) {

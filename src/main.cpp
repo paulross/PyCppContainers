@@ -2,9 +2,9 @@
 
 #include <Python.h>
 
-#include "test_functional.h"
-#include "test_performance.h"
-#include "test_memory.h"
+#include "cpy/tests/test_functional.h"
+#include "cpy/tests/test_performance.h"
+#include "cpy/tests/test_memory.h"
 
 
 void test_all() {
