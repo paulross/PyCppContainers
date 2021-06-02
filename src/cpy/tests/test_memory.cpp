@@ -137,8 +137,9 @@ int test_memory_py_tuple_string_to_vector(TestResultS &test_results, size_t str_
 
 void test_memory_all(TestResultS &test_results) {
     RSSSnapshot rss_overall("==== test_memory.cpp");
+    int repeat_count = 1;
     {
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < repeat_count; ++i) {
             RSSSnapshot rss("test_memory_py_tuple");
             // Running this on its own give the following memory profile, values in MB and the delta:
             // Start, Python initialised:                        3.0
@@ -155,7 +156,7 @@ void test_memory_all(TestResultS &test_results) {
         }
     }
     {
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < repeat_count; ++i) {
             RSSSnapshot rss("test_memory_py_dict");
             // Running this on its own give the following memory profile, values in MB and the delta:
             // Start, Python initialised:                        3.1
@@ -172,9 +173,9 @@ void test_memory_all(TestResultS &test_results) {
         }
     }
     {
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < repeat_count; ++i) {
             RSSSnapshot rss("test_memory_vector_string_to_py_tuple(1024, 2048, 512, 1<<16)");
-            test_memory_vector_string_to_py_tuple(test_results, 1024, 2048, 512, 1 << 16);
+            test_memory_vector_string_to_py_tuple(test_results, 8, 2048, 512, 1 << 16);
             std::cout << rss << std::endl;
         }
     }
