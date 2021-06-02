@@ -137,40 +137,40 @@ int test_memory_py_tuple_string_to_vector(TestResultS &test_results, size_t str_
 
 void test_memory_all(TestResultS &test_results) {
     RSSSnapshot rss_overall("==== test_memory.cpp");
-//    {
-//        for (int i = 0; i < 10; ++i) {
-//            RSSSnapshot rss("test_memory_py_tuple");
-//            // Running this on its own give the following memory profile, values in MB and the delta:
-//            // Start, Python initialised:                        3.0
-//            // Start of test_memory_py_tuple():                  3.0
-//            // Before Py_XDECREF in test_memory_py_tuple():    117.7   +114.7
-//            // After Py_XDECREF in test_memory_py_tuple():       7.0   -110.7
-//            // Prior to Py_FinalizeEx()                          7.1     +0.1
-//            // After Py_FinalizeEx()                             6.1     -1.0
-//            //
-//            // Python floats are 24 bytes so 24MB allocated/deallocated.
-//            // Repeating this 1000 times gives the identical memory profile.
-//            test_memory_py_tuple(test_results, "<double>", 1 << 20);
-//            std::cout << rss << std::endl;
-//        }
-//    }
-//    {
-//        for (int i = 0; i < 10; ++i) {
-//            RSSSnapshot rss("test_memory_py_dict");
-//            // Running this on its own give the following memory profile, values in MB and the delta:
-//            // Start, Python initialised:                        3.1
-//            // Start of test_memory_py_dict():                   3.1
-//            // Before Py_XDECREF in test_memory_py_dict():      43.6    +40.6
-//            // After Py_XDECREF in test_memory_py_dict():       15.2    -28.4
-//            // Prior to Py_FinalizeEx()                         15.2
-//            // After Py_FinalizeEx()                            13.9     -1.3
-//            //
-//            // Python floats are 24 bytes so 24MB allocated/deallocated.
-//            // Repeating this 1000 times gives the identical memory profile.
-//            test_memory_py_dict(test_results, "<double>", 1 << 20);
-//            std::cout << rss << std::endl;
-//        }
-//    }
+    {
+        for (int i = 0; i < 10; ++i) {
+            RSSSnapshot rss("test_memory_py_tuple");
+            // Running this on its own give the following memory profile, values in MB and the delta:
+            // Start, Python initialised:                        3.0
+            // Start of test_memory_py_tuple():                  3.0
+            // Before Py_XDECREF in test_memory_py_tuple():    117.7   +114.7
+            // After Py_XDECREF in test_memory_py_tuple():       7.0   -110.7
+            // Prior to Py_FinalizeEx()                          7.1     +0.1
+            // After Py_FinalizeEx()                             6.1     -1.0
+            //
+            // Python floats are 24 bytes so 24MB allocated/deallocated.
+            // Repeating this 1000 times gives the identical memory profile.
+            test_memory_py_tuple(test_results, "<double>", 1 << 20);
+            std::cout << rss << std::endl;
+        }
+    }
+    {
+        for (int i = 0; i < 10; ++i) {
+            RSSSnapshot rss("test_memory_py_dict");
+            // Running this on its own give the following memory profile, values in MB and the delta:
+            // Start, Python initialised:                        3.1
+            // Start of test_memory_py_dict():                   3.1
+            // Before Py_XDECREF in test_memory_py_dict():      43.6    +40.6
+            // After Py_XDECREF in test_memory_py_dict():       15.2    -28.4
+            // Prior to Py_FinalizeEx()                         15.2
+            // After Py_FinalizeEx()                            13.9     -1.3
+            //
+            // Python floats are 24 bytes so 24MB allocated/deallocated.
+            // Repeating this 1000 times gives the identical memory profile.
+            test_memory_py_dict(test_results, "<double>", 1 << 20);
+            std::cout << rss << std::endl;
+        }
+    }
     {
         for (int i = 0; i < 100; ++i) {
             RSSSnapshot rss("test_memory_vector_string_to_py_tuple(1024, 2048, 512, 1<<16)");

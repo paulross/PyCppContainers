@@ -24,6 +24,7 @@ void free_vanilla(void *ctx, void *ptr) {
 
 static int new_allocator_count[3];
 
+// Fragile, PyMemAllocatorDomain has 3 enums.
 static PyMemAllocatorEx mem_alloc_original[3];
 
 void set_mem_alloc(PyMemAllocatorDomain domain, PyMemAllocatorEx *allocator) {
