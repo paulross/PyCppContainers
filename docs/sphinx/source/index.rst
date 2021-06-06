@@ -3,13 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Python/C++ Homogeneous Containers's documentation!
-=============================================================
+Welcome to Python/C++ Homogeneous Container's documentation!
+============================================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   design
+   performance
 
 
 Indices and tables

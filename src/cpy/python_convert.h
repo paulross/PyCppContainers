@@ -122,7 +122,9 @@ namespace Python_Cpp_Homogeneous_Containers {
     //
     // Partial template specialisation: Need PyTuple_New, PyTuple_GET_ITEM, PyTuple_SET_ITEM.
     // Also error messages such as 'tuple'.
-    template<typename T, PyObject *(*Convert)(const T &), PyObject *(*PyUnary_New)(size_t),
+    template<typename T,
+            PyObject *(*Convert)(const T &),
+            PyObject *(*PyUnary_New)(size_t),
             int(*PyUnary_Set)(PyObject *, size_t, PyObject *)>
     PyObject *
     generic_cpp_std_vector_to_py_unary(const std::vector<T> &vec) {
@@ -175,8 +177,12 @@ namespace Python_Cpp_Homogeneous_Containers {
     //
     // Partial template specialisation: Need PyTuple_Check, PyTuple_GET_SIZE, PyTuple_GET_ITEM.
     // Also error messages.
-    template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *), int(*PyUnary_Check)(PyObject *),
-            Py_ssize_t(*PyUnary_Size)(PyObject *), PyObject *(*PyUnary_Get)(PyObject *, size_t)>
+    template<typename T,
+            int (*Check)(PyObject *),
+            T (*Convert)(PyObject *),
+            int(*PyUnary_Check)(PyObject *),
+            Py_ssize_t(*PyUnary_Size)(PyObject *),
+            PyObject *(*PyUnary_Get)(PyObject *, size_t)>
     int generic_py_unary_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
         assert(!PyErr_Occurred());
         int ret = 0;

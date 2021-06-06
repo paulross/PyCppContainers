@@ -19,6 +19,23 @@ logger = logging.getLogger(__file__)
 CPP_NAMESPACE = 'Python_Cpp_Homogeneous_Containers'
 
 
+def comment_str(s: str) -> str:
+    assert '\n' not in s
+    return '//{}'.format(s)
+
+
+def comment_list_str(inputs: typing.List[str]) -> typing.List[str]:
+    """Returns the strings as a C++ comments."""
+    ret = []
+    for s in inputs:
+        if '\n' in s:
+            ret.extend([comment_str(v) for v in s.split('\n')])
+        else:
+            ret.append(comment_str(s))
+    return ret
+
+
+
 class CppTypeFunctions(typing.NamedTuple):
     to_py_type: str
     py_check: str
@@ -58,7 +75,7 @@ def required_function_declarations() -> typing.List[str]:
     ret: typing.List[str] = []
     ret.append(comment_str('Functions to convert a type:'))
     for cpp_type in CPP_TYPE_TO_FUNCS:
-        ret.append('// {cpp_type}'.format(cpp_type=cpp_type))
+        ret.append(comment_str(f'{cpp_type}'))
         ret.append(
             'PyObject *{fn}(const {cpp_type} &value);'.format(
                 fn=CPP_TYPE_TO_FUNCS[cpp_type].to_py_type,
@@ -84,8 +101,7 @@ def required_function_declarations() -> typing.List[str]:
 
 # Declarations to go in header file
 # Base declararation to convert to Python, requires fn= and cpp_container=
-CPP_UNARY_FUNCTION_TO_PY_BASE_DECL = """// Base declaration
-template<typename T>
+CPP_UNARY_FUNCTION_TO_PY_BASE_DECL = """template<typename T>
 PyObject *
 {fn}(const {cpp_container}<T> &container);"""
 
@@ -95,8 +111,7 @@ PyObject *
 {fn}<{cpp_type}>(const {cpp_container}<{cpp_type}> &container);"""
 
 # Base declararation to convert from Python, requires fn= and cpp_container=
-CPP_UNARY_FUNCTION_FROM_PY_BASE_DECL = """// Base declaration
-template<typename T>
+CPP_UNARY_FUNCTION_FROM_PY_BASE_DECL = """template<typename T>
 int
 {fn}(PyObject *tuple, {cpp_container}<T> &container);"""
 
@@ -124,21 +139,17 @@ CPP_UNARY_FUNCTION_FROM_PY_DEFN = """template <> int
 
 #===== std::unordered_map <-> dict ====
 # Declarations to go in header file
-CPP_STD_UNORDERED_MAP_TO_PY_DICT_BASE_DECL = """// Base declaration
-template<typename K, typename V>
+CPP_STD_UNORDERED_MAP_TO_PY_DICT_BASE_DECL = """template<typename K, typename V>
 PyObject *
-cpp_std_unordered_map_to_py_dict(const std::unordered_map<K, V> &map);
-// Instantiations"""
+cpp_std_unordered_map_to_py_dict(const std::unordered_map<K, V> &map);"""
 
 CPP_STD_UNORDERED_MAP_TO_PY_DICT_DECL = """template <>
 PyObject *
 cpp_std_unordered_map_to_py_dict<{cpp_type_K}, {cpp_type_V}>(const std::unordered_map<{cpp_type_K}, {cpp_type_V}> &map);"""
 
-CPP_PY_DICT_TO_STD_UNORDERED_MAP_BASE_DECL = """// Base declaration
-template<typename K, typename V>
+CPP_PY_DICT_TO_STD_UNORDERED_MAP_BASE_DECL = """template<typename K, typename V>
 int 
-py_dict_to_cpp_std_unordered_map(PyObject *op, std::unordered_map<K, V> &map);
-// Instantiations"""
+py_dict_to_cpp_std_unordered_map(PyObject *op, std::unordered_map<K, V> &map);"""
 
 CPP_PY_DICT_TO_STD_UNORDERED_MAP_DECL = """template <>
 int
@@ -168,25 +179,27 @@ py_dict_to_cpp_std_unordered_map<{type_K}, {type_V}>(PyObject* op, std::unordere
 
 WIDTH = 75 - len('//')
 
+
 def get_codegen_warning(is_end: bool) -> typing.List[str]:
     if is_end:
         prefix = 'END: '
     else:
         prefix = ''
     return [
-        '//{}'.format('#' * WIDTH),
-        '//{}'.format(
-            ' {prefix}Auto-generated code - do not edit. Seriously, do NOT edit. '.format(prefix=prefix).center(WIDTH, '#')),
-        '//{}'.format('#' * WIDTH),
+        comment_str('{}'.format('#' * WIDTH)),
+        comment_str('{}'.format(
+            ' {prefix}Auto-generated code - do not edit. Seriously, do NOT edit. '.format(prefix=prefix).center(WIDTH,
+                                                                                                                '#'))),
+        comment_str('{}'.format('#' * WIDTH)),
     ]
 
 
 @contextlib.contextmanager
 def cpp_comment_section(str_list: typing.List[str], title:str, sep:str):
     """Context manager for writing begining and end comments."""
-    str_list.append('//{}'.format(' {} '.format(title).center(WIDTH, sep)))
+    str_list.append(comment_str('{}'.format(' {} '.format(title).center(WIDTH, sep))))
     yield
-    str_list.append('//{}'.format(' END: {} '.format(title).center(WIDTH, sep)))
+    str_list.append(comment_str('{}'.format(' END: {} '.format(title).center(WIDTH, sep))))
     str_list.append('')
 
 
@@ -195,41 +208,29 @@ def defn_name_from_decl_name(name: str) -> str:
     return 'generic_{}'.format(name)
 
 
-def comment_str(s: str) -> str:
-    assert '\n' not in s
-    return '// {}'.format(s)
-
-
-def comment_list_str(input: typing.List[str]) -> typing.List[str]:
-    """Returns the strings as a C++ comments."""
-    ret = []
-    for s in input:
-        if '\n' in s:
-            ret.extend([comment_str(v) for v in s.split('\n')])
-        else:
-            ret.append(comment_str(s))
-    return ret
-
-
 def documentation() -> typing.List[str]:
-    ret = ['Conversion from homogeneous data structures in Python and C++', '', 'Unary conversions']
+    ret = [
+        ' Conversion from homogeneous data structures in Python and C++',
+        ' ',
+        ' Unary conversions',
+    ]
     for py_container in UNARY_COLLECTIONS:
-        ret.append('{}:'.format(py_container))
+        ret.append(' {}:'.format(py_container))
         for typ in CPP_TYPE_TO_FUNCS:
-            ret.append('{} <-> {}<{}>'.format(
+            ret.append(' {} <-> {}<{}>'.format(
                 py_container,
                 UNARY_COLLECTIONS[py_container].cpp_container,
                 typ,
             ))
-        ret.append('')
-    ret.append('')
-    ret.append('Mapping conversions')
+        ret.append(' ')
+    ret.append(' ')
+    ret.append(' Mapping conversions')
     for type_k, type_v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
-        ret.append('{} <-> std::unordered_map<{}, {}>'.format(
+        ret.append(' {} <-> std::unordered_map<{}, {}>'.format(
             'dict',
             type_k, type_v
         ))
-    ret.append('')
+    ret.append(' ')
     return comment_list_str(ret)
 
 
@@ -243,8 +244,9 @@ def unary_declarations() -> CodeCount:
         for k, v in UNARY_COLLECTIONS.items():
             with cpp_comment_section(code, '{} -> Python {}'.format(v.cpp_container, k), '-'):
                 # //---------------------- std::vector -> Python tuple ----------------------
+                code.append(comment_str(' Base declaration'))
                 code.append(CPP_UNARY_FUNCTION_TO_PY_BASE_DECL.format(fn=v.decl_to_py, cpp_container=v.cpp_container))
-                code.append('// Instantiations')
+                code.append(comment_str(' Instantiations'))
                 for cpp_type in CPP_TYPE_TO_FUNCS:
                     code.append(CPP_UNARY_FUNCTION_TO_PY_DECL.format(
                         fn=v.decl_to_py,
@@ -253,11 +255,12 @@ def unary_declarations() -> CodeCount:
                     ))
                     count += 1
             with cpp_comment_section(code, 'Python {} -> {}'.format(k, v.cpp_container), '-'):
+                code.append(comment_str(' Base declaration'))
                 code.append(CPP_UNARY_FUNCTION_FROM_PY_BASE_DECL.format(
                     fn=v.decl_to_cpp,
                     cpp_container=v.cpp_container
                 ))
-                code.append('// Instantiations')
+                code.append(comment_str(' Instantiations'))
                 for cpp_type in CPP_TYPE_TO_FUNCS:
                     code.append(CPP_UNARY_FUNCTION_FROM_PY_DECL.format(
                         fn=v.decl_to_cpp,
@@ -304,14 +307,18 @@ def dict_declarations() -> CodeCount:
     with cpp_comment_section(code, 'std::unordered_map <-> Python dict', '*'):
         # Python dict
         with cpp_comment_section(code, 'std::unordered_map -> Python dict', '-'):
+            code.append(comment_str(' Base declaration'))
             code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_BASE_DECL)
             count_decl += 1
+            code.append(comment_str(' Instantiations'))
             for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
                 code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_DECL.format(cpp_type_K=k, cpp_type_V=v))
                 count_decl += 1
         with cpp_comment_section(code, 'Python dict -> std::unordered_map', '-'):
+            code.append(comment_str(' Base declaration'))
             code.append(CPP_PY_DICT_TO_STD_UNORDERED_MAP_BASE_DECL)
             count_decl += 1
+            code.append(comment_str(' Instantiations'))
             for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
                 code.append(CPP_PY_DICT_TO_STD_UNORDERED_MAP_DECL.format(cpp_type_K=k, cpp_type_V=v))
                 count_decl += 1
@@ -323,32 +330,32 @@ def dict_definitions() -> CodeCount:
     count_defn = 0
     with cpp_comment_section(code, 'std::unordered_map <-> Python dict', '*'):
         for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
-            code.append('//{}'.format(
+            code.append(comment_str('{}'.format(
                 ' Converts a std::unordered_map<{type_K}, {type_V}> '.format(
                     type_K=k, type_V=v,
                 ).center(WIDTH, '-')
-            ))
-            code.append('//{}'.format(
+            )))
+            code.append(comment_str('{}'.format(
                 ' to a Python dict of {{ {type_K} : {type_V}, ...}}    '.format(
                     type_K=k, type_V=v,
                 ).center(WIDTH, '-')
-            ))
+            )))
             code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_DEFN.format(
                 type_K=k, type_V=v,
                 convert_K_to_py=CPP_TYPE_TO_FUNCS[k].to_py_type,
                 convert_V_to_py=CPP_TYPE_TO_FUNCS[v].to_py_type,
             ))
             count_defn += 1
-            code.append('//{}'.format(
+            code.append(comment_str('{}'.format(
                 ' Converts a Python dict of {{{type_K} : {type_V}, ...}} '.format(
                     type_K=k, type_V=v,
                 ).center(WIDTH, '-')
-            ))
-            code.append('//{}'.format(
+            )))
+            code.append(comment_str('{}'.format(
                 ' to a std::unordered_map<{type_K}, {type_V}> '.format(
                     type_K=k, type_V=v,
                 ).center(WIDTH, '-')
-            ))
+            )))
             code.append(CPP_PY_DICT_TO_STD_UNORDERED_MAP_DEFN.format(
                 type_K=k, type_V=v,
                 py_check_K=CPP_TYPE_TO_FUNCS[k].py_check,
@@ -382,10 +389,11 @@ def declarations() -> typing.List[str]:
         code_count = dict_declarations()
         count_decl += code_count.count
         ret.extend(code_count.code)
-        ret.append('// Declarations written: {}'.format(count_decl))
+        ret.append(comment_str(' Declarations written: {}'.format(count_decl)))
         ret.extend(get_codegen_warning(True))
         ret.append('')
-        ret.append(f'}} // namespace {CPP_NAMESPACE}\n')
+        ret.append('} ' + comment_str(f' namespace {CPP_NAMESPACE}'))
+        ret.append('')
     return ret
 
 
@@ -405,10 +413,11 @@ def definitions() -> typing.List[str]:
         code_count = dict_definitions()
         count_defn += code_count.count
         ret.extend(code_count.code)
-        ret.append('// Definitions written: {}'.format(count_defn))
+        ret.append(comment_str(' Definitions written: {}'.format(count_defn)))
         ret.extend(get_codegen_warning(True))
         ret.append('')
-        ret.append(f'}} // namespace {CPP_NAMESPACE}\n')
+        ret.append('} ' + comment_str(f' namespace {CPP_NAMESPACE}'))
+        ret.append('')
     return ret
 
 
