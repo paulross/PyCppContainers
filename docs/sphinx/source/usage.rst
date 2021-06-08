@@ -8,71 +8,48 @@ Python Tuples
 Converting a Python Tuple to a C++ ``std::vector``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here is some demonstration code that creates a C++ vector of doubles then converts that to a Python tuple with a singe function call:
+Here is some demonstration code that takes a Python tuple of floats then converts that to C++ vector of doubles with a singe function call:
 
 .. code-block:: C++
 
     // Demonstration code.
-    void test_example_vector_to_py_tuple_double() {
-        // By way of example fill a vector with the values 0.0 to 1023.0
+    void test_example_py_tuple_to_vector_double(PyObject *op) {
+        // Create the vector of the appropriate type.
         std::vector<double> cpp_vector;
-        for (size_t i = 0; i < 1024; ++i) {
-            cpp_vector.push_back(static_cast<double>(i));
-        }
-        // Convert to a Python tuple that contains values 0.0 to 1023.0 as floats
-        PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
-        if (! op) {
-            // Handle error condition.
-        } else {
-            // Use Python tuple
-            // ...
-            // Give up the tuple when done.
-            Py_DECREF(op);
-        }
-    }
-
-``Python_Cpp_Containers::cpp_std_vector_to_py_tuple`` has implementations for vectors of ``bool``, ``long``, ``double`` and ``std::string``.
-
-Converting a C++ ``std::vector`` to a Python Tuple
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Here is some demonstration code that creates a Python tuple of floats then converts that to C++ vector of doubles with a singe function call:
-
-.. code-block:: C++
-
-    // Demonstration code.
-    void test_example_py_tuple_to_vector_double() {
-        PyObject *op = Python_Cpp_Containers::py_tuple_new(1024);
-        if (! op) {
+        // Copy the tuple to a vector
+        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+        if (err != 0) {
             // Handle error
+            // ...
         } else {
-            // By way of example fill the tuple with the values 0.0 to 1023.0 as Python floats.
-            for (size_t i = 0; i < 1024; ++i) {
-                int err = Python_Cpp_Containers::py_tuple_set(
-                        op,
-                        i,
-                        Python_Cpp_Containers::py_float_from_double(static_cast<double>(i))
-                        );
-                if (err != 0) {
-                    // Handle insertion error
-                }
-            }
-            // Create the vector of the appropriate type.
-            std::vector<double> cpp_vector;
-            // Convert the tuple to a vector
-            int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
-            if (err != 0) {
-                // Handle error
-            } else {
-                // Use vector.
-                // ...
-            }
-            // Give up the tuple when done.
-            Py_DECREF(op);
+            // Use C++ vector.
+            // ...
         }
     }
 
 ``Python_Cpp_Containers::py_tuple_to_cpp_std_vector`` has implementations for vectors of ``bool``, ``long``, ``double`` and ``std::string``.
+
+
+Converting a C++ ``std::vector`` to a Python Tuple
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Here is some demonstration code that creates a C++ vector of doubles then converts that to a Python tuple with a single function call:
+
+.. code-block:: C++
+
+    PyObject *test_example_vector_to_py_tuple_double() {
+        // An imaginary function that creates a C++ std::vector<double>
+        std::vector<double> cpp_vector = get_cpp_vector_doubles();
+        // Convert to a Python tuple that contains floats
+        PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
+        if (! op) {
+            // Handle error condition.
+            // ...
+        }
+        return op;
+    }
+
+``Python_Cpp_Containers::cpp_std_vector_to_py_tuple`` has implementations for vectors of ``bool``, ``long``, ``double`` and ``std::string``.
 
 Python Lists
 ----------------------
@@ -119,21 +96,16 @@ Here is an example of converting a Python dict of ``[int, bytes]`` to a C++ ``st
 
 .. code-block:: C++
 
-    // Demonstration code
-    void test_example_py_dict_to_cpp_std_unordered_map() {
-        PyObject *op = PyDict_New();
-        // Populate dict with [int, bytes]
-        // ...
+    void test_example_py_dict_to_cpp_std_unordered_map(PyObject *op) {
         std::unordered_map<long, std::string> cpp_map;
         int err = Python_Cpp_Containers::py_dict_to_cpp_std_unordered_map(op, cpp_map);
         if (err != 0) {
             // Handle error.
+            // ...
         } else {
             // Do something with cpp_map
             // ...
         }
-        // Discard op if necessary
-        Py_DECREF(op);
     }
 
 Converting a C++ ``std::unordered_map`` to a Python ``dict``
@@ -146,21 +118,76 @@ Here is an example of converting a C++ ``std::unordered_map<long, std::string>``
 
 .. code-block:: C++
 
-    // Demonstration code
-    void test_example_cpp_std_unordered_map_to_py_dict() {
-        std::unordered_map<long, std::string> cpp_map;
-        // Populate the map with some data.
-        for (long i = 0; i < 128; ++i) {
-            cpp_map[i] = std::string(4, ' ');
-        }
+    PyObject *test_example_cpp_std_unordered_map_to_py_dict() {
+        // An imaginary function that creates a C++ std::unordered_map<long, std::string>
+        std::unordered_map<long, std::string> cpp_map = get_cpp_map();
         // Convert to a Python dict.
         PyObject *op = Python_Cpp_Containers::cpp_std_unordered_map_to_py_dict(cpp_map);
         if (! op) {
             // Handle error.
-        } else {
-            // Do something with op
             // ...
-            // Discard if necessary.
-            Py_DECREF(op);
         }
+        return op;
+    }
+
+
+Matrices
+----------------------
+
+Supposing there is a C++ library that provides matrix support with ``std::vector<std::vector<double>>`` and it is desired to convert these to tuples of tuples of floats.
+
+Converting a Python Tuple[Tuple[float]] to a C++ ``std::vector<std::vector<double>>``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note:: Some error checking omitted.
+
+.. code-block:: C++
+
+    // Demonstration code.
+    void test_example_py_tuple_to_vector_double(PyObject *op) {
+        // Create the matrix of the appropriate type.
+        std::vector<std::vector<double>> cpp_matrix;
+        for (Py_ssize_t i = 0; i < Python_Cpp_Containers::py_tuple_len(op), ++i) {
+            std::vector<double> cpp_vector;
+            int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+            if (err != 0) {
+                // Handle error
+                // ...
+                return;
+            } else {
+                cpp_matrix.push_back(cpp_vector);
+            }
+        }
+        // Use the matrix
+        some_function_that_uses_a_matrix(cpp_matrix);
+    }
+
+Converting a C++ ``std::vector<std::vector<double>>`` to a Python Tuple[Tuple[float]]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Here is some demonstration code that creates a C++ vector of doubles then converts that to a Python tuple with a single function call:
+
+.. note:: Some error checking omitted.
+
+.. code-block:: C++
+
+    PyObject *test_example_vector_to_py_tuple_double() {
+        // An imaginary function that creates a C++ std::vector<double>
+        std::vector<std::vector<double>> cpp_matrix = get_cpp_matrix();
+        PyObject *op = Python_Cpp_Containers::py_tuple_new(cpp_matrix.size());
+        for (size_t i = 0; i < cpp_matrix.size(); ++i) {
+            PyObject *row = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_matrix[i]);
+            if (! row) {
+                // Handle error condition.
+                // ...
+                return NULL;
+            }
+            int err = Python_Cpp_Containers::py_tuple_set(op, i, row)
+            if (err != 0) {
+                // Handle error
+                // ...
+                return;
+            }
+        }
+        return op;
     }

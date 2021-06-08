@@ -27,6 +27,10 @@
 #include <unordered_set>
 
 namespace Python_Cpp_Containers {
+
+    // TODO: Enumerate errors codes.
+    // TODO: vector.reserve() might speed things up?
+
 #pragma mark == Object Conversion Code
 
     // Conversion functions.
@@ -154,7 +158,7 @@ namespace Python_Cpp_Containers {
         return ret;
     }
 
-    // This is a hand written generic function to convert a Python tuple to a C++ vector.
+    // This is a hand written generic function to convert a Python tuple or list to a C++ vector.
     // The template is instantiated with a C++ type a check function and a conversion function to create a Python object
     // to that C++ type.
     //

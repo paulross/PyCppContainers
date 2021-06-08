@@ -7,7 +7,11 @@ This project is about dealing with *homogeneous* data where you need to interact
 For example I might have a Python list of floats and I would like to pass it to a C++ library routine the expects a ``std::vector<double>``.
 Or I have the result of a C++ computation that is a ``std::unordered_map<long, std::string>`` and I need to create a Python ``dict`` where the key is a Python ``int`` and the value a Python ``bytes`` object.
 
-It becomes rather tedious to hand write the code for all possible containers and object types.
+Why This Project
+---------------------
+
+It is tedious and error prone to hand write the code for all possible containers and object types.
+Instead this project makes extensive use of C++ templates and code generation to reduce quite dramatically reduce the amount of hand maintained code.
 
 If we want to support a fairly basic set of types:
 
