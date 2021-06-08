@@ -5,6 +5,17 @@ This facilitates conversion between Python and C++ containers where the Python t
 
 For example a Python set of strings to and from a C++ unordered_set<std::string>
 
+TODO: Add Doxygen style documenation such as:
+
+    /**
+     *
+     * @tparam T
+     * @tparam Convert
+     * @tparam PyUnary_New
+     * @tparam PyUnary_Set
+     * @param vec
+     * @return
+     */
 """
 import collections
 import contextlib
@@ -131,7 +142,8 @@ PyObject *
 """
 
 # From Python, reqires fn_decl=, cpp_type=, cpp_container=, fn_defn=, py_check=, convert_to_py=
-CPP_UNARY_FUNCTION_FROM_PY_DEFN = """template <> int
+CPP_UNARY_FUNCTION_FROM_PY_DEFN = """template <>
+int
 {fn_decl}<{cpp_type}>(PyObject *op, {cpp_container}<{cpp_type}> &container) {{
     return {fn_defn}<{cpp_type}, &{py_check}, &{convert_from_py}>(op, container);
 }}
@@ -166,7 +178,8 @@ cpp_std_unordered_map_to_py_dict<{type_K}, {type_V}>(const std::unordered_map<{t
 }}
 """
 
-CPP_PY_DICT_TO_STD_UNORDERED_MAP_DEFN = """template <> int
+CPP_PY_DICT_TO_STD_UNORDERED_MAP_DEFN = """template <>
+int
 py_dict_to_cpp_std_unordered_map<{type_K}, {type_V}>(PyObject* op, std::unordered_map<{type_K}, {type_V}> &map) {{
     return generic_py_dict_to_cpp_std_unordered_map<
         {type_K}, {type_V},

@@ -86,15 +86,6 @@ namespace Python_Cpp_Homogeneous_Containers {
     int py_list_set(PyObject *list_p, size_t pos, PyObject *op);
     PyObject *py_list_get(PyObject *list_p, size_t pos);
 
-#pragma mark -- Dict Check, Create, Len, Set, Get
-
-//    // Dict wrappers
-//    int py_dict_check(PyObject *op);
-//    PyObject *py_dict_new();
-//    Py_ssize_t py_dict_len(PyObject *op);
-//    int py_dict_set(PyObject *dict_p, PyObject *key, PyObject *value);
-//    PyObject *py_dict_get(PyObject *dict_p, PyObject *key);
-
 #pragma mark == Generic Container Conversion Code
 
 #pragma mark -- Generic Tuple/List Container Conversion Code

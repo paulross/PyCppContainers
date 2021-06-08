@@ -10,6 +10,8 @@ Welcome to Python/C++ Homogeneous Container's documentation!
    :maxdepth: 3
    :caption: Contents:
 
+   introduction
+   usage
    design
    performance
 

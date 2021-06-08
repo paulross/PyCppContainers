@@ -5,10 +5,16 @@ Performance
 Python Tuple to a C++ ``std::vector``
 -----------------------------------------------
 
+Here is an example of converting a Python tuple to a C++ ``std::vector<T>`` for up to 1m ``bool``, ``long`` and ``double`` types.
+Time is per-object in µs.
+So 1m float/long conversion takes about 0.02 seconds.
+
 .. image:: plots/test_py_tuple_to_vector.svg
 
 C++ ``std::vector`` to a Python Tuple
 -----------------------------------------------
+
+This is the reverse of the above, the time to convert a C++ ``std::vector<T>`` to a Python  ``tuple`` for up to 1m ``bool``, ``long`` and ``double`` types.
 
 .. image:: plots/test_vector_to_py_tuple.svg
 

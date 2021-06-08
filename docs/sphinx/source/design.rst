@@ -37,10 +37,12 @@ For example for Python floats to and from a C++ ``double`` there will  be these 
     PyObject *py_float_from_double(const double &d) {
         return PyFloat_FromDouble(d);
     }
+
     double py_float_as_double(PyObject *op) {
         assert(py_float_check(op));
         return PyFloat_AsDouble(op);
     }
+
     int py_float_check(PyObject *op) {
         return PyFloat_Check(op);
     }
@@ -66,16 +68,20 @@ For example for a Python tuple there will be these function implementations:
     int py_tuple_check(PyObject *op) {
         return PyTuple_Check(op);
     }
+
     PyObject *py_tuple_new(size_t len) {
         return PyTuple_New(len);
     }
+
     Py_ssize_t py_tuple_len(PyObject *op) {
         return PyTuple_Size(op);
     }
+
     int py_tuple_set(PyObject *tuple_p, size_t pos, PyObject *op) {
         PyTuple_SET_ITEM(tuple_p, pos, op);
         return 0;
     }
+
     PyObject *py_tuple_get(PyObject *tuple_p, size_t pos) {
         return PyTuple_GET_ITEM(tuple_p, pos);
     }
@@ -96,7 +102,7 @@ Conversion From a ``std::vector<T>`` to a Python List or Tuple
             PyObject *(*PyUnary_New)(size_t),
             int(*PyUnary_Set)(PyObject *, size_t, PyObject *)>
     PyObject *
-    generic_cpp_std_vector_to_py_unary(const std::vector<T> &vec) {
+    generic_cpp_std_vector_to_py_unary(const std::vector<T> &vec);
 
 
 .. list-table:: Convert a ``std::vector`` to a Python Tuple or List.
@@ -136,6 +142,62 @@ This template is then partially specified for both tuples and lists of type ``T`
                                                   &py_list_set>(vec);
     }
 
+
+Then these are specialised by auto-generated in ``auto_py_convert_internal.h`` code for the types ``bool``, ``long``, ``double`` and ``sts::string``.
+Their declarations are:
+
+.. code-block:: C++
+
+    // Base declaration
+    template<typename T>
+    PyObject *
+    cpp_std_vector_to_py_tuple(const std::vector<T> &container);
+
+    // Instantiations
+    template <>
+    PyObject *
+    cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container);
+
+    template <>
+    PyObject *
+    cpp_std_vector_to_py_tuple<long>(const std::vector<long> &container);
+
+    template <>
+    PyObject *
+    cpp_std_vector_to_py_tuple<double>(const std::vector<double> &container);
+
+    template <>
+    PyObject *
+    cpp_std_vector_to_py_tuple<std::string>(const std::vector<std::string> &container);
+
+Their declarations are auto-generated in ``auto_py_convert_internal.cpp``:
+
+.. code-block:: C++
+
+    template <>
+    PyObject *
+    cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container) {
+        return generic_cpp_std_vector_to_py_tuple<bool, &py_bool_from_bool>(container);
+    }
+
+    template <>
+    PyObject *
+    cpp_std_vector_to_py_tuple<long>(const std::vector<long> &container) {
+        return generic_cpp_std_vector_to_py_tuple<long, &py_long_from_long>(container);
+    }
+
+    template <>
+    PyObject *
+    cpp_std_vector_to_py_tuple<double>(const std::vector<double> &container) {
+        return generic_cpp_std_vector_to_py_tuple<double, &py_float_from_double>(container);
+    }
+
+    template <>
+    PyObject *
+    cpp_std_vector_to_py_tuple<std::string>(const std::vector<std::string> &container) {
+        return generic_cpp_std_vector_to_py_tuple<std::string, &py_bytes_from_string>(container);
+    }
+
 Conversion From a Python List or Tuple to a ``std::vector<T>``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -147,7 +209,7 @@ Conversion From a Python List or Tuple to a ``std::vector<T>``
             int(*PyUnary_Check)(PyObject *),
             Py_ssize_t(*PyUnary_Size)(PyObject *),
             PyObject *(*PyUnary_Get)(PyObject *, size_t)>
-    int generic_py_unary_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
+    int generic_py_unary_to_cpp_std_vector(PyObject *op, std::vector<T> &vec);
 
 
 .. list-table:: Convert a ``std::vector`` to a Python Tuple or List.
@@ -191,3 +253,57 @@ This template is then partially specified for both tuples and lists of type ``T`
                                                   &py_list_get>(op, vec);
     }
 
+Then these are specialised by auto-generated in ``auto_py_convert_internal.h`` code for the types ``bool``, ``long``, ``double`` and ``sts::string``.
+Their declarations for tuple are (similarly for lists):
+
+.. code-block:: C++
+
+    // Base declaration
+    template<typename T>
+    int
+    py_tuple_to_cpp_std_vector(PyObject *tuple, std::vector<T> &container);
+
+    // Instantiations
+    template <>
+    int
+    py_tuple_to_cpp_std_vector<bool>(PyObject *tuple, std::vector<bool> &container);
+
+    template <>
+    int
+    py_tuple_to_cpp_std_vector<long>(PyObject *tuple, std::vector<long> &container);
+
+    template <>
+    int
+    py_tuple_to_cpp_std_vector<double>(PyObject *tuple, std::vector<double> &container);
+
+    template <>
+    int
+    py_tuple_to_cpp_std_vector<std::string>(PyObject *tuple, std::vector<std::string> &container);
+
+Their definitions for tuple are are auto-generated in ``auto_py_convert_internal.cpp`` (similarly for lists):
+
+.. code-block:: C++
+
+    template <>
+    int
+    py_tuple_to_cpp_std_vector<bool>(PyObject *op, std::vector<bool> &container) {
+        return generic_py_tuple_to_cpp_std_vector<bool, &py_bool_check, &py_bool_as_bool>(op, container);
+    }
+
+    template <>
+    int
+    py_tuple_to_cpp_std_vector<long>(PyObject *op, std::vector<long> &container) {
+        return generic_py_tuple_to_cpp_std_vector<long, &py_long_check, &py_long_as_long>(op, container);
+    }
+
+    template <>
+    int
+    py_tuple_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container) {
+        return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &py_float_as_double>(op, container);
+    }
+
+    template <>
+    int
+    py_tuple_to_cpp_std_vector<std::string>(PyObject *op, std::vector<std::string> &container) {
+        return generic_py_tuple_to_cpp_std_vector<std::string, &py_bytes_check, &py_bytes_as_string>(op, container);
+    }
