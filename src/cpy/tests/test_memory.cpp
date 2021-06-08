@@ -20,11 +20,11 @@ int test_memory_py_tuple(TestResultS &test_results, const std::string &type, siz
     int result = 0;
     double exec_time = -1.0;
     ExecClock exec_clock;
-    PyObject *p_tuple = Python_Cpp_Homogeneous_Containers::py_tuple_new(size);
+    PyObject *p_tuple = Python_Cpp_Containers::py_tuple_new(size);
     PyObject *op = NULL;
     if (p_tuple) {
         for (size_t i = 0; i < size; ++i) {
-            op = Python_Cpp_Homogeneous_Containers::py_float_from_double(static_cast<double>(i));
+            op = Python_Cpp_Containers::py_float_from_double(static_cast<double>(i));
             if (!op) {
                 // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                 // e.g. tupledealloc(): https://github.com/python/cpython/blob/main/Objects/tupleobject.c#L268
@@ -33,7 +33,7 @@ int test_memory_py_tuple(TestResultS &test_results, const std::string &type, siz
                 goto except;
             }
             // This usually wraps a void function, always succeeds.
-            if (Python_Cpp_Homogeneous_Containers::py_tuple_set(p_tuple, i, op)) { // Stolen reference.
+            if (Python_Cpp_Containers::py_tuple_set(p_tuple, i, op)) { // Stolen reference.
                 PyErr_Format(PyExc_RuntimeError, "Can not set unary value.");
                 result |= 1 << 1;
                 goto except;
@@ -66,13 +66,13 @@ int test_memory_py_dict(TestResultS &test_results, const std::string &type, size
     PyObject *py_v = NULL;
     if (p_container) {
         for (size_t i = 0; i < size; ++i) {
-            py_k = Python_Cpp_Homogeneous_Containers::py_float_from_double(static_cast<double>(i));
+            py_k = Python_Cpp_Containers::py_float_from_double(static_cast<double>(i));
             if (! py_k) {
                 // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                 PyErr_Format(PyExc_ValueError, "C++ key of can not be converted.");
                 goto except;
             }
-            py_v = Python_Cpp_Homogeneous_Containers::py_float_from_double(static_cast<double>(i));
+            py_v = Python_Cpp_Containers::py_float_from_double(static_cast<double>(i));
             if (! py_v) {
                 // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                 PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");

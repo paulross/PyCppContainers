@@ -15,8 +15,8 @@
 //  Copyright © 2018 Paul Ross. All rights reserved.
 //
 
-#ifndef PYTHONCPPHOMOGENEOUSCONTAINERS_PYTHON_CONVERT_H
-#define PYTHONCPPHOMOGENEOUSCONTAINERS_PYTHON_CONVERT_H
+#ifndef PYTHON_CPP_CONTAINERS_PYTHON_CONVERT_H
+#define PYTHON_CPP_CONTAINERS_PYTHON_CONVERT_H
 
 #include <Python.h>
 
@@ -26,7 +26,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-namespace Python_Cpp_Homogeneous_Containers {
+namespace Python_Cpp_Containers {
 #pragma mark == Object Conversion Code
 
     // Conversion functions.
@@ -450,11 +450,10 @@ namespace Python_Cpp_Homogeneous_Containers {
         return ret;
     }
 
-} // namespace Python_Cpp_Homogeneous_Containers
+} // namespace Python_Cpp_Containers
 
 // Now include the auto generated instantiations.
 
 #include "auto_py_convert_internal.h"
 
-
-#endif //PYTHONCPPHOMOGENEOUSCONTAINERS_PYTHON_CONVERT_H
+#endif // PYTHON_CPP_CONTAINERS_PYTHON_CONVERT_H

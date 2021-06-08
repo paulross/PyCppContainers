@@ -11,7 +11,7 @@
 
 #include "python_convert.h"
 
-namespace Python_Cpp_Homogeneous_Containers {
+namespace Python_Cpp_Containers {
     // Conversion functions - objects.
     // Bool/bool
     PyObject *py_bool_from_bool(bool const &b) {
@@ -130,4 +130,4 @@ namespace Python_Cpp_Homogeneous_Containers {
 //    PyObject *py_dict_get(PyObject *dict_p, PyObject *key) {
 //        return PyDict_GetItem(dict_p, key);
 //    }
-} // namespace Python_Cpp_Homogeneous_Containers
+} // namespace Python_Cpp_Containers

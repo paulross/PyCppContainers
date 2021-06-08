@@ -27,7 +27,7 @@ import typing
 
 logger = logging.getLogger(__file__)
 
-CPP_NAMESPACE = 'Python_Cpp_Homogeneous_Containers'
+CPP_NAMESPACE = 'Python_Cpp_Containers'
 
 
 def comment_str(s: str) -> str:

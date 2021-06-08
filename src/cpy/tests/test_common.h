@@ -61,20 +61,20 @@ int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, 
         cpp_vector.push_back(static_cast<T>(i));
     }
     ExecClock exec_clock;
-    PyObject *op = Python_Cpp_Homogeneous_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
+    PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
     double exec_time = exec_clock.seconds();
     int result = 0;
     if (! op) {
         result |= 1;
     } else {
-        if (! Python_Cpp_Homogeneous_Containers::py_tuple_check(op)) {
+        if (! Python_Cpp_Containers::py_tuple_check(op)) {
             result |= 1 << 1;
         } else {
-            if ((unsigned long) Python_Cpp_Homogeneous_Containers::py_tuple_len(op) != cpp_vector.size()) {
+            if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
                 result |= 1 << 2;
             } else {
                 for (size_t i = 0; i < size; ++i) {
-                    T value = ConvertPyToCpp(Python_Cpp_Homogeneous_Containers::py_tuple_get(op, i));
+                    T value = ConvertPyToCpp(Python_Cpp_Containers::py_tuple_get(op, i));
                     if (value != cpp_vector[i]) {
                         result |= 1 << 2;
                     }
@@ -89,14 +89,14 @@ int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, 
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &), T (*ConvertPyToCpp)(PyObject *)>
 int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, size_t size) {
-    PyObject *op = Python_Cpp_Homogeneous_Containers::py_tuple_new(size);
+    PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
     int result = 0;
     double exec_time = -1.0;
     if (! op) {
         result |= 1;
     } else {
         for (size_t i = 0; i < size; ++i) {
-            int err = Python_Cpp_Homogeneous_Containers::py_tuple_set(op, i, ConvertCppToPy(static_cast<T>(i)));
+            int err = Python_Cpp_Containers::py_tuple_set(op, i, ConvertCppToPy(static_cast<T>(i)));
             if (err != 0) {
                 result |= 1 << 1;
             }
@@ -104,16 +104,16 @@ int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, 
         if (result == 0) {
             std::vector<T> cpp_vector;
             ExecClock exec_clock;
-            int err = Python_Cpp_Homogeneous_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+            int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
             exec_time = exec_clock.seconds();
             if (err != 0) {
                 result |= 1 << 2;
             } else {
-                if ((unsigned long) Python_Cpp_Homogeneous_Containers::py_tuple_len(op) != cpp_vector.size()) {
+                if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
                     result |= 1 << 3;
                 } else {
                     for (size_t i = 0; i < size; ++i) {
-                        T value = ConvertPyToCpp(Python_Cpp_Homogeneous_Containers::py_tuple_get(op, i));
+                        T value = ConvertPyToCpp(Python_Cpp_Containers::py_tuple_get(op, i));
                         if (value != cpp_vector[i]) {
                             result |= 1 << 4;
                         }
@@ -137,9 +137,9 @@ int test_vector_to_py_tuple_round_trip(TestResultS &test_results, const std::str
     int result = 0;
     double exec_time = -1.0;
     ExecClock exec_clock;
-    PyObject *op = Python_Cpp_Homogeneous_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
+    PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
     if (op) {
-        int err = Python_Cpp_Homogeneous_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector_result);
+        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector_result);
         exec_time = exec_clock.seconds();
         if (err) {
             result |= 1;
@@ -158,7 +158,7 @@ int test_vector_to_py_tuple_round_trip(TestResultS &test_results, const std::str
 
 template<typename T, PyObject *(*Convert)(const T &)>
 int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::string &type, size_t size) {
-    PyObject *op = Python_Cpp_Homogeneous_Containers::py_tuple_new(size);
+    PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
     int result = 0;
     double exec_time = -1.0;
     int err = 0;
@@ -166,7 +166,7 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
         result |= 1;
     } else {
         for (size_t i = 0; i < size; ++i) {
-            err = Python_Cpp_Homogeneous_Containers::py_tuple_set(op, i, Convert(static_cast<T>(i)));
+            err = Python_Cpp_Containers::py_tuple_set(op, i, Convert(static_cast<T>(i)));
             if (err != 0) {
                 result |= 1 << 1;
             }
@@ -174,12 +174,12 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
         if (result == 0) {
             std::vector<T> cpp_vector;
             ExecClock exec_clock;
-            err = Python_Cpp_Homogeneous_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+            err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
             if (err != 0) {
                 result |= 1 << 2;
             } else {
                 //  int PyObject_RichCompareBool(PyObject *o1, PyObject *o2, int opid) Py_EQ -1 error 0 false 1 true
-                PyObject *op_new = Python_Cpp_Homogeneous_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
+                PyObject *op_new = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
                 if (op_new) {
                     exec_time = exec_clock.seconds();
                     if (PyObject_RichCompareBool(op, op_new, Py_EQ) != 1) {
@@ -241,7 +241,7 @@ int test_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::
         cpp_map[static_cast<K>(i)] = static_cast<V>(i);
     }
     ExecClock exec_clock;
-    PyObject *op = Python_Cpp_Homogeneous_Containers::cpp_std_unordered_map_to_py_dict(cpp_map);
+    PyObject *op = Python_Cpp_Containers::cpp_std_unordered_map_to_py_dict(cpp_map);
     double exec_time = exec_clock.seconds();
     int result = 0;
     if (! op) {
@@ -322,7 +322,7 @@ int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::
         if (result == 0) {
             std::unordered_map<K, V> cpp_map;
             ExecClock exec_clock;
-            int err = Python_Cpp_Homogeneous_Containers::py_dict_to_cpp_std_unordered_map(op, cpp_map);
+            int err = Python_Cpp_Containers::py_dict_to_cpp_std_unordered_map(op, cpp_map);
             exec_time = exec_clock.seconds();
             if (err != 0) {
                 result |= 1 << 2;

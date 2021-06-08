@@ -45,7 +45,7 @@
 #include <Python.h>
 
 
-namespace Python_Cpp_Homogeneous_Containers {
+namespace Python_Cpp_Containers {
 
 
 //**************** Unary collections <-> Python collections ***************
@@ -291,7 +291,7 @@ py_dict_to_cpp_std_unordered_map<std::string, std::string>(PyObject* op, std::un
 //#### END: Auto-generated code - do not edit. Seriously, do NOT edit. ####
 //#########################################################################
 
-} // namespace Python_Cpp_Homogeneous_Containers
+} // namespace Python_Cpp_Containers
 
 //========================= END: Declaration file =========================
 
