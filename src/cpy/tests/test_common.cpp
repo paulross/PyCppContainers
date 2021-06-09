@@ -40,6 +40,25 @@ int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_
     return result;
 }
 
+int test_vector_string_to_py_tuple_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    std::vector<std::string> cpp_vector;
+    for (size_t i = 0; i < size; ++i) {
+        cpp_vector.push_back(std::string(str_len, ' '));
+    }
+    std::ostringstream title;
+    title << __FUNCTION__  << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
+    TestResult test_result(title.str());
+    for (size_t i = 0; i < repeat; ++i) {
+        ExecClock exec_clock;
+        PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
+        double exec_time = exec_clock.seconds();
+        Py_DECREF(op);
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    test_results.push_back(test_result);
+    return 0;
+}
+
 int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
     PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
     int result = 0;

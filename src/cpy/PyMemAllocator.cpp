@@ -4,17 +4,17 @@
 #include "PyMemAllocator.h"
 
 void *malloc_vanilla(void *ctx, size_t size) {
-    void * ret = malloc(size);
+    void *ret = malloc(size);
     return ret;
 }
 
 void *calloc_vanilla(void *ctx, size_t nelem, size_t size) {
-    void * ret = calloc(nelem, size);
+    void *ret = calloc(nelem, size);
     return ret;
 }
 
 void* realloc_vanilla(void *ctx, void *ptr, size_t new_size) {
-    void * ret = realloc(ptr, new_size);
+    void *ret = realloc(ptr, new_size);
     return ret;
 }
 
