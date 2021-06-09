@@ -149,7 +149,8 @@ Converting a Python Tuple[Tuple[float]] to a C++ ``std::vector<std::vector<doubl
         std::vector<std::vector<double>> cpp_matrix;
         for (Py_ssize_t i = 0; i < Python_Cpp_Containers::py_tuple_len(op), ++i) {
             std::vector<double> cpp_vector;
-            int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+            PyObject *row = Python_Cpp_Containers::py_tuple_get(op, i);
+            int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(row, cpp_vector);
             if (err != 0) {
                 // Handle error
                 // ...

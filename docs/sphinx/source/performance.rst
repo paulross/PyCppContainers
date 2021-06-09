@@ -18,10 +18,15 @@ This is the reverse of the above, the time to convert a C++ ``std::vector<T>`` t
 
 .. image:: plots/test_vector_to_py_tuple.svg
 
-Python Tuple of ``bytes`` to a C++ ``std::vector``
-------------------------------------------------------------
+Python Tuple of ``bytes`` to a C++ ``std::vector<std::string>>``
+-----------------------------------------------------------------
 
 .. image:: plots/test_vector_string_to_py_tuple.svg
+
+C++ ``std::vector<std::string>>`` to a Python Tuple of ``bytes``
+-----------------------------------------------------------------
+
+.. image:: plots/test_py_tuple_string_to_vector.svg
 
 Python Dict of ``[float, float]`` to a C++ ``std::unordered_map<double, double>``
 ----------------------------------------------------------------------------------------------
