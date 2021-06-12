@@ -172,6 +172,13 @@ void test_functional_all(TestResultS &test_results) {
         test_py_tuple_string_to_vector(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
+    // sets
+    {
+        RSSSnapshot rss("test_unordered_set_to_py_set<bool>");
+        test_unordered_set_to_py_set<long, &Python_Cpp_Containers::py_long_as_long, &Python_Cpp_Containers::py_long_from_long>(
+                test_results, "<long>", 1024);
+        std::cout << rss << std::endl;
+    }
     // Dicts
     {
         RSSSnapshot rss("test_cpp_std_unordered_map_to_py_dict<double, double>");

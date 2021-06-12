@@ -200,6 +200,106 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
 int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len);
 
+// Compare a Python set or frozenset with a std::unordered_set
+// Return 0 if same, non-zero if different.
+template<
+        typename T,
+        PyObject *(*Convert_T)(const T &),
+        T (*Convert_Py)(PyObject *)
+>
+int compare_set(const std::unordered_set<T> &cpp_set, PyObject *op) {
+    assert(PySet_Check(op) || PyFrozenSet_Check(op));
+    int result = 0;
+    for (auto iter = cpp_set.begin(); iter != cpp_set.end(); ++iter) {
+        T val = *iter;
+        // New reference
+        PyObject *py_val = Convert_T(val);
+        if (PySet_Contains(op, py_val) == 0) {
+            result |= 1 << 2;
+        }
+        Py_DECREF(py_val);
+    }
+    // Now iterate across op and check against cpp_set.
+    PyObject *py_iter = PyObject_GetIter(op);
+    if (! py_iter) {
+        result |= 1 << 3;
+    }
+    PyObject *py_item;
+    while ((py_item = PyIter_Next(py_iter))) {
+        T val = (*Convert_Py)(py_item);
+        if (cpp_set.count(val) == 0) {
+            result |= 1 << 4;
+        }
+    }
+    return result;
+}
+
+template<typename T, T (*ConvertPyToCpp)(PyObject *), PyObject *(*Convert_Py)(const T &)>
+int test_unordered_set_to_py_set(TestResultS &test_results, const std::string &type, size_t size) {
+    std::unordered_set<T> cpp_container;
+    for (size_t i = 0; i < size; ++i) {
+        cpp_container.insert(static_cast<T>(i));
+    }
+    ExecClock exec_clock;
+    PyObject *op = Python_Cpp_Containers::cpp_std_unordered_set_to_py_set(cpp_container);
+    double exec_time = exec_clock.seconds();
+    int result = 0;
+    if (! op) {
+        result |= 1;
+    } else {
+        if (! Python_Cpp_Containers::py_set_check(op)) {
+            result |= 1 << 1;
+        } else {
+            if (compare_set<T, Convert_Py, ConvertPyToCpp>(cpp_container, op)) {
+                result |= 1 << 2;
+            }
+        }
+        Py_DECREF(op);
+    }
+    REPORT_TEST_OUTPUT;
+    return result;
+}
+
+template<typename T, PyObject *(*ConvertCppToPy)(const T &), T (*ConvertPyToCpp)(PyObject *)>
+int test_py_set_to_unordered_set(TestResultS &test_results, const std::string &type, size_t size) {
+    PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
+    int result = 0;
+    double exec_time = -1.0;
+    if (! op) {
+        result |= 1;
+    } else {
+        for (size_t i = 0; i < size; ++i) {
+            int err = Python_Cpp_Containers::py_tuple_set(op, i, ConvertCppToPy(static_cast<T>(i)));
+            if (err != 0) {
+                result |= 1 << 1;
+            }
+        }
+        if (result == 0) {
+            std::vector<T> cpp_vector;
+            ExecClock exec_clock;
+            int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+            exec_time = exec_clock.seconds();
+            if (err != 0) {
+                result |= 1 << 2;
+            } else {
+                if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
+                    result |= 1 << 3;
+                } else {
+                    for (size_t i = 0; i < size; ++i) {
+                        T value = ConvertPyToCpp(Python_Cpp_Containers::py_tuple_get(op, i));
+                        if (value != cpp_vector[i]) {
+                            result |= 1 << 4;
+                        }
+                    }
+                }
+            }
+        }
+        Py_DECREF(op);
+    }
+    REPORT_TEST_OUTPUT;
+    return result;
+}
+
 template<
         typename K,
         typename V,
@@ -207,6 +307,7 @@ template<
         PyObject *(*Convert_V)(const V &)
 >
 int compare_dict(std::unordered_map<K, V> &cpp_map, PyObject *op) {
+    assert(PyDict_Check(op));
     int result = 0;
     for (auto iter = cpp_map.begin(); iter != cpp_map.end(); ++iter) {
         K key = iter->first;
@@ -226,6 +327,7 @@ int compare_dict(std::unordered_map<K, V> &cpp_map, PyObject *op) {
         Py_DECREF(py_key);
         Py_DECREF(py_val);
     }
+    // TODO: Now iterate across op and check against cpp_map.
     return result;
 }
 

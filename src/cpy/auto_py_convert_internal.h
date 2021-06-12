@@ -23,6 +23,12 @@
 // set <-> std::unordered_set<double>
 // set <-> std::unordered_set<std::string>
 // 
+// frozenset:
+// frozenset <-> std::unordered_set<bool>
+// frozenset <-> std::unordered_set<long>
+// frozenset <-> std::unordered_set<double>
+// frozenset <-> std::unordered_set<std::string>
+// 
 // 
 // Mapping conversions
 // dict <-> std::unordered_map<bool, bool>
@@ -169,6 +175,46 @@ int
 py_set_to_cpp_std_unordered_set<std::string>(PyObject *tuple, std::unordered_set<std::string> &container);
 //----------------- END: Python set -> std::unordered_set -----------------
 
+//----------------- std::unordered_set -> Python frozenset ----------------
+// Base declaration
+template<typename T>
+PyObject *
+cpp_std_unordered_set_to_py_frozenset(const std::unordered_set<T> &container);
+// Instantiations
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_frozenset<bool>(const std::unordered_set<bool> &container);
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_frozenset<long>(const std::unordered_set<long> &container);
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_frozenset<double>(const std::unordered_set<double> &container);
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_frozenset<std::string>(const std::unordered_set<std::string> &container);
+//-------------- END: std::unordered_set -> Python frozenset --------------
+
+//----------------- Python frozenset -> std::unordered_set ----------------
+// Base declaration
+template<typename T>
+int
+py_frozenset_to_cpp_std_unordered_set(PyObject *tuple, std::unordered_set<T> &container);
+// Instantiations
+template <>
+int
+py_frozenset_to_cpp_std_unordered_set<bool>(PyObject *tuple, std::unordered_set<bool> &container);
+template <>
+int
+py_frozenset_to_cpp_std_unordered_set<long>(PyObject *tuple, std::unordered_set<long> &container);
+template <>
+int
+py_frozenset_to_cpp_std_unordered_set<double>(PyObject *tuple, std::unordered_set<double> &container);
+template <>
+int
+py_frozenset_to_cpp_std_unordered_set<std::string>(PyObject *tuple, std::unordered_set<std::string> &container);
+//-------------- END: Python frozenset -> std::unordered_set --------------
+
 //************* END: Unary collections <-> Python collections *************
 
 //******************* std::unordered_map <-> Python dict ******************
@@ -286,7 +332,7 @@ py_dict_to_cpp_std_unordered_map<std::string, std::string>(PyObject* op, std::un
 
 //**************** END: std::unordered_map <-> Python dict ****************
 
-// Declarations written: 58
+// Declarations written: 66
 //#########################################################################
 //#### END: Auto-generated code - do not edit. Seriously, do NOT edit. ####
 //#########################################################################

@@ -23,6 +23,12 @@
 // set <-> std::unordered_set<double>
 // set <-> std::unordered_set<std::string>
 // 
+// frozenset:
+// frozenset <-> std::unordered_set<bool>
+// frozenset <-> std::unordered_set<long>
+// frozenset <-> std::unordered_set<double>
+// frozenset <-> std::unordered_set<std::string>
+// 
 // 
 // Mapping conversions
 // dict <-> std::unordered_map<bool, bool>
@@ -208,6 +214,60 @@ py_set_to_cpp_std_unordered_set<std::string>(PyObject *op, std::unordered_set<st
 }
 
 //----------------- END: Python set -> std::unordered_set -----------------
+
+//----------------- std::unordered_set -> Python frozenset ----------------
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_frozenset<bool>(const std::unordered_set<bool> &container) {
+    return generic_cpp_std_unordered_set_to_py_frozenset<bool, &py_bool_from_bool>(container);
+}
+
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_frozenset<long>(const std::unordered_set<long> &container) {
+    return generic_cpp_std_unordered_set_to_py_frozenset<long, &py_long_from_long>(container);
+}
+
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_frozenset<double>(const std::unordered_set<double> &container) {
+    return generic_cpp_std_unordered_set_to_py_frozenset<double, &py_float_from_double>(container);
+}
+
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_frozenset<std::string>(const std::unordered_set<std::string> &container) {
+    return generic_cpp_std_unordered_set_to_py_frozenset<std::string, &py_bytes_from_string>(container);
+}
+
+//-------------- END: std::unordered_set -> Python frozenset --------------
+
+//----------------- Python frozenset -> std::unordered_set ----------------
+template <>
+int
+py_frozenset_to_cpp_std_unordered_set<bool>(PyObject *op, std::unordered_set<bool> &container) {
+    return generic_py_frozenset_to_cpp_std_unordered_set<bool, &py_bool_check, &py_bool_as_bool>(op, container);
+}
+
+template <>
+int
+py_frozenset_to_cpp_std_unordered_set<long>(PyObject *op, std::unordered_set<long> &container) {
+    return generic_py_frozenset_to_cpp_std_unordered_set<long, &py_long_check, &py_long_as_long>(op, container);
+}
+
+template <>
+int
+py_frozenset_to_cpp_std_unordered_set<double>(PyObject *op, std::unordered_set<double> &container) {
+    return generic_py_frozenset_to_cpp_std_unordered_set<double, &py_float_check, &py_float_as_double>(op, container);
+}
+
+template <>
+int
+py_frozenset_to_cpp_std_unordered_set<std::string>(PyObject *op, std::unordered_set<std::string> &container) {
+    return generic_py_frozenset_to_cpp_std_unordered_set<std::string, &py_bytes_check, &py_bytes_as_string>(op, container);
+}
+
+//-------------- END: Python frozenset -> std::unordered_set --------------
 
 //************* END: Unary collections <-> Python collections *************
 
@@ -582,7 +642,7 @@ py_dict_to_cpp_std_unordered_map<std::string, std::string>(PyObject* op, std::un
 
 //**************** END: std::unordered_map <-> Python dict ****************
 
-// Definitions written: 56
+// Definitions written: 64
 //#########################################################################
 //#### END: Auto-generated code - do not edit. Seriously, do NOT edit. ####
 //#########################################################################

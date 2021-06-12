@@ -46,7 +46,6 @@ def comment_list_str(inputs: typing.List[str]) -> typing.List[str]:
     return ret
 
 
-
 class CppTypeFunctions(typing.NamedTuple):
     to_py_type: str
     py_check: str
@@ -74,6 +73,7 @@ UNARY_COLLECTIONS = {
     'tuple': UnaryFunctions('std::vector', 'cpp_std_vector_to_py_tuple', 'py_tuple_to_cpp_std_vector'),
     'list': UnaryFunctions('std::vector', 'cpp_std_vector_to_py_list', 'py_list_to_cpp_std_vector'),
     'set': UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_set', 'py_set_to_cpp_std_unordered_set'),
+    'frozenset': UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_frozenset', 'py_frozenset_to_cpp_std_unordered_set'),
 }
 
 REQUIRED_INCLUDES = [

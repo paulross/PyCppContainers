@@ -112,4 +112,28 @@ namespace Python_Cpp_Containers {
     PyObject *py_list_get(PyObject *list_p, size_t pos) {
         return PyList_GET_ITEM(list_p, pos);
     }
+
+#pragma mark -- Set and Frozen set Check
+
+    // Wrappers around macos
+    int py_set_check(PyObject *op) {
+        return PySet_Check(op);
+    }
+    PyObject *py_set_new() {
+        return PySet_New(NULL);
+    }
+    Py_ssize_t py_set_len(PyObject *op) {
+        return PySet_Size(op);
+    }
+
+    int py_frozenset_check(PyObject *op) {
+        return PyFrozenSet_Check(op);
+    }
+    PyObject *py_frozenset_new() {
+        return PyFrozenSet_New(NULL);
+    }
+    Py_ssize_t py_frozenset_len(PyObject *op) {
+        return PySet_Size(op);
+    }
+
 } // namespace Python_Cpp_Containers

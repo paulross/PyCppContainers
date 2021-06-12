@@ -90,6 +90,17 @@ namespace Python_Cpp_Containers {
     int py_list_set(PyObject *list_p, size_t pos, PyObject *op);
     PyObject *py_list_get(PyObject *list_p, size_t pos);
 
+#pragma mark -- Set and Frozen set Check, Create, Length.
+
+    // Wrappers around macros
+    int py_set_check(PyObject *op);
+    PyObject *py_set_new();
+    Py_ssize_t py_set_len(PyObject *op);
+
+    int py_frozenset_check(PyObject *op);
+    PyObject *py_frozenset_new();
+    Py_ssize_t py_frozenset_len(PyObject *op);
+
 #pragma mark == Generic Container Conversion Code
 
 #pragma mark -- Generic Tuple/List Container Conversion Code
@@ -236,14 +247,16 @@ namespace Python_Cpp_Containers {
                                                                                                                  vec);
     }
 
+#pragma mark -- Generic Set/Frozen set Container Conversion Code
+
 #pragma mark -- Specific Set Container Conversion Code
 
-    // This is a hand written generic function to convert a C++ unordered_set to a Python set.
-    template<typename T, PyObject *(*Convert)(const T &)>
+    // This is a hand written generic function to convert a C++ unordered_set to a Python set or frozen set.
+    template<typename T, PyObject *(*Convert)(const T &), PyObject *(*NewSet)(PyObject *)>
     PyObject *
-    generic_cpp_std_unordered_set_to_py_set(const std::unordered_set<T> &set) {
+    generic_cpp_std_unordered_set_to_py_set_or_frozenset(const std::unordered_set<T> &set) {
         assert(!PyErr_Occurred());
-        PyObject *ret = PySet_New(NULL);
+        PyObject *ret = (*NewSet)(NULL);
         if (ret) {
             for (auto const &iter: set) {
                 PyObject *op = (*Convert)(iter);
@@ -259,6 +272,8 @@ namespace Python_Cpp_Containers {
                     PyErr_Format(PyExc_RuntimeError, "Can not set value into the set.");
                     goto except;
                 }
+                assert(op->ob_refcnt == op_ob_refcnt + 1 && "PySet_SetItem failed to increment value refcount.");
+                Py_DECREF(op);
                 assert(op->ob_refcnt == op_ob_refcnt && "Reference count incremented instead of stolen.");
             }
         } else {
@@ -276,8 +291,20 @@ namespace Python_Cpp_Containers {
         return ret;
     }
 
-    template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
-    int generic_py_set_to_cpp_std_unordered_set(PyObject *op, std::unordered_set<T> &set) {
+    template<typename T, PyObject *(*Convert)(const T &)>
+    PyObject *
+    generic_cpp_std_unordered_set_to_py_set(const std::unordered_set<T> &set) {
+        return generic_cpp_std_unordered_set_to_py_set_or_frozenset<T, Convert, &PySet_New>(set);
+    }
+
+    template<typename T, PyObject *(*Convert)(const T &)>
+    PyObject *
+    generic_cpp_std_unordered_set_to_py_frozenset(const std::unordered_set<T> &set) {
+        return generic_cpp_std_unordered_set_to_py_set_or_frozenset<T, Convert, &PyFrozenSet_New>(set);
+    }
+
+    template<typename T, int (*CheckContainer)(PyObject *), int (*Check)(PyObject *), T (*Convert)(PyObject *)>
+    int generic_py_set_or_frozenset_to_cpp_std_unordered_set(PyObject *op, std::unordered_set<T> &set) {
         assert(!PyErr_Occurred());
         int ret = 0;
         PyObject *py_iter = NULL;
@@ -285,7 +312,7 @@ namespace Python_Cpp_Containers {
 
         set.clear();
         Py_INCREF(op); // Borrowed reference
-        if (!PySet_Check(op)) {
+        if (! (*CheckContainer)(op)) {
             PyErr_Format(PyExc_ValueError, "Python object must be a set not a %s", op->ob_type->tp_name);
             ret = -1;
             goto except;
@@ -330,6 +357,16 @@ namespace Python_Cpp_Containers {
         Py_XDECREF(py_item);
         Py_XDECREF(py_iter);
         return ret;
+    }
+
+    template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
+    int generic_py_set_to_cpp_std_unordered_set(PyObject *op, std::unordered_set<T> &set) {
+        return generic_py_set_or_frozenset_to_cpp_std_unordered_set<T, &py_set_check, Check, Convert>(op, set);
+    }
+
+    template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
+    int generic_py_frozenset_to_cpp_std_unordered_set(PyObject *op, std::unordered_set<T> &set) {
+        return generic_py_set_or_frozenset_to_cpp_std_unordered_set<T, &py_frozenset_check, Check, Convert>(op, set);
     }
 
 #pragma mark -- Specific Dict Container Conversion Code
