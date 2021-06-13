@@ -119,8 +119,11 @@ namespace Python_Cpp_Containers {
     int py_set_check(PyObject *op) {
         return PySet_Check(op);
     }
-    PyObject *py_set_new() {
-        return PySet_New(NULL);
+    PyObject *py_set_new(PyObject *iterable) {
+        return PySet_New(iterable);
+    }
+    int py_set_add(PyObject *set, PyObject*key) {
+        return PySet_Add(set, key);
     }
     Py_ssize_t py_set_len(PyObject *op) {
         return PySet_Size(op);

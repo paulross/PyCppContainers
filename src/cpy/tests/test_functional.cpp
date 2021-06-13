@@ -174,8 +174,14 @@ void test_functional_all(TestResultS &test_results) {
     }
     // sets
     {
-        RSSSnapshot rss("test_unordered_set_to_py_set<bool>");
+        RSSSnapshot rss("test_unordered_set_to_py_set<long>");
         test_unordered_set_to_py_set<long, &Python_Cpp_Containers::py_long_as_long, &Python_Cpp_Containers::py_long_from_long>(
+                test_results, "<long>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_set_to_unordered_set<long>");
+        test_py_set_to_unordered_set<long, &Python_Cpp_Containers::py_long_as_long, &Python_Cpp_Containers::py_long_from_long>(
                 test_results, "<long>", 1024);
         std::cout << rss << std::endl;
     }

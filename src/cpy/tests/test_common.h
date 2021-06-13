@@ -260,37 +260,30 @@ int test_unordered_set_to_py_set(TestResultS &test_results, const std::string &t
     return result;
 }
 
-template<typename T, PyObject *(*ConvertCppToPy)(const T &), T (*ConvertPyToCpp)(PyObject *)>
+template<typename T, T (*ConvertPyToCpp)(PyObject *), PyObject *(*ConvertCppToPy)(const T &)>
 int test_py_set_to_unordered_set(TestResultS &test_results, const std::string &type, size_t size) {
-    PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
+    PyObject *op = Python_Cpp_Containers::py_set_new();
     int result = 0;
     double exec_time = -1.0;
     if (! op) {
         result |= 1;
     } else {
         for (size_t i = 0; i < size; ++i) {
-            int err = Python_Cpp_Containers::py_tuple_set(op, i, ConvertCppToPy(static_cast<T>(i)));
+            int err = Python_Cpp_Containers::py_set_add(op, ConvertCppToPy(static_cast<T>(i)));
             if (err != 0) {
                 result |= 1 << 1;
             }
         }
         if (result == 0) {
-            std::vector<T> cpp_vector;
+            std::unordered_set<T> cpp_container;
             ExecClock exec_clock;
-            int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+            int err = Python_Cpp_Containers::py_set_to_cpp_std_unordered_set(op, cpp_container);
             exec_time = exec_clock.seconds();
             if (err != 0) {
                 result |= 1 << 2;
             } else {
-                if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
+                if (compare_set<T, ConvertCppToPy, ConvertPyToCpp>(cpp_container, op)) {
                     result |= 1 << 3;
-                } else {
-                    for (size_t i = 0; i < size; ++i) {
-                        T value = ConvertPyToCpp(Python_Cpp_Containers::py_tuple_get(op, i));
-                        if (value != cpp_vector[i]) {
-                            result |= 1 << 4;
-                        }
-                    }
                 }
             }
         }
