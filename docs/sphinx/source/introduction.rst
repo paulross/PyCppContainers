@@ -44,13 +44,16 @@ And a basic set of containers:
      - ``std::vector``
    * - ``set``
      - ``std::unordered_set``
+   * - ``frozenset``
+     - ``std::unordered_set``
    * - ``dict``
      - ``std::unordered_map``
 
 The number of conversion functions is worse than the cartesian product of the types and containers.
 In the case of a dict the types can appear as either a key or a value.
 
-For example for unary containers (``tuple``, ``list``, ``set``) there are three containers with four types and two functions (to give two way conversion) so 3 * 4 * 2 = 24 functions.
+For example for unary containers (``tuple``, ``list``, ``set``, ``frozenset``) there are four containers with four types and two functions (to give two way conversion).
+Thus 4 * 4 * 2 = 32 functions.
 
 For ``dict`` there are four types but the key and the value can be either so 16 possible type pair combinations.
 With two functions for each to give two way conversion this means 32 conversion functions.
@@ -65,7 +68,7 @@ As lists and tuples are very similar the code is reduced even further.
 The only code that needs to be maintained is for the two-way conversions for any type are:
 
 * Two C++ templates that handle all the ``tuple`` and ``list`` conversions.
-* Two C++ templates that handle all the ``set`` conversions.
+* Two C++ templates that handle all the ``set`` and ``frozenset`` conversions.
 * Two C++ templates that handle all the ``dict`` conversions.
 
-This reduces 56 functions down to 6.
+This reduces 64 functions down to 6.

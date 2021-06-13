@@ -2,6 +2,30 @@
 Performance
 ===================
 
+Summary
+-----------------
+
+Fundamental Types
+^^^^^^^^^^^^^^^^^^^^^
+
+Converting and copying of ``int``/``long`` and ``float``/``double`` takes about 0.1 µs per object (10m objects per second).
+``boolean``/``bool`` is around 2x to 5x faster.
+
+Strings of Different Lengths
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+With ``bytes``/``std::string`` converting and conversion takes about the following.
+The performance appears appears linear (with some latency for small strings):
+
+=============== ======================= =========================== ===================
+String size     ~Time per object (µs)   ~Rate, million per second   ~Rate x Size Mb/s
+=============== ======================= =========================== ===================
+8               0.02                    50                          400
+64              0.03                    30                          2000
+512             0.1                     10                          5000
+4096            1.0                     1                           4000
+=============== ======================= =========================== ===================
+
 Python Tuple to a C++ ``std::vector``
 -----------------------------------------------
 
