@@ -132,8 +132,8 @@ namespace Python_Cpp_Containers {
     int py_frozenset_check(PyObject *op) {
         return PyFrozenSet_Check(op);
     }
-    PyObject *py_frozenset_new() {
-        return PyFrozenSet_New(NULL);
+    PyObject *py_frozenset_new(PyObject *iterable) {
+        return PyFrozenSet_New(iterable);
     }
     Py_ssize_t py_frozenset_len(PyObject *op) {
         return PySet_Size(op);

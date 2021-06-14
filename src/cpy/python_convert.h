@@ -94,12 +94,12 @@ namespace Python_Cpp_Containers {
 
     // Wrappers around macros
     int py_set_check(PyObject *op);
-    PyObject *py_set_new(PyObject*iterable=NULL);
+    PyObject *py_set_new(PyObject *iterable=NULL);
     int py_set_add(PyObject *set, PyObject*key);
     Py_ssize_t py_set_len(PyObject *op);
 
     int py_frozenset_check(PyObject *op);
-    PyObject *py_frozenset_new();
+    PyObject *py_frozenset_new(PyObject *iterable=NULL);
     Py_ssize_t py_frozenset_len(PyObject *op);
 
 #pragma mark == Generic Container Conversion Code
