@@ -192,7 +192,9 @@ void test_functional_all(TestResultS &test_results) {
                 double,
                 double,
                 &Python_Cpp_Containers::py_float_from_double,
-                &Python_Cpp_Containers::py_float_from_double
+                &Python_Cpp_Containers::py_float_from_double,
+                &Python_Cpp_Containers::py_float_as_double,
+                &Python_Cpp_Containers::py_float_as_double
         >(test_results, "<double>", 1024);
         std::cout << rss << std::endl;
     }
@@ -202,7 +204,9 @@ void test_functional_all(TestResultS &test_results) {
                 double,
                 double,
                 &Python_Cpp_Containers::py_float_from_double,
-                &Python_Cpp_Containers::py_float_from_double
+                &Python_Cpp_Containers::py_float_from_double,
+                &Python_Cpp_Containers::py_float_as_double,
+                &Python_Cpp_Containers::py_float_as_double
         >(test_results, "<double>", 1024);
         std::cout << rss << std::endl;
     }

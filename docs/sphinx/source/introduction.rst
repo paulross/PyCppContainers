@@ -52,7 +52,7 @@ And a basic set of containers:
 The number of conversion functions is worse than the cartesian product of the types and containers.
 In the case of a dict the types can appear as either a key or a value.
 
-For example for unary containers (``tuple``, ``list``, ``set``, ``frozenset``) there are four containers with four types and two functions (to give two way conversion).
+For example for unary containers (``tuple``, ``list``, ``set``, ``frozenset``) there are five containers with four types and two functions (to give two way conversion).
 Thus 4 * 4 * 2 = 32 functions.
 
 For ``dict`` there are four types but the key and the value can be either so 16 possible type pair combinations.

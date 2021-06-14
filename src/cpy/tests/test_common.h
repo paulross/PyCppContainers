@@ -223,13 +223,16 @@ int compare_set(const std::unordered_set<T> &cpp_set, PyObject *op) {
     PyObject *py_iter = PyObject_GetIter(op);
     if (! py_iter) {
         result |= 1 << 3;
-    }
-    PyObject *py_item;
-    while ((py_item = PyIter_Next(py_iter))) {
-        T val = (*Convert_Py)(py_item);
-        if (cpp_set.count(val) == 0) {
-            result |= 1 << 4;
+    } else {
+        PyObject *py_item = NULL;
+        while ((py_item = PyIter_Next(py_iter))) {
+            T val = (*Convert_Py)(py_item);
+            if (cpp_set.count(val) == 0) {
+                result |= 1 << 4;
+            }
+            Py_DECREF(py_item);
         }
+        Py_DECREF(py_iter);
     }
     return result;
 }
@@ -297,17 +300,21 @@ template<
         typename K,
         typename V,
         PyObject *(*Convert_K)(const K &),
-        PyObject *(*Convert_V)(const V &)
+        PyObject *(*Convert_V)(const V &),
+        K (*Convert_Py_Key)(PyObject *),
+        V (*Convert_Py_Val)(PyObject *)
 >
 int compare_dict(std::unordered_map<K, V> &cpp_map, PyObject *op) {
     assert(PyDict_Check(op));
     int result = 0;
+    PyObject *py_key = NULL;
+    PyObject *py_val = NULL;
     for (auto iter = cpp_map.begin(); iter != cpp_map.end(); ++iter) {
         K key = iter->first;
         V val = iter->second;
         // New reference
-        PyObject *py_key = Convert_K(key);
-        PyObject *py_val = Convert_V(val);
+        py_key = Convert_K(key);
+        py_val = Convert_V(val);
         // Borrowed reference.
         PyObject *py_dict_val = PyDict_GetItem(op, py_key);
         if (py_dict_val == NULL) {
@@ -321,6 +328,19 @@ int compare_dict(std::unordered_map<K, V> &cpp_map, PyObject *op) {
         Py_DECREF(py_val);
     }
     // TODO: Now iterate across op and check against cpp_map.
+    // Now iterate across op and check against cpp_set.
+    Py_ssize_t pos = 0;
+    while (PyDict_Next(op, &pos, &py_key, &py_val)) {
+        K key = (*Convert_Py_Key)(py_key);
+        V val = (*Convert_Py_Val)(py_val);
+        if (cpp_map.count(key) == 0) {
+            result |= 1 << 4;
+        } else {
+            if (val != cpp_map.at(key)) {
+               result |= 1 << 5;
+            }
+        }
+    }
     return result;
 }
 
@@ -328,7 +348,9 @@ template<
         typename K,
         typename V,
         PyObject *(*Convert_K)(const K &),
-        PyObject *(*Convert_V)(const V &)
+        PyObject *(*Convert_V)(const V &),
+        K (*Convert_Py_Key)(PyObject *),
+        V (*Convert_Py_Val)(PyObject *)
 >
 int test_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::string &type, size_t size) {
     std::unordered_map<K, V> cpp_map;
@@ -348,7 +370,7 @@ int test_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::
             if ((unsigned long) PyDict_Size(op) != cpp_map.size()) {
                 result |= 1 << 2;
             } else {
-                result |= compare_dict<K, V, Convert_K, Convert_V>(cpp_map, op);
+                result |= compare_dict<K, V, Convert_K, Convert_V,  Convert_Py_Key, Convert_Py_Val>(cpp_map, op);
             }
         }
         Py_DECREF(op);
@@ -361,7 +383,9 @@ template<
         typename K,
         typename V,
         PyObject *(*Convert_K)(const K &),
-        PyObject *(*Convert_V)(const V &)
+        PyObject *(*Convert_V)(const V &),
+        K (*Convert_Py_Key)(PyObject *),
+        V (*Convert_Py_Val)(PyObject *)
 >
 int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::string &type, size_t size) {
     PyObject *op = PyDict_New();
@@ -422,7 +446,7 @@ int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::
             if (err != 0) {
                 result |= 1 << 2;
             } else {
-                result |= compare_dict<K, V, Convert_K, Convert_V>(cpp_map, op);
+                result |= compare_dict<K, V, Convert_K, Convert_V, Convert_Py_Key, Convert_Py_Val>(cpp_map, op);
             }
         }
         Py_DECREF(op);
