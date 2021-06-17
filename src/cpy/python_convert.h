@@ -193,13 +193,14 @@ namespace Python_Cpp_Containers {
     int generic_py_unary_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
         assert(!PyErr_Occurred());
         int ret = 0;
-        vec.clear();
         Py_INCREF(op); // Borrowed reference
         if (!PyUnary_Check(op)) {
             PyErr_Format(PyExc_ValueError, "Python object must be a tuple/list not a %s", op->ob_type->tp_name);
             ret = -1;
             goto except;
         }
+        vec.clear();
+//        vec.reserve(PyList_Size(op));
         for (Py_ssize_t i = 0; i < PyUnary_Size(op); ++i) {
             PyObject *value = PyUnary_Get(op, i);
             if (!(*Check)(value)) {
@@ -311,13 +312,14 @@ namespace Python_Cpp_Containers {
         PyObject *py_iter = NULL;
         PyObject *py_item = NULL;
 
-        set.clear();
         Py_INCREF(op); // Borrowed reference
         if (! (*CheckContainer)(op)) {
             PyErr_Format(PyExc_ValueError, "Python object must be a set not a %s", op->ob_type->tp_name);
             ret = -1;
             goto except;
         }
+        set.clear();
+//        set.reserve(PySet_Size(op));
         py_iter = PyObject_GetIter(op);
         if (! py_iter) {
             ret = -2;
@@ -459,7 +461,6 @@ namespace Python_Cpp_Containers {
         PyObject *key = NULL;
         PyObject *val = NULL;
         Py_ssize_t pos = 0;
-        map.clear();
 
         Py_INCREF(dict); // Borrowed reference
         if (!PyDict_Check(dict)) {
@@ -467,6 +468,8 @@ namespace Python_Cpp_Containers {
             ret = -1;
             goto except;
         }
+        map.clear();
+//        map.reserve(PyDict_Size(op));
         while (PyDict_Next(dict, &pos, &key, &val)) {
             // key, val are borrowed references.
             if (!Check_K(key)) {
