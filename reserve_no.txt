@@ -1,0 +1,79 @@
+/Users/engun/CLionProjects/PythonCppHomogeneousContainers/cmake-build-release/PythonCppHomogeneousContainers
+Hello, World!
+RSS(Mb): was:      5.242 now:     21.328 diff:    +16.086 Peak was:      5.242 now:     21.328 diff:    +16.086 test_perf_py_tuple_to_vector<bool>
+RSS(Mb): was:     21.328 now:     17.492 diff:     -3.836 Peak was:     21.328 now:     61.934 diff:    +40.605 test_perf_py_tuple_to_vector<long>
+RSS(Mb): was:     17.492 now:     17.754 diff:     +0.262 Peak was:     61.934 now:     61.945 diff:     +0.012 test_perf_py_tuple_to_vector<double>
+====RSS(Mb): was:      5.242 now:     17.754 diff:    +12.512 Peak was:      5.242 now:     61.945 diff:    +56.703 ==== test_performance.cpp
+Number of tests: 60
+REGEX_HEAD: "HEAD:\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)"
+REGEX_TEST: "TEST:\s+(\d+)\s+(\d+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+(\d+)\s+([0-9+-.]+)\s+(\S+)"
+REGEX_TAIL: "TAIL:\s+(.+)"
+HEAD: Fail   Scale  Repeat         Time(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+TEST:    0       2       1     0.000006281             N/A             N/A             N/A         1      159223.0 test_py_tuple_to_vector<bool>
+TEST:    0       4       1     0.000000190             N/A             N/A             N/A         1     5249343.8 test_py_tuple_to_vector<bool>
+TEST:    0       8       1     0.000000182             N/A             N/A             N/A         1     5509641.9 test_py_tuple_to_vector<bool>
+TEST:    0      16       1     0.000000228             N/A             N/A             N/A         1     4376367.6 test_py_tuple_to_vector<bool>
+TEST:    0      32       1     0.000000329             N/A             N/A             N/A         1     3034901.4 test_py_tuple_to_vector<bool>
+TEST:    0      64       1     0.000000553             N/A             N/A             N/A         1     1806684.7 test_py_tuple_to_vector<bool>
+TEST:    0     128       1     0.000005530             N/A             N/A             N/A         1      180848.2 test_py_tuple_to_vector<bool>
+TEST:    0     256       1     0.000002222             N/A             N/A             N/A         1      449943.8 test_py_tuple_to_vector<bool>
+TEST:    0     512       1     0.000004027             N/A             N/A             N/A         1      248354.7 test_py_tuple_to_vector<bool>
+TEST:    0    1024       1     0.000007777             N/A             N/A             N/A         1      128576.0 test_py_tuple_to_vector<bool>
+TEST:    0    2048       1     0.000014835             N/A             N/A             N/A         1       67410.4 test_py_tuple_to_vector<bool>
+TEST:    0    4096       1     0.000028508             N/A             N/A             N/A         1       35077.3 test_py_tuple_to_vector<bool>
+TEST:    0    8192       1     0.000056781             N/A             N/A             N/A         1       17611.4 test_py_tuple_to_vector<bool>
+TEST:    0   16384       1     0.000113557             N/A             N/A             N/A         1        8806.2 test_py_tuple_to_vector<bool>
+TEST:    0   32768       1     0.000224337             N/A             N/A             N/A         1        4457.6 test_py_tuple_to_vector<bool>
+TEST:    0   65536       1     0.000583511             N/A             N/A             N/A         1        1713.8 test_py_tuple_to_vector<bool>
+TEST:    0  131072       1     0.000901184             N/A             N/A             N/A         1        1109.7 test_py_tuple_to_vector<bool>
+TEST:    0  262144       1     0.001774472             N/A             N/A             N/A         1         563.5 test_py_tuple_to_vector<bool>
+TEST:    0  524288       1     0.003407371             N/A             N/A             N/A         1         293.5 test_py_tuple_to_vector<bool>
+TEST:    0 1048576       1     0.006703410             N/A             N/A             N/A         1         149.2 test_py_tuple_to_vector<bool>
+TEST:    0       2       1     0.000013128             N/A             N/A             N/A         1       76170.2 test_py_tuple_to_vector<long>
+TEST:    0       4       1     0.000000465             N/A             N/A             N/A         1     2152852.5 test_py_tuple_to_vector<long>
+TEST:    0       8       1     0.000000542             N/A             N/A             N/A         1     1846722.1 test_py_tuple_to_vector<long>
+TEST:    0      16       1     0.000000766             N/A             N/A             N/A         1     1304631.4 test_py_tuple_to_vector<long>
+TEST:    0      32       1     0.000001120             N/A             N/A             N/A         1      892458.7 test_py_tuple_to_vector<long>
+TEST:    0      64       1     0.000001608             N/A             N/A             N/A         1      621697.2 test_py_tuple_to_vector<long>
+TEST:    0     128       1     0.000002620             N/A             N/A             N/A         1      381752.2 test_py_tuple_to_vector<long>
+TEST:    0     256       1     0.000004066             N/A             N/A             N/A         1      245911.7 test_py_tuple_to_vector<long>
+TEST:    0     512       1     0.000009646             N/A             N/A             N/A         1      103664.5 test_py_tuple_to_vector<long>
+TEST:    0    1024       1     0.000037028             N/A             N/A             N/A         1       27006.2 test_py_tuple_to_vector<long>
+TEST:    0    2048       1     0.000066202             N/A             N/A             N/A         1       15105.2 test_py_tuple_to_vector<long>
+TEST:    0    4096       1     0.000059513             N/A             N/A             N/A         1       16803.2 test_py_tuple_to_vector<long>
+TEST:    0    8192       1     0.000122353             N/A             N/A             N/A         1        8173.1 test_py_tuple_to_vector<long>
+TEST:    0   16384       1     0.000237332             N/A             N/A             N/A         1        4213.5 test_py_tuple_to_vector<long>
+TEST:    0   32768       1     0.000477481             N/A             N/A             N/A         1        2094.3 test_py_tuple_to_vector<long>
+TEST:    0   65536       1     0.001053554             N/A             N/A             N/A         1         949.2 test_py_tuple_to_vector<long>
+TEST:    0  131072       1     0.002042891             N/A             N/A             N/A         1         489.5 test_py_tuple_to_vector<long>
+TEST:    0  262144       1     0.004967501             N/A             N/A             N/A         1         201.3 test_py_tuple_to_vector<long>
+TEST:    0  524288       1     0.009206516             N/A             N/A             N/A         1         108.6 test_py_tuple_to_vector<long>
+TEST:    0 1048576       1     0.020765729             N/A             N/A             N/A         1          48.2 test_py_tuple_to_vector<long>
+TEST:    0       2       1     0.000001405             N/A             N/A             N/A         1      711997.2 test_py_tuple_to_vector<double>
+TEST:    0       4       1     0.000000382             N/A             N/A             N/A         1     2621232.0 test_py_tuple_to_vector<double>
+TEST:    0       8       1     0.000000532             N/A             N/A             N/A         1     1881467.5 test_py_tuple_to_vector<double>
+TEST:    0      16       1     0.000000738             N/A             N/A             N/A         1     1355932.2 test_py_tuple_to_vector<double>
+TEST:    0      32       1     0.000000988             N/A             N/A             N/A         1     1012658.2 test_py_tuple_to_vector<double>
+TEST:    0      64       1     0.000001334             N/A             N/A             N/A         1      749906.3 test_py_tuple_to_vector<double>
+TEST:    0     128       1     0.000002212             N/A             N/A             N/A         1      451977.4 test_py_tuple_to_vector<double>
+TEST:    0     256       1     0.000003298             N/A             N/A             N/A         1      303260.0 test_py_tuple_to_vector<double>
+TEST:    0     512       1     0.000006130             N/A             N/A             N/A         1      163145.4 test_py_tuple_to_vector<double>
+TEST:    0    1024       1     0.000010276             N/A             N/A             N/A         1       97318.9 test_py_tuple_to_vector<double>
+TEST:    0    2048       1     0.000018877             N/A             N/A             N/A         1       52975.9 test_py_tuple_to_vector<double>
+TEST:    0    4096       1     0.000036910             N/A             N/A             N/A         1       27093.3 test_py_tuple_to_vector<double>
+TEST:    0    8192       1     0.000098693             N/A             N/A             N/A         1       10132.5 test_py_tuple_to_vector<double>
+TEST:    0   16384       1     0.000194712             N/A             N/A             N/A         1        5135.8 test_py_tuple_to_vector<double>
+TEST:    0   32768       1     0.000284027             N/A             N/A             N/A         1        3520.8 test_py_tuple_to_vector<double>
+TEST:    0   65536       1     0.000764736             N/A             N/A             N/A         1        1307.6 test_py_tuple_to_vector<double>
+TEST:    0  131072       1     0.001665197             N/A             N/A             N/A         1         600.5 test_py_tuple_to_vector<double>
+TEST:    0  262144       1     0.003550874             N/A             N/A             N/A         1         281.6 test_py_tuple_to_vector<double>
+TEST:    0  524288       1     0.007244248             N/A             N/A             N/A         1         138.0 test_py_tuple_to_vector<double>
+TEST:    0 1048576       1     0.017798897             N/A             N/A             N/A         1          56.2 test_py_tuple_to_vector<double>
+TAIL: Passed=60/60 Failed=0/60
+
+Count of unique strings: 0
+====RSS(Mb): was:      5.238 now:     16.547 diff:    +11.309 Peak was:      5.238 now:     61.945 diff:    +56.707 main.cpp
+Total execution time: 0.304 (s)
+Bye, bye!
+
+Process finished with exit code 0

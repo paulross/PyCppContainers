@@ -29,7 +29,6 @@
 namespace Python_Cpp_Containers {
 
     // TODO: Enumerate errors codes.
-    // TODO: vector.reserve() might speed things up?
 
 #pragma mark == Object Conversion Code
 
@@ -174,6 +173,13 @@ namespace Python_Cpp_Containers {
     // The template is instantiated with a C++ type a check function and a conversion function to create a Python object
     // to that C++ type.
     //
+    // The given vector is cleared whether an error condition exists or not..
+    //
+    // Error handling notes:
+    //
+    // An assertion is made that no PyErr exists.
+    // If PyUnary_Check(op) then this sets a Python ValueError.
+    //
     // Example of an instantiation of this template to create a function that will convert a Python tuple of floats to
     // a C++ std::vector<double>:
     //
@@ -193,14 +199,14 @@ namespace Python_Cpp_Containers {
     int generic_py_unary_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
         assert(!PyErr_Occurred());
         int ret = 0;
+        vec.clear();
         Py_INCREF(op); // Borrowed reference
-        if (!PyUnary_Check(op)) {
+        if (! PyUnary_Check(op)) {
             PyErr_Format(PyExc_ValueError, "Python object must be a tuple/list not a %s", op->ob_type->tp_name);
             ret = -1;
             goto except;
         }
-        vec.clear();
-//        vec.reserve(PyList_Size(op));
+        vec.reserve(PyUnary_Size(op));
         for (Py_ssize_t i = 0; i < PyUnary_Size(op); ++i) {
             PyObject *value = PyUnary_Get(op, i);
             if (!(*Check)(value)) {
@@ -311,6 +317,7 @@ namespace Python_Cpp_Containers {
         int ret = 0;
         PyObject *py_iter = NULL;
         PyObject *py_item = NULL;
+        set.clear();
 
         Py_INCREF(op); // Borrowed reference
         if (! (*CheckContainer)(op)) {
@@ -318,8 +325,7 @@ namespace Python_Cpp_Containers {
             ret = -1;
             goto except;
         }
-        set.clear();
-//        set.reserve(PySet_Size(op));
+        set.reserve(PySet_Size(op));
         py_iter = PyObject_GetIter(op);
         if (! py_iter) {
             ret = -2;
@@ -461,6 +467,7 @@ namespace Python_Cpp_Containers {
         PyObject *key = NULL;
         PyObject *val = NULL;
         Py_ssize_t pos = 0;
+        map.clear();
 
         Py_INCREF(dict); // Borrowed reference
         if (!PyDict_Check(dict)) {
@@ -468,8 +475,7 @@ namespace Python_Cpp_Containers {
             ret = -1;
             goto except;
         }
-        map.clear();
-//        map.reserve(PyDict_Size(op));
+        map.reserve(PyDict_Size(dict));
         while (PyDict_Next(dict, &pos, &key, &val)) {
             // key, val are borrowed references.
             if (!Check_K(key)) {

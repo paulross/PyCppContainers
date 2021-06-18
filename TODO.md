@@ -25,10 +25,10 @@ All are hashable so they are all candidates for dictionary keys.
 | `tuple`       | `std::vector`         |                           |
 | `list`        | `std::vector`         |                           |
 | `set`         | `std::unordered_set`  |                           |
-| `frozenset`   | N/A                   |                           |
+| `frozenset`   | `std::unordered_set`  |                           |
 | `dict`        | `std::unordered_map`  |                           |
 
-There are four supported containers.
+There are five supported containers.
 
 ## Type and Container Combinations
 
