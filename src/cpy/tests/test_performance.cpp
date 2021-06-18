@@ -60,12 +60,15 @@ template<
         typename K,
         typename V,
         PyObject *(*Convert_K)(const K &),
-        PyObject *(*Convert_V)(const V &)
+        PyObject *(*Convert_V)(const V &),
+        K (*Convert_Py_Key)(PyObject *),
+        V (*Convert_Py_Val)(PyObject *)
 >
 int test_perf_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::string &type) {
     int result = 0;
     for (size_t size = 2; size < 1 << 21; size *= 2) {
-        result |= test_cpp_std_unordered_map_to_py_dict<K, V, Convert_K, Convert_V>(test_results, type, size);
+        result |= test_cpp_std_unordered_map_to_py_dict<
+                K, V, Convert_K, Convert_V, Convert_Py_Key, Convert_Py_Val>(test_results, type, size);
     }
     return result;
 }
@@ -74,12 +77,15 @@ template<
         typename K,
         typename V,
         PyObject *(*Convert_K)(const K &),
-        PyObject *(*Convert_V)(const V &)
+        PyObject *(*Convert_V)(const V &),
+        K (*Convert_Py_Key)(PyObject *),
+        V (*Convert_Py_Val)(PyObject *)
 >
 int test_perf_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::string &type) {
     int result = 0;
     for (size_t size = 2; size < 1 << 21; size *= 2) {
-        result |= test_py_dict_to_cpp_std_unordered_map<K, V, Convert_K, Convert_V>(test_results, type, size);
+        result |= test_py_dict_to_cpp_std_unordered_map<
+                K, V, Convert_K, Convert_V, Convert_Py_Key, Convert_Py_Val>(test_results, type, size);
     }
     return result;
 }
@@ -163,7 +169,9 @@ void test_performance_all(TestResultS &test_results) {
                 double,
                 double,
                 &Python_Cpp_Containers::py_float_from_double,
-                &Python_Cpp_Containers::py_float_from_double
+                &Python_Cpp_Containers::py_float_from_double,
+                &Python_Cpp_Containers::py_float_as_double,
+                &Python_Cpp_Containers::py_float_as_double
         >(test_results, "<double>");
         std::cout << rss << std::endl;
     }
@@ -173,7 +181,9 @@ void test_performance_all(TestResultS &test_results) {
                 double,
                 double,
                 &Python_Cpp_Containers::py_float_from_double,
-                &Python_Cpp_Containers::py_float_from_double
+                &Python_Cpp_Containers::py_float_from_double,
+                &Python_Cpp_Containers::py_float_as_double,
+                &Python_Cpp_Containers::py_float_as_double
         >(test_results, "<double>");
         std::cout << rss << std::endl;
     }
