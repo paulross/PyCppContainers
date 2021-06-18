@@ -129,16 +129,16 @@ namespace Python_Cpp_Containers {
     // Partial template specialisation: Need PyTuple_New, PyTuple_GET_ITEM, PyTuple_SET_ITEM.
     // Also error messages such as 'tuple'.
     template<typename T,
-            PyObject *(*Convert)(const T &),
-            PyObject *(*PyUnary_New)(size_t),
-            int(*PyUnary_Set)(PyObject *, size_t, PyObject *)>
+            PyObject *(*ConvertCppToPy)(const T &),
+            PyObject *(*PyUnaryContainer_New)(size_t),
+            int(*PyUnaryContainer_Set)(PyObject *, size_t, PyObject *)>
     PyObject *
     generic_cpp_std_vector_to_py_unary(const std::vector<T> &vec) {
         assert(!PyErr_Occurred());
-        PyObject *ret = PyUnary_New(vec.size());
+        PyObject *ret = PyUnaryContainer_New(vec.size());
         if (ret) {
             for (size_t i = 0; i < vec.size(); ++i) {
-                PyObject *op = (*Convert)(vec[i]);
+                PyObject *op = (*ConvertCppToPy)(vec[i]);
                 if (!op) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     // e.g. tupledealloc(): https://github.com/python/cpython/blob/main/Objects/tupleobject.c#L268
@@ -148,7 +148,7 @@ namespace Python_Cpp_Containers {
                 // Refcount may well be >> 1 for interned objects.
                 Py_ssize_t op_ob_refcnt = op->ob_refcnt;
                 // This usually wraps a void function, always succeeds.
-                if (PyUnary_Set(ret, i, op)) { // Stolen reference.
+                if (PyUnaryContainer_Set(ret, i, op)) { // Stolen reference.
                     PyErr_Format(PyExc_RuntimeError, "Can not set unary value.");
                     goto except;
                 }
@@ -191,31 +191,31 @@ namespace Python_Cpp_Containers {
     // Partial template specialisation: Need PyTuple_Check, PyTuple_GET_SIZE, PyTuple_GET_ITEM.
     // Also error messages.
     template<typename T,
-            int (*Check)(PyObject *),
-            T (*Convert)(PyObject *),
-            int(*PyUnary_Check)(PyObject *),
-            Py_ssize_t(*PyUnary_Size)(PyObject *),
-            PyObject *(*PyUnary_Get)(PyObject *, size_t)>
+            int (*PyObject_Check)(PyObject *),
+            T (*PyObject_Convert)(PyObject *),
+            int(*PyUnaryContainer_Check)(PyObject *),
+            Py_ssize_t(*PyUnaryContainer_Size)(PyObject *),
+            PyObject *(*PyUnaryContainer_Get)(PyObject *, size_t)>
     int generic_py_unary_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
         assert(!PyErr_Occurred());
         int ret = 0;
         vec.clear();
         Py_INCREF(op); // Borrowed reference
-        if (! PyUnary_Check(op)) {
+        if (! PyUnaryContainer_Check(op)) {
             PyErr_Format(PyExc_ValueError, "Python object must be a tuple/list not a %s", op->ob_type->tp_name);
             ret = -1;
             goto except;
         }
-        vec.reserve(PyUnary_Size(op));
-        for (Py_ssize_t i = 0; i < PyUnary_Size(op); ++i) {
-            PyObject *value = PyUnary_Get(op, i);
-            if (!(*Check)(value)) {
+        vec.reserve(PyUnaryContainer_Size(op));
+        for (Py_ssize_t i = 0; i < PyUnaryContainer_Size(op); ++i) {
+            PyObject *value = PyUnaryContainer_Get(op, i);
+            if (! (*PyObject_Check)(value)) {
                 vec.clear();
                 PyErr_Format(PyExc_ValueError, "Python value of type %s can not be converted", value->ob_type->tp_name);
                 ret = -2;
                 goto except;
             }
-            vec.push_back((*Convert)(value));
+            vec.push_back((*PyObject_Convert)(value));
             // Check !PyErr_Occurred() which could never happen as we check first.
         }
         assert(!PyErr_Occurred());
@@ -229,30 +229,31 @@ namespace Python_Cpp_Containers {
 
 #pragma mark -- Specific Tuple Container Conversion Code
 
-    template<typename T, PyObject *(*Convert)(const T &)>
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
     generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
-        return generic_cpp_std_vector_to_py_unary<T, Convert, &py_tuple_new, &py_tuple_set>(vec);
+        return generic_cpp_std_vector_to_py_unary<T, ConvertCppToPy, &py_tuple_new, &py_tuple_set>(vec);
     }
 
-    template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
+    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
-        return generic_py_unary_to_cpp_std_vector<T, Check, Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get>(op,
+        return generic_py_unary_to_cpp_std_vector<T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get>(op,
                                                                                                                    vec);
     }
 
 #pragma mark -- Specific List Container Conversion Code
 
-    template<typename T, PyObject *(*Convert)(const T &)>
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
     generic_cpp_std_vector_to_py_list(const std::vector<T> &vec) {
-        return generic_cpp_std_vector_to_py_unary<T, Convert, &py_list_new, &py_list_set>(vec);
+        return generic_cpp_std_vector_to_py_unary<T, ConvertCppToPy, &py_list_new, &py_list_set>(vec);
     }
 
-    template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
+    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
-        return generic_py_unary_to_cpp_std_vector<T, Check, Convert, &py_list_check, &py_list_len, &py_list_get>(op,
-                                                                                                                 vec);
+        return generic_py_unary_to_cpp_std_vector<
+                T, PyObject_Check, PyObject_Convert, &py_list_check, &py_list_len, &py_list_get
+                >(op, vec);
     }
 
 #pragma mark -- Generic Set/Frozen set Container Conversion Code
@@ -260,14 +261,14 @@ namespace Python_Cpp_Containers {
 #pragma mark -- Specific Set Container Conversion Code
 
     // This is a hand written generic function to convert a C++ unordered_set to a Python set or frozen set.
-    template<typename T, PyObject *(*Convert)(const T &), PyObject *(*NewSet)(PyObject *)>
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &), PyObject *(*PyContainer_New)(PyObject *)>
     PyObject *
     generic_cpp_std_unordered_set_to_py_set_or_frozenset(const std::unordered_set<T> &set) {
         assert(!PyErr_Occurred());
-        PyObject *ret = (*NewSet)(NULL);
+        PyObject *ret = (*PyContainer_New)(NULL);
         if (ret) {
             for (auto const &iter: set) {
-                PyObject *op = (*Convert)(iter);
+                PyObject *op = (*ConvertCppToPy)(iter);
                 if (!op) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
@@ -299,19 +300,24 @@ namespace Python_Cpp_Containers {
         return ret;
     }
 
-    template<typename T, PyObject *(*Convert)(const T &)>
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
     generic_cpp_std_unordered_set_to_py_set(const std::unordered_set<T> &set) {
-        return generic_cpp_std_unordered_set_to_py_set_or_frozenset<T, Convert, &PySet_New>(set);
+        return generic_cpp_std_unordered_set_to_py_set_or_frozenset<T, ConvertCppToPy, &PySet_New>(set);
     }
 
-    template<typename T, PyObject *(*Convert)(const T &)>
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
     generic_cpp_std_unordered_set_to_py_frozenset(const std::unordered_set<T> &set) {
-        return generic_cpp_std_unordered_set_to_py_set_or_frozenset<T, Convert, &PyFrozenSet_New>(set);
+        return generic_cpp_std_unordered_set_to_py_set_or_frozenset<T, ConvertCppToPy, &PyFrozenSet_New>(set);
     }
 
-    template<typename T, int (*CheckContainer)(PyObject *), int (*Check)(PyObject *), T (*Convert)(PyObject *)>
+    template<
+            typename T,
+            int (*PyContainer_Check)(PyObject *),
+            int (*PyObject_Check)(PyObject *),
+            T (*PyObject_Convert)(PyObject *)
+            >
     int generic_py_set_or_frozenset_to_cpp_std_unordered_set(PyObject *op, std::unordered_set<T> &set) {
         assert(!PyErr_Occurred());
         int ret = 0;
@@ -320,7 +326,7 @@ namespace Python_Cpp_Containers {
         set.clear();
 
         Py_INCREF(op); // Borrowed reference
-        if (! (*CheckContainer)(op)) {
+        if (! (*PyContainer_Check)(op)) {
             PyErr_Format(PyExc_ValueError, "Python object must be a set not a %s", op->ob_type->tp_name);
             ret = -1;
             goto except;
@@ -334,14 +340,14 @@ namespace Python_Cpp_Containers {
         }
         while ((py_item = PyIter_Next(py_iter))) {
             /* do something with item */
-            if (!(*Check)(py_item)) {
+            if (! (*PyObject_Check)(py_item)) {
                 set.clear();
                 PyErr_Format(PyExc_ValueError, "Python value of type %s can not be converted",
                              py_item->ob_type->tp_name);
                 ret = -3;
                 goto except;
             }
-            T cpp_item = (*Convert)(py_item);
+            T cpp_item = (*PyObject_Convert)(py_item);
             if (set.count(cpp_item) != 0) {
                 // Something horribly wrong.
                 PyErr_Format(PyExc_ValueError,
@@ -368,14 +374,16 @@ namespace Python_Cpp_Containers {
         return ret;
     }
 
-    template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
+    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_set_to_cpp_std_unordered_set(PyObject *op, std::unordered_set<T> &set) {
-        return generic_py_set_or_frozenset_to_cpp_std_unordered_set<T, &py_set_check, Check, Convert>(op, set);
+        return generic_py_set_or_frozenset_to_cpp_std_unordered_set<T, &py_set_check, PyObject_Check, PyObject_Convert>(
+                op, set);
     }
 
-    template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
+    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_frozenset_to_cpp_std_unordered_set(PyObject *op, std::unordered_set<T> &set) {
-        return generic_py_set_or_frozenset_to_cpp_std_unordered_set<T, &py_frozenset_check, Check, Convert>(op, set);
+        return generic_py_set_or_frozenset_to_cpp_std_unordered_set<T, &py_frozenset_check, PyObject_Check, PyObject_Convert>(
+                op, set);
     }
 
 #pragma mark -- Specific Dict Container Conversion Code
