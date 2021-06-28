@@ -14,13 +14,13 @@
 namespace Python_Cpp_Containers {
     // Conversion functions - objects.
     // Bool/bool
-    PyObject *py_bool_from_bool(bool const &b) {
+    PyObject *cpp_bool_to_py_bool(bool const &b) {
         if (b) {
             Py_RETURN_TRUE;
         }
         Py_RETURN_FALSE;
     }
-    bool py_bool_as_bool(PyObject *op) {
+    bool py_bool_to_cpp_bool(PyObject *op) {
         assert(py_bool_check(op));
         if (op == Py_True) {
             return true;
@@ -31,10 +31,10 @@ namespace Python_Cpp_Containers {
         return PyBool_Check(op);
     }
     // Long/long
-    PyObject *py_long_from_long(const long &l) {
+    PyObject *cpp_long_to_py_long(const long &l) {
         return PyLong_FromLong(l);
     }
-    long py_long_as_long(PyObject *op) {
+    long py_long_to_cpp_long(PyObject *op) {
         assert(py_long_check(op));
         return PyLong_AsLong(op);
     }
@@ -42,10 +42,10 @@ namespace Python_Cpp_Containers {
         return PyLong_Check(op);
     }
     // Float/double
-    PyObject *py_float_from_double(const double &d) {
+    PyObject *cpp_double_to_py_float(const double &d) {
         return PyFloat_FromDouble(d);
     }
-    double py_float_as_double(PyObject *op) {
+    double py_float_to_cpp_double(PyObject *op) {
         assert(py_float_check(op));
         return PyFloat_AsDouble(op);
     }
@@ -53,10 +53,10 @@ namespace Python_Cpp_Containers {
         return PyFloat_Check(op);
     }
     // Complex/complex
-    PyObject *py_complex_from_complex(const std::complex<double> &c) {
+    PyObject *cpp_complex_to_py_complex(const std::complex<double> &c) {
         return PyComplex_FromDoubles(c.real(), c.imag());
     }
-    std::complex<double> py_complex_as_complex(PyObject *op) {
+    std::complex<double> py_complex_as_cpp_complex(PyObject *op) {
         assert(py_complex_check(op));
         return std::complex<double>(PyComplex_RealAsDouble(op), PyComplex_ImagAsDouble(op));
     }
@@ -64,10 +64,10 @@ namespace Python_Cpp_Containers {
         return PyComplex_Check(op);
     }
     // Bytes to/from string
-    PyObject *py_bytes_from_string(const std::string &s) {
+    PyObject *cpp_string_to_py_bytes(const std::string &s) {
         return PyBytes_FromStringAndSize(s.c_str(), s.size());
     }
-    std::string py_bytes_as_string(PyObject *op) {
+    std::string py_bytes_to_cpp_string(PyObject *op) {
         assert(op);
         assert(py_bytes_check(op));
         std::string ret(PyBytes_AS_STRING(op), PyBytes_GET_SIZE(op));

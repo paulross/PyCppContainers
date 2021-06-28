@@ -37,45 +37,45 @@ namespace Python_Cpp_Containers {
 #pragma mark -- Boolean/bool Conversion Code
 
     // Bool/bool
-    PyObject *py_bool_from_bool(bool const &b);
+    PyObject *cpp_bool_to_py_bool(bool const &b);
 
-    bool py_bool_as_bool(PyObject *op);
+    bool py_bool_to_cpp_bool(PyObject *op);
 
     int py_bool_check(PyObject *op);
 
 #pragma mark -- Long Integer/long Conversion Code
 
     // Long/long
-    PyObject *py_long_from_long(const long &l);
+    PyObject *cpp_long_to_py_long(const long &l);
 
-    long py_long_as_long(PyObject *op);
+    long py_long_to_cpp_long(PyObject *op);
 
     int py_long_check(PyObject *op);
 
 #pragma mark -- Float/double Conversion Code
 
     // Float/double
-    PyObject *py_float_from_double(const double &d);
+    PyObject *cpp_double_to_py_float(const double &d);
 
-    double py_float_as_double(PyObject *op);
+    double py_float_to_cpp_double(PyObject *op);
 
     int py_float_check(PyObject *op);
 
 #pragma mark -- Complex Conversion Code
 
     // Complex/complex
-    PyObject *py_complex_from_complex(const std::complex<double> &c);
+    PyObject *cpp_complex_to_py_complex(const std::complex<double> &c);
 
-    std::complex<double> py_complex_as_complex(PyObject *op);
+    std::complex<double> py_complex_as_cpp_complex(PyObject *op);
 
     int py_complex_check(PyObject *op);
 
 #pragma mark -- Bytes/std::string Conversion Code
 
     // Bytes to/from string
-    PyObject *py_bytes_from_string(const std::string &s);
+    PyObject *cpp_string_to_py_bytes(const std::string &s);
 
-    std::string py_bytes_as_string(PyObject *op);
+    std::string py_bytes_to_cpp_string(PyObject *op);
 
     int py_bytes_check(PyObject *op);
 
@@ -146,7 +146,7 @@ namespace Python_Cpp_Containers {
     //     template <>
     //     PyObject *
     //     std_vector_to_py_tuple<double>(const std::vector<double> &container) {
-    //         return generic_cpp_std_vector_to_py_tuple<double, &py_float_from_double>(container);
+    //         return generic_cpp_std_vector_to_py_tuple<double, &cpp_double_to_py_float>(container);
     //     }
     //
     // Partial template specialisation: Need PyTuple_New, PyTuple_GET_ITEM, PyTuple_SET_ITEM.
@@ -208,7 +208,7 @@ namespace Python_Cpp_Containers {
     //
     //  template <> int
     //  py_tuple_to_std_vector<double>(PyObject *op, std::vector<double> &container) {
-    //      return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &py_float_as_double>(op, container);
+    //      return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &py_float_to_cpp_double>(op, container);
     //  }
     //
     // Partial template specialisation: Need PyTuple_Check, PyTuple_GET_SIZE, PyTuple_GET_ITEM.
@@ -427,7 +427,7 @@ namespace Python_Cpp_Containers {
     //  std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double, double> &map) {
     //      return generic_cpp_std_unordered_map_to_py_dict<
     //            double, double,
-    //            &py_float_from_double, &py_float_from_double
+    //            &py_float_from_double, &cpp_double_to_py_float
     //      >(map);
     //  }
     // TODO: Here

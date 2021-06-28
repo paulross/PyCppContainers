@@ -34,11 +34,11 @@ For example for Python floats to and from a C++ ``double`` there will  be these 
 
 .. code-block:: C++
 
-    PyObject *py_float_from_double(const double &d) {
+    PyObject *cpp_double_to_py_float(const double &d) {
         return PyFloat_FromDouble(d);
     }
 
-    double py_float_as_double(PyObject *op) {
+    double py_float_to_cpp_double(PyObject *op) {
         assert(py_float_check(op));
         return PyFloat_AsDouble(op);
     }
@@ -177,25 +177,25 @@ Their declarations are auto-generated in ``auto_py_convert_internal.cpp``:
     template <>
     PyObject *
     cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container) {
-        return generic_cpp_std_vector_to_py_tuple<bool, &py_bool_from_bool>(container);
+        return generic_cpp_std_vector_to_py_tuple<bool, &cpp_bool_to_py_bool>(container);
     }
 
     template <>
     PyObject *
     cpp_std_vector_to_py_tuple<long>(const std::vector<long> &container) {
-        return generic_cpp_std_vector_to_py_tuple<long, &py_long_from_long>(container);
+        return generic_cpp_std_vector_to_py_tuple<long, &cpp_long_to_py_long>(container);
     }
 
     template <>
     PyObject *
     cpp_std_vector_to_py_tuple<double>(const std::vector<double> &container) {
-        return generic_cpp_std_vector_to_py_tuple<double, &py_float_from_double>(container);
+        return generic_cpp_std_vector_to_py_tuple<double, &cpp_double_to_py_float>(container);
     }
 
     template <>
     PyObject *
     cpp_std_vector_to_py_tuple<std::string>(const std::vector<std::string> &container) {
-        return generic_cpp_std_vector_to_py_tuple<std::string, &py_bytes_from_string>(container);
+        return generic_cpp_std_vector_to_py_tuple<std::string, &cpp_string_to_py_bytes>(container);
     }
 
 Conversion From a Python List or Tuple to a ``std::vector<T>``
@@ -287,23 +287,23 @@ Their definitions for tuple are are auto-generated in ``auto_py_convert_internal
     template <>
     int
     py_tuple_to_cpp_std_vector<bool>(PyObject *op, std::vector<bool> &container) {
-        return generic_py_tuple_to_cpp_std_vector<bool, &py_bool_check, &py_bool_as_bool>(op, container);
+        return generic_py_tuple_to_cpp_std_vector<bool, &py_bool_check, &py_bool_to_cpp_bool>(op, container);
     }
 
     template <>
     int
     py_tuple_to_cpp_std_vector<long>(PyObject *op, std::vector<long> &container) {
-        return generic_py_tuple_to_cpp_std_vector<long, &py_long_check, &py_long_as_long>(op, container);
+        return generic_py_tuple_to_cpp_std_vector<long, &py_long_check, &py_long_to_cpp_long>(op, container);
     }
 
     template <>
     int
     py_tuple_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container) {
-        return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &py_float_as_double>(op, container);
+        return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &py_float_to_cpp_double>(op, container);
     }
 
     template <>
     int
     py_tuple_to_cpp_std_vector<std::string>(PyObject *op, std::vector<std::string> &container) {
-        return generic_py_tuple_to_cpp_std_vector<std::string, &py_bytes_check, &py_bytes_as_string>(op, container);
+        return generic_py_tuple_to_cpp_std_vector<std::string, &py_bytes_check, &py_bytes_to_cpp_string>(op, container);
     }
