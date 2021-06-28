@@ -38,35 +38,45 @@ namespace Python_Cpp_Containers {
 
     // Bool/bool
     PyObject *py_bool_from_bool(bool const &b);
+
     bool py_bool_as_bool(PyObject *op);
+
     int py_bool_check(PyObject *op);
 
 #pragma mark -- Long Integer/long Conversion Code
 
     // Long/long
     PyObject *py_long_from_long(const long &l);
+
     long py_long_as_long(PyObject *op);
+
     int py_long_check(PyObject *op);
 
 #pragma mark -- Float/double Conversion Code
 
     // Float/double
     PyObject *py_float_from_double(const double &d);
+
     double py_float_as_double(PyObject *op);
+
     int py_float_check(PyObject *op);
 
 #pragma mark -- Complex Conversion Code
 
     // Complex/complex
     PyObject *py_complex_from_complex(const std::complex<double> &c);
+
     std::complex<double> py_complex_as_complex(PyObject *op);
+
     int py_complex_check(PyObject *op);
 
 #pragma mark -- Bytes/std::string Conversion Code
 
     // Bytes to/from string
     PyObject *py_bytes_from_string(const std::string &s);
+
     std::string py_bytes_as_string(PyObject *op);
+
     int py_bytes_check(PyObject *op);
 
 #pragma mark == Container Check, Create, Len, Set, Get
@@ -75,30 +85,43 @@ namespace Python_Cpp_Containers {
 
     // Tuple wrappers around PyTuple_Check, PyTuple_New, PyTuple_Size, PyTuple_SET_ITEM, PyTuple_GET_ITEM
     int py_tuple_check(PyObject *op);
+
     PyObject *py_tuple_new(size_t len);
+
     Py_ssize_t py_tuple_len(PyObject *op);
+
     int py_tuple_set(PyObject *tuple_p, size_t pos, PyObject *op);
+
     PyObject *py_tuple_get(PyObject *tuple_p, size_t pos);
 
 #pragma mark -- List Check, Create, Len, Set, Get
 
     // List wrappers around PyList_Check, PyList_New, PyList_Size, PyList_SET_ITEM, PyList_GET_ITEM
     int py_list_check(PyObject *op);
+
     PyObject *py_list_new(size_t len);
+
     Py_ssize_t py_list_len(PyObject *op);
+
     int py_list_set(PyObject *list_p, size_t pos, PyObject *op);
+
     PyObject *py_list_get(PyObject *list_p, size_t pos);
 
 #pragma mark -- Set and Frozen set Check, Create, Length.
 
     // Wrappers around macros
     int py_set_check(PyObject *op);
-    PyObject *py_set_new(PyObject *iterable=NULL);
-    int py_set_add(PyObject *set, PyObject*key);
+
+    PyObject *py_set_new(PyObject *iterable = NULL);
+
+    int py_set_add(PyObject *set, PyObject *key);
+
     Py_ssize_t py_set_len(PyObject *op);
 
     int py_frozenset_check(PyObject *op);
-    PyObject *py_frozenset_new(PyObject *iterable=NULL);
+
+    PyObject *py_frozenset_new(PyObject *iterable = NULL);
+
     Py_ssize_t py_frozenset_len(PyObject *op);
 
 #pragma mark == Generic Container Conversion Code
@@ -161,11 +184,11 @@ namespace Python_Cpp_Containers {
         assert(!PyErr_Occurred());
         assert(ret);
         goto finally;
-    except:
+        except:
         Py_XDECREF(ret);
         assert(PyErr_Occurred());
         ret = NULL;
-    finally:
+        finally:
         return ret;
     }
 
@@ -201,7 +224,7 @@ namespace Python_Cpp_Containers {
         int ret = 0;
         vec.clear();
         Py_INCREF(op); // Borrowed reference
-        if (! PyUnaryContainer_Check(op)) {
+        if (!PyUnaryContainer_Check(op)) {
             PyErr_Format(PyExc_ValueError, "Python object must be a tuple/list not a %s", op->ob_type->tp_name);
             ret = -1;
             goto except;
@@ -209,7 +232,7 @@ namespace Python_Cpp_Containers {
         vec.reserve(PyUnaryContainer_Size(op));
         for (Py_ssize_t i = 0; i < PyUnaryContainer_Size(op); ++i) {
             PyObject *value = PyUnaryContainer_Get(op, i);
-            if (! (*PyObject_Check)(value)) {
+            if (!(*PyObject_Check)(value)) {
                 vec.clear();
                 PyErr_Format(PyExc_ValueError, "Python value of type %s can not be converted", value->ob_type->tp_name);
                 ret = -2;
@@ -220,9 +243,9 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-    except:
+        except:
         assert(PyErr_Occurred());
-    finally:
+        finally:
         Py_DECREF(op); // Borrowed reference
         return ret;
     }
@@ -237,8 +260,9 @@ namespace Python_Cpp_Containers {
 
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
-        return generic_py_unary_to_cpp_std_vector<T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get>(op,
-                                                                                                                   vec);
+        return generic_py_unary_to_cpp_std_vector<T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get>(
+                op,
+                vec);
     }
 
 #pragma mark -- Specific List Container Conversion Code
@@ -253,7 +277,7 @@ namespace Python_Cpp_Containers {
     int generic_py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
         return generic_py_unary_to_cpp_std_vector<
                 T, PyObject_Check, PyObject_Convert, &py_list_check, &py_list_len, &py_list_get
-                >(op, vec);
+        >(op, vec);
     }
 
 #pragma mark -- Generic Set/Frozen set Container Conversion Code
@@ -261,7 +285,11 @@ namespace Python_Cpp_Containers {
 #pragma mark -- Specific Set Container Conversion Code
 
     // This is a hand written generic function to convert a C++ unordered_set to a Python set or frozen set.
-    template<typename T, PyObject *(*ConvertCppToPy)(const T &), PyObject *(*PyContainer_New)(PyObject *)>
+    template<
+            typename T,
+            PyObject *(*ConvertCppToPy)(const T &),
+            PyObject *(*PyContainer_New)(PyObject *)
+    >
     PyObject *
     generic_cpp_std_unordered_set_to_py_set_or_frozenset(const std::unordered_set<T> &set) {
         assert(!PyErr_Occurred());
@@ -292,11 +320,11 @@ namespace Python_Cpp_Containers {
         assert(!PyErr_Occurred());
         assert(ret);
         goto finally;
-    except:
+        except:
         Py_XDECREF(ret);
         assert(PyErr_Occurred());
         ret = NULL;
-    finally:
+        finally:
         return ret;
     }
 
@@ -317,7 +345,7 @@ namespace Python_Cpp_Containers {
             int (*PyContainer_Check)(PyObject *),
             int (*PyObject_Check)(PyObject *),
             T (*PyObject_Convert)(PyObject *)
-            >
+    >
     int generic_py_set_or_frozenset_to_cpp_std_unordered_set(PyObject *op, std::unordered_set<T> &set) {
         assert(!PyErr_Occurred());
         int ret = 0;
@@ -326,21 +354,21 @@ namespace Python_Cpp_Containers {
         set.clear();
 
         Py_INCREF(op); // Borrowed reference
-        if (! (*PyContainer_Check)(op)) {
+        if (!(*PyContainer_Check)(op)) {
             PyErr_Format(PyExc_ValueError, "Python object must be a set not a %s", op->ob_type->tp_name);
             ret = -1;
             goto except;
         }
         set.reserve(PySet_Size(op));
         py_iter = PyObject_GetIter(op);
-        if (! py_iter) {
+        if (!py_iter) {
             ret = -2;
             PyErr_Format(PyExc_ValueError, "Can not create Python iterator on type %s", op->ob_type->tp_name);
             goto except;
         }
         while ((py_item = PyIter_Next(py_iter))) {
             /* do something with item */
-            if (! (*PyObject_Check)(py_item)) {
+            if (!(*PyObject_Check)(py_item)) {
                 set.clear();
                 PyErr_Format(PyExc_ValueError, "Python value of type %s can not be converted",
                              py_item->ob_type->tp_name);
@@ -364,10 +392,10 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-    except:
+        except:
         set.clear();
         assert(PyErr_Occurred());
-    finally:
+        finally:
         Py_DECREF(op); // Borrowed reference
         Py_XDECREF(py_item);
         Py_XDECREF(py_iter);
@@ -417,7 +445,7 @@ namespace Python_Cpp_Containers {
         if (ret) {
             for (const auto &k_v: map) {
                 py_k = (*Convert_K)(k_v.first);
-                if (! py_k) {
+                if (!py_k) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     PyErr_Format(PyExc_ValueError, "C++ key of can not be converted.");
                     goto except;
@@ -425,7 +453,7 @@ namespace Python_Cpp_Containers {
                 // Refcount may well be >> 1 for interned objects.
                 Py_ssize_t py_k_ob_refcnt = py_k->ob_refcnt;
                 py_v = (*Convert_V)(k_v.second);
-                if (! py_v) {
+                if (!py_v) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
                     goto except;
@@ -453,11 +481,11 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-    except:
+        except:
         assert(PyErr_Occurred());
         Py_XDECREF(py_k);
         Py_XDECREF(py_v);
-    finally:
+        finally:
         return ret;
     }
 
@@ -501,10 +529,10 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-    except:
+        except:
         map.clear();
         assert(PyErr_Occurred());
-    finally:
+        finally:
         Py_DECREF(dict); // Borrowed reference
         return ret;
     }
