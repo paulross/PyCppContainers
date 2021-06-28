@@ -8,10 +8,20 @@
 #include "test_common.h"
 #include "test_performance.h"
 
+// Test ranges
+// Container lengths.
+const size_t MIN_SIZE_OF_CONTAINER = 2;
+const size_t LIMIT_SIZE_OF_CONTAINER = 1 << 21; // Maximum value < this value
+const size_t INC_SIZE_OF_CONTAINER_MULTIPLE = 4;
+// String lengths.
+const size_t MIN_STRING_LENGTH = 8;
+const size_t LIMIT_STRING_LENGTH = 4096 * 2; // Maximum value < this value
+const size_t INC_STRING_LENGTH_MULTIPLE = 4;
+
 template<typename T, T (*ConvertPyToCpp)(PyObject *)>
 int test_perf_vector_to_py_tuple(TestResultS &test_results, const std::string &type) {
     int result = 0;
-    for (size_t size = 2; size < 1 << 21; size *= 2) {
+    for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_vector_to_py_tuple<T, ConvertPyToCpp>(test_results, type, size);
     }
     return result;
@@ -20,7 +30,7 @@ int test_perf_vector_to_py_tuple(TestResultS &test_results, const std::string &t
 template<typename T, PyObject *(*ConvertCppToPy)(const T &), T (*ConvertPyToCpp)(PyObject *)>
 int test_perf_py_tuple_to_vector(TestResultS &test_results, const std::string &type) {
     int result = 0;
-    for (size_t size = 2; size < 1 << 21; size *= 2) {
+    for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_py_tuple_to_vector<T, ConvertCppToPy, ConvertPyToCpp>(test_results, type, size);
     }
     return result;
@@ -28,8 +38,8 @@ int test_perf_py_tuple_to_vector(TestResultS &test_results, const std::string &t
 
 int test_perf_vector_string_to_py_tuple(TestResultS &test_results) {
     int result = 0;
-    for (size_t str_len = 8; str_len <= 4096; str_len *= 2) {
-        for (size_t size = 2; size < 1 << 21; size *= 2) {
+    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_vector_string_to_py_tuple(test_results, size, str_len);
         }
     }
@@ -38,8 +48,8 @@ int test_perf_vector_string_to_py_tuple(TestResultS &test_results) {
 
 int test_perf_vector_string_to_py_tuple_multiple(TestResultS &test_results, size_t repeat) {
     int result = 0;
-    for (size_t str_len = 8; str_len <= 4096; str_len *= 2) {
-        for (size_t size = 2; size < 1 << 21; size *= 2) {
+    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_vector_string_to_py_tuple_multiple(test_results, size, str_len, repeat);
         }
     }
@@ -48,8 +58,8 @@ int test_perf_vector_string_to_py_tuple_multiple(TestResultS &test_results, size
 
 int test_perf_py_tuple_string_to_vector(TestResultS &test_results) {
     int result = 0;
-    for (size_t str_len = 8; str_len <= 4096; str_len *= 2) {
-        for (size_t size = 2; size < 1 << 21; size *= 2) {
+    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_py_tuple_string_to_vector(test_results, size, str_len);
         }
     }
@@ -66,7 +76,7 @@ template<
 >
 int test_perf_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::string &type) {
     int result = 0;
-    for (size_t size = 2; size < 1 << 21; size *= 2) {
+    for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_cpp_std_unordered_map_to_py_dict<
                 K, V, Convert_K, Convert_V, Convert_Py_Key, Convert_Py_Val>(test_results, type, size);
     }
@@ -83,7 +93,7 @@ template<
 >
 int test_perf_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::string &type) {
     int result = 0;
-    for (size_t size = 2; size < 1 << 21; size *= 2) {
+    for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_py_dict_to_cpp_std_unordered_map<
                 K, V, Convert_K, Convert_V, Convert_Py_Key, Convert_Py_Val>(test_results, type, size);
     }
@@ -92,9 +102,8 @@ int test_perf_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const 
 
 int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results) {
     int result = 0;
-    for (size_t str_len = 8; str_len <= 4096; str_len *= 2) {
-        size_t size_limit = (1 << 21) * 8  / (str_len / 2);
-        for (size_t size = 2; size <= size_limit; size *= 2) {
+    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_cpp_std_unordered_map_to_py_dict_string(test_results, size, str_len);
         }
     }
