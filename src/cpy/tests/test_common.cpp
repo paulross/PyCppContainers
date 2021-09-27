@@ -24,7 +24,7 @@ int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_
                 result |= 1 << 2;
             } else {
                 for (size_t i = 0; i < size; ++i) {
-                    std::string value = Python_Cpp_Containers::py_bytes_as_string(
+                    std::string value = Python_Cpp_Containers::py_bytes_to_cpp_string(
                             Python_Cpp_Containers::py_tuple_get(op, i)
                             );
                     if (value != cpp_vector[i]) {
@@ -70,7 +70,7 @@ int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_
 //            std::string str = unique_string(str_len);
             std::string str(str_len, ' ');
             int err = Python_Cpp_Containers::py_tuple_set(
-                    op, i, Python_Cpp_Containers::py_bytes_from_string(str)
+                    op, i, Python_Cpp_Containers::cpp_string_to_py_bytes(str)
                     );
             if (err != 0) {
                 result |= 1 << 1;
@@ -88,7 +88,7 @@ int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_
                     result |= 1 << 3;
                 } else {
                     for (size_t i = 0; i < size; ++i) {
-                        std::string value = Python_Cpp_Containers::py_bytes_as_string(
+                        std::string value = Python_Cpp_Containers::py_bytes_to_cpp_string(
                                 Python_Cpp_Containers::py_tuple_get(op, i));
                         if (value != cpp_vector[i]) {
                             result |= 1 << 4;
@@ -126,8 +126,8 @@ int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size
                 PyObject *py_key, *py_val;
                 Py_ssize_t pos = 0;
                 while (PyDict_Next(op, &pos, &py_key, &py_val)) {
-                    std::string cp_key = Python_Cpp_Containers::py_bytes_as_string(py_key);
-                    std::string cp_val = Python_Cpp_Containers::py_bytes_as_string(py_val);
+                    std::string cp_key = Python_Cpp_Containers::py_bytes_to_cpp_string(py_key);
+                    std::string cp_val = Python_Cpp_Containers::py_bytes_to_cpp_string(py_val);
                     if (cpp_map.find(cp_key) == cpp_map.end()) {
                         result |= 1 << 3;
                     } else {
@@ -156,7 +156,7 @@ int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size
 ////            std::string str = unique_string(str_len);
 //            std::string str(str_len, ' ');
 //            int err = Python_Cpp_Containers::py_tuple_set(
-//                    op, i, Python_Cpp_Containers::py_bytes_from_string(str)
+//                    op, i, Python_Cpp_Containers::cpp_string_to_py_bytes(str)
 //                    );
 //            if (err != 0) {
 //                result |= 1 << 1;
@@ -174,7 +174,7 @@ int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size
 //                    result |= 1 << 3;
 //                } else {
 //                    for (size_t i = 0; i < size; ++i) {
-//                        std::string value = Python_Cpp_Containers::py_bytes_as_string(
+//                        std::string value = Python_Cpp_Containers::py_bytes_to_cpp_string(
 //                                Python_Cpp_Containers::py_tuple_get(op, i));
 //                        if (value != cpp_vector[i]) {
 //                            result |= 1 << 4;

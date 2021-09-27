@@ -53,11 +53,11 @@ class CppTypeFunctions(typing.NamedTuple):
 
 
 CPP_TYPE_TO_FUNCS = {
-    'bool': CppTypeFunctions('py_bool_from_bool', 'py_bool_check', 'py_bool_as_bool'),
-    'long': CppTypeFunctions('py_long_from_long', 'py_long_check', 'py_long_as_long'),
-    'double': CppTypeFunctions('py_float_from_double', 'py_float_check', 'py_float_as_double'),
+    'bool': CppTypeFunctions('cpp_bool_to_py_bool', 'py_bool_check', 'py_bool_to_cpp_bool'),
+    'long': CppTypeFunctions('cpp_long_to_py_long', 'py_long_check', 'py_long_to_cpp_long'),
+    'double': CppTypeFunctions('cpp_double_to_py_float', 'py_float_check', 'py_float_to_cpp_double'),
     # 'std::complex<double>': CppTypeFunctions('py_complex_from_complex', 'py_complex_check', 'py_complex_as_complex'),
-    'std::string': CppTypeFunctions('py_bytes_from_string', 'py_bytes_check', 'py_bytes_as_string'),
+    'std::string': CppTypeFunctions('cpp_string_to_py_bytes', 'py_bytes_check', 'py_bytes_to_cpp_string'),
 }
 
 # TODO: Sort out nomenclature, here we use to_py, to_cpp. In other places we use to/from

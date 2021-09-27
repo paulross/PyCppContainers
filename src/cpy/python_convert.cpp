@@ -56,7 +56,7 @@ namespace Python_Cpp_Containers {
     PyObject *cpp_complex_to_py_complex(const std::complex<double> &c) {
         return PyComplex_FromDoubles(c.real(), c.imag());
     }
-    std::complex<double> py_complex_as_cpp_complex(PyObject *op) {
+    std::complex<double> py_complex_to_cpp_complex(PyObject *op) {
         assert(py_complex_check(op));
         return std::complex<double>(PyComplex_RealAsDouble(op), PyComplex_ImagAsDouble(op));
     }

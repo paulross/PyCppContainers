@@ -24,7 +24,7 @@ int test_memory_py_tuple(TestResultS &test_results, const std::string &type, siz
     PyObject *op = NULL;
     if (p_tuple) {
         for (size_t i = 0; i < size; ++i) {
-            op = Python_Cpp_Containers::py_float_from_double(static_cast<double>(i));
+            op = Python_Cpp_Containers::cpp_double_to_py_float(static_cast<double>(i));
             if (!op) {
                 // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                 // e.g. tupledealloc(): https://github.com/python/cpython/blob/main/Objects/tupleobject.c#L268
@@ -66,13 +66,13 @@ int test_memory_py_dict(TestResultS &test_results, const std::string &type, size
     PyObject *py_v = NULL;
     if (p_container) {
         for (size_t i = 0; i < size; ++i) {
-            py_k = Python_Cpp_Containers::py_float_from_double(static_cast<double>(i));
+            py_k = Python_Cpp_Containers::cpp_double_to_py_float(static_cast<double>(i));
             if (! py_k) {
                 // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                 PyErr_Format(PyExc_ValueError, "C++ key of can not be converted.");
                 goto except;
             }
-            py_v = Python_Cpp_Containers::py_float_from_double(static_cast<double>(i));
+            py_v = Python_Cpp_Containers::cpp_double_to_py_float(static_cast<double>(i));
             if (! py_v) {
                 // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                 PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");

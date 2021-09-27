@@ -66,7 +66,7 @@ namespace Python_Cpp_Containers {
     // Complex/complex
     PyObject *cpp_complex_to_py_complex(const std::complex<double> &c);
 
-    std::complex<double> py_complex_as_cpp_complex(PyObject *op);
+    std::complex<double> py_complex_to_cpp_complex(PyObject *op);
 
     int py_complex_check(PyObject *op);
 
@@ -427,7 +427,7 @@ namespace Python_Cpp_Containers {
     //  std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double, double> &map) {
     //      return generic_cpp_std_unordered_map_to_py_dict<
     //            double, double,
-    //            &py_float_from_double, &cpp_double_to_py_float
+    //            &cpp_double_to_py_float, &cpp_double_to_py_float
     //      >(map);
     //  }
     // TODO: Here

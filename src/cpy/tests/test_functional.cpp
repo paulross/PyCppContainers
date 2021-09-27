@@ -32,7 +32,7 @@ void test_example_py_tuple_to_vector_double() {
             int err = Python_Cpp_Containers::py_tuple_set(
                     op,
                     i,
-                    Python_Cpp_Containers::py_float_from_double(static_cast<double>(i))
+                    Python_Cpp_Containers::cpp_double_to_py_float(static_cast<double>(i))
                     );
             if (err != 0) {
                 // Handle error
@@ -94,37 +94,37 @@ void test_functional_all(TestResultS &test_results) {
     test_example_py_dict_to_cpp_std_unordered_map();
     {
         RSSSnapshot rss("test_vector_to_py_tuple<bool>");
-        test_vector_to_py_tuple<bool, &Python_Cpp_Containers::py_bool_as_bool>(test_results, "<bool>",
+        test_vector_to_py_tuple<bool, &Python_Cpp_Containers::py_bool_to_cpp_bool>(test_results, "<bool>",
                                                                                            1024);
         std::cout << rss << std::endl;
     }
     {
         RSSSnapshot rss("test_vector_to_py_tuple<long>");
-        test_vector_to_py_tuple<long, &Python_Cpp_Containers::py_long_as_long>(test_results, "<long>",
+        test_vector_to_py_tuple<long, &Python_Cpp_Containers::py_long_to_cpp_long>(test_results, "<long>",
                                                                                            1024);
         std::cout << rss << std::endl;
     }
     {
         RSSSnapshot rss("test_vector_to_py_tuple<double>");
-        test_vector_to_py_tuple<double, &Python_Cpp_Containers::py_float_as_double>(test_results,
+        test_vector_to_py_tuple<double, &Python_Cpp_Containers::py_float_to_cpp_double>(test_results,
                                                                                                 "<double>", 1024);
         std::cout << rss << std::endl;
     }
     {
         RSSSnapshot rss("test_py_tuple_to_vector<bool>");
-        test_py_tuple_to_vector<bool, &Python_Cpp_Containers::py_bool_from_bool, &Python_Cpp_Containers::py_bool_as_bool>(
+        test_py_tuple_to_vector<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool, &Python_Cpp_Containers::py_bool_to_cpp_bool>(
                 test_results, "<bool>", 1024);
         std::cout << rss << std::endl;
     }
     {
         RSSSnapshot rss("test_py_tuple_to_vector<long>");
-        test_py_tuple_to_vector<long, &Python_Cpp_Containers::py_long_from_long, &Python_Cpp_Containers::py_long_as_long>(
+        test_py_tuple_to_vector<long, &Python_Cpp_Containers::cpp_long_to_py_long, &Python_Cpp_Containers::py_long_to_cpp_long>(
                 test_results, "<long>", 1024);
         std::cout << rss << std::endl;
     }
     {
         RSSSnapshot rss("test_py_tuple_to_vector<double>");
-        test_py_tuple_to_vector<double, &Python_Cpp_Containers::py_float_from_double, &Python_Cpp_Containers::py_float_as_double>(
+        test_py_tuple_to_vector<double, &Python_Cpp_Containers::cpp_double_to_py_float, &Python_Cpp_Containers::py_float_to_cpp_double>(
                 test_results, "<double>", 1024);
         std::cout << rss << std::endl;
     }
@@ -145,19 +145,19 @@ void test_functional_all(TestResultS &test_results) {
     }
     {
         RSSSnapshot rss("test_py_tuple_to_vector_round_trip<bool>");
-        test_py_tuple_to_vector_round_trip<bool, &Python_Cpp_Containers::py_bool_from_bool>(test_results,
+        test_py_tuple_to_vector_round_trip<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool>(test_results,
                                                                                                         "<bool>", 1024);
         std::cout << rss << std::endl;
     }
     {
         RSSSnapshot rss("test_py_tuple_to_vector_round_trip<long>");
-        test_py_tuple_to_vector_round_trip<long, &Python_Cpp_Containers::py_long_from_long>(test_results,
+        test_py_tuple_to_vector_round_trip<long, &Python_Cpp_Containers::cpp_long_to_py_long>(test_results,
                                                                                                         "<long>", 1024);
         std::cout << rss << std::endl;
     }
     {
         RSSSnapshot rss("test_py_tuple_to_vector_round_trip<double>");
-        test_py_tuple_to_vector_round_trip<double, &Python_Cpp_Containers::py_float_from_double>(
+        test_py_tuple_to_vector_round_trip<double, &Python_Cpp_Containers::cpp_double_to_py_float>(
                 test_results,
                 "<double>", 1024);
         std::cout << rss << std::endl;
@@ -175,13 +175,13 @@ void test_functional_all(TestResultS &test_results) {
     // sets
     {
         RSSSnapshot rss("test_unordered_set_to_py_set<long>");
-        test_unordered_set_to_py_set<long, &Python_Cpp_Containers::py_long_as_long, &Python_Cpp_Containers::py_long_from_long>(
+        test_unordered_set_to_py_set<long, &Python_Cpp_Containers::py_long_to_cpp_long, &Python_Cpp_Containers::cpp_long_to_py_long>(
                 test_results, "<long>", 1024);
         std::cout << rss << std::endl;
     }
     {
         RSSSnapshot rss("test_py_set_to_unordered_set<long>");
-        test_py_set_to_unordered_set<long, &Python_Cpp_Containers::py_long_as_long, &Python_Cpp_Containers::py_long_from_long>(
+        test_py_set_to_unordered_set<long, &Python_Cpp_Containers::py_long_to_cpp_long, &Python_Cpp_Containers::cpp_long_to_py_long>(
                 test_results, "<long>", 1024);
         std::cout << rss << std::endl;
     }
@@ -191,10 +191,10 @@ void test_functional_all(TestResultS &test_results) {
         test_cpp_std_unordered_map_to_py_dict<
                 double,
                 double,
-                &Python_Cpp_Containers::py_float_from_double,
-                &Python_Cpp_Containers::py_float_from_double,
-                &Python_Cpp_Containers::py_float_as_double,
-                &Python_Cpp_Containers::py_float_as_double
+                &Python_Cpp_Containers::cpp_double_to_py_float,
+                &Python_Cpp_Containers::cpp_double_to_py_float,
+                &Python_Cpp_Containers::py_float_to_cpp_double,
+                &Python_Cpp_Containers::py_float_to_cpp_double
         >(test_results, "<double>", 1024);
         std::cout << rss << std::endl;
     }
@@ -203,10 +203,10 @@ void test_functional_all(TestResultS &test_results) {
         test_py_dict_to_cpp_std_unordered_map<
                 double,
                 double,
-                &Python_Cpp_Containers::py_float_from_double,
-                &Python_Cpp_Containers::py_float_from_double,
-                &Python_Cpp_Containers::py_float_as_double,
-                &Python_Cpp_Containers::py_float_as_double
+                &Python_Cpp_Containers::cpp_double_to_py_float,
+                &Python_Cpp_Containers::cpp_double_to_py_float,
+                &Python_Cpp_Containers::py_float_to_cpp_double,
+                &Python_Cpp_Containers::py_float_to_cpp_double
         >(test_results, "<double>", 1024);
         std::cout << rss << std::endl;
     }
