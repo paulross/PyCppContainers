@@ -5,17 +5,6 @@ This facilitates conversion between Python and C++ containers where the Python t
 
 For example a Python set of strings to and from a C++ unordered_set<std::string>
 
-TODO: Add Doxygen style documenation such as:
-
-    /**
-     *
-     * @tparam T
-     * @tparam Convert
-     * @tparam PyUnary_New
-     * @tparam PyUnary_Set
-     * @param vec
-     * @return
-     */
 """
 import collections
 import contextlib
@@ -52,6 +41,11 @@ class CppTypeFunctions(typing.NamedTuple):
     from_py_type: str
 
 
+# Notee on nomenclature:
+# 'cpp' is C++
+# C++ namespaced types are '_' separated so 'std::vector' is 'cpp_std_vector'
+# 'py' is Python
+# Conversion functions are always ..._to_...
 CPP_TYPE_TO_FUNCS = {
     'bool': CppTypeFunctions('cpp_bool_to_py_bool', 'py_bool_check', 'py_bool_to_cpp_bool'),
     'long': CppTypeFunctions('cpp_long_to_py_long', 'py_long_check', 'py_long_to_cpp_long'),
@@ -59,8 +53,6 @@ CPP_TYPE_TO_FUNCS = {
     # 'std::complex<double>': CppTypeFunctions('py_complex_from_complex', 'py_complex_check', 'py_complex_as_complex'),
     'std::string': CppTypeFunctions('cpp_string_to_py_bytes', 'py_bytes_check', 'py_bytes_to_cpp_string'),
 }
-
-# TODO: Sort out nomenclature, here we use to_py, to_cpp. In other places we use to/from
 
 
 class UnaryFunctions(typing.NamedTuple):
@@ -73,18 +65,19 @@ UNARY_COLLECTIONS = {
     'tuple': UnaryFunctions('std::vector', 'cpp_std_vector_to_py_tuple', 'py_tuple_to_cpp_std_vector'),
     'list': UnaryFunctions('std::vector', 'cpp_std_vector_to_py_list', 'py_list_to_cpp_std_vector'),
     'set': UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_set', 'py_set_to_cpp_std_unordered_set'),
-    'frozenset': UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_frozenset', 'py_frozenset_to_cpp_std_unordered_set'),
+    'frozenset': UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_frozenset',
+                                'py_frozenset_to_cpp_std_unordered_set'),
 }
 
+# Not really needed as the hand written file, python_convert.h does this.
 REQUIRED_INCLUDES = [
-    # '<vector>',
-    # '<unordered_map>',
 ]
 
 
 def required_function_declarations() -> typing.List[str]:
-    ret: typing.List[str] = []
-    ret.append(comment_str('Functions to convert a type:'))
+    ret: typing.List[str] = [
+        comment_str('Functions to convert a type:'),
+    ]
     for cpp_type in CPP_TYPE_TO_FUNCS:
         ret.append(comment_str(f'{cpp_type}'))
         ret.append(
@@ -104,14 +97,11 @@ def required_function_declarations() -> typing.List[str]:
                 cpp_type=cpp_type,
             )
         )
-    # ret.append(comment_str('Functions to convert containers:'))
-    # for c in UNARY_COLLECTIONS:
-    #     pass
     return ret
 
 
 # Declarations to go in header file
-# Base declararation to convert to Python, requires fn= and cpp_container=
+# Base declaration to convert to Python, requires fn= and cpp_container=
 CPP_UNARY_FUNCTION_TO_PY_BASE_DECL = """template<typename T>
 PyObject *
 {fn}(const {cpp_container}<T> &container);"""
@@ -149,7 +139,7 @@ int
 }}
 """
 
-#===== std::unordered_map <-> dict ====
+# ===== std::unordered_map <-> dict ====
 # Declarations to go in header file
 CPP_STD_UNORDERED_MAP_TO_PY_DICT_BASE_DECL = """template<typename K, typename V>
 PyObject *
@@ -193,7 +183,7 @@ py_dict_to_cpp_std_unordered_map<{type_K}, {type_V}>(PyObject* op, std::unordere
 WIDTH = 75 - len('//')
 
 
-def get_codegen_warning(is_end: bool) -> typing.List[str]:
+def get_codegen_please_no_edit_warning(is_end: bool) -> typing.List[str]:
     if is_end:
         prefix = 'END: '
     else:
@@ -383,7 +373,7 @@ def dict_definitions() -> CodeCount:
 def declarations() -> typing.List[str]:
     ret = []
     with cpp_comment_section(ret, 'Declaration file', '='):
-        ret.extend(get_codegen_warning(False))
+        ret.extend(get_codegen_please_no_edit_warning(False))
         ret.extend(documentation())
         ret.append('#include <Python.h>')
         ret.append('')
@@ -403,7 +393,7 @@ def declarations() -> typing.List[str]:
         count_decl += code_count.count
         ret.extend(code_count.code)
         ret.append(comment_str(' Declarations written: {}'.format(count_decl)))
-        ret.extend(get_codegen_warning(True))
+        ret.extend(get_codegen_please_no_edit_warning(True))
         ret.append('')
         ret.append('} ' + comment_str(f' namespace {CPP_NAMESPACE}'))
         ret.append('')
@@ -413,9 +403,8 @@ def declarations() -> typing.List[str]:
 def definitions() -> typing.List[str]:
     ret = []
     with cpp_comment_section(ret, 'Definition file', '='):
-        ret.extend(get_codegen_warning(False))
+        ret.extend(get_codegen_please_no_edit_warning(False))
         ret.extend(documentation())
-        # TODO: Hard coded name in two places ???
         ret.append('#include "python_convert.h"')
         ret.append('')
         ret.append(f'namespace {CPP_NAMESPACE} {{\n')
@@ -427,7 +416,7 @@ def definitions() -> typing.List[str]:
         count_defn += code_count.count
         ret.extend(code_count.code)
         ret.append(comment_str(' Definitions written: {}'.format(count_defn)))
-        ret.extend(get_codegen_warning(True))
+        ret.extend(get_codegen_please_no_edit_warning(True))
         ret.append('')
         ret.append('} ' + comment_str(f' namespace {CPP_NAMESPACE}'))
         ret.append('')
@@ -451,11 +440,7 @@ def write_files() -> None:
             f.write('{}\n'.format(line))
 
 
-
 def main():
-    # print('\n'.join(declarations()))
-    # print()
-    # print('\n'.join(definitions()))
     write_files()
     return 0
 

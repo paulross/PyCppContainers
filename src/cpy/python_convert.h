@@ -5,7 +5,7 @@
 // This contains hand crafted conversion of C++ <-> Python containers of homogeneous types.
 // These are further instantiated by auto-generated code for a specific cartesian product of types and containers.
 // That product is controlled by code_gen.py
-// That auto-generated file is included by #include "auto_py_convert_internal.h" at the end of this file.p
+// That auto-generated file is included by #include "auto_py_convert_internal.h" at the end of this file.
 //
 // Usage:
 //
@@ -128,29 +128,39 @@ namespace Python_Cpp_Containers {
 
 #pragma mark -- Generic Tuple/List Container Conversion Code
 
-    // This is a hand written generic function to convert a C++ vector to a Python tuple or list.
-    // The template is instantiated with a C++ type and a conversion function to create a Python object from that type.
-    //
-    // Example of an instantiation of this template to create a function that will convert a C++ std::vector<T> to
-    // a Python tuple of T:
-    //
-    //    template<typename T, PyObject *(*Convert)(const T &)>
-    //    PyObject *
-    //    generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
-    //        return generic_cpp_std_vector_to_py_unary<T, Convert, &py_tuple_new, &py_tuple_set, &py_tuple_get>(vec);
-    //    }
-    //
-    // Example of an instantiation of this template to create a function that will convert a C++ std::vector<double> to
-    // a Python tuple of floats:
-    //
-    //     template <>
-    //     PyObject *
-    //     std_vector_to_py_tuple<double>(const std::vector<double> &container) {
-    //         return generic_cpp_std_vector_to_py_tuple<double, &cpp_double_to_py_float>(container);
-    //     }
-    //
-    // Partial template specialisation: Need PyTuple_New, PyTuple_GET_ITEM, PyTuple_SET_ITEM.
-    // Also error messages such as 'tuple'.
+
+    /**
+     * This is a hand written generic function to convert a C++ vector to a Python tuple or list.
+     * The template is instantiated with a C++ type and a conversion function to create a Python object from that type.
+     *
+     * Example of an instantiation of this template to create a function that will convert a C++ std::vector<T> to
+     * a Python tuple of T:
+     *
+     *    template<typename T, PyObject *(*Convert)(const T &)>
+     *    PyObject *
+     *    generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
+     *        return generic_cpp_std_vector_to_py_unary<T, Convert, &py_tuple_new, &py_tuple_set, &py_tuple_get>(vec);
+     *    }
+     *
+     * Example of an instantiation of this template to create a function that will convert a C++ std::vector<double> to
+     * a Python tuple of floats:
+     *
+     *     template <>
+     *     PyObject *
+     *     std_vector_to_py_tuple<double>(const std::vector<double> &container) {
+     *         return generic_cpp_std_vector_to_py_tuple<double, &cpp_double_to_py_float>(container);
+     *     }
+     *
+     * Partial template specialisation: Need PyTuple_New, PyTuple_GET_ITEM, PyTuple_SET_ITEM.
+     * Also error messages such as 'tuple'.
+     *
+     * @tparam T The C++ type of the objects in the vector.
+     * @tparam ConvertCppToPy Function to convert the C++ <T> to a PyObject*.
+     * @tparam PyUnaryContainer_New Function to create a new Python container of a given length.
+     * @tparam PyUnaryContainer_Set Function to set a value in a Python container at a given position.
+     * @param vec The C++ vector as input data.
+     * @return The PyObject* as the output data containing the values of the C++ vector.
+     */
     template<typename T,
             PyObject *(*ConvertCppToPy)(const T &),
             PyObject *(*PyUnaryContainer_New)(size_t),
@@ -192,27 +202,40 @@ namespace Python_Cpp_Containers {
         return ret;
     }
 
-    // This is a hand written generic function to convert a Python tuple or list to a C++ vector.
-    // The template is instantiated with a C++ type a check function and a conversion function to create a Python object
-    // to that C++ type.
-    //
-    // The given vector is cleared whether an error condition exists or not..
-    //
-    // Error handling notes:
-    //
-    // An assertion is made that no PyErr exists.
-    // If PyUnary_Check(op) then this sets a Python ValueError.
-    //
-    // Example of an instantiation of this template to create a function that will convert a Python tuple of floats to
-    // a C++ std::vector<double>:
-    //
-    //  template <> int
-    //  py_tuple_to_std_vector<double>(PyObject *op, std::vector<double> &container) {
-    //      return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &py_float_to_cpp_double>(op, container);
-    //  }
-    //
-    // Partial template specialisation: Need PyTuple_Check, PyTuple_GET_SIZE, PyTuple_GET_ITEM.
-    // Also error messages.
+    
+    /**
+     * This is a hand written generic function to convert a Python tuple or list to a C++ vector.
+     * The template is instantiated with a C++ type a check function and a conversion function to create a Python object
+     * to that C++ type.
+     *
+     * The given vector is cleared whether an error condition exists or not..
+     *
+     * Error handling notes:
+     *
+     * An assertion is made that no PyErr exists.
+     * If PyUnary_Check(op) then this sets a Python ValueError.
+     *
+     * Example of an instantiation of this template to create a function that will convert a Python tuple of floats to
+     * a C++ std::vector<double>:
+     *
+     *  template <> int
+     *  py_tuple_to_std_vector<double>(PyObject *op, std::vector<double> &container) {
+     *      return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &py_float_to_cpp_double>(op, container);
+     *  }
+     *
+     * Partial template specialisation: Need PyTuple_Check, PyTuple_GET_SIZE, PyTuple_GET_ITEM.
+     * Also error messages.
+     *
+     * @tparam T The C++ type of the objects in the vector.
+     * @tparam PyObject_Check A function that takes a PyObject* and returns 1 if it is of the right type, 0 otherwise.
+     * @tparam PyObject_Convert A function to convert a PyObject* to a C++ <T>  object.
+     * @tparam PyUnaryContainer_Check A function that takes a PyObject* and returns 1 if it is of the right container, 0 otherwise.
+     * @tparam PyUnaryContainer_Size A function that returns the length of the Python container.
+     * @tparam PyUnaryContainer_Get A function that gets a PyObject* from the Python container at a given index.
+     * @param op The Python container of values that can be converted to C++ type T.
+     * @param vec The C++ vector to populate. This will be empty on failure.
+     * @return 0 on success, non-zero on failure.
+     */
     template<typename T,
             int (*PyObject_Check)(PyObject *),
             T (*PyObject_Convert)(PyObject *),
@@ -220,10 +243,10 @@ namespace Python_Cpp_Containers {
             Py_ssize_t(*PyUnaryContainer_Size)(PyObject *),
             PyObject *(*PyUnaryContainer_Get)(PyObject *, size_t)>
     int generic_py_unary_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
-        assert(!PyErr_Occurred());
+        assert(! PyErr_Occurred());
         int ret = 0;
         vec.clear();
-        Py_INCREF(op); // Borrowed reference
+        Py_INCREF(op); // Borrow reference
         if (!PyUnaryContainer_Check(op)) {
             PyErr_Format(PyExc_ValueError, "Python object must be a tuple/list not a %s", op->ob_type->tp_name);
             ret = -1;
@@ -241,12 +264,13 @@ namespace Python_Cpp_Containers {
             vec.push_back((*PyObject_Convert)(value));
             // Check !PyErr_Occurred() which could never happen as we check first.
         }
-        assert(!PyErr_Occurred());
+        assert(! PyErr_Occurred());
         goto finally;
-        except:
+    except:
         assert(PyErr_Occurred());
-        finally:
-        Py_DECREF(op); // Borrowed reference
+        vec.clear();
+    finally:
+        Py_DECREF(op); // Return borrowed reference
         return ret;
     }
 
@@ -284,7 +308,15 @@ namespace Python_Cpp_Containers {
 
 #pragma mark -- Specific Set Container Conversion Code
 
-    // This is a hand written generic function to convert a C++ unordered_set to a Python set or frozen set.
+    /**
+     * This is a hand written generic function to convert a C++ unordered_set to a Python set or frozen set.
+     *
+     * @tparam T The C++ type of the objects in the vector.
+     * @tparam ConvertCppToPy Function to convert the C++ <T> to a PyObject*.
+     * @tparam PyContainer_New Function to create a new Python container.
+     * @param set The C++ std::set as input data.
+     * @return The PyObject* as the output data containing the values of the C++ vector.
+     */
     template<
             typename T,
             PyObject *(*ConvertCppToPy)(const T &),
@@ -416,21 +448,29 @@ namespace Python_Cpp_Containers {
 
 #pragma mark -- Specific Dict Container Conversion Code
 
-    // This is a hand written generic function to convert a C++ unordered_map to a Python dict.
-    // The template is instantiated with C++ type(s) and a conversion function(s) to create Python object(s) from those
-    // types.
-    //
-    // Example:
-    //
-    //  template <>
-    //  PyObject *
-    //  std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double, double> &map) {
-    //      return generic_cpp_std_unordered_map_to_py_dict<
-    //            double, double,
-    //            &cpp_double_to_py_float, &cpp_double_to_py_float
-    //      >(map);
-    //  }
-    // TODO: Here
+    /**
+     * This is a hand written generic function to convert a C++ unordered_map to a Python dict.
+     * The template is instantiated with C++ type(s) and a conversion function(s) to create Python object(s) from those
+     * types.
+     *
+     * Example:
+     *
+     *  template <>
+     *  PyObject *
+     *  std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double, double> &map) {
+     *      return generic_cpp_std_unordered_map_to_py_dict<
+     *            double, double,
+     *            &cpp_double_to_py_float, &cpp_double_to_py_float
+     *      >(map);
+     *  }
+     * 
+     * @tparam K The C++ type of the key.
+     * @tparam V The C++ type of the value.
+     * @tparam Convert_K A function to convert a C++ type K to a PyObject*.
+     * @tparam Convert_V A function to convert a C++ type V to a PyObject*.
+     * @param map The C++ map that is to be converted to a Python dictionary.
+     * @return The Python dictionary. NULL on failure.
+     */
     template<
             typename K,
             typename V,
@@ -481,14 +521,28 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-        except:
+    except:
         assert(PyErr_Occurred());
         Py_XDECREF(py_k);
         Py_XDECREF(py_v);
-        finally:
+    finally:
         return ret;
     }
 
+    /**
+     *
+     * This is a hand written generic function to convert a Python dictionary to a C++ unordered_map.
+     *
+     * @tparam K The C++ type of the key.
+     * @tparam V The C++ type of the value.
+     * @tparam Check_K A function to check that the type of a PyObject* is a C++ K. Returns 0 on success, non-zero on failure.
+     * @tparam Check_V A function to check that the type of a PyObject* is a C++ V. Returns 0 on success, non-zero on failure.
+     * @tparam Convert_K A function to convert a PyObject to a C++ type K.
+     * @tparam Convert_V A function to convert a PyObject to a C++ type V.
+     * @param dict The Python dictionary as input.
+     * @param map The C++ std::unordered_map to populate. This will be empty on failure.
+     * @return 0 on success. Non-zero on failure.
+     */
     template<
             typename K,
             typename V,
@@ -540,7 +594,6 @@ namespace Python_Cpp_Containers {
 } // namespace Python_Cpp_Containers
 
 // Now include the auto generated instantiations.
-
 #include "auto_py_convert_internal.h"
 
 #endif // PYTHON_CPP_CONTAINERS_PYTHON_CONVERT_H
