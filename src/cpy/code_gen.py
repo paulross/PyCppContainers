@@ -18,7 +18,9 @@ TODO: Add Doxygen style documentation:
 template<typename T>
 PyObject *
 cpp_std_vector_to_py_tuple(const std::vector<T> &container);
+
 // Instantiations
+
 /**
  * Instantiation for converting C++ vectors of bool to Python tuples or bool.
  *
@@ -96,6 +98,58 @@ class UnaryFunctions(typing.NamedTuple):
     cpp_container: str
     decl_to_py: str
     decl_to_cpp: str
+
+    def doxygen_documentation_base_class(self) -> typing.List[str]:
+        """Returns a Doxygen style comment. For example::
+
+            /**
+             * Base declaration for converting C++ vectors to a Python tuple.
+             *
+             * @tparam T C++ type.
+             * @param container C++ input as a std::vector<T>.
+             * @return A Python tuple containing type T.
+             */
+
+        This is for::
+
+            template<typename T>
+            PyObject *
+            cpp_std_vector_to_py_tuple(const std::vector<T> &container);
+        """
+        return [
+            '/**',
+            f' * Base declaration for converting C++ {self.cpp_container} to a Python ???.',
+            ' *',
+            ' * @tparam T C++ type.',
+            f' * @param container C++ input as a {self.cpp_container}<T>.',
+            ' * @return A Python ??? containing type T.',
+            ' */',
+        ]
+
+    def doxygen_documentation_instantiation(self):
+        """Returns a Doxygen style comment. For example::
+
+            /**
+             * Instantiation for converting C++ vectors of bool to a Python tuple of bool.
+             *
+             * @param container C++ input as a std::vector<bool>.
+             * @return A Python tuple containing bool types.
+             */
+
+        This is for::
+
+            template <>
+            PyObject *
+            cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container);
+        """
+        return [
+            '/**',
+            f' * Instantiation for converting C++ {self.cpp_container} to a Python ??? of ???.',
+            ' *',
+            f' * @param container C++ input as a {self.cpp_container}<???>.',
+            ' * @return A Python ??? containing ??? types.',
+            ' */',
+        ]
 
 
 UNARY_COLLECTIONS = {
