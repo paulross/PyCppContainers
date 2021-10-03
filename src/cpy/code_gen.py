@@ -5,6 +5,29 @@ This facilitates conversion between Python and C++ containers where the Python t
 
 For example a Python set of strings to and from a C++ unordered_set<std::string>
 
+TODO: Add Doxygen style documentation:
+
+// Base declaration
+/**
+ * Base declaration for converting C++ vectors to Python tuples.
+ *
+ * @tparam T C++ type.
+ * @param container C++ input as a std::vector<T>.
+ * @return A Python tuple containing type T.
+ */
+template<typename T>
+PyObject *
+cpp_std_vector_to_py_tuple(const std::vector<T> &container);
+// Instantiations
+/**
+ * Instantiation for converting C++ vectors of bool to Python tuples or bool.
+ *
+ * @param container C++ input as a std::vector<bool>.
+ * @return A Python tuple containing booleans.
+ */
+template <>
+PyObject *
+cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container);
 """
 import collections
 import contextlib
@@ -20,7 +43,9 @@ CPP_NAMESPACE = 'Python_Cpp_Containers'
 
 
 def comment_str(s: str) -> str:
-    assert '\n' not in s
+    """Turn a single line string into an inline comment."""
+    if '\n' in s:
+        raise ValueError(f'Inline comment can not have newlines in it.')
     return '//{}'.format(s)
 
 
@@ -36,12 +61,18 @@ def comment_list_str(inputs: typing.List[str]) -> typing.List[str]:
 
 
 class CppTypeFunctions(typing.NamedTuple):
-    to_py_type: str
+    """
+    PoD Class to contain the names of three C/C++ functions:
+    - Conversion from C++ to Python object. Example 'cpp_bool_to_py_bool'.
+    - Check it is a Python object of type. Example 'py_bool_check'.
+    - Conversion from Python object to a C++ type. Example 'py_bool_to_cpp_bool'.
+    """
+    cpp_type_to_py_type: str
     py_check: str
-    from_py_type: str
+    py_type_to_cpp_type: str
 
 
-# Notee on nomenclature:
+# Note on nomenclature:
 # 'cpp' is C++
 # C++ namespaced types are '_' separated so 'std::vector' is 'cpp_std_vector'
 # 'py' is Python
@@ -56,6 +87,12 @@ CPP_TYPE_TO_FUNCS = {
 
 
 class UnaryFunctions(typing.NamedTuple):
+    """
+    PoD Class to contain the names of three C/C++ functions:
+    - C++ container type. Example 'std::vector'.
+    - Function declaration to convert to a Python type. Example 'cpp_std_vector_to_py_tuple'.
+    - Function declaration to convert to a C++ type. Example 'py_tuple_to_cpp_std_vector'.
+    """
     cpp_container: str
     decl_to_py: str
     decl_to_cpp: str
@@ -72,32 +109,6 @@ UNARY_COLLECTIONS = {
 # Not really needed as the hand written file, python_convert.h does this.
 REQUIRED_INCLUDES = [
 ]
-
-
-def required_function_declarations() -> typing.List[str]:
-    ret: typing.List[str] = [
-        comment_str('Functions to convert a type:'),
-    ]
-    for cpp_type in CPP_TYPE_TO_FUNCS:
-        ret.append(comment_str(f'{cpp_type}'))
-        ret.append(
-            'PyObject *{fn}(const {cpp_type} &value);'.format(
-                fn=CPP_TYPE_TO_FUNCS[cpp_type].to_py_type,
-                cpp_type=cpp_type,
-            )
-        )
-        ret.append(
-            'int {fn}(PyObject *op);'.format(
-                fn=CPP_TYPE_TO_FUNCS[cpp_type].py_check,
-            )
-        )
-        ret.append(
-            '{cpp_type} {fn}(PyObject *op);'.format(
-                fn=CPP_TYPE_TO_FUNCS[cpp_type].from_py_type,
-                cpp_type=cpp_type,
-            )
-        )
-    return ret
 
 
 # Declarations to go in header file
@@ -131,7 +142,7 @@ PyObject *
 }}
 """
 
-# From Python, reqires fn_decl=, cpp_type=, cpp_container=, fn_defn=, py_check=, convert_to_py=
+# From Python, requires fn_decl=, cpp_type=, cpp_container=, fn_defn=, py_check=, convert_to_py=
 CPP_UNARY_FUNCTION_FROM_PY_DEFN = """template <>
 int
 {fn_decl}<{cpp_type}>(PyObject *op, {cpp_container}<{cpp_type}> &container) {{
@@ -184,6 +195,7 @@ WIDTH = 75 - len('//')
 
 
 def get_codegen_please_no_edit_warning(is_end: bool) -> typing.List[str]:
+    """Writes the start or end of a warning comment."""
     if is_end:
         prefix = 'END: '
     else:
@@ -191,15 +203,25 @@ def get_codegen_please_no_edit_warning(is_end: bool) -> typing.List[str]:
     return [
         comment_str('{}'.format('#' * WIDTH)),
         comment_str('{}'.format(
-            ' {prefix}Auto-generated code - do not edit. Seriously, do NOT edit. '.format(prefix=prefix).center(WIDTH,
-                                                                                                                '#'))),
+                ' {prefix}Auto-generated code - do not edit. Seriously, do NOT edit. '.format(
+                    prefix=prefix).center(WIDTH, '#')
+            )
+        ),
         comment_str('{}'.format('#' * WIDTH)),
     ]
 
 
 @contextlib.contextmanager
-def cpp_comment_section(str_list: typing.List[str], title:str, sep:str):
-    """Context manager for writing begining and end comments."""
+def get_codegen_please_no_edit_warning_context(str_list: typing.List[str]):
+    """Context manager that writes the start or end of a warning comment."""
+    str_list.extend(get_codegen_please_no_edit_warning(False))
+    yield
+    str_list.extend(get_codegen_please_no_edit_warning(True))
+
+
+@contextlib.contextmanager
+def cpp_comment_section(str_list: typing.List[str], title: str, sep: str):
+    """Context manager for writing beginning and end comments."""
     str_list.append(comment_str('{}'.format(' {} '.format(title).center(WIDTH, sep))))
     yield
     str_list.append(comment_str('{}'.format(' END: {} '.format(title).center(WIDTH, sep))))
@@ -207,11 +229,12 @@ def cpp_comment_section(str_list: typing.List[str], title:str, sep:str):
 
 
 def defn_name_from_decl_name(name: str) -> str:
-    """Returns the definition name given the declaration name by convention."""
+    """Returns the definition name given the declaration name by the convention that it is preceded with 'generic_'."""
     return 'generic_{}'.format(name)
 
 
 def documentation() -> typing.List[str]:
+    """General documentation."""
     ret = [
         ' Conversion from homogeneous data structures in Python and C++',
         ' ',
@@ -237,10 +260,14 @@ def documentation() -> typing.List[str]:
     return comment_list_str(ret)
 
 
-CodeCount = collections.namedtuple('CodeCount', 'code, count')
+class CodeCount(typing.NamedTuple):
+    """PoD class that contains a list of C++ lines of code and a count of the number of declarations definitions."""
+    code: typing.List[str]
+    count: int
 
 
 def unary_declarations() -> CodeCount:
+    """Returns the C++ code for the unary declarations."""
     code = []
     count = 0
     with cpp_comment_section(code, 'Unary collections <-> Python collections', '*'):
@@ -249,6 +276,7 @@ def unary_declarations() -> CodeCount:
                 # //---------------------- std::vector -> Python tuple ----------------------
                 code.append(comment_str(' Base declaration'))
                 code.append(CPP_UNARY_FUNCTION_TO_PY_BASE_DECL.format(fn=v.decl_to_py, cpp_container=v.cpp_container))
+                # code.append('')
                 code.append(comment_str(' Instantiations'))
                 for cpp_type in CPP_TYPE_TO_FUNCS:
                     code.append(CPP_UNARY_FUNCTION_TO_PY_DECL.format(
@@ -257,12 +285,14 @@ def unary_declarations() -> CodeCount:
                         cpp_type=cpp_type,
                     ))
                     count += 1
+                    # code.append('')
             with cpp_comment_section(code, 'Python {} -> {}'.format(k, v.cpp_container), '-'):
                 code.append(comment_str(' Base declaration'))
                 code.append(CPP_UNARY_FUNCTION_FROM_PY_BASE_DECL.format(
                     fn=v.decl_to_cpp,
                     cpp_container=v.cpp_container
                 ))
+                # code.append('')
                 code.append(comment_str(' Instantiations'))
                 for cpp_type in CPP_TYPE_TO_FUNCS:
                     code.append(CPP_UNARY_FUNCTION_FROM_PY_DECL.format(
@@ -271,10 +301,12 @@ def unary_declarations() -> CodeCount:
                         cpp_type=cpp_type,
                     ))
                     count += 1
+                    # code.append('')
     return CodeCount(code, count)
 
 
 def unary_definitions() -> CodeCount:
+    """Returns the C++ code for the unary definitions."""
     code = []
     count = 0
     with cpp_comment_section(code, 'Unary collections <-> Python collections', '*'):
@@ -287,7 +319,7 @@ def unary_definitions() -> CodeCount:
                         fn_defn=defn_name_from_decl_name(v.decl_to_py),
                         cpp_container=v.cpp_container,
                         cpp_type=cpp_type,
-                        convert_to_py=CPP_TYPE_TO_FUNCS[cpp_type].to_py_type,
+                        convert_to_py=CPP_TYPE_TO_FUNCS[cpp_type].cpp_type_to_py_type,
                     ))
                     count += 1
             with cpp_comment_section(code, 'Python {} -> {}'.format(k, v.cpp_container), '-'):
@@ -298,13 +330,14 @@ def unary_definitions() -> CodeCount:
                         cpp_container=v.cpp_container,
                         cpp_type=cpp_type,
                         py_check=CPP_TYPE_TO_FUNCS[cpp_type].py_check,
-                        convert_from_py=CPP_TYPE_TO_FUNCS[cpp_type].from_py_type,
+                        convert_from_py=CPP_TYPE_TO_FUNCS[cpp_type].py_type_to_cpp_type,
                     ))
                     count += 1
     return CodeCount(code, count)
 
 
 def dict_declarations() -> CodeCount:
+    """Returns the C++ code for the Python dictionary declarations."""
     code = []
     count_decl = 0
     with cpp_comment_section(code, 'std::unordered_map <-> Python dict', '*'):
@@ -312,23 +345,28 @@ def dict_declarations() -> CodeCount:
         with cpp_comment_section(code, 'std::unordered_map -> Python dict', '-'):
             code.append(comment_str(' Base declaration'))
             code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_BASE_DECL)
+            # code.append('')
             count_decl += 1
             code.append(comment_str(' Instantiations'))
             for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
                 code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_DECL.format(cpp_type_K=k, cpp_type_V=v))
+                # code.append('')
                 count_decl += 1
         with cpp_comment_section(code, 'Python dict -> std::unordered_map', '-'):
             code.append(comment_str(' Base declaration'))
             code.append(CPP_PY_DICT_TO_STD_UNORDERED_MAP_BASE_DECL)
+            # code.append('')
             count_decl += 1
             code.append(comment_str(' Instantiations'))
             for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
                 code.append(CPP_PY_DICT_TO_STD_UNORDERED_MAP_DECL.format(cpp_type_K=k, cpp_type_V=v))
+                # code.append('')
                 count_decl += 1
     return CodeCount(code, count_decl)
 
 
 def dict_definitions() -> CodeCount:
+    """Returns the C++ code for the Python dictionary definitions."""
     code = []
     count_defn = 0
     with cpp_comment_section(code, 'std::unordered_map <-> Python dict', '*'):
@@ -345,8 +383,8 @@ def dict_definitions() -> CodeCount:
             )))
             code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_DEFN.format(
                 type_K=k, type_V=v,
-                convert_K_to_py=CPP_TYPE_TO_FUNCS[k].to_py_type,
-                convert_V_to_py=CPP_TYPE_TO_FUNCS[v].to_py_type,
+                convert_K_to_py=CPP_TYPE_TO_FUNCS[k].cpp_type_to_py_type,
+                convert_V_to_py=CPP_TYPE_TO_FUNCS[v].cpp_type_to_py_type,
             ))
             count_defn += 1
             code.append(comment_str('{}'.format(
@@ -363,37 +401,35 @@ def dict_definitions() -> CodeCount:
                 type_K=k, type_V=v,
                 py_check_K=CPP_TYPE_TO_FUNCS[k].py_check,
                 py_check_V=CPP_TYPE_TO_FUNCS[v].py_check,
-                convert_K_from_py=CPP_TYPE_TO_FUNCS[k].from_py_type,
-                convert_V_from_py=CPP_TYPE_TO_FUNCS[v].from_py_type,
+                convert_K_from_py=CPP_TYPE_TO_FUNCS[k].py_type_to_cpp_type,
+                convert_V_from_py=CPP_TYPE_TO_FUNCS[v].py_type_to_cpp_type,
             ))
             count_defn += 1
     return CodeCount(code, count_defn)
 
 
 def declarations() -> typing.List[str]:
+    """Returns the C++ code for all declarations."""
     ret = []
     with cpp_comment_section(ret, 'Declaration file', '='):
-        ret.extend(get_codegen_please_no_edit_warning(False))
-        ret.extend(documentation())
-        ret.append('#include <Python.h>')
-        ret.append('')
-        for include in REQUIRED_INCLUDES:
-            ret.append('#include {}'.format(include))
-        ret.append('')
-        ret.append(f'namespace {CPP_NAMESPACE} {{\n')
-        ret.append('')
-        # with cpp_comment_section(ret, 'Required conversion functions', '-'):
-        #     ret.extend(required_function_declarations())
-        count_decl = 0
-        # Unary functions
-        code_count = unary_declarations()
-        count_decl += code_count.count
-        ret.extend(code_count.code)
-        code_count = dict_declarations()
-        count_decl += code_count.count
-        ret.extend(code_count.code)
-        ret.append(comment_str(' Declarations written: {}'.format(count_decl)))
-        ret.extend(get_codegen_please_no_edit_warning(True))
+        with get_codegen_please_no_edit_warning_context(ret):
+            ret.extend(documentation())
+            ret.append('#include <Python.h>')
+            ret.append('')
+            for include in REQUIRED_INCLUDES:
+                ret.append('#include {}'.format(include))
+            ret.append('')
+            ret.append(f'namespace {CPP_NAMESPACE} {{\n')
+            ret.append('')
+            count_decl = 0
+            # Unary functions
+            code_count = unary_declarations()
+            count_decl += code_count.count
+            ret.extend(code_count.code)
+            code_count = dict_declarations()
+            count_decl += code_count.count
+            ret.extend(code_count.code)
+            ret.append(comment_str(' Declarations written: {}'.format(count_decl)))
         ret.append('')
         ret.append('} ' + comment_str(f' namespace {CPP_NAMESPACE}'))
         ret.append('')
@@ -401,22 +437,22 @@ def declarations() -> typing.List[str]:
 
 
 def definitions() -> typing.List[str]:
+    """Returns the C++ code for all definitions."""
     ret = []
     with cpp_comment_section(ret, 'Definition file', '='):
-        ret.extend(get_codegen_please_no_edit_warning(False))
-        ret.extend(documentation())
-        ret.append('#include "python_convert.h"')
-        ret.append('')
-        ret.append(f'namespace {CPP_NAMESPACE} {{\n')
-        count_defn = 0
-        code_count = unary_definitions()
-        count_defn += code_count.count
-        ret.extend(code_count.code)
-        code_count = dict_definitions()
-        count_defn += code_count.count
-        ret.extend(code_count.code)
-        ret.append(comment_str(' Definitions written: {}'.format(count_defn)))
-        ret.extend(get_codegen_please_no_edit_warning(True))
+        with get_codegen_please_no_edit_warning_context(ret):
+            ret.extend(documentation())
+            ret.append('#include "python_convert.h"')
+            ret.append('')
+            ret.append(f'namespace {CPP_NAMESPACE} {{\n')
+            count_defn = 0
+            code_count = unary_definitions()
+            count_defn += code_count.count
+            ret.extend(code_count.code)
+            code_count = dict_definitions()
+            count_defn += code_count.count
+            ret.extend(code_count.code)
+            ret.append(comment_str(' Definitions written: {}'.format(count_defn)))
         ret.append('')
         ret.append('} ' + comment_str(f' namespace {CPP_NAMESPACE}'))
         ret.append('')
@@ -427,14 +463,15 @@ AUTO_FILE_NAME = 'auto_py_convert_internal'
 
 
 def write_files() -> None:
+    """Writes all C++ files."""
     dir_path = os.path.dirname(os.path.abspath(__file__))
     file_path = os.path.join(dir_path, '{}.h'.format(AUTO_FILE_NAME))
-    print('Writing to "{}"'.format(file_path))
+    print('Writing declarations to "{}"'.format(file_path))
     with open(file_path, 'w') as f:
         for line in declarations():
             f.write('{}\n'.format(line))
     file_path = os.path.join(dir_path, '{}.cpp'.format(AUTO_FILE_NAME))
-    print('Writing to "{}"'.format(file_path))
+    print('Writing definitions to  "{}"'.format(file_path))
     with open(file_path, 'w') as f:
         for line in definitions():
             f.write('{}\n'.format(line))
