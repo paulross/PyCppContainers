@@ -99,58 +99,6 @@ class UnaryFunctions(typing.NamedTuple):
     decl_to_py: str
     decl_to_cpp: str
 
-    def doxygen_documentation_base_class(self) -> typing.List[str]:
-        """Returns a Doxygen style comment. For example::
-
-            /**
-             * Base declaration for converting C++ vectors to a Python tuple.
-             *
-             * @tparam T C++ type.
-             * @param container C++ input as a std::vector<T>.
-             * @return A Python tuple containing type T.
-             */
-
-        This is for::
-
-            template<typename T>
-            PyObject *
-            cpp_std_vector_to_py_tuple(const std::vector<T> &container);
-        """
-        return [
-            '/**',
-            f' * Base declaration for converting C++ {self.cpp_container} to a Python ???.',
-            ' *',
-            ' * @tparam T C++ type.',
-            f' * @param container C++ input as a {self.cpp_container}<T>.',
-            ' * @return A Python ??? containing type T.',
-            ' */',
-        ]
-
-    def doxygen_documentation_instantiation(self):
-        """Returns a Doxygen style comment. For example::
-
-            /**
-             * Instantiation for converting C++ vectors of bool to a Python tuple of bool.
-             *
-             * @param container C++ input as a std::vector<bool>.
-             * @return A Python tuple containing bool types.
-             */
-
-        This is for::
-
-            template <>
-            PyObject *
-            cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container);
-        """
-        return [
-            '/**',
-            f' * Instantiation for converting C++ {self.cpp_container} to a Python ??? of ???.',
-            ' *',
-            f' * @param container C++ input as a {self.cpp_container}<???>.',
-            ' * @return A Python ??? containing ??? types.',
-            ' */',
-        ]
-
 
 UNARY_COLLECTIONS = {
     'tuple': UnaryFunctions('std::vector', 'cpp_std_vector_to_py_tuple', 'py_tuple_to_cpp_std_vector'),
@@ -179,12 +127,12 @@ PyObject *
 # Base declararation to convert from Python, requires fn= and cpp_container=
 CPP_UNARY_FUNCTION_FROM_PY_BASE_DECL = """template<typename T>
 int
-{fn}(PyObject *tuple, {cpp_container}<T> &container);"""
+{fn}(PyObject *op, {cpp_container}<T> &container);"""
 
 # Convert from Python, requires fn=, cpp_type= and cpp_container=
 CPP_UNARY_FUNCTION_FROM_PY_DECL = """template <>
 int
-{fn}<{cpp_type}>(PyObject *tuple, {cpp_container}<{cpp_type}> &container);"""
+{fn}<{cpp_type}>(PyObject *op, {cpp_container}<{cpp_type}> &container);"""
 
 
 # Definitions to go in implementation file
@@ -312,6 +260,62 @@ def documentation() -> typing.List[str]:
         ))
     ret.append(' ')
     return comment_list_str(ret)
+
+
+def doxygen_cpp_to_python_unary_base_class(cpp_container: str, python_container: str) -> typing.List[str]:
+    """Returns a Doxygen style comment. For example::
+
+        /**
+         * Base declaration for converting C++ vectors to a Python tuple.
+         *
+         * @tparam T C++ type.
+         * @param container C++ input as a std::vector<T>.
+         * @return A Python tuple containing type T.
+         */
+
+    This is for::
+
+        template<typename T>
+        PyObject *
+        cpp_std_vector_to_py_tuple(const std::vector<T> &container);
+    """
+    return [
+        '/**',
+        f' * Base declaration for converting C++ {cpp_container} to a Python {python_container}.',
+        ' *',
+        ' * @tparam T C++ type.',
+        f' * @param container C++ input as a {cpp_container}<T>.',
+        f' * @return A Python {python_container} containing type T.',
+        ' */',
+    ]
+
+
+def doxygen_cpp_to_python_unary_instantiation(cpp_container: str, python_container: str, cpp_type: str, py_type: str):
+    """Returns a Doxygen style comment. For example::
+
+        /**
+         * Instantiation for converting C++ vectors of bool to a Python tuple of bool.
+         *
+         * @param container C++ input as a std::vector<bool>.
+         * @return A Python tuple containing bool objects.
+         */
+
+    This is for::
+
+        template <>
+        PyObject *
+        cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container);
+    """
+    return [
+        '/**',
+        f' * Instantiation for converting C++ {cpp_container} to a Python {python_container} of {py_type}.',
+        ' *',
+        f' * @param container C++ input as a {cpp_container}<{cpp_type}>.',
+        f' * @return A Python {python_container} containing {py_type} objects.',
+        ' */',
+    ]
+
+
 
 
 class CodeCount(typing.NamedTuple):

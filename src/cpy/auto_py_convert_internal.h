@@ -79,20 +79,20 @@ cpp_std_vector_to_py_tuple<std::string>(const std::vector<std::string> &containe
 // Base declaration
 template<typename T>
 int
-py_tuple_to_cpp_std_vector(PyObject *tuple, std::vector<T> &container);
+py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &container);
 // Instantiations
 template <>
 int
-py_tuple_to_cpp_std_vector<bool>(PyObject *tuple, std::vector<bool> &container);
+py_tuple_to_cpp_std_vector<bool>(PyObject *op, std::vector<bool> &container);
 template <>
 int
-py_tuple_to_cpp_std_vector<long>(PyObject *tuple, std::vector<long> &container);
+py_tuple_to_cpp_std_vector<long>(PyObject *op, std::vector<long> &container);
 template <>
 int
-py_tuple_to_cpp_std_vector<double>(PyObject *tuple, std::vector<double> &container);
+py_tuple_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container);
 template <>
 int
-py_tuple_to_cpp_std_vector<std::string>(PyObject *tuple, std::vector<std::string> &container);
+py_tuple_to_cpp_std_vector<std::string>(PyObject *op, std::vector<std::string> &container);
 //-------------------- END: Python tuple -> std::vector -------------------
 
 //----------------------- std::vector -> Python list ----------------------
@@ -119,20 +119,20 @@ cpp_std_vector_to_py_list<std::string>(const std::vector<std::string> &container
 // Base declaration
 template<typename T>
 int
-py_list_to_cpp_std_vector(PyObject *tuple, std::vector<T> &container);
+py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &container);
 // Instantiations
 template <>
 int
-py_list_to_cpp_std_vector<bool>(PyObject *tuple, std::vector<bool> &container);
+py_list_to_cpp_std_vector<bool>(PyObject *op, std::vector<bool> &container);
 template <>
 int
-py_list_to_cpp_std_vector<long>(PyObject *tuple, std::vector<long> &container);
+py_list_to_cpp_std_vector<long>(PyObject *op, std::vector<long> &container);
 template <>
 int
-py_list_to_cpp_std_vector<double>(PyObject *tuple, std::vector<double> &container);
+py_list_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container);
 template <>
 int
-py_list_to_cpp_std_vector<std::string>(PyObject *tuple, std::vector<std::string> &container);
+py_list_to_cpp_std_vector<std::string>(PyObject *op, std::vector<std::string> &container);
 //-------------------- END: Python list -> std::vector --------------------
 
 //-------------------- std::unordered_set -> Python set -------------------
@@ -159,20 +159,20 @@ cpp_std_unordered_set_to_py_set<std::string>(const std::unordered_set<std::strin
 // Base declaration
 template<typename T>
 int
-py_set_to_cpp_std_unordered_set(PyObject *tuple, std::unordered_set<T> &container);
+py_set_to_cpp_std_unordered_set(PyObject *op, std::unordered_set<T> &container);
 // Instantiations
 template <>
 int
-py_set_to_cpp_std_unordered_set<bool>(PyObject *tuple, std::unordered_set<bool> &container);
+py_set_to_cpp_std_unordered_set<bool>(PyObject *op, std::unordered_set<bool> &container);
 template <>
 int
-py_set_to_cpp_std_unordered_set<long>(PyObject *tuple, std::unordered_set<long> &container);
+py_set_to_cpp_std_unordered_set<long>(PyObject *op, std::unordered_set<long> &container);
 template <>
 int
-py_set_to_cpp_std_unordered_set<double>(PyObject *tuple, std::unordered_set<double> &container);
+py_set_to_cpp_std_unordered_set<double>(PyObject *op, std::unordered_set<double> &container);
 template <>
 int
-py_set_to_cpp_std_unordered_set<std::string>(PyObject *tuple, std::unordered_set<std::string> &container);
+py_set_to_cpp_std_unordered_set<std::string>(PyObject *op, std::unordered_set<std::string> &container);
 //----------------- END: Python set -> std::unordered_set -----------------
 
 //----------------- std::unordered_set -> Python frozenset ----------------
@@ -199,20 +199,20 @@ cpp_std_unordered_set_to_py_frozenset<std::string>(const std::unordered_set<std:
 // Base declaration
 template<typename T>
 int
-py_frozenset_to_cpp_std_unordered_set(PyObject *tuple, std::unordered_set<T> &container);
+py_frozenset_to_cpp_std_unordered_set(PyObject *op, std::unordered_set<T> &container);
 // Instantiations
 template <>
 int
-py_frozenset_to_cpp_std_unordered_set<bool>(PyObject *tuple, std::unordered_set<bool> &container);
+py_frozenset_to_cpp_std_unordered_set<bool>(PyObject *op, std::unordered_set<bool> &container);
 template <>
 int
-py_frozenset_to_cpp_std_unordered_set<long>(PyObject *tuple, std::unordered_set<long> &container);
+py_frozenset_to_cpp_std_unordered_set<long>(PyObject *op, std::unordered_set<long> &container);
 template <>
 int
-py_frozenset_to_cpp_std_unordered_set<double>(PyObject *tuple, std::unordered_set<double> &container);
+py_frozenset_to_cpp_std_unordered_set<double>(PyObject *op, std::unordered_set<double> &container);
 template <>
 int
-py_frozenset_to_cpp_std_unordered_set<std::string>(PyObject *tuple, std::unordered_set<std::string> &container);
+py_frozenset_to_cpp_std_unordered_set<std::string>(PyObject *op, std::unordered_set<std::string> &container);
 //-------------- END: Python frozenset -> std::unordered_set --------------
 
 //************* END: Unary collections <-> Python collections *************
