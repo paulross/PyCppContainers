@@ -389,13 +389,19 @@ def write_files() -> None:
     file_path = os.path.join(dir_path, '{}.h'.format(AUTO_FILE_NAME))
     print('Writing declarations to "{}"'.format(file_path))
     with open(file_path, 'w') as f:
-        for line in declarations():
+        text_fragments = declarations()
+        for line in text_fragments:
             f.write('{}\n'.format(line))
+        line_count = sum(len(fragment.split('\n')) for fragment in text_fragments)
+        print(f'Wrote {line_count} lines of code.')
     file_path = os.path.join(dir_path, '{}.cpp'.format(AUTO_FILE_NAME))
     print('Writing definitions to  "{}"'.format(file_path))
     with open(file_path, 'w') as f:
-        for line in definitions():
+        text_fragments = definitions()
+        for line in text_fragments:
             f.write('{}\n'.format(line))
+        line_count = sum(len(fragment.split('\n')) for fragment in text_fragments)
+        print(f'Wrote {line_count} lines of code.')
 
 
 def main():
