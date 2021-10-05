@@ -31,48 +31,18 @@ template <>
 PyObject *
 cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container);
 """
-import collections
 import contextlib
 import itertools
 import logging
 import os
 import typing
 
+from src.cpy.code_gen_common import CppTypeFunctions, UnaryFunctions
+from src.cpy.code_gen_documentation import comment_str, cpp_comment_section, documentation, WIDTH
 
 logger = logging.getLogger(__file__)
 
 CPP_NAMESPACE = 'Python_Cpp_Containers'
-
-
-def comment_str(s: str) -> str:
-    """Turn a single line string into an inline comment."""
-    if '\n' in s:
-        raise ValueError(f'Inline comment can not have newlines in it.')
-    return '//{}'.format(s)
-
-
-def comment_list_str(inputs: typing.List[str]) -> typing.List[str]:
-    """Returns the strings as a C++ comments."""
-    ret = []
-    for s in inputs:
-        if '\n' in s:
-            ret.extend([comment_str(v) for v in s.split('\n')])
-        else:
-            ret.append(comment_str(s))
-    return ret
-
-
-class CppTypeFunctions(typing.NamedTuple):
-    """
-    PoD Class to contain the names of three C/C++ functions:
-    - Conversion from C++ to Python object. Example 'cpp_bool_to_py_bool'.
-    - Check it is a Python object of type. Example 'py_bool_check'.
-    - Conversion from Python object to a C++ type. Example 'py_bool_to_cpp_bool'.
-    """
-    cpp_type_to_py_type: str
-    py_check: str
-    py_type_to_cpp_type: str
-
 
 # Note on nomenclature:
 # 'cpp' is C++
@@ -86,19 +56,6 @@ CPP_TYPE_TO_FUNCS = {
     # 'std::complex<double>': CppTypeFunctions('py_complex_from_complex', 'py_complex_check', 'py_complex_as_complex'),
     'std::string': CppTypeFunctions('cpp_string_to_py_bytes', 'py_bytes_check', 'py_bytes_to_cpp_string'),
 }
-
-
-class UnaryFunctions(typing.NamedTuple):
-    """
-    PoD Class to contain the names of three C/C++ functions:
-    - C++ container type. Example 'std::vector'.
-    - Function declaration to convert to a Python type. Example 'cpp_std_vector_to_py_tuple'.
-    - Function declaration to convert to a C++ type. Example 'py_tuple_to_cpp_std_vector'.
-    """
-    cpp_container: str
-    decl_to_py: str
-    decl_to_cpp: str
-
 
 UNARY_COLLECTIONS = {
     'tuple': UnaryFunctions('std::vector', 'cpp_std_vector_to_py_tuple', 'py_tuple_to_cpp_std_vector'),
@@ -193,8 +150,6 @@ py_dict_to_cpp_std_unordered_map<{type_K}, {type_V}>(PyObject* op, std::unordere
 """
 #===== END: std::unordered_map <-> dict ====
 
-WIDTH = 75 - len('//')
-
 
 def get_codegen_please_no_edit_warning(is_end: bool) -> typing.List[str]:
     """Writes the start or end of a warning comment."""
@@ -221,101 +176,9 @@ def get_codegen_please_no_edit_warning_context(str_list: typing.List[str]):
     str_list.extend(get_codegen_please_no_edit_warning(True))
 
 
-@contextlib.contextmanager
-def cpp_comment_section(str_list: typing.List[str], title: str, sep: str):
-    """Context manager for writing beginning and end comments."""
-    str_list.append(comment_str('{}'.format(' {} '.format(title).center(WIDTH, sep))))
-    yield
-    str_list.append(comment_str('{}'.format(' END: {} '.format(title).center(WIDTH, sep))))
-    str_list.append('')
-
-
 def defn_name_from_decl_name(name: str) -> str:
     """Returns the definition name given the declaration name by the convention that it is preceded with 'generic_'."""
     return 'generic_{}'.format(name)
-
-
-def documentation() -> typing.List[str]:
-    """General documentation."""
-    ret = [
-        ' Conversion from homogeneous data structures in Python and C++',
-        ' ',
-        ' Unary conversions',
-    ]
-    for py_container in UNARY_COLLECTIONS:
-        ret.append(' {}:'.format(py_container))
-        for typ in CPP_TYPE_TO_FUNCS:
-            ret.append(' {} <-> {}<{}>'.format(
-                py_container,
-                UNARY_COLLECTIONS[py_container].cpp_container,
-                typ,
-            ))
-        ret.append(' ')
-    ret.append(' ')
-    ret.append(' Mapping conversions')
-    for type_k, type_v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
-        ret.append(' {} <-> std::unordered_map<{}, {}>'.format(
-            'dict',
-            type_k, type_v
-        ))
-    ret.append(' ')
-    return comment_list_str(ret)
-
-
-def doxygen_cpp_to_python_unary_base_class(cpp_container: str, python_container: str) -> typing.List[str]:
-    """Returns a Doxygen style comment. For example::
-
-        /**
-         * Base declaration for converting C++ vectors to a Python tuple.
-         *
-         * @tparam T C++ type.
-         * @param container C++ input as a std::vector<T>.
-         * @return A Python tuple containing type T.
-         */
-
-    This is for::
-
-        template<typename T>
-        PyObject *
-        cpp_std_vector_to_py_tuple(const std::vector<T> &container);
-    """
-    return [
-        '/**',
-        f' * Base declaration for converting C++ {cpp_container} to a Python {python_container}.',
-        ' *',
-        ' * @tparam T C++ type.',
-        f' * @param container C++ input as a {cpp_container}<T>.',
-        f' * @return A Python {python_container} containing type T.',
-        ' */',
-    ]
-
-
-def doxygen_cpp_to_python_unary_instantiation(cpp_container: str, python_container: str, cpp_type: str, py_type: str):
-    """Returns a Doxygen style comment. For example::
-
-        /**
-         * Instantiation for converting C++ vectors of bool to a Python tuple of bool.
-         *
-         * @param container C++ input as a std::vector<bool>.
-         * @return A Python tuple containing bool objects.
-         */
-
-    This is for::
-
-        template <>
-        PyObject *
-        cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container);
-    """
-    return [
-        '/**',
-        f' * Instantiation for converting C++ {cpp_container} to a Python {python_container} of {py_type}.',
-        ' *',
-        f' * @param container C++ input as a {cpp_container}<{cpp_type}>.',
-        f' * @return A Python {python_container} containing {py_type} objects.',
-        ' */',
-    ]
-
-
 
 
 class CodeCount(typing.NamedTuple):
@@ -471,7 +334,7 @@ def declarations() -> typing.List[str]:
     ret = []
     with cpp_comment_section(ret, 'Declaration file', '='):
         with get_codegen_please_no_edit_warning_context(ret):
-            ret.extend(documentation())
+            ret.extend(documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
             ret.append('#include <Python.h>')
             ret.append('')
             for include in REQUIRED_INCLUDES:
@@ -499,7 +362,7 @@ def definitions() -> typing.List[str]:
     ret = []
     with cpp_comment_section(ret, 'Definition file', '='):
         with get_codegen_please_no_edit_warning_context(ret):
-            ret.extend(documentation())
+            ret.extend(documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
             ret.append('#include "python_convert.h"')
             ret.append('')
             ret.append(f'namespace {CPP_NAMESPACE} {{\n')
