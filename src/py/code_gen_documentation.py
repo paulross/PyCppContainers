@@ -5,7 +5,7 @@ import contextlib
 import itertools
 import typing
 
-from src.cpy import code_gen_common
+from src.py import code_gen_common
 
 
 def doxygen_cpp_to_python_unary_base_class(cpp_container: str, python_container: str) -> typing.List[str]:

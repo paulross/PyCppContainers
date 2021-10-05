@@ -37,8 +37,7 @@ import logging
 import os
 import typing
 
-from src.cpy import code_gen_common
-from src.cpy import code_gen_documentation
+from src.py import code_gen_documentation, code_gen_common
 
 logger = logging.getLogger(__file__)
 
@@ -385,7 +384,8 @@ AUTO_FILE_NAME = 'auto_py_convert_internal'
 
 def write_files() -> None:
     """Writes all C++ files."""
-    dir_path = os.path.dirname(os.path.abspath(__file__))
+    dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'cpy'))
+    print('Target directory "{}"'.format(dir_path))
     file_path = os.path.join(dir_path, '{}.h'.format(AUTO_FILE_NAME))
     print('Writing declarations to "{}"'.format(file_path))
     with open(file_path, 'w') as f:
