@@ -53,21 +53,22 @@ CPP_TYPE_TO_FUNCS = {
     'long': code_gen_common.CppTypeFunctions('cpp_long_to_py_long', 'py_long_check', 'py_long_to_cpp_long'),
     'double': code_gen_common.CppTypeFunctions('cpp_double_to_py_float', 'py_float_check', 'py_float_to_cpp_double'),
     # 'std::complex<double>': code_gen_common.CppTypeFunctions('py_complex_from_complex', 'py_complex_check', 'py_complex_as_complex'),
-    'std::string': code_gen_common.CppTypeFunctions('cpp_string_to_py_bytes', 'py_bytes_check', 'py_bytes_to_cpp_string'),
+    'std::string': code_gen_common.CppTypeFunctions('cpp_string_to_py_bytes', 'py_bytes_check',
+                                                    'py_bytes_to_cpp_string'),
 }
 
 UNARY_COLLECTIONS = {
     'tuple': code_gen_common.UnaryFunctions('std::vector', 'cpp_std_vector_to_py_tuple', 'py_tuple_to_cpp_std_vector'),
     'list': code_gen_common.UnaryFunctions('std::vector', 'cpp_std_vector_to_py_list', 'py_list_to_cpp_std_vector'),
-    'set': code_gen_common.UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_set', 'py_set_to_cpp_std_unordered_set'),
+    'set': code_gen_common.UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_set',
+                                          'py_set_to_cpp_std_unordered_set'),
     'frozenset': code_gen_common.UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_frozenset',
-                                'py_frozenset_to_cpp_std_unordered_set'),
+                                                'py_frozenset_to_cpp_std_unordered_set'),
 }
 
 # Not really needed as the hand written file, python_convert.h does this.
 REQUIRED_INCLUDES = [
 ]
-
 
 # Declarations to go in header file
 # Base declaration to convert to Python, requires fn= and cpp_container=
@@ -89,7 +90,6 @@ int
 CPP_UNARY_FUNCTION_FROM_PY_DECL = """template <>
 int
 {fn}<{cpp_type}>(PyObject *op, {cpp_container}<{cpp_type}> &container);"""
-
 
 # Definitions to go in implementation file
 # To Python, reqires fn_decl=, cpp_type=, cpp_container=, fn_defn=, convert_to_py=
@@ -147,7 +147,9 @@ py_dict_to_cpp_std_unordered_map<{type_K}, {type_V}>(PyObject* op, std::unordere
     >(op, map);
 }}
 """
-#===== END: std::unordered_map <-> dict ====
+
+
+# ===== END: std::unordered_map <-> dict ====
 
 
 def get_codegen_please_no_edit_warning(is_end: bool) -> typing.List[str]:
@@ -159,9 +161,9 @@ def get_codegen_please_no_edit_warning(is_end: bool) -> typing.List[str]:
     return [
         code_gen_documentation.comment_str('{}'.format('#' * code_gen_documentation.WIDTH)),
         code_gen_documentation.comment_str('{}'.format(
-                ' {prefix}Auto-generated code - do not edit. Seriously, do NOT edit. '.format(
-                    prefix=prefix).center(code_gen_documentation.WIDTH, '#')
-            )
+            ' {prefix}Auto-generated code - do not edit. Seriously, do NOT edit. '.format(
+                prefix=prefix).center(code_gen_documentation.WIDTH, '#')
+        )
         ),
         code_gen_documentation.comment_str('{}'.format('#' * code_gen_documentation.WIDTH)),
     ]
