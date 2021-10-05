@@ -82,12 +82,12 @@ PyObject *
 {fn}<{cpp_type}>(const {cpp_container}<{cpp_type}> &container);"""
 
 # Base declararation to convert from Python, requires fn= and cpp_container=
-CPP_UNARY_FUNCTION_FROM_PY_BASE_DECL = """template<typename T>
+PY_TO_CPP_UNARY_FUNCTION_BASE_DECL = """template<typename T>
 int
 {fn}(PyObject *op, {cpp_container}<T> &container);"""
 
 # Convert from Python, requires fn=, cpp_type= and cpp_container=
-CPP_UNARY_FUNCTION_FROM_PY_DECL = """template <>
+PY_TO_CPP_UNARY_FUNCTION_DECL = """template <>
 int
 {fn}<{cpp_type}>(PyObject *op, {cpp_container}<{cpp_type}> &container);"""
 
@@ -101,7 +101,7 @@ PyObject *
 """
 
 # From Python, requires fn_decl=, cpp_type=, cpp_container=, fn_defn=, py_check=, convert_to_py=
-CPP_UNARY_FUNCTION_FROM_PY_DEFN = """template <>
+PY_TO_CPP_UNARY_FUNCTION_DEFN = """template <>
 int
 {fn_decl}<{cpp_type}>(PyObject *op, {cpp_container}<{cpp_type}> &container) {{
     return {fn_defn}<{cpp_type}, &{py_check}, &{convert_from_py}>(op, container);
@@ -210,14 +210,14 @@ def unary_declarations() -> CodeCount:
                     # code.append('')
             with code_gen_documentation.cpp_comment_section(code, 'Python {} -> {}'.format(k, v.cpp_container), '-'):
                 code.append(code_gen_documentation.comment_str(' Base declaration'))
-                code.append(CPP_UNARY_FUNCTION_FROM_PY_BASE_DECL.format(
+                code.append(PY_TO_CPP_UNARY_FUNCTION_BASE_DECL.format(
                     fn=v.decl_to_cpp,
                     cpp_container=v.cpp_container
                 ))
                 # code.append('')
                 code.append(code_gen_documentation.comment_str(' Instantiations'))
                 for cpp_type in CPP_TYPE_TO_FUNCS:
-                    code.append(CPP_UNARY_FUNCTION_FROM_PY_DECL.format(
+                    code.append(PY_TO_CPP_UNARY_FUNCTION_DECL.format(
                         fn=v.decl_to_cpp,
                         cpp_container=v.cpp_container,
                         cpp_type=cpp_type,
@@ -246,7 +246,7 @@ def unary_definitions() -> CodeCount:
                     count += 1
             with code_gen_documentation.cpp_comment_section(code, 'Python {} -> {}'.format(k, v.cpp_container), '-'):
                 for cpp_type in CPP_TYPE_TO_FUNCS:
-                    code.append(CPP_UNARY_FUNCTION_FROM_PY_DEFN.format(
+                    code.append(PY_TO_CPP_UNARY_FUNCTION_DEFN.format(
                         fn_decl=v.decl_to_cpp,
                         fn_defn=defn_name_from_decl_name(v.decl_to_cpp),
                         cpp_container=v.cpp_container,
