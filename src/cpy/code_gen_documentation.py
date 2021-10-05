@@ -5,7 +5,7 @@ import contextlib
 import itertools
 import typing
 
-from src.cpy.code_gen_common import CppTypeFunctions, UnaryFunctions
+from src.cpy import code_gen_common
 
 
 def doxygen_cpp_to_python_unary_base_class(cpp_container: str, python_container: str) -> typing.List[str]:
@@ -147,8 +147,8 @@ def cpp_comment_section(str_list: typing.List[str], title: str, sep: str):
     str_list.append('')
 
 
-def documentation(unary_collections: typing.Dict[str, UnaryFunctions],
-                  cpp_type_to_funcs: typing.Dict[str, CppTypeFunctions]) -> typing.List[str]:
+def documentation(unary_collections: typing.Dict[str, code_gen_common.UnaryFunctions],
+                  cpp_type_to_funcs: typing.Dict[str, code_gen_common.CppTypeFunctions]) -> typing.List[str]:
     """General documentation."""
     ret = [
         ' Conversion from homogeneous data structures in Python and C++',

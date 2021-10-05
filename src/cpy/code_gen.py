@@ -5,7 +5,7 @@ This facilitates conversion between Python and C++ containers where the Python t
 
 For example a Python set of strings to and from a C++ unordered_set<std::string>
 
-TODO: Add Doxygen style documentation:
+TODO: Add Doxygen style code_gen_documentation.documentation:
 
 // Base declaration
 /**
@@ -37,8 +37,8 @@ import logging
 import os
 import typing
 
-from src.cpy.code_gen_common import CppTypeFunctions, UnaryFunctions
-from src.cpy.code_gen_documentation import comment_str, cpp_comment_section, documentation, WIDTH
+from src.cpy import code_gen_common
+from src.cpy import code_gen_documentation
 
 logger = logging.getLogger(__file__)
 
@@ -50,18 +50,18 @@ CPP_NAMESPACE = 'Python_Cpp_Containers'
 # 'py' is Python
 # Conversion functions are always ..._to_...
 CPP_TYPE_TO_FUNCS = {
-    'bool': CppTypeFunctions('cpp_bool_to_py_bool', 'py_bool_check', 'py_bool_to_cpp_bool'),
-    'long': CppTypeFunctions('cpp_long_to_py_long', 'py_long_check', 'py_long_to_cpp_long'),
-    'double': CppTypeFunctions('cpp_double_to_py_float', 'py_float_check', 'py_float_to_cpp_double'),
-    # 'std::complex<double>': CppTypeFunctions('py_complex_from_complex', 'py_complex_check', 'py_complex_as_complex'),
-    'std::string': CppTypeFunctions('cpp_string_to_py_bytes', 'py_bytes_check', 'py_bytes_to_cpp_string'),
+    'bool': code_gen_common.CppTypeFunctions('cpp_bool_to_py_bool', 'py_bool_check', 'py_bool_to_cpp_bool'),
+    'long': code_gen_common.CppTypeFunctions('cpp_long_to_py_long', 'py_long_check', 'py_long_to_cpp_long'),
+    'double': code_gen_common.CppTypeFunctions('cpp_double_to_py_float', 'py_float_check', 'py_float_to_cpp_double'),
+    # 'std::complex<double>': code_gen_common.CppTypeFunctions('py_complex_from_complex', 'py_complex_check', 'py_complex_as_complex'),
+    'std::string': code_gen_common.CppTypeFunctions('cpp_string_to_py_bytes', 'py_bytes_check', 'py_bytes_to_cpp_string'),
 }
 
 UNARY_COLLECTIONS = {
-    'tuple': UnaryFunctions('std::vector', 'cpp_std_vector_to_py_tuple', 'py_tuple_to_cpp_std_vector'),
-    'list': UnaryFunctions('std::vector', 'cpp_std_vector_to_py_list', 'py_list_to_cpp_std_vector'),
-    'set': UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_set', 'py_set_to_cpp_std_unordered_set'),
-    'frozenset': UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_frozenset',
+    'tuple': code_gen_common.UnaryFunctions('std::vector', 'cpp_std_vector_to_py_tuple', 'py_tuple_to_cpp_std_vector'),
+    'list': code_gen_common.UnaryFunctions('std::vector', 'cpp_std_vector_to_py_list', 'py_list_to_cpp_std_vector'),
+    'set': code_gen_common.UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_set', 'py_set_to_cpp_std_unordered_set'),
+    'frozenset': code_gen_common.UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_frozenset',
                                 'py_frozenset_to_cpp_std_unordered_set'),
 }
 
@@ -158,13 +158,13 @@ def get_codegen_please_no_edit_warning(is_end: bool) -> typing.List[str]:
     else:
         prefix = ''
     return [
-        comment_str('{}'.format('#' * WIDTH)),
-        comment_str('{}'.format(
+        code_gen_documentation.comment_str('{}'.format('#' * code_gen_documentation.WIDTH)),
+        code_gen_documentation.comment_str('{}'.format(
                 ' {prefix}Auto-generated code - do not edit. Seriously, do NOT edit. '.format(
-                    prefix=prefix).center(WIDTH, '#')
+                    prefix=prefix).center(code_gen_documentation.WIDTH, '#')
             )
         ),
-        comment_str('{}'.format('#' * WIDTH)),
+        code_gen_documentation.comment_str('{}'.format('#' * code_gen_documentation.WIDTH)),
     ]
 
 
@@ -191,14 +191,14 @@ def unary_declarations() -> CodeCount:
     """Returns the C++ code for the unary declarations."""
     code = []
     count = 0
-    with cpp_comment_section(code, 'Unary collections <-> Python collections', '*'):
+    with code_gen_documentation.cpp_comment_section(code, 'Unary collections <-> Python collections', '*'):
         for k, v in UNARY_COLLECTIONS.items():
-            with cpp_comment_section(code, '{} -> Python {}'.format(v.cpp_container, k), '-'):
+            with code_gen_documentation.cpp_comment_section(code, '{} -> Python {}'.format(v.cpp_container, k), '-'):
                 # //---------------------- std::vector -> Python tuple ----------------------
-                code.append(comment_str(' Base declaration'))
+                code.append(code_gen_documentation.comment_str(' Base declaration'))
                 code.append(CPP_UNARY_FUNCTION_TO_PY_BASE_DECL.format(fn=v.decl_to_py, cpp_container=v.cpp_container))
                 # code.append('')
-                code.append(comment_str(' Instantiations'))
+                code.append(code_gen_documentation.comment_str(' Instantiations'))
                 for cpp_type in CPP_TYPE_TO_FUNCS:
                     code.append(CPP_UNARY_FUNCTION_TO_PY_DECL.format(
                         fn=v.decl_to_py,
@@ -207,14 +207,14 @@ def unary_declarations() -> CodeCount:
                     ))
                     count += 1
                     # code.append('')
-            with cpp_comment_section(code, 'Python {} -> {}'.format(k, v.cpp_container), '-'):
-                code.append(comment_str(' Base declaration'))
+            with code_gen_documentation.cpp_comment_section(code, 'Python {} -> {}'.format(k, v.cpp_container), '-'):
+                code.append(code_gen_documentation.comment_str(' Base declaration'))
                 code.append(CPP_UNARY_FUNCTION_FROM_PY_BASE_DECL.format(
                     fn=v.decl_to_cpp,
                     cpp_container=v.cpp_container
                 ))
                 # code.append('')
-                code.append(comment_str(' Instantiations'))
+                code.append(code_gen_documentation.comment_str(' Instantiations'))
                 for cpp_type in CPP_TYPE_TO_FUNCS:
                     code.append(CPP_UNARY_FUNCTION_FROM_PY_DECL.format(
                         fn=v.decl_to_cpp,
@@ -230,9 +230,9 @@ def unary_definitions() -> CodeCount:
     """Returns the C++ code for the unary definitions."""
     code = []
     count = 0
-    with cpp_comment_section(code, 'Unary collections <-> Python collections', '*'):
+    with code_gen_documentation.cpp_comment_section(code, 'Unary collections <-> Python collections', '*'):
         for k, v in UNARY_COLLECTIONS.items():
-            with cpp_comment_section(code, '{} -> Python {}'.format(v.cpp_container, k), '-'):
+            with code_gen_documentation.cpp_comment_section(code, '{} -> Python {}'.format(v.cpp_container, k), '-'):
                 # //---------------------- std::vector -> Python tuple ----------------------
                 for cpp_type in CPP_TYPE_TO_FUNCS:
                     code.append(CPP_UNARY_FUNCTION_TO_PY_DEFN.format(
@@ -243,7 +243,7 @@ def unary_definitions() -> CodeCount:
                         convert_to_py=CPP_TYPE_TO_FUNCS[cpp_type].cpp_type_to_py_type,
                     ))
                     count += 1
-            with cpp_comment_section(code, 'Python {} -> {}'.format(k, v.cpp_container), '-'):
+            with code_gen_documentation.cpp_comment_section(code, 'Python {} -> {}'.format(k, v.cpp_container), '-'):
                 for cpp_type in CPP_TYPE_TO_FUNCS:
                     code.append(CPP_UNARY_FUNCTION_FROM_PY_DEFN.format(
                         fn_decl=v.decl_to_cpp,
@@ -261,24 +261,24 @@ def dict_declarations() -> CodeCount:
     """Returns the C++ code for the Python dictionary declarations."""
     code = []
     count_decl = 0
-    with cpp_comment_section(code, 'std::unordered_map <-> Python dict', '*'):
+    with code_gen_documentation.cpp_comment_section(code, 'std::unordered_map <-> Python dict', '*'):
         # Python dict
-        with cpp_comment_section(code, 'std::unordered_map -> Python dict', '-'):
-            code.append(comment_str(' Base declaration'))
+        with code_gen_documentation.cpp_comment_section(code, 'std::unordered_map -> Python dict', '-'):
+            code.append(code_gen_documentation.comment_str(' Base declaration'))
             code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_BASE_DECL)
             # code.append('')
             count_decl += 1
-            code.append(comment_str(' Instantiations'))
+            code.append(code_gen_documentation.comment_str(' Instantiations'))
             for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
                 code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_DECL.format(cpp_type_K=k, cpp_type_V=v))
                 # code.append('')
                 count_decl += 1
-        with cpp_comment_section(code, 'Python dict -> std::unordered_map', '-'):
-            code.append(comment_str(' Base declaration'))
+        with code_gen_documentation.cpp_comment_section(code, 'Python dict -> std::unordered_map', '-'):
+            code.append(code_gen_documentation.comment_str(' Base declaration'))
             code.append(CPP_PY_DICT_TO_STD_UNORDERED_MAP_BASE_DECL)
             # code.append('')
             count_decl += 1
-            code.append(comment_str(' Instantiations'))
+            code.append(code_gen_documentation.comment_str(' Instantiations'))
             for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
                 code.append(CPP_PY_DICT_TO_STD_UNORDERED_MAP_DECL.format(cpp_type_K=k, cpp_type_V=v))
                 # code.append('')
@@ -290,17 +290,17 @@ def dict_definitions() -> CodeCount:
     """Returns the C++ code for the Python dictionary definitions."""
     code = []
     count_defn = 0
-    with cpp_comment_section(code, 'std::unordered_map <-> Python dict', '*'):
+    with code_gen_documentation.cpp_comment_section(code, 'std::unordered_map <-> Python dict', '*'):
         for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
-            code.append(comment_str('{}'.format(
+            code.append(code_gen_documentation.comment_str('{}'.format(
                 ' Converts a std::unordered_map<{type_K}, {type_V}> '.format(
                     type_K=k, type_V=v,
-                ).center(WIDTH, '-')
+                ).center(code_gen_documentation.WIDTH, '-')
             )))
-            code.append(comment_str('{}'.format(
+            code.append(code_gen_documentation.comment_str('{}'.format(
                 ' to a Python dict of {{ {type_K} : {type_V}, ...}}    '.format(
                     type_K=k, type_V=v,
-                ).center(WIDTH, '-')
+                ).center(code_gen_documentation.WIDTH, '-')
             )))
             code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_DEFN.format(
                 type_K=k, type_V=v,
@@ -308,15 +308,15 @@ def dict_definitions() -> CodeCount:
                 convert_V_to_py=CPP_TYPE_TO_FUNCS[v].cpp_type_to_py_type,
             ))
             count_defn += 1
-            code.append(comment_str('{}'.format(
+            code.append(code_gen_documentation.comment_str('{}'.format(
                 ' Converts a Python dict of {{{type_K} : {type_V}, ...}} '.format(
                     type_K=k, type_V=v,
-                ).center(WIDTH, '-')
+                ).center(code_gen_documentation.WIDTH, '-')
             )))
-            code.append(comment_str('{}'.format(
+            code.append(code_gen_documentation.comment_str('{}'.format(
                 ' to a std::unordered_map<{type_K}, {type_V}> '.format(
                     type_K=k, type_V=v,
-                ).center(WIDTH, '-')
+                ).center(code_gen_documentation.WIDTH, '-')
             )))
             code.append(CPP_PY_DICT_TO_STD_UNORDERED_MAP_DEFN.format(
                 type_K=k, type_V=v,
@@ -332,9 +332,9 @@ def dict_definitions() -> CodeCount:
 def declarations() -> typing.List[str]:
     """Returns the C++ code for all declarations."""
     ret = []
-    with cpp_comment_section(ret, 'Declaration file', '='):
+    with code_gen_documentation.cpp_comment_section(ret, 'Declaration file', '='):
         with get_codegen_please_no_edit_warning_context(ret):
-            ret.extend(documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
+            ret.extend(code_gen_documentation.documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
             ret.append('#include <Python.h>')
             ret.append('')
             for include in REQUIRED_INCLUDES:
@@ -350,9 +350,9 @@ def declarations() -> typing.List[str]:
             code_count = dict_declarations()
             count_decl += code_count.count
             ret.extend(code_count.code)
-            ret.append(comment_str(' Declarations written: {}'.format(count_decl)))
+            ret.append(code_gen_documentation.comment_str(' Declarations written: {}'.format(count_decl)))
         ret.append('')
-        ret.append('} ' + comment_str(f' namespace {CPP_NAMESPACE}'))
+        ret.append('} ' + code_gen_documentation.comment_str(f' namespace {CPP_NAMESPACE}'))
         ret.append('')
     return ret
 
@@ -360,9 +360,9 @@ def declarations() -> typing.List[str]:
 def definitions() -> typing.List[str]:
     """Returns the C++ code for all definitions."""
     ret = []
-    with cpp_comment_section(ret, 'Definition file', '='):
+    with code_gen_documentation.cpp_comment_section(ret, 'Definition file', '='):
         with get_codegen_please_no_edit_warning_context(ret):
-            ret.extend(documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
+            ret.extend(code_gen_documentation.documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
             ret.append('#include "python_convert.h"')
             ret.append('')
             ret.append(f'namespace {CPP_NAMESPACE} {{\n')
@@ -373,9 +373,9 @@ def definitions() -> typing.List[str]:
             code_count = dict_definitions()
             count_defn += code_count.count
             ret.extend(code_count.code)
-            ret.append(comment_str(' Definitions written: {}'.format(count_defn)))
+            ret.append(code_gen_documentation.comment_str(' Definitions written: {}'.format(count_defn)))
         ret.append('')
-        ret.append('} ' + comment_str(f' namespace {CPP_NAMESPACE}'))
+        ret.append('} ' + code_gen_documentation.comment_str(f' namespace {CPP_NAMESPACE}'))
         ret.append('')
     return ret
 
