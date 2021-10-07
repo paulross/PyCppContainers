@@ -321,55 +321,55 @@ def dict_definitions() -> CodeCount:
     return CodeCount(code, count_defn)
 
 
-def declarations() -> typing.List[str]:
+def declarations() -> CodeCount:
     """Returns the C++ code for all declarations."""
-    ret = []
-    with code_gen_documentation.cpp_comment_section(ret, 'Declaration file', '='):
-        with code_gen_documentation.get_codegen_please_no_edit_warning_context(ret):
-            ret.extend(code_gen_documentation.documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
-            ret.append('#include <Python.h>')
-            ret.append('')
+    code_lines: typing.List[str] = []
+    count_decl = 0
+    with code_gen_documentation.cpp_comment_section(code_lines, 'Declaration file', '='):
+        with code_gen_documentation.get_codegen_please_no_edit_warning_context(code_lines):
+            code_lines.extend(code_gen_documentation.documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
+            code_lines.append('#include <Python.h>')
+            code_lines.append('')
             for include in REQUIRED_INCLUDES:
-                ret.append('#include {}'.format(include))
-            ret.append('')
-            ret.append(f'namespace {CPP_NAMESPACE} {{\n')
-            ret.append('')
-            count_decl = 0
+                code_lines.append('#include {}'.format(include))
+            code_lines.append('')
+            code_lines.append(f'namespace {CPP_NAMESPACE} {{\n')
+            code_lines.append('')
             # Unary functions
             code_count = unary_declarations()
             count_decl += code_count.count
-            ret.extend(code_count.code)
+            code_lines.extend(code_count.code)
             code_count = dict_declarations()
             count_decl += code_count.count
-            ret.extend(code_count.code)
-            ret.append(code_gen_documentation.comment_str(' Declarations written: {}'.format(count_decl)))
-        ret.append('')
-        ret.append('} ' + code_gen_documentation.comment_str(f' namespace {CPP_NAMESPACE}'))
-        ret.append('')
-    return ret
+            code_lines.extend(code_count.code)
+            code_lines.append(code_gen_documentation.comment_str(' Declarations written: {}'.format(count_decl)))
+        code_lines.append('')
+        code_lines.append('} ' + code_gen_documentation.comment_str(f' namespace {CPP_NAMESPACE}'))
+        code_lines.append('')
+    return CodeCount(code_lines, count_decl)
 
 
-def definitions() -> typing.List[str]:
+def definitions() -> CodeCount:
     """Returns the C++ code for all definitions."""
-    ret = []
-    with code_gen_documentation.cpp_comment_section(ret, 'Definition file', '='):
-        with code_gen_documentation.get_codegen_please_no_edit_warning_context(ret):
-            ret.extend(code_gen_documentation.documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
-            ret.append('#include "python_convert.h"')
-            ret.append('')
-            ret.append(f'namespace {CPP_NAMESPACE} {{\n')
-            count_defn = 0
+    code_lines: typing.List[str] = []
+    count_defn = 0
+    with code_gen_documentation.cpp_comment_section(code_lines, 'Definition file', '='):
+        with code_gen_documentation.get_codegen_please_no_edit_warning_context(code_lines):
+            code_lines.extend(code_gen_documentation.documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
+            code_lines.append('#include "python_convert.h"')
+            code_lines.append('')
+            code_lines.append(f'namespace {CPP_NAMESPACE} {{\n')
             code_count = unary_definitions()
             count_defn += code_count.count
-            ret.extend(code_count.code)
+            code_lines.extend(code_count.code)
             code_count = dict_definitions()
             count_defn += code_count.count
-            ret.extend(code_count.code)
-            ret.append(code_gen_documentation.comment_str(' Definitions written: {}'.format(count_defn)))
-        ret.append('')
-        ret.append('} ' + code_gen_documentation.comment_str(f' namespace {CPP_NAMESPACE}'))
-        ret.append('')
-    return ret
+            code_lines.extend(code_count.code)
+            code_lines.append(code_gen_documentation.comment_str(' Definitions written: {}'.format(count_defn)))
+        code_lines.append('')
+        code_lines.append('} ' + code_gen_documentation.comment_str(f' namespace {CPP_NAMESPACE}'))
+        code_lines.append('')
+    return CodeCount(code_lines, count_defn)
 
 
 AUTO_FILE_NAME = 'auto_py_convert_internal'
@@ -382,19 +382,19 @@ def write_files() -> None:
     file_path = os.path.join(dir_path, '{}.h'.format(AUTO_FILE_NAME))
     print('Writing declarations to "{}"'.format(file_path))
     with open(file_path, 'w') as f:
-        text_fragments = declarations()
-        for line in text_fragments:
+        code_lines_and_count = declarations()
+        for line in code_lines_and_count.code:
             f.write('{}\n'.format(line))
-        line_count = sum(len(fragment.split('\n')) for fragment in text_fragments)
-        print(f'Wrote {line_count} lines of code.')
+        line_count = sum(len(fragment.split('\n')) for fragment in code_lines_and_count.code)
+        print(f'Wrote {line_count} lines of code with {code_lines_and_count.count} declarations.')
     file_path = os.path.join(dir_path, '{}.cpp'.format(AUTO_FILE_NAME))
     print('Writing definitions to  "{}"'.format(file_path))
     with open(file_path, 'w') as f:
-        text_fragments = definitions()
-        for line in text_fragments:
+        code_lines_and_count = definitions()
+        for line in code_lines_and_count.code:
             f.write('{}\n'.format(line))
-        line_count = sum(len(fragment.split('\n')) for fragment in text_fragments)
-        print(f'Wrote {line_count} lines of code.')
+        line_count = sum(len(fragment.split('\n')) for fragment in code_lines_and_count.code)
+        print(f'Wrote {line_count} lines of code with {code_lines_and_count.count} definitions.')
 
 
 def main():
