@@ -298,13 +298,12 @@ def get_codegen_please_no_edit_warning(is_end: bool) -> typing.List[str]:
     else:
         prefix = ''
     return [
-        code_gen_documentation.comment_str('{}'.format('#' * code_gen_documentation.WIDTH)),
-        code_gen_documentation.comment_str('{}'.format(
+        comment_str('{}'.format('#' * WIDTH)),
+        comment_str('{}'.format(
             ' {prefix}Auto-generated code - do not edit. Seriously, do NOT edit. '.format(
-                prefix=prefix).center(code_gen_documentation.WIDTH, '#')
-        )
-        ),
-        code_gen_documentation.comment_str('{}'.format('#' * code_gen_documentation.WIDTH)),
+                prefix=prefix).center(WIDTH, '#')
+        )),
+        comment_str('{}'.format('#' * WIDTH)),
     ]
 
 
