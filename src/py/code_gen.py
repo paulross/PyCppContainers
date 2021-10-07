@@ -22,8 +22,11 @@ from src.py import code_gen_documentation, code_gen_common
 
 logger = logging.getLogger(__file__)
 
+#: The namespace that all the C++ code lives within.
 CPP_NAMESPACE = 'Python_Cpp_Containers'
 
+#: This is the map of type conversion functions between Python and C/C++ that we are going to need.
+#: These refer to hand written functions.
 CPP_TYPE_TO_FUNCS = {
     'bool': code_gen_common.CppTypeFunctions('cpp_bool_to_py_bool', 'py_bool_check', 'py_bool_to_cpp_bool', 'bool'),
     'long': code_gen_common.CppTypeFunctions('cpp_long_to_py_long', 'py_long_check', 'py_long_to_cpp_long', 'int'),
@@ -34,6 +37,9 @@ CPP_TYPE_TO_FUNCS = {
                                                     'py_bytes_to_cpp_string', 'str'),
 }
 
+
+#: This is the map of C++ containers of those types and conversion functions that we are going to need.
+#: These refer to hand written template functions.
 UNARY_COLLECTIONS = {
     'tuple': code_gen_common.UnaryFunctions('std::vector', 'cpp_std_vector_to_py_tuple', 'py_tuple_to_cpp_std_vector'),
     'list': code_gen_common.UnaryFunctions('std::vector', 'cpp_std_vector_to_py_list', 'py_list_to_cpp_std_vector'),
@@ -43,8 +49,10 @@ UNARY_COLLECTIONS = {
                                                 'py_frozenset_to_cpp_std_unordered_set'),
 }
 
-# Not really needed as the hand written file, python_convert.h does this.
+#: Not really needed as the hand written file, python_convert.h does this.
 REQUIRED_INCLUDES = []
+
+# ==== String templates for C++ declarations and definitions. ====
 
 # Declarations to go in header file
 # Base declaration to convert to Python, requires fn= and cpp_container=
@@ -124,20 +132,24 @@ py_dict_to_cpp_std_unordered_map<{type_K}, {type_V}>(PyObject* op, std::unordere
 }}
 """
 
+# ==== END: String templates for C++ declarations and definitions. ====
+
 
 def defn_name_from_decl_name(name: str) -> str:
-    """Returns the definition name given the declaration name by the convention that it is preceded with 'generic_'."""
+    """Returns the definition name given the declaration name by the convention that it is preceded with 'generic_'.
+    These 'generic_*' functions are hand written templates in python_convert.h
+    """
     return 'generic_{}'.format(name)
 
 
 class CodeCount(typing.NamedTuple):
-    """PoD class that contains a list of C++ lines of code and a count of the number of declarations definitions."""
+    """PoD class that contains a list of C++ lines of code and a count of the number of declarations or definitions."""
     code: typing.List[str]
     count: int
 
 
 def unary_declarations() -> CodeCount:
-    """Returns the C++ code for the unary declarations."""
+    """Returns the C++ code for the unary declarations (tuples, lists, sets and so on)."""
     code = []
     count = 0
     with code_gen_documentation.cpp_comment_section(code, 'Unary collections <-> Python collections', '*'):
@@ -192,7 +204,7 @@ def unary_declarations() -> CodeCount:
 
 
 def unary_definitions() -> CodeCount:
-    """Returns the C++ code for the unary definitions."""
+    """Returns the C++ code for the unary definitions (tuples, lists, sets and so on)."""
     code = []
     count = 0
     with code_gen_documentation.cpp_comment_section(code, 'Unary collections <-> Python collections', '*'):
