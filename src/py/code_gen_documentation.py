@@ -31,7 +31,7 @@ def doxygen_cpp_to_python_unary_base_class(cpp_container: str, python_container:
         ' *',
         ' * @tparam T C++ type.',
         f' * @param container C++ input as a {cpp_container}<T>.',
-        f' * @return A Python {python_container} containing type T.',
+        f' * @return A Python {python_container} containing type corresponding to the C++ type T.',
         ' */',
     ]
 
@@ -54,7 +54,7 @@ def doxygen_cpp_to_python_unary_instantiation(cpp_container: str, python_contain
     """
     return [
         '/**',
-        f' * Instantiation for converting C++ {cpp_container} to a Python {python_container} of {py_type}.',
+        f' * Instantiation for converting C++ {cpp_container}<{cpp_type}> to a Python {python_container} of {py_type}.',
         ' *',
         f' * @param container C++ input as a {cpp_container}<{cpp_type}>.',
         f' * @return A Python {python_container} containing {py_type} objects.',
@@ -87,7 +87,7 @@ def doxygen_python_to_cpp_unary_base_class(cpp_container: str, python_container:
         ' * @tparam T C++ type.',
         f' * @param op The Python container to read from.',
         f' * @param container The C++ {cpp_container} to write to.',
-        f' * @return  0 on success, non-zero on failure.',
+        f' * @return 0 on success, non-zero on failure.',
         ' */',
     ]
 
@@ -115,7 +115,120 @@ def doxygen_python_to_cpp_unary_instantiation(cpp_container: str, python_contain
         ' *',
         f' * @param op Python input as a {python_container} of {py_type}.',
         f' * @param container C++ output as a {cpp_container}<{cpp_type}>.',
-        f' * @return  0 on success, non-zero on failure.',
+        f' * @return 0 on success, non-zero on failure.',
+        ' */',
+    ]
+
+
+def doxygen_cpp_to_python_dict_base_class() -> typing.List[str]:
+    """
+        /**
+         * * Base declaration for converting a C++ std::unordered_map<K, V> to a Python dictionary.
+         *
+         * @tparam K The C++ type for the key.
+         * @tparam V The C++ type for the value.
+         * @param map Input C++ std::unordered_map<K, V>.
+         * @return Python dictionary corresponding to {K : V, ...}.
+         */
+
+    For::
+        template<typename K, typename V>
+        PyObject *
+        cpp_std_unordered_map_to_py_dict(const std::unordered_map<K, V> &map);
+    """
+    return [
+        '/**',
+        ' * Base declaration for converting a C++ std::unordered_map<K, V> to a Python dictionary.',
+        ' *',
+        ' * @tparam K The C++ type for the key.',
+        ' * @tparam V The C++ type for the value.',
+        ' * @param map Input C++ std::unordered_map<K, V>.',
+        ' * @return Python dictionary corresponding to {K : V, ...}.',
+        ' */',
+    ]
+
+
+def doxygen_cpp_to_python_dict_instantiation(cpp_key_type: str, cpp_val_type: str, py_key_type: str, py_val_type: str):
+    """
+        /**
+         * Converts a C++ std::unordered_map<long, bool> to a Python dictionary.
+         *
+         * @param map Input C++ std::unordered_map<long, bool>.
+         * @return A Python dictionary of {int : bool, ...}.
+         */
+
+    For::
+
+        template <>
+        PyObject *
+        cpp_std_unordered_map_to_py_dict<long, bool>(const std::unordered_map<long, bool> &map);
+
+    """
+    return [
+        '/**',
+        f' * Instantiation for converting a C++ std::unordered_map<{cpp_key_type}, {cpp_val_type}> to a Python dictionary.',
+        ' *',
+        f' * @param map Input C++ std::unordered_map<{cpp_key_type}, {cpp_val_type}>.',
+        f' * @return A Python dictionary of {{{py_key_type} : {py_val_type}, ...}}.',
+        ' */',
+    ]
+
+
+def doxygen_python_dict_to_cpp_base_class():
+    """Example::
+        /**
+         * Base declaration for converting a Python dictionary to a C++ std::unordered_map<K, V>.
+         *
+         * @tparam K The type of the C++ key.
+         * @tparam V The type of the C++ value.
+         * @param op The Python dictionary as the input.
+         * @param map C++ std::unordered_map<K, V> to write to.
+         * @return 0 on success, non-zero on failure.
+         */
+
+    From::
+
+        template<typename K, typename V>
+        int
+        py_dict_to_cpp_std_unordered_map(PyObject *op, std::unordered_map<K, V> &map);
+    """
+    return [
+        '/**',
+        ' * Base declaration for converting a Python dictionary to a C++ std::unordered_map<K, V>.',
+        ' *',
+        ' * @tparam K The C++ type for the key.',
+        ' * @tparam V The C++ type for the value.',
+        ' * @param op The Python dictionary as the input.',
+        ' * @param map C++ std::unordered_map<K, V> to write to.',
+        ' * @return 0 on success, non-zero on failure.',
+        ' */',
+    ]
+
+
+def doxygen_python_dict_to_cpp_instantiation(cpp_key_type: str, cpp_val_type: str, py_key_type: str, py_val_type: str):
+    """Example::
+
+        /**
+         * Instantiation for converting a Python dictionary to a C++ std::unordered_map<long, bool>.
+         *
+         * @param op The Python dictionary as the input.
+         * @param map C++ std::unordered_map<long, bool> to write to.
+         * @return 0 on success, non-zero on failure.
+         */
+
+    From::
+
+        template <>
+        int
+        py_dict_to_cpp_std_unordered_map<bool, bool>(PyObject* op, std::unordered_map<long, bool> &map);
+    """
+    return [
+        '/**',
+        f' * Instantiation for converting a Python dictionary {{{py_key_type} : {py_val_type}, ...}} to a C++ std::unordered_map<{cpp_key_type}, {cpp_val_type}>.',
+        ' *',
+        f' * @param op A Python dictionary of {{{py_key_type} : {py_val_type}, ...}} as the input.',
+        f' * @param map The C++ std::unordered_map<{cpp_key_type}, {cpp_val_type}> to write to.',
+        f' * @return 0 on success, non-zero on failure.',
         ' */',
     ]
 

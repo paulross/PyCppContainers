@@ -4,32 +4,6 @@ Writes out .h and .cpp files to support Python/C++ homogeneous containers.
 This facilitates conversion between Python and C++ containers where the Python types are consistent.
 
 For example a Python set of strings to and from a C++ unordered_set<std::string>
-
-TODO: Add Doxygen style code_gen_documentation.documentation:
-
-// Base declaration
-/**
- * Base declaration for converting C++ vectors to Python tuples.
- *
- * @tparam T C++ type.
- * @param container C++ input as a std::vector<T>.
- * @return A Python tuple containing type T.
- */
-template<typename T>
-PyObject *
-cpp_std_vector_to_py_tuple(const std::vector<T> &container);
-
-// Instantiations
-
-/**
- * Instantiation for converting C++ vectors of bool to Python tuples or bool.
- *
- * @param container C++ input as a std::vector<bool>.
- * @return A Python tuple containing booleans.
- */
-template <>
-PyObject *
-cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container);
 """
 import contextlib
 import itertools
@@ -49,12 +23,12 @@ CPP_NAMESPACE = 'Python_Cpp_Containers'
 # 'py' is Python
 # Conversion functions are always ..._to_...
 CPP_TYPE_TO_FUNCS = {
-    'bool': code_gen_common.CppTypeFunctions('cpp_bool_to_py_bool', 'py_bool_check', 'py_bool_to_cpp_bool'),
-    'long': code_gen_common.CppTypeFunctions('cpp_long_to_py_long', 'py_long_check', 'py_long_to_cpp_long'),
-    'double': code_gen_common.CppTypeFunctions('cpp_double_to_py_float', 'py_float_check', 'py_float_to_cpp_double'),
+    'bool': code_gen_common.CppTypeFunctions('cpp_bool_to_py_bool', 'py_bool_check', 'py_bool_to_cpp_bool', 'bool'),
+    'long': code_gen_common.CppTypeFunctions('cpp_long_to_py_long', 'py_long_check', 'py_long_to_cpp_long', 'int'),
+    'double': code_gen_common.CppTypeFunctions('cpp_double_to_py_float', 'py_float_check', 'py_float_to_cpp_double', 'float'),
     # 'std::complex<double>': code_gen_common.CppTypeFunctions('py_complex_from_complex', 'py_complex_check', 'py_complex_as_complex'),
     'std::string': code_gen_common.CppTypeFunctions('cpp_string_to_py_bytes', 'py_bytes_check',
-                                                    'py_bytes_to_cpp_string'),
+                                                    'py_bytes_to_cpp_string', 'str'),
 }
 
 UNARY_COLLECTIONS = {
@@ -197,33 +171,49 @@ def unary_declarations() -> CodeCount:
             with code_gen_documentation.cpp_comment_section(code, '{} -> Python {}'.format(v.cpp_container, k), '-'):
                 # //---------------------- std::vector -> Python tuple ----------------------
                 code.append(code_gen_documentation.comment_str(' Base declaration'))
+                # Doxygen comment
+                code.extend(code_gen_documentation.doxygen_cpp_to_python_unary_base_class(v.cpp_container, k))
                 code.append(CPP_UNARY_FUNCTION_TO_PY_BASE_DECL.format(fn=v.decl_to_py, cpp_container=v.cpp_container))
-                # code.append('')
+                code.append('')
                 code.append(code_gen_documentation.comment_str(' Instantiations'))
                 for cpp_type in CPP_TYPE_TO_FUNCS:
+                    # Doxygen comment
+                    code.extend(
+                        code_gen_documentation.doxygen_cpp_to_python_unary_instantiation(
+                            v.cpp_container, k, cpp_type, CPP_TYPE_TO_FUNCS[cpp_type].py_type
+                        )
+                    )
                     code.append(CPP_UNARY_FUNCTION_TO_PY_DECL.format(
                         fn=v.decl_to_py,
                         cpp_container=v.cpp_container,
                         cpp_type=cpp_type,
                     ))
                     count += 1
-                    # code.append('')
+                    code.append('')
             with code_gen_documentation.cpp_comment_section(code, 'Python {} -> {}'.format(k, v.cpp_container), '-'):
                 code.append(code_gen_documentation.comment_str(' Base declaration'))
+                # Doxygen comment
+                code.extend(code_gen_documentation.doxygen_python_to_cpp_unary_base_class(v.cpp_container, k))
                 code.append(PY_TO_CPP_UNARY_FUNCTION_BASE_DECL.format(
                     fn=v.decl_to_cpp,
                     cpp_container=v.cpp_container
                 ))
-                # code.append('')
+                code.append('')
                 code.append(code_gen_documentation.comment_str(' Instantiations'))
                 for cpp_type in CPP_TYPE_TO_FUNCS:
+                    # Doxygen comment
+                    code.extend(
+                        code_gen_documentation.doxygen_python_to_cpp_unary_instantiation(
+                            v.cpp_container, k, cpp_type, CPP_TYPE_TO_FUNCS[cpp_type].py_type
+                        )
+                    )
                     code.append(PY_TO_CPP_UNARY_FUNCTION_DECL.format(
                         fn=v.decl_to_cpp,
                         cpp_container=v.cpp_container,
                         cpp_type=cpp_type,
                     ))
                     count += 1
-                    # code.append('')
+                    code.append('')
     return CodeCount(code, count)
 
 
@@ -266,23 +256,39 @@ def dict_declarations() -> CodeCount:
         # Python dict
         with code_gen_documentation.cpp_comment_section(code, 'std::unordered_map -> Python dict', '-'):
             code.append(code_gen_documentation.comment_str(' Base declaration'))
+            # Doxygen comment
+            code.extend(code_gen_documentation.doxygen_cpp_to_python_dict_base_class())
             code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_BASE_DECL)
-            # code.append('')
+            code.append('')
             count_decl += 1
             code.append(code_gen_documentation.comment_str(' Instantiations'))
             for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
+                # Doxygen comment
+                code.extend(
+                    code_gen_documentation.doxygen_cpp_to_python_dict_instantiation(
+                        k, v, CPP_TYPE_TO_FUNCS[k].py_type, CPP_TYPE_TO_FUNCS[v].py_type,
+                    )
+                )
                 code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_DECL.format(cpp_type_K=k, cpp_type_V=v))
-                # code.append('')
+                code.append('')
                 count_decl += 1
         with code_gen_documentation.cpp_comment_section(code, 'Python dict -> std::unordered_map', '-'):
             code.append(code_gen_documentation.comment_str(' Base declaration'))
+            # Doxygen comment
+            code.extend(code_gen_documentation.doxygen_python_dict_to_cpp_base_class())
             code.append(CPP_PY_DICT_TO_STD_UNORDERED_MAP_BASE_DECL)
-            # code.append('')
+            code.append('')
             count_decl += 1
             code.append(code_gen_documentation.comment_str(' Instantiations'))
             for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
+                # Doxygen comment
+                code.extend(
+                    code_gen_documentation.doxygen_python_dict_to_cpp_instantiation(
+                        k, v, CPP_TYPE_TO_FUNCS[k].py_type, CPP_TYPE_TO_FUNCS[v].py_type,
+                    )
+                )
                 code.append(CPP_PY_DICT_TO_STD_UNORDERED_MAP_DECL.format(cpp_type_K=k, cpp_type_V=v))
-                # code.append('')
+                code.append('')
                 count_decl += 1
     return CodeCount(code, count_decl)
 
