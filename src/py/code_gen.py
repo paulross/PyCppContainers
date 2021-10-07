@@ -4,8 +4,15 @@ Writes out .h and .cpp files to support Python/C++ homogeneous containers.
 This facilitates conversion between Python and C++ containers where the Python types are consistent.
 
 For example a Python set of strings to and from a C++ unordered_set<std::string>
+
+Note on nomenclature:
+
+- 'cpp' is C++
+- C++ namespaced types are '_' separated so 'std::vector' is 'cpp_std_vector'
+- 'py' is Python
+- Conversion functions are always ..._to_...
+
 """
-import contextlib
 import itertools
 import logging
 import os
@@ -17,15 +24,11 @@ logger = logging.getLogger(__file__)
 
 CPP_NAMESPACE = 'Python_Cpp_Containers'
 
-# Note on nomenclature:
-# 'cpp' is C++
-# C++ namespaced types are '_' separated so 'std::vector' is 'cpp_std_vector'
-# 'py' is Python
-# Conversion functions are always ..._to_...
 CPP_TYPE_TO_FUNCS = {
     'bool': code_gen_common.CppTypeFunctions('cpp_bool_to_py_bool', 'py_bool_check', 'py_bool_to_cpp_bool', 'bool'),
     'long': code_gen_common.CppTypeFunctions('cpp_long_to_py_long', 'py_long_check', 'py_long_to_cpp_long', 'int'),
-    'double': code_gen_common.CppTypeFunctions('cpp_double_to_py_float', 'py_float_check', 'py_float_to_cpp_double', 'float'),
+    'double': code_gen_common.CppTypeFunctions('cpp_double_to_py_float', 'py_float_check', 'py_float_to_cpp_double',
+                                               'float'),
     # 'std::complex<double>': code_gen_common.CppTypeFunctions('py_complex_from_complex', 'py_complex_check', 'py_complex_as_complex'),
     'std::string': code_gen_common.CppTypeFunctions('cpp_string_to_py_bytes', 'py_bytes_check',
                                                     'py_bytes_to_cpp_string', 'str'),
@@ -41,8 +44,7 @@ UNARY_COLLECTIONS = {
 }
 
 # Not really needed as the hand written file, python_convert.h does this.
-REQUIRED_INCLUDES = [
-]
+REQUIRED_INCLUDES = []
 
 # Declarations to go in header file
 # Base declaration to convert to Python, requires fn= and cpp_container=
@@ -55,7 +57,7 @@ CPP_UNARY_FUNCTION_TO_PY_DECL = """template <>
 PyObject *
 {fn}<{cpp_type}>(const {cpp_container}<{cpp_type}> &container);"""
 
-# Base declararation to convert from Python, requires fn= and cpp_container=
+# Base declaration to convert from Python, requires fn= and cpp_container=
 PY_TO_CPP_UNARY_FUNCTION_BASE_DECL = """template<typename T>
 int
 {fn}(PyObject *op, {cpp_container}<T> &container);"""
@@ -121,34 +123,6 @@ py_dict_to_cpp_std_unordered_map<{type_K}, {type_V}>(PyObject* op, std::unordere
     >(op, map);
 }}
 """
-
-
-# ===== END: std::unordered_map <-> dict ====
-
-
-def get_codegen_please_no_edit_warning(is_end: bool) -> typing.List[str]:
-    """Writes the start or end of a warning comment."""
-    if is_end:
-        prefix = 'END: '
-    else:
-        prefix = ''
-    return [
-        code_gen_documentation.comment_str('{}'.format('#' * code_gen_documentation.WIDTH)),
-        code_gen_documentation.comment_str('{}'.format(
-            ' {prefix}Auto-generated code - do not edit. Seriously, do NOT edit. '.format(
-                prefix=prefix).center(code_gen_documentation.WIDTH, '#')
-        )
-        ),
-        code_gen_documentation.comment_str('{}'.format('#' * code_gen_documentation.WIDTH)),
-    ]
-
-
-@contextlib.contextmanager
-def get_codegen_please_no_edit_warning_context(str_list: typing.List[str]):
-    """Context manager that writes the start or end of a warning comment."""
-    str_list.extend(get_codegen_please_no_edit_warning(False))
-    yield
-    str_list.extend(get_codegen_please_no_edit_warning(True))
 
 
 def defn_name_from_decl_name(name: str) -> str:
@@ -224,7 +198,6 @@ def unary_definitions() -> CodeCount:
     with code_gen_documentation.cpp_comment_section(code, 'Unary collections <-> Python collections', '*'):
         for k, v in UNARY_COLLECTIONS.items():
             with code_gen_documentation.cpp_comment_section(code, '{} -> Python {}'.format(v.cpp_container, k), '-'):
-                # //---------------------- std::vector -> Python tuple ----------------------
                 for cpp_type in CPP_TYPE_TO_FUNCS:
                     code.append(CPP_UNARY_FUNCTION_TO_PY_DEFN.format(
                         fn_decl=v.decl_to_py,
@@ -340,7 +313,7 @@ def declarations() -> typing.List[str]:
     """Returns the C++ code for all declarations."""
     ret = []
     with code_gen_documentation.cpp_comment_section(ret, 'Declaration file', '='):
-        with get_codegen_please_no_edit_warning_context(ret):
+        with code_gen_documentation.get_codegen_please_no_edit_warning_context(ret):
             ret.extend(code_gen_documentation.documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
             ret.append('#include <Python.h>')
             ret.append('')
@@ -368,7 +341,7 @@ def definitions() -> typing.List[str]:
     """Returns the C++ code for all definitions."""
     ret = []
     with code_gen_documentation.cpp_comment_section(ret, 'Definition file', '='):
-        with get_codegen_please_no_edit_warning_context(ret):
+        with code_gen_documentation.get_codegen_please_no_edit_warning_context(ret):
             ret.extend(code_gen_documentation.documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
             ret.append('#include "python_convert.h"')
             ret.append('')

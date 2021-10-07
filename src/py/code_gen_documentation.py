@@ -289,3 +289,28 @@ def documentation(unary_collections: typing.Dict[str, code_gen_common.UnaryFunct
 
 
 WIDTH = 75 - len('//')
+
+
+def get_codegen_please_no_edit_warning(is_end: bool) -> typing.List[str]:
+    """Writes the start or end of a warning comment."""
+    if is_end:
+        prefix = 'END: '
+    else:
+        prefix = ''
+    return [
+        code_gen_documentation.comment_str('{}'.format('#' * code_gen_documentation.WIDTH)),
+        code_gen_documentation.comment_str('{}'.format(
+            ' {prefix}Auto-generated code - do not edit. Seriously, do NOT edit. '.format(
+                prefix=prefix).center(code_gen_documentation.WIDTH, '#')
+        )
+        ),
+        code_gen_documentation.comment_str('{}'.format('#' * code_gen_documentation.WIDTH)),
+    ]
+
+
+@contextlib.contextmanager
+def get_codegen_please_no_edit_warning_context(str_list: typing.List[str]):
+    """Context manager that writes the start or end of a warning comment."""
+    str_list.extend(get_codegen_please_no_edit_warning(False))
+    yield
+    str_list.extend(get_codegen_please_no_edit_warning(True))
