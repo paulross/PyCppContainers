@@ -64,13 +64,12 @@ int main() {
 
     RSSSnapshot rss_overall("main.cpp");
 
-//    test_all();
+    test_all();
 
-    TestResultS test_results;
-    test_functional_all(test_results);
-    test_memory_all(test_results);
-
-    std::cout << test_results << std::endl;
+//    TestResultS test_results;
+//    test_functional_all(test_results);
+//    test_memory_all(test_results);
+//    std::cout << test_results << std::endl;
 
     Py_FinalizeEx();
 
