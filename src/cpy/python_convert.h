@@ -1,19 +1,19 @@
-//
-//  python_convert.hpp
-//  PythonC++
-//
-// This contains hand crafted conversion of C++ <-> Python containers of homogeneous types.
-// These are further instantiated by auto-generated code for a specific cartesian product of types and containers.
-// That product is controlled by code_gen.py
-// That auto-generated file is included by #include "auto_py_convert_internal.h" at the end of this file.
-//
-// Usage:
-//
-//
-//
-//  Created by Paul Ross on 22/11/2018.
-//  Copyright © 2018 Paul Ross. All rights reserved.
-//
+///
+///  python_convert.hpp
+///  PythonC++
+///
+/// This contains hand crafted conversion of C++ <-> Python containers of homogeneous types.
+/// These are further instantiated by auto-generated code for a specific cartesian product of types and containers.
+/// That product is controlled by code_gen.py
+/// That auto-generated file is included by #include "auto_py_convert_internal.h" at the end of this file.
+///
+/// Usage:
+///
+///
+///
+///  Created by Paul Ross on 22/11/2018.
+///  Copyright © 2018 Paul Ross. All rights reserved.
+///
 
 #ifndef PYTHON_CPP_CONTAINERS_PYTHON_CONVERT_H
 #define PYTHON_CPP_CONTAINERS_PYTHON_CONVERT_H
@@ -28,7 +28,14 @@
 
 namespace Python_Cpp_Containers {
 
-    // TODO: Enumerate errors codes.
+    // TODO: Enumerate errors codes. Something like:
+    enum class ErrorReturnValue : int {
+        SUCCESS = 0,
+        FAIL_CONTAINER_WRONG_TYPE,
+        FAIL_CONTAINER_MEMBER_WRONG_TYPE,
+        FAIL_CONTAINER_KEY_WRONG_TYPE,
+        FAIL_CONTAINER_VALUE_WRONG_TYPE
+    };
 
 #pragma mark == Object Conversion Code
 
@@ -37,10 +44,31 @@ namespace Python_Cpp_Containers {
 #pragma mark -- Boolean/bool Conversion Code
 
     // Bool/bool
+    /**
+     * Converts a C++ bool to a Python bool.
+     * This always succeeds.
+     *
+     * @param b Value to convert.
+     * @return Value equivalent Python.
+     */
     PyObject *cpp_bool_to_py_bool(bool const &b);
 
+    /**
+     * Converts a Python bool to a C++ bool.
+     * This asserts that the given value is a Python bool.
+     * If asserts are not enabled then this returns false for non-bool Python objects.
+     *
+     * @param op Value to convert.
+     * @return true or false.
+     */
     bool py_bool_to_cpp_bool(PyObject *op);
 
+    /**
+     * Return non-zero if the given value is a Python bool type.
+     *
+     * @param op The Python object to check to be a bool type.
+     * @return Zero if not a Python bool, non-zero if a Python bool.
+     */
     int py_bool_check(PyObject *op);
 
 #pragma mark -- Long Integer/long Conversion Code
@@ -202,7 +230,7 @@ namespace Python_Cpp_Containers {
         return ret;
     }
 
-    
+
     /**
      * This is a hand written generic function to convert a Python tuple or list to a C++ vector.
      * The template is instantiated with a C++ type a check function and a conversion function to create a Python object
@@ -229,7 +257,8 @@ namespace Python_Cpp_Containers {
      * @tparam T The C++ type of the objects in the vector.
      * @tparam PyObject_Check A function that takes a PyObject* and returns 1 if it is of the right type, 0 otherwise.
      * @tparam PyObject_Convert A function to convert a PyObject* to a C++ <T>  object.
-     * @tparam PyUnaryContainer_Check A function that takes a PyObject* and returns 1 if it is of the right container, 0 otherwise.
+     * @tparam PyUnaryContainer_Check A function that takes a PyObject* and returns 1 if it is of the right container,
+     * 0 otherwise.
      * @tparam PyUnaryContainer_Size A function that returns the length of the Python container.
      * @tparam PyUnaryContainer_Get A function that gets a PyObject* from the Python container at a given index.
      * @param op The Python container of values that can be converted to C++ type T.
@@ -243,7 +272,7 @@ namespace Python_Cpp_Containers {
             Py_ssize_t(*PyUnaryContainer_Size)(PyObject *),
             PyObject *(*PyUnaryContainer_Get)(PyObject *, size_t)>
     int generic_py_unary_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
-        assert(! PyErr_Occurred());
+        assert(!PyErr_Occurred());
         int ret = 0;
         vec.clear();
         Py_INCREF(op); // Borrow reference
@@ -257,14 +286,18 @@ namespace Python_Cpp_Containers {
             PyObject *value = PyUnaryContainer_Get(op, i);
             if (!(*PyObject_Check)(value)) {
                 vec.clear();
-                PyErr_Format(PyExc_ValueError, "Python value of type %s can not be converted", value->ob_type->tp_name);
+                PyErr_Format(
+                        PyExc_ValueError,
+                        "Python value of type %s can not be converted",
+                        value->ob_type->tp_name
+                );
                 ret = -2;
                 goto except;
             }
             vec.push_back((*PyObject_Convert)(value));
             // Check !PyErr_Occurred() which could never happen as we check first.
         }
-        assert(! PyErr_Occurred());
+        assert(!PyErr_Occurred());
         goto finally;
     except:
         assert(PyErr_Occurred());
@@ -276,27 +309,65 @@ namespace Python_Cpp_Containers {
 
 #pragma mark -- Specific Tuple Container Conversion Code
 
+    /**
+     * Partial specialisation of the template to convert from a C++ std::vector<T> to a Python tuple.
+     *
+     * @tparam T C++ type of the objects in the container.
+     * @tparam ConvertCppToPy Pointer to a conversion function to convert a C++ type T to an equivalent Python type.
+     * @param vec The C++ std::vector<T> as input.
+     * @return A new Python tuple with the contents of the input.
+     */
     template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
     generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
         return generic_cpp_std_vector_to_py_unary<T, ConvertCppToPy, &py_tuple_new, &py_tuple_set>(vec);
     }
 
+    /**
+     * Partial specialisation of the template to convert from a Python tuple to a C++ std::vector<T>.
+     *
+     * @tparam T C++ type of the objects in the container.
+     * @tparam PyObject_Check Pointer to a function that checks the types of the objects in the tuple can be
+     * converted to a C++ type T.
+     * @tparam PyObject_Convert Pointer to a function that converts a Python object to a C++ type T.
+     * @param op The Python tuple as input.
+     * @param vec The C++ std::vector<T> as output. This will be empty  on failure.
+     * @return Zero on success, non-zero on failure.
+     */
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
-        return generic_py_unary_to_cpp_std_vector<T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get>(
-                op,
-                vec);
+        return generic_py_unary_to_cpp_std_vector<
+                T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get
+        >(op, vec);
     }
 
 #pragma mark -- Specific List Container Conversion Code
 
+    /**
+     * Partial specialisation of the template to convert from a C++ std::vector<T> to a Python list.
+     *
+     * @tparam T C++ type of the objects in the container.
+     * @tparam ConvertCppToPy Pointer to a conversion function to convert a C++ type T to an equivalent Python type.
+     * @param vec The C++ std::vector<T> as input.
+     * @return A new Python list with the contents of the input.
+     */
     template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
     generic_cpp_std_vector_to_py_list(const std::vector<T> &vec) {
         return generic_cpp_std_vector_to_py_unary<T, ConvertCppToPy, &py_list_new, &py_list_set>(vec);
     }
 
+    /**
+     * Partial specialisation of the template to convert from a Python list to a C++ std::vector<T>.
+     *
+     * @tparam T C++ type of the objects in the container.
+     * @tparam PyObject_Check Pointer to a function that checks the types of the objects in the list can be
+     * converted to a C++ type T.
+     * @tparam PyObject_Convert Pointer to a function that converts a Python object to a C++ type T.
+     * @param op The Python list as input.
+     * @param vec The C++ std::vector<T> as output. This will be empty on failure.
+     * @return Zero on success, non-zero on failure.
+     */
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
         return generic_py_unary_to_cpp_std_vector<
@@ -309,9 +380,9 @@ namespace Python_Cpp_Containers {
 #pragma mark -- Specific Set Container Conversion Code
 
     /**
-     * This is a hand written generic function to convert a C++ unordered_set to a Python set or frozen set.
+     * This is a hand written generic function to convert a C++ std::unordered_set<T> to a Python set or frozen set.
      *
-     * @tparam T The C++ type of the objects in the vector.
+     * @tparam T The C++ type of the objects in the std::unordered_set.
      * @tparam ConvertCppToPy Function to convert the C++ <T> to a PyObject*.
      * @tparam PyContainer_New Function to create a new Python container.
      * @param set The C++ std::set as input data.
@@ -372,6 +443,17 @@ namespace Python_Cpp_Containers {
         return generic_cpp_std_unordered_set_to_py_set_or_frozenset<T, ConvertCppToPy, &PyFrozenSet_New>(set);
     }
 
+    /**
+     * This is a hand written generic function to convert a C++ std::unordered_set<T> to a Python set or frozen set.
+     *
+     * @tparam T
+     * @tparam PyContainer_Check
+     * @tparam PyObject_Check
+     * @tparam PyObject_Convert
+     * @param op
+     * @param set
+     * @return
+     */
     template<
             typename T,
             int (*PyContainer_Check)(PyObject *),
@@ -424,10 +506,10 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-    except:
+        except:
         set.clear();
         assert(PyErr_Occurred());
-    finally:
+        finally:
         Py_DECREF(op); // Borrowed reference
         Py_XDECREF(py_item);
         Py_XDECREF(py_iter);
@@ -521,11 +603,11 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-    except:
+        except:
         assert(PyErr_Occurred());
         Py_XDECREF(py_k);
         Py_XDECREF(py_v);
-    finally:
+        finally:
         return ret;
     }
 
@@ -583,10 +665,10 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-    except:
+        except:
         map.clear();
         assert(PyErr_Occurred());
-    finally:
+        finally:
         Py_DECREF(dict); // Borrowed reference
         return ret;
     }
