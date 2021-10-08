@@ -1,0 +1,422 @@
+/Users/paulross/CLionProjects/PythonCppHomogeneousContainers/cmake-build-release/PythonCppHomogeneousContainers
+Hello, World!
+RSS(Mb): was:     31.469 now:     31.547 diff:     +0.078 Peak was:     31.469 now:     31.547 diff:     +0.078 test_vector_to_py_tuple<bool>
+RSS(Mb): was:     31.547 now:     31.547 diff:     +0.000 Peak was:     31.547 now:     31.547 diff:     +0.000 test_vector_to_py_tuple<long>
+RSS(Mb): was:     31.547 now:     31.562 diff:     +0.016 Peak was:     31.547 now:     31.562 diff:     +0.016 test_vector_to_py_tuple<double>
+RSS(Mb): was:     31.562 now:     31.562 diff:     +0.000 Peak was:     31.562 now:     31.562 diff:     +0.000 test_py_tuple_to_vector<bool>
+RSS(Mb): was:     31.578 now:     31.594 diff:     +0.016 Peak was:     31.578 now:     31.594 diff:     +0.016 test_py_tuple_to_vector<long>
+RSS(Mb): was:     31.594 now:     31.594 diff:     +0.000 Peak was:     31.594 now:     31.594 diff:     +0.000 test_py_tuple_to_vector<double>
+RSS(Mb): was:     31.594 now:     31.594 diff:     +0.000 Peak was:     31.594 now:     31.594 diff:     +0.000 test_vector_to_py_tuple_round_trip<bool>
+RSS(Mb): was:     31.594 now:     31.609 diff:     +0.016 Peak was:     31.594 now:     31.609 diff:     +0.016 test_vector_to_py_tuple_round_trip<long>
+RSS(Mb): was:     31.609 now:     31.672 diff:     +0.062 Peak was:     31.609 now:     31.672 diff:     +0.062 test_vector_to_py_tuple_round_trip<double>
+RSS(Mb): was:     31.672 now:     31.672 diff:     +0.000 Peak was:     31.672 now:     31.672 diff:     +0.000 test_py_tuple_to_vector_round_trip<bool>
+RSS(Mb): was:     31.672 now:     31.781 diff:     +0.109 Peak was:     31.672 now:     31.781 diff:     +0.109 test_py_tuple_to_vector_round_trip<long>
+RSS(Mb): was:     31.781 now:     31.828 diff:     +0.047 Peak was:     31.781 now:     31.828 diff:     +0.047 test_py_tuple_to_vector_round_trip<double>
+RSS(Mb): was:     31.828 now:     32.219 diff:     +0.391 Peak was:     31.828 now:     32.219 diff:     +0.391 test_vector_string_to_py_tuple
+RSS(Mb): was:     32.219 now:     32.250 diff:     +0.031 Peak was:     32.219 now:     32.250 diff:     +0.031 test_py_tuple_string_to_vector
+RSS(Mb): was:     32.250 now:     32.438 diff:     +0.188 Peak was:     32.250 now:     32.438 diff:     +0.188 test_unordered_set_to_py_set<long>
+RSS(Mb): was:     32.438 now:     32.453 diff:     +0.016 Peak was:     32.438 now:     32.453 diff:     +0.016 test_py_set_to_unordered_set<long>
+RSS(Mb): was:     32.453 now:     32.719 diff:     +0.266 Peak was:     32.453 now:     32.719 diff:     +0.266 test_cpp_std_unordered_map_to_py_dict<double, double>
+RSS(Mb): was:     32.719 now:     32.734 diff:     +0.016 Peak was:     32.719 now:     32.734 diff:     +0.016 test_py_dict_to_cpp_std_unordered_map<double, double>
+====RSS(Mb): was:     31.203 now:     32.734 diff:     +1.531 Peak was:     31.203 now:     32.734 diff:     +1.531 ==== test_functional.cpp
+RSS(Mb): was:     32.750 now:     54.172 diff:    +21.422 Peak was:     32.750 now:     54.172 diff:    +21.422 test_perf_vector_to_py_tuple<bool>
+RSS(Mb): was:     54.172 now:    108.562 diff:    +54.391 Peak was:     54.172 now:    172.562 diff:   +118.391 test_perf_vector_to_py_tuple<long>
+RSS(Mb): was:    108.578 now:    109.703 diff:     +1.125 Peak was:    172.562 now:    172.703 diff:     +0.141 test_perf_vector_to_py_tuple<double>
+RSS(Mb): was:    109.703 now:    109.703 diff:     +0.000 Peak was:    172.703 now:    172.703 diff:     +0.000 test_perf_py_tuple_to_vector<bool>
+RSS(Mb): was:    109.703 now:    152.312 diff:    +42.609 Peak was:    172.703 now:    215.312 diff:    +42.609 test_perf_py_tuple_to_vector<long>
+RSS(Mb): was:    152.312 now:    168.672 diff:    +16.359 Peak was:    215.312 now:    231.672 diff:    +16.359 test_perf_py_tuple_to_vector<double>
+RSS(Mb): was:    168.672 now:    509.203 diff:   +340.531 Peak was:    231.672 now:   9402.656 diff:  +9170.984 test_perf_vector_string_to_py_tuple
+RSS(Mb): was:    509.375 now:    606.109 diff:    +96.734 Peak was:   9402.656 now:   9457.078 diff:    +54.422 test_perf_py_tuple_string_to_vector
+RSS(Mb): was:    606.125 now:    681.641 diff:    +75.516 Peak was:   9457.078 now:   9457.078 diff:     +0.000 test_perf_cpp_std_unordered_map_to_py_dict<double>
+RSS(Mb): was:    681.641 now:     96.906 diff:   -584.719 Peak was:   9457.078 now:   9457.078 diff:     +0.000 test_perf_py_dict_to_cpp_std_unordered_map<double>
+RSS(Mb): was:     96.938 now:    227.594 diff:   +130.672 Peak was:   9457.078 now:  11235.734 diff:  +1778.656 test_cpp_std_unordered_map_to_py_dict_string
+RSS(Mb): was:    227.672 now:    502.031 diff:   +274.359 Peak was:  11235.734 now:  11235.734 diff:     +0.000 test_perf_vector_string_to_py_tuple_multiple
+====RSS(Mb): was:     32.750 now:    502.062 diff:   +469.312 Peak was:     32.750 now:  11235.734 diff: +11202.984 ==== test_performance.cpp
+RSS(Mb): was:    502.219 now:    504.406 diff:     +2.188 Peak was:  11235.734 now:  11235.734 diff:     +0.000 test_memory_py_tuple
+RSS(Mb): was:    504.406 now:    752.688 diff:   +248.281 Peak was:  11235.734 now:  11235.734 diff:     +0.000 test_memory_py_dict
+RSS(Mb): was:    752.688 now:    867.781 diff:   +115.094 Peak was:  11235.734 now:  11235.734 diff:     +0.000 test_memory_vector_string_to_py_tuple(1024, 2048, 512, 1<<16)
+====RSS(Mb): was:    502.219 now:    867.781 diff:   +365.562 Peak was:  11235.734 now:  11235.734 diff:     +0.000 ==== test_memory.cpp
+Number of tests: 372
+REGEX_HEAD: "HEAD:\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)"
+REGEX_TEST: "TEST:\s+(\d+)\s+(\d+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+(\d+)\s+([0-9+-.]+)\s+(\S+)"
+REGEX_TAIL: "TAIL:\s+(.+)"
+HEAD: Fail   Scale  Repeat         Time(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+TEST:    0    1024       1     0.000003876             N/A             N/A             N/A         1      258031.2 test_vector_to_py_tuple<bool>
+TEST:    0    1024       1     0.000011459             N/A             N/A             N/A         1       87263.8 test_vector_to_py_tuple<long>
+TEST:    0    1024       1     0.000011792             N/A             N/A             N/A         1       84806.9 test_vector_to_py_tuple<double>
+TEST:    0    1024       1     0.000008251             N/A             N/A             N/A         1      121204.8 test_py_tuple_to_vector<bool>
+TEST:    0    1024       1     0.000010585             N/A             N/A             N/A         1       94477.8 test_py_tuple_to_vector<long>
+TEST:    0    1024       1     0.000009543             N/A             N/A             N/A         1      104794.3 test_py_tuple_to_vector<double>
+TEST:    0    1024       1     0.000011541             N/A             N/A             N/A         1       86643.9 test_vector_to_py_tuple_round_trip<bool>
+TEST:    0    1024       1     0.000020958             N/A             N/A             N/A         1       47713.3 test_vector_to_py_tuple_round_trip<long>
+TEST:    0    1024       1     0.000029251             N/A             N/A             N/A         1       34187.4 test_vector_to_py_tuple_round_trip<double>
+TEST:    0    1024       1     0.000011626             N/A             N/A             N/A         1       86017.8 test_py_tuple_to_vector_round_trip<bool>
+TEST:    0    1024       1     0.000026501             N/A             N/A             N/A         1       37735.1 test_py_tuple_to_vector_round_trip<long>
+TEST:    0    1024       1     0.000025501             N/A             N/A             N/A         1       39214.9 test_py_tuple_to_vector_round_trip<double>
+TEST:    0    1024       1     0.000023416             N/A             N/A             N/A         1       42704.9 test_vector_string_to_py_tuple<std::string[32]>():[1024]
+TEST:    0    1024       1     0.000059334             N/A             N/A             N/A         1       16853.6 test_py_tuple_string_to_vector<std::string[32]>():[1024]
+TEST:    0    1024       1     0.000042875             N/A             N/A             N/A         1       23323.3 test_unordered_set_to_py_set<long>
+TEST:    0    1024       1     0.000066126             N/A             N/A             N/A         1       15122.8 test_py_set_to_unordered_set<long>
+TEST:    0    1024       1     0.000099041             N/A             N/A             N/A         1       10096.8 test_cpp_std_unordered_map_to_py_dict<double>
+TEST:    0    1024       1     0.000700543             N/A             N/A             N/A         1        1427.5 test_py_dict_to_cpp_std_unordered_map<double>
+TEST:    0       2       1     0.000000417             N/A             N/A             N/A         1     2400960.4 test_vector_to_py_tuple<bool>
+TEST:    0       8       1     0.000000209             N/A             N/A             N/A         1     4773269.7 test_vector_to_py_tuple<bool>
+TEST:    0      32       1     0.000000460             N/A             N/A             N/A         1     2176278.6 test_vector_to_py_tuple<bool>
+TEST:    0     128       1     0.000000625             N/A             N/A             N/A         1     1598721.0 test_vector_to_py_tuple<bool>
+TEST:    0     512       1     0.000001876             N/A             N/A             N/A         1      533191.1 test_vector_to_py_tuple<bool>
+TEST:    0    2048       1     0.000006875             N/A             N/A             N/A         1      145444.0 test_vector_to_py_tuple<bool>
+TEST:    0    8192       1     0.000043001             N/A             N/A             N/A         1       23255.5 test_vector_to_py_tuple<bool>
+TEST:    0   32768       1     0.000170208             N/A             N/A             N/A         1        5875.1 test_vector_to_py_tuple<bool>
+TEST:    0  131072       1     0.000686543             N/A             N/A             N/A         1        1456.6 test_vector_to_py_tuple<bool>
+TEST:    0  524288       1     0.002676793             N/A             N/A             N/A         1         373.6 test_vector_to_py_tuple<bool>
+TEST:    0       2       1     0.000001417             N/A             N/A             N/A         1      705467.4 test_vector_to_py_tuple<long>
+TEST:    0       8       1     0.000000334             N/A             N/A             N/A         1     2989536.6 test_vector_to_py_tuple<long>
+TEST:    0      32       1     0.000001210             N/A             N/A             N/A         1      826787.9 test_vector_to_py_tuple<long>
+TEST:    0     128       1     0.000001751             N/A             N/A             N/A         1      571265.4 test_vector_to_py_tuple<long>
+TEST:    0     512       1     0.000005292             N/A             N/A             N/A         1      188982.3 test_vector_to_py_tuple<long>
+TEST:    0    2048       1     0.000027125             N/A             N/A             N/A         1       36865.7 test_vector_to_py_tuple<long>
+TEST:    0    8192       1     0.000162668             N/A             N/A             N/A         1        6147.5 test_vector_to_py_tuple<long>
+TEST:    0   32768       1     0.000658542             N/A             N/A             N/A         1        1518.5 test_vector_to_py_tuple<long>
+TEST:    0  131072       1     0.002725418             N/A             N/A             N/A         1         366.9 test_vector_to_py_tuple<long>
+TEST:    0  524288       1     0.011011335             N/A             N/A             N/A         1          90.8 test_vector_to_py_tuple<long>
+TEST:    0       2       1     0.000002042             N/A             N/A             N/A         1      489596.1 test_vector_to_py_tuple<double>
+TEST:    0       8       1     0.000000293             N/A             N/A             N/A         1     3418803.4 test_vector_to_py_tuple<double>
+TEST:    0      32       1     0.000001084             N/A             N/A             N/A         1      922083.9 test_vector_to_py_tuple<double>
+TEST:    0     128       1     0.000001876             N/A             N/A             N/A         1      533191.1 test_vector_to_py_tuple<double>
+TEST:    0     512       1     0.000005751             N/A             N/A             N/A         1      173897.9 test_vector_to_py_tuple<double>
+TEST:    0    2048       1     0.000023708             N/A             N/A             N/A         1       42179.0 test_vector_to_py_tuple<double>
+TEST:    0    8192       1     0.000220334             N/A             N/A             N/A         1        4538.6 test_vector_to_py_tuple<double>
+TEST:    0   32768       1     0.000537334             N/A             N/A             N/A         1        1861.0 test_vector_to_py_tuple<double>
+TEST:    0  131072       1     0.002324334             N/A             N/A             N/A         1         430.2 test_vector_to_py_tuple<double>
+TEST:    0  524288       1     0.009750167             N/A             N/A             N/A         1         102.6 test_vector_to_py_tuple<double>
+TEST:    0       2       1     0.000000750             N/A             N/A             N/A         1     1332445.0 test_py_tuple_to_vector<bool>
+TEST:    0       8       1     0.000000168             N/A             N/A             N/A         1     5970149.3 test_py_tuple_to_vector<bool>
+TEST:    0      32       1     0.000000293             N/A             N/A             N/A         1     3418803.4 test_py_tuple_to_vector<bool>
+TEST:    0     128       1     0.000001292             N/A             N/A             N/A         1      774293.5 test_py_tuple_to_vector<bool>
+TEST:    0     512       1     0.000004042             N/A             N/A             N/A         1      247371.7 test_py_tuple_to_vector<bool>
+TEST:    0    2048       1     0.000017001             N/A             N/A             N/A         1       58821.8 test_py_tuple_to_vector<bool>
+TEST:    0    8192       1     0.000064501             N/A             N/A             N/A         1       15503.8 test_py_tuple_to_vector<bool>
+TEST:    0   32768       1     0.000258333             N/A             N/A             N/A         1        3871.0 test_py_tuple_to_vector<bool>
+TEST:    0  131072       1     0.001019959             N/A             N/A             N/A         1         980.4 test_py_tuple_to_vector<bool>
+TEST:    0  524288       1     0.004319043             N/A             N/A             N/A         1         231.5 test_py_tuple_to_vector<bool>
+TEST:    0       2       1     0.000000625             N/A             N/A             N/A         1     1598721.0 test_py_tuple_to_vector<long>
+TEST:    0       8       1     0.000000208             N/A             N/A             N/A         1     4796163.1 test_py_tuple_to_vector<long>
+TEST:    0      32       1     0.000000501             N/A             N/A             N/A         1     1998002.0 test_py_tuple_to_vector<long>
+TEST:    0     128       1     0.000001709             N/A             N/A             N/A         1      584966.4 test_py_tuple_to_vector<long>
+TEST:    0     512       1     0.000005000             N/A             N/A             N/A         1      199980.0 test_py_tuple_to_vector<long>
+TEST:    0    2048       1     0.000022333             N/A             N/A             N/A         1       44775.8 test_py_tuple_to_vector<long>
+TEST:    0    8192       1     0.000102250             N/A             N/A             N/A         1        9779.9 test_py_tuple_to_vector<long>
+TEST:    0   32768       1     0.000381041             N/A             N/A             N/A         1        2624.4 test_py_tuple_to_vector<long>
+TEST:    0  131072       1     0.001473584             N/A             N/A             N/A         1         678.6 test_py_tuple_to_vector<long>
+TEST:    0  524288       1     0.007135334             N/A             N/A             N/A         1         140.1 test_py_tuple_to_vector<long>
+TEST:    0       2       1     0.000001041             N/A             N/A             N/A         1      960153.6 test_py_tuple_to_vector<double>
+TEST:    0       8       1     0.000000291             N/A             N/A             N/A         1     3430531.7 test_py_tuple_to_vector<double>
+TEST:    0      32       1     0.000000417             N/A             N/A             N/A         1     2400960.4 test_py_tuple_to_vector<double>
+TEST:    0     128       1     0.000001459             N/A             N/A             N/A         1      685635.9 test_py_tuple_to_vector<double>
+TEST:    0     512       1     0.000005126             N/A             N/A             N/A         1      195102.9 test_py_tuple_to_vector<double>
+TEST:    0    2048       1     0.000019543             N/A             N/A             N/A         1       51170.5 test_py_tuple_to_vector<double>
+TEST:    0    8192       1     0.000078043             N/A             N/A             N/A         1       12813.5 test_py_tuple_to_vector<double>
+TEST:    0   32768       1     0.000315710             N/A             N/A             N/A         1        3167.5 test_py_tuple_to_vector<double>
+TEST:    0  131072       1     0.001467126             N/A             N/A             N/A         1         681.6 test_py_tuple_to_vector<double>
+TEST:    0  524288       1     0.004888585             N/A             N/A             N/A         1         204.6 test_py_tuple_to_vector<double>
+TEST:    0       2       1     0.000003251             N/A             N/A             N/A         1      307645.0 test_vector_string_to_py_tuple<std::string[8]>():[2]
+TEST:    0       8       1     0.000000293             N/A             N/A             N/A         1     3418803.4 test_vector_string_to_py_tuple<std::string[8]>():[8]
+TEST:    0      32       1     0.000001000             N/A             N/A             N/A         1      999500.2 test_vector_string_to_py_tuple<std::string[8]>():[32]
+TEST:    0     128       1     0.000003625             N/A             N/A             N/A         1      275824.0 test_vector_string_to_py_tuple<std::string[8]>():[128]
+TEST:    0     512       1     0.000007709             N/A             N/A             N/A         1      129726.9 test_vector_string_to_py_tuple<std::string[8]>():[512]
+TEST:    0    2048       1     0.000030334             N/A             N/A             N/A         1       32966.9 test_vector_string_to_py_tuple<std::string[8]>():[2048]
+TEST:    0    8192       1     0.000152959             N/A             N/A             N/A         1        6537.7 test_vector_string_to_py_tuple<std::string[8]>():[8192]
+TEST:    0   32768       1     0.000721542             N/A             N/A             N/A         1        1385.9 test_vector_string_to_py_tuple<std::string[8]>():[32768]
+TEST:    0  131072       1     0.003449542             N/A             N/A             N/A         1         289.9 test_vector_string_to_py_tuple<std::string[8]>():[131072]
+TEST:    0  524288       1     0.015378417             N/A             N/A             N/A         1          65.0 test_vector_string_to_py_tuple<std::string[8]>():[524288]
+TEST:    0       2       1     0.000003876             N/A             N/A             N/A         1      258031.2 test_vector_string_to_py_tuple<std::string[32]>():[2]
+TEST:    0       8       1     0.000001501             N/A             N/A             N/A         1      666444.5 test_vector_string_to_py_tuple<std::string[32]>():[8]
+TEST:    0      32       1     0.000001709             N/A             N/A             N/A         1      585308.8 test_vector_string_to_py_tuple<std::string[32]>():[32]
+TEST:    0     128       1     0.000003000             N/A             N/A             N/A         1      333277.8 test_vector_string_to_py_tuple<std::string[32]>():[128]
+TEST:    0     512       1     0.000009833             N/A             N/A             N/A         1      101693.2 test_vector_string_to_py_tuple<std::string[32]>():[512]
+TEST:    0    2048       1     0.000033251             N/A             N/A             N/A         1       30074.7 test_vector_string_to_py_tuple<std::string[32]>():[2048]
+TEST:    0    8192       1     0.000132542             N/A             N/A             N/A         1        7544.7 test_vector_string_to_py_tuple<std::string[32]>():[8192]
+TEST:    0   32768       1     0.001053918             N/A             N/A             N/A         1         948.8 test_vector_string_to_py_tuple<std::string[32]>():[32768]
+TEST:    0  131072       1     0.004360167             N/A             N/A             N/A         1         229.3 test_vector_string_to_py_tuple<std::string[32]>():[131072]
+TEST:    0  524288       1     0.019121459             N/A             N/A             N/A         1          52.3 test_vector_string_to_py_tuple<std::string[32]>():[524288]
+TEST:    0       2       1     0.000004125             N/A             N/A             N/A         1      242394.9 test_vector_string_to_py_tuple<std::string[128]>():[2]
+TEST:    0       8       1     0.000000750             N/A             N/A             N/A         1     1332445.0 test_vector_string_to_py_tuple<std::string[128]>():[8]
+TEST:    0      32       1     0.000001459             N/A             N/A             N/A         1      685635.9 test_vector_string_to_py_tuple<std::string[128]>():[32]
+TEST:    0     128       1     0.000003251             N/A             N/A             N/A         1      307645.0 test_vector_string_to_py_tuple<std::string[128]>():[128]
+TEST:    0     512       1     0.000010793             N/A             N/A             N/A         1       92656.9 test_vector_string_to_py_tuple<std::string[128]>():[512]
+TEST:    0    2048       1     0.000038541             N/A             N/A             N/A         1       25946.1 test_vector_string_to_py_tuple<std::string[128]>():[2048]
+TEST:    0    8192       1     0.000326042             N/A             N/A             N/A         1        3067.1 test_vector_string_to_py_tuple<std::string[128]>():[8192]
+TEST:    0   32768       1     0.002089126             N/A             N/A             N/A         1         478.7 test_vector_string_to_py_tuple<std::string[128]>():[32768]
+TEST:    0  131072       1     0.009716001             N/A             N/A             N/A         1         102.9 test_vector_string_to_py_tuple<std::string[128]>():[131072]
+TEST:    0  524288       1     0.033677876             N/A             N/A             N/A         1          29.7 test_vector_string_to_py_tuple<std::string[128]>():[524288]
+TEST:    0       2       1     0.000004708             N/A             N/A             N/A         1      212381.9 test_vector_string_to_py_tuple<std::string[512]>():[2]
+TEST:    0       8       1     0.000001000             N/A             N/A             N/A         1      999500.2 test_vector_string_to_py_tuple<std::string[512]>():[8]
+TEST:    0      32       1     0.000002918             N/A             N/A             N/A         1      342759.2 test_vector_string_to_py_tuple<std::string[512]>():[32]
+TEST:    0     128       1     0.000009543             N/A             N/A             N/A         1      104794.3 test_vector_string_to_py_tuple<std::string[512]>():[128]
+TEST:    0     512       1     0.000038458             N/A             N/A             N/A         1       26002.1 test_vector_string_to_py_tuple<std::string[512]>():[512]
+TEST:    0    2048       1     0.000164834             N/A             N/A             N/A         1        6066.7 test_vector_string_to_py_tuple<std::string[512]>():[2048]
+TEST:    0    8192       1     0.001572043             N/A             N/A             N/A         1         636.1 test_vector_string_to_py_tuple<std::string[512]>():[8192]
+TEST:    0   32768       1     0.006768042             N/A             N/A             N/A         1         147.8 test_vector_string_to_py_tuple<std::string[512]>():[32768]
+TEST:    0  131072       1     0.027721875             N/A             N/A             N/A         1          36.1 test_vector_string_to_py_tuple<std::string[512]>():[131072]
+TEST:    0  524288       1     0.116981126             N/A             N/A             N/A         1           8.5 test_vector_string_to_py_tuple<std::string[512]>():[524288]
+TEST:    0       2       1     0.000005668             N/A             N/A             N/A         1      176444.6 test_vector_string_to_py_tuple<std::string[2048]>():[2]
+TEST:    0       8       1     0.000001583             N/A             N/A             N/A         1      631512.5 test_vector_string_to_py_tuple<std::string[2048]>():[8]
+TEST:    0      32       1     0.000018585             N/A             N/A             N/A         1       53808.3 test_vector_string_to_py_tuple<std::string[2048]>():[32]
+TEST:    0     128       1     0.000071000             N/A             N/A             N/A         1       14084.4 test_vector_string_to_py_tuple<std::string[2048]>():[128]
+TEST:    0     512       1     0.000297042             N/A             N/A             N/A         1        3366.5 test_vector_string_to_py_tuple<std::string[2048]>():[512]
+TEST:    0    2048       1     0.001610375             N/A             N/A             N/A         1         621.0 test_vector_string_to_py_tuple<std::string[2048]>():[2048]
+TEST:    0    8192       1     0.006212833             N/A             N/A             N/A         1         161.0 test_vector_string_to_py_tuple<std::string[2048]>():[8192]
+TEST:    0   32768       1     0.022175583             N/A             N/A             N/A         1          45.1 test_vector_string_to_py_tuple<std::string[2048]>():[32768]
+TEST:    0  131072       1     0.099685709             N/A             N/A             N/A         1          10.0 test_vector_string_to_py_tuple<std::string[2048]>():[131072]
+TEST:    0  524288       1     1.107035251             N/A             N/A             N/A         1           0.9 test_vector_string_to_py_tuple<std::string[2048]>():[524288]
+TEST:    0       2       1     0.000005250             N/A             N/A             N/A         1      190458.1 test_py_tuple_string_to_vector<std::string[8]>():[2]
+TEST:    0       8       1     0.000001042             N/A             N/A             N/A         1      959232.6 test_py_tuple_string_to_vector<std::string[8]>():[8]
+TEST:    0      32       1     0.000000458             N/A             N/A             N/A         1     2181025.1 test_py_tuple_string_to_vector<std::string[8]>():[32]
+TEST:    0     128       1     0.000001625             N/A             N/A             N/A         1      615195.3 test_py_tuple_string_to_vector<std::string[8]>():[128]
+TEST:    0     512       1     0.000005583             N/A             N/A             N/A         1      179099.1 test_py_tuple_string_to_vector<std::string[8]>():[512]
+TEST:    0    2048       1     0.000043542             N/A             N/A             N/A         1       22966.1 test_py_tuple_string_to_vector<std::string[8]>():[2048]
+TEST:    0    8192       1     0.000119168             N/A             N/A             N/A         1        8391.5 test_py_tuple_string_to_vector<std::string[8]>():[8192]
+TEST:    0   32768       1     0.000478958             N/A             N/A             N/A         1        2087.9 test_py_tuple_string_to_vector<std::string[8]>():[32768]
+TEST:    0  131072       1     0.001972750             N/A             N/A             N/A         1         506.9 test_py_tuple_string_to_vector<std::string[8]>():[131072]
+TEST:    0  524288       1     0.008878917             N/A             N/A             N/A         1         112.6 test_py_tuple_string_to_vector<std::string[8]>():[524288]
+TEST:    0       2       1     0.000000876             N/A             N/A             N/A         1     1142204.5 test_py_tuple_string_to_vector<std::string[32]>():[2]
+TEST:    0       8       1     0.000000667             N/A             N/A             N/A         1     1498127.3 test_py_tuple_string_to_vector<std::string[32]>():[8]
+TEST:    0      32       1     0.000003625             N/A             N/A             N/A         1      275824.0 test_py_tuple_string_to_vector<std::string[32]>():[32]
+TEST:    0     128       1     0.000008001             N/A             N/A             N/A         1      124992.2 test_py_tuple_string_to_vector<std::string[32]>():[128]
+TEST:    0     512       1     0.000034917             N/A             N/A             N/A         1       28638.9 test_py_tuple_string_to_vector<std::string[32]>():[512]
+TEST:    0    2048       1     0.000142458             N/A             N/A             N/A         1        7019.6 test_py_tuple_string_to_vector<std::string[32]>():[2048]
+TEST:    0    8192       1     0.000559334             N/A             N/A             N/A         1        1787.8 test_py_tuple_string_to_vector<std::string[32]>():[8192]
+TEST:    0   32768       1     0.002417043             N/A             N/A             N/A         1         413.7 test_py_tuple_string_to_vector<std::string[32]>():[32768]
+TEST:    0  131072       1     0.008726209             N/A             N/A             N/A         1         114.6 test_py_tuple_string_to_vector<std::string[32]>():[131072]
+TEST:    0  524288       1     0.035103334             N/A             N/A             N/A         1          28.5 test_py_tuple_string_to_vector<std::string[32]>():[524288]
+TEST:    0       2       1     0.000001126             N/A             N/A             N/A         1      888494.0 test_py_tuple_string_to_vector<std::string[128]>():[2]
+TEST:    0       8       1     0.000000625             N/A             N/A             N/A         1     1598721.0 test_py_tuple_string_to_vector<std::string[128]>():[8]
+TEST:    0      32       1     0.000002501             N/A             N/A             N/A         1      399920.0 test_py_tuple_string_to_vector<std::string[128]>():[32]
+TEST:    0     128       1     0.000008459             N/A             N/A             N/A         1      118224.3 test_py_tuple_string_to_vector<std::string[128]>():[128]
+TEST:    0     512       1     0.000030251             N/A             N/A             N/A         1       33057.3 test_py_tuple_string_to_vector<std::string[128]>():[512]
+TEST:    0    2048       1     0.000116251             N/A             N/A             N/A         1        8602.1 test_py_tuple_string_to_vector<std::string[128]>():[2048]
+TEST:    0    8192       1     0.000480958             N/A             N/A             N/A         1        2079.2 test_py_tuple_string_to_vector<std::string[128]>():[8192]
+TEST:    0   32768       1     0.002542792             N/A             N/A             N/A         1         393.3 test_py_tuple_string_to_vector<std::string[128]>():[32768]
+TEST:    0  131072       1     0.011344668             N/A             N/A             N/A         1          88.1 test_py_tuple_string_to_vector<std::string[128]>():[131072]
+TEST:    0  524288       1     0.044054916             N/A             N/A             N/A         1          22.7 test_py_tuple_string_to_vector<std::string[128]>():[524288]
+TEST:    0       2       1     0.000001168             N/A             N/A             N/A         1      856531.0 test_py_tuple_string_to_vector<std::string[512]>():[2]
+TEST:    0       8       1     0.000000835             N/A             N/A             N/A         1     1198322.3 test_py_tuple_string_to_vector<std::string[512]>():[8]
+TEST:    0      32       1     0.000002209             N/A             N/A             N/A         1      452796.0 test_py_tuple_string_to_vector<std::string[512]>():[32]
+TEST:    0     128       1     0.000008917             N/A             N/A             N/A         1      112151.6 test_py_tuple_string_to_vector<std::string[512]>():[128]
+TEST:    0     512       1     0.000035291             N/A             N/A             N/A         1       28335.4 test_py_tuple_string_to_vector<std::string[512]>():[512]
+TEST:    0    2048       1     0.000142085             N/A             N/A             N/A         1        7038.1 test_py_tuple_string_to_vector<std::string[512]>():[2048]
+TEST:    0    8192       1     0.001431501             N/A             N/A             N/A         1         698.6 test_py_tuple_string_to_vector<std::string[512]>():[8192]
+TEST:    0   32768       1     0.005589584             N/A             N/A             N/A         1         178.9 test_py_tuple_string_to_vector<std::string[512]>():[32768]
+TEST:    0  131072       1     0.023346793             N/A             N/A             N/A         1          42.8 test_py_tuple_string_to_vector<std::string[512]>():[131072]
+TEST:    0  524288       1     0.090814417             N/A             N/A             N/A         1          11.0 test_py_tuple_string_to_vector<std::string[512]>():[524288]
+TEST:    0       2       1     0.000000959             N/A             N/A             N/A         1     1043296.8 test_py_tuple_string_to_vector<std::string[2048]>():[2]
+TEST:    0       8       1     0.000001501             N/A             N/A             N/A         1      666444.5 test_py_tuple_string_to_vector<std::string[2048]>():[8]
+TEST:    0      32       1     0.000005126             N/A             N/A             N/A         1      195102.9 test_py_tuple_string_to_vector<std::string[2048]>():[32]
+TEST:    0     128       1     0.000018126             N/A             N/A             N/A         1       55170.9 test_py_tuple_string_to_vector<std::string[2048]>():[128]
+TEST:    0     512       1     0.000070668             N/A             N/A             N/A         1       14150.8 test_py_tuple_string_to_vector<std::string[2048]>():[512]
+TEST:    0    2048       1     0.000864668             N/A             N/A             N/A         1        1156.5 test_py_tuple_string_to_vector<std::string[2048]>():[2048]
+TEST:    0    8192       1     0.002032125             N/A             N/A             N/A         1         492.1 test_py_tuple_string_to_vector<std::string[2048]>():[8192]
+TEST:    0   32768       1     0.020680583             N/A             N/A             N/A         1          48.4 test_py_tuple_string_to_vector<std::string[2048]>():[32768]
+TEST:    0  131072       1     0.091219251             N/A             N/A             N/A         1          11.0 test_py_tuple_string_to_vector<std::string[2048]>():[131072]
+TEST:    0  524288       1     0.660115209             N/A             N/A             N/A         1           1.5 test_py_tuple_string_to_vector<std::string[2048]>():[524288]
+TEST:    0       2       1     0.000032000             N/A             N/A             N/A         1       31249.5 test_cpp_std_unordered_map_to_py_dict<double>
+TEST:    0       8       1     0.000002501             N/A             N/A             N/A         1      399920.0 test_cpp_std_unordered_map_to_py_dict<double>
+TEST:    0      32       1     0.000003417             N/A             N/A             N/A         1      292611.6 test_cpp_std_unordered_map_to_py_dict<double>
+TEST:    0     128       1     0.000013293             N/A             N/A             N/A         1       75230.4 test_cpp_std_unordered_map_to_py_dict<double>
+TEST:    0     512       1     0.000033167             N/A             N/A             N/A         1       30150.0 test_cpp_std_unordered_map_to_py_dict<double>
+TEST:    0    2048       1     0.000127917             N/A             N/A             N/A         1        7817.6 test_cpp_std_unordered_map_to_py_dict<double>
+TEST:    0    8192       1     0.000556043             N/A             N/A             N/A         1        1798.4 test_cpp_std_unordered_map_to_py_dict<double>
+TEST:    0   32768       1     0.001944583             N/A             N/A             N/A         1         514.2 test_cpp_std_unordered_map_to_py_dict<double>
+TEST:    0  131072       1     0.010608875             N/A             N/A             N/A         1          94.3 test_cpp_std_unordered_map_to_py_dict<double>
+TEST:    0  524288       1     0.045132376             N/A             N/A             N/A         1          22.2 test_cpp_std_unordered_map_to_py_dict<double>
+TEST:    0       2       1     0.000001958             N/A             N/A             N/A         1      510594.8 test_py_dict_to_cpp_std_unordered_map<double>
+TEST:    0       8       1     0.000000959             N/A             N/A             N/A         1     1043296.8 test_py_dict_to_cpp_std_unordered_map<double>
+TEST:    0      32       1     0.000003584             N/A             N/A             N/A         1      279056.8 test_py_dict_to_cpp_std_unordered_map<double>
+TEST:    0     128       1     0.000021334             N/A             N/A             N/A         1       46874.6 test_py_dict_to_cpp_std_unordered_map<double>
+TEST:    0     512       1     0.000199043             N/A             N/A             N/A         1        5024.1 test_py_dict_to_cpp_std_unordered_map<double>
+TEST:    0    2048       1     0.002689500             N/A             N/A             N/A         1         371.8 test_py_dict_to_cpp_std_unordered_map<double>
+TEST:    0    8192       1     0.051401251             N/A             N/A             N/A         1          19.5 test_py_dict_to_cpp_std_unordered_map<double>
+TEST:    0   32768       1     0.872863043             N/A             N/A             N/A         1           1.1 test_py_dict_to_cpp_std_unordered_map<double>
+TEST:    0  131072       1    13.811073084             N/A             N/A             N/A         1           0.1 test_py_dict_to_cpp_std_unordered_map<double>
+TEST:    0  524288       1   229.042790750             N/A             N/A             N/A         1           0.0 test_py_dict_to_cpp_std_unordered_map<double>
+TEST:    0       2       1     0.000021459             N/A             N/A             N/A         1       46601.6 test_cpp_std_unordered_map_to_py_dict_string<std::string[8]>():[2]
+TEST:    0       8       1     0.000004417             N/A             N/A             N/A         1      226372.4 test_cpp_std_unordered_map_to_py_dict_string<std::string[8]>():[8]
+TEST:    0      32       1     0.000016208             N/A             N/A             N/A         1       61696.0 test_cpp_std_unordered_map_to_py_dict_string<std::string[8]>():[32]
+TEST:    0     128       1     0.000017917             N/A             N/A             N/A         1       55811.4 test_cpp_std_unordered_map_to_py_dict_string<std::string[8]>():[128]
+TEST:    0     512       1     0.000050043             N/A             N/A             N/A         1       19983.0 test_cpp_std_unordered_map_to_py_dict_string<std::string[8]>():[512]
+TEST:    0    2048       1     0.000213584             N/A             N/A             N/A         1        4682.0 test_cpp_std_unordered_map_to_py_dict_string<std::string[8]>():[2048]
+TEST:    0    8192       1     0.000760708             N/A             N/A             N/A         1        1314.6 test_cpp_std_unordered_map_to_py_dict_string<std::string[8]>():[8192]
+TEST:    0   32768       1     0.003716751             N/A             N/A             N/A         1         269.1 test_cpp_std_unordered_map_to_py_dict_string<std::string[8]>():[32768]
+TEST:    0  131072       1     0.026028668             N/A             N/A             N/A         1          38.4 test_cpp_std_unordered_map_to_py_dict_string<std::string[8]>():[131072]
+TEST:    0  524288       1     0.098595750             N/A             N/A             N/A         1          10.1 test_cpp_std_unordered_map_to_py_dict_string<std::string[8]>():[524288]
+TEST:    0       2       1     0.000017001             N/A             N/A             N/A         1       58821.8 test_cpp_std_unordered_map_to_py_dict_string<std::string[32]>():[2]
+TEST:    0       8       1     0.000001168             N/A             N/A             N/A         1      856531.0 test_cpp_std_unordered_map_to_py_dict_string<std::string[32]>():[8]
+TEST:    0      32       1     0.000005583             N/A             N/A             N/A         1      179099.1 test_cpp_std_unordered_map_to_py_dict_string<std::string[32]>():[32]
+TEST:    0     128       1     0.000014375             N/A             N/A             N/A         1       69562.8 test_cpp_std_unordered_map_to_py_dict_string<std::string[32]>():[128]
+TEST:    0     512       1     0.000052543             N/A             N/A             N/A         1       19032.2 test_cpp_std_unordered_map_to_py_dict_string<std::string[32]>():[512]
+TEST:    0    2048       1     0.000204626             N/A             N/A             N/A         1        4887.0 test_cpp_std_unordered_map_to_py_dict_string<std::string[32]>():[2048]
+TEST:    0    8192       1     0.000912210             N/A             N/A             N/A         1        1096.2 test_cpp_std_unordered_map_to_py_dict_string<std::string[32]>():[8192]
+TEST:    0   32768       1     0.004345501             N/A             N/A             N/A         1         230.1 test_cpp_std_unordered_map_to_py_dict_string<std::string[32]>():[32768]
+TEST:    0  131072       1     0.024900709             N/A             N/A             N/A         1          40.2 test_cpp_std_unordered_map_to_py_dict_string<std::string[32]>():[131072]
+TEST:    0  524288       1     0.138778542             N/A             N/A             N/A         1           7.2 test_cpp_std_unordered_map_to_py_dict_string<std::string[32]>():[524288]
+TEST:    0       2       1     0.000023458             N/A             N/A             N/A         1       42628.5 test_cpp_std_unordered_map_to_py_dict_string<std::string[128]>():[2]
+TEST:    0       8       1     0.000001834             N/A             N/A             N/A         1      545107.7 test_cpp_std_unordered_map_to_py_dict_string<std::string[128]>():[8]
+TEST:    0      32       1     0.000007918             N/A             N/A             N/A         1      126302.5 test_cpp_std_unordered_map_to_py_dict_string<std::string[128]>():[32]
+TEST:    0     128       1     0.000023208             N/A             N/A             N/A         1       43087.7 test_cpp_std_unordered_map_to_py_dict_string<std::string[128]>():[128]
+TEST:    0     512       1     0.000090251             N/A             N/A             N/A         1       11080.3 test_cpp_std_unordered_map_to_py_dict_string<std::string[128]>():[512]
+TEST:    0    2048       1     0.000364208             N/A             N/A             N/A         1        2745.7 test_cpp_std_unordered_map_to_py_dict_string<std::string[128]>():[2048]
+TEST:    0    8192       1     0.001817793             N/A             N/A             N/A         1         550.1 test_cpp_std_unordered_map_to_py_dict_string<std::string[128]>():[8192]
+TEST:    0   32768       1     0.009686501             N/A             N/A             N/A         1         103.2 test_cpp_std_unordered_map_to_py_dict_string<std::string[128]>():[32768]
+TEST:    0  131072       1     0.044202334             N/A             N/A             N/A         1          22.6 test_cpp_std_unordered_map_to_py_dict_string<std::string[128]>():[131072]
+TEST:    0  524288       1     0.238004376             N/A             N/A             N/A         1           4.2 test_cpp_std_unordered_map_to_py_dict_string<std::string[128]>():[524288]
+TEST:    0       2       1     0.000007293             N/A             N/A             N/A         1      137127.2 test_cpp_std_unordered_map_to_py_dict_string<std::string[512]>():[2]
+TEST:    0       8       1     0.000004876             N/A             N/A             N/A         1      205107.2 test_cpp_std_unordered_map_to_py_dict_string<std::string[512]>():[8]
+TEST:    0      32       1     0.000020250             N/A             N/A             N/A         1       49381.5 test_cpp_std_unordered_map_to_py_dict_string<std::string[512]>():[32]
+TEST:    0     128       1     0.000071958             N/A             N/A             N/A         1       13896.9 test_cpp_std_unordered_map_to_py_dict_string<std::string[512]>():[128]
+TEST:    0     512       1     0.000291293             N/A             N/A             N/A         1        3433.0 test_cpp_std_unordered_map_to_py_dict_string<std::string[512]>():[512]
+TEST:    0    2048       1     0.001390334             N/A             N/A             N/A         1         719.3 test_cpp_std_unordered_map_to_py_dict_string<std::string[512]>():[2048]
+TEST:    0    8192       1     0.006915542             N/A             N/A             N/A         1         144.6 test_cpp_std_unordered_map_to_py_dict_string<std::string[512]>():[8192]
+TEST:    0   32768       1     0.030202209             N/A             N/A             N/A         1          33.1 test_cpp_std_unordered_map_to_py_dict_string<std::string[512]>():[32768]
+TEST:    0  131072       1     0.126696584             N/A             N/A             N/A         1           7.9 test_cpp_std_unordered_map_to_py_dict_string<std::string[512]>():[131072]
+TEST:    0  524288       1     0.694507708             N/A             N/A             N/A         1           1.4 test_cpp_std_unordered_map_to_py_dict_string<std::string[512]>():[524288]
+TEST:    0       2       1     0.000010083             N/A             N/A             N/A         1       99171.9 test_cpp_std_unordered_map_to_py_dict_string<std::string[2048]>():[2]
+TEST:    0       8       1     0.000024959             N/A             N/A             N/A         1       40066.5 test_cpp_std_unordered_map_to_py_dict_string<std::string[2048]>():[8]
+TEST:    0      32       1     0.000091876             N/A             N/A             N/A         1       10884.3 test_cpp_std_unordered_map_to_py_dict_string<std::string[2048]>():[32]
+TEST:    0     128       1     0.000376584             N/A             N/A             N/A         1        2655.5 test_cpp_std_unordered_map_to_py_dict_string<std::string[2048]>():[128]
+TEST:    0     512       1     0.001476834             N/A             N/A             N/A         1         677.1 test_cpp_std_unordered_map_to_py_dict_string<std::string[2048]>():[512]
+TEST:    0    2048       1     0.006449542             N/A             N/A             N/A         1         155.0 test_cpp_std_unordered_map_to_py_dict_string<std::string[2048]>():[2048]
+TEST:    0    8192       1     0.025335833             N/A             N/A             N/A         1          39.5 test_cpp_std_unordered_map_to_py_dict_string<std::string[2048]>():[8192]
+TEST:    0   32768       1     0.096783584             N/A             N/A             N/A         1          10.3 test_cpp_std_unordered_map_to_py_dict_string<std::string[2048]>():[32768]
+TEST:    0  131072       1     0.442460833             N/A             N/A             N/A         1           2.3 test_cpp_std_unordered_map_to_py_dict_string<std::string[2048]>():[131072]
+TEST:    0  524288       1     3.595162585             N/A             N/A             N/A         1           0.3 test_cpp_std_unordered_map_to_py_dict_string<std::string[2048]>():[524288]
+TEST:    0       2      10     0.000003855     0.000011271     0.000000083     0.000037667        10     2594168.3 test_vector_string_to_py_tuple_multiple<std::string[8]>():[2]
+TEST:    0       8      10     0.000000796     0.000001818     0.000000166     0.000006250        10    12561236.0 test_vector_string_to_py_tuple_multiple<std::string[8]>():[8]
+TEST:    0      32      10     0.000000834     0.000000806     0.000000542     0.000003251        10    11990407.7 test_vector_string_to_py_tuple_multiple<std::string[8]>():[32]
+TEST:    0     128      10     0.000002396     0.000001272     0.000001917     0.000006208        10     4172926.1 test_vector_string_to_py_tuple_multiple<std::string[8]>():[128]
+TEST:    0     512      10     0.000008180     0.000001934     0.000007375     0.000013918        10     1222538.7 test_vector_string_to_py_tuple_multiple<std::string[8]>():[512]
+TEST:    0    2048      10     0.000032025     0.000006926     0.000029416     0.000052791        10      312254.1 test_vector_string_to_py_tuple_multiple<std::string[8]>():[2048]
+TEST:    0    8192      10     0.000129955     0.000035117     0.000115833     0.000235251        10       76950.0 test_vector_string_to_py_tuple_multiple<std::string[8]>():[8192]
+TEST:    0   32768      10     0.000632438     0.000043567     0.000606167     0.000761583        10       15811.8 test_vector_string_to_py_tuple_multiple<std::string[8]>():[32768]
+TEST:    0  131072      10     0.003224717     0.000204209     0.003040168     0.003662583        10        3101.0 test_vector_string_to_py_tuple_multiple<std::string[8]>():[131072]
+TEST:    0  524288      10     0.014554971     0.001150709     0.013278584     0.016777626        10         687.1 test_vector_string_to_py_tuple_multiple<std::string[8]>():[524288]
+TEST:    0       2      10     0.000001830     0.000005210     0.000000083     0.000017458        10     5465974.3 test_vector_string_to_py_tuple_multiple<std::string[32]>():[2]
+TEST:    0       8      10     0.000000484     0.000000825     0.000000168     0.000002959        10    20665426.7 test_vector_string_to_py_tuple_multiple<std::string[32]>():[8]
+TEST:    0      32      10     0.000000630     0.000000222     0.000000542     0.000001292        10    15880578.1 test_vector_string_to_py_tuple_multiple<std::string[32]>():[32]
+TEST:    0     128      10     0.000002117     0.000000268     0.000002001     0.000002918        10     4723442.4 test_vector_string_to_py_tuple_multiple<std::string[32]>():[128]
+TEST:    0     512      10     0.000007913     0.000000379     0.000007709     0.000009043        10     1263727.2 test_vector_string_to_py_tuple_multiple<std::string[32]>():[512]
+TEST:    0    2048      10     0.000031734     0.000000932     0.000030834     0.000033375        10      315119.4 test_vector_string_to_py_tuple_multiple<std::string[32]>():[2048]
+TEST:    0    8192      10     0.000145996     0.000042205     0.000122751     0.000243543        10       68494.8 test_vector_string_to_py_tuple_multiple<std::string[32]>():[8192]
+TEST:    0   32768      10     0.000874622     0.000036851     0.000846710     0.000963668        10       11433.5 test_vector_string_to_py_tuple_multiple<std::string[32]>():[32768]
+TEST:    0  131072      10     0.004525405     0.000307351     0.004263210     0.005327043        10        2209.7 test_vector_string_to_py_tuple_multiple<std::string[32]>():[131072]
+TEST:    0  524288      10     0.018804017     0.001096173     0.016817417     0.021039875        10         531.8 test_vector_string_to_py_tuple_multiple<std::string[32]>():[524288]
+TEST:    0       2      10     0.000001301     0.000003636     0.000000083     0.000012210        10     7688759.0 test_vector_string_to_py_tuple_multiple<std::string[128]>():[2]
+TEST:    0       8      10     0.000000259     0.000000193     0.000000168     0.000000835        10    38610038.6 test_vector_string_to_py_tuple_multiple<std::string[128]>():[8]
+TEST:    0      32      10     0.000000692     0.000000245     0.000000584     0.000001417        10    14448779.1 test_vector_string_to_py_tuple_multiple<std::string[128]>():[32]
+TEST:    0     128      10     0.000002384     0.000000373     0.000002250     0.000003501        10     4194806.8 test_vector_string_to_py_tuple_multiple<std::string[128]>():[128]
+TEST:    0     512      10     0.000009259     0.000000555     0.000009000     0.000010918        10     1080041.9 test_vector_string_to_py_tuple_multiple<std::string[128]>():[512]
+TEST:    0    2048      10     0.000037451     0.000002399     0.000036292     0.000044459        10      267019.1 test_vector_string_to_py_tuple_multiple<std::string[128]>():[2048]
+TEST:    0    8192      10     0.000283055     0.000008964     0.000278042     0.000309085        10       35328.9 test_vector_string_to_py_tuple_multiple<std::string[128]>():[8192]
+TEST:    0   32768      10     0.001563546     0.000062538     0.001512792     0.001720334        10        6395.7 test_vector_string_to_py_tuple_multiple<std::string[128]>():[32768]
+TEST:    0  131072      10     0.007534667     0.000415051     0.006922750     0.008088084        10        1327.2 test_vector_string_to_py_tuple_multiple<std::string[128]>():[131072]
+TEST:    0  524288      10     0.030462946     0.001565316     0.028422792     0.032967251        10         328.3 test_vector_string_to_py_tuple_multiple<std::string[128]>():[524288]
+TEST:    0       2      10     0.000000509     0.000000887     0.000000168     0.000003167        10    19654088.1 test_vector_string_to_py_tuple_multiple<std::string[512]>():[2]
+TEST:    0       8      10     0.000000688     0.000000080     0.000000625     0.000000918        10    14532771.4 test_vector_string_to_py_tuple_multiple<std::string[512]>():[8]
+TEST:    0      32      10     0.000002413     0.000000191     0.000002291     0.000002918        10     4144047.1 test_vector_string_to_py_tuple_multiple<std::string[512]>():[32]
+TEST:    0     128      10     0.000009234     0.000000050     0.000009166     0.000009335        10     1082966.0 test_vector_string_to_py_tuple_multiple<std::string[512]>():[128]
+TEST:    0     512      10     0.000037271     0.000000566     0.000036750     0.000038292        10      268302.2 test_vector_string_to_py_tuple_multiple<std::string[512]>():[512]
+TEST:    0    2048      10     0.000151655     0.000003414     0.000148001     0.000158043        10       65939.3 test_vector_string_to_py_tuple_multiple<std::string[512]>():[2048]
+TEST:    0    8192      10     0.000602713     0.000002765     0.000599293     0.000608584        10       16591.6 test_vector_string_to_py_tuple_multiple<std::string[512]>():[8192]
+TEST:    0   32768      10     0.005207201     0.000520685     0.004823710     0.006588709        10        1920.4 test_vector_string_to_py_tuple_multiple<std::string[512]>():[32768]
+TEST:    0  131072      10     0.023447717     0.001570982     0.020558125     0.026396709        10         426.5 test_vector_string_to_py_tuple_multiple<std::string[512]>():[131072]
+TEST:    0  524288      10     0.092248896     0.006744823     0.077160750     0.106239792        10         108.4 test_vector_string_to_py_tuple_multiple<std::string[512]>():[524288]
+TEST:    0       2      10     0.000000580     0.000001002     0.000000208     0.000003585        10    17250301.9 test_vector_string_to_py_tuple_multiple<std::string[2048]>():[2]
+TEST:    0       8      10     0.000001009     0.000000263     0.000000876     0.000001791        10     9911785.1 test_vector_string_to_py_tuple_multiple<std::string[2048]>():[8]
+TEST:    0      32      10     0.000005446     0.000003491     0.000004166     0.000015918        10     1836108.9 test_vector_string_to_py_tuple_multiple<std::string[2048]>():[32]
+TEST:    0     128      10     0.000021046     0.000012820     0.000016542     0.000059500        10      475140.6 test_vector_string_to_py_tuple_multiple<std::string[2048]>():[128]
+TEST:    0     512      10     0.000084126     0.000054764     0.000065750     0.000248418        10      118869.7 test_vector_string_to_py_tuple_multiple<std::string[2048]>():[512]
+TEST:    0    2048      10     0.000359892     0.000233700     0.000279376     0.001060875        10       27786.1 test_vector_string_to_py_tuple_multiple<std::string[2048]>():[2048]
+TEST:    0    8192      10     0.002249930     0.000848962     0.001298750     0.003901041        10        4444.6 test_vector_string_to_py_tuple_multiple<std::string[2048]>():[8192]
+TEST:    0   32768      10     0.015527838     0.001646178     0.013837417     0.019721084        10         644.0 test_vector_string_to_py_tuple_multiple<std::string[2048]>():[32768]
+TEST:    0  131072      10     0.076047080     0.005406861     0.066517167     0.086045334        10         131.5 test_vector_string_to_py_tuple_multiple<std::string[2048]>():[131072]
+TEST:    0  524288      10     0.428052288     0.167738369     0.270541500     0.871379626        10          23.4 test_vector_string_to_py_tuple_multiple<std::string[2048]>():[524288]
+TEST:    0 1048576       1     0.021006042             N/A             N/A             N/A         1          47.6 test_memory_py_tuple<double>
+TEST:    0 1048576       1     0.083629543             N/A             N/A             N/A         1          12.0 test_memory_py_dict<double>
+TEST:    0     512       1     0.000027001             N/A             N/A             N/A         1       37036.4 test_vector_string_to_py_tuple<std::string[8]>():[512]
+TEST:    0    1024       1     0.000015043             N/A             N/A             N/A         1       66478.3 test_vector_string_to_py_tuple<std::string[8]>():[1024]
+TEST:    0    2048       1     0.000029333             N/A             N/A             N/A         1       34090.7 test_vector_string_to_py_tuple<std::string[8]>():[2048]
+TEST:    0    4096       1     0.000058750             N/A             N/A             N/A         1       17021.1 test_vector_string_to_py_tuple<std::string[8]>():[4096]
+TEST:    0    8192       1     0.000114792             N/A             N/A             N/A         1        8711.4 test_vector_string_to_py_tuple<std::string[8]>():[8192]
+TEST:    0   16384       1     0.000250667             N/A             N/A             N/A         1        3989.3 test_vector_string_to_py_tuple<std::string[8]>():[16384]
+TEST:    0   32768       1     0.000629418             N/A             N/A             N/A         1        1588.8 test_vector_string_to_py_tuple<std::string[8]>():[32768]
+TEST:    0   65536       1     0.001357708             N/A             N/A             N/A         1         736.5 test_vector_string_to_py_tuple<std::string[8]>():[65536]
+TEST:    0     512       1     0.000018668             N/A             N/A             N/A         1       53569.0 test_vector_string_to_py_tuple<std::string[16]>():[512]
+TEST:    0    1024       1     0.000014375             N/A             N/A             N/A         1       69562.8 test_vector_string_to_py_tuple<std::string[16]>():[1024]
+TEST:    0    2048       1     0.000028418             N/A             N/A             N/A         1       35189.6 test_vector_string_to_py_tuple<std::string[16]>():[2048]
+TEST:    0    4096       1     0.000056585             N/A             N/A             N/A         1       17672.7 test_vector_string_to_py_tuple<std::string[16]>():[4096]
+TEST:    0    8192       1     0.000112917             N/A             N/A             N/A         1        8856.0 test_vector_string_to_py_tuple<std::string[16]>():[8192]
+TEST:    0   16384       1     0.000308501             N/A             N/A             N/A         1        3241.5 test_vector_string_to_py_tuple<std::string[16]>():[16384]
+TEST:    0   32768       1     0.000710041             N/A             N/A             N/A         1        1408.4 test_vector_string_to_py_tuple<std::string[16]>():[32768]
+TEST:    0   65536       1     0.001575209             N/A             N/A             N/A         1         634.8 test_vector_string_to_py_tuple<std::string[16]>():[65536]
+TEST:    0     512       1     0.000016043             N/A             N/A             N/A         1       62334.4 test_vector_string_to_py_tuple<std::string[32]>():[512]
+TEST:    0    1024       1     0.000015542             N/A             N/A             N/A         1       64343.9 test_vector_string_to_py_tuple<std::string[32]>():[1024]
+TEST:    0    2048       1     0.000029668             N/A             N/A             N/A         1       33706.9 test_vector_string_to_py_tuple<std::string[32]>():[2048]
+TEST:    0    4096       1     0.000059543             N/A             N/A             N/A         1       16794.7 test_vector_string_to_py_tuple<std::string[32]>():[4096]
+TEST:    0    8192       1     0.000130625             N/A             N/A             N/A         1        7655.5 test_vector_string_to_py_tuple<std::string[32]>():[8192]
+TEST:    0   16384       1     0.000343667             N/A             N/A             N/A         1        2909.8 test_vector_string_to_py_tuple<std::string[32]>():[16384]
+TEST:    0   32768       1     0.000829501             N/A             N/A             N/A         1        1205.5 test_vector_string_to_py_tuple<std::string[32]>():[32768]
+TEST:    0   65536       1     0.001887293             N/A             N/A             N/A         1         529.9 test_vector_string_to_py_tuple<std::string[32]>():[65536]
+TEST:    0     512       1     0.000018084             N/A             N/A             N/A         1       55299.0 test_vector_string_to_py_tuple<std::string[64]>():[512]
+TEST:    0    1024       1     0.000016959             N/A             N/A             N/A         1       58967.5 test_vector_string_to_py_tuple<std::string[64]>():[1024]
+TEST:    0    2048       1     0.000033041             N/A             N/A             N/A         1       30265.0 test_vector_string_to_py_tuple<std::string[64]>():[2048]
+TEST:    0    4096       1     0.000063292             N/A             N/A             N/A         1       15799.7 test_vector_string_to_py_tuple<std::string[64]>():[4096]
+TEST:    0    8192       1     0.000174667             N/A             N/A             N/A         1        5725.2 test_vector_string_to_py_tuple<std::string[64]>():[8192]
+TEST:    0   16384       1     0.000452251             N/A             N/A             N/A         1        2211.2 test_vector_string_to_py_tuple<std::string[64]>():[16384]
+TEST:    0   32768       1     0.001059918             N/A             N/A             N/A         1         943.5 test_vector_string_to_py_tuple<std::string[64]>():[32768]
+TEST:    0   65536       1     0.002295333             N/A             N/A             N/A         1         435.7 test_vector_string_to_py_tuple<std::string[64]>():[65536]
+TEST:    0     512       1     0.000018001             N/A             N/A             N/A         1       55554.0 test_vector_string_to_py_tuple<std::string[128]>():[512]
+TEST:    0    1024       1     0.000018459             N/A             N/A             N/A         1       54172.6 test_vector_string_to_py_tuple<std::string[128]>():[1024]
+TEST:    0    2048       1     0.000036375             N/A             N/A             N/A         1       27491.0 test_vector_string_to_py_tuple<std::string[128]>():[2048]
+TEST:    0    4096       1     0.000088792             N/A             N/A             N/A         1       11262.3 test_vector_string_to_py_tuple<std::string[128]>():[4096]
+TEST:    0    8192       1     0.000304751             N/A             N/A             N/A         1        3281.4 test_vector_string_to_py_tuple<std::string[128]>():[8192]
+TEST:    0   16384       1     0.000703292             N/A             N/A             N/A         1        1421.9 test_vector_string_to_py_tuple<std::string[128]>():[16384]
+TEST:    0   32768       1     0.001513209             N/A             N/A             N/A         1         660.8 test_vector_string_to_py_tuple<std::string[128]>():[32768]
+TEST:    0   65536       1     0.003693626             N/A             N/A             N/A         1         270.7 test_vector_string_to_py_tuple<std::string[128]>():[65536]
+TEST:    0     512       1     0.000018583             N/A             N/A             N/A         1       53811.2 test_vector_string_to_py_tuple<std::string[256]>():[512]
+TEST:    0    1024       1     0.000025209             N/A             N/A             N/A         1       39667.6 test_vector_string_to_py_tuple<std::string[256]>():[1024]
+TEST:    0    2048       1     0.000049126             N/A             N/A             N/A         1       20356.0 test_vector_string_to_py_tuple<std::string[256]>():[2048]
+TEST:    0    4096       1     0.000211500             N/A             N/A             N/A         1        4728.1 test_vector_string_to_py_tuple<std::string[256]>():[4096]
+TEST:    0    8192       1     0.000551375             N/A             N/A             N/A         1        1813.6 test_vector_string_to_py_tuple<std::string[256]>():[8192]
+TEST:    0   16384       1     0.001210416             N/A             N/A             N/A         1         826.2 test_vector_string_to_py_tuple<std::string[256]>():[16384]
+TEST:    0   32768       1     0.002611875             N/A             N/A             N/A         1         382.9 test_vector_string_to_py_tuple<std::string[256]>():[32768]
+TEST:    0   65536       1     0.005313000             N/A             N/A             N/A         1         188.2 test_vector_string_to_py_tuple<std::string[256]>():[65536]
+TEST:    0     512       1     0.000037126             N/A             N/A             N/A         1       26935.7 test_vector_string_to_py_tuple<std::string[512]>():[512]
+TEST:    0    1024       1     0.000073917             N/A             N/A             N/A         1       13528.6 test_vector_string_to_py_tuple<std::string[512]>():[1024]
+TEST:    0    2048       1     0.000145918             N/A             N/A             N/A         1        6853.2 test_vector_string_to_py_tuple<std::string[512]>():[2048]
+TEST:    0    4096       1     0.000295500             N/A             N/A             N/A         1        3384.1 test_vector_string_to_py_tuple<std::string[512]>():[4096]
+TEST:    0    8192       1     0.000575709             N/A             N/A             N/A         1        1737.0 test_vector_string_to_py_tuple<std::string[512]>():[8192]
+TEST:    0   16384       1     0.001167918             N/A             N/A             N/A         1         856.2 test_vector_string_to_py_tuple<std::string[512]>():[16384]
+TEST:    0   32768       1     0.005751000             N/A             N/A             N/A         1         173.9 test_vector_string_to_py_tuple<std::string[512]>():[32768]
+TEST:    0   65536       1     0.011487167             N/A             N/A             N/A         1          87.1 test_vector_string_to_py_tuple<std::string[512]>():[65536]
+TEST:    0     512       1     0.000128292             N/A             N/A             N/A         1        7794.7 test_vector_string_to_py_tuple<std::string[1024]>():[512]
+TEST:    0    1024       1     0.000352167             N/A             N/A             N/A         1        2839.6 test_vector_string_to_py_tuple<std::string[1024]>():[1024]
+TEST:    0    2048       1     0.000705250             N/A             N/A             N/A         1        1417.9 test_vector_string_to_py_tuple<std::string[1024]>():[2048]
+TEST:    0    4096       1     0.000770126             N/A             N/A             N/A         1        1298.5 test_vector_string_to_py_tuple<std::string[1024]>():[4096]
+TEST:    0    8192       1     0.000981626             N/A             N/A             N/A         1        1018.7 test_vector_string_to_py_tuple<std::string[1024]>():[8192]
+TEST:    0   16384       1     0.002245916             N/A             N/A             N/A         1         445.3 test_vector_string_to_py_tuple<std::string[1024]>():[16384]
+TEST:    0   32768       1     0.010760709             N/A             N/A             N/A         1          92.9 test_vector_string_to_py_tuple<std::string[1024]>():[32768]
+TEST:    0   65536       1     0.023781501             N/A             N/A             N/A         1          42.0 test_vector_string_to_py_tuple<std::string[1024]>():[65536]
+TEST:    0     512       1     0.000273500             N/A             N/A             N/A         1        3656.3 test_vector_string_to_py_tuple<std::string[2048]>():[512]
+TEST:    0    1024       1     0.000557375             N/A             N/A             N/A         1        1794.1 test_vector_string_to_py_tuple<std::string[2048]>():[1024]
+TEST:    0    2048       1     0.000756043             N/A             N/A             N/A         1        1322.7 test_vector_string_to_py_tuple<std::string[2048]>():[2048]
+TEST:    0    4096       1     0.000586335             N/A             N/A             N/A         1        1705.5 test_vector_string_to_py_tuple<std::string[2048]>():[4096]
+TEST:    0    8192       1     0.001301333             N/A             N/A             N/A         1         768.4 test_vector_string_to_py_tuple<std::string[2048]>():[8192]
+TEST:    0   16384       1     0.006980167             N/A             N/A             N/A         1         143.3 test_vector_string_to_py_tuple<std::string[2048]>():[16384]
+TEST:    0   32768       1     0.019720334             N/A             N/A             N/A         1          50.7 test_vector_string_to_py_tuple<std::string[2048]>():[32768]
+TEST:    0   65536       1     0.039786125             N/A             N/A             N/A         1          25.1 test_vector_string_to_py_tuple<std::string[2048]>():[65536]
+TAIL: Passed=822/822 Failed=0/822
+
+====RSS(Mb): was:     31.172 now:    806.969 diff:   +775.797 Peak was:     31.172 now:  11235.734 diff: +11204.562 main.cpp
+Total execution time: 751 (s)
+Bye, bye!
+
+Process finished with exit code 0
