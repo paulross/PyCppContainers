@@ -4,7 +4,7 @@
 // This just experiments with creating Python objects and observing the memory usage.
 // The aim is to explore memory safe Python patterns.
 //
-// Many of these tests are based on test in test_functional or test_performance.
+// Many of these tests are based on tests in test_functional or test_performance.
 //
 
 #include "test_memory.h"
@@ -137,7 +137,7 @@ int test_memory_py_tuple_string_to_vector(TestResultS &test_results, size_t str_
 
 void test_memory_all(TestResultS &test_results) {
     RSSSnapshot rss_overall("==== test_memory.cpp");
-    int repeat_count = 1;
+    int repeat_count = 10;
     {
         for (int i = 0; i < repeat_count; ++i) {
             RSSSnapshot rss("test_memory_py_tuple");
@@ -145,7 +145,7 @@ void test_memory_all(TestResultS &test_results) {
             // Start, Python initialised:                        3.0
             // Start of test_memory_py_tuple():                  3.0
             // Before Py_XDECREF in test_memory_py_tuple():    117.7   +114.7
-            // After Py_XDECREF in test_memory_py_tuple():       7.0   -110.7
+            // After  Py_XDECREF in test_memory_py_tuple():      7.0   -110.7
             // Prior to Py_FinalizeEx()                          7.1     +0.1
             // After Py_FinalizeEx()                             6.1     -1.0
             //
@@ -162,7 +162,7 @@ void test_memory_all(TestResultS &test_results) {
             // Start, Python initialised:                        3.1
             // Start of test_memory_py_dict():                   3.1
             // Before Py_XDECREF in test_memory_py_dict():      43.6    +40.6
-            // After Py_XDECREF in test_memory_py_dict():       15.2    -28.4
+            // After  Py_XDECREF in test_memory_py_dict():      15.2    -28.4
             // Prior to Py_FinalizeEx()                         15.2
             // After Py_FinalizeEx()                            13.9     -1.3
             //

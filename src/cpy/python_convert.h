@@ -20,11 +20,14 @@
 
 #include <Python.h>
 
-#include <complex>
-#include <string>
+//#include <complex>
+//#include <string>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+
+#include "python_object_convert.h"
+#include "python_container_convert.h"
 
 namespace Python_Cpp_Containers {
 
@@ -36,121 +39,6 @@ namespace Python_Cpp_Containers {
         FAIL_CONTAINER_KEY_WRONG_TYPE,
         FAIL_CONTAINER_VALUE_WRONG_TYPE
     };
-
-#pragma mark == Object Conversion Code
-
-    // Conversion functions.
-
-#pragma mark -- Boolean/bool Conversion Code
-
-    // Bool/bool
-    /**
-     * Converts a C++ bool to a Python bool.
-     * This always succeeds.
-     *
-     * @param b Value to convert.
-     * @return Value equivalent Python.
-     */
-    PyObject *cpp_bool_to_py_bool(bool const &b);
-
-    /**
-     * Converts a Python bool to a C++ bool.
-     * This asserts that the given value is a Python bool.
-     * If asserts are not enabled then this returns false for non-bool Python objects.
-     *
-     * @param op Value to convert.
-     * @return true or false.
-     */
-    bool py_bool_to_cpp_bool(PyObject *op);
-
-    /**
-     * Return non-zero if the given value is a Python bool type.
-     *
-     * @param op The Python object to check to be a bool type.
-     * @return Zero if not a Python bool, non-zero if a Python bool.
-     */
-    int py_bool_check(PyObject *op);
-
-#pragma mark -- Long Integer/long Conversion Code
-
-    // Long/long
-    PyObject *cpp_long_to_py_long(const long &l);
-
-    long py_long_to_cpp_long(PyObject *op);
-
-    int py_long_check(PyObject *op);
-
-#pragma mark -- Float/double Conversion Code
-
-    // Float/double
-    PyObject *cpp_double_to_py_float(const double &d);
-
-    double py_float_to_cpp_double(PyObject *op);
-
-    int py_float_check(PyObject *op);
-
-#pragma mark -- Complex Conversion Code
-
-    // Complex/complex
-    PyObject *cpp_complex_to_py_complex(const std::complex<double> &c);
-
-    std::complex<double> py_complex_to_cpp_complex(PyObject *op);
-
-    int py_complex_check(PyObject *op);
-
-#pragma mark -- Bytes/std::string Conversion Code
-
-    // Bytes to/from string
-    PyObject *cpp_string_to_py_bytes(const std::string &s);
-
-    std::string py_bytes_to_cpp_string(PyObject *op);
-
-    int py_bytes_check(PyObject *op);
-
-#pragma mark == Container Check, Create, Len, Set, Get
-
-#pragma mark -- Tuple Check, Create, Len, Set, Get
-
-    // Tuple wrappers around PyTuple_Check, PyTuple_New, PyTuple_Size, PyTuple_SET_ITEM, PyTuple_GET_ITEM
-    int py_tuple_check(PyObject *op);
-
-    PyObject *py_tuple_new(size_t len);
-
-    Py_ssize_t py_tuple_len(PyObject *op);
-
-    int py_tuple_set(PyObject *tuple_p, size_t pos, PyObject *op);
-
-    PyObject *py_tuple_get(PyObject *tuple_p, size_t pos);
-
-#pragma mark -- List Check, Create, Len, Set, Get
-
-    // List wrappers around PyList_Check, PyList_New, PyList_Size, PyList_SET_ITEM, PyList_GET_ITEM
-    int py_list_check(PyObject *op);
-
-    PyObject *py_list_new(size_t len);
-
-    Py_ssize_t py_list_len(PyObject *op);
-
-    int py_list_set(PyObject *list_p, size_t pos, PyObject *op);
-
-    PyObject *py_list_get(PyObject *list_p, size_t pos);
-
-#pragma mark -- Set and Frozen set Check, Create, Length.
-
-    // Wrappers around macros
-    int py_set_check(PyObject *op);
-
-    PyObject *py_set_new(PyObject *iterable = NULL);
-
-    int py_set_add(PyObject *set, PyObject *key);
-
-    Py_ssize_t py_set_len(PyObject *op);
-
-    int py_frozenset_check(PyObject *op);
-
-    PyObject *py_frozenset_new(PyObject *iterable = NULL);
-
-    Py_ssize_t py_frozenset_len(PyObject *op);
 
 #pragma mark == Generic Container Conversion Code
 

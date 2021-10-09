@@ -38,13 +38,24 @@ ENDIF()
 add_executable(
         PythonCppHomogeneousContainers
         src/main.cpp
-        src/cpy/auto_py_convert_internal.h
-        src/cpy/auto_py_convert_internal.cpp
-        src/cpy/python_convert.h
-        src/cpy/python_convert.cpp
+
+        src/cpp/get_rss.cpp
+        src/cpp/get_rss.h
         src/cpp/TestFramework.cpp
         src/cpp/TestFramework.h
         src/cpp/save_stream_state.h
+
+        src/cpy/auto_py_convert_internal.h
+        src/cpy/auto_py_convert_internal.cpp
+        src/cpy/python_convert.h
+        src/cpy/python_object_convert.h
+        src/cpy/python_object_convert.cpp
+        src/cpy/python_container_convert.h
+        src/cpy/python_container_convert.cpp
+
+        src/cpy/PyMemAllocator.h
+        src/cpy/PyMemAllocator.cpp
+
         src/cpy/tests/test_functional.cpp
         src/cpy/tests/test_functional.h
         src/cpy/tests/test_performance.cpp
@@ -53,10 +64,7 @@ add_executable(
         src/cpy/tests/test_common.cpp
         src/cpy/tests/test_memory.cpp
         src/cpy/tests/test_memory.h
-        src/cpp/get_rss.cpp
-        src/cpp/get_rss.h
-        src/cpy/PyMemAllocator.cpp
-        src/cpy/PyMemAllocator.h)
+)
 
 target_link_libraries(PythonCppHomogeneousContainers ${PYTHON_LIBRARIES})
 
