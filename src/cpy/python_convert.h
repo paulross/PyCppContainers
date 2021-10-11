@@ -7,8 +7,6 @@
 /// That product is controlled by code_gen.py
 /// That auto-generated file is included by #include "auto_py_convert_internal.h" at the end of this file.
 ///
-/// Usage:
-///
 ///
 ///
 ///  Created by Paul Ross on 22/11/2018.
@@ -20,13 +18,13 @@
 
 #include <Python.h>
 
-//#include <complex>
-//#include <string>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
 
+/// Conversion functions for individual Python objects.
 #include "python_object_convert.h"
+/// Functions to handle Python containers.
 #include "python_container_convert.h"
 
 namespace Python_Cpp_Containers {
@@ -54,11 +52,12 @@ namespace Python_Cpp_Containers {
      *
      * \code
      *
-     *    template<typename T, PyObject *(*Convert)(const T &)>
-     *    PyObject *
-     *    generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
-     *        return generic_cpp_std_vector_to_py_unary<T, Convert, &py_tuple_new, &py_tuple_set>(vec);
-     *    }
+     *      template<typename T, PyObject *(*Convert)(const T &)>
+     *      PyObject *
+     *      generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
+     *          return generic_cpp_std_vector_to_py_unary<T, Convert, &py_tuple_new, &py_tuple_set>(vec);
+     *      }
+     *
      * \endcode
      *
      * Example of a complete instantiation of this template to create a function that will convert a C++ std::vector<double> to
@@ -66,21 +65,22 @@ namespace Python_Cpp_Containers {
      *
      * \code
      *
-     *     PyObject *std_vector_to_py_tuple(const std::vector<double> &container) {
-     *         return generic_cpp_std_vector_to_py_tuple<double, &cpp_double_to_py_float, &py_tuple_new, &py_tuple_set>(container);
-     *     }
+     *      PyObject *std_vector_to_py_tuple(const std::vector<double> &container) {
+     *          return generic_cpp_std_vector_to_py_tuple<double, &cpp_double_to_py_float, &py_tuple_new, &py_tuple_set>(container);
+     *      }
      *
      * \endcode
      *
-     * Partial template specialisation: Need `PyTuple_New`, `PyTuple_GET_ITEM`, PyTuple_SET_ITEM.
-     * Also error messages such as 'tuple'.
+     * This is a partial template specialisation.
+     * For complete specialisation we need `PyTuple_New`, `PyTuple_GET_ITEM`, `PyTuple_SET_ITEM`.
      *
      * @tparam T The C++ type of the objects in the vector.
      * @tparam ConvertCppToPy Function to convert the C++ T to a PyObject*.
      * @tparam PyUnaryContainer_New Function to create a new Python container of a given length given as a size_t.
      * @tparam PyUnaryContainer_Set Function to set a value in a Python container at a given position given as a size_t.
      * @param vec The C++ vector as input data.
-     * @return The PyObject* as the output data containing the values of the C++ vector.
+     * @return The PyObject* as the output data containing the values of the C++ vector or NULL on failure in which
+     * case a `PyErr...` will be set.
      */
     template<typename T,
             PyObject *(*ConvertCppToPy)(const T &),
@@ -129,7 +129,7 @@ namespace Python_Cpp_Containers {
      * The template is instantiated with a C++ type a check function and a conversion function to create a Python object
      * to that C++ type.
      *
-     * The given vector is cleared whether an error condition exists or not..
+     * The given vector is cleared whether an error condition exists or not.
      *
      * Error handling notes:
      *
@@ -139,21 +139,26 @@ namespace Python_Cpp_Containers {
      * Example of an instantiation of this template to create a function that will convert a Python tuple of floats to
      * a C++ std::vector<double>:
      *
-     *  template <> int
-     *  py_tuple_to_std_vector<double>(PyObject *op, std::vector<double> &container) {
-     *      return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &py_float_to_cpp_double>(op, container);
-     *  }
+     * \code
      *
-     * Partial template specialisation: Need PyTuple_Check, PyTuple_GET_SIZE, PyTuple_GET_ITEM.
-     * Also error messages.
+     *      template <> int
+     *      py_tuple_to_std_vector<double>(PyObject *op, std::vector<double> &container) {
+     *          return generic_py_tuple_to_cpp_std_vector<double, &py_float_check, &py_float_to_cpp_double>(op, container);
+     *      }
+     *
+     * \endcode
+     *
+     * This is a partial template specialisation.
+     * For complete specialisation we need `PyTuple_Check`, `PyTuple_GET_SIZE`, `PyTuple_GET_ITEM`.
      *
      * @tparam T The C++ type of the objects in the vector.
      * @tparam PyObject_Check A function that takes a PyObject* and returns 1 if it is of the right type, 0 otherwise.
-     * @tparam PyObject_Convert A function to convert a PyObject* to a C++ <T>  object.
-     * @tparam PyUnaryContainer_Check A function that takes a PyObject* and returns 1 if it is of the right container,
+     * @tparam PyObject_Convert A function to convert a PyObject* to a C++ T.
+     * @tparam PyUnaryContainer_Check A function that takes a PyObject* and returns 1 if it is of a suitable container,
      * 0 otherwise.
      * @tparam PyUnaryContainer_Size A function that returns the length of the Python container.
-     * @tparam PyUnaryContainer_Get A function that gets a PyObject* from the Python container at a given index.
+     * @tparam PyUnaryContainer_Get A function that gets a PyObject* from the Python container at a given index as a
+     * size_t.
      * @param op The Python container of values that can be converted to C++ type T.
      * @param vec The C++ vector to populate. This will be empty on failure.
      * @return 0 on success, non-zero on failure.
@@ -205,10 +210,36 @@ namespace Python_Cpp_Containers {
     /**
      * Partial specialisation of the template to convert from a C++ std::vector<T> to a Python tuple.
      *
+     * Example specialisation for C++ `long`:
+     *
+     * \code
+     *
+     *      template <>
+     *      PyObject *
+     *      cpp_std_vector_to_py_tuple<long>(const std::vector<long> &container) {
+     *          return generic_cpp_std_vector_to_py_tuple<long, &cpp_long_to_py_long>(container);
+     *      }
+     *
+     * \endcode
+     *
+     * Then this can be used thus:
+     *
+     * \code
+     *
+     *      std::vector<long> cpp_vector;
+     *      // Populate cpp_vector...
+     *      //
+     *      // Convert to a Python tuple of int.
+     *      PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
+     *      // If op == NULL then a Python error will be set.
+     *
+     * \endcode
+     *
      * @tparam T C++ type of the objects in the container.
      * @tparam ConvertCppToPy Pointer to a conversion function to convert a C++ type T to an equivalent Python type.
      * @param vec The C++ std::vector<T> as input.
-     * @return A new Python tuple with the contents of the input.
+     * @return A new Python tuple with the contents of the input or NULL on failure in which case a `PyErr...` will be
+     * set.
      */
     template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
