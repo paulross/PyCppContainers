@@ -54,8 +54,9 @@ And the inverse, creating a new Python list from a C++ ``std::vector<double>``:
         return ret;
     }
 
-The problem with this approach (apart from the absence of error handling above) is that functions have to be written
-for every combination of type (``boolean``, ``int``, ``bytes``) **and** every container of interest (``tuple``, ``list``, ``set``).
+The problem with this approach (apart from the absence of error handling) is that functions have to be written
+for every combination of type (``boolean``, ``int``, ``bytes``) **and** every container of interest
+(``tuple``, ``list``, ``set``, ``dict``).
 This is tedious and error prone.
 
 Why This Project
@@ -141,7 +142,8 @@ This generic function has a signature that looks like this:
             int(*PyUnaryContainer_Check)(PyObject *),
             Py_ssize_t(*PyUnaryContainer_Size)(PyObject *),
             PyObject *(*PyUnaryContainer_Get)(PyObject *, size_t)>
-    int generic_py_unary_to_cpp_std_vector(PyObject *op, std::vector<T> &vec);
+    int
+    generic_py_unary_to_cpp_std_vector(PyObject *op, std::vector<T> &vec);
 
 This template has these parameters:
 
@@ -162,7 +164,7 @@ This template has these parameters:
    * - ``PyUnaryContainer_Get``
      - A pointer to a function that gets a ``PyObject *`` from the Python container at a given index.
 
-The instantiated function has the following parameters.
+The function has the following parameters.
 
 .. list-table:: ``generic_py_unary_to_cpp_std_vector()`` parameters.
    :widths: 20 20 50
@@ -179,12 +181,13 @@ The instantiated function has the following parameters.
      - The C++ to write to.
 
 
-Partial Specialisation
-^^^^^^^^^^^^^^^^^^^^^^^^
+Partial Specialisation to Convert a Python list to a C++ ``std::vector<T>``
+---------------------------------------------------------------------------------
 
-This template can be partially specialised for converting Python lists of any type to C++.
+This template can be partially specialised for converting Python *lists* of any type to C++ ``std::vector<T>``.
 This is hand written code but is just a one liner (formatted here for clarity).
 Note the use of the function pointers to ``py_list_check``, ``py_list_len`` and ``py_list_get``.
+
 
 .. code-block:: cpp
 
@@ -200,27 +203,93 @@ Note the use of the function pointers to ``py_list_check``, ``py_list_len`` and 
         >(op, vec);
     }
 
+
+Generated Functions
+=============================
+
+These are created by a script that takes the cartesian product of object types and container types and creates functions for each container/object.
+For example, to convert a Python ``list`` of ``float`` to a C++ ``std::vector<double>`` the following are created:
+
+A base declaration in *auto_py_convert_internal.h*:
+
 .. code-block:: cpp
 
     template<typename T>
     int
     py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &container);
 
+And a concrete declaration for each C++ target type ``T`` in *auto_py_convert_internal.h*:
+
+.. code-block:: cpp
+
+    template <>
+    int
+    py_list_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container);
+
+
+And the concrete definition is in *auto_py_convert_internal.cpp*:
 
 .. code-block:: cpp
 
     template <>
     int
     py_list_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container) {
-        return generic_py_list_to_cpp_std_vector<double, &py_float_check, &py_float_to_cpp_double>(op, container);
+        return generic_py_list_to_cpp_std_vector<double, &py_float_check, &py_float_to_cpp_double>(
+            op, container
+        );
     }
+
+
+.. code-block::
+
+                                                py_unary_to_cpp_vector                          <--- Hand written
+                                                        |
+                            /-------------------------------------------------\
+                            |                                                 |
+            generic_py_list_to_cpp_std_vector               generic_py_tuple_to_cpp_std_vector  <--- Hand written one liners
+                            |                                                 |
+                py_list_to_cpp_std_vector<T>                    py_tuple_to_cpp_std_vector<T>   <--- Generated
+                            |                                                 |
+            /-------------------------------\                   /---------------------------\
+            |                               |                   |                           |
+    py_list_to_cpp_std_vector<double>      ...      py_tuple_to_cpp_std_vector<double>     ...  <--- Generated
+
+
+.. code-block::
+
+                                    py_unary_to_cpp_vector                  <--- Hand written
+                                              |
+                            /---------------------------------\
+                            |                                 |                  Hand written
+            generic_py_list_to_cpp_std_vector       similarly for tuples    <--- partial specialisation
+                            |                                 |                  one liners
+                            |                                 |
+                py_list_to_cpp_std_vector<T>                 ...            <--- Generated
+                            |                                 |
+            /-------------------------------\             /-------\
+            |                               |             |       |
+    py_list_to_cpp_std_vector<double>      ...           ...     ...        <--- Generated
+
+
+Usage
+------
+
+Using these functions is as simple as this:
 
 .. code-block:: cpp
 
-    // Assume op is a PyObject* representing a list of Python floats.
+    // Given a PyObject* representing a list of Python floats named op.
+    // Create the output vector...
     std::vector<double> cpp_vector;
     // Template specialisation will automatically invoke the appropriate function call.
-    int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+    // It will be a compile time error if the container/type function is not available.
+    // At run time this will return zero on success, non-zero on failure, for example if
+    / op is not a Python tuple or members of op can not be converted to C++ doubles.
+    int err = Python_Cpp_Containers::py_list_to_cpp_std_vector(op, cpp_vector);
+
+
+
+
 
 
 
