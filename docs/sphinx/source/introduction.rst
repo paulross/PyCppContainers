@@ -8,30 +8,29 @@ But what if you need to interact with C++ containers such as ``std::vector<T>`` 
 This project is about:
 
 * Converting Python containers (``list``, ``dict``, ``set``, ``tuple``) containing homogeneous types to their C++ equivalent.
-* Converting C++ containers (``std::vector<T>``, ``std::unordered_set<T>``, ``std::unordered_map<T>``) to the Python equivalent container containing homogeneous Python types.
+* Converting C++ containers (``std::vector<T>``, ``std::unordered_set<T>``, ``std::unordered_map<Key, T>``) to the Python equivalent container containing homogeneous Python types.
 
-Basic Example
---------------
+A Basic Example
+----------------
 
-I might have a Python list of floats and I would like to pass it to a C++ library routine the expects a ``std::vector<double>``.
-If this library manipulates the vector values I then need to convert them back to a new Python list of floats.
-
-For example this is what I might want to do:
+Supposes you have a Python list of floats and need to pass it to a C++ library that expects a ``std::vector<double>``.
+If the result of that call modifies that C++ vector, or creates a new one, you need to return a Python list of floats from the result.
+Your code might look something like this:
 
 .. code-block:: cpp
 
     PyObject *example(PyObject *op) {
         std::vector<double> vec;
-        py_list_to_cpp_std_vector(op, vec); // To be defined...
+        // Populate the vector, function to be defined...
+        py_list_to_cpp_std_vector(op, vec);
         // Do something in C++ with the vector.
         // ...
-        // Convert the vector back to a Python list.
-        return cpp_std_vector_to_py_list(vec); // To be defined...
+        // Convert the vector back to a Python list. Function to be defined...
+        return cpp_std_vector_to_py_list(vec);
     }
 
-This project addressed the question; What should the implementation of ``py_list_to_cpp_std_vector()`` and ``cpp_std_vector_to_py_list()`` look like?
-
-At first glance the answer seems simple, they should look like this, firstly converting a Python list to a C++ ``std::vector<double>``:
+What should the implementation of ``py_list_to_cpp_std_vector()`` and ``cpp_std_vector_to_py_list()`` look like?
+The answer seems simple, firstly converting a Python list to a C++ ``std::vector<double>``:
 
 .. code-block:: cpp
 
@@ -50,14 +49,11 @@ And the inverse, creating a new Python list from a C++ ``std::vector<double>``:
     PyObject *cpp_std_vector_to_py_list(const std::vector<double> &vec) {
         PyObject *ret = PyList_New(vec.size());
         for (size_t i = 0; i < vec.size(); ++i) {
-            PyList_SET_ITEM(ret, i, PyFloat_FromDouble(vec[i])
+            PyList_SET_ITEM(ret, i, PyFloat_FromDouble(vec[i]));
         }
         return ret;
     }
 
-
-
-Or I have the result of a C++ computation that is a ``std::unordered_map<long, std::string>`` and I need to create a Python ``dict`` where the key is a Python ``int`` and the value a Python ``bytes`` object.
 
 
 Why This Project
