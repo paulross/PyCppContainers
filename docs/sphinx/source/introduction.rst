@@ -1,20 +1,20 @@
+*********************
 Introduction
-====================
+*********************
 
 Python is well known for it's ability to handle *heterogeneous* data in containers such as lists.
 But what if you need to interact with C++ containers such as ``std::vector<T>`` that require *homogeneous* data types?
 
 
-This project is about:
-
-* Converting Python containers (``list``, ``dict``, ``set``, ``tuple``) containing homogeneous types to their C++ equivalent.
-* Converting C++ containers (``std::vector<T>``, ``std::unordered_set<T>``, ``std::unordered_map<Key, T>``) to the Python equivalent container containing homogeneous Python types.
+This project is about converting Python containers (``list``, ``dict``, ``set``, ``tuple``) containing homogeneous types
+to and from their C++ equivalent.
 
 A Basic Example
-----------------
+====================
 
 Supposes you have a Python list of floats and need to pass it to a C++ library that expects a ``std::vector<double>``.
-If the result of that call modifies that C++ vector, or creates a new one, you need to return a Python list of floats from the result.
+If the result of that call modifies that C++ vector, or creates a new one, you need to return a Python list of floats
+from the result.
 Your code might look something like this:
 
 .. code-block:: cpp
@@ -54,13 +54,15 @@ And the inverse, creating a new Python list from a C++ ``std::vector<double>``:
         return ret;
     }
 
-
+The problem with this approach (apart from the absence of error handling above) is that functions have to be written
+for every combination of type (``boolean``, ``int``, ``bytes``) **and** every container of interest (``tuple``, ``list``, ``set``).
+This is tedious and error prone.
 
 Why This Project
----------------------
+=========================
 
-It is tedious and error prone to hand write the code for all possible containers and object types.
-Instead this project makes extensive use of C++ templates, partial template specialisation and code generation to reduce quite dramatically reduce the amount of hand maintained code.
+Instead this project makes extensive use of C++ templates, partial template specialisation and code generation to reduce
+dramatically the amount of hand maintained code.
 
 If we want to support a fairly basic set of types:
 
@@ -121,3 +123,126 @@ The only code that needs to be maintained is for the two-way conversions for any
 * Two C++ templates that handle all the ``dict`` conversions.
 
 This reduces 64 functions down to 6.
+
+
+Hand Written Functions
+=============================
+
+Converting a Python tuple or list to a C++ ``std::vector<T>``
+---------------------------------------------------------------------------------------
+
+This generic function has a signature that looks like this:
+
+.. code-block:: cpp
+
+    template<typename T,
+            int (*PyObject_Check)(PyObject *),
+            T (*PyObject_Convert)(PyObject *),
+            int(*PyUnaryContainer_Check)(PyObject *),
+            Py_ssize_t(*PyUnaryContainer_Size)(PyObject *),
+            PyObject *(*PyUnaryContainer_Get)(PyObject *, size_t)>
+    int generic_py_unary_to_cpp_std_vector(PyObject *op, std::vector<T> &vec);
+
+This template has these parameters:
+
+.. list-table:: ``generic_py_unary_to_cpp_std_vector()`` template parameters.
+   :widths: 20 50
+   :header-rows: 1
+
+   * - Template Parameter
+     - Notes
+   * - ``PyObject_Check``
+     - A pointer to a function that checks that any ``PyObject *`` in the Python container is the correct type, for example that it is a ``bytes`` object.
+   * - ``PyObject_Convert``
+     - A pointer to a function that converts any ``PyObject *`` in the Python container to the C++ type, for example from ``bytes`` -> ``std::string``.
+   * - ``PyUnaryContainer_Check``
+     - A pointer to a function that checks that the ``PyObject *`` argument is the correct container type, for example a ``tuple``.
+   * - ``PyUnaryContainer_Size``
+     - A pointer to a function that returns the size of the Python container.
+   * - ``PyUnaryContainer_Get``
+     - A pointer to a function that gets a ``PyObject *`` from the Python container at a given index.
+
+The instantiated function has the following parameters.
+
+.. list-table:: ``generic_py_unary_to_cpp_std_vector()`` parameters.
+   :widths: 20 20 50
+   :header-rows: 1
+
+   * - Type
+     - Name
+     - Notes
+   * - ``PyObject *``
+     - ``op``
+     - The Python container to read from.
+   * - ``std::vector<T>``
+     - ``vec``
+     - The C++ to write to.
+
+
+Partial Specialisation
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+This template can be partially specialised for converting Python lists of any type to C++.
+This is hand written code but is just a one liner (formatted here for clarity).
+Note the use of the function pointers to ``py_list_check``, ``py_list_len`` and ``py_list_get``.
+
+.. code-block:: cpp
+
+    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
+    int generic_py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
+        return generic_py_unary_to_cpp_std_vector<
+            T,
+            PyObject_Check,
+            PyObject_Convert,
+            &py_list_check,
+            &py_list_len,
+            &py_list_get
+        >(op, vec);
+    }
+
+.. code-block:: cpp
+
+    template<typename T>
+    int
+    py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &container);
+
+
+.. code-block:: cpp
+
+    template <>
+    int
+    py_list_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container) {
+        return generic_py_list_to_cpp_std_vector<double, &py_float_check, &py_float_to_cpp_double>(op, container);
+    }
+
+.. code-block:: cpp
+
+    // Assume op is a PyObject* representing a list of Python floats.
+    std::vector<double> cpp_vector;
+    // Template specialisation will automatically invoke the appropriate function call.
+    int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+
+
+
+Converting a C++ ``std::vector<T>`` to a Python tuple or list
+--------------------------------------------------------------------------------------------------------------------
+
+The generic function signature looks like this:
+
+
+.. code-block:: cpp
+
+    template<typename T,
+            PyObject *(*ConvertCppToPy)(const T &),
+            PyObject *(*PyUnaryContainer_New)(size_t),
+            int(*PyUnaryContainer_Set)(PyObject *, size_t, PyObject *)>
+    PyObject *
+    generic_cpp_std_vector_to_py_unary(const std::vector<T> &vec);
+
+
+
+
+
+
+
+

@@ -430,10 +430,10 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-        except:
+    except:
         set.clear();
         assert(PyErr_Occurred());
-        finally:
+    finally:
         Py_DECREF(op); // Borrowed reference
         Py_XDECREF(py_item);
         Py_XDECREF(py_iter);
