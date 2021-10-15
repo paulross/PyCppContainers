@@ -1,16 +1,79 @@
-
+***************
 Usage
-==============
+***************
 
-Python Tuples
+Using This Project in your Python Extension
+============================================
+
+
+Code Generation
 ----------------------
 
-Converting a Python Tuple to a C++ ``std::vector``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+If necessary run the code generator:
 
-Here is some demonstration code that takes a Python tuple of floats then converts that to C++ vector of doubles with a singe function call:
+
+.. code-block:: shell
+
+    cd src/py
+    python code_gen.py
+
+Which should give you something like:
+
+.. code-block:: none
+
+    Target directory "src/cpy"
+    Writing declarations to "src/cpy/auto_py_convert_internal.h"
+    Wrote 910 lines of code with 66 declarations.
+    Writing definitions to  "src/cpy/auto_py_convert_internal.cpp"
+    Wrote 653 lines of code with 64 definitions.
+
+    Process finished with exit code 0
+
+
+Build Configuration
+--------------------------
+
+You need to compile the following C++ files by adding them to your makefile or CMakeLists.txt:
+
+
+.. code-block:: none
+
+    src/cpy/auto_py_convert_internal.cpp
+    src/cpy/python_container_convert.cpp
+    src/cpy/python_object_convert.cpp
+
+
+Source Inclusion
+--------------------------
+
+Your pre-processor needs access to the header files with the compiler flag:
+
+.. code-block:: none
+
+    -I src/cpy
+
+
+Then in your Python extension include the line:
+
+.. code-block:: c
+
+    #include "python_convert.h"
+
+An this gives you access to the whole API.
+
+
+Python Tuples
+==============
+
+Converting a Python Tuple to a C++ ``std::vector``
+------------------------------------------------------
+
+Here is some demonstration code that takes a Python tuple of floats then converts that to C++ vector of doubles with a
+single function call:
 
 .. code-block:: C++
+
+    #include "python_convert.h"
 
     // Demonstration code.
     void test_example_py_tuple_to_vector_double(PyObject *op) {
@@ -27,15 +90,19 @@ Here is some demonstration code that takes a Python tuple of floats then convert
         }
     }
 
-``Python_Cpp_Containers::py_tuple_to_cpp_std_vector`` has implementations for vectors of ``bool``, ``long``, ``double`` and ``std::string``.
+``Python_Cpp_Containers::py_tuple_to_cpp_std_vector`` has implementations for vectors of ``bool``, ``long``, ``double``
+and ``std::string``.
 
 
 Converting a C++ ``std::vector`` to a Python Tuple
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------------------
 
-Here is some demonstration code that creates a C++ vector of doubles then converts that to a Python tuple with a single function call:
+Here is some demonstration code that creates a C++ vector of doubles then converts that to a Python tuple with a single
+function call:
 
 .. code-block:: C++
+
+    #include "python_convert.h"
 
     PyObject *test_example_vector_to_py_tuple_double() {
         // An imaginary function that creates a C++ std::vector<double>
@@ -49,52 +116,63 @@ Here is some demonstration code that creates a C++ vector of doubles then conver
         return op;
     }
 
-``Python_Cpp_Containers::cpp_std_vector_to_py_tuple`` has implementations for vectors of ``bool``, ``long``, ``double`` and ``std::string``.
+``Python_Cpp_Containers::cpp_std_vector_to_py_tuple`` has implementations for vectors of ``bool``, ``long``, ``double``
+and ``std::string``.
 
 Python Lists
-----------------------
+===============
+
 
 Converting a Python List to a C++ ``std::vector``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------------------
 
 This is done with ``Python_Cpp_Containers::cpp_std_vector_to_py_list`` which is very similar to the code for tuples.
-``Python_Cpp_Containers::cpp_std_vector_to_py_list`` has implementations for vectors of ``bool``, ``long``, ``double`` and ``std::string``.
+``Python_Cpp_Containers::cpp_std_vector_to_py_list`` has implementations for vectors of ``bool``, ``long``, ``double``
+and ``std::string``.
 
 Converting a C++ ``std::vector`` to a Python List
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------------------
 
 This is done with ``Python_Cpp_Containers::py_list_to_cpp_std_vector`` which is very similar to the code for tuples.
-``Python_Cpp_Containers::py_list_to_cpp_std_vector`` has implementations for vectors of ``bool``, ``long``, ``double`` and ``std::string``.
+``Python_Cpp_Containers::py_list_to_cpp_std_vector`` has implementations for vectors of ``bool``, ``long``, ``double``
+and ``std::string``.
 
 
 Python Sets
-----------------------
+==================
 
 Converting a Python Set to a C++ ``std::unordered_set``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------------------------
 
-This is done with ``Python_Cpp_Containers::cpp_std_unordered_set_to_py_set`` which is very similar to the code for tuples and lists.
-``Python_Cpp_Containers::cpp_std_unordered_set_to_py_set`` has implementations for the C++ types of ``bool``, ``long``, ``double`` and ``std::string``.
+This is done with ``Python_Cpp_Containers::cpp_std_unordered_set_to_py_set`` which is very similar to the code for
+tuples and lists.
+``Python_Cpp_Containers::cpp_std_unordered_set_to_py_set`` has implementations for the C++ types of ``bool``,
+``long``, ``double`` and ``std::string``.
 
 Converting a C++ ``std::unordered_set`` to a Python Set
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------------------------
 
-This is done with ``Python_Cpp_Containers::py_list_to_cpp_std_unordered_set`` which is very similar to the code for tuples and lists.
-``Python_Cpp_Containers::py_list_to_cpp_std_unordered_set`` has implementations for C++ types of ``bool``, ``long``, ``double`` and ``std::string``.
+This is done with ``Python_Cpp_Containers::py_list_to_cpp_std_unordered_set`` which is very similar to the code for
+tuples and lists.
+``Python_Cpp_Containers::py_list_to_cpp_std_unordered_set`` has implementations for C++ types of ``bool``, ``long``,
+``double`` and ``std::string``.
 
 
 Python Dicts
-----------------------
+==========================
 
 Converting a Python ``dict`` to a C++ ``std::unordered_map``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------------------
 
 This is done with ``Python_Cpp_Containers::py_dict_to_cpp_std_unordered_map``.
-This has implementations for all the combinations of C++ types of ``bool``, ``long``, ``double`` and ``std::string`` as keys and values so there are 16 combinations.
+This has implementations for all the combinations of C++ types of ``bool``, ``long``, ``double`` and ``std::string``
+as keys and values so there are 16 combinations.
 
 Here is an example of converting a Python dict of ``[int, bytes]`` to a C++ ``std::unordered_map<long, std::string>``:
 
 .. code-block:: C++
+
+    #include "python_convert.h"
 
     void test_example_py_dict_to_cpp_std_unordered_map(PyObject *op) {
         std::unordered_map<long, std::string> cpp_map;
@@ -109,14 +187,17 @@ Here is an example of converting a Python dict of ``[int, bytes]`` to a C++ ``st
     }
 
 Converting a C++ ``std::unordered_map`` to a Python ``dict``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------------------
 
 This is done with ``Python_Cpp_Containers::cpp_std_unordered_map_to_py_dict``.
-This has implementations for all the combinations of C++ types of ``bool``, ``long``, ``double`` and ``std::string`` as keys and values so there are 16 combinations.
+This has implementations for all the combinations of C++ types of ``bool``, ``long``, ``double`` and ``std::string`` as
+keys and values so there are 16 combinations.
 
 Here is an example of converting a C++ ``std::unordered_map<long, std::string>`` to a Python dict of ``[int, bytes]``:
 
 .. code-block:: C++
+
+    #include "python_convert.h"
 
     PyObject *test_example_cpp_std_unordered_map_to_py_dict() {
         // An imaginary function that creates a C++ std::unordered_map<long, std::string>
@@ -131,20 +212,23 @@ Here is an example of converting a C++ ``std::unordered_map<long, std::string>``
     }
 
 
-Matrices
-----------------------
+Matrix Example
+========================
 
-Supposing there is a C++ library that provides matrix support with ``std::vector<std::vector<double>>`` and it is desired to convert these to tuples of tuples of floats.
+Supposing there is a C++ library that provides matrix support for a ``std::vector<std::vector<double>>`` type and you
+want it to work on a Python tuple of tuples of floats.
 
-Converting a Python Tuple[Tuple[float]] to a C++ ``std::vector<std::vector<double>>``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Firstly creating the C++ matrix from Python.
 
-.. note:: Some error checking omitted.
+Converting a Python ``Tuple[Tuple[float]]`` to a C++ ``std::vector<std::vector<double>>``
+-----------------------------------------------------------------------------------------------
 
 .. code-block:: C++
 
+    #include "python_convert.h"
+
     // Demonstration code.
-    void test_example_py_tuple_to_vector_double(PyObject *op) {
+    void py_matrix_to_cpp_matrix(PyObject *op) {
         // Create the matrix of the appropriate type.
         std::vector<std::vector<double>> cpp_matrix;
         for (Py_ssize_t i = 0; i < Python_Cpp_Containers::py_tuple_len(op), ++i) {
@@ -163,16 +247,19 @@ Converting a Python Tuple[Tuple[float]] to a C++ ``std::vector<std::vector<doubl
         some_function_that_uses_a_matrix(cpp_matrix);
     }
 
-Converting a C++ ``std::vector<std::vector<double>>`` to a Python Tuple[Tuple[float]]
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Here is some demonstration code that creates a C++ vector of doubles then converts that to a Python tuple with a single function call:
-
 .. note:: Some error checking omitted.
+
+Converting a C++ ``std::vector<std::vector<double>>`` to a Python ``Tuple[Tuple[float]]``
+----------------------------------------------------------------------------------------------
+
+And the reverse, given a C++ matrix this converts that to a Python tuple of tuples with a single function call:
 
 .. code-block:: C++
 
-    PyObject *test_example_vector_to_py_tuple_double() {
+    #include "python_convert.h"
+
+    PyObject *
+    cpp_matrix_to_py_matrix() {
         // An imaginary function that creates a C++ std::vector<double>
         std::vector<std::vector<double>> cpp_matrix = get_cpp_matrix();
         PyObject *op = Python_Cpp_Containers::py_tuple_new(cpp_matrix.size());
@@ -192,3 +279,5 @@ Here is some demonstration code that creates a C++ vector of doubles then conver
         }
         return op;
     }
+
+.. note:: Some error checking omitted.

@@ -527,11 +527,11 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-        except:
+    except:
         assert(PyErr_Occurred());
         Py_XDECREF(py_k);
         Py_XDECREF(py_v);
-        finally:
+    finally:
         return ret;
     }
 
@@ -589,10 +589,10 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-        except:
+    except:
         map.clear();
         assert(PyErr_Occurred());
-        finally:
+    finally:
         Py_DECREF(dict); // Borrowed reference
         return ret;
     }
