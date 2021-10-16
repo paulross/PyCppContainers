@@ -14,7 +14,7 @@ DEBUG = False
 DEBUG_LEVEL = 0
 
 # Our level of C++
-LANGUAGE_STANDARD = "c++98"
+LANGUAGE_STANDARD = "c++11"
 
 # Common flags for both release and debug builds.
 extra_compile_args = sysconfig.get_config_var('CFLAGS').split()
@@ -54,10 +54,11 @@ setup(
             sources=[
                 'src/ext/cPyCppContainers.cpp',
                 'src/cpy/auto_py_convert_internal.cpp',
-                'src/cpy/py_container_convert.cpp',
+                'src/cpy/python_container_convert.cpp',
+                'src/cpy/python_object_convert.cpp',
             ],
             include_dirs=[
-                'src/cpy',
+                'src',
             ],
             extra_compile_args=extra_compile_args,
         ),

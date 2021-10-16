@@ -12,6 +12,7 @@ add_compile_options(
         "-Wno-unused-variable" # Temporary
         "-Wno-unused-parameter" # Temporary
         "-fexceptions"
+        "-Wc99-extensions"
         "$<$<CONFIG:DEBUG>:-O0;-g3;-ggdb>"
 )
 

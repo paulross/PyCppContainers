@@ -175,7 +175,7 @@ namespace Python_Cpp_Containers {
         vec.clear();
         Py_INCREF(op); // Borrow reference
         if (!PyUnaryContainer_Check(op)) {
-            PyErr_Format(PyExc_ValueError, "Python object must be a tuple/list not a %s", op->ob_type->tp_name);
+            PyErr_Format(PyExc_ValueError, "Can not convert Python container of type %s", op->ob_type->tp_name);
             ret = -1;
             goto except;
         }
