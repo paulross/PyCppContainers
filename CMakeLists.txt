@@ -64,6 +64,8 @@ add_executable(
         src/cpy/tests/test_common.cpp
         src/cpy/tests/test_memory.cpp
         src/cpy/tests/test_memory.h
+
+        src/ext/cPyCppContainers.cpp
 )
 
 target_link_libraries(PythonCppHomogeneousContainers ${PYTHON_LIBRARIES})
