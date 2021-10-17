@@ -99,8 +99,10 @@ namespace Python_Cpp_Containers {
                     PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
                     goto except;
                 }
+#ifndef NDEBUG
                 // Refcount may well be >> 1 for interned objects.
                 Py_ssize_t op_ob_refcnt = op->ob_refcnt;
+#endif
                 // This usually wraps a void function, always succeeds.
                 if (PyUnaryContainer_Set(ret, i, op)) { // Stolen reference.
                     PyErr_Format(PyExc_RuntimeError, "Can not set unary value.");
@@ -329,8 +331,10 @@ namespace Python_Cpp_Containers {
                     PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
                     goto except;
                 }
+#ifndef NDEBUG
                 // Refcount may well be >> 1 for interned objects.
                 Py_ssize_t op_ob_refcnt = op->ob_refcnt;
+#endif
                 // This usually wraps a void function, always succeeds.
                 if (PySet_Add(ret, op)) { // Stolen reference.
                     PyErr_Format(PyExc_RuntimeError, "Can not set value into the set.");
@@ -496,16 +500,20 @@ namespace Python_Cpp_Containers {
                     PyErr_Format(PyExc_ValueError, "C++ key of can not be converted.");
                     goto except;
                 }
+#ifndef NDEBUG
                 // Refcount may well be >> 1 for interned objects.
                 Py_ssize_t py_k_ob_refcnt = py_k->ob_refcnt;
+#endif
                 py_v = (*Convert_V)(k_v.second);
                 if (!py_v) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
                     goto except;
                 }
+#ifndef NDEBUG
                 // Refcount may well be >> 1 for interned objects.
                 Py_ssize_t py_v_ob_refcnt = py_v->ob_refcnt;
+#endif
                 if (PyDict_SetItem(ret, py_k, py_v)) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     PyErr_Format(PyExc_ValueError, "Can not set an item in the Python dict.");

@@ -7,8 +7,10 @@
 #include "structmember.h"
 
 #include "cpy/python_convert.h"
+
 using namespace Python_Cpp_Containers;
 
+/** Create a new list of floats with doubled values. */
 static PyObject *
 list_x2(PyObject *Py_UNUSED(module), PyObject *arg) {
     std::vector<double> vec;
@@ -26,9 +28,40 @@ list_x2(PyObject *Py_UNUSED(module), PyObject *arg) {
     return NULL;
 }
 
+/** Reverse a tuple of bytes in C++ */
+static PyObject *
+tuple_reverse(PyObject *Py_UNUSED(module), PyObject *arg) {
+    std::vector<std::string> vec;
+    if (!py_tuple_to_cpp_std_vector(arg, vec)) {
+        std::vector<std::string> vec_new;
+        for (size_t i = vec.size(); i-- > 0;) {
+            vec_new.push_back(vec[i]);
+        }
+        return cpp_std_vector_to_py_tuple(vec_new);
+    }
+    return NULL;
+}
+
+/** Creates a new dict[bytes, int] with the values incremented by 1 in C++ */
+static PyObject *
+dict_inc(PyObject *Py_UNUSED(module), PyObject *arg) {
+    std::unordered_map<std::string, long> dict;
+    if (!py_dict_to_cpp_std_unordered_map(arg, dict)) {
+        for(auto& key_value: dict) {
+            key_value.second += 1;
+        }
+        return cpp_std_unordered_map_to_py_dict(dict);
+    }
+    return NULL;
+}
+
 static PyMethodDef cPyCppContainersMethods[] = {
         {"list_x2", list_x2, METH_O,
-         "Take a list of floats and return a new list with the values doubled."},
+                "Take a list of floats and return a new list with the values doubled."},
+        {"tuple_reverse", tuple_reverse, METH_O,
+                "Take a tuple of bytes and return a new tuple reversed."},
+        {"dict_inc", dict_inc, METH_O,
+                "Take a Python dict[bytes, int] and return a new dict with the values incremented by 1."},
         {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
