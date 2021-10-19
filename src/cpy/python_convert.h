@@ -583,12 +583,12 @@ namespace Python_Cpp_Containers {
         while (PyDict_Next(dict, &pos, &key, &val)) {
             // key, val are borrowed references.
             if (!Check_K(key)) {
-                PyErr_Format(PyExc_ValueError, "Python dict key is wrong type of %s", key->ob_type->tp_name);
+                PyErr_Format(PyExc_ValueError, "Python dict key is wrong type of: %s", key->ob_type->tp_name);
                 ret = -2;
                 goto except;
             }
             if (!Check_V(val)) {
-                PyErr_Format(PyExc_ValueError, "Python dict value is wrong type of %s", val->ob_type->tp_name);
+                PyErr_Format(PyExc_ValueError, "Python dict value is wrong type of: %s", val->ob_type->tp_name);
                 ret = -3;
                 goto except;
             }

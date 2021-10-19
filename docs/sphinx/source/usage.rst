@@ -62,6 +62,100 @@ Then in your Python extension include the line:
 An this gives you access to the whole API.
 
 
+Examples
+============
+
+There are some examples of using this library in *src/ext/cPyCppContainers.cpp*.
+This extension is built by *setup.py* and tested with *tests/unit/test_cPyCppContainers.py*.
+
+Doubling the Values in a Python List of ``float`` Values
+----------------------------------------------------------
+
+Here is one of those examples in detail; doubling the values of a Python list of floats.
+At the beginning of the extension we have:
+
+.. code-block:: cpp
+
+    #include "cpy/python_convert.h"
+
+For convenience we use the namespace the conversion code is within:
+
+.. code-block:: cpp
+
+    using namespace Python_Cpp_Containers;
+
+Here is the C++ function that we want to call that multiplies the values of a ``std::vector<double>`` in-place by 2.0:
+
+.. code-block:: cpp
+
+    /** Double the values of a vector in-place. */
+    static void
+    vector_double_x2(std::vector<double> &vec) {
+        for (size_t i = 0; i < vec.size(); ++i) {
+            vec[i] *= 2.0;
+        }
+    }
+
+And here is the code that takes a Python list of floats, then calls the C++ function and finally converts the C++
+``std::vector<double>`` back to a new Python list of floats:
+
+.. code-block:: cpp
+
+    /** Create a new list of floats with doubled values. */
+    static PyObject *
+    list_x2(PyObject *Py_UNUSED(module), PyObject *arg) {
+        std::vector<double> vec;
+        // py_list_to_cpp_std_vector() will return non-zero if the Python
+        // argument can not be converted to a std::vector<double>
+        // and a Python exception will be set.
+        if (!py_list_to_cpp_std_vector(arg, vec)) {
+            // Double the values in pure C++ code.
+            vector_double_x2(vec);
+            // cpp_std_vector_to_py_list() returns NULL on failure
+            // and a Python exception will be set.
+            return cpp_std_vector_to_py_list(vec);
+        }
+        return NULL;
+    }
+
+The vital piece of code is the declaration ``std::vector<double> vec;`` and that means:
+
+* If a ``py_list_to_cpp_std_vector()`` implementation does not exist for ``double`` there will be a compile time error.
+* Giving ``py_list_to_cpp_std_vector()`` anything other than a list of floats will create a Python runtime error.
+* If ``cpp_std_vector_to_py_list()`` fails for any reason there will be a Python runtime error.
+
+
+Reversing a ``tuple`` of ``bytes``
+-------------------------------------------
+
+Here is another example, we have a funcion to to reverse a ``tuple`` of ``bytes`` in C++
+
+.. code-block:: cpp
+
+    /** Returns a new vector reversed. */
+    template<typename T>
+    static std::vector<T>
+    reverse_vector(const std::vector<T> &input){
+        std::vector<T> output;
+        for (size_t i = input.size(); i-- > 0;) {
+            output.push_back(input[i]);
+        }
+        return output;
+    }
+
+    /** Reverse a tuple of bytes in C++. */
+    static PyObject *
+    tuple_reverse(PyObject *Py_UNUSED(module), PyObject *arg) {
+        std::vector<std::string> vec;
+        if (!py_tuple_to_cpp_std_vector(arg, vec)) {
+            return cpp_std_vector_to_py_tuple(reverse_vector(vec));
+        }
+        return NULL;
+    }
+
+
+
+
 Python Tuples
 ==============
 
@@ -71,7 +165,7 @@ Converting a Python Tuple to a C++ ``std::vector``
 Here is some demonstration code that takes a Python tuple of floats then converts that to C++ vector of doubles with a
 single function call:
 
-.. code-block:: C++
+.. code-block:: cpp
 
     #include "python_convert.h"
 
@@ -100,7 +194,7 @@ Converting a C++ ``std::vector`` to a Python Tuple
 Here is some demonstration code that creates a C++ vector of doubles then converts that to a Python tuple with a single
 function call:
 
-.. code-block:: C++
+.. code-block:: cpp
 
     #include "python_convert.h"
 
@@ -170,7 +264,7 @@ as keys and values so there are 16 combinations.
 
 Here is an example of converting a Python dict of ``[int, bytes]`` to a C++ ``std::unordered_map<long, std::string>``:
 
-.. code-block:: C++
+.. code-block:: cpp
 
     #include "python_convert.h"
 
@@ -195,7 +289,7 @@ keys and values so there are 16 combinations.
 
 Here is an example of converting a C++ ``std::unordered_map<long, std::string>`` to a Python dict of ``[int, bytes]``:
 
-.. code-block:: C++
+.. code-block:: cpp
 
     #include "python_convert.h"
 
@@ -223,7 +317,7 @@ Firstly creating the C++ matrix from Python.
 Converting a Python ``Tuple[Tuple[float]]`` to a C++ ``std::vector<std::vector<double>>``
 -----------------------------------------------------------------------------------------------
 
-.. code-block:: C++
+.. code-block:: cpp
 
     #include "python_convert.h"
 
@@ -254,7 +348,7 @@ Converting a C++ ``std::vector<std::vector<double>>`` to a Python ``Tuple[Tuple[
 
 And the reverse, given a C++ matrix this converts that to a Python tuple of tuples with a single function call:
 
-.. code-block:: C++
+.. code-block:: cpp
 
     #include "python_convert.h"
 

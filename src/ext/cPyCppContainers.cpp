@@ -10,6 +10,14 @@
 
 using namespace Python_Cpp_Containers;
 
+/** Double the values of a vector in-place. */
+static void
+vector_double_x2(std::vector<double> &vec) {
+    for (size_t i = 0; i < vec.size(); ++i) {
+        vec[i] *= 2.0;
+    }
+}
+
 /** Create a new list of floats with doubled values. */
 static PyObject *
 list_x2(PyObject *Py_UNUSED(module), PyObject *arg) {
@@ -18,9 +26,8 @@ list_x2(PyObject *Py_UNUSED(module), PyObject *arg) {
     // argument can not be converted to a std::vector<double>
     // and a Python exception will be set.
     if (!py_list_to_cpp_std_vector(arg, vec)) {
-        for (size_t i = 0; i < vec.size(); ++i) {
-            vec[i] *= 2.0;
-        }
+        // Double the values in pure C++ code.
+        vector_double_x2(vec);
         // cpp_std_vector_to_py_list() returns NULL on failure
         // and a Python exception will be set.
         return cpp_std_vector_to_py_list(vec);
@@ -28,16 +35,23 @@ list_x2(PyObject *Py_UNUSED(module), PyObject *arg) {
     return NULL;
 }
 
-/** Reverse a tuple of bytes in C++ */
+/** Returns a new vector reversed. */
+template<typename T>
+static std::vector<T>
+reverse_vector(const std::vector<T> &input){
+    std::vector<T> output;
+    for (size_t i = input.size(); i-- > 0;) {
+        output.push_back(input[i]);
+    }
+    return output;
+}
+
+/** Reverse a tuple of bytes in C++. */
 static PyObject *
 tuple_reverse(PyObject *Py_UNUSED(module), PyObject *arg) {
     std::vector<std::string> vec;
     if (!py_tuple_to_cpp_std_vector(arg, vec)) {
-        std::vector<std::string> vec_new;
-        for (size_t i = vec.size(); i-- > 0;) {
-            vec_new.push_back(vec[i]);
-        }
-        return cpp_std_vector_to_py_tuple(vec_new);
+        return cpp_std_vector_to_py_tuple(reverse_vector(vec));
     }
     return NULL;
 }

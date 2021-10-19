@@ -32,7 +32,7 @@ Their implementations are in ``python_convert.cpp``
 
 For example for Python floats to and from a C++ ``double`` there will  be these function  implementations:
 
-.. code-block:: C++
+.. code-block:: cpp
 
     PyObject *cpp_double_to_py_float(const double &d) {
         return PyFloat_FromDouble(d);
@@ -62,7 +62,7 @@ Their implementations are in ``python_convert.cpp``
 
 For example for a Python tuple there will be these function implementations:
 
-.. code-block:: C++
+.. code-block:: cpp
 
     // Tuple check, create, set, get functions.
     int py_tuple_check(PyObject *op) {
@@ -95,7 +95,7 @@ Python Lists and Tuples
 Conversion From a ``std::vector<T>`` to a Python List or Tuple
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: C++
+.. code-block:: cpp
 
     template<typename T,
             PyObject *(*Convert)(const T &),
@@ -122,7 +122,7 @@ Conversion From a ``std::vector<T>`` to a Python List or Tuple
 
 This template is then partially specified for both tuples and lists of type ``T``:
 
-.. code-block:: C++
+.. code-block:: cpp
 
     template<typename T, PyObject *(*Convert)(const T &)>
     PyObject *
@@ -146,7 +146,7 @@ This template is then partially specified for both tuples and lists of type ``T`
 Then these are specialised by auto-generated in ``auto_py_convert_internal.h`` code for the types ``bool``, ``long``, ``double`` and ``sts::string``.
 Their declarations are:
 
-.. code-block:: C++
+.. code-block:: cpp
 
     // Base declaration
     template<typename T>
@@ -172,7 +172,7 @@ Their declarations are:
 
 Their declarations are auto-generated in ``auto_py_convert_internal.cpp``:
 
-.. code-block:: C++
+.. code-block:: cpp
 
     template <>
     PyObject *
@@ -201,7 +201,7 @@ Their declarations are auto-generated in ``auto_py_convert_internal.cpp``:
 Conversion From a Python List or Tuple to a ``std::vector<T>``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: C++
+.. code-block:: cpp
 
     template<typename T,
             int (*Check)(PyObject *),
@@ -231,7 +231,7 @@ Conversion From a Python List or Tuple to a ``std::vector<T>``
 
 This template is then partially specified for both tuples and lists of type ``T``:
 
-.. code-block:: C++
+.. code-block:: cpp
 
     template<typename T, int (*Check)(PyObject *), T (*Convert)(PyObject *)>
     int generic_py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
@@ -256,7 +256,7 @@ This template is then partially specified for both tuples and lists of type ``T`
 Then these are specialised by auto-generated in ``auto_py_convert_internal.h`` code for the types ``bool``, ``long``, ``double`` and ``sts::string``.
 Their declarations for tuple are (similarly for lists):
 
-.. code-block:: C++
+.. code-block:: cpp
 
     // Base declaration
     template<typename T>
@@ -282,7 +282,7 @@ Their declarations for tuple are (similarly for lists):
 
 Their definitions for tuple are are auto-generated in ``auto_py_convert_internal.cpp`` (similarly for lists):
 
-.. code-block:: C++
+.. code-block:: cpp
 
     template <>
     int
