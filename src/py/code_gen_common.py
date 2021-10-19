@@ -22,8 +22,8 @@ class TypeConversionFunctions(typing.NamedTuple):
     - Conversion from Python object to a C++ type. Example 'py_bool_to_cpp_bool'.
     - Conversion from C++ to Python object. Example 'cpp_bool_to_py_bool'.
     """
-    cpp_type: str
     py_type: str
+    cpp_type: str
     py_check: str
     py_type_to_cpp_type: str
     cpp_type_to_py_type: str

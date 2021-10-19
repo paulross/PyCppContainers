@@ -76,5 +76,31 @@ namespace Python_Cpp_Containers {
     int py_bytes_check(PyObject *op) {
         return PyBytes_Check(op);
     }
+    // Bytearray to/from string
+    PyObject *cpp_string_to_py_bytearray(const std::string &s) {
+        return PyByteArray_FromStringAndSize(s.c_str(), s.size());
+    }
+    std::string py_bytearray_to_cpp_string(PyObject *op) {
+        assert(op);
+        assert(py_bytearray_check(op));
+        std::string ret(PyByteArray_AS_STRING(op), PyByteArray_GET_SIZE(op));
+        return ret;
+    }
+    int py_bytearray_check(PyObject *op) {
+        return PyByteArray_Check(op);
+    }
+    // str to/from string
+    PyObject *cpp_string_to_py_unicode(const std::string &s) {
+        return PyUnicode_FromStringAndSize(s.c_str(), s.size());
+    }
+    std::string py_unicode_to_cpp_string(PyObject *op) {
+        assert(op);
+        assert(py_unicode_check(op));
+        std::string ret((const char *)PyUnicode_1BYTE_DATA(op), PyUnicode_GET_LENGTH(op));
+        return ret;
+    }
+    int py_unicode_check(PyObject *op) {
+        return PyUnicode_Check(op);
+    }
 
 } // namespace Python_Cpp_Containers

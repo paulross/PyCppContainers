@@ -27,6 +27,7 @@ CPP_NAMESPACE = 'Python_Cpp_Containers'
 
 #: This is the map of type conversion functions between Python and C/C++ that we are going to need.
 #: These refer to hand written functions.
+#: for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
 CPP_TYPE_TO_FUNCS = {
     'bool': code_gen_common.CppTypeFunctions('cpp_bool_to_py_bool', 'py_bool_check', 'py_bool_to_cpp_bool', 'bool'),
     'long': code_gen_common.CppTypeFunctions('cpp_long_to_py_long', 'py_long_check', 'py_long_to_cpp_long', 'int'),
@@ -38,9 +39,11 @@ CPP_TYPE_TO_FUNCS = {
 }
 
 
+#: cpp_types = [v.cpp_type for v in TYPE_PAIR_CONVERSIONS
+#: for k, v in itertools.product(cpp_types, repeat=2):
 TYPE_PAIR_CONVERSIONS = (
     code_gen_common.TypeConversionFunctions(
-        'boolean', 'bool', 'py_bool_check', 'py_bool_to_cpp_bool', 'cpp_bool_to_py_bool',
+        'bool', 'bool', 'py_bool_check', 'py_bool_to_cpp_bool', 'cpp_bool_to_py_bool',
     ),
     code_gen_common.TypeConversionFunctions(
         'int', 'long', 'py_long_to_cpp_long', 'py_long_check', 'cpp_long_to_py_long',
@@ -55,10 +58,12 @@ TYPE_PAIR_CONVERSIONS = (
         'bytearray', 'std::string', 'py_bytearray_check', 'py_bytearray_to_cpp_string', 'cpp_string_to_py_bytearray',
     ),
     code_gen_common.TypeConversionFunctions(
-        'str', 'std::string', 'py_str_check', 'py_str_to_cpp_string', 'cpp_string_to_py_str',
+        'str', 'std::string', 'py_unicode_check', 'py_unicode_to_cpp_string', 'cpp_string_to_py_unicode',
     ),
 )
 
+# Exclude these from dict keys.
+PYTHON_TYPES_UNHASHABLE = {'bytearray'}
 
 #: This is the map of C++ containers of those types and conversion functions that we are going to need.
 #: These refer to hand written template functions.

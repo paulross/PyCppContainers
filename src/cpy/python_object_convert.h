@@ -82,5 +82,21 @@ namespace Python_Cpp_Containers {
 
     int py_bytes_check(PyObject *op);
 
+#pragma mark -- bytearray/std::string Conversion Code
+
+    // bytearray to/from string
+    PyObject *cpp_string_to_py_bytearray(const std::string &s);
+
+    std::string py_bytearray_to_cpp_string(PyObject *op);
+
+    int py_bytearray_check(PyObject *op);
+
+    // Python str (unicode) to/from string
+    PyObject *cpp_string_to_py_unicode(const std::string &s);
+
+    std::string py_unicode_to_cpp_string(PyObject *op);
+
+    int py_unicode_check(PyObject *op);
+
 } // namespace Python_Cpp_Containers
 #endif //PYTHONCPPHOMOGENEOUSCONTAINERS_PYTHON_OBJECT_CONVERT_H
