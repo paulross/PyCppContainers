@@ -11,7 +11,22 @@ class CppTypeFunctions(typing.NamedTuple):
     cpp_type_to_py_type: str
     py_check: str
     py_type_to_cpp_type: str
+    cpp_type: str
     py_type: str
+
+
+class TypeConversionFunctions(typing.NamedTuple):
+    """
+    PoD Class to contain the names of three C/C++ functions:
+    - Check it is a Python object of type. Example 'py_bool_check'.
+    - Conversion from Python object to a C++ type. Example 'py_bool_to_cpp_bool'.
+    - Conversion from C++ to Python object. Example 'cpp_bool_to_py_bool'.
+    """
+    cpp_type: str
+    py_type: str
+    py_check: str
+    py_type_to_cpp_type: str
+    cpp_type_to_py_type: str
 
 
 class UnaryFunctions(typing.NamedTuple):
