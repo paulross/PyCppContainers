@@ -37,6 +37,28 @@ CPP_TYPE_TO_FUNCS = {
                                                     'py_bytes_to_cpp_string', 'str'),
 }
 
+TYPE_PAIR_CONVERSIONS = (
+    code_gen_common.TypeConversionFunctions(
+        'boolean', 'bool', 'py_bool_check', 'py_bool_to_cpp_bool', 'cpp_bool_to_py_bool',
+    ),
+    code_gen_common.TypeConversionFunctions(
+        'int', 'long', 'py_long_to_cpp_long', 'py_long_check', 'cpp_long_to_py_long',
+    ),
+    code_gen_common.TypeConversionFunctions(
+        'float', 'double', 'py_float_check', 'py_float_to_cpp_double', 'cpp_double_to_py_float',
+    ),
+    code_gen_common.TypeConversionFunctions(
+        'bytes', 'std::string', 'py_bytes_check', 'py_bytes_to_cpp_string', 'cpp_string_to_py_bytes',
+    ),
+    code_gen_common.TypeConversionFunctions(
+        'bytearray', 'std::string', 'py_bytearray_check', 'py_bytearray_to_cpp_string', 'cpp_string_to_py_bytearray',
+    ),
+    code_gen_common.TypeConversionFunctions(
+        'str', 'std::string', 'py_bytes_check', 'py_bytes_to_cpp_string', 'cpp_string_to_py_bytes',
+    ),
+)
+
+
 
 #: This is the map of C++ containers of those types and conversion functions that we are going to need.
 #: These refer to hand written template functions.
