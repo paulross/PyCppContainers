@@ -11,7 +11,6 @@ class CppTypeFunctions(typing.NamedTuple):
     cpp_type_to_py_type: str
     py_check: str
     py_type_to_cpp_type: str
-    cpp_type: str
     py_type: str
 
 
