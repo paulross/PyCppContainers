@@ -39,52 +39,6 @@ CPP_TYPE_TO_FUNCS = {
 }
 
 
-# For dicts
-# print('TRACE:')
-# print(len(list(itertools.product(TYPE_PAIR_CONVERSIONS, repeat=2))))
-# print(list((a.py_type, b.py_type) for a, b in itertools.product(TYPE_PAIR_CONVERSIONS, repeat=2)))
-TYPE_PAIR_CONVERSIONS = (
-    code_gen_common.TypeConversionFunctions(
-        'bool', 'bool', 'py_bool_check', 'py_bool_to_cpp_bool', 'cpp_bool_to_py_bool',
-    ),
-    code_gen_common.TypeConversionFunctions(
-        'int', 'long', 'py_long_check', 'py_long_to_cpp_long', 'cpp_long_to_py_long',
-    ),
-    code_gen_common.TypeConversionFunctions(
-        'float', 'double', 'py_float_check', 'py_float_to_cpp_double', 'cpp_double_to_py_float',
-    ),
-    code_gen_common.TypeConversionFunctions(
-        'bytes', 'std::string', 'py_bytes_check', 'py_bytes_to_cpp_string', 'cpp_string_to_py_bytes',
-    ),
-    code_gen_common.TypeConversionFunctions(
-        'bytearray', 'std::string', 'py_bytearray_check', 'py_bytearray_to_cpp_string', 'cpp_string_to_py_bytearray',
-    ),
-    code_gen_common.TypeConversionFunctions(
-        'str', 'std::string', 'py_unicode_check', 'py_unicode_to_cpp_string', 'cpp_string_to_py_unicode',
-    ),
-)
-
-# Exclude these from dict keys.
-PYTHON_TYPES_UNHASHABLE = {'bytearray'}
-
-
-def dict_pairs() -> typing.List[
-    typing.Tuple[code_gen_common.TypeConversionFunctions,
-                 code_gen_common.TypeConversionFunctions]
-]:
-    """Returns a list of pairs type conversion information where the key is a Python hashable type."""
-    ret = []
-    for v in itertools.product(TYPE_PAIR_CONVERSIONS, repeat=2):
-        if v[0].py_type not in PYTHON_TYPES_UNHASHABLE:
-            ret.append(v)
-    return ret
-
-
-# for k, v in dict_pairs():
-#     print(k.py_type, ':', v.py_type)
-# print(len(dict_pairs()))
-
-
 #: This is the map of C++ containers of those types and conversion functions that we are going to need.
 #: These refer to hand written template functions.
 UNARY_COLLECTIONS = {
@@ -95,17 +49,6 @@ UNARY_COLLECTIONS = {
     'frozenset': code_gen_common.UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_frozenset',
                                                 'py_frozenset_to_cpp_std_unordered_set'),
 }
-
-#: We can not create a set of bytearray for example.
-UNARY_REQUIRES_HASHABLE = {'set'}
-
-
-def can_use_unary(unary_container: str, type_function: code_gen_common.TypeConversionFunctions) -> bool:
-    """Returns if the Python unary container can accept a Python type.
-    This returns False in the case of a Python set containing a Python bytearray."""
-    if unary_container in UNARY_REQUIRES_HASHABLE and type_function.py_type in PYTHON_TYPES_UNHASHABLE:
-        return False
-    return True
 
 
 #: Not really needed as the hand written file, python_convert.h does this.
