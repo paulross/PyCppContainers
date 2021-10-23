@@ -12,6 +12,7 @@ Welcome to Python/C++ Homogeneous Container's documentation!
 
    introduction
    usage
+   examples_by_container
    design
    performance
 
