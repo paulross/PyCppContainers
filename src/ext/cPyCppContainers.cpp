@@ -1,6 +1,6 @@
-//
-// Created by Paul Ross on 18/06/2021.
-//
+/**
+ * Created by Paul Ross on 18/06/2021.
+ */
 #define PY_SSIZE_T_CLEAN
 
 #include <Python.h>
@@ -10,7 +10,11 @@
 
 using namespace Python_Cpp_Containers;
 
-/** Double the values of a vector in-place. */
+/**
+ * Double the values of a vector in-place.
+ *
+ * @param vec The vector to double.
+ */
 static void
 vector_double_x2(std::vector<double> &vec) {
     for (size_t i = 0; i < vec.size(); ++i) {
@@ -18,7 +22,13 @@ vector_double_x2(std::vector<double> &vec) {
     }
 }
 
-/** Create a new list of floats with doubled values. */
+/**
+ * Create a new list of floats with doubled values.
+ *
+ * @param _unused_module
+ * @param arg The Python list of floats. This is const.
+ * @return A new Python list of floats with the values doubled.
+ */
 static PyObject *
 list_x2(PyObject *Py_UNUSED(module), PyObject *arg) {
     std::vector<double> vec;
@@ -35,7 +45,13 @@ list_x2(PyObject *Py_UNUSED(module), PyObject *arg) {
     return NULL;
 }
 
-/** Returns a new vector reversed. */
+/**
+ * Returns a new vector reversed.
+ *
+ * @tparam T The type of the members of the vector.
+ * @param input The vector to be reversed.
+ * @return A new vector reversed.
+ */
 template<typename T>
 static std::vector<T>
 reverse_vector(const std::vector<T> &input){
@@ -46,7 +62,13 @@ reverse_vector(const std::vector<T> &input){
     return output;
 }
 
-/** Reverse a tuple of bytes in C++. */
+/**
+ * Reverse a tuple of bytes in C++.
+ *
+ * @param _unused_module
+ * @param arg The Python tuple of bytes to be reversed.
+ * @return A new tuple of bytes reversed.
+ */
 static PyObject *
 tuple_reverse(PyObject *Py_UNUSED(module), PyObject *arg) {
     std::vector<std::string> vec;
@@ -56,7 +78,13 @@ tuple_reverse(PyObject *Py_UNUSED(module), PyObject *arg) {
     return NULL;
 }
 
-/** Creates a new dict[bytes, int] with the values incremented by 1 in C++ */
+/**
+ * Creates a new dict[bytes, int] with the values incremented by 1 in C++.
+ *
+ * @param _unused_module
+ * @param arg The Python dictionary of [bytes, int] to increment in C++. This is const.
+ * @return A new Python dict of [bytes, int] with the values incremented.
+ */
 static PyObject *
 dict_inc(PyObject *Py_UNUSED(module), PyObject *arg) {
     std::unordered_map<std::string, long> dict;
@@ -69,6 +97,9 @@ dict_inc(PyObject *Py_UNUSED(module), PyObject *arg) {
     return NULL;
 }
 
+/**
+ * The Python Extension methods.
+ */
 static PyMethodDef cPyCppContainersMethods[] = {
         {"list_x2", list_x2, METH_O,
                 "Take a list of floats and return a new list with the values doubled."},
@@ -79,6 +110,9 @@ static PyMethodDef cPyCppContainersMethods[] = {
         {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
+/**
+ * The Python extension definition.
+ */
 static struct PyModuleDef cPyCppContainersmodule = {
         PyModuleDef_HEAD_INIT,
         "cPyCppContainers",
@@ -91,6 +125,9 @@ static struct PyModuleDef cPyCppContainersmodule = {
         NULL
 };
 
+/**
+ * The Python module initialisation.
+ */
 PyMODINIT_FUNC
 PyInit_cPyCppContainers(void) {
     PyObject *m;
