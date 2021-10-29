@@ -231,7 +231,7 @@ The C++ code in the extension is this:
         /* Copy the Python structure to the C++ one. */
         if (!py_dict_to_cpp_std_unordered_map(arg, dict)) {
             /* Increment. */
-            for(auto& key_value: dict) {
+            for(auto &key_value: dict) {
                 key_value.second += 1;
             }
             /* Copy the C++ structure to a new Python dict. */

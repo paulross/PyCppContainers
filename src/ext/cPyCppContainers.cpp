@@ -89,7 +89,7 @@ static PyObject *
 dict_inc(PyObject *Py_UNUSED(module), PyObject *arg) {
     std::unordered_map<std::string, long> dict;
     if (!py_dict_to_cpp_std_unordered_map(arg, dict)) {
-        for(auto& key_value: dict) {
+        for(auto &key_value: dict) {
             key_value.second += 1;
         }
         return cpp_std_unordered_map_to_py_dict(dict);

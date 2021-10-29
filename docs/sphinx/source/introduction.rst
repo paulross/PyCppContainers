@@ -9,26 +9,15 @@ But what if you need to interact with C++ containers such as ``std::vector<T>`` 
 This project is about converting Python containers (``list``, ``dict``, ``set``, ``tuple``) containing homogeneous types
 to and from their C++ equivalent.
 
-TODO
-============
-
-Alternatives
---------------------
-
-`Buffer protocol <https://docs.python.org/3/c-api/buffer.html>`_
-
-`multiprocessing.shared_memory <https://docs.python.org/3/library/multiprocessing.shared_memory.html#module-multiprocessing.shared_memory>`_
-
-
-`numpy <https://numpy.org>`_ is a common example.
-
 
 A Problematic Example
 ========================
 
 Suppose that you have a Python list of floats and need to pass it to a C++ library that expects a ``std::vector<double>``.
+If the result of that call modifies the C++ vector, or creates a new one, you need to return a Python list of floats
+from the result.
 
-To convert that Python list to a C++ ``std::vector<double>`` might look like this:
+Your code might look like this:
 
 .. code-block:: cpp
 
@@ -36,17 +25,8 @@ To convert that Python list to a C++ ``std::vector<double>`` might look like thi
         std::vector<double> vec;
         // Populate the vector, function to be defined...
         write_to_vector(op, vec);
-        // Do something in C++ with the vector...
-    }
-
-If the result of that call modifies the C++ vector, or creates a new one, you need to return a Python list of floats
-from the result.
-Perhaps by adding code such as:
-
-.. code-block:: cpp
-
-    PyObject *example(PyObject *op) {
-        // Do something in C++ with the vector...
+        // Do something in C++ with the vector
+        // ...
         // Convert the vector back to a Python list.
         // Function to be defined...
         return read_from_vector(vec);
@@ -77,26 +57,18 @@ And the inverse, ``read_from_vector`` creating a new Python list from a C++ ``st
         return ret;
     }
 
-This is fine, except notice the absence of error handling above, and all errors are runtime errors.
-And runtime errors are much harder to deal with than compile time errors.
 
-TODO:
+There is no error handling here and all errors are runtime errors.
 
-Until you want to support other object types, say ``int``, ``bytes``.
+However if you need to support other object types, say lists of ``int``, ``bytes`` then each one needs a pair of hand written functions.
 It gets worse when you want to support other containers such as (``tuple``, ``set``, ``dict``).
 Then you have to write individual conversion functions for all the combinations of object types *and* containers.
-
-The problem with this approach is that functions have to be written
-for every combination of interesting types (``float``, ``int``, ``bytes``) **and** every container of interest
-(``tuple``, ``list``, ``set``, ``dict``).
 This is tedious and error prone.
-
-Also, notice the absence of error handling above, and all errors are runtime errors.
 
 Why This Project
 =========================
 
-Instead this project makes extensive use of C++ templates, partial template specialisation and code generation to reduce
+This project makes extensive use of C++ templates, partial template specialisation and code generation to reduce
 dramatically the amount of hand maintained code.
 It also converts many runtime errors to compile time errors.
 
@@ -136,35 +108,18 @@ And a basic set of containers:
    * - ``dict``
      - ``std::unordered_map``
 
-The number of conversion functions is worse than the cartesian product of the types and containers.
-In the case of a dict the types can appear as either a key or a value.
+The number of conversion functions is worse than the cartesian product of the types and containers as in the case of a
+dict the types can appear as either a key or a value.
 
-For example for unary containers (``tuple``, ``list``, ``set``, ``frozenset``) there are four containers with four types.
-Each container/type combination requires two functions to give two way conversion from Python to C++ and back.
-Thus 4 (containers) * 4 (types) * 2 (way conversion) = 32 functions required.
+The tables above would normally require 64 conversion functions to be written, tested and documented [#]_ .
+The project uses a mix of C++ templates and code generators to reduce this number to six hand written functions.
 
-For ``dict`` there are four types but the key and the value can be either so 16 possible variations (any 2 out of 4,
-as given by ``itertools.product('ABCD', repeat=2)``).
-With two way conversion this means 32 conversion functions.
-
-Thus the combination of these types and containers would require 64 conversion functions to write, document and debug.
-
-The aim of this project is to reduce this amount of code to a manageable level, namely 6 hand written functions to cover all these cases.
-
-It uses a mix of C++ templates and code generators to achieve this.
-The result is a few small functions for objects and a pair of hand written templates for each container.
-As lists and tuples are very similar the code is reduced even further.
-
-The only hand written code that needs to be maintained is for the two-way conversions for any type are:
-
-* Two C++ templates for Python ``tuple`` and ``list`` two way conversions for all types.
-* Two C++ templates for Python ``set`` and ``frozenset`` two way conversions for all types.
+* Two C++ templates for Python ``tuple`` / ``list`` two way conversions for all types.
+* Two C++ templates for Python ``set`` / ``frozenset`` two way conversions for all types.
 * Two C++ templates for Python ``dict`` two way conversions for all types combinations.
 
-This reduces the number of maintained functions from 64 down to 6.
-Then a Python script is used to generate the C++ code that declares and defines all 64 specialised functions.
-This code generation script means it requires minimal work to add further types or containers.
-
+These templates are fairly simple and comprehensible and, for simplicity, code generation via a Python script is used
+to create the extensive number of final functions.
 
 Hand Written Functions
 =============================
@@ -177,7 +132,8 @@ As an example, here how the function is developed that converts a Python list of
 Converting a Python tuple or list to a C++ ``std::vector<T>``
 ---------------------------------------------------------------------------------------
 
-This generic function that works with unary Python containers (``tuple`` and ``list``) has a signature that looks like this:
+This generic function that converts unary Python indexed containers (``tuple`` and ``list``) to a C++ ``std::vector<T>``
+for any type has this signature:
 
 .. code-block:: cpp
 
@@ -198,6 +154,8 @@ This template has these parameters:
 
    * - Template Parameter
      - Notes
+   * - ``T``
+     - The C++ type of the objects in the target C++ container.
    * - ``PyObject_Check``
      - A pointer to a function that checks that any ``PyObject *`` in the Python container is the correct type, for example that it is a ``bytes`` object.
    * - ``PyObject_Convert``
@@ -225,14 +183,20 @@ The function has the following parameters.
      - ``vec``
      - The C++ to write to.
 
+The return value is zero on success or non zero if there is a runtime error.
+These errors could be:
+
+* ``PyObject *op`` is not a container of the required type.
+* An member of the Python container can not be converted to the C++ type ``T`` (``PyObject_Check`` fails).
 
 Partial Specialisation to Convert a Python list to a C++ ``std::vector<T>``
 ---------------------------------------------------------------------------------
 
 This template can be partially specialised for converting Python *lists* of any type to C++ ``std::vector<T>``.
-This is hand written code but is just has a single function call.
-Note the use of the function pointers to ``py_list_check``, ``py_list_len`` and ``py_list_get``.
+This is hand written code but it is trivial by wrapping a single function call.
 
+Note the use of the function pointers to ``py_list_check``, ``py_list_len`` and ``py_list_get``.
+These are thin wrappers around existing functions or macros in ``"Python.h"``.
 
 .. code-block:: cpp
 
@@ -279,25 +243,25 @@ And the concrete definition is in *auto_py_convert_internal.cpp*:
     }
 
 
-This is the function hierarchy for the code that converts Python lists and tuples to C++ ``std::vector`` for all
-object types:
+This is the function hierarchy for the code that converts Python lists and tuples to C++ ``std::vector<T>`` for all
+object types.
+Here is the function hierarchy for converting lists to C++ ``std::vector<T>``:
 
 .. code-block:: none
 
-                                    py_unary_to_cpp_vector                  <--- Hand written
+                                    py_unary_to_cpp_vector       <--- Hand written
                                               |
-                            /---------------------------------\
-                            |                                 |                 Hand written partial
-            generic_py_list_to_cpp_std_vector       similarly for tuples    <-- specialisation
-                            |                                 |                 (one liners).
-                            |                                 |
-                py_list_to_cpp_std_vector<T>                 ...            <-- Generated
-                            |                                 |
-            /-------------------------------\             /-------\
-            |                               |             |       |             Generated declaration
-    py_list_to_cpp_std_vector<double>      ...           ...     ...        <-- and implementation
-                                                                                (one liners)
-
+                            /--------------------------\
+                            |                          |             Hand written partial
+            generic_py_list_to_cpp_std_vector       tuples...    <-- specialisation
+                            |                          |             (one liners).
+                            |                          |
+                py_list_to_cpp_std_vector<T>          ...        <-- Generated
+                            |                          |
+            /-------------------------------\      /-------\
+            |                               |      |       |         Generated declaration
+    py_list_to_cpp_std_vector<double>      ...    ...     ...    <-- and implementation
+                                                                     (one liners)
 
 Usage
 ------
@@ -357,6 +321,20 @@ The generic function signature looks like this:
 
 
 
+Alternatives
+--------------------
+
+`Buffer protocol <https://docs.python.org/3/c-api/buffer.html>`_
+
+`multiprocessing.shared_memory <https://docs.python.org/3/library/multiprocessing.shared_memory.html#module-multiprocessing.shared_memory>`_
 
 
+`numpy <https://numpy.org>`_ is a common example.
 
+
+.. rubric:: Footnotes
+.. [#] There are four unary containers (``tuple``, ``list``, ``set``, ``frozenset``).
+    Each container/type combination requires two functions to give two way conversion from Python to C++ and back.
+    Thus 4 (containers) * 4 (types) * 2 (way conversion) = 32 required functions.
+    For ``dict`` there are four types but the key and the value can be either so 16 possible variations (any 2 out of 4).
+    With two way conversion this means another 32 functions. This is a total of 64 functions.

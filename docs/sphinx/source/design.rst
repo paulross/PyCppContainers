@@ -3,88 +3,63 @@
 Design
 ==================
 
+``python_object_convert.h`` and ``python_object_convert.cpp``
+-----------------------------------------------------------------
 
+This is a hand written file that contains implementations of functions to convert Python types to their C++ equivalent.
+There are three functions to each type:
 
+* Convert a C++ value to a new Python object.
+* Convert a Python object to a C++ value.
+* Check that a Python object is of the expected type.
+
+For example here are the three functions for Python ``int`` and C++ ``long``:
+
+.. code-block:: c
+
+    PyObject *cpp_long_to_py_long(const long &l);
+
+    long py_long_to_cpp_long(PyObject *op);
+
+    int py_long_check(PyObject *op);
+
+The implementations of these are just one line wrappers around functions or macros in the Python C API.
+
+``python_container_convert.h`` and ``python_container_convert.cpp``
+---------------------------------------------------------------------------
+
+This is a hand written file that contains implementations of functions to create and access Python unary containers
+(``list``, ``tuple``, ``set``).
+There are a number off functions to each container, for example a list:
+
+* Check that a Python object is of the expected type.
+* Create a new Python container.
+* Find the length of a Python container.
+* Set a value in a Python container.
+* Get a value from a Python container.
+
+For example here are the three functions for Python lists:
+
+.. code-block:: c
+
+    int py_list_check(PyObject *op);
+
+    PyObject *py_list_new(size_t len);
+
+    Py_ssize_t py_list_len(PyObject *op);
+
+    int py_list_set(PyObject *list_p, size_t pos, PyObject *op);
+
+    PyObject *py_list_get(PyObject *list_p, size_t pos);
+
+The implementations of these are just one line wrappers around functions or macros in the Python C API.
 
 ``python_convert.h``
 ---------------------
 
-This is a hand written file that contains:
+This is a hand written file that contains templates that convert containers to and fro between Python  and C++.
+It includes ``python_object_convert.h`` and ``python_container_convert.h``, declares the templates then includes ``auto_py_convert_internal.h``.
 
-* Functions to convert objects to and fro between Python and C++.
-  See "Conversion of Objects" below.
-* Function to create and  access Python containers such as ``tuples``, ``lists`` etc.
-  See "Creating and Accessing Python Containers" below.
-* Templates that convert containers to and fro between Python  and C++.
-  These are described in detail below.
-
-Conversion of Objects
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-These are wrappers around existing Python C API functions.
-There are the following functions for each supported object type:
-
-* Check that a Python ``PyObject *`` is of the correct object type.
-* Convert a Python ``PyObject *`` to a C++ fundamental type.
-* Create a new Python ``PyObject *`` from a C++ fundamental type.
-
-Their implementations are in ``python_convert.cpp``
-
-For example for Python floats to and from a C++ ``double`` there will  be these function  implementations:
-
-.. code-block:: cpp
-
-    PyObject *cpp_double_to_py_float(const double &d) {
-        return PyFloat_FromDouble(d);
-    }
-
-    double py_float_to_cpp_double(PyObject *op) {
-        assert(py_float_check(op));
-        return PyFloat_AsDouble(op);
-    }
-
-    int py_float_check(PyObject *op) {
-        return PyFloat_Check(op);
-    }
-
-Creating and Accessing Python Containers
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-These are wrappers around existing Python C API functions.
-There are the following functions for each supported object type:
-
-* Check that a Python ``PyObject *`` is of the correct container type.
-* Create a new Python ``PyObject *`` container.
-* Set a new ``PyObject *`` in the container.
-* Get a new ``PyObject *`` from the container.
-
-Their implementations are in ``python_convert.cpp``
-
-For example for a Python tuple there will be these function implementations:
-
-.. code-block:: cpp
-
-    // Tuple check, create, set, get functions.
-    int py_tuple_check(PyObject *op) {
-        return PyTuple_Check(op);
-    }
-
-    PyObject *py_tuple_new(size_t len) {
-        return PyTuple_New(len);
-    }
-
-    Py_ssize_t py_tuple_len(PyObject *op) {
-        return PyTuple_Size(op);
-    }
-
-    int py_tuple_set(PyObject *tuple_p, size_t pos, PyObject *op) {
-        PyTuple_SET_ITEM(tuple_p, pos, op);
-        return 0;
-    }
-
-    PyObject *py_tuple_get(PyObject *tuple_p, size_t pos) {
-        return PyTuple_GET_ITEM(tuple_p, pos);
-    }
 
 Conversion Templates
 ---------------------

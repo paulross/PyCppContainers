@@ -91,6 +91,8 @@ namespace Python_Cpp_Containers {
 
     int py_bytearray_check(PyObject *op);
 
+#pragma mark -- str/std::string Conversion Code
+
     // Python str (unicode) to/from string
     PyObject *cpp_string_to_py_unicode(const std::string &s);
 

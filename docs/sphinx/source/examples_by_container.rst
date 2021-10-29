@@ -49,12 +49,9 @@ function call:
         // An imaginary function that creates a C++ std::vector<double>
         std::vector<double> cpp_vector = get_cpp_vector_doubles();
         // Convert to a Python tuple that contains floats
-        PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
-        if (! op) {
-            // Handle error condition.
-            // ...
-        }
-        return op;
+        // This might return NULL in which case a Python error will be set.
+        // Otherwise it will return a new reference, it is for the caller to decrement this.
+        return Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
     }
 
 ``Python_Cpp_Containers::cpp_std_vector_to_py_tuple`` has implementations for vectors of ``bool``, ``long``, ``double``
@@ -144,12 +141,9 @@ Here is an example of converting a C++ ``std::unordered_map<long, std::string>``
         // An imaginary function that creates a C++ std::unordered_map<long, std::string>
         std::unordered_map<long, std::string> cpp_map = get_cpp_map();
         // Convert to a Python dict.
-        PyObject *op = Python_Cpp_Containers::cpp_std_unordered_map_to_py_dict(cpp_map);
-        if (! op) {
-            // Handle error.
-            // ...
-        }
-        return op;
+        // This might return NULL in which case a Python error will be set.
+        // Otherwise it will return a new reference, it is for the caller to decrement this.
+        return Python_Cpp_Containers::cpp_std_unordered_map_to_py_dict(cpp_map);
     }
 
 
@@ -204,18 +198,20 @@ And the reverse, given a C++ matrix this converts that to a Python tuple of tupl
         // An imaginary function that creates a C++ std::vector<double>
         std::vector<std::vector<double>> cpp_matrix = get_cpp_matrix();
         PyObject *op = Python_Cpp_Containers::py_tuple_new(cpp_matrix.size());
-        for (size_t i = 0; i < cpp_matrix.size(); ++i) {
-            PyObject *row = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_matrix[i]);
-            if (! row) {
-                // Handle error condition.
-                // ...
-                return NULL;
-            }
-            int err = Python_Cpp_Containers::py_tuple_set(op, i, row)
-            if (err != 0) {
-                // Handle error
-                // ...
-                return;
+        if (op) {
+            for (size_t i = 0; i < cpp_matrix.size(); ++i) {
+                PyObject *row = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_matrix[i]);
+                if (! row) {
+                    // Handle error condition.
+                    // ...
+                    return NULL;
+                }
+                int err = Python_Cpp_Containers::py_tuple_set(op, i, row)
+                if (err != 0) {
+                    // Handle error
+                    // ...
+                    return;
+                }
             }
         }
         return op;
