@@ -98,6 +98,89 @@ dict_inc(PyObject *Py_UNUSED(module), PyObject *arg) {
 }
 
 /**
+ * Create a new list of T by copying into a vector and back.
+ *
+ * @param arg The Python list. This is const.
+ * @return A new Python list of T.
+ */
+template<typename T>
+static PyObject *
+new_list(PyObject *arg) {
+    std::vector<T> vec;
+    if (!py_list_to_cpp_std_vector(arg, vec)) {
+        return cpp_std_vector_to_py_list(vec);
+    }
+    return NULL;
+}
+
+/**
+ * Create a new list of floats by copying into a vector and back.
+ *
+ * @param arg The Python list. This is const.
+ * @return A new Python list of float.
+ */
+static PyObject *
+new_list_float(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<double>(arg);
+}
+
+static PyObject *
+new_list_bool(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<bool>(arg);
+}
+
+static PyObject *
+new_list_int(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<long>(arg);
+}
+
+static PyObject *
+new_list_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::string>(arg);
+}
+
+// TODO: Note how this works in C++ compilation (linker fails)
+// However setup.py works just fine but this gives an ImportError with Symbol not found.
+// This need documenting.
+//static PyObject *
+//new_list_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
+//    return new_list<std::complex<double>>(arg);
+//}
+
+
+/**
+ * Create a new dict of [K, V]] by copying into a std::unordered_map and back.
+ *
+ * @param arg The Python dict. This is const.
+ * @return A new Python dict of [K, V].
+ */
+template<typename K, typename V>
+static PyObject *
+new_dict(PyObject *arg) {
+    std::unordered_map<K, V> map;
+    if (!py_dict_to_cpp_std_unordered_map(arg, map)) {
+        return cpp_std_unordered_map_to_py_dict(map);
+    }
+    return NULL;
+}
+
+/**
+ * Create a new dict of [float, float] by copying into a std::unordered_map and back.
+ *
+ * @param arg The Python dict. This is const.
+ * @return A new Python dict of [float, float].
+ */
+static PyObject *
+new_dict_float_float(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<double, double>(arg);
+}
+
+static PyObject *
+new_dict_bytes_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::string, std::string>(arg);
+}
+
+/**
  * The Python Extension methods.
  */
 static PyMethodDef cPyCppContainersMethods[] = {
@@ -107,6 +190,21 @@ static PyMethodDef cPyCppContainersMethods[] = {
                 "Take a tuple of bytes and return a new tuple reversed."},
         {"dict_inc", dict_inc, METH_O,
                 "Take a Python dict[bytes, int] and return a new dict with the values incremented by 1."},
+        /* Copying functions. */
+        /* Lists. */
+        {"new_list_float", new_list_float, METH_O,
+                "Take a list of floats and return a new list with the same values."},
+        {"new_list_bool", new_list_bool, METH_O,
+                "Take a list of booleans and return a new list with the same values."},
+        {"new_list_int", new_list_int, METH_O,
+                "Take a list of ints and return a new list with the same values."},
+        {"new_list_bytes", new_list_bytes, METH_O,
+                "Take a list of ints and return a new list with the same values."},
+        /* dicts */
+        {"new_dict_float_float", new_dict_float_float, METH_O,
+                "Take a dict of [float, float] and return a new dict with the same values."},
+        {"new_dict_bytes_bytes", new_dict_bytes_bytes, METH_O,
+                "Take a dict of [bytes, bytes] and return a new dict with the same values."},
         {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
