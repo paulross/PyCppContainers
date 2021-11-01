@@ -139,14 +139,38 @@ new_list_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
     return new_list<std::string>(arg);
 }
 
-// TODO: Note how this works in C++ compilation (linker fails)
-// However setup.py works just fine but this gives an ImportError with Symbol not found.
-// This need documenting.
-//static PyObject *
-//new_list_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
-//    return new_list<std::complex<double>>(arg);
-//}
 
+#if 0
+/*
+ * Note how this works in C++ compilation (linker fails)
+ * However setup.py works just fine but this gives an ImportError with Symbol not found.
+ * This need documenting.
+ * C++ linker failure:
+Undefined symbols for architecture x86_64:
+  "_object* Python_Cpp_Containers::cpp_std_vector_to_py_list<unsigned int>(std::__1::vector<unsigned int, std::__1::allocator<unsigned int> > const&)", referenced from:
+      new_list_unsigned_int(_object*, _object*) in cPyCppContainers.cpp.o
+  "int Python_Cpp_Containers::py_list_to_cpp_std_vector<unsigned int>(_object*, std::__1::vector<unsigned int, std::__1::allocator<unsigned int> >&)", referenced from:
+      new_list_unsigned_int(_object*, _object*) in cPyCppContainers.cpp.o
+ld: symbol(s) not found for architecture x86_64
+
+ Failure in Python:
+>>> import cPyCppContainers
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ImportError: dlopen(/Users/engun/CLionProjects/PythonCppHomogeneousContainers/cPyCppContainers.cpython-39-darwin.so, 2): Symbol not found: __ZN21Python_Cpp_Containers25cpp_std_vector_to_py_listIjEEP7_objectRKNSt3__16vectorIT_NS3_9allocatorIS5_EEEE
+  Referenced from: /Users/engun/CLionProjects/PythonCppHomogeneousContainers/cPyCppContainers.cpython-39-darwin.so
+  Expected in: flat namespace
+ in /Users/engun/CLionProjects/PythonCppHomogeneousContainers/cPyCppContainers.cpython-39-darwin.so
+*/
+static PyObject *
+new_list_unsigned_int(PyObject *Py_UNUSED(module), PyObject *arg) {
+    std::vector<unsigned int> vec;
+    if (!py_list_to_cpp_std_vector(arg, vec)) {
+        return cpp_std_vector_to_py_list(vec);
+    }
+    return NULL;
+}
+#endif
 
 /**
  * Create a new dict of [K, V]] by copying into a std::unordered_map and back.
@@ -200,6 +224,11 @@ static PyMethodDef cPyCppContainersMethods[] = {
                 "Take a list of ints and return a new list with the same values."},
         {"new_list_bytes", new_list_bytes, METH_O,
                 "Take a list of ints and return a new list with the same values."},
+#if 0
+        // Example of failure as there is no template new_list<unsigned int>(arg)
+        {"new_list_unsigned_int", new_list_unsigned_int, METH_O,
+                "Take a list of unsigned ints and return a new list with the same values."},
+#endif
         /* dicts */
         {"new_dict_float_float", new_dict_float_float, METH_O,
                 "Take a dict of [float, float] and return a new dict with the same values."},

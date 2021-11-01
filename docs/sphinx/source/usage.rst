@@ -62,6 +62,48 @@ Then in your Python extension include the line:
 An this gives you access to the whole API.
 
 
+Errors
+-------------------
+
+If using this library in C++ there will be a linker error if you specify a template type that is not supported.
+For example here is some code that tries to copy a Python list of unsigned integers.
+The two conversion functions are not defined for ``unsigned int``.
+
+.. code-block:: cpp
+
+    static PyObject *
+    new_list_unsigned_int(PyObject *Py_UNUSED(module), PyObject *arg) {
+        std::vector<unsigned int> vec;
+        if (!py_list_to_cpp_std_vector(arg, vec)) {
+            return cpp_std_vector_to_py_list(vec);
+        }
+        return NULL;
+    }
+
+A C++ tool chain will complain with a linker error such as:
+
+.. code-block:: none
+
+    Undefined symbols for architecture x86_64:
+      "_object* Python_Cpp_Containers::cpp_std_vector_to_py_list<unsigned int>(std::__1::vector<unsigned int, std::__1::allocator<unsigned int> > const&)", referenced from:
+          new_list_unsigned_int(_object*, _object*) in cPyCppContainers.cpp.o
+      "int Python_Cpp_Containers::py_list_to_cpp_std_vector<unsigned int>(_object*, std::__1::vector<unsigned int, std::__1::allocator<unsigned int> >&)", referenced from:
+          new_list_unsigned_int(_object*, _object*) in cPyCppContainers.cpp.o
+    ld: symbol(s) not found for architecture x86_64
+
+If you are building a Python extension this will, most likely, build but importing the extension will fail immediately with something like:
+
+.. code-block:: python
+
+    >>> import cPyCppContainers
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+    ImportError: dlopen(cPyCppContainers.cpython-39-darwin.so, 2): Symbol not found: __ZN21Python_Cpp_Containers25cpp_std_vector_to_py_listIjEEP7_objectRKNSt3__16vectorIT_NS3_9allocatorIS5_EEEE
+      Referenced from: cPyCppContainers.cpython-39-darwin.so
+      Expected in: flat namespace
+     in cPyCppContainers.cpython-39-darwin.so
+
+
 Examples
 ============
 
@@ -247,3 +289,5 @@ Once the extension is built this can be used thus:
     >>> import cPyCppContainers
     >>> cPyCppContainers.dict_inc({b'A' : 65, b'Z' : 90})
     {b'Z': 91, b'A': 66}
+
+There are several other examples in *src/ext/cPyCppContainers.cpp* with tests in *tests/unit/test_cPyCppContainers.py*.
