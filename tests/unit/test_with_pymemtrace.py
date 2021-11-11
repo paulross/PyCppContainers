@@ -15,13 +15,15 @@ import cPyCppContainers
 def _test_new_list_bytes():
     proc = psutil.Process()
     rss = proc.memory_info().rss
-    byte_length = 128#1024
-    size = 2**20
+    # 1Gb
+    total_bytes = 2**20 * 2**10
+    byte_length = 1024 // 4
+    vector_length = total_bytes // byte_length
+    print(f'Total bytes: {total_bytes:16,d} byte length: {byte_length:16,d} vector length: {vector_length:16,d}')
     byte_entry = b' ' * byte_length
     results = []
-    total_bytes = byte_length * size
-    for _r in range(10 * 8):
-        original = [byte_entry[:] for _i in range(size)]
+    for _r in range(10):
+        original = [byte_entry[:] for _i in range(vector_length)]
         time_start = time.perf_counter()
         cPyCppContainers.new_list_bytes(original)
         time_exec = time.perf_counter() - time_start
