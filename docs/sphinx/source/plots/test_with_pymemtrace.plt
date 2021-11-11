@@ -29,4 +29,12 @@ plot "test_with_pymemtrace.dat" using 4:9 t "RSS" with linespoints axes x1y1 pt 
 
 #plot "test_with_pymemtrace.dat" using 4:9 t "RSS" with linespoints axes x1y1 pt 1 lw 1
 
+#reset
+
+set terminal png size 1000,700           # choose the file format
+set output "test_with_pymemtrace.png"   # choose the output device
+
+plot "test_with_pymemtrace.dat" using 4:9 t "RSS" with linespoints axes x1y1 pt 1 lw 1, \
+    "test_with_pymemtrace.dat" using 4:10 t "dRSS" with points axes x1y2 pt 2 lw 1
+
 reset
