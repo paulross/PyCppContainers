@@ -237,6 +237,19 @@ def test_new_list_bytes(given):
     'given',
     (
             {},
+            {1: 45, 2: 123, },
+    ),
+)
+def test_new_dict_int_int(given):
+    result = cPyCppContainers.new_dict_int_int(given)
+    assert result == given
+    assert id(result) != id(given)
+
+
+@pytest.mark.parametrize(
+    'given',
+    (
+            {},
             {1.0: 45.0, 2.0: 123.9, },
     ),
 )

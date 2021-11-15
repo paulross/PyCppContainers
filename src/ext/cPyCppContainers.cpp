@@ -189,6 +189,17 @@ new_dict(PyObject *arg) {
 }
 
 /**
+ * Create a new dict of [int, int] by copying into a std::unordered_map and back.
+ *
+ * @param arg The Python dict. This is const.
+ * @return A new Python dict of [int, int].
+ */
+static PyObject *
+new_dict_int_int(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<long, long>(arg);
+}
+
+/**
  * Create a new dict of [float, float] by copying into a std::unordered_map and back.
  *
  * @param arg The Python dict. This is const.
@@ -230,6 +241,8 @@ static PyMethodDef cPyCppContainersMethods[] = {
                 "Take a list of unsigned ints and return a new list with the same values."},
 #endif
         /* dicts */
+        {"new_dict_int_int", new_dict_int_int, METH_O,
+                "Take a dict of [int, int] and return a new dict with the same values."},
         {"new_dict_float_float", new_dict_float_float, METH_O,
                 "Take a dict of [float, float] and return a new dict with the same values."},
         {"new_dict_bytes_bytes", new_dict_bytes_bytes, METH_O,

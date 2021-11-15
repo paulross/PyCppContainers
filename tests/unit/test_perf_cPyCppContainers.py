@@ -124,7 +124,7 @@ def test_new_list_float():
             timer.add(time_exec)
         results.append((size, timer))
         rss_now = proc.memory_info().rss
-        print(f'RSS HERE was {rss_here:,d} now {rss_now:,d} rate {(rss_now - rss_here) / (REPEAT * size)}')
+        # print(f'RSS HERE was {rss_here:,d} now {rss_now:,d} rate {(rss_now - rss_here) / (REPEAT * size)}')
     # pprint.pprint(results)
     print()
     rss_new = proc.memory_info().rss
@@ -157,7 +157,7 @@ def _test_new_list_bytes():
     for byte_length in SIZE_DOUBLING_BYTE_LENGTH:
         results = []
         # 1Gb limit is 2**30
-        max_size = 2**30 // byte_length
+        max_size = 2**20 // byte_length
         for size in SIZE_DOUBLING:
             if size > max_size:
                 print(f'Breaking as max size {max_size} reached memory {max_size * byte_length:,d}.')
@@ -186,4 +186,60 @@ def _test_new_list_bytes():
 def test_new_list_bytes():
     for i in range(1):
         _test_new_list_bytes()
+    assert 0
+
+
+def test_new_dict_int_int():
+    results = []
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    for size in SIZE_DOUBLING:
+        original = {i : i for i in range(size)}
+        timer = TimedResults()
+        for _r in range(REPEAT):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_dict_int_int(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+    # pprint.pprint(results)
+    print()
+    rss_new = proc.memory_info().rss
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+    assert 0
+
+
+def test_new_dict_bytes_bytes():
+    random_bytes = [random.randint(0, 255) for _i in range(max(SIZE_DOUBLING_BYTE_LENGTH))]
+    proc = psutil.Process()
+    for byte_length in SIZE_DOUBLING_BYTE_LENGTH:
+        results = []
+        rss = proc.memory_info().rss
+        for size in SIZE_DOUBLING:
+            original = {}
+            for i in range(size):
+                random.shuffle(random_bytes)
+                k = bytes(random_bytes[:byte_length])
+                original[k] = b' ' * byte_length
+            # print(f'TRACE dict len {len(original)}')
+            timer = TimedResults()
+            for _r in range(REPEAT):
+                time_start = time.perf_counter()
+                cPyCppContainers.new_dict_bytes_bytes(original)
+                time_exec = time.perf_counter() - time_start
+                timer.add(time_exec)
+            results.append((size, timer))
+            if size >= 1024 * 16:
+                break
+        # pprint.pprint(results)
+        print()
+        rss_new = proc.memory_info().rss
+        print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+        print(f'Byte length {byte_length}')
+        print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+        for s, t in results:
+            print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
     assert 0
