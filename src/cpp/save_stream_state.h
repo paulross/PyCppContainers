@@ -11,9 +11,21 @@
 #include <iostream>
 #include <iomanip>
 
+/**
+ * A class that saves the formatting state of a stream and restores it on destruction.
+ *
+ * The state that is saved is the .flags() and the .fill() character.
+ */
 class StreamFormatState {
 public:
+    /**
+     * Takes a stream and records its formatting state.
+     * @param stream The stream.
+     */
     StreamFormatState(std::basic_ios<char> &stream) : _pStream(&stream), _ff(stream.flags()), _fill(stream.fill()) {}
+    /**
+     * Destruction. This restores the formatting state of the stream.
+     */
     ~StreamFormatState() {
         if (_pStream) {
             _pStream->flags(_ff);

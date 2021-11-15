@@ -311,8 +311,8 @@ namespace Python_Cpp_Containers {
      * @tparam T The C++ type of the objects in the std::unordered_set.
      * @tparam ConvertCppToPy Function to convert the C++ <T> to a PyObject*.
      * @tparam PyContainer_New Function to create a new Python container.
-     * @param set The C++ std::set as input data.
-     * @return The PyObject* as the output data containing the values of the C++ vector.
+     * @param set The C++ std::unordered_set as input data.
+     * @return The PyObject* set or frozenset containing the values of the C++ std::unordered_set.
      */
     template<
             typename T,
@@ -359,12 +359,28 @@ namespace Python_Cpp_Containers {
         return ret;
     }
 
+    /**
+     * Specific instantiation to convert a C++ std::unordered_set<T> to a Python set.
+     *
+     * @tparam T The C++ type of the objects in the std::unordered_set.
+     * @tparam ConvertCppToPy Function to convert the C++ <T> to a PyObject*.
+     * @param set The C++ std::unordered_set as input data.
+     * @return The PyObject* set containing the values of the C++ std::unordered_set.
+     */
     template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
     generic_cpp_std_unordered_set_to_py_set(const std::unordered_set<T> &set) {
         return generic_cpp_std_unordered_set_to_py_set_or_frozenset<T, ConvertCppToPy, &PySet_New>(set);
     }
 
+    /**
+     * Specific instantiation to convert a C++ std::unordered_set<T> to a Python frozenset.
+     *
+     * @tparam T The C++ type of the objects in the std::unordered_set.
+     * @tparam ConvertCppToPy Function to convert the C++ <T> to a PyObject*.
+     * @param set The C++ std::unordered_set as input data.
+     * @return The PyObject* frozenset containing the values of the C++ std::unordered_set.
+     */
     template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
     generic_cpp_std_unordered_set_to_py_frozenset(const std::unordered_set<T> &set) {
@@ -372,15 +388,15 @@ namespace Python_Cpp_Containers {
     }
 
     /**
-     * This is a hand written generic function to convert a C++ std::unordered_set<T> to a Python set or frozen set.
+     * This is a hand written generic function to convert a Python set or frozenset to a C++ std::unordered_set<T>.
      *
-     * @tparam T
-     * @tparam PyContainer_Check
-     * @tparam PyObject_Check
-     * @tparam PyObject_Convert
-     * @param op
-     * @param set
-     * @return
+     * @tparam T The C++ type of the objects in the std::unordered_set.
+     * @tparam PyContainer_Check A pointer to a function that checks that the Python container is the correct type.
+     * @tparam PyObject_Check A pointer to a function that checks that a member of thePython container is the correct type.
+     * @tparam PyObject_Convert A pointer to a function that converts a Python object to the C++ object of type T.
+     * @param op The Python container,
+     * @param set The C++ result.
+     * @return Zero on success, non-zero on failure.
      */
     template<
             typename T,
@@ -444,12 +460,32 @@ namespace Python_Cpp_Containers {
         return ret;
     }
 
+    /**
+     * Specific instantiation to convert a Python set to a C++ std::unordered_set<T>.
+     *
+     * @tparam T The C++ type of the objects in the std::unordered_set.
+     * @tparam PyObject_Check A pointer to a function that checks that a member of thePython container is the correct type.
+     * @tparam PyObject_Convert A pointer to a function that converts a Python object to the C++ object of type T.
+     * @param op The Python container,
+     * @param set The C++ result.
+     * @return Zero on success, non-zero on failure.
+     */
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_set_to_cpp_std_unordered_set(PyObject *op, std::unordered_set<T> &set) {
         return generic_py_set_or_frozenset_to_cpp_std_unordered_set<T, &py_set_check, PyObject_Check, PyObject_Convert>(
                 op, set);
     }
 
+    /**
+     * Specific instantiation to convert a Python frozenset to a C++ std::unordered_set<T>.
+     *
+     * @tparam T The C++ type of the objects in the std::unordered_set.
+     * @tparam PyObject_Check A pointer to a function that checks that a member of thePython container is the correct type.
+     * @tparam PyObject_Convert A pointer to a function that converts a Python object to the C++ object of type T.
+     * @param op The Python container,
+     * @param set The C++ result.
+     * @return Zero on success, non-zero on failure.
+     */
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_frozenset_to_cpp_std_unordered_set(PyObject *op, std::unordered_set<T> &set) {
         return generic_py_set_or_frozenset_to_cpp_std_unordered_set<T, &py_frozenset_check, PyObject_Check, PyObject_Convert>(
