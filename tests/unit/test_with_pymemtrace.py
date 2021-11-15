@@ -17,7 +17,7 @@ def _test_new_list_bytes():
     rss = proc.memory_info().rss
     # 1Gb
     total_bytes = 2**20 * 2**10
-    byte_length = 1024 // 4
+    byte_length = 1024 // (4 * 4 * 4 * 4)
     vector_length = total_bytes // byte_length
     print(f'Total bytes: {total_bytes:16,d} byte length: {byte_length:16,d} vector length: {vector_length:16,d}')
     byte_entry = b' ' * byte_length
@@ -31,6 +31,7 @@ def _test_new_list_bytes():
         # del original
     print()
     print('\n'.join(f'{v:8.3f}' for v in results))
+    print(f'Mean: {sum(results) / len(results):8.3f}')
     rss_new = proc.memory_info().rss
     print(f'Total bytes {total_bytes:16,d} RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
 
