@@ -17,7 +17,7 @@ def _test_new_list_bytes():
     rss = proc.memory_info().rss
     # 1Gb
     total_bytes = 2**20 * 2**10
-    byte_length = 1024 // (4 * 4 * 4 * 4)
+    byte_length = 1024 #// (4 * 4 * 4 * 4)
     vector_length = total_bytes // byte_length
     print(f'Total bytes: {total_bytes:16,d} byte length: {byte_length:16,d} vector length: {vector_length:16,d}')
     byte_entry = b' ' * byte_length

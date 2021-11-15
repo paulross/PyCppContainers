@@ -10,7 +10,7 @@ import psutil
 import cPyCppContainers
 
 SIZE_DOUBLING = tuple(2 ** v for v in range(1, 20 + 1))
-SIZE_DOUBLING = tuple(2 ** v for v in range(1, 16 + 1))
+# SIZE_DOUBLING = tuple(2 ** v for v in range(1, 16 + 1))
 SIZE_DOUBLING_BYTE_LENGTH = (8, 64, 512, 4096)
 # SIZE_DOUBLING_BYTE_LENGTH = (8, 64)
 REPEAT = 5
@@ -46,17 +46,17 @@ class TimedResults:
         return self.max() - self.min()
 
     def str_header(self) -> str:
-        return f'{"Count":>12s} {"Min":>12s} {"Mean":>12s} {"Median":>12s} {"Std.Dev.":>12s} {"Max":>12s} {"Max/Min":>12s}'
+        return f'{"Count":>12s} {"Min":>16s} {"Mean":>16s} {"Median":>16s} {"Std.Dev.":>16s} {"Max":>16s} {"Max/Min":>12s}'
 
     def __str__(self) -> str:
         return (
             f'{len(self):12d}'
-            f' {self.min():12.6f}'
-            f' {self.mean():12.6f}'
-            f' {self.median():12.6f}'
-            f' {self.stdev():12.6f}'
-            f' {self.max():12.6f}'
-            f' {self.max() / self.min():12.1f}'
+            f' {self.min():16.9f}'
+            f' {self.mean():16.9f}'
+            f' {self.median():16.9f}'
+            f' {self.stdev():16.9f}'
+            f' {self.max():16.9f}'
+            f' {self.max() / self.min():12.3f}'
         )
 
     def __len__(self):
@@ -80,9 +80,9 @@ def test_new_list_bool():
     print()
     rss_new = proc.memory_info().rss
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
-    print(f'{"Size":>8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
     for s, t in results:
-        print(f'{s:8d} {t} {1e9 * t.min() / s:12.1f}')
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
     assert 0
 
 
@@ -103,9 +103,9 @@ def test_new_list_int():
     print()
     rss_new = proc.memory_info().rss
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
-    print(f'{"Size":>8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
     for s, t in results:
-        print(f'{s:8d} {t} {1e9 * t.min() / s:12.1f}')
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
     assert 0
 
 
@@ -129,9 +129,9 @@ def test_new_list_float():
     print()
     rss_new = proc.memory_info().rss
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
-    print(f'{"Size":>8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
     for s, t in results:
-        print(f'{s:8d} {t} {1e9 * t.min() / s:12.1f}')
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
     assert 0
 
 
@@ -156,8 +156,15 @@ def _test_new_list_bytes():
     rss = proc.memory_info().rss
     for byte_length in SIZE_DOUBLING_BYTE_LENGTH:
         results = []
+        # 1Gb limit is 2**30
+        max_size = 2**30 // byte_length
         for size in SIZE_DOUBLING:
-            original = [BYTES_LISTS[byte_length][:] for _i in range(size)]
+            if size > max_size:
+                print(f'Breaking as max size {max_size} reached memory {max_size * byte_length:,d}.')
+                break
+            # original = [BYTES_LISTS[byte_length] for _i in range(size)]
+            original_bytes = b' ' * byte_length
+            original = [original_bytes for _i in range(size)]
             timer = TimedResults()
             for _r in range(REPEAT):
                 time_start = time.perf_counter()
@@ -169,14 +176,14 @@ def _test_new_list_bytes():
         rss_new = proc.memory_info().rss
         print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
         print(f'Byte length {byte_length}')
-        print(f'{"Size":>8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+        print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
         for s, t in results:
-            print(f'{s:8d} {t} {1e9 * t.min() / s:12.1f}')
+            print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
     rss_new = proc.memory_info().rss
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
 
 
 def test_new_list_bytes():
-    for i in range(5):
+    for i in range(1):
         _test_new_list_bytes()
     assert 0
