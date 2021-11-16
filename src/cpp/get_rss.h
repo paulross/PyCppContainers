@@ -9,17 +9,35 @@
 
 #include <stdlib.h>
 
+/**
+ * Return the peak RSS in bytes.
+ * @return
+ */
 size_t getPeakRSS();
+/**
+ * Return the current RSS in bytes.
+ * @return
+ */
 size_t getCurrentRSS();
+/**
+ * Return the current RSS in bytes.
+ * @return
+ */
 size_t getCurrentRSS_alternate();
 
+/**
+ * Size of one megabyte in bytes, 1 << 20
+ */
 extern const double MEGABYTES;
 
-double getPeakRSSMb();
-double getCurrentRSSMb();
-double getCurrentRSS_alternateMb();
+//double getPeakRSSMb();
+//double getCurrentRSSMb();
+//double getCurrentRSS_alternateMb();
 
 
+/**
+ * Class that takes a snapshot of RSS usage.
+ */
 class RSSSnapshot {
 private:
     const double MEGABYTE = 1 << 20;
@@ -54,12 +72,12 @@ public:
 
     size_t rss_peak_now_pages() const { return getPeakRSS() / PAGE_SIZE; }
 
-    int rss_now_diff_pages() const {
-        return (static_cast<int>(getCurrentRSS()) - static_cast<int>(m_rss_initial)) / PAGE_SIZE;
+    long rss_now_diff_pages() const {
+        return (static_cast<long>(getCurrentRSS()) - static_cast<long>(m_rss_initial)) / PAGE_SIZE;
     }
 
-    int rss_peak_diff_pages() const {
-        return (static_cast<int>(getPeakRSS()) - static_cast<int>(m_rss_peak_initial)) / PAGE_SIZE;
+    long rss_peak_diff_pages() const {
+        return (static_cast<long>(getPeakRSS()) - static_cast<long>(m_rss_peak_initial)) / PAGE_SIZE;
     }
 
 protected:

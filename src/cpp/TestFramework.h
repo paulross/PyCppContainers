@@ -25,7 +25,7 @@ private:
     std::chrono::time_point<std::chrono::high_resolution_clock> _start;
 };
 
-/* TestResult is a class that retains correctness and performance information
+/** TestResult is a class that retains correctness and performance information
  * of a particular test.
  *
  * Terminology:
@@ -152,7 +152,7 @@ private:
     std::map<size_t, struct test_result> _results;
 };
 
-/* This just accumulates a list of TestResult objects and can print them out
+/** This just accumulates a list of TestResult objects and can print them out
  * in a human readable form.
  */
 class TestResultS {
@@ -174,7 +174,7 @@ private:
 std::ostream &operator<<(std::ostream &os, const TestResult &result);
 std::ostream &operator<<(std::ostream &os, const TestResultS &results);
 
-/* In a single test function there might be many tests, this class
+/** In a single test function there might be many tests, this class
  * keeps track of which sub-test is being evaluated and uniquely
  * sets the failure flag by bit twiddling.
  */
