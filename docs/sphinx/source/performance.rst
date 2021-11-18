@@ -9,25 +9,26 @@ The C++ code was compiled with ``-O3`` and run on the following hardware:
 .. code-block:: none
 
     Model Name:	                MacBook Pro
-    Model Identifier:	        MacBookPro15,2
-    Processor Name:	            Intel Core i7
-    Processor Speed:	        2.7 GHz
+    Model Identifier:           MacBookPro15,2
+    Processor Name:             Intel Core i7
+    Processor Speed:            2.7 GHz
     Number of Processors:       1
-    Total Number of Cores:	    4
-    L2 Cache (per Core):	    256 KB
-    L3 Cache:	                8 MB
+    Total Number of Cores:      4
+    L2 Cache (per Core):        256 KB
+    L3 Cache:                   8 MB
     Hyper-Threading Technology: Enabled
-    Memory:	                    16 GB
+    Memory:                     16 GB
 
-    System Version:	            macOS 10.14.6 (18G9323)
-    Kernel Version:	            Darwin 18.7.0
+    System Version:             macOS 10.14.6 (18G9323)
+    Kernel Version:             Darwin 18.7.0
 
 Summary
 -----------------
 
 * Sequences of fundamental types are converted at around 100m objects/sec.
 * Sequences of strings are converted at a memory rate of around 4000 Mb/sec.
-* Dicts are about 8-10x slower. Why this should be so different from the expected 2x is a mystery at the moment.
+* Dicts are about 5-10x slower than lists and tuples. 2x of this can be explained a both the key and the value must be converted.
+  The rest of the discrepancy can be explained by, whilst both list and dict operations are O(1), the list insert is much faster as an insert into a dict involves hashing.
 
 Fundamental Types
 ^^^^^^^^^^^^^^^^^^^^^
@@ -108,3 +109,106 @@ This corresponds, roughly, to a data rate of around 500 Mb/s.
 .. image:: plots/test_dict_string.svg.png
     :height: 300px
     :align: center
+
+Round-trip Python to C++ and back to Python
+------------------------------------------------
+
+This uses some methods in the ``cPyCppContainers`` module that takes a Python container, converts it to a new C++
+container and then converts that to a new Python container.
+
+For example to convert a list the following template code is used:
+
+.. code-block:: cpp
+
+    template<typename T>
+    static PyObject *
+    new_list(PyObject *arg) {
+        std::vector<T> vec;
+        if (!py_list_to_cpp_std_vector(arg, vec)) {
+            return cpp_std_vector_to_py_list(vec);
+        }
+        return NULL;
+    }
+
+Then the extension has the following instantiations:
+
+.. code-block:: cpp
+
+    static PyObject *
+    new_list_float(PyObject *Py_UNUSED(module), PyObject *arg) {
+        return new_list<double>(arg);
+    }
+
+    static PyObject *
+    new_list_int(PyObject *Py_UNUSED(module), PyObject *arg) {
+        return new_list<long>(arg);
+    }
+
+    static PyObject *
+    new_list_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
+        return new_list<std::string>(arg);
+    }
+
+Similar code exists for Python dicts of specific types.
+
+Python Lists
+^^^^^^^^^^^^^^^^^^^^
+
+Here is the **round trip** performance of a Python list of floats and a Python list of ints:
+
+.. image:: plots/list_float_int_roundtrip.png
+    :height: 300px
+    :align: center
+
+These are typically **round trip** converted at 0.015 µs per object, say 70m objects a second or around 600 Mb/s.
+
+And Python lists of bytes of different lengths:
+
+.. image:: plots/list_bytes_roundtrip.png
+    :height: 300px
+    :align: center
+
+This **round trip** time for lists can be summarised as:
+
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+float or int    0.015                   600                         Multiply these rates by 2 to get individual conversion rate.
+bytes[8]        0.025                   300
+bytes[64]       0.09                    700
+bytes[512]      0.2                     2500
+bytes[4096]     0.6                     6800
+=============== ======================= =========================== ===================
+
+
+Python dicts
+^^^^^^^^^^^^^^^^^^^^
+
+Here is the round trip time for a Python dict [int, int] to and from a C++ ``std::unordered_map<long, long>``.
+This plots the **round trip** cost *per key/value pair* against dict size.
+
+.. image:: plots/dict_int_roundtrip.png
+    :height: 300px
+    :align: center
+
+
+Here is the **round trip** time for a Python dict [bytes, bytes] to and from a C++ ``std::unordered_map<std::string, std::string>`` for different length bytes objects.
+The key and the value are the same length.
+This plots the **round trip** cost *per key/value pair* against dict size.
+
+.. image:: plots/dict_bytes_roundtrip.png
+    :height: 300px
+    :align: center
+
+This **round trip** time for both keys and values for dicts can be summarised as:
+
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+int             0.1                     80                          Multiply these rates by 4 to get individual conversion rate.
+bytes[8]        0.15                    50
+bytes[64]       0.4                     150
+bytes[512]      1.0                     1000
+bytes[4096]     5.0                     1600
+=============== ======================= =========================== ===================
+

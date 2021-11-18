@@ -1,0 +1,38 @@
+set logscale x
+set grid
+set title "Time to convert a Python List of bytes to a C++ std::vector<std::string> then back to a Python List."
+set xlabel "List length"
+
+set logscale y
+set ylabel "Time per Item (µs)"
+# set yrange [8:35]
+set ytics
+# set ytics 8,35,3
+
+# set logscale y2
+# set y2label "Bytes"
+# set y2range [1:1e9]
+# set y2tics
+
+set pointsize 1
+set datafile separator whitespace
+
+set key right
+
+set terminal svg size 1000,700           # choose the file format
+set output "list_bytes_roundtrip.svg"   # choose the output device
+
+plot "test_new_list_bytes_8.dat" using 1:(1e6 * $3 / $1) t "Length 8" with linespoints, \
+    "test_new_list_bytes_64.dat" using 1:(1e6 * $3 / $1) t "Length 64" with linespoints, \
+    "test_new_list_bytes_512.dat" using 1:(1e6 * $3 / $1) t "Length 512" with linespoints, \
+    "test_new_list_bytes_4096.dat" using 1:(1e6 * $3 / $1) t "Length 4096" with linespoints
+
+set terminal png size 1000,700           # choose the file format
+set output "list_bytes_roundtrip.png"   # choose the output device
+
+plot "test_new_list_bytes_8.dat" using 1:(1e6 * $3 / $1) t "Length 8" with linespoints, \
+    "test_new_list_bytes_64.dat" using 1:(1e6 * $3 / $1) t "Length 64" with linespoints, \
+    "test_new_list_bytes_512.dat" using 1:(1e6 * $3 / $1) t "Length 512" with linespoints, \
+    "test_new_list_bytes_4096.dat" using 1:(1e6 * $3 / $1) t "Length 4096" with linespoints
+
+reset
