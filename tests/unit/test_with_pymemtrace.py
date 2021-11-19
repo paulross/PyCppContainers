@@ -48,3 +48,16 @@ def test_new_list_bytes():
     print(f'RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
     assert 0
 
+
+
+from pymemtrace import cPyMemTrace
+
+import cPyCppContainers
+
+with cPyMemTrace.Profile():
+    for _r in range(10):
+        original = [b' ' * 1024 for _i in range(1024 * 1024)]
+        new_list = cPyCppContainers.new_list_bytes(original)
+
+
+

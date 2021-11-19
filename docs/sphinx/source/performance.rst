@@ -212,3 +212,47 @@ bytes[512]      1.0                     1000
 bytes[4096]     5.0                     1600
 =============== ======================= =========================== ===================
 
+
+Memory Use
+------------------------------------------------
+
+To examine the typical memory use a round-trip was made between Python to C++ and back to Python with a list of bytes.
+The list was 1m long and each member was 1k bytes, so a total of 1Gb to convert to C++ and back to a new Python list.
+This was repeated 10 times and the memory profiled using `pymemtrace <https://pypi.org/project/pymemtrace/>`_.
+
+The code to do this is something like:
+
+.. code-block::
+
+    from pymemtrace import cPyMemTrace
+    
+    import cPyCppContainers
+    
+    with cPyMemTrace.Profile():
+        for _r in range(10):
+            original = [b' ' * 1024 for _i in range(1024 * 1024)]
+            new_list = cPyCppContainers.new_list_bytes(original)
+
+`pymemtrace <https://pypi.org/project/pymemtrace/>`_ produces a log file of memory usage such as (not the actual data that created the plot below):
+
+.. code-block:: text 
+
+          Event        dEvent  Clock        What     File                   #line Function                                  RSS         dRSS
+    NEXT: 0            +0      1.267233     CALL     test_with_pymemtrace.py#  15 _test_new_list_bytes                 29384704     29384704
+    PREV: 83           +83     1.267558     CALL     test_with_pymemtrace.py#  26 <listcomp>                           29384704            0
+    NEXT: 84           +84     1.268744     RETURN   test_with_pymemtrace.py#  26 <listcomp>                           29544448       159744
+    PREV: 87           +3      1.268755     C_CALL   test_with_pymemtrace.py#  28 new_list_bytes                       29544448            0
+    NEXT: 88           +4      2.523796     C_RETURN test_with_pymemtrace.py#  28 new_list_bytes                     1175990272   1146445824
+    NEXT: 89           +1      2.647460     C_CALL   test_with_pymemtrace.py#  29 perf_counter                         34713600  -1141276672
+    PREV: 93           +4      2.647496     CALL     test_with_pymemtrace.py#  26 <listcomp>                           34713600            0
+    NEXT: 94           +5      2.648859     RETURN   test_with_pymemtrace.py#  26 <listcomp>                           34844672       131072
+    NEXT: 95           +1      2.648920     C_CALL   test_with_pymemtrace.py#  27 perf_counter                         34775040       -69632
+    PREV: 97           +2      2.648929     C_CALL   test_with_pymemtrace.py#  28 new_list_bytes                       34775040            0
+    NEXT: 98           +3      3.906950     C_RETURN test_with_pymemtrace.py#  28 new_list_bytes                     1176018944   1141243904
+    NEXT: 99           +1      4.041886     C_CALL   test_with_pymemtrace.py#  29 perf_counter                         34713600  -1141305344
+
+The following is a plot of RSS and change of RSS over time:
+
+.. image:: plots/test_with_pymemtrace.png
+    :height: 300px
+    :align: center
