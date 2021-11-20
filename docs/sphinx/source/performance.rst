@@ -235,7 +235,7 @@ The code to do this is something like:
 
 `pymemtrace <https://pypi.org/project/pymemtrace/>`_ produces a log file of memory usage such as (not the actual data that created the plot below):
 
-.. code-block:: text 
+.. code-block:: text
 
           Event        dEvent  Clock        What     File                   #line Function                                  RSS         dRSS
     NEXT: 0            +0      1.267233     CALL     test_with_pymemtrace.py#  15 _test_new_list_bytes                 29384704     29384704
@@ -253,6 +253,6 @@ The code to do this is something like:
 
 The following is a plot of RSS and change of RSS over time:
 
-.. image:: plots/test_with_pymemtrace.png
+.. image:: plots/pymemtrace_list_bytes.png
     :height: 300px
     :align: center

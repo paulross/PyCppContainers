@@ -112,14 +112,15 @@ The number of conversion functions is worse than the cartesian product of the ty
 dict the types can appear as either a key or a value.
 
 The tables above would normally require 64 conversion functions to be written, tested and documented [#]_ .
-The project uses a mix of C++ templates and code generators to reduce this number to six hand written functions.
+
+This project simplifies this by using a mix of C++ templates and code generators to reduce this number to just **six** hand written functions for all 64 cases.
 
 * Two C++ templates for Python ``tuple`` / ``list`` two way conversions for all types.
 * Two C++ templates for Python ``set`` / ``frozenset`` two way conversions for all types.
 * Two C++ templates for Python ``dict`` two way conversions for all types combinations.
 
-These templates are fairly simple and comprehensible and, for simplicity, code generation via a Python script is used
-to create the extensive number of final functions.
+These templates are fairly simple, comprehensible and, for simplicity, code generation is done with a Python script is used
+to create the final functions.
 
 Hand Written Functions
 =============================
