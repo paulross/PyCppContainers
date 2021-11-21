@@ -216,6 +216,9 @@ bytes[4096]     5.0                     1600
 Memory Use
 ------------------------------------------------
 
+Python Lists of bytes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 To examine the typical memory use a round-trip was made between Python to C++ and back to Python with a list of bytes.
 The list was 1m long and each member was 1k bytes, so a total of 1Gb to convert to C++ and back to a new Python list.
 This was repeated 10 times and the memory profiled using `pymemtrace <https://pypi.org/project/pymemtrace/>`_.
@@ -256,3 +259,39 @@ The following is a plot of RSS and change of RSS over time:
 .. image:: plots/pymemtrace_list_bytes.png
     :height: 300px
     :align: center
+
+Python Dicts of bytes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A similar test was made of a Python dict of bytes.
+Each key and value were 1024 bytes long and the dictionary was 0.5m long.
+The Python dict was round-tripped to a C++ ``std::unordered_map<std::string, std::string>`` and back to a new Python dict.
+
+The code looks like this:
+
+.. code-block::
+
+    with cPyMemTrace.Profile():
+        total_bytes = 2**20 * 2**10
+        byte_length = 1024
+        dict_length = total_bytes // byte_length // 2
+        random_bytes = [random.randint(0, 255) for _i in range(byte_length)]
+        for _r in range(10):
+            original = {}
+            for i in range(dict_length):
+                k = bytes(random_bytes)
+                original[k] = b' ' * byte_length
+                # Shuffle is quite expensive. Try something simpler:
+                # chose a random value and increment it with roll over.
+                index = random.randint(0, byte_length - 1)
+                random_bytes[index] = (random_bytes[index] + 1) % 256
+            cPyCppContainers.new_dict_bytes_bytes(original)
+
+The following is a plot of RSS and change of RSS over time:
+
+.. image:: plots/pymemtrace_dict_bytes.png
+    :height: 300px
+    :align: center
+
+On entry to ``new_dict_bytes_bytes`` the RSS is typically 1600Mb.
+On exit to ``new_dict_bytes_bytes`` the RSS is typically 4000Mb, the cost of the ``std::unordered_map<std::string, std::string>`` and a new Python dict.

@@ -1,0 +1,85 @@
+#     Event        dEvent  Clock        What     File                   #line Function                                  RSS         dRSS
+# $1  $2           $3      $4           $5       $6                        $7 $8                                         $9          $10
+NEXT: 0            +0      1.200389     CALL     test_with_pymemtrace.py#  52 _test_new_dict_bytes                 29454336     29454336
+PREV: 7353543      +28     25.425186    C_CALL   test_with_pymemtrace.py#  76 new_dict_bytes_bytes               1687023616            0
+NEXT: 7353544      +29     29.003614    C_RETURN test_with_pymemtrace.py#  76 new_dict_bytes_bytes               4348948480   2661924864
+NEXT: 7353545      +1      29.547445    C_CALL   test_with_pymemtrace.py#  77 perf_counter                       2218274816  -2130673664
+PREV: 7353548      +3      29.547473    C_RETURN test_with_pymemtrace.py#  78 append                             2218274816            0
+PREV: 14694913     +50     54.157781    C_CALL   test_with_pymemtrace.py#  76 new_dict_bytes_bytes               1710141440            0
+NEXT: 14694914     +51     57.172225    C_RETURN test_with_pymemtrace.py#  76 new_dict_bytes_bytes               4379656192   2669514752
+NEXT: 14694915     +1      57.632597    C_CALL   test_with_pymemtrace.py#  77 perf_counter                       2257362944  -2122293248
+PREV: 14694918     +3      57.632622    C_RETURN test_with_pymemtrace.py#  78 append                             2257362944            0
+PREV: 22032197     +50     81.978363    C_CALL   test_with_pymemtrace.py#  76 new_dict_bytes_bytes               1715617792            0
+NEXT: 22032198     +51     85.365700    C_RETURN test_with_pymemtrace.py#  76 new_dict_bytes_bytes               4383645696   2668027904
+NEXT: 22032199     +1      85.895255    C_CALL   test_with_pymemtrace.py#  77 perf_counter                       2236190720  -2147454976
+PREV: 22032200     +1      85.895268    C_RETURN test_with_pymemtrace.py#  77 perf_counter                       2236190720            0
+NEXT: 22032201     +2      85.895548    C_CALL   test_with_pymemtrace.py#  78 append                             2236194816         4096
+PREV: 22032202     +1      85.895559    C_RETURN test_with_pymemtrace.py#  78 append                             2236194816            0
+PREV: 29368821     +26     110.377228   C_CALL   test_with_pymemtrace.py#  76 new_dict_bytes_bytes               1719599104            0
+NEXT: 29368822     +27     113.614193   C_RETURN test_with_pymemtrace.py#  76 new_dict_bytes_bytes               4415074304   2695475200
+NEXT: 29368823     +1      114.098056   C_CALL   test_with_pymemtrace.py#  77 perf_counter                       2259222528  -2155851776
+PREV: 29368826     +3      114.098077   C_RETURN test_with_pymemtrace.py#  78 append                             2259222528            0
+PREV: 36706969     +26     138.411979   C_CALL   test_with_pymemtrace.py#  76 new_dict_bytes_bytes               1717473280            0
+NEXT: 36706970     +27     141.604930   C_RETURN test_with_pymemtrace.py#  76 new_dict_bytes_bytes               4337868800   2620395520
+NEXT: 36706971     +1      142.120747   C_CALL   test_with_pymemtrace.py#  77 perf_counter                       2265903104  -2071965696
+PREV: 36706974     +3      142.120771   C_RETURN test_with_pymemtrace.py#  78 append                             2265903104            0
+PREV: 44045149     +26     166.775842   C_CALL   test_with_pymemtrace.py#  76 new_dict_bytes_bytes               1717878784            0
+NEXT: 44045150     +27     169.943899   C_RETURN test_with_pymemtrace.py#  76 new_dict_bytes_bytes               4380921856   2663043072
+NEXT: 44045151     +1      170.398046   C_CALL   test_with_pymemtrace.py#  77 perf_counter                       2241863680  -2139058176
+PREV: 44045154     +3      170.398067   C_RETURN test_with_pymemtrace.py#  78 append                             2241863680            0
+PREV: 51385337     +38     195.004718   C_CALL   test_with_pymemtrace.py#  76 new_dict_bytes_bytes               1716875264            0
+NEXT: 51385338     +39     198.233464   C_RETURN test_with_pymemtrace.py#  76 new_dict_bytes_bytes               4373467136   2656591872
+NEXT: 51385339     +1      198.748085   C_CALL   test_with_pymemtrace.py#  77 perf_counter                       2226008064  -2147459072
+PREV: 51385342     +3      198.748108   C_RETURN test_with_pymemtrace.py#  78 append                             2226008064            0
+PREV: 58728825     +28     223.060105   C_CALL   test_with_pymemtrace.py#  76 new_dict_bytes_bytes               1717948416            0
+NEXT: 58728826     +29     226.280833   C_RETURN test_with_pymemtrace.py#  76 new_dict_bytes_bytes               4396548096   2678599680
+NEXT: 58728827     +1      226.781812   C_CALL   test_with_pymemtrace.py#  77 perf_counter                       2257481728  -2139066368
+PREV: 58728830     +3      226.781836   C_RETURN test_with_pymemtrace.py#  78 append                             2257481728            0
+PREV: 66070909     +30     250.889965   C_CALL   test_with_pymemtrace.py#  76 new_dict_bytes_bytes               1718243328            0
+NEXT: 66070910     +31     253.978974   C_RETURN test_with_pymemtrace.py#  76 new_dict_bytes_bytes               4391596032   2673352704
+NEXT: 66070911     +1      254.484362   C_CALL   test_with_pymemtrace.py#  77 perf_counter                       2252525568  -2139070464
+PREV: 66070912     +1      254.484374   C_RETURN test_with_pymemtrace.py#  77 perf_counter                       2252525568            0
+NEXT: 66070913     +2      254.484616   C_CALL   test_with_pymemtrace.py#  78 append                             2252529664         4096
+NEXT: 66070914     +1      254.484807   C_RETURN test_with_pymemtrace.py#  78 append                             2252537856         8192
+PREV: 73411311     +26     279.479690   C_CALL   test_with_pymemtrace.py#  76 new_dict_bytes_bytes               1719169024            0
+NEXT: 73411312     +27     282.508592   C_RETURN test_with_pymemtrace.py#  76 new_dict_bytes_bytes               4309217280   2590048256
+NEXT: 73411313     +1      283.000750   C_CALL   test_with_pymemtrace.py#  77 perf_counter                       2178543616  -2130673664
+PREV: 73411314     +1      283.000760   C_RETURN test_with_pymemtrace.py#  77 perf_counter                       2178543616            0
+NEXT: 73411315     +2      283.000785   C_CALL   test_with_pymemtrace.py#  78 append                             2178551808         8192
+PREV: 73411322     +7      283.000989   C_RETURN test_with_pymemtrace.py#  80 print                              2178551808            0
+NEXT: 73411323     +8      283.001493   C_CALL   test_with_pymemtrace.py#  81 join                               2178588672        36864
+PREV: 73411324     +1      283.001507   CALL     test_with_pymemtrace.py#  81 <genexpr>                          2178588672            0
+NEXT: 73411325     +2      283.001892   RETURN   test_with_pymemtrace.py#  81 <genexpr>                          2178625536        36864
+PREV: 73411345     +20     283.001965   RETURN   test_with_pymemtrace.py#  81 <genexpr>                          2178625536            0
+NEXT: 73411346     +21     283.001986   C_RETURN test_with_pymemtrace.py#  81 join                               2178633728         8192
+PREV: 73411370     +24     283.002129   C_RETURN test_with_pymemtrace.py#  82 print                              2178633728            0
+NEXT: 73411371     +25     283.002402   CALL     /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_common.py# 443 wrapper                            2178658304        24576
+NEXT: 73411372     +1      283.002740   CALL     /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/__init__.py#1045 memory_info                        2178707456        49152
+NEXT: 73411373     +1      283.003031   CALL     /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_psosx.py# 341 wrapper                            2178748416        40960
+NEXT: 73411374     +1      283.003068   CALL     /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_psosx.py# 473 memory_info                        2178760704        12288
+NEXT: 73411375     +1      283.003114   CALL     /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_psosx.py# 341 wrapper                            2178789376        28672
+NEXT: 73411376     +1      283.003130   CALL     /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_common.py# 443 wrapper                            2178793472         4096
+NEXT: 73411377     +1      283.003160   CALL     /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_psosx.py# 401 _get_pidtaskinfo                   2178805760        12288
+NEXT: 73411378     +1      283.003927   CALL     /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/contextlib.py   # 261 helper                             2178838528        32768
+NEXT: 73411379     +1      283.004622   CALL     /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/contextlib.py   #  86 __init__                           2178883584        45056
+NEXT: 73411380     +1      283.004723   C_CALL   /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/contextlib.py   #  90 getattr                            2178928640        45056
+NEXT: 73411381     +1      283.004744   C_RETURN /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/contextlib.py   #  90 getattr                            2178936832         8192
+NEXT: 73411382     +1      283.004755   RETURN   /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/contextlib.py   #  93 __init__                           2178940928         4096
+PREV: 73411386     +4      283.004773   CALL     /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_psosx.py# 357 catch_zombie                       2178940928            0
+NEXT: 73411387     +5      283.004788   RETURN   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_psosx.py# 365 catch_zombie                       2178949120         8192
+PREV: 73411389     +2      283.004794   RETURN   /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/contextlib.py   # 119 __enter__                          2178949120            0
+NEXT: 73411390     +3      283.004831   C_CALL   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_psosx.py# 406 proc_pidtaskinfo_oneshot           2178965504        16384
+NEXT: 73411391     +1      283.004850   C_RETURN /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_psosx.py# 406 proc_pidtaskinfo_oneshot           2178973696         8192
+NEXT: 73411392     +1      283.004862   CALL     /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/contextlib.py   # 123 __exit__                           2178977792         4096
+NEXT: 73411393     +1      283.004878   C_CALL   /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/contextlib.py   # 126 next                               2178985984         8192
+PREV: 73411399     +6      283.004905   C_RETURN /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_psosx.py# 407 len                                2178985984            0
+NEXT: 73411400     +7      283.004915   C_CALL   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_psosx.py# 407 len                                2178990080         4096
+PREV: 73411404     +4      283.004961   RETURN   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_psosx.py# 344 wrapper                            2178990080            0
+NEXT: 73411405     +5      283.005048   CALL     <string>#   1 <lambda>                           2179035136        45056
+NEXT: 73411406     +1      283.005073   C_CALL   <string>#   1 __new__                            2179051520        16384
+NEXT: 73411407     +1      283.005108   C_RETURN <string>#   1 __new__                            2179055616         4096
+PREV: 73411412     +5      283.005128   RETURN   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/venv/lib/python3.9/site-packages/psutil/_common.py# 450 wrapper                            2179055616            0
+NEXT: 73411413     +6      283.005161   C_CALL   test_with_pymemtrace.py#  84 print                              2179063808         8192
+NEXT: 73411414     +1      283.005195   CALL     /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/codecs.py# 327 reset                              2179067904         4096
+PREV: 73411423     +9      283.005236   RETURN   test_with_pymemtrace.py#  84 _test_new_dict_bytes               2179067904            0
+NEXT: 73411424     +10     283.640563   C_CALL   test_with_pymemtrace.py#  91 __exit__                            230916096  -1948151808

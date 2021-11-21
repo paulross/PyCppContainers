@@ -55,9 +55,9 @@ def _test_new_dict_bytes():
     # 1Gb
     total_bytes = 2**20 * 2**10
     byte_length = 1024
-    total_bytes = 2**20 * 2**4
-    byte_length = 1024
-    dict_length = total_bytes // byte_length
+    # total_bytes = 2**20 * 2**4
+    # byte_length = 1024
+    dict_length = total_bytes // byte_length // 2
     print(f'_test_new_dict_bytes(): Total bytes: {total_bytes:16,d} byte length: {byte_length:16,d} dict length: {dict_length:16,d}')
     random_bytes = [random.randint(0, 255) for _i in range(byte_length)]
     byte_entry = b' ' * byte_length
@@ -69,7 +69,7 @@ def _test_new_dict_bytes():
             original[k] = b' ' * byte_length
             # random.shuffle(random_bytes)
             # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
-            index = random.randint(0, len(random_bytes) - 1)
+            index = random.randint(0, byte_length - 1)
             random_bytes[index] = (random_bytes[index] + 1) % 256
         print(f'Actual dict length: {len(original):16,d}')
         time_start = time.perf_counter()
@@ -87,7 +87,7 @@ def _test_new_dict_bytes():
 def test_new_dict_bytes():
     proc = psutil.Process()
     rss = proc.memory_info().rss
-    with cPyMemTrace.Profile():
+    with cPyMemTrace.Profile(4096 * 16):
         _test_new_dict_bytes()
     gc.collect()
     # for i in range(4):
