@@ -154,13 +154,13 @@ Similar code exists for Python dicts of specific types.
 Python Lists
 ^^^^^^^^^^^^^^^^^^^^
 
-Here is the **round trip** performance of a Python list of floats and a Python list of ints:
+Here is the *round trip* performance of a Python list of floats and a Python list of ints:
 
 .. image:: plots/list_float_int_roundtrip.png
     :height: 300px
     :align: center
 
-These are typically **round trip** converted at 0.015 µs per object, say 70m objects a second or around 600 Mb/s.
+These are typically *round trip* converted at 0.015 µs per object, say 70m objects a second or around 600 Mb/s.
 
 And Python lists of bytes of different lengths:
 
@@ -168,7 +168,7 @@ And Python lists of bytes of different lengths:
     :height: 300px
     :align: center
 
-This **round trip** time for lists can be summarised as:
+This *round trip* time for lists can be summarised as:
 
 =============== ======================= =========================== ===================
 Object          ~Time per object (µs)   Rate Mb/s                   Notes
@@ -185,22 +185,22 @@ Python dicts
 ^^^^^^^^^^^^^^^^^^^^
 
 Here is the round trip time for a Python dict [int, int] to and from a C++ ``std::unordered_map<long, long>``.
-This plots the **round trip** cost *per key/value pair* against dict size.
+This plots the *round trip* cost *per key/value pair* against dict size.
 
 .. image:: plots/dict_int_roundtrip.png
     :height: 300px
     :align: center
 
 
-Here is the **round trip** time for a Python dict [bytes, bytes] to and from a C++ ``std::unordered_map<std::string, std::string>`` for different length bytes objects.
+Here is the *round trip* time for a Python dict [bytes, bytes] to and from a C++ ``std::unordered_map<std::string, std::string>`` for different length bytes objects.
 The key and the value are the same length.
-This plots the **round trip** cost *per key/value pair* against dict size.
+This plots the *round trip* cost *per key/value pair* against dict size.
 
 .. image:: plots/dict_bytes_roundtrip.png
     :height: 300px
     :align: center
 
-This **round trip** time for both keys and values for dicts can be summarised as:
+This *round trip* time for both keys and values for dicts can be summarised as:
 
 =============== ======================= =========================== ===================
 Object          ~Time per object (µs)   Rate Mb/s                   Notes
@@ -221,8 +221,10 @@ Python Lists of bytes
 
 To examine the typical memory use a round-trip was made between Python to C++ and back to Python with a list of bytes.
 The list was 1m long and each member was 1k bytes, so a total of 1Gb to convert to C++ and back to a new Python list.
-This was repeated 10 times and the memory profiled using `pymemtrace <https://pypi.org/project/pymemtrace/>`_.
+This is a gigabyte sized list of objects.
 
+The creation/destruction was repeated 10 times and the memory profiled using
+`pymemtrace <https://pypi.org/project/pymemtrace/>`_.
 The code to do this is something like:
 
 .. code-block::
@@ -260,10 +262,21 @@ The following is a plot of RSS and change of RSS over time:
     :height: 300px
     :align: center
 
+This result is rather surprising.
+The maximum RSS should reflect that at some point the following are held in memory:
+
+- Basic Python, say 30Mb
+- The original Python list of bytes, 1024Mb.
+- The C++ ``std::vector<std::string>``, 1024Mb.
+- The new Python list of bytes, 1024Mb.
+
+This would be a total of 3102Mb.
+However we are seeing a maximum RSS of only around 2200Mb.
+
 Python Dicts of bytes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A similar test was made of a Python dict of bytes.
+A similar test was made of a gigabyte sized Python dict of bytes.
 Each key and value were 1024 bytes long and the dictionary was 0.5m long.
 The Python dict was round-tripped to a C++ ``std::unordered_map<std::string, std::string>`` and back to a new Python dict.
 
@@ -271,7 +284,7 @@ The code looks like this:
 
 .. code-block::
 
-    with cPyMemTrace.Profile():
+    with cPyMemTrace.Profile(4096 * 16):
         total_bytes = 2**20 * 2**10
         byte_length = 1024
         dict_length = total_bytes // byte_length // 2
@@ -293,5 +306,22 @@ The following is a plot of RSS and change of RSS over time:
     :height: 300px
     :align: center
 
-On entry to ``new_dict_bytes_bytes`` the RSS is typically 1600Mb.
-On exit to ``new_dict_bytes_bytes`` the RSS is typically 4000Mb, the cost of the ``std::unordered_map<std::string, std::string>`` and a new Python dict.
+In the dictionary case constructing the original dict takes around 1500Mb.
+So on entry to ``new_dict_bytes_bytes`` the RSS is typically 1700Mb.
+Constructing the ``std::unordered_map<std::string, std::string>`` and a new Python dict takes an extra 2500Mb taking the total memory to around 4200MB.
+On exit from ``new_dict_bytes_bytes`` the RSS decreases in two stages, destroying the
+``std::unordered_map<std::string, std::string>`` frees 2000Mb then freeing the original gives back another 2000Mb.
+This brings the total RSS back down to 200Mb.
+
+In theory the maximum RSS use should be:
+
+- Basic Python, say 30Mb
+- The original Python dict, 1024Mb.
+- The C++ ``std::unordered_map<std::string, std::string>``, 1024Mb.
+- The new Python dict, 1024Mb.
+
+This would be a total of 3102Mb.
+The fact that we are seeing around 4200Mb,  35% more, is probably due to over-allocation either any or all of the Python
+dict or bytes allocators or the C++ ``std::unordered_map<T>`` or ``std::string`` allocators.
+
+Both of these graphs show that there are no memory leaks.
