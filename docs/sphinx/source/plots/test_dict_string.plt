@@ -21,8 +21,27 @@ set datafile separator whitespace
 
 set key left
 
-set terminal svg size 1000,700           # choose the file format
+set terminal svg size 1400,700           # choose the file format
 set output "test_dict_string.svg"   # choose the output device
+
+#plot "test_dict_string.dat" using 1:(1e6 * $2 / $1) t "String size 8" with linespoints axes x1y1 pt 1 lw 1, \
+    "test_dict_string.dat" using 1:(1e6 * $3 / $1) t "String size 16" with linespoints axes x1y1 pt 2 lw 1, \
+    "test_dict_string.dat" using 1:(1e6 * $4 / $1) t "String size 32" with linespoints axes x1y1 pt 2 lw 1, \
+    "test_dict_string.dat" using 1:(1e6 * $5 / $1) t "String size 64" with linespoints axes x1y1 pt 2 lw 1, \
+    "test_dict_string.dat" using 1:(1e6 * $6 / $1) t "String size 128" with linespoints axes x1y1 pt 2 lw 1, \
+    "test_dict_string.dat" using 1:(1e6 * $7 / $1) t "String size 256" with linespoints axes x1y1 pt 2 lw 1, \
+    "test_dict_string.dat" using 1:(1e6 * $8 / $1) t "String size 512" with linespoints axes x1y1 pt 2 lw 1, \
+    "test_dict_string.dat" using 1:(1e6 * $9 / $1) t "String size 1024" with linespoints axes x1y1 pt 2 lw 1, \
+    "test_dict_string.dat" using 1:(1e6 * $10 / $1) t "String size 2048" with linespoints axes x1y1 pt 2 lw 1, \
+    "test_dict_string.dat" using 1:(1e6 * $11 / $1) t "String size 4096" with linespoints axes x1y1 pt 2 lw 1
+
+plot "test_dict_string.dat" using 1:(1e6 * $2 / $1) t "String size 8" with linespoints axes x1y1 pt 1 lw 1, \
+    "test_dict_string.dat" using 1:(1e6 * $5 / $1) t "String size 64" with linespoints axes x1y1 pt 2 lw 1, \
+    "test_dict_string.dat" using 1:(1e6 * $8 / $1) t "String size 512" with linespoints axes x1y1 pt 2 lw 1, \
+    "test_dict_string.dat" using 1:(1e6 * $11 / $1) t "String size 4096" with linespoints axes x1y1 pt 2 lw 1
+
+set terminal png size 1400,700           # choose the file format
+set output "test_dict_string.svg.png"   # choose the output device
 
 #plot "test_dict_string.dat" using 1:(1e6 * $2 / $1) t "String size 8" with linespoints axes x1y1 pt 1 lw 1, \
     "test_dict_string.dat" using 1:(1e6 * $3 / $1) t "String size 16" with linespoints axes x1y1 pt 2 lw 1, \

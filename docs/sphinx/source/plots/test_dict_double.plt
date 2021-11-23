@@ -21,8 +21,14 @@ set datafile separator whitespace
 
 set key left
 
-set terminal svg size 1000,700           # choose the file format
+set terminal svg size 1400,700           # choose the file format
 set output "test_dict_double.svg"   # choose the output device
+
+plot "test_dict_double.dat" using 1:(1e6 * $2 / $1) t "C++ to Python" with linespoints axes x1y1 pt 1 lw 1, \
+    "test_dict_double.dat" using 1:(1e6 * $3 / $1) t "Python to C++" with linespoints axes x1y1 pt 2 lw 1
+
+set terminal png size 1400,700           # choose the file format
+set output "test_dict_double.svg.png"   # choose the output device
 
 plot "test_dict_double.dat" using 1:(1e6 * $2 / $1) t "C++ to Python" with linespoints axes x1y1 pt 1 lw 1, \
     "test_dict_double.dat" using 1:(1e6 * $3 / $1) t "Python to C++" with linespoints axes x1y1 pt 2 lw 1

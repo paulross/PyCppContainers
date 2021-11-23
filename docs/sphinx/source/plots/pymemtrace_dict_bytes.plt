@@ -21,7 +21,7 @@ set datafile separator whitespace
 
 set key left
 
-set terminal svg size 1000,700           # choose the file format
+set terminal svg size 1400,700           # choose the file format
 set output "pymemtrace_dict_bytes.svg"   # choose the output device
 
 plot "pymemtrace_dict_bytes.dat" using 4:($9 / (1024 * 1024)) t "RSS (Mb)" with linespoints axes x1y1 pt 1 lw 1, \
@@ -31,7 +31,7 @@ plot "pymemtrace_dict_bytes.dat" using 4:($9 / (1024 * 1024)) t "RSS (Mb)" with 
 
 #reset
 
-set terminal png size 1000,700           # choose the file format
+set terminal png size 1400,700           # choose the file format
 set output "pymemtrace_dict_bytes.png"   # choose the output device
 
 plot "pymemtrace_dict_bytes.dat" using 4:($9 / (1024 * 1024)) t "RSS (Mb)" with linespoints axes x1y1 pt 1 lw 1, \

@@ -21,8 +21,14 @@ set datafile separator whitespace
 
 set key left
 
-set terminal svg size 1000,700           # choose the file format
+set terminal svg size 1400,700           # choose the file format
 set output "vector_string_to_tuple_candlestick.svg"   # choose the output device
+
+plot "vector_string_to_tuple_candlestick.dat" using 1:(1e6 * $4 / $1):(1e6 * ($2 - $3) / $1):(1e6 * ($2 + $3) / $1):(1e6 * $5 / $1) t "String length 128" with candlesticks whiskerbars 0.5
+#plot "vector_string_to_tuple_candlestick.dat" using 1:(1e6 * $2 / $1):(1e6 * $4 / $1):(1e6 * $5 / $1) t "String length 128" with yerrorbars
+
+set terminal png size 1400,700           # choose the file format
+set output "vector_string_to_tuple_candlestick.svg.png"   # choose the output device
 
 plot "vector_string_to_tuple_candlestick.dat" using 1:(1e6 * $4 / $1):(1e6 * ($2 - $3) / $1):(1e6 * ($2 + $3) / $1):(1e6 * $5 / $1) t "String length 128" with candlesticks whiskerbars 0.5
 #plot "vector_string_to_tuple_candlestick.dat" using 1:(1e6 * $2 / $1):(1e6 * $4 / $1):(1e6 * $5 / $1) t "String length 128" with yerrorbars

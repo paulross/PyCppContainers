@@ -19,7 +19,7 @@ set datafile separator whitespace
 
 set key right
 
-set terminal svg size 1000,700           # choose the file format
+set terminal svg size 1400,700           # choose the file format
 set output "list_bytes_roundtrip.svg"   # choose the output device
 
 plot "test_new_list_bytes_8.dat" using 1:(1e6 * $3 / $1) t "Length 8" with linespoints, \
@@ -27,7 +27,7 @@ plot "test_new_list_bytes_8.dat" using 1:(1e6 * $3 / $1) t "Length 8" with lines
     "test_new_list_bytes_512.dat" using 1:(1e6 * $3 / $1) t "Length 512" with linespoints, \
     "test_new_list_bytes_4096.dat" using 1:(1e6 * $3 / $1) t "Length 4096" with linespoints
 
-set terminal png size 1000,700           # choose the file format
+set terminal png size 1400,700           # choose the file format
 set output "list_bytes_roundtrip.png"   # choose the output device
 
 plot "test_new_list_bytes_8.dat" using 1:(1e6 * $3 / $1) t "Length 8" with linespoints, \
