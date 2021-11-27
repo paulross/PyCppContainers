@@ -139,6 +139,7 @@ std::ostream &operator<<(std::ostream &os, const TestResult &result) {
         // Repeat
         os << std::setw(8) << result.numTests(scale);
         os << std::setw(TIME_WIDTH) << std::fixed << std::setprecision(TIME_PRECISION);
+        // Execution time from execTime, normally the mean.
         os << result.execTime(scale);
         // Standard deviation
         if (result.hasExecTimeStdDev(scale)) {
@@ -159,7 +160,7 @@ std::ostream &operator<<(std::ostream &os, const TestResult &result) {
         }
         // Count
         os << std::setw(10) << result.testCount(scale);
-        // Rate
+        // Rate, this uses execTime which is usually the mean execution time.
         if (result.testCount(scale) > 0) {
             os << std::setw(14) << std::fixed << std::setprecision(1);
             os << result.testCount(scale) / result.execTime(scale);
@@ -192,7 +193,7 @@ void TestResultS::dump_header(std::ostream &os) const {
     os << std::setw(4) << "Fail";
     os << std::setw(8) << "Scale";
     os << std::setw(8) << "Repeat";
-    os << std::setw(TIME_WIDTH) << "Time(s)";
+    os << std::setw(TIME_WIDTH) << "Mean(s)";
     os << std::setw(TIME_WIDTH) << "Std.Dev.(s)";
     os << std::setw(TIME_WIDTH) << "Min.(s)";
     os << std::setw(TIME_WIDTH) << "Max.(s)";

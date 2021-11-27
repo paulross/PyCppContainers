@@ -456,6 +456,7 @@ int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::
 }
 
 int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len);
-int test_vector_string_to_py_tuple_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat);
 
+PyObject *
+new_py_tuple_bytes(size_t size, size_t str_len);
 #endif // PYTHONCPPHOMOGENEOUSCONTAINERS_TEST_COMMON_H

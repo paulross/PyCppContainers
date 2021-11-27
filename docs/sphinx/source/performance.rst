@@ -22,49 +22,30 @@ The C++ code was compiled with ``-O3`` and run on the following hardware:
     System Version:             macOS 10.14.6 (18G9323)
     Kernel Version:             Darwin 18.7.0
 
-Summary
------------------
+C++ Performance Tests
+-------------------------
 
-* Sequences of fundamental types are converted at around 100m objects/sec.
-* Sequences of strings are converted at a memory rate of around 4000 Mb/sec.
-* Dicts are about 5-10x slower than lists and tuples. 2x of this can be explained a both the key and the value must be converted.
-  The rest of the discrepancy can be explained by, whilst both list and dict operations are O(1), the list insert is much faster as an insert into a dict involves hashing.
-
-Fundamental Types
-^^^^^^^^^^^^^^^^^^^^^
-
-Converting and copying of ``int``/``long`` and ``float``/``double`` takes about 0.01 µs per object (100m objects per second) for large containers.
-This corresponds to around 800 Mb/s.
-``boolean``/``bool`` is around 2x to 5x faster.
-
-Strings of Different Lengths
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-With ``bytes``/``std::string`` converting and conversion takes about the following.
-The performance appears appears linear (with some latency for small strings):
-
-=============== ======================= =========================== ===================
-String size     ~Time per object (µs)   ~Rate, million per second   ~Rate x Size Mb/s
-=============== ======================= =========================== ===================
-8               0.02                    50                          400
-64              0.03                    30                          2000
-512             0.1                     10                          5000
-4096            1.0                     1                           4000
-=============== ======================= =========================== ===================
+These tests are in ``src/cpy/tests/test_performance.h`` and ``src/cpy/tests/test_performance.cpp``.
 
 Python Tuple to a C++ ``std::vector``
------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Here is an example of converting a Python tuple to a C++ ``std::vector<T>`` for up to 1m ``bool``, ``long`` and ``double`` types.
-Time is per-object in µs.
-So 1m float/long conversion takes about 10 to 20 ms.
+The function is ``test_perf_py_tuple_to_vector<T, ...>``.
+The Y-axis is the time is per-object in µs.
 
 .. image:: plots/test_py_tuple_to_vector.svg.png
     :height: 300px
     :align: center
 
+Notes:
+
+* For int and float the  conversion rate is around 0.015 µs per item or around 70m objects per second.
+* booleans are twice as quick taking around 0.007 µs/object or around 150m/s.
+* A 1m float/long conversion takes about 10 to 20 ms in total.
+
 C++ ``std::vector`` to a Python Tuple
------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This is the reverse of the above, the time to convert a C++ ``std::vector<T>`` to a Python  ``tuple`` for up to 1m ``bool``, ``long`` and ``double`` types.
 
@@ -72,26 +53,29 @@ This is the reverse of the above, the time to convert a C++ ``std::vector<T>`` t
     :height: 300px
     :align: center
 
+The performance is very similar to the Python Tuple to a C++ ``std::vector`` test above.
+
 Python Tuple of ``bytes`` to a C++ ``std::vector<std::string>>``
------------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This shows the conversion cost of various length strings.
-
-.. image:: plots/test_vector_string_to_py_tuple.svg.png
-    :height: 300px
-    :align: center
-
-C++ ``std::vector<std::string>>`` to a Python Tuple of ``bytes``
------------------------------------------------------------------
-
-This is the reverse of the above.
 
 .. image:: plots/test_py_tuple_string_to_vector.svg.png
     :height: 300px
     :align: center
 
+
+C++ ``std::vector<std::string>>`` to a Python Tuple of ``bytes``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is the reverse of the above.
+
+.. image:: plots/test_vector_string_to_py_tuple.svg.png
+    :height: 300px
+    :align: center
+
 Python Dict of [float, float] to a C++ ``std::unordered_map<double, double>``
-----------------------------------------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This shows the conversion rate of a dict of floats to and from Python.
 At 0.1 µs per item (10m objects/s) this rate is about one-tenth of the rate of converting a sequence.
@@ -101,7 +85,7 @@ At 0.1 µs per item (10m objects/s) this rate is about one-tenth of the rate of 
     :align: center
 
 Python Dict of [bytes, bytes] to a C++ ``std::unordered_map<std::string, std::string>``
-------------------------------------------------------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Similarly for dicts of bytes.
 This corresponds, roughly, to a data rate of around 500 Mb/s.
@@ -325,3 +309,35 @@ The fact that we are seeing around 4200Mb,  35% more, is probably due to over-al
 dict or bytes allocators or the C++ ``std::unordered_map<T>`` or ``std::string`` allocators.
 
 Both of these graphs show that there are no memory leaks.
+
+
+Summary
+-----------------
+
+* Sequences of fundamental types are converted at around 100m objects/sec.
+* Sequences of strings are converted at a memory rate of around 4000 Mb/sec.
+* Dicts are about 5-10x slower than lists and tuples. 2x of this can be explained a both the key and the value must be converted.
+  The rest of the discrepancy can be explained by, whilst both list and dict operations are O(1), the list insert is much faster as an insert into a dict involves hashing.
+
+Fundamental Types
+^^^^^^^^^^^^^^^^^^^^^
+
+Converting and copying of ``int``/``long`` and ``float``/``double`` takes about 0.01 µs per object (100m objects per second) for large containers.
+This corresponds to around 800 Mb/s.
+``boolean``/``bool`` is around 2x to 5x faster.
+
+Strings of Different Lengths
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+With ``bytes``/``std::string`` converting and conversion takes about the following.
+The performance appears appears linear (with some latency for small strings):
+
+=============== ======================= =========================== ===================
+String size     ~Time per object (µs)   ~Rate, million per second   ~Rate x Size Mb/s
+=============== ======================= =========================== ===================
+8               0.02                    50                          400
+64              0.03                    30                          2000
+512             0.1                     10                          5000
+4096            1.0                     1                           4000
+=============== ======================= =========================== ===================
+
