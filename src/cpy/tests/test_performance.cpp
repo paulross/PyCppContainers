@@ -12,11 +12,13 @@
 // Container lengths.
 const size_t MIN_SIZE_OF_CONTAINER = 1;
 const size_t LIMIT_SIZE_OF_CONTAINER = 1 << 21; // Maximum value < this value
-const size_t INC_SIZE_OF_CONTAINER_MULTIPLE = 2;
+const size_t INC_SIZE_OF_CONTAINER_MULTIPLE = 2; // How much to increment the container size.
+// How many times to repeat tests.
+const size_t TEST_REPEAT = 5;
 // String lengths.
 const size_t MIN_STRING_LENGTH = 8;
-const size_t LIMIT_STRING_LENGTH = 16;//4096 * 2; // Maximum value < this value
-const size_t INC_STRING_LENGTH_MULTIPLE = 4;
+const size_t LIMIT_STRING_LENGTH = 4096 * 2; // Maximum value < this value
+const size_t INC_STRING_LENGTH_MULTIPLE = 8; // How much to increment the string size.
 
 template<typename T, T (*ConvertPyToCpp)(PyObject *)>
 int test_perf_vector_to_py_tuple(TestResultS &test_results, const std::string &type) {
@@ -252,14 +254,14 @@ void test_performance_all(TestResultS &test_results) {
 //        test_cpp_std_unordered_map_to_py_dict_string(test_results);
 //        std::cout << rss << std::endl;
 //    }
-//    {
-//        RSSSnapshot rss("test_perf_vector_string_to_py_tuple_multiple");
-//        test_perf_vector_string_to_py_tuple_multiple(test_results, 2);
-//        std::cout << rss << std::endl;
-//    }
     {
         RSSSnapshot rss("test_perf_vector_string_to_py_tuple_multiple");
-        test_perf_py_tuple_to_vector_string_multiple(test_results, 10);
+        test_perf_vector_string_to_py_tuple_multiple(test_results, TEST_REPEAT);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_vector_string_to_py_tuple_multiple");
+        test_perf_py_tuple_to_vector_string_multiple(test_results, TEST_REPEAT);
         std::cout << rss << std::endl;
     }
     std::cout << "====" << rss_overall << std::endl;

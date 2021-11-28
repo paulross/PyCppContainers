@@ -22,6 +22,24 @@ The C++ code was compiled with ``-O3`` and run on the following hardware:
     System Version:             macOS 10.14.6 (18G9323)
     Kernel Version:             Darwin 18.7.0
 
+Mac Mini 'B':
+
+.. code-block:: none
+
+    Model Name:	Mac mini
+    Model Identifier:	Macmini9,1
+    Chip:	Apple M1
+    Total Number of Cores:	8 (4 performance and 4 efficiency)
+    Memory:	16 GB
+    System Firmware Version:	6723.120.36
+    OS Loader Version:	6723.120.36
+
+    System Version:	macOS 11.4 (20F71)
+    Kernel Version:	Darwin 20.5.0
+
+
+
+
 C++ Performance Tests
 -------------------------
 
