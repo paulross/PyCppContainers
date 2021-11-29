@@ -38,8 +38,6 @@ Mac Mini 'B':
     Kernel Version:	Darwin 20.5.0
 
 
-
-
 C++ Performance Tests
 -------------------------
 
@@ -76,21 +74,37 @@ The performance is very similar to the Python Tuple to a C++ ``std::vector`` tes
 Python Tuple of ``bytes`` to a C++ ``std::vector<std::string>>``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This shows the conversion cost of various length strings.
+This shows the conversion cost of various length strings from a Python tuple to a C++ vector.
+Each test was repeated 5 times.
+The line shows the mean time per object in µs.
+The extreme whiskers show the minimum and maximum test values.
+The box shows the mean time ±the standard deviation, this is asymmetric as it is plotted on a log scale.
+The box will often extend beyond a minimum value where the minimum is close to the mean and the maximum large.
 
-.. image:: plots/test_py_tuple_string_to_vector.svg.png
+.. image:: plots/py_tuple_bytes_to_vector_string.svg.png
     :height: 300px
     :align: center
 
+
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+bytes[8]        0.01                    800
+bytes[64]       0.06                    1,000
+bytes[512]      0.1                     5,000
+bytes[4096]     0.2 to 2.0              20,000 to 2,000             Slower large arrays are probably because the 8Gb memory demand is hitting the virtual memory system.
+=============== ======================= =========================== ===================
 
 C++ ``std::vector<std::string>>`` to a Python Tuple of ``bytes``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This is the reverse of the above.
+This is the reverse, copying from from a C++ vector to a Python tuple.
 
-.. image:: plots/test_vector_string_to_py_tuple.svg.png
+.. image:: plots/vector_string_to_py_tuple.svg.png
     :height: 300px
     :align: center
+
+The performance is very similar.
 
 Python Dict of [float, float] to a C++ ``std::unordered_map<double, double>``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -348,7 +362,7 @@ Strings of Different Lengths
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 With ``bytes``/``std::string`` converting and conversion takes about the following.
-The performance appears appears linear (with some latency for small strings):
+The performance appears appears linear (with some latency for small arrays):
 
 =============== ======================= =========================== ===================
 String size     ~Time per object (µs)   ~Rate, million per second   ~Rate x Size Mb/s
