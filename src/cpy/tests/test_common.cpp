@@ -58,6 +58,23 @@ new_py_tuple_bytes(size_t size, size_t str_len) {
     return op;
 }
 
+// Create a new list of bytes
+PyObject *
+new_py_list_bytes(size_t size, size_t str_len) {
+    PyObject *op = Python_Cpp_Containers::py_list_new(size);
+    if (op) {
+        for (size_t i = 0; i < size; ++i) {
+            std::string str(str_len, ' ');
+            int err = Python_Cpp_Containers::py_list_set(op, i, Python_Cpp_Containers::cpp_string_to_py_bytes(str));
+            if (err) {
+                Py_DECREF(op);
+                op = NULL;
+            }
+        }
+    }
+    return op;
+}
+
 
 int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
     PyObject *op = new_py_tuple_bytes(size, str_len);

@@ -459,4 +459,6 @@ int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size
 
 PyObject *
 new_py_tuple_bytes(size_t size, size_t str_len);
+PyObject *
+new_py_list_bytes(size_t size, size_t str_len);
 #endif // PYTHONCPPHOMOGENEOUSCONTAINERS_TEST_COMMON_H
