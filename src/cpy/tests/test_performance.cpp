@@ -109,6 +109,48 @@ int test_perf_py_tuple_to_vector_string_multiple(TestResultS &test_results, size
     return result;
 }
 
+#pragma mark Testing of lists multiple times
+
+template<typename T>
+int test_vector_to_py_list_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat) {
+    std::vector<T> cpp_vector;
+    for (size_t i = 0; i < size; ++i) {
+        cpp_vector.push_back(T());
+    }
+    std::ostringstream title;
+    title << __FUNCTION__  << type << "[" << size << "]";
+    TestResult test_result(title.str());
+    for (size_t i = 0; i < repeat; ++i) {
+        ExecClock exec_clock;
+        PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_list(cpp_vector);
+        double exec_time = exec_clock.seconds();
+        Py_DECREF(op);
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    test_results.push_back(test_result);
+    return 0;
+}
+
+template<typename T>
+int test_perf_vector_to_py_list_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    int result = 0;
+    for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+        result |= test_vector_to_py_list_multiple<T>(test_results, type, size, repeat);
+    }
+    return result;
+}
+
+// TODO:
+//template<typename T, PyObject *(*ConvertCppToPy)(const T &), T (*ConvertPyToCpp)(PyObject *)>
+//int test_perf_py_list_to_vector_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+//    int result = 0;
+//    for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+//        result |= test_py_tuple_to_vector_multiple<T, ConvertCppToPy, ConvertPyToCpp>(test_results, type, size);
+//    }
+//    return result;
+//}
+
+
 int test_py_list_bytes_to_vector_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
     int result = 0;
     std::ostringstream title;
@@ -329,16 +371,35 @@ void test_performance_all(TestResultS &test_results) {
 //        test_perf_py_tuple_to_vector_string_multiple(test_results, TEST_REPEAT);
 //        std::cout << rss << std::endl;
 //    }
-    // Test the performance of a Python list of bytes to and from C++
+
+//    // Test the performance of a Python list of bytes to and from C++
+//    {
+//        RSSSnapshot rss("test_perf_vector_string_to_py_list_multiple");
+//        test_perf_vector_string_to_py_list_multiple(test_results, TEST_REPEAT);
+//        std::cout << rss << std::endl;
+//    }
+//    {
+//        RSSSnapshot rss("test_perf_py_list_to_vector_string_multiple");
+//        test_perf_py_list_to_vector_string_multiple(test_results, TEST_REPEAT);
+//        std::cout << rss << std::endl;
+//    }
+
+    // Fundamental types with test_perf_vector_to_py_list_multiple<>()
     {
-        RSSSnapshot rss("test_perf_vector_string_to_py_list_multiple");
-        test_perf_vector_string_to_py_list_multiple(test_results, TEST_REPEAT);
+        RSSSnapshot rss("test_perf_vector_to_py_list_multiple<bool>");
+        test_perf_vector_to_py_list_multiple<bool>(test_results, "<bool>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
     {
-        RSSSnapshot rss("test_perf_py_list_to_vector_string_multiple");
-        test_perf_py_list_to_vector_string_multiple(test_results, TEST_REPEAT);
+        RSSSnapshot rss("test_perf_vector_to_py_list_multiple<long>");
+        test_perf_vector_to_py_list_multiple<long>(test_results, "<long>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+    {
+        RSSSnapshot rss("test_perf_vector_to_py_list_multiple<long>");
+        test_perf_vector_to_py_list_multiple<double>(test_results, "<double>", TEST_REPEAT);
+        std::cout << rss << std::endl;
+    }
+
     std::cout << "====" << rss_overall << std::endl;
 }
