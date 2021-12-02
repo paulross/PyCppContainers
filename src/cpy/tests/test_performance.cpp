@@ -441,7 +441,7 @@ void test_performance_all(TestResultS &test_results) {
         test_perf_py_list_to_vector_multiple<
                 long,
                 &Python_Cpp_Containers::cpp_long_to_py_long
-            >(test_results,"<double>", TEST_REPEAT);
+            >(test_results,"<long>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
     {

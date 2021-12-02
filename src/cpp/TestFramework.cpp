@@ -178,17 +178,35 @@ void TestResultS::push_back(const TestResult &result) {
     _failed |= result.failed();
 }
 
+#define REGEX_SPACE_INTEGER "\\s+(\\d+)"
+#define REGEX_SPACE_FLOAT "\\s+([0-9+-.]+)"
+#define REGEX_SPACE_STRING_NO_SPACE "\\s+(\\S+)"
+#define REGEX_SPACE_ANYTHING "\\s+(.+)"
+
 void TestResultS::dump_header(std::ostream &os) const {
     StreamFormatState stream_state(os); // Preserve state
     os << "Number of tests: " << _results.size() << std::endl;
     os << "REGEX_HEAD: ";
-    os << "\"HEAD:\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\"";
-    os << std::endl;
+    os << "\"HEAD:";
+    for (int i = 0; i < 10; ++i) {
+        os << REGEX_SPACE_STRING_NO_SPACE;
+    }
+    os << "\"" << std::endl;
     os << "REGEX_TEST: ";
-    os << "\"TEST:\\s+(\\d+)\\s+(\\d+)\\s+([0-9+-.]+)\\s+([0-9+-.]+)\\s+(\\d+)\\s+([0-9+-.]+)\\s+(\\S+)\"";
-    os << std::endl;
+    os << "\"TEST:";
+    for (int i = 0; i < 3; ++i) {
+        os << REGEX_SPACE_INTEGER;
+    }
+    for (int i = 0; i < 4; ++i) {
+        os << REGEX_SPACE_FLOAT;
+    }
+    os << REGEX_SPACE_INTEGER;
+    os << REGEX_SPACE_FLOAT;
+    os << REGEX_SPACE_STRING_NO_SPACE;
+    os << "\"" << std::endl;
     os << "REGEX_TAIL: ";
-    os << "\"TAIL:\\s+(.+)\"" << std::endl;
+    os << "\"TAIL:" << REGEX_SPACE_ANYTHING;
+    os << "\"" << std::endl;
     os << "HEAD: ";
     os << std::setw(4) << "Fail";
     os << std::setw(8) << "Scale";
