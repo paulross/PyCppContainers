@@ -12,7 +12,7 @@ import os.path
 import re
 
 RE_FILENAME = re.compile(r'^(.+)\[[0-9]+\]$')
-SOURCE_FILE_NAME = 'list.txt'
+SOURCE_FILE_NAME = 'PythonCppHomogeneousContainers.txt'
 TARGET_DIRECTORY = os.path.join(os.path.dirname(__file__), 'dat')
 
 
