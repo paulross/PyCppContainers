@@ -263,14 +263,7 @@ int test_perf_py_tuple_string_to_vector(TestResultS &test_results) {
     return result;
 }
 
-template<
-        typename K,
-        typename V,
-        PyObject *(*Convert_K)(const K &),
-        PyObject *(*Convert_V)(const V &),
-        K (*Convert_Py_Key)(PyObject *),
-        V (*Convert_Py_Val)(PyObject *)
->
+template<typename K, typename V>
 int test_cpp_std_unordered_map_to_py_dict_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat) {
     std::unordered_map<K, V> cpp_map;
     for (size_t i = 0; i < size; ++i) {
@@ -290,19 +283,11 @@ int test_cpp_std_unordered_map_to_py_dict_multiple(TestResultS &test_results, co
     return 0;
 }
 
-template<
-        typename K,
-        typename V,
-        PyObject *(*Convert_K)(const K &),
-        PyObject *(*Convert_V)(const V &),
-        K (*Convert_Py_Key)(PyObject *),
-        V (*Convert_Py_Val)(PyObject *)
->
+template<typename K, typename V>
 int test_perf_cpp_std_unordered_map_to_py_dict_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
-        result |= test_cpp_std_unordered_map_to_py_dict_multiple<
-                K, V, Convert_K, Convert_V, Convert_Py_Key, Convert_Py_Val>(test_results, type, size, repeat);
+        result |= test_cpp_std_unordered_map_to_py_dict_multiple<K, V>(test_results, type, size, repeat);
     }
     return result;
 }
@@ -496,14 +481,7 @@ void test_performance_all(TestResultS &test_results) {
     // Fundamental types with test_perf_cpp_std_unordered_map_to_py_dict_multiple<>() for C++ <-> Python
     {
         RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<double>");
-        test_perf_cpp_std_unordered_map_to_py_dict_multiple<
-                double,
-                double,
-                &Python_Cpp_Containers::cpp_double_to_py_float,
-                &Python_Cpp_Containers::cpp_double_to_py_float,
-                &Python_Cpp_Containers::py_float_to_cpp_double,
-                &Python_Cpp_Containers::py_float_to_cpp_double
-        >(test_results, "<double>", TEST_REPEAT);
+        test_perf_cpp_std_unordered_map_to_py_dict_multiple<double, double>(test_results, "<double>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
 //    {
