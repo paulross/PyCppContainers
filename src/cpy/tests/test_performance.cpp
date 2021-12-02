@@ -161,7 +161,7 @@ int test_py_list_to_vector_multiple(TestResultS &test_results, const std::string
             std::ostringstream title;
             title << __FUNCTION__ << type << "[" << size << "]";
             TestResult test_result(title.str());
-            for (size_t i = 0; i < repeat; ++i) {
+            for (size_t r = 0; r < repeat; ++r) {
                 ExecClock exec_clock;
                 int err = Python_Cpp_Containers::py_list_to_cpp_std_vector(op, cpp_vector);
                 exec_time = exec_clock.seconds();
@@ -177,9 +177,9 @@ int test_py_list_to_vector_multiple(TestResultS &test_results, const std::string
                 test_result.execTimeAdd(0, exec_time, 1, size);
             }
             Py_DECREF(op);
+            test_results.push_back(test_result);
         }
     }
-    REPORT_TEST_OUTPUT;
     return result;
 }
 
@@ -410,29 +410,17 @@ void test_performance_all(TestResultS &test_results) {
 //        std::cout << rss << std::endl;
 //    }
 
-//    // Test the performance of a Python list of bytes to and from C++
-//    {
-//        RSSSnapshot rss("test_perf_vector_string_to_py_list_multiple");
-//        test_perf_vector_string_to_py_list_multiple(test_results, TEST_REPEAT);
-//        std::cout << rss << std::endl;
-//    }
-//    {
-//        RSSSnapshot rss("test_perf_py_list_to_vector_string_multiple");
-//        test_perf_py_list_to_vector_string_multiple(test_results, TEST_REPEAT);
-//        std::cout << rss << std::endl;
-//    }
-
-//    // Fundamental types with test_perf_vector_to_py_list_multiple<>() for C++ -> Python
-//    {
-//        RSSSnapshot rss("test_perf_vector_to_py_list_multiple<bool>");
-//        test_perf_vector_to_py_list_multiple<bool>(test_results, "<bool>", TEST_REPEAT);
-//        std::cout << rss << std::endl;
-//    }
-//    {
-//        RSSSnapshot rss("test_perf_vector_to_py_list_multiple<long>");
-//        test_perf_vector_to_py_list_multiple<long>(test_results, "<long>", TEST_REPEAT);
-//        std::cout << rss << std::endl;
-//    }
+    // Fundamental types with test_perf_vector_to_py_list_multiple<>() for C++ -> Python
+    {
+        RSSSnapshot rss("test_perf_vector_to_py_list_multiple<bool>");
+        test_perf_vector_to_py_list_multiple<bool>(test_results, "<bool>", TEST_REPEAT);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_vector_to_py_list_multiple<long>");
+        test_perf_vector_to_py_list_multiple<long>(test_results, "<long>", TEST_REPEAT);
+        std::cout << rss << std::endl;
+    }
     {
         RSSSnapshot rss("test_perf_vector_to_py_list_multiple<double>");
         test_perf_vector_to_py_list_multiple<double>(test_results, "<double>", TEST_REPEAT);
@@ -440,28 +428,40 @@ void test_performance_all(TestResultS &test_results) {
     }
 
     // Fundamental types with test_perf_py_list_to_vector_multiple<>() for Python -> C++
-//    {
-//        RSSSnapshot rss("test_perf_py_list_to_vector_multiple<bool>");
-//        test_perf_py_list_to_vector_multiple<
-//                bool,
-//                &Python_Cpp_Containers::cpp_bool_to_py_bool
-//            >(test_results,"<bool>", TEST_REPEAT);
-//        std::cout << rss << std::endl;
-//    }
-//    {
-//        RSSSnapshot rss("test_perf_py_list_to_vector_multiple<long>");
-//        test_perf_py_list_to_vector_multiple<
-//                long,
-//                &Python_Cpp_Containers::cpp_long_to_py_long
-//            >(test_results,"<double>", TEST_REPEAT);
-//        std::cout << rss << std::endl;
-//    }
+    {
+        RSSSnapshot rss("test_perf_py_list_to_vector_multiple<bool>");
+        test_perf_py_list_to_vector_multiple<
+                bool,
+                &Python_Cpp_Containers::cpp_bool_to_py_bool
+            >(test_results,"<bool>", TEST_REPEAT);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_py_list_to_vector_multiple<long>");
+        test_perf_py_list_to_vector_multiple<
+                long,
+                &Python_Cpp_Containers::cpp_long_to_py_long
+            >(test_results,"<double>", TEST_REPEAT);
+        std::cout << rss << std::endl;
+    }
     {
         RSSSnapshot rss("test_perf_py_list_to_vector_multiple<double>");
         test_perf_py_list_to_vector_multiple<
                 double,
                 &Python_Cpp_Containers::cpp_double_to_py_float
             >(test_results,"<double>", TEST_REPEAT);
+        std::cout << rss << std::endl;
+    }
+
+    // Test the performance of a Python list of bytes to and from C++
+    {
+        RSSSnapshot rss("test_perf_vector_string_to_py_list_multiple");
+        test_perf_vector_string_to_py_list_multiple(test_results, TEST_REPEAT);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_py_list_to_vector_string_multiple");
+        test_perf_py_list_to_vector_string_multiple(test_results, TEST_REPEAT);
         std::cout << rss << std::endl;
     }
 
