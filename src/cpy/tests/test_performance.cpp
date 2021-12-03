@@ -12,6 +12,7 @@
 // Container lengths.
 const size_t MIN_SIZE_OF_CONTAINER = 1;
 const size_t LIMIT_SIZE_OF_CONTAINER = 1 << 21; // Maximum value < this value
+const size_t LIMIT_SIZE_OF_CONTAINER_DICT = 1 << 17; // Maximum size < this value
 const size_t INC_SIZE_OF_CONTAINER_MULTIPLE = 2; // How much to increment the container size.
 // How many times to repeat tests.
 const size_t TEST_REPEAT = 5;
@@ -286,8 +287,84 @@ int test_cpp_std_unordered_map_to_py_dict_multiple(TestResultS &test_results, co
 template<typename K, typename V>
 int test_perf_cpp_std_unordered_map_to_py_dict_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
     int result = 0;
-    for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+    for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER_DICT; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_cpp_std_unordered_map_to_py_dict_multiple<K, V>(test_results, type, size, repeat);
+    }
+    return result;
+}
+
+
+template<
+        typename K,
+        typename V,
+        PyObject *(*Convert_K)(const K &),
+        PyObject *(*Convert_V)(const V &)
+>
+int test_py_dict_to_cpp_std_unordered_map_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat) {
+    PyObject *op = PyDict_New();
+    PyObject *py_k = NULL;
+    PyObject *py_v = NULL;
+    std::ostringstream title;
+    title << __FUNCTION__  << type << "[" << size << "]";
+    TestResult test_result(title.str());
+    int result = 0;
+    double exec_time = -1.0;
+    if (! op) {
+        result |= 1;
+    } else {
+        // Create a Python Dict
+        for (size_t i = 0; i < size; ++i) {
+            py_k = (*Convert_K)(static_cast<K>(i));
+            if (! py_k) {
+                // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                PyErr_Format(PyExc_ValueError, "C++ key of can not be converted.");
+                result |= 1 << 1;
+                break;
+            }
+            // Refcount may well be >> 1 for interned objects.
+            Py_ssize_t py_k_ob_refcnt = py_k->ob_refcnt;
+            py_v = (*Convert_V)(static_cast<V>(i));
+            if (! py_v) {
+                // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
+                Py_DECREF(py_k);
+                result |= 1 << 2;
+                break;
+            }
+            // Refcount may well be >> 1 for interned objects.
+            Py_ssize_t py_v_ob_refcnt = py_v->ob_refcnt;
+            if (PyDict_SetItem(op, py_k, py_v)) {
+                // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                PyErr_Format(PyExc_ValueError, "Can not set an item in the Python dict.");
+                result |= 1 << 3;
+                break;
+            }
+            // Oh this is nasty.
+            // PyDict_SetItem() increfs the key and the value rather than stealing a reference.
+            // insertdict(): https://github.com/python/cpython/blob/main/Objects/dictobject.c#L1074
+            assert(py_k->ob_refcnt == py_k_ob_refcnt + 1 && "PyDict_SetItem failed to increment key refcount.");
+            Py_DECREF(py_k);
+            assert(py_k->ob_refcnt == py_k_ob_refcnt);
+            assert(py_v->ob_refcnt == py_v_ob_refcnt + 1 && "PyDict_SetItem failed to increment value refcount.");
+            Py_DECREF(py_v);
+            assert(py_v->ob_refcnt == py_v_ob_refcnt);
+        }
+        if (result == 0) {
+            std::unordered_map<K, V> cpp_map;
+            for (size_t i = 0; i < repeat; ++i) {
+                ExecClock exec_clock;
+                result = Python_Cpp_Containers::py_dict_to_cpp_std_unordered_map(op, cpp_map);
+                exec_time = exec_clock.seconds();
+                if (result) {
+                    test_result.execTimeAdd(1, exec_time, 1, size);
+                    break;
+                } else {
+                    test_result.execTimeAdd(0, exec_time, 1, size);
+                }
+            }
+            test_results.push_back(test_result);
+        }
+        Py_DECREF(op);
     }
     return result;
 }
@@ -296,15 +373,12 @@ template<
         typename K,
         typename V,
         PyObject *(*Convert_K)(const K &),
-        PyObject *(*Convert_V)(const V &),
-        K (*Convert_Py_Key)(PyObject *),
-        V (*Convert_Py_Val)(PyObject *)
+        PyObject *(*Convert_V)(const V &)
 >
-int test_perf_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::string &type) {
+int test_perf_py_dict_to_cpp_std_unordered_map_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
     int result = 0;
-    for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
-        result |= test_py_dict_to_cpp_std_unordered_map<
-                K, V, Convert_K, Convert_V, Convert_Py_Key, Convert_Py_Val>(test_results, type, size);
+    for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER_DICT; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+        result |= test_py_dict_to_cpp_std_unordered_map_multiple<K, V, Convert_K, Convert_V>(test_results, type, size, repeat);
     }
     return result;
 }
@@ -312,7 +386,7 @@ int test_perf_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const 
 int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results) {
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
-        for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER_DICT; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_cpp_std_unordered_map_to_py_dict_string(test_results, size, str_len);
         }
     }
@@ -479,28 +553,36 @@ void test_performance_all(TestResultS &test_results) {
 //    }
 
     // Fundamental types with test_perf_cpp_std_unordered_map_to_py_dict_multiple<>() for C++ <-> Python
-    {
-        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<long, long>");
-        test_perf_cpp_std_unordered_map_to_py_dict_multiple<long, long>(test_results, "<long, long>", TEST_REPEAT);
-        std::cout << rss << std::endl;
-    }
-    {
-        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<double, double>");
-        test_perf_cpp_std_unordered_map_to_py_dict_multiple<double, double>(test_results, "<double, double>", TEST_REPEAT);
-        std::cout << rss << std::endl;
-    }
 //    {
-//        RSSSnapshot rss("test_perf_py_dict_to_cpp_std_unordered_map_multiple<double>");
-//        test_perf_py_dict_to_cpp_std_unordered_map_multiple<
-//                double,
-//                double,
-//                &Python_Cpp_Containers::cpp_double_to_py_float,
-//                &Python_Cpp_Containers::cpp_double_to_py_float,
-//                &Python_Cpp_Containers::py_float_to_cpp_double,
-//                &Python_Cpp_Containers::py_float_to_cpp_double
-//        >(test_results, "<double>", TEST_REPEAT);
+//        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<long, long>");
+//        test_perf_cpp_std_unordered_map_to_py_dict_multiple<long, long>(test_results, "<long, long>", TEST_REPEAT);
 //        std::cout << rss << std::endl;
 //    }
+//    {
+//        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<double, double>");
+//        test_perf_cpp_std_unordered_map_to_py_dict_multiple<double, double>(test_results, "<double, double>", TEST_REPEAT);
+//        std::cout << rss << std::endl;
+//    }
+    {
+        RSSSnapshot rss("test_perf_py_dict_to_cpp_std_unordered_map_multiple<long, long>");
+        test_perf_py_dict_to_cpp_std_unordered_map_multiple<
+                long,
+                long,
+                &Python_Cpp_Containers::cpp_long_to_py_long,
+                &Python_Cpp_Containers::cpp_long_to_py_long
+        >(test_results, "<long, long>", TEST_REPEAT);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_py_dict_to_cpp_std_unordered_map_multiple<double, double>");
+        test_perf_py_dict_to_cpp_std_unordered_map_multiple<
+                double,
+                double,
+                &Python_Cpp_Containers::cpp_double_to_py_float,
+                &Python_Cpp_Containers::cpp_double_to_py_float
+        >(test_results, "<double, double>", TEST_REPEAT);
+        std::cout << rss << std::endl;
+    }
 
     std::cout << "==== " << rss_overall << std::endl;
 }
