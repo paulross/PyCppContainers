@@ -480,8 +480,13 @@ void test_performance_all(TestResultS &test_results) {
 
     // Fundamental types with test_perf_cpp_std_unordered_map_to_py_dict_multiple<>() for C++ <-> Python
     {
-        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<double>");
-        test_perf_cpp_std_unordered_map_to_py_dict_multiple<double, double>(test_results, "<double>", TEST_REPEAT);
+        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<long, long>");
+        test_perf_cpp_std_unordered_map_to_py_dict_multiple<long, long>(test_results, "<long, long>", TEST_REPEAT);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<double, double>");
+        test_perf_cpp_std_unordered_map_to_py_dict_multiple<double, double>(test_results, "<double, double>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
 //    {
