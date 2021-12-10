@@ -417,7 +417,11 @@ namespace Python_Cpp_Containers {
             ret = -1;
             goto except;
         }
-        set.reserve(PySet_Size(op));
+        // NOTE: It might be tempting to make the following call to pre-allocate space:
+        // set.reserve(PySet_Size(op));
+        // Do NOT do this.
+        // std::unordered_set<double>.reserve() is very slow and O(N**2) for that type.
+        // Possibly with other types as well.
         py_iter = PyObject_GetIter(op);
         if (!py_iter) {
             ret = -2;
@@ -615,7 +619,11 @@ namespace Python_Cpp_Containers {
             ret = -1;
             goto except;
         }
-        map.reserve(PyDict_Size(dict));
+        // NOTE: It might be tempting to make the following call to pre-allocate space:
+        // map.reserve(PyDict_Size(dict));
+        // Do NOT do this.
+        // std::unordered_map<double, double>.reserve() is very slow and O(N**2) for those types.
+        // Possibly with other types as well.
         while (PyDict_Next(dict, &pos, &key, &val)) {
             // key, val are borrowed references.
             if (!Check_K(key)) {

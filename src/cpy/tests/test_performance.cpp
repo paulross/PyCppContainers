@@ -355,7 +355,7 @@ int test_py_dict_to_cpp_std_unordered_map_multiple(TestResultS &test_results, co
                 ExecClock exec_clock;
                 result = Python_Cpp_Containers::py_dict_to_cpp_std_unordered_map(op, cpp_map);
                 exec_time = exec_clock.seconds();
-                std::cout << "TRACE" << " Size: " << cpp_map.size()  << " Type" << type << " t=" << exec_time << std::endl;
+//                std::cout << "TRACE" << " Size: " << cpp_map.size()  << " Type" << type << " t=" << exec_time << std::endl;
                 if (result) {
                     test_result.execTimeAdd(1, exec_time, 1, size);
                     break;
@@ -380,7 +380,7 @@ int test_perf_py_dict_to_cpp_std_unordered_map_multiple(TestResultS &test_result
     int result = 0;
 //    for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER_DICT; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
 //    for (size_t size = 8; size < 16; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
-    for (size_t size = 1024; size < 4096; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+    for (size_t size = 1024; size < 4096 * 2; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_py_dict_to_cpp_std_unordered_map_multiple<K, V, Convert_K, Convert_V>(test_results, type, size, repeat);
     }
     return result;
