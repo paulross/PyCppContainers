@@ -12,7 +12,7 @@
 // Container lengths.
 const size_t MIN_SIZE_OF_CONTAINER = 1;
 const size_t LIMIT_SIZE_OF_CONTAINER = 1 << 21; // Maximum value < this value
-const size_t LIMIT_SIZE_OF_CONTAINER_DICT = 1 << 17; // Maximum size < this value
+const size_t LIMIT_SIZE_OF_CONTAINER_DICT = 1 << 21; // Maximum size < this value
 const size_t INC_SIZE_OF_CONTAINER_MULTIPLE = 2; // How much to increment the container size.
 // How many times to repeat tests.
 const size_t TEST_REPEAT = 2;
@@ -378,9 +378,9 @@ template<
 >
 int test_perf_py_dict_to_cpp_std_unordered_map_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
     int result = 0;
-//    for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER_DICT; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
 //    for (size_t size = 8; size < 16; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
-    for (size_t size = 1024; size < 4096 * 2; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+//    for (size_t size = 1024; size < 4096 * 2; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+    for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER_DICT; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_py_dict_to_cpp_std_unordered_map_multiple<K, V, Convert_K, Convert_V>(test_results, type, size, repeat);
     }
     return result;
