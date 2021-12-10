@@ -607,8 +607,8 @@ namespace Python_Cpp_Containers {
         PyObject *key = NULL;
         PyObject *val = NULL;
         Py_ssize_t pos = 0;
-        map.clear();
 
+        map.clear();
         Py_INCREF(dict); // Borrowed reference
         if (!PyDict_Check(dict)) {
             PyErr_Format(PyExc_ValueError, "Python object must be a dict not a %s", dict->ob_type->tp_name);
@@ -631,6 +631,7 @@ namespace Python_Cpp_Containers {
             map[Convert_K(key)] = Convert_V(val);
             // Check !PyErr_Occurred() which could never happen as we check first.
         }
+        assert(map.size() == static_cast<size_t>(PyDict_Size(dict)));
         assert(!PyErr_Occurred());
         goto finally;
     except:

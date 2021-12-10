@@ -215,6 +215,104 @@ new_dict_bytes_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
     return new_dict<std::string, std::string>(arg);
 }
 
+
+/**
+ * Create a new dict of [K, V]] by copying into a std::unordered_map.
+ *
+ * @param arg The Python dict. This is const.
+ * @return None.
+ */
+template<typename K, typename V>
+static PyObject *
+new_dict_debug(PyObject *arg) {
+    std::unordered_map<K, V> map;
+    if (!py_dict_to_cpp_std_unordered_map(arg, map)) {
+        Py_RETURN_NONE;
+    }
+    return NULL;
+}
+
+static PyObject *
+new_dict_debug_int_int(PyObject *Py_UNUSED(module), PyObject *arg) {
+//    return new_dict_debug<long, long>(arg);
+    std::unordered_map<long, long> map;
+    PyObject *key, *value;
+    Py_ssize_t pos = 0;
+
+    while (PyDict_Next(arg, &pos, &key, &value)) {
+        if (!py_long_check(key)) {
+            return NULL;
+        }
+        if (!py_long_check(value)) {
+            return NULL;
+        }
+        map[py_long_to_cpp_long(key)] = py_long_to_cpp_long(value);
+    }
+    Py_RETURN_NONE;
+}
+
+static PyObject *
+new_dict_debug_float_float(PyObject *Py_UNUSED(module), PyObject *dict) {
+//    // Slow, O(N**2)
+//    return new_dict_debug<double, double>(arg);
+
+//    // Fast, O(N)
+//    std::unordered_map<double, double> map;
+//    PyObject *key, *value;
+//    Py_ssize_t pos = 0;
+//
+//    while (PyDict_Next(arg, &pos, &key, &value)) {
+//        if (!py_float_check(key)) {
+//            return NULL;
+//        }
+//        if (!py_float_check(value)) {
+//            return NULL;
+//        }
+//        map[py_float_to_cpp_double(key)] = py_float_to_cpp_double(value);
+//    }
+//    Py_RETURN_NONE;
+
+    PyObject *ret;
+    std::unordered_map<double, double> map;
+    PyObject *key = NULL;
+    PyObject *val = NULL;
+    Py_ssize_t pos = 0;
+
+    Py_INCREF(dict); // Borrowed reference
+    if (!PyDict_Check(dict)) {
+        PyErr_Format(PyExc_ValueError, "Python object must be a dict not a %s", dict->ob_type->tp_name);
+        ret = NULL;
+        goto except;
+    }
+    map.reserve(PyDict_Size(dict));
+    while (PyDict_Next(dict, &pos, &key, &val)) {
+        // key, val are borrowed references.
+        if (!py_float_check(key)) {
+            PyErr_Format(PyExc_ValueError, "Python dict key is wrong type of: %s", key->ob_type->tp_name);
+            ret = NULL;
+            goto except;
+        }
+        if (!py_float_check(val)) {
+            PyErr_Format(PyExc_ValueError, "Python dict value is wrong type of: %s", val->ob_type->tp_name);
+            ret = NULL;
+            goto except;
+        }
+        map[py_float_to_cpp_double(key)] = py_float_to_cpp_double(val);
+        // Check !PyErr_Occurred() which could never happen as we check first.
+    }
+    Py_INCREF(Py_None);
+    ret = Py_None;
+    assert(map.size() == static_cast<size_t>(PyDict_Size(dict)));
+    assert(!PyErr_Occurred());
+    goto finally;
+except:
+    map.clear();
+    assert(PyErr_Occurred());
+finally:
+    Py_DECREF(dict); // Borrowed reference
+    return ret;
+}
+
 /**
  * The Python Extension methods.
  */
@@ -247,6 +345,11 @@ static PyMethodDef cPyCppContainersMethods[] = {
                 "Take a dict of [float, float] and return a new dict with the same values."},
         {"new_dict_bytes_bytes", new_dict_bytes_bytes, METH_O,
                 "Take a dict of [bytes, bytes] and return a new dict with the same values."},
+                // Debug
+        {"new_dict_debug_int_int", new_dict_debug_int_int, METH_O,
+                "Debug a dict of [int, int]."},
+        {"new_dict_debug_float_float", new_dict_debug_float_float, METH_O,
+                "Debug a dict of [float, float]."},
         {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 

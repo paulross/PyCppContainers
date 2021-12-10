@@ -49,15 +49,16 @@ class TimedResults:
         return f'{"Count":>12s} {"Min":>16s} {"Mean":>16s} {"Median":>16s} {"Std.Dev.":>16s} {"Max":>16s} {"Max/Min":>12s}'
 
     def __str__(self) -> str:
-        return (
-            f'{len(self):12d}'
-            f' {self.min():16.9f}'
-            f' {self.mean():16.9f}'
-            f' {self.median():16.9f}'
-            f' {self.stdev():16.9f}'
-            f' {self.max():16.9f}'
-            f' {self.max() / self.min():12.3f}'
-        )
+        ret = [
+            f'{len(self):12d}',
+            f'{self.min():16.9f}',
+            f'{self.mean():16.9f}',
+            f'{self.median():16.9f}',
+            f'{self.stdev():16.9f}' if len(self) > 1 else f'{"N/A":>16}',
+            f'{self.max():16.9f}',
+            f'{self.max() / self.min():12.3f}',
+        ]
+        return ' '.join(ret)
 
     def __len__(self):
         return len(self.times)
@@ -220,10 +221,13 @@ def test_new_dict_float_float():
     results = []
     proc = psutil.Process()
     rss = proc.memory_info().rss
-    for size in SIZE_DOUBLING:
+    # for size in SIZE_DOUBLING:
+    # for size in tuple(2 ** v for v in range(1, 16 + 1)):
+    for size in tuple(2 ** v for v in range(10, 11 + 1)):
         original = {float(i): float(i) for i in range(size)}
         timer = TimedResults()
-        for _r in range(REPEAT):
+        # for _r in range(REPEAT):
+        for _r in range(1):
             time_start = time.perf_counter()
             cPyCppContainers.new_dict_float_float(original)
             time_exec = time.perf_counter() - time_start
@@ -237,6 +241,54 @@ def test_new_dict_float_float():
     print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
     for s, t in results:
         print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+    assert 0
+
+
+def test_new_dict_debug_int_float():
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    results = []
+    # for size in SIZE_DOUBLING:
+    # for size in tuple(2 ** v for v in range(1, 16 + 1)):
+    for size in tuple(2 ** v for v in range(10, 12 + 1)):
+        original = {i: i for i in range(size)}
+        timer = TimedResults()
+        # for _r in range(REPEAT):
+        for _r in range(5):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_dict_debug_int_int(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+    # pprint.pprint(results)
+    print()
+    rss_new = proc.memory_info().rss
+    print('test_new_dict_debug_float_int() with cPyCppContainers.new_dict_debug_int_int()')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+    results = []
+    # for size in SIZE_DOUBLING:
+    # for size in tuple(2 ** v for v in range(1, 16 + 1)):
+    for size in tuple(2 ** v for v in range(10, 12 + 1)):
+        original = {float(i): float(i) for i in range(size)}
+        timer = TimedResults()
+        # for _r in range(REPEAT):
+        for _r in range(5):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_dict_debug_float_float(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+    # pprint.pprint(results)
+    print()
+    rss_new = proc.memory_info().rss
+    print('test_new_dict_debug_float_int() with cPyCppContainers.new_dict_debug_float_float()')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
     assert 0
 
 
