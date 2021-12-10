@@ -284,7 +284,7 @@ new_dict_debug_float_float(PyObject *Py_UNUSED(module), PyObject *dict) {
         ret = NULL;
         goto except;
     }
-    map.reserve(PyDict_Size(dict));
+//    map.reserve(PyDict_Size(dict));
     while (PyDict_Next(dict, &pos, &key, &val)) {
         // key, val are borrowed references.
         if (!py_float_check(key)) {
