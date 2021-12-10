@@ -98,9 +98,9 @@ int main() {
 
     RSSSnapshot rss_overall("main.cpp");
 
-    explore_hash_reserve();
+//    explore_hash_reserve();
 
-//    test_all();
+    test_all();
 
 //    TestResultS test_results;
 //    test_functional_all(test_results);

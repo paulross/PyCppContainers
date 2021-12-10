@@ -284,6 +284,7 @@ new_dict_debug_float_float(PyObject *Py_UNUSED(module), PyObject *dict) {
         ret = NULL;
         goto except;
     }
+//    // This is the line that causes the performance cost.
 //    map.reserve(PyDict_Size(dict));
     while (PyDict_Next(dict, &pos, &key, &val)) {
         // key, val are borrowed references.
