@@ -76,6 +76,24 @@ new_py_list_bytes(size_t size, size_t str_len) {
 }
 
 
+// Create a new set of bytes
+PyObject *
+new_py_set_bytes(size_t size, size_t str_len) {
+    PyObject *op = Python_Cpp_Containers::py_set_new(NULL);
+    if (op) {
+        for (size_t i = 0; i < size; ++i) {
+            std::string str = unique_string(str_len);
+            int err = Python_Cpp_Containers::py_set_add(op, Python_Cpp_Containers::cpp_string_to_py_bytes(str));
+            if (err) {
+                Py_DECREF(op);
+                op = NULL;
+            }
+        }
+    }
+    return op;
+}
+
+
 int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
     PyObject *op = new_py_tuple_bytes(size, str_len);
     int result = 0;
