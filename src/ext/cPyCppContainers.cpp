@@ -171,9 +171,106 @@ new_list_unsigned_int(PyObject *Py_UNUSED(module), PyObject *arg) {
     return NULL;
 }
 #endif
+/**
+ * Create a new set of [K] by copying into a std::unordered_set and back.
+ *
+ * @param arg The Python set. This is const.
+ * @return A new Python set of [K].
+ */
+template<typename K>
+static PyObject *
+new_set(PyObject *arg) {
+    std::unordered_set<K> cpp_set;
+    if (!py_set_to_cpp_std_unordered_set(arg, cpp_set)) {
+        return cpp_std_unordered_set_to_py_set(cpp_set);
+    }
+    return NULL;
+}
 
 /**
- * Create a new dict of [K, V]] by copying into a std::unordered_map and back.
+ * Create a new set of [int] by copying into a std::unordered_set and back.
+ *
+ * @param arg The Python set. This is const.
+ * @return A new Python set of [int].
+ */
+static PyObject *
+new_set_int(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_set<long>(arg);
+}
+
+/**
+ * Create a new set of [float] by copying into a std::unordered_set and back.
+ *
+ * @param arg The Python set. This is const.
+ * @return A new Python set of [float].
+ */
+static PyObject *
+new_set_float(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_set<double>(arg);
+}
+
+/**
+ * Create a new set of [bytes] by copying into a std::unordered_set and back.
+ *
+ * @param arg The Python set. This is const.
+ * @return A new Python set of [bytes].
+ */
+static PyObject *
+new_set_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_set<std::string>(arg);
+}
+
+/**
+ * Create a new frozenset of [K] by copying into a std::unordered_set and back.
+ *
+ * @param arg The Python set. This is const.
+ * @return A new Python frozenset of [K].
+ */
+template<typename K>
+static PyObject *
+new_frozenset(PyObject *arg) {
+    std::unordered_set<K> cpp_set;
+    if (!py_frozenset_to_cpp_std_unordered_set(arg, cpp_set)) {
+        return cpp_std_unordered_set_to_py_frozenset(cpp_set);
+    }
+    return NULL;
+}
+
+/**
+ * Create a new frozenset of [int] by copying into a std::unordered_set and back.
+ *
+ * @param arg The Python frozenset. This is const.
+ * @return A new Python frozenset of [int].
+ */
+static PyObject *
+new_frozenset_int(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_frozenset<long>(arg);
+}
+
+/**
+ * Create a new frozenset of [float] by copying into a std::unordered_set and back.
+ *
+ * @param arg The Python frozenset. This is const.
+ * @return A new Python frozenset of [float].
+ */
+static PyObject *
+new_frozenset_float(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_frozenset<double>(arg);
+}
+
+/**
+ * Create a new frozenset of [bytes] by copying into a std::unordered_set and back.
+ *
+ * @param arg The Python frozenset. This is const.
+ * @return A new Python frozenset of [bytes].
+ */
+static PyObject *
+new_frozenset_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_frozenset<std::string>(arg);
+}
+
+/**
+ * Create a new dict of [K, V] by copying into a std::unordered_map and back.
  *
  * @param arg The Python dict. This is const.
  * @return A new Python dict of [K, V].
@@ -333,7 +430,21 @@ static PyMethodDef cPyCppContainersMethods[] = {
         {"new_list_int", new_list_int, METH_O,
                 "Take a list of ints and return a new list with the same values."},
         {"new_list_bytes", new_list_bytes, METH_O,
-                "Take a list of ints and return a new list with the same values."},
+                "Take a list of bytes and return a new list with the same values."},
+        /* Sets. */
+        {"new_set_int", new_set_int, METH_O,
+                "Take a set of ints and return a new set with the same values."},
+        {"new_set_float", new_set_float, METH_O,
+                "Take a set of floats and return a new set with the same values."},
+        {"new_set_bytes", new_set_bytes, METH_O,
+                "Take a set of bytes and return a new set with the same values."},
+        /* Frozen Sets. */
+        {"new_frozenset_int", new_frozenset_int, METH_O,
+                "Take a frozenset of ints and return a new frozenset with the same values."},
+        {"new_frozenset_float", new_frozenset_float, METH_O,
+                "Take a frozenset of floats and return a new frozenset with the same values."},
+        {"new_frozenset_bytes", new_frozenset_bytes, METH_O,
+                "Take a frozenset of bytes and return a new frozenset with the same values."},
 #if 0
         // Example of failure as there is no template new_list<unsigned int>(arg)
         {"new_list_unsigned_int", new_list_unsigned_int, METH_O,
