@@ -49,6 +49,41 @@ def test_new_list_bytes():
     assert 0
 
 
+def test_new_list_bytes_one_item():
+    """Tests converting a list with a single 1024 byte item 10m times to look for memory leaks in list creation.
+
+    Example pymemtrace log::
+
+              Event        dEvent  Clock        What     File                                                                            #line Function                                  RSS         dRSS
+        NEXT: 0            +0      0.807417     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33898496     33898496
+        NEXT: 1            +1      0.807427     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33931264        32768
+        PREV: 396898       +396897 1.469587     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33931264            0
+        NEXT: 396899       +396898 1.469631     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33964032        32768
+        PREV: 562738       +165839 1.749167     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33964032            0
+        NEXT: 562739       +165840 1.749218     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33996800        32768
+        PREV: 563166       +427    1.749971     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33996800            0
+        NEXT: 563167       +428    1.750000     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34029568        32768
+        PREV: 563398       +231    1.750459     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34029568            0
+        NEXT: 563399       +232    1.750484     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34062336        32768
+        PREV: 912896       +349497 2.331721     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34062336            0
+        NEXT: 912897       +349498 2.331773     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34095104        32768
+        PREV: 912898       +1      2.331792     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34095104            0
+        NEXT: 912899       +2      2.331825     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34160640        65536
+        PREV: 913728       +829    2.333386     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34160640            0
+        NEXT: 913729       +830    2.333407     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34193408        32768
+    """
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    original = [b' ' * 1024]
+    with cPyMemTrace.Profile():
+        for _r in range(10_000_000):
+            cPyCppContainers.new_list_bytes(original)
+        gc.collect()
+    rss_new = proc.memory_info().rss
+    print(f'RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
+    assert 0
+
+
 def _test_new_set_bytes():
     proc = psutil.Process()
     rss = proc.memory_info().rss
