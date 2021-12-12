@@ -289,6 +289,53 @@ The maximum RSS should reflect that at some point the following are held in memo
 This would be a total of 3102Mb.
 However we are seeing a maximum RSS of only around 2200Mb.
 
+Python Set of bytes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A similar test was made of a gigabyte sized Python set of bytes.
+Each key and value were 1024 bytes long and the set was 1m long.
+The Python set was round-tripped to a C++ ``std::unordered_set<std::string>`` and back to a new Python set.
+
+The code looks like this:
+
+.. code-block::
+
+    with cPyMemTrace.Profile(4096 * 16):
+        total_bytes = 2**20 * 2**10
+        byte_length = 1024
+        set_length = total_bytes // byte_length // 2
+        random_bytes = [random.randint(0, 255) for _i in range(byte_length)]
+        for _r in range(10):
+            original = set()
+            for i in range(set_length):
+                k = bytes(random_bytes)
+                original.add(k)
+                # Shuffle is quite expensive. Try something simpler:
+                # chose a random value and increment it with roll over.
+                index = random.randint(0, byte_length - 1)
+                random_bytes[index] = (random_bytes[index] + 1) % 256
+            cPyCppContainers.new_set_bytes(original)
+
+The following is a plot of RSS and change of RSS over time:
+
+.. image:: plots/pymemtrace_set_bytes.png
+    :height: 300px
+    :align: center
+
+In the set case constructing the original set takes around 1500Mb.
+So on entry to ``new_set_bytes`` the RSS is typically 1700Mb.
+Constructing the ``std::unordered_set<std::string>`` and a new Python set takes an extra 1000Mb taking the total memory to around 2500MB.
+On exit from ``new_set_bytes`` the RSS decreases back down to 200Mb.
+
+In theory the maximum RSS use should be:
+
+- Basic Python, say 30Mb
+- The original Python set, 1024Mb.
+- The C++ ``std::unordered_set<std::string>``, 1024Mb.
+- The new Python dict, 1024Mb.
+
+This would be a total of 3102Mb.
+
 Python Dicts of bytes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -340,7 +387,7 @@ This would be a total of 3102Mb.
 The fact that we are seeing around 4200Mb,  35% more, is probably due to over-allocation either any or all of the Python
 dict or bytes allocators or the C++ ``std::unordered_map<T>`` or ``std::string`` allocators.
 
-Both of these graphs show that there are no memory leaks.
+These graphs show that there are no memory leaks.
 
 
 Summary
