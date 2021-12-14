@@ -94,6 +94,27 @@ new_py_set_bytes(size_t size, size_t str_len) {
 }
 
 
+// Create a new dict of unique bytes
+PyObject *
+new_py_dict_bytes(size_t size, size_t str_len) {
+    PyObject *op = PyDict_New();
+    if (op) {
+        for (size_t i = 0; i < size; ++i) {
+            std::string key = unique_string(str_len);
+            PyObject *py_key = Python_Cpp_Containers::cpp_string_to_py_bytes(key);
+            std::string val = unique_string(str_len);
+            PyObject *py_val = Python_Cpp_Containers::cpp_string_to_py_bytes(val);
+            if (PyDict_SetItem(op, py_key, py_val)) {
+                PyErr_Format(PyExc_ValueError, "Can not set an item in the Python dict.");
+                Py_DECREF(op);
+                op = NULL;
+                return op;
+            }
+        }
+    }
+    return op;
+}
+
 int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
     PyObject *op = new_py_tuple_bytes(size, str_len);
     int result = 0;
@@ -126,47 +147,47 @@ int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_
     return result;
 }
 
-int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len) {
-    std::unordered_map<std::string, std::string> cpp_map;
-    for (size_t i = 0; i < size; ++i) {
-        cpp_map[unique_string(str_len)] = std::string(str_len, ' ');
-    }
-    ExecClock exec_clock;
-    PyObject *op = Python_Cpp_Containers::cpp_std_unordered_map_to_py_dict(cpp_map);
-    double exec_time = exec_clock.seconds();
-    int result = 0;
-    if (! op) {
-        result |= 1;
-    } else {
-        assert(op->ob_refcnt ==  1);
-        if (! PyDict_Check(op)) {
-            result |= 1 << 1;
-        } else {
-            if (static_cast<unsigned long>(PyDict_Size(op)) != cpp_map.size()) {
-                result |= 1 << 2;
-            } else {
-                // Now check the Python dict against the C++ map.
-                PyObject *py_key, *py_val;
-                Py_ssize_t pos = 0;
-                while (PyDict_Next(op, &pos, &py_key, &py_val)) {
-                    std::string cp_key = Python_Cpp_Containers::py_bytes_to_cpp_string(py_key);
-                    std::string cp_val = Python_Cpp_Containers::py_bytes_to_cpp_string(py_val);
-                    if (cpp_map.find(cp_key) == cpp_map.end()) {
-                        result |= 1 << 3;
-                    } else {
-                        if (cpp_map[cp_key] != cp_val) {
-                            result |= 1 << 4;
-                        }
-                    }
-                }
-            }
-        }
-        assert(op->ob_refcnt == 1);
-        Py_DECREF(op);
-    }
-    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
-    return result;
-}
+//int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len) {
+//    std::unordered_map<std::string, std::string> cpp_map;
+//    for (size_t i = 0; i < size; ++i) {
+//        cpp_map[unique_string(str_len)] = std::string(str_len, ' ');
+//    }
+//    ExecClock exec_clock;
+//    PyObject *op = Python_Cpp_Containers::cpp_std_unordered_map_to_py_dict(cpp_map);
+//    double exec_time = exec_clock.seconds();
+//    int result = 0;
+//    if (! op) {
+//        result |= 1;
+//    } else {
+//        assert(op->ob_refcnt ==  1);
+//        if (! PyDict_Check(op)) {
+//            result |= 1 << 1;
+//        } else {
+//            if (static_cast<unsigned long>(PyDict_Size(op)) != cpp_map.size()) {
+//                result |= 1 << 2;
+//            } else {
+//                // Now check the Python dict against the C++ map.
+//                PyObject *py_key, *py_val;
+//                Py_ssize_t pos = 0;
+//                while (PyDict_Next(op, &pos, &py_key, &py_val)) {
+//                    std::string cp_key = Python_Cpp_Containers::py_bytes_to_cpp_string(py_key);
+//                    std::string cp_val = Python_Cpp_Containers::py_bytes_to_cpp_string(py_val);
+//                    if (cpp_map.find(cp_key) == cpp_map.end()) {
+//                        result |= 1 << 3;
+//                    } else {
+//                        if (cpp_map[cp_key] != cp_val) {
+//                            result |= 1 << 4;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        assert(op->ob_refcnt == 1);
+//        Py_DECREF(op);
+//    }
+//    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+//    return result;
+//}
 
 //int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size_t size, size_t str_len) {
 //    PyObject *op = Python_Cpp_Containers::py_tuple_new(size);

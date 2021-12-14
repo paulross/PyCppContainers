@@ -141,19 +141,19 @@ test_py_tuple_bytes_to_vector_string_multiple(TestResultS &test_results, size_t 
     std::ostringstream title;
     title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
+    PyObject *op = new_py_tuple_bytes(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
-        PyObject *op = new_py_tuple_bytes(size, str_len);
         std::vector<std::string> cpp_vector;
         ExecClock exec_clock;
         int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+        double exec_time = exec_clock.seconds();
         if (err) {
             result = -1;
             break;
         }
-        double exec_time = exec_clock.seconds();
-        Py_DECREF(op);
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
+    Py_DECREF(op);
     test_results.push_back(test_result);
     return result;
 }
@@ -256,19 +256,19 @@ test_py_list_bytes_to_vector_string_multiple(TestResultS &test_results, size_t s
     std::ostringstream title;
     title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
+    PyObject *op = new_py_list_bytes(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
-        PyObject *op = new_py_list_bytes(size, str_len);
         std::vector<std::string> cpp_vector;
         ExecClock exec_clock;
         int err = Python_Cpp_Containers::py_list_to_cpp_std_vector(op, cpp_vector);
+        double exec_time = exec_clock.seconds();
         if (err) {
             result = -1;
             break;
         }
-        double exec_time = exec_clock.seconds();
-        Py_DECREF(op);
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
+    Py_DECREF(op);
     test_results.push_back(test_result);
     return result;
 }
@@ -432,19 +432,19 @@ int test_py_set_bytes_to_unordered_set_string_multiple(TestResultS &test_results
     std::ostringstream title;
     title << __FUNCTION__  << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
+    PyObject *op = new_py_set_bytes(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
-        PyObject *op = new_py_set_bytes(size, str_len);
         std::unordered_set<std::string> cpp_set;
         ExecClock exec_clock;
         int err = Python_Cpp_Containers::py_set_to_cpp_std_unordered_set(op, cpp_set);
+        double exec_time = exec_clock.seconds();
         if (err) {
             result = -1;
             break;
         }
-        double exec_time = exec_clock.seconds();
-        Py_DECREF(op);
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
+    Py_DECREF(op);
     test_results.push_back(test_result);
     return result;
 }
@@ -587,22 +587,78 @@ test_perf_py_dict_to_cpp_std_unordered_map_multiple(TestResultS &test_results, c
     return result;
 }
 
-int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results) {
+int test_cpp_std_unordered_map_to_py_dict_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    int result = 0;
+    std::unordered_map<std::string, std::string> cpp_map;
+    for (size_t i = 0; i < size; ++i) {
+        cpp_map[unique_string(str_len)] = std::string(str_len, ' ');
+    }
+    std::ostringstream title;
+    title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
+    TestResult test_result(title.str());
+    for (size_t i = 0; i < repeat; ++i) {
+        ExecClock exec_clock;
+        PyObject *op = Python_Cpp_Containers::cpp_std_unordered_map_to_py_dict(cpp_map);
+        double exec_time = exec_clock.seconds();
+        if (op) {
+            Py_DECREF(op);
+        } else {
+            result = 1;
+        }
+        test_result.execTimeAdd(result, exec_time, 1, size);
+    }
+    test_results.push_back(test_result);
+    return result;
+}
+
+int test_perf_cpp_std_unordered_map_to_py_dict_string_multiple(TestResultS &test_results, size_t repeat) {
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
-             size < LIMIT_SIZE_OF_CONTAINER_DICT; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
-            result |= test_cpp_std_unordered_map_to_py_dict_string(test_results, size, str_len);
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_cpp_std_unordered_map_to_py_dict_string_multiple(test_results, size, str_len, repeat);
         }
     }
     return result;
 }
 
+int test_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    int result = 0;
+    std::ostringstream title;
+    title << __FUNCTION__  << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
+    TestResult test_result(title.str());
+    PyObject *op = new_py_dict_bytes(size, str_len);
+    for (size_t i = 0; i < repeat; ++i) {
+        std::unordered_map<std::string, std::string> cpp_map;
+        ExecClock exec_clock;
+        int err = Python_Cpp_Containers::py_dict_to_cpp_std_unordered_map(op, cpp_map);
+        double exec_time = exec_clock.seconds();
+        if (err) {
+            result = -1;
+            break;
+        }
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    Py_DECREF(op);
+    test_results.push_back(test_result);
+    return result;
+}
 
-//#define TEST_PERFORMANCE_TUPLES
-//#define TEST_PERFORMANCE_LISTS
+int test_perf_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test_results, size_t repeat) {
+    int result = 0;
+    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_py_dict_to_cpp_std_unordered_map_string_multiple(test_results, size, str_len, repeat);
+        }
+    }
+    return result;
+}
+
+#define TEST_PERFORMANCE_TUPLES
+#define TEST_PERFORMANCE_LISTS
 #define TEST_PERFORMANCE_SETS
-//#define TEST_PERFORMANCE_DICTS
+#define TEST_PERFORMANCE_DICTS
 
 void test_performance_all(TestResultS &test_results) {
     RSSSnapshot rss_overall("==== test_performance.cpp");
@@ -759,42 +815,6 @@ void test_performance_all(TestResultS &test_results) {
 #ifdef TEST_PERFORMANCE_DICTS
     // Test dicts.
     {
-        RSSSnapshot rss("test_perf_py_list_to_vector_multiple<bool>");
-        test_perf_py_list_to_vector_multiple<
-                bool,
-                &Python_Cpp_Containers::cpp_bool_to_py_bool
-            >(test_results,"<bool>", TEST_REPEAT);
-        std::cout << rss << std::endl;
-    }
-    {
-        RSSSnapshot rss("test_perf_py_list_to_vector_multiple<long>");
-        test_perf_py_list_to_vector_multiple<
-                long,
-                &Python_Cpp_Containers::cpp_long_to_py_long
-            >(test_results,"<long>", TEST_REPEAT);
-        std::cout << rss << std::endl;
-    }
-    {
-        RSSSnapshot rss("test_perf_py_list_to_vector_multiple<double>");
-        test_perf_py_list_to_vector_multiple<
-                double,
-                &Python_Cpp_Containers::cpp_double_to_py_float
-            >(test_results,"<double>", TEST_REPEAT);
-        std::cout << rss << std::endl;
-    }
-
-    // Test the performance of a Python list of bytes to and from C++
-    {
-        RSSSnapshot rss("test_perf_vector_string_to_py_list_multiple");
-        test_perf_vector_string_to_py_list_multiple(test_results, TEST_REPEAT);
-        std::cout << rss << std::endl;
-    }
-    {
-        RSSSnapshot rss("test_perf_py_list_to_vector_string_multiple");
-        test_perf_py_list_to_vector_string_multiple(test_results, TEST_REPEAT);
-        std::cout << rss << std::endl;
-    }
-    {
         RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<long, long>");
         test_perf_cpp_std_unordered_map_to_py_dict_multiple<long, long>(test_results, "<long, long>", TEST_REPEAT);
         std::cout << rss << std::endl;
@@ -822,6 +842,16 @@ void test_performance_all(TestResultS &test_results) {
                 &Python_Cpp_Containers::cpp_double_to_py_float,
                 &Python_Cpp_Containers::cpp_double_to_py_float
         >(test_results, "<double, double>", TEST_REPEAT);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_string_multiple");
+        test_perf_cpp_std_unordered_map_to_py_dict_string_multiple(test_results, TEST_REPEAT);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_perf_py_dict_to_cpp_std_unordered_map_string_multiple");
+        test_perf_py_dict_to_cpp_std_unordered_map_string_multiple(test_results, TEST_REPEAT);
         std::cout << rss << std::endl;
     }
     std::cout << "==== " << rss_overall << std::endl;
