@@ -7,6 +7,8 @@ Example:
 TEST:    0       1       5     0.000001235     0.000002290     0.000000065     0.000005814         5     4048910.8 test_vector_to_py_list_multiple<bool>[1]
 TEST:    0    1024       5     0.000015565     0.000000977     0.000015067     0.000017520         5      321231.5 test_vector_string_to_py_list_multiple<std::string[8]>():[1024]
 
+It is fairly fragile as things like 'test_cpp_std_unordered_map_to_py_dict_multiple<double, double>[1]' will match
+wrongly as it uses split().
 """
 import os.path
 import re
@@ -22,7 +24,10 @@ def main():
     with open(SOURCE_FILE_NAME) as file:
         for line in file.readlines():
             if line.startswith('TEST:'):
-                filename = line.split()[-1].replace('<', '_').replace('>', '_').replace('(', '').replace(')', '').replace(':', '_')
+                raw_filename = line.split()[-1]
+                filename = raw_filename.replace('<', '_').replace('>', '_').replace('(', '').replace(')', '')\
+                    .replace(',', '_').replace(':', '_').replace(' ', '_')
+                print(f'{raw_filename} -> {filename}')
                 m = RE_FILENAME.match(filename)
                 if m is None:
                     print(f'ERROR: {filename}')

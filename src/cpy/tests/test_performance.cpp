@@ -815,33 +815,33 @@ void test_performance_all(TestResultS &test_results) {
 #ifdef TEST_PERFORMANCE_DICTS
     // Test dicts.
     {
-        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<long, long>");
-        test_perf_cpp_std_unordered_map_to_py_dict_multiple<long, long>(test_results, "<long, long>", TEST_REPEAT);
+        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<long,long>");
+        test_perf_cpp_std_unordered_map_to_py_dict_multiple<long, long>(test_results, "<long,long>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
     {
-        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<double, double>");
-        test_perf_cpp_std_unordered_map_to_py_dict_multiple<double, double>(test_results, "<double, double>", TEST_REPEAT);
+        RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<double,double>");
+        test_perf_cpp_std_unordered_map_to_py_dict_multiple<double, double>(test_results, "<double,double>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
     {
-        RSSSnapshot rss("test_perf_py_dict_to_cpp_std_unordered_map_multiple<long, long>");
+        RSSSnapshot rss("test_perf_py_dict_to_cpp_std_unordered_map_multiple<long,long>");
         test_perf_py_dict_to_cpp_std_unordered_map_multiple<
                 long,
                 long,
                 &Python_Cpp_Containers::cpp_long_to_py_long,
                 &Python_Cpp_Containers::cpp_long_to_py_long
-        >(test_results, "<long, long>", TEST_REPEAT);
+        >(test_results, "<long,long>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
     {
-        RSSSnapshot rss("test_perf_py_dict_to_cpp_std_unordered_map_multiple<double, double>");
+        RSSSnapshot rss("test_perf_py_dict_to_cpp_std_unordered_map_multiple<double,double>");
         test_perf_py_dict_to_cpp_std_unordered_map_multiple<
                 double,
                 double,
                 &Python_Cpp_Containers::cpp_double_to_py_float,
                 &Python_Cpp_Containers::cpp_double_to_py_float
-        >(test_results, "<double, double>", TEST_REPEAT);
+        >(test_results, "<double,double>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
     {
