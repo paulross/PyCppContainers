@@ -387,8 +387,33 @@ This would be a total of 3102Mb.
 The fact that we are seeing around 4200Mb,  35% more, is probably due to over-allocation either any or all of the Python
 dict or bytes allocators or the C++ ``std::unordered_map<T>`` or ``std::string`` allocators.
 
-These graphs show that there are no memory leaks.
+All these graphs show that there are no memory leaks.
 
+Containers of One Object
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This test was to create a list, set or dict with one entry of 1024 bytes and then convert it 10,000,000 times to a C++
+container and then back to Python.
+The memory was monitiored with `pymemtrace <https://pypi.org/project/pymemtrace/>`_ set up to spot and changes in RSS of >=4096 bytes.
+
+For example here is the code for a list:
+
+.. code-block::
+
+    original = [b' ' * 1024]
+    with cPyMemTrace.Profile():
+        for _r in range(10_000_000):
+            cPyCppContainers.new_list_bytes(original)
+        # Tends to force an event in pymemtrace.
+        gc.collect()
+
+The following is a plot of RSS and change of RSS over time for list, set, dict:
+
+.. image:: plots/pymemtrace_list_set_dict_bytes_one_item.png
+    :height: 300px
+    :align: center
+
+This graph shows that there are no memory leaks on container construction.
 
 Summary
 -----------------

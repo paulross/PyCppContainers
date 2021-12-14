@@ -1,0 +1,6 @@
+#     Event        dEvent  Clock        What     File                   #line Function                                  RSS         dRSS
+# $1  $2           $3      $4           $5       $6                        $7 $8                                         $9          $10
+NEXT: 0            +0      1.313118     C_CALL   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 185 new_list_bytes                       29655040     29655040
+NEXT: 1            +1      1.313215     C_RETURN /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 185 new_list_bytes                       29663232         8192
+PREV: 20000000     +19999999 54.401765    C_CALL   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 186 collect                              29663232            0
+NEXT: 20000001     +20000000 54.412929    C_RETURN /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 186 collect                              29667328         4096

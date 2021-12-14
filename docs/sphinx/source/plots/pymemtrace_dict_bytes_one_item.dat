@@ -1,0 +1,10 @@
+#     Event        dEvent  Clock        What     File                   #line Function                                  RSS         dRSS
+# $1  $2           $3      $4           $5       $6                        $7 $8                                         $9          $10
+NEXT: 0            +0      1.252117     C_CALL   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 227 new_dict_bytes_bytes                 29282304     29282304
+NEXT: 1            +1      1.252255     C_RETURN /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 227 new_dict_bytes_bytes                 29294592        12288
+PREV: 1504         +1503   1.257911     C_CALL   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 227 new_dict_bytes_bytes                 29294592            0
+NEXT: 1505         +1504   1.257928     C_RETURN /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 227 new_dict_bytes_bytes                 29298688         4096
+PREV: 20210        +18705  1.322274     C_CALL   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 227 new_dict_bytes_bytes                 29298688            0
+NEXT: 20211        +18706  1.322299     C_RETURN /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 227 new_dict_bytes_bytes                 29310976        12288
+PREV: 20000000     +19979789 65.900513    C_CALL   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 228 collect                              29310976            0
+NEXT: 20000001     +19979790 65.909449    C_RETURN /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 228 collect                              29315072         4096
