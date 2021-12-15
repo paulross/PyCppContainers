@@ -80,47 +80,51 @@ bytes[4096]     0.2 to 2.0              20,000 to 2,000             Slower large
 
 
 
-Python Tuple to a C++ ``std::vector``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Python Tuple and Lists to and from a C++ ``std::vector`` - Fundamental Types
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here is an example of converting a Python tuple to a C++ ``std::vector<T>`` for up to 1m ``bool``, ``long`` and ``double`` types.
-The function is ``test_perf_py_tuple_to_vector<T, ...>``.
-The Y-axis is the time is per-object in µs.
+Here is an example of converting a Python tuple or list to and from a C++ ``std::vector<T>`` for up to 1m ``bool``, ``long`` and ``double`` types.
 
-.. image:: plots/test_py_tuple_to_vector.svg.png
+TODO:
+
+.. image:: plots/cpp_vs_size_tuple_list_time.png
+    :height: 300px
+    :align: center
+
+TODO:
+
+.. image:: plots/cpp_vs_size_tuple_list_rate.png
     :height: 300px
     :align: center
 
 Notes:
 
+TODO:
+
 * For int and float the  conversion rate is around 0.015 µs per item or around 70m objects per second.
 * booleans are twice as quick taking around 0.007 µs/object or around 150m/s.
 * A 1m float/long conversion takes about 10 to 20 ms in total.
 
-C++ ``std::vector`` to a Python Tuple
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This is the reverse of the above, the time to convert a C++ ``std::vector<T>`` to a Python  ``tuple`` for up to 1m ``bool``, ``long`` and ``double`` types.
+Python Tuple and Lists to and from a C++ ``std::vector`` - ``bytes`` of Varying Length
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. image:: plots/test_vector_to_py_tuple.svg.png
+
+TODO:
+
+.. image:: plots/py_tuple_bytes_to_vector_string_time.svg.png
     :height: 300px
     :align: center
 
-The performance is very similar to the Python Tuple to a C++ ``std::vector`` test above.
 
+TODO:
 
-
-
-C++ ``std::vector<std::string>>`` to a Python Tuple of ``bytes``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This is the reverse, copying from from a C++ vector to a Python tuple.
-
-.. image:: plots/vector_string_to_py_tuple.svg.png
+.. image:: plots/py_tuple_bytes_to_vector_string_rate.svg.png
     :height: 300px
     :align: center
 
-The performance is very similar.
+TODO:
+
 
 Python Dict of [float, float] to a C++ ``std::unordered_map<double, double>``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -141,6 +145,9 @@ This corresponds, roughly, to a data rate of around 500 Mb/s.
 .. image:: plots/test_dict_string.svg.png
     :height: 300px
     :align: center
+
+
+
 
 Round-trip Python to C++ and back to Python
 ------------------------------------------------
