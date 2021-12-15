@@ -20,13 +20,13 @@ set datafile separator whitespace
 set key right
 
 set terminal svg size 1400,700           # choose the file format
-set output "dict_int_roundtrip.svg"   # choose the output device
+set output "images/dict_int_roundtrip.svg"   # choose the output device
 
-plot "test_new_dict_int_int.dat" using 1:(1e6 * $3 / $1) t "[int, int]" with linespoints
+plot "dat/test_new_dict_int_int.dat" using 1:(1e6 * $3 / $1) t "[int, int]" with linespoints
 
 set terminal png size 1400,700           # choose the file format
-set output "dict_int_roundtrip.png"   # choose the output device
+set output "images/dict_int_roundtrip.png"   # choose the output device
 
-plot "test_new_dict_int_int.dat" using 1:(1e6 * $3 / $1) t "[int, int]" with linespoints
+plot "dat/test_new_dict_int_int.dat" using 1:(1e6 * $3 / $1) t "[int, int]" with linespoints
 
 reset

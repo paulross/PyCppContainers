@@ -43,6 +43,43 @@ C++ Performance Tests
 
 These tests are in ``src/cpy/tests/test_performance.h`` and ``src/cpy/tests/test_performance.cpp``.
 
+
+Example of Python Tuple of ``bytes`` to a C++ ``std::vector<std::string>>``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TODO: Use this as an example of the methodology, this shows RATE, the rest show time.
+
+This shows the conversion cost of various length strings from a Python tuple to a C++ vector.
+Each test was repeated 5 times.
+The line shows the mean time per object in µs.
+The extreme whiskers show the minimum and maximum test values.
+The box shows the mean time ±the standard deviation, this is asymmetric as it is plotted on a log scale.
+The box will often extend beyond a minimum value where the minimum is close to the mean and the maximum large.
+
+.. image:: plots/images/py_tuple_bytes_to_vector_string_time.svg.png
+    :height: 300px
+    :align: center
+
+TODO:
+Line shows minimum.
+
+.. image:: plots/images/py_tuple_bytes_to_vector_string_rate.svg.png
+    :height: 300px
+    :align: center
+
+
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+bytes[8]        0.01                    800
+bytes[64]       0.06                    1,000
+bytes[512]      0.1                     5,000
+bytes[4096]     0.2 to 2.0              20,000 to 2,000             Slower large arrays are probably because the 8Gb memory demand is hitting the virtual memory system.
+=============== ======================= =========================== ===================
+
+
+
+
 Python Tuple to a C++ ``std::vector``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -71,29 +108,8 @@ This is the reverse of the above, the time to convert a C++ ``std::vector<T>`` t
 
 The performance is very similar to the Python Tuple to a C++ ``std::vector`` test above.
 
-Python Tuple of ``bytes`` to a C++ ``std::vector<std::string>>``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This shows the conversion cost of various length strings from a Python tuple to a C++ vector.
-Each test was repeated 5 times.
-The line shows the mean time per object in µs.
-The extreme whiskers show the minimum and maximum test values.
-The box shows the mean time ±the standard deviation, this is asymmetric as it is plotted on a log scale.
-The box will often extend beyond a minimum value where the minimum is close to the mean and the maximum large.
-
-.. image:: plots/py_tuple_bytes_to_vector_string.svg.png
-    :height: 300px
-    :align: center
 
 
-=============== ======================= =========================== ===================
-Object          ~Time per object (µs)   Rate Mb/s                   Notes
-=============== ======================= =========================== ===================
-bytes[8]        0.01                    800
-bytes[64]       0.06                    1,000
-bytes[512]      0.1                     5,000
-bytes[4096]     0.2 to 2.0              20,000 to 2,000             Slower large arrays are probably because the 8Gb memory demand is hitting the virtual memory system.
-=============== ======================= =========================== ===================
 
 C++ ``std::vector<std::string>>`` to a Python Tuple of ``bytes``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

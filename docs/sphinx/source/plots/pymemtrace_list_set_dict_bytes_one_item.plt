@@ -22,24 +22,24 @@ set datafile separator whitespace
 set key left
 
 set terminal svg size 1400,700           # choose the file format
-set output "pymemtrace_list_set_dict_bytes_one_item.svg"   # choose the output device
+set output "images/pymemtrace_list_set_dict_bytes_one_item.svg"   # choose the output device
 
-#plot "pymemtrace_list_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "List RSS (Mb)" with linespoints axes x1y1 lw 1, \
-    "pymemtrace_list_bytes_one_item.dat" using 4:($10 / (1024 * 1024)) t "List dRSS (Mb)" with points axes x1y2 lw 1, \
-    "pymemtrace_set_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "Set RSS (Mb)" with linespoints axes x1y1 lw 1, \
-    "pymemtrace_set_bytes_one_item.dat" using 4:($10 / (1024 * 1024)) t "Set dRSS (Mb)" with points axes x1y2 lw 1, \
-    "pymemtrace_dict_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "Dict RSS (Mb)" with linespoints axes x1y1 lw 1, \
-    "pymemtrace_dict_bytes_one_item.dat" using 4:($10 / (1024 * 1024)) t "Dict dRSS (Mb)" with points axes x1y2 lw 1
+#plot "dat/pymemtrace_list_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "List RSS (Mb)" with linespoints axes x1y1 lw 1, \
+    "dat/pymemtrace_list_bytes_one_item.dat" using 4:($10 / (1024 * 1024)) t "List dRSS (Mb)" with points axes x1y2 lw 1, \
+    "dat/pymemtrace_set_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "Set RSS (Mb)" with linespoints axes x1y1 lw 1, \
+    "dat/pymemtrace_set_bytes_one_item.dat" using 4:($10 / (1024 * 1024)) t "Set dRSS (Mb)" with points axes x1y2 lw 1, \
+    "dat/pymemtrace_dict_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "Dict RSS (Mb)" with linespoints axes x1y1 lw 1, \
+    "dat/pymemtrace_dict_bytes_one_item.dat" using 4:($10 / (1024 * 1024)) t "Dict dRSS (Mb)" with points axes x1y2 lw 1
 
-plot "pymemtrace_list_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "List RSS (Mb)" with linespoints axes x1y1 lw 1, \
-    "pymemtrace_set_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "Set RSS (Mb)" with linespoints axes x1y1 lw 1, \
-    "pymemtrace_dict_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "Dict RSS (Mb)" with linespoints axes x1y1 lw 1
+plot "dat/pymemtrace_list_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "List RSS (Mb)" with linespoints axes x1y1 lw 1, \
+    "dat/pymemtrace_set_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "Set RSS (Mb)" with linespoints axes x1y1 lw 1, \
+    "dat/pymemtrace_dict_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "Dict RSS (Mb)" with linespoints axes x1y1 lw 1
 
 set terminal png size 1400,700           # choose the file format
-set output "pymemtrace_list_set_dict_bytes_one_item.png"   # choose the output device
+set output "images/pymemtrace_list_set_dict_bytes_one_item.png"   # choose the output device
 
-plot "pymemtrace_list_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "List RSS (Mb)" with linespoints axes x1y1 lw 1, \
-    "pymemtrace_set_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "Set RSS (Mb)" with linespoints axes x1y1 lw 1, \
-    "pymemtrace_dict_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "Dict RSS (Mb)" with linespoints axes x1y1 lw 1
+plot "dat/pymemtrace_list_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "List RSS (Mb)" with linespoints axes x1y1 lw 1, \
+    "dat/pymemtrace_set_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "Set RSS (Mb)" with linespoints axes x1y1 lw 1, \
+    "dat/pymemtrace_dict_bytes_one_item.dat" using 4:($9 / (1024 * 1024)) t "Dict RSS (Mb)" with linespoints axes x1y1 lw 1
 
 reset
