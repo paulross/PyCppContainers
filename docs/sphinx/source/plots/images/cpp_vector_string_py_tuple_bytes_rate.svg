@@ -401,7 +401,7 @@
 	<path stroke='black'  d='M88.5,54.1 L88.5,642.4 L1375.0,642.4 L1375.0,54.1 L88.5,54.1 Z  '/></g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(731.7,31.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >Time to copy a Python tuple of bytes to and from C++ std::vector&lt;std::string> with different string lengths.</tspan></text>
+		<text><tspan font-family="Arial" >Rate of copying a C++ std::vector&lt;std::string> to a Python tuple of bytes with different string lengths.</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">

@@ -56,14 +56,14 @@ The extreme whiskers show the minimum and maximum test values.
 The box shows the mean time ±the standard deviation, this is asymmetric as it is plotted on a log scale.
 The box will often extend beyond a minimum value where the minimum is close to the mean and the maximum large.
 
-.. image:: plots/images/py_tuple_bytes_to_vector_string_time.svg.png
+.. image:: plots/images/py_tuple_bytes_to_vector_string_time.png
     :height: 300px
     :align: center
 
 TODO:
 Line shows minimum.
 
-.. image:: plots/images/py_tuple_bytes_to_vector_string_rate.svg.png
+.. image:: plots/images/py_tuple_bytes_to_vector_string_rate.png
     :height: 300px
     :align: center
 
@@ -87,13 +87,13 @@ Here is an example of converting a Python tuple or list to and from a C++ ``std:
 
 TODO:
 
-.. image:: plots/cpp_vs_size_tuple_list_time.png
+.. image:: plots/images/cpp_vs_size_tuple_list_time.png
     :height: 300px
     :align: center
 
 TODO:
 
-.. image:: plots/cpp_vs_size_tuple_list_rate.png
+.. image:: plots/images/cpp_vs_size_tuple_list_rate.png
     :height: 300px
     :align: center
 
@@ -106,40 +106,62 @@ TODO:
 * A 1m float/long conversion takes about 10 to 20 ms in total.
 
 
-Python Tuple and Lists to and from a C++ ``std::vector`` - ``bytes`` of Varying Length
+Python Lists to and from a C++ ``std::vector`` - ``bytes`` of Varying Length
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 TODO:
 
-.. image:: plots/py_tuple_bytes_to_vector_string_time.svg.png
+.. image:: plots/images/cpp_py_list_bytes_vector_string_rate.png
     :height: 300px
     :align: center
 
 
 TODO:
 
-.. image:: plots/py_tuple_bytes_to_vector_string_rate.svg.png
+.. image:: plots/images/cpp_vector_string_py_list_bytes_rate.png
     :height: 300px
     :align: center
 
 TODO:
+
+
+Python Tuples to and from a C++ ``std::vector`` - ``bytes`` of Varying Length
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+TODO:
+
+.. image:: plots/images/cpp_py_tuple_bytes_vector_string_rate.png
+    :height: 300px
+    :align: center
+
+
+TODO:
+
+.. image:: plots/images/cpp_vector_string_py_tuple_bytes_rate.png
+    :height: 300px
+    :align: center
+
+TODO:
+
+
 
 
 Sets and Dictionaries with ``int`` and ``float``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
- of [float, float] to a C++ ``std::unordered_map<double, double>``
+of [float, float] to a C++ ``std::unordered_map<double, double>``
 TODO:
 
-.. image:: plots/cpp_vs_size_set_dict_time.png
+.. image:: plots/images/cpp_vs_size_set_dict_time.png
     :height: 300px
     :align: center
 
 
 TODO:
 
-.. image:: plots/cpp_vs_size_set_dict_rate.png
+.. image:: plots/images/cpp_vs_size_set_dict_rate.png
     :height: 300px
     :align: center
 
@@ -152,7 +174,7 @@ Python Dict of [bytes, bytes] to a C++ ``std::unordered_map<std::string, std::st
 Similarly for dicts of bytes.
 This corresponds, roughly, to a data rate of around 500 Mb/s.
 
-.. image:: plots/test_dict_string.svg.png
+.. image:: plots/images/test_dict_string.png
     :height: 300px
     :align: center
 
@@ -205,7 +227,7 @@ Python Lists
 
 Here is the *round trip* performance of a Python list of floats and a Python list of ints:
 
-.. image:: plots/list_float_int_roundtrip.png
+.. image:: plots/images/list_float_int_roundtrip.png
     :height: 300px
     :align: center
 
@@ -213,7 +235,7 @@ These are typically *round trip* converted at 0.015 µs per object, say 70m obje
 
 And Python lists of bytes of different lengths:
 
-.. image:: plots/list_bytes_roundtrip.png
+.. image:: plots/images/list_bytes_roundtrip.png
     :height: 300px
     :align: center
 
@@ -236,7 +258,7 @@ Python dicts
 Here is the round trip time for a Python dict [int, int] to and from a C++ ``std::unordered_map<long, long>``.
 This plots the *round trip* cost *per key/value pair* against dict size.
 
-.. image:: plots/dict_int_roundtrip.png
+.. image:: plots/images/dict_int_roundtrip.png
     :height: 300px
     :align: center
 
@@ -245,7 +267,7 @@ Here is the *round trip* time for a Python dict [bytes, bytes] to and from a C++
 The key and the value are the same length.
 This plots the *round trip* cost *per key/value pair* against dict size.
 
-.. image:: plots/dict_bytes_roundtrip.png
+.. image:: plots/images/dict_bytes_roundtrip.png
     :height: 300px
     :align: center
 
@@ -307,7 +329,7 @@ The code to do this is something like:
 
 The following is a plot of RSS and change of RSS over time:
 
-.. image:: plots/pymemtrace_list_bytes.png
+.. image:: plots/images/pymemtrace_list_bytes.png
     :height: 300px
     :align: center
 
@@ -351,7 +373,7 @@ The code looks like this:
 
 The following is a plot of RSS and change of RSS over time:
 
-.. image:: plots/pymemtrace_set_bytes.png
+.. image:: plots/images/pymemtrace_set_bytes.png
     :height: 300px
     :align: center
 
@@ -398,7 +420,7 @@ The code looks like this:
 
 The following is a plot of RSS and change of RSS over time:
 
-.. image:: plots/pymemtrace_dict_bytes.png
+.. image:: plots/images/pymemtrace_dict_bytes.png
     :height: 300px
     :align: center
 
@@ -442,7 +464,7 @@ For example here is the code for a list:
 
 The following is a plot of RSS and change of RSS over time for list, set, dict:
 
-.. image:: plots/pymemtrace_list_set_dict_bytes_one_item.png
+.. image:: plots/images/pymemtrace_list_set_dict_bytes_one_item.png
     :height: 300px
     :align: center
 
