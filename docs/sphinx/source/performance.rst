@@ -126,15 +126,25 @@ TODO:
 TODO:
 
 
-Python Dict of [float, float] to a C++ ``std::unordered_map<double, double>``
+Sets and Dictionaries with ``int`` and ``float``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This shows the conversion rate of a dict of floats to and from Python.
-At 0.1 µs per item (10m objects/s) this rate is about one-tenth of the rate of converting a sequence.
+ of [float, float] to a C++ ``std::unordered_map<double, double>``
+TODO:
 
-.. image:: plots/test_dict_double.svg.png
+.. image:: plots/cpp_vs_size_set_dict_time.png
     :height: 300px
     :align: center
+
+
+TODO:
+
+.. image:: plots/cpp_vs_size_set_dict_rate.png
+    :height: 300px
+    :align: center
+
+TODO:
+
 
 Python Dict of [bytes, bytes] to a C++ ``std::unordered_map<std::string, std::string>``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

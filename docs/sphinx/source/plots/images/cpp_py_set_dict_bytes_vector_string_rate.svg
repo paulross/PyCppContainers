@@ -231,15 +231,15 @@
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(731.7,691.3)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >Size of Tuple and Vector</tspan></text>
+		<text><tspan font-family="Arial" >Size of Set and Dict</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
-	<g id="gnuplot_plot_1" ><title>String length 8</title>
+	<g id="gnuplot_plot_1" ><title>String length 2</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(246.2,76.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >String length 8</tspan></text>
+		<text><tspan font-family="Arial" >String length 2</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -272,10 +272,10 @@
 		L603.1,437.5 L667.4,438.4 L731.8,438.3 L796.1,438.3 L860.4,438.0 L924.7,437.9 L989.0,438.0 L1053.4,437.9
 		L1117.7,436.5 L1182.0,426.1 L1246.4,425.2 L1310.7,424.3 L1375.0,417.0  '/></g>
 	</g>
-	<g id="gnuplot_plot_3" ><title>String length 64</title>
+	<g id="gnuplot_plot_3" ><title>String length 16</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(246.2,94.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >String length 64</tspan></text>
+		<text><tspan font-family="Arial" >String length 16</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -308,10 +308,10 @@
 		L603.1,432.3 L667.4,434.0 L731.8,434.4 L796.1,433.9 L860.4,433.7 L924.7,433.7 L989.0,433.7 L1053.4,433.6
 		L1117.7,425.1 L1182.0,420.6 L1246.4,419.3 L1310.7,418.6 L1375.0,412.6  '/></g>
 	</g>
-	<g id="gnuplot_plot_5" ><title>String length 512</title>
+	<g id="gnuplot_plot_5" ><title>String length 128</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(246.2,112.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >String length 512</tspan></text>
+		<text><tspan font-family="Arial" >String length 128</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -344,10 +344,10 @@
 		L603.1,295.5 L667.4,295.6 L731.8,295.5 L796.1,295.2 L860.4,282.8 L924.7,294.7 L989.0,287.5 L1053.4,279.1
 		L1117.7,278.9 L1182.0,279.5 L1246.4,272.9 L1310.7,257.5 L1375.0,249.7  '/></g>
 	</g>
-	<g id="gnuplot_plot_7" ><title>String length 4096</title>
+	<g id="gnuplot_plot_7" ><title>String length 1024</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(246.2,130.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >String length 4096</tspan></text>
+		<text><tspan font-family="Arial" >String length 1024</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -390,7 +390,7 @@
 	<path stroke='black'  d='M88.5,54.1 L88.5,642.4 L1375.0,642.4 L1375.0,54.1 L88.5,54.1 Z  '/></g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(731.7,31.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >Time to copy a Python tuple or list of bytes to and from C++ std::vector&lt;std::string> with different string lengths.</tspan></text>
+		<text><tspan font-family="Arial" >Time to copy a Python set or dict of bytes to and from C++ set or map with different string lengths.</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
