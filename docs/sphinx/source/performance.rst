@@ -476,7 +476,9 @@ Summary
 * Sequences of fundamental types are converted at around 100m objects/sec.
 * Sequences of strings are converted at a memory rate of around 4000 Mb/sec.
 * Dicts are about 5-10x slower than lists and tuples. 2x of this can be explained a both the key and the value must be converted.
-  The rest of the discrepancy can be explained by, whilst both list and dict operations are O(1), the list insert is much faster as an insert into a dict involves hashing.
+  The rest of the discrepancy can be explained by, whilst both list and dict operations are O(1),
+  the list insert is much faster as an insert into a dict involves hashing.
+* There are no memory leaks.
 
 Fundamental Types
 ^^^^^^^^^^^^^^^^^^^^^
