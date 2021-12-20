@@ -192,7 +192,7 @@ def _test_new_list_bytes():
 
 @pytest.mark.slow
 def test_new_list_bytes():
-    for i in range(1):
+    for i in range(REPEAT):
         _test_new_list_bytes()
 
 
@@ -231,7 +231,7 @@ def test_new_set_float():
         original = {float(i) for i in range(size)}
         timer = TimedResults()
         # for _r in range(REPEAT):
-        for _r in range(1):
+        for _r in range(REPEAT):
             time_start = time.perf_counter()
             cPyCppContainers.new_set_float(original)
             time_exec = time.perf_counter() - time_start
@@ -313,7 +313,7 @@ def test_new_dict_float_float():
         original = {float(i): float(i) for i in range(size)}
         timer = TimedResults()
         # for _r in range(REPEAT):
-        for _r in range(1):
+        for _r in range(REPEAT):
             time_start = time.perf_counter()
             cPyCppContainers.new_dict_float_float(original)
             time_exec = time.perf_counter() - time_start
