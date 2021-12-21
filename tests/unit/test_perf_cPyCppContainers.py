@@ -161,7 +161,8 @@ BYTES_LISTS = {
 }
 
 
-def _test_new_list_bytes():
+@pytest.mark.slow
+def test_new_list_bytes():
     proc = psutil.Process()
     rss = proc.memory_info().rss
     for byte_length in SIZE_DOUBLING_BYTE_LENGTH:
@@ -188,12 +189,6 @@ def _test_new_list_bytes():
             print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
     rss_new = proc.memory_info().rss
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
-
-
-@pytest.mark.slow
-def test_new_list_bytes():
-    for i in range(REPEAT):
-        _test_new_list_bytes()
 
 
 @pytest.mark.slow
