@@ -17,6 +17,7 @@ set pointsize 1
 set datafile separator whitespace
 
 set key left
+set boxwidth 0.2 relative
 
 # Some rate lines
 latency = 0.8e-6

@@ -17,6 +17,7 @@ set pointsize 1
 set datafile separator whitespace
 
 set key left
+set boxwidth 0.2 relative
 
 # Some rate lines
 latency = 0.2e-6
@@ -46,9 +47,9 @@ plot "dat/roundtrip_list_bytes_2.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 
         t "List [bytes] <-> C++ <string> Length 128" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_list_bytes_1024.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "List [bytes] <-> C++ <string> Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_list_int.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_list_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_list_int.dat" using 1:(rate_100_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 100m objects/s", latency*1e6) with lines lw 2 dashtype 5
+    "dat/roundtrip_list_bytes_2.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_list_bytes_2.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_list_bytes_2.dat" using 1:(rate_100_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 100m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
 set terminal png size 1400,700           # choose the file format
 set output "images/roundtrip_list_bytes_time.png"   # choose the output device
@@ -61,9 +62,9 @@ plot "dat/roundtrip_list_bytes_2.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 
         t "List [bytes] <-> C++ <string> Length 128" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_list_bytes_1024.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "List [bytes] <-> C++ <string> Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_list_int.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_list_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_list_int.dat" using 1:(rate_100_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 100m objects/s", latency*1e6) with lines lw 2 dashtype 5
+    "dat/roundtrip_list_bytes_2.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_list_bytes_2.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_list_bytes_2.dat" using 1:(rate_100_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 100m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
 # Rate plots
 set ylabel "Time per Item (µs)"
