@@ -34,7 +34,7 @@ rate_100_000_000(x) = latency + x / 1e8
 rate_1_000_000_000(x) = latency + x / 1e9
 
 # Time plots
-set ylabel "Time (s)"
+set ylabel "Time (µs)"
 set terminal svg size 1400,700           # choose the file format
 set output "images/roundtrip_dict_bytes_time.svg"   # choose the output device
 
