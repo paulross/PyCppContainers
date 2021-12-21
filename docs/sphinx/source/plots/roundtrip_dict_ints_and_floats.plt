@@ -42,8 +42,8 @@ plot "dat/roundtrip_dict_int_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 
          t "Dict [int, int] <-> C++ <long, long>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_dict_float_float.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "Dict [float, float] <-> C++ <double, double>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_int_int.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_dict_int_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 1,000m objects/s", latency*1e6) with lines lw 2 dashtype 5
+    "dat/roundtrip_dict_int_int.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_dict_int_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
 set terminal png size 1400,700           # choose the file format
 set output "images/roundtrip_dict_ints_and_floats_time.png"   # choose the output device
@@ -52,8 +52,8 @@ plot "dat/roundtrip_dict_int_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 
          t "Dict [int, int] <-> C++ <long, long>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_dict_float_float.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "Dict [float, float] <-> C++ <double, double>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_int_int.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_dict_int_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 1,000m objects/s", latency*1e6) with lines lw 2 dashtype 5
+    "dat/roundtrip_dict_int_int.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_dict_int_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
 # Rate plots
 set ylabel "Time per Item (µs)"
