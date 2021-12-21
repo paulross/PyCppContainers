@@ -220,37 +220,79 @@ Then the extension has the following instantiations:
         return new_list<std::string>(arg);
     }
 
-Similar code exists for Python dicts of specific types.
+Similar code exists for Python sets and dicts of specific types.
+Since the tuple conversion C++ code is essentially identical to the list conversion code no performance tests are done on tuples.
+It might be that the Python C API for tuples is significantly different than for list but this is considered unlikely.
 
 Python Lists
 ^^^^^^^^^^^^^^^^^^^^
 
-Here is the *round trip* performance of a Python list of floats and a Python list of ints:
+Here is the *round trip* performance of a Python list of booleans, ints or floats:
 
-.. image:: plots/images/list_float_int_roundtrip.png
+.. image:: plots/images/roundtrip_list_ints_floats_and_bools_rate.png
     :height: 300px
     :align: center
 
-These are typically *round trip* converted at 0.015 µs per object, say 70m objects a second or around 600 Mb/s.
+These are typically *round trip* converted at:
 
-And Python lists of bytes of different lengths:
+* 0.01 µs per object for booleans, say 100m objects a second.
+* 0.025 µs per object for booleans, say 40m objects a second.
 
-.. image:: plots/images/list_bytes_roundtrip.png
+And a Python list of bytes for different lengths; 2, 16, 128 and 1024 bytes long:
+
+.. image:: plots/images/roundtrip_list_bytes_rate.png
     :height: 300px
     :align: center
 
-This *round trip* time for lists can be summarised as:
+Given the size of each object this *round trip* time for lists can be summarised as:
 
-=============== ======================= =========================== ===================
-Object          ~Time per object (µs)   Rate Mb/s                   Notes
-=============== ======================= =========================== ===================
-float or int    0.015                   600                         Multiply these rates by 2 to get individual conversion rate.
-bytes[8]        0.025                   300
-bytes[64]       0.09                    700
-bytes[512]      0.2                     2500
-bytes[4096]     0.6                     6800
-=============== ======================= =========================== ===================
+=============== ======================= =========================== =========================== ===================
+Object          Time per object (µs)    Rate (million/s)            Rate (Mb/s)                 Notes
+=============== ======================= =========================== =========================== ===================
+bool            0.01                    100                         ~10 (one bit per object)    Multiply these rates by 2 to get individual conversion rate.
+float or int    0.025                   40                          320 (8 bytes per object)
+bytes[2]        0.04                    25                          50
+bytes[16]       0.04                    25                          400
+bytes[128]      0.15                    6.7                         850
+bytes[1024]     0.4 to 2.0              0.5 to 2.5                  500 to 2500
+=============== ======================= =========================== =========================== ===================
 
+Python Sets
+^^^^^^^^^^^^^^^^^^^^
+
+Here is the *round trip* performance of a Python set of ints or floats:
+
+.. image:: plots/images/roundtrip_set_ints_and_floats_rate.png
+    :height: 300px
+    :align: center
+
+These are typically *round trip* converted at:
+
+* 0.15 µs per object for int, say 6m objects a second.
+* 0.2 µs per object for float, say 5m objects a second.
+
+TODO: Comparison with list.
+
+And a Python set of bytes for different lengths; 2, 16, 128 and 1024 bytes long:
+
+.. image:: plots/images/roundtrip_set_bytes_rate.png
+    :height: 300px
+    :align: center
+
+TODO: Commentary on this graph.
+
+Given the size of each object this *round trip* time for lists can be summarised as:
+
+=============== ======================= =========================== =========================== ===================
+Object          Time per object (µs)    Rate (million/s)            Rate (Mb/s)                 Notes
+=============== ======================= =========================== =========================== ===================
+int             0.15                    6                           48 (8 bytes per object)     Multiply these rates by 2 to get individual conversion rate.
+float           0.2                     5                           40 (8 bytes per object)
+bytes[2]        0.3                     3                           6
+bytes[16]       ~0.6                    1.7                         27
+bytes[128]      0.6 to 1.5              0.7 to 1.7                  90 to 220
+bytes[1024]     1.0 to 5.0              0.2 to 1                    200 to 1000
+=============== ======================= =========================== =========================== ===================
 
 Python dicts
 ^^^^^^^^^^^^^^^^^^^^
