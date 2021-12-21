@@ -165,7 +165,7 @@
 <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M96.8,184.8 L105.1,184.8 M479.3,184.8 L1375.0,184.8  '/></g>
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M96.8,184.8 L105.1,184.8 M529.1,184.8 L1375.0,184.8  '/></g>
 <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -182,7 +182,7 @@
 <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M96.8,119.5 L105.1,119.5 M479.3,119.5 L1375.0,119.5  '/></g>
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M96.8,119.5 L105.1,119.5 M529.1,119.5 L1375.0,119.5  '/></g>
 <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -246,7 +246,7 @@
 <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M521.4,642.4 L521.4,54.1  '/></g>
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M521.4,642.4 L521.4,189.1 M521.4,63.1 L521.4,54.1  '/></g>
 <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -333,19 +333,19 @@
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(735.9,691.3)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >Size of List</tspan></text>
+		<text><tspan font-family="Arial" >Size of tuple/list</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
-	<g id="gnuplot_plot_1" ><title>C++ List -> Python, string length 2</title>
+	<g id="gnuplot_plot_1" ><title>C++ List -> Python tuple, string length 2</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(420.5,76.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >C++ List -> Python, string length 2</tspan></text>
+	<g transform="translate(470.3,76.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >C++ List -> Python tuple, string length 2</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(148,   0, 211)'  d='M428.8,76.6 L471.0,76.6 L471.0,67.6 L428.8,67.6 L428.8,76.6 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M151.0,600.3 L169.6,600.3 L169.6,551.9 L151.0,551.9 L151.0,600.3 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M160.6,584.5 L160.6,600.3 M160.6,551.9 L160.6,542.2 M155.6,542.2 L165.0,542.2 M155.6,584.5 L165.0,584.5
+	<path stroke='rgb(148,   0, 211)'  d='M478.6,76.6 L520.8,76.6 L520.8,67.6 L478.6,67.6 L478.6,76.6 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M151.0,600.3 L169.6,600.3 L169.6,551.9 L151.0,551.9 L151.0,600.3 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M160.6,584.5 L160.6,600.3 M160.6,551.9 L160.6,542.2 M155.6,542.2 L165.0,542.2 M155.6,584.5 L165.0,584.5
 		M219.9,587.2 L233.5,587.2 L233.5,552.9 L219.9,552.9 L219.9,587.2 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M224.7,575.6 L224.7,587.2 M224.7,552.9 L224.7,544.3 M223.3,544.3 L230.1,544.3 M223.3,575.6 L230.1,575.6
 		M283.8,581.0 L297.4,581.0 L297.4,527.1 L283.8,527.1 L283.8,581.0 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M288.6,556.7 L288.6,581.0 M288.6,527.1 L288.6,517.0 M287.2,517.0 L294.0,517.0 M287.2,556.7 L294.0,556.7
 		M347.7,560.8 L361.3,560.8 L361.3,518.5 L347.7,518.5 L347.7,560.8 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M352.5,544.2 L352.5,560.8 M352.5,518.5 L352.5,509.2 M351.1,509.2 L357.9,509.2 M351.1,544.2 L357.9,544.2
@@ -367,14 +367,14 @@
 		L1375.1,213.8 L1375.1,211.2 L1370.3,211.2 L1370.3,213.8 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M1374.9,214.3 L1374.9,213.8 M1374.9,211.2 L1374.9,210.9 M1371.5,210.9 L1373.9,210.9 M1371.5,214.3 L1373.9,214.3
 		 '/></g>
 	</g>
-	<g id="gnuplot_plot_2" ><title>C++ List -> Python, string length 16</title>
+	<g id="gnuplot_plot_2" ><title>C++ List -> Python tuple, string length 16</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(420.5,94.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >C++ List -> Python, string length 16</tspan></text>
+	<g transform="translate(470.3,94.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >C++ List -> Python tuple, string length 16</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(  0, 158, 115)'  d='M428.8,94.6 L471.0,94.6 L471.0,85.6 L428.8,85.6 L428.8,94.6 Z  '/>	<path stroke='rgb(  0, 158, 115)'  d='M151.0,609.4 L169.6,609.4 L169.6,553.6 L151.0,553.6 L151.0,609.4 Z  '/>	<path stroke='rgb(  0, 158, 115)'  d='M160.6,586.8 L160.6,609.4 M160.6,553.6 L160.6,543.7 M155.6,543.7 L165.0,543.7 M155.6,586.8 L165.0,586.8
+	<path stroke='rgb(  0, 158, 115)'  d='M478.6,94.6 L520.8,94.6 L520.8,85.6 L478.6,85.6 L478.6,94.6 Z  '/>	<path stroke='rgb(  0, 158, 115)'  d='M151.0,609.4 L169.6,609.4 L169.6,553.6 L151.0,553.6 L151.0,609.4 Z  '/>	<path stroke='rgb(  0, 158, 115)'  d='M160.6,586.8 L160.6,609.4 M160.6,553.6 L160.6,543.7 M155.6,543.7 L165.0,543.7 M155.6,586.8 L165.0,586.8
 		M219.9,595.6 L233.5,595.6 L233.5,543.3 L219.9,543.3 L219.9,595.6 Z  '/>	<path stroke='rgb(  0, 158, 115)'  d='M224.7,576.2 L224.7,595.6 M224.7,543.3 L224.7,533.4 M223.3,533.4 L230.1,533.4 M223.3,576.2 L230.1,576.2
 		M283.8,599.7 L297.4,599.7 L297.4,527.6 L283.8,527.6 L283.8,599.7 Z  '/>	<path stroke='rgb(  0, 158, 115)'  d='M288.6,563.0 L288.6,599.7 M288.6,527.6 L288.6,516.9 M287.2,516.9 L294.0,516.9 M287.2,563.0 L294.0,563.0
 		M347.7,549.7 L361.3,549.7 L361.3,536.8 L347.7,536.8 L347.7,549.7 Z  '/>	<path stroke='rgb(  0, 158, 115)'  d='M352.5,546.7 L352.5,549.7 M352.5,536.8 L352.5,532.1 M351.1,532.1 L357.9,532.1 M351.1,546.7 L357.9,546.7
@@ -395,14 +395,14 @@
 		M1306.4,230.8 L1320.0,230.8 L1320.0,229.6 L1306.4,229.6 L1306.4,230.8 Z  '/>	<path stroke='rgb(  0, 158, 115)'  d='M1311.2,230.7 L1311.2,230.8 M1311.2,229.6 L1311.2,229.1 M1309.8,229.1 L1316.6,229.1 M1309.8,230.7 L1316.6,230.7
 		M1370.3,210.1 L1375.1,210.1 L1375.1,208.4 L1370.3,208.4 L1370.3,210.1 Z  '/>	<path stroke='rgb(  0, 158, 115)'  d='M1374.9,210.1 M1374.9,208.4 L1374.9,207.6 M1371.5,207.6 L1373.9,207.6 M1371.5,210.1 L1373.9,210.1  '/></g>
 	</g>
-	<g id="gnuplot_plot_3" ><title>C++ List -> Python, string length 128</title>
+	<g id="gnuplot_plot_3" ><title>C++ List -> Python tuple, string length 128</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(420.5,112.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >C++ List -> Python, string length 128</tspan></text>
+	<g transform="translate(470.3,112.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >C++ List -> Python tuple, string length 128</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb( 86, 180, 233)'  d='M428.8,112.6 L471.0,112.6 L471.0,103.6 L428.8,103.6 L428.8,112.6 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M151.0,586.4 L169.6,586.4 L169.6,557.6 L151.0,557.6 L151.0,586.4 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M160.6,577.3 L160.6,586.4 M160.6,557.6 L160.6,549.7 M155.6,549.7 L165.0,549.7 M155.6,577.3 L165.0,577.3
+	<path stroke='rgb( 86, 180, 233)'  d='M478.6,112.6 L520.8,112.6 L520.8,103.6 L478.6,103.6 L478.6,112.6 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M151.0,586.4 L169.6,586.4 L169.6,557.6 L151.0,557.6 L151.0,586.4 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M160.6,577.3 L160.6,586.4 M160.6,557.6 L160.6,549.7 M155.6,549.7 L165.0,549.7 M155.6,577.3 L165.0,577.3
 		M219.9,577.6 L233.5,577.6 L233.5,553.6 L219.9,553.6 L219.9,577.6 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M224.7,573.8 L224.7,577.6 M224.7,553.6 L224.7,546.9 M223.3,546.9 L230.1,546.9 M223.3,573.8 L230.1,573.8
 		M283.8,562.6 L297.4,562.6 L297.4,540.8 L283.8,540.8 L283.8,562.6 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M288.6,558.8 L288.6,562.6 M288.6,540.8 L288.6,534.3 M287.2,534.3 L294.0,534.3 M287.2,558.8 L294.0,558.8
 		M347.7,548.2 L361.3,548.2 L361.3,531.3 L347.7,531.3 L347.7,548.2 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M352.5,543.2 L352.5,548.2 M352.5,531.3 L352.5,525.7 M351.1,525.7 L357.9,525.7 M351.1,543.2 L357.9,543.2
@@ -424,14 +424,14 @@
 		M1370.3,185.7 L1375.1,185.7 L1375.1,184.1 L1370.3,184.1 L1370.3,185.7 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M1374.9,186.3 L1374.9,185.7 M1374.9,184.1 L1374.9,183.9 M1371.5,183.9 L1373.9,183.9 M1371.5,186.3 L1373.9,186.3
 		 '/></g>
 	</g>
-	<g id="gnuplot_plot_4" ><title>C++ List -> Python, string length 1024</title>
+	<g id="gnuplot_plot_4" ><title>C++ List -> Python tuple, string length 1024</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(420.5,130.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >C++ List -> Python, string length 1024</tspan></text>
+	<g transform="translate(470.3,130.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >C++ List -> Python tuple, string length 1024</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(230, 159,   0)'  d='M428.8,130.6 L471.0,130.6 L471.0,121.6 L428.8,121.6 L428.8,130.6 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M151.0,593.0 L169.6,593.0 L169.6,528.3 L151.0,528.3 L151.0,593.0 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M160.6,561.1 L160.6,593.0 M160.6,528.3 L160.6,517.8 M155.6,517.8 L165.0,517.8 M155.6,561.1 L165.0,561.1
+	<path stroke='rgb(230, 159,   0)'  d='M478.6,130.6 L520.8,130.6 L520.8,121.6 L478.6,121.6 L478.6,130.6 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M151.0,593.0 L169.6,593.0 L169.6,528.3 L151.0,528.3 L151.0,593.0 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M160.6,561.1 L160.6,593.0 M160.6,528.3 L160.6,517.8 M155.6,517.8 L165.0,517.8 M155.6,561.1 L165.0,561.1
 		M219.9,549.5 L233.5,549.5 L233.5,526.0 L219.9,526.0 L219.9,549.5 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M224.7,542.8 L224.7,549.5 M224.7,526.0 L224.7,519.0 M223.3,519.0 L230.1,519.0 M223.3,542.8 L230.1,542.8
 		M283.8,536.2 L297.4,536.2 L297.4,501.6 L283.8,501.6 L283.8,536.2 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M288.6,524.2 L288.6,536.2 M288.6,501.6 L288.6,493.0 M287.2,493.0 L294.0,493.0 M287.2,524.2 L294.0,524.2
 		M347.7,507.0 L361.3,507.0 L361.3,490.0 L347.7,490.0 L347.7,507.0 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M352.5,502.2 L352.5,507.0 M352.5,490.0 L352.5,484.3 M351.1,484.3 L357.9,484.3 M351.1,502.2 L357.9,502.2
@@ -456,34 +456,34 @@
 <g fill="none" color="white" stroke="rgb(230, 159,   0)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(420.5,148.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+	<g transform="translate(470.3,148.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
 		<text><tspan font-family="Arial" >Guide: 0.040 µs + 1m objects/s</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(240, 228,  66)' stroke-dasharray=' 5,8'  d='M428.8,144.1 L471.0,144.1 M96.8,510.6 L160.7,491.4 L224.6,472.0 L288.5,452.5 L352.4,432.9 L416.4,413.2
+	<path stroke='rgb(240, 228,  66)' stroke-dasharray=' 5,8'  d='M478.6,144.1 L520.8,144.1 M96.8,510.6 L160.7,491.4 L224.6,472.0 L288.5,452.5 L352.4,432.9 L416.4,413.2
 		L480.3,393.6 L544.2,373.9 L608.1,354.2 L672.0,334.6 L735.9,314.9 L799.8,295.2 L863.7,275.5 L927.6,255.9
 		L991.5,236.2 L1055.4,216.5 L1119.4,196.8 L1183.3,177.2 L1247.2,157.5 L1311.1,137.8 L1375.0,118.1  '/></g>
 	</g>
 	<g id="gnuplot_plot_6" ><title>Guide: 0.040 µs + 10m objects/s</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(420.5,166.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+	<g transform="translate(470.3,166.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
 		<text><tspan font-family="Arial" >Guide: 0.040 µs + 10m objects/s</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(  0, 114, 178)' stroke-dasharray=' 5,8'  d='M428.8,162.1 L471.0,162.1 M96.8,567.5 L160.7,552.2 L224.6,535.0 L288.5,516.6 L352.4,497.6 L416.4,478.3
+	<path stroke='rgb(  0, 114, 178)' stroke-dasharray=' 5,8'  d='M478.6,162.1 L520.8,162.1 M96.8,567.5 L160.7,552.2 L224.6,535.0 L288.5,516.6 L352.4,497.6 L416.4,478.3
 		L480.3,458.8 L544.2,439.2 L608.1,419.6 L672.0,399.9 L735.9,380.2 L799.8,360.6 L863.7,340.9 L927.6,321.2
 		L991.5,301.6 L1055.4,281.9 L1119.4,262.2 L1183.3,242.5 L1247.2,222.8 L1311.1,203.2 L1375.0,183.5  '/></g>
 	</g>
 	<g id="gnuplot_plot_7" ><title>Guide: 0.040 µs + 100m objects/s</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(420.5,184.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+	<g transform="translate(470.3,184.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
 		<text><tspan font-family="Arial" >Guide: 0.040 µs + 100m objects/s</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(229,  30,  16)' stroke-dasharray=' 5,8'  d='M428.8,180.1 L471.0,180.1 M96.8,596.7 L160.7,591.5 L224.6,583.4 L288.5,571.9 L352.4,557.4 L416.4,540.7
+	<path stroke='rgb(229,  30,  16)' stroke-dasharray=' 5,8'  d='M478.6,180.1 L520.8,180.1 M96.8,596.7 L160.7,591.5 L224.6,583.4 L288.5,571.9 L352.4,557.4 L416.4,540.7
 		L480.3,522.6 L544.2,503.8 L608.1,484.5 L672.0,465.1 L735.9,445.5 L799.8,425.9 L863.7,406.2 L927.6,386.6
 		L991.5,366.9 L1055.4,347.2 L1119.4,327.6 L1183.3,307.9 L1247.2,288.2 L1311.1,268.5 L1375.0,248.9  '/></g>
 	</g>
