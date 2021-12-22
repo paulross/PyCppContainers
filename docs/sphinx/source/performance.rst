@@ -43,11 +43,11 @@ C++ Performance Tests
 
 These tests are in ``src/cpy/tests/test_performance.h`` and ``src/cpy/tests/test_performance.cpp``.
 
-
 Conversion of Fundamental Types
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 These C++ functions test the cost of converting ints, floats and bytes objects between Python and C++.
+These test are executed if the macro ``TEST_PERFORMANCE_FUNDAMENTAL_TYPES`` is defined.
 
 .. list-table::
    :widths: 40 25 25 30
@@ -68,9 +68,8 @@ These C++ functions test the cost of converting ints, floats and bytes objects b
 
 For C++ ``string`` <-> Python ``bytes`` of different lengths:
 
-
 .. list-table::
-   :widths: 40 25 25 30
+   :widths: 20 25 25 50
    :header-rows: 1
 
    * - Length
@@ -115,14 +114,14 @@ The extreme whiskers show the minimum and maximum test values.
 The box shows the mean time ±the standard deviation, this is asymmetric as it is plotted on a log scale.
 The box will often extend beyond a minimum value where the minimum is close to the mean and the maximum large.
 
-.. image:: plots/images/py_tuple_bytes_to_vector_string_time.png
+.. image:: plots/images/cpp_py_tuple_bytes_vector_string_time.png
     :height: 300px
     :align: center
 
 TODO:
 Line shows minimum.
 
-.. image:: plots/images/py_tuple_bytes_to_vector_string_rate.png
+.. image:: plots/images/cpp_py_tuple_bytes_vector_string_rate.png
     :height: 300px
     :align: center
 
@@ -233,9 +232,8 @@ Python Dict of [bytes, bytes] to a C++ ``std::unordered_map<std::string, std::st
 Similarly for dicts of bytes.
 This corresponds, roughly, to a data rate of around 500 Mb/s.
 
-.. image:: plots/images/test_dict_string.png
-    :height: 300px
-    :align: center
+TODO:
+
 
 
 
