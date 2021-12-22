@@ -102,7 +102,46 @@ For C++ ``string`` <-> Python ``bytes`` of different lengths:
      - Corresponds to about 41 Gb/s
 
 
-Example of Python Tuple of ``bytes`` to a C++ ``std::vector<std::string>>``
+Example of Python List to and from a C++ ``std::vector<T>``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TODO: Use this as an extensive example of the methodology.
+
+TODO: bool, int, float Python -> C++
+TODO: bool, int, float C++ -> Python
+
+
+TODO: Describe bytes
+
+.. image:: plots/images/cpp_py_list_bytes_vector_string_time.png
+    :height: 300px
+    :align: center
+
+TODO:
+
+.. image:: plots/images/cpp_py_list_bytes_vector_string_rate.png
+    :height: 300px
+    :align: center
+
+TODO:
+
+.. image:: plots/images/cpp_vector_string_py_list_bytes_time.png
+    :height: 300px
+    :align: center
+
+TODO:
+
+.. image:: plots/images/cpp_vector_string_py_list_bytes_rate.png
+    :height: 300px
+    :align: center
+
+TODO:
+
+
+
+
+
+Example of Python Tuple of ``bytes`` to a C++ ``std::vector<std::string>``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 TODO: Use this as an example of the methodology, this shows RATE, the rest show time.
