@@ -58,12 +58,12 @@ These C++ functions test the cost of converting ints, floats and bytes objects b
      - Python to C++ (µs)
      - Notes
    * - C++ ``long`` <-> Python ``int``
-     - 0.0073
-     - 0.0020
+     - 0.0146
+     - 0.0046
      -
    * - C++ ``double`` <-> Python ``float``
-     - 0.0042
-     - 0.0035
+     - 0.0086
+     - 0.0027
      -
 
 For C++ ``string`` <-> Python ``bytes`` of different lengths:
@@ -78,29 +78,29 @@ For C++ ``string`` <-> Python ``bytes`` of different lengths:
      - Python to C++ (µs)
      - Notes
    * - 2
-     - 0.0098
-     - 0.0028
+     - 0.0173
+     - 0.0047
      -
    * - 16
-     - 0.0101
+     - 0.0169
      - 0.0040
      -
    * - 128
-     - 0.0108
-     - 0.0268
+     - 0.0201
+     - 0.0641
      -
    * - 1024
-     - 0.0452
-     - 0.0410
-     - Corresponds to about 23 Gb/s
+     - 0.0807
+     - 0.0671
+     - Corresponds to about 14 Gb/s
    * - 8192
-     - 0.1339
-     - 0.1310
-     - Corresponds to about 63 Gb/s
-   * - 65536
-     - 1.07
-     - 1.09
+     - 0.1317
+     - 0.1197
      - Corresponds to about 64 Gb/s
+   * - 65536
+     - 1.567
+     - 1.551
+     - Corresponds to about 41 Gb/s
 
 
 Example of Python Tuple of ``bytes`` to a C++ ``std::vector<std::string>>``
