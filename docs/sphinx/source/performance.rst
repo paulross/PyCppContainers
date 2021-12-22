@@ -44,6 +44,65 @@ C++ Performance Tests
 These tests are in ``src/cpy/tests/test_performance.h`` and ``src/cpy/tests/test_performance.cpp``.
 
 
+Conversion of Fundamental Types
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+These C++ functions test the cost of converting ints, floats and bytes objects between Python and C++.
+
+.. list-table::
+   :widths: 40 25 25 30
+   :header-rows: 1
+
+   * - Operation
+     - C++ to Python (µs)
+     - Python to C++ (µs)
+     - Notes
+   * - C++ ``long`` <-> Python ``int``
+     - 0.0073
+     - 0.0020
+     -
+   * - C++ ``double`` <-> Python ``float``
+     - 0.0042
+     - 0.0035
+     -
+
+For C++ ``string`` <-> Python ``bytes`` of different lengths:
+
+
+.. list-table::
+   :widths: 40 25 25 30
+   :header-rows: 1
+
+   * - Length
+     - C++ to Python (µs)
+     - Python to C++ (µs)
+     - Notes
+   * - 2
+     - 0.0098
+     - 0.0028
+     -
+   * - 16
+     - 0.0101
+     - 0.0040
+     -
+   * - 128
+     - 0.0108
+     - 0.0268
+     -
+   * - 1024
+     - 0.0452
+     - 0.0410
+     - Corresponds to about 23 Gb/s
+   * - 8192
+     - 0.1339
+     - 0.1310
+     - Corresponds to about 63 Gb/s
+   * - 65536
+     - 1.07
+     - 1.09
+     - Corresponds to about 64 Gb/s
+
+
 Example of Python Tuple of ``bytes`` to a C++ ``std::vector<std::string>>``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

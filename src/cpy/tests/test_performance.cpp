@@ -790,6 +790,10 @@ void test_performance_all(TestResultS &test_results) {
                                              fundamental_types_test_repeat);
         test_cpp_string_to_py_bytes_multiple(test_results, 1024, fundamental_types_test_size,
                                              fundamental_types_test_repeat);
+        test_cpp_string_to_py_bytes_multiple(test_results, 1024 * 8, fundamental_types_test_size,
+                                             fundamental_types_test_repeat);
+        test_cpp_string_to_py_bytes_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
+                                             fundamental_types_test_repeat);
         test_py_bytes_to_cpp_string_multiple(test_results, 2, fundamental_types_test_size,
                                              fundamental_types_test_repeat);
         test_py_bytes_to_cpp_string_multiple(test_results, 16, fundamental_types_test_size,
@@ -797,6 +801,10 @@ void test_performance_all(TestResultS &test_results) {
         test_py_bytes_to_cpp_string_multiple(test_results, 128, fundamental_types_test_size,
                                              fundamental_types_test_repeat);
         test_py_bytes_to_cpp_string_multiple(test_results, 1024, fundamental_types_test_size,
+                                             fundamental_types_test_repeat);
+        test_py_bytes_to_cpp_string_multiple(test_results, 1024 * 8, fundamental_types_test_size,
+                                             fundamental_types_test_repeat);
+        test_py_bytes_to_cpp_string_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
                                              fundamental_types_test_repeat);
     }
 #endif
