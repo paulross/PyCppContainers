@@ -57,6 +57,10 @@ These test are executed if the macro ``TEST_PERFORMANCE_FUNDAMENTAL_TYPES`` is d
      - C++ to Python (µs)
      - Python to C++ (µs)
      - Notes
+   * - C++ ``bool`` <-> Python ``bool``
+     - 0.0044
+     - 0.0010
+     -
    * - C++ ``long`` <-> Python ``int``
      - 0.0146
      - 0.0046

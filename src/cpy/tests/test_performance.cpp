@@ -26,6 +26,41 @@ const size_t INC_STRING_LENGTH_MULTIPLE = 8; // How much to increment the string
 
 #pragma mark Testing of object conversion
 
+int test_bool_to_py_bool_multiple(TestResultS &test_results, size_t size, size_t repeat) {
+    std::ostringstream title;
+    title << __FUNCTION__ << "[" << size << "]";
+    TestResult test_result(title.str());
+    for (size_t i = 0; i < repeat; ++i) {
+        ExecClock exec_clock;
+        for (size_t j = 0; j < size; ++j) {
+            PyObject *op = Python_Cpp_Containers::cpp_bool_to_py_bool(true);
+            Py_DECREF(op);
+        }
+        double exec_time = exec_clock.seconds();
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    test_results.push_back(test_result);
+    return 0;
+}
+
+int test_py_bool_to_cpp_bool_multiple(TestResultS &test_results, size_t size, size_t repeat) {
+    std::ostringstream title;
+    title << __FUNCTION__ << "[" << size << "]";
+    TestResult test_result(title.str());
+    PyObject *op = Python_Cpp_Containers::cpp_bool_to_py_bool(true);
+    for (size_t i = 0; i < repeat; ++i) {
+        ExecClock exec_clock;
+        for (size_t j = 0; j < size; ++j) {
+            Python_Cpp_Containers::py_bool_to_cpp_bool(op);
+        }
+        double exec_time = exec_clock.seconds();
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    Py_DECREF(op);
+    test_results.push_back(test_result);
+    return 0;
+}
+
 int test_long_to_py_int_multiple(TestResultS &test_results, size_t size, size_t repeat) {
     std::ostringstream title;
     title << __FUNCTION__ << "[" << size << "]";
@@ -778,10 +813,16 @@ void test_performance_all(TestResultS &test_results) {
     {
         size_t fundamental_types_test_size = 1000 * 1000;
         size_t fundamental_types_test_repeat = TEST_REPEAT * 4;
+        // boolean
+        test_bool_to_py_bool_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+        test_py_bool_to_cpp_bool_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+        // Integer
         test_long_to_py_int_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
         test_py_int_to_cpp_long_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+        // Floating point
         test_double_to_py_float_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
         test_py_float_to_cpp_double_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+        // Strings of various sizes.
         test_cpp_string_to_py_bytes_multiple(test_results, 2, fundamental_types_test_size,
                                              fundamental_types_test_repeat);
         test_cpp_string_to_py_bytes_multiple(test_results, 16, fundamental_types_test_size,
