@@ -186,6 +186,7 @@ Round-trip Python to C++ and back to Python
 
 This uses some methods in the ``cPyCppContainers`` module that takes a Python container, converts it to a new C++
 container and then converts that to a new Python container.
+Timing is done in the Python interpreter.
 
 For example to convert a list the following template code is used:
 
@@ -236,7 +237,7 @@ Here is the *round trip* performance of a Python list of booleans, ints or float
 These are typically *round trip* converted at:
 
 * 0.01 µs per object for booleans, say 100m objects a second.
-* 0.025 µs per object for booleans, say 40m objects a second.
+* 0.025 µs per object for ints and floats, say 40m objects a second.
 
 And a Python list of bytes for different lengths; 2, 16, 128 and 1024 bytes long:
 
@@ -260,7 +261,7 @@ bytes[1024]     0.4 to 2.0              0.5 to 2.5                  500 to 2500
 Python Sets
 ^^^^^^^^^^^^^^^^^^^^
 
-Here is the *round trip* performance of a Python set of ints or floats:
+Here is the *round trip* performance of a Python set of ints and floats:
 
 .. image:: plots/images/roundtrip_set_ints_and_floats_rate.png
     :height: 300px
@@ -271,7 +272,8 @@ These are typically *round trip* converted at:
 * 0.15 µs per object for int, say 6m objects a second.
 * 0.2 µs per object for float, say 5m objects a second.
 
-TODO: Comparison with list.
+The *round trip* time for a list takes 0.025 µs for ints and floats so a set takes six times longer for ints and eight times longer for floats.
+An explanation is that the cost of hashing and insertion (and possible re-hashing the container) dominates the performance compared to the cost of conversion.
 
 And a Python set of bytes for different lengths; 2, 16, 128 and 1024 bytes long:
 
@@ -279,9 +281,20 @@ And a Python set of bytes for different lengths; 2, 16, 128 and 1024 bytes long:
     :height: 300px
     :align: center
 
-TODO: Commentary on this graph.
+Here is a comparison with a list:
 
-Given the size of each object this *round trip* time for lists can be summarised as:
+=============== =================================== =================================== =========== ===================
+Object          Time per object for a set (µs)      Time per object for a list (µs)     Ratio       Notes
+=============== =================================== =================================== =========== ===================
+bytes[2]        0.3                                 0.04                                x7.5
+bytes[16]       ~0.6                                0.04                                x15
+bytes[128]      0.6 to 1.5                          0.15                                x4 to x10
+bytes[1024]     1.0 to 5.0                          0.4 to 2                            x2.5
+=============== =================================== =================================== =========== ===================
+
+Again, the cost of hashing and insertion explains the difference.
+
+Given the size of each object this *round trip* time for sets can be summarised as:
 
 =============== ======================= =========================== =========================== ===================
 Object          Time per object (µs)    Rate (million/s)            Rate (Mb/s)                 Notes
@@ -297,34 +310,41 @@ bytes[1024]     1.0 to 5.0              0.2 to 1                    200 to 1000
 Python dicts
 ^^^^^^^^^^^^^^^^^^^^
 
-Here is the round trip time for a Python dict [int, int] to and from a C++ ``std::unordered_map<long, long>``.
+Here is the round trip time for a Python dict to and from a C++ ``std::unordered_map<long, long>``.
 This plots the *round trip* cost *per key/value pair* against dict size.
 
-.. image:: plots/images/dict_int_roundtrip.png
+.. image:: plots/images/roundtrip_dict_ints_and_floats_rate.png
     :height: 300px
     :align: center
 
+These are typically *round trip* converted at:
 
-Here is the *round trip* time for a Python dict [bytes, bytes] to and from a C++ ``std::unordered_map<std::string, std::string>`` for different length bytes objects.
+* 0.15 µs per object for int, say 6m objects a second.
+* 0.2 µs per object for float, say 5m objects a second.
+
+This is identical to the values for the set but includes the conversion time for both key and value.
+The hashing, insertion and potential re-hashing dominate teh performance.
+
+Here is the *round trip* time for a Python dict [bytes, bytes] to and from a C++ ``std::unordered_map<std::string, std::string>`` for different lengths; 2, 16, 128 and 1024 bytes long.
 The key and the value are the same length.
 This plots the *round trip* cost *per key/value pair* against dict size.
 
-.. image:: plots/images/dict_bytes_roundtrip.png
+.. image:: plots/images/roundtrip_dict_bytes_rate.png
     :height: 300px
     :align: center
 
 This *round trip* time for both keys and values for dicts can be summarised as:
 
-=============== ======================= =========================== ===================
-Object          ~Time per object (µs)   Rate Mb/s                   Notes
-=============== ======================= =========================== ===================
-int             0.1                     80                          Multiply these rates by 4 to get individual conversion rate.
-bytes[8]        0.15                    50
-bytes[64]       0.4                     150
-bytes[512]      1.0                     1000
-bytes[4096]     5.0                     1600
-=============== ======================= =========================== ===================
-
+=============== ======================= =========================== =========================== ===================
+Object          Time per object (µs)    Rate (million/s)            Rate (Mb/s)                 Notes
+=============== ======================= =========================== =========================== ===================
+int             0.15                    6                           48 (8 bytes per object)     Multiply these rates by 2 to get individual conversion rate.
+float           0.2                     5                           40 (8 bytes per object)
+bytes[2]        0.3                     3                           6
+bytes[16]       0.3 to 1                1 to 3                      16 to 48
+bytes[128]      0.6 to 2                0.5 to 1.7                  64 to 220
+bytes[1024]     1.0 to 7.0              0.15 to 1                   150 to 1000
+=============== ======================= =========================== =========================== ===================
 
 Memory Use
 ------------------------------------------------
