@@ -5,6 +5,13 @@ C++ API
 Python Containers to C++
 ============================
 
+
+.. code-block:: cpp
+
+    #include "python_convert.h"
+
+All these APIs are in the namespace ``Python_Cpp_Containers``.
+
 Python ``tuple`` to ``std::vector``
 ---------------------------------------------
 
@@ -21,7 +28,7 @@ Arguments
 ^^^^^^^^^^^^^^
 
 .. list-table::
-   :widths: 50 30 30
+   :widths: 30 20 50
    :header-rows: 1
 
    * - Argument ``op``
@@ -29,7 +36,8 @@ Arguments
      - Return value
    * - A Python ``tuple`` containing values convertable to type ``<T>``.
      - The ``std::vector`` to write to.
-     - 0 on success, non-zero on failure.
+     - 0 on success, non-zero on failure in which case the container will be empty.
+       The causes of failure can be; ``op`` is not a tuple or a member of the ``op`` can not be converted to type ``<T>``.
 
 Example
 ^^^^^^^^^^^^^^^
@@ -62,7 +70,7 @@ Arguments
 ^^^^^^^^^^^^^^
 
 .. list-table::
-   :widths: 50 30 30
+   :widths: 30 20 50
    :header-rows: 1
 
    * - Argument ``op``
@@ -70,7 +78,8 @@ Arguments
      - Return value
    * - A Python ``list`` containing values convertable to type ``<T>``.
      - The ``std::vector`` to write to.
-     - 0 on success, non-zero on failure.
+     - 0 on success, non-zero on failure in which case the container will be empty.
+       The causes of failure can be; ``op`` is not a list or a member of the ``op`` can not be converted to type ``<T>``.
 
 Example
 ^^^^^^^^^^^^^^^
