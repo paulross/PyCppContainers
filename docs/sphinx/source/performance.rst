@@ -19,23 +19,7 @@ The C++ code was compiled with ``-O3`` and run on the following hardware:
     Hyper-Threading Technology: Enabled
     Memory:                     16 GB
 
-    System Version:             macOS 10.14.6 (18G9323)
-    Kernel Version:             Darwin 18.7.0
-
-Mac Mini 'B':
-
-.. code-block:: none
-
-    Model Name:	Mac mini
-    Model Identifier:	Macmini9,1
-    Chip:	Apple M1
-    Total Number of Cores:	8 (4 performance and 4 efficiency)
-    Memory:	16 GB
-    System Firmware Version:	6723.120.36
-    OS Loader Version:	6723.120.36
-
-    System Version:	macOS 11.4 (20F71)
-    Kernel Version:	Darwin 20.5.0
+    System Version:             macOS 10.14.6
 
 
 C++ Performance Tests
@@ -64,11 +48,11 @@ These test are executed if the macro ``TEST_PERFORMANCE_FUNDAMENTAL_TYPES`` is d
    * - C++ ``long`` <-> Python ``int``
      - 0.0146
      - 0.0046
-     -
+     - Converting C++ to Python is around x3 time the reverse.
    * - C++ ``double`` <-> Python ``float``
      - 0.0086
      - 0.0027
-     -
+     - Converting C++ to Python is around x3 time the reverse.
 
 For C++ ``string`` <-> Python ``bytes`` of different lengths:
 
@@ -104,6 +88,8 @@ For C++ ``string`` <-> Python ``bytes`` of different lengths:
      - 1.567
      - 1.551
      - Corresponds to about 41 Gb/s
+
+String conversion from C++ to Python or the reverse takes asymptotically: t (µs) = 0.017 * length / 42
 
 
 Python List and C++ ``std::vector<T>``
