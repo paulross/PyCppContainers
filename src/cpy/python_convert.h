@@ -103,12 +103,14 @@ namespace Python_Cpp_Containers {
                 // Refcount may well be >> 1 for interned objects.
                 Py_ssize_t op_ob_refcnt = op->ob_refcnt;
 #endif
-                // This usually wraps a void function, always succeeds.
+                // PyUnaryContainer_Set usually wraps a void function, always succeeds returning non-zero.
                 if (PyUnaryContainer_Set(ret, i, op)) { // Stolen reference.
                     PyErr_Format(PyExc_RuntimeError, "Can not set unary value.");
                     goto except;
                 }
+#ifndef NDEBUG
                 assert(op->ob_refcnt == op_ob_refcnt && "Reference count incremented instead of stolen.");
+#endif
             }
         } else {
             PyErr_Format(PyExc_ValueError, "Can not create Python container of size %ld", vec.size());
@@ -340,9 +342,13 @@ namespace Python_Cpp_Containers {
                     PyErr_Format(PyExc_RuntimeError, "Can not set value into the set.");
                     goto except;
                 }
+#ifndef NDEBUG
                 assert(op->ob_refcnt == op_ob_refcnt + 1 && "PySet_SetItem failed to increment value refcount.");
+#endif
                 Py_DECREF(op);
+#ifndef NDEBUG
                 assert(op->ob_refcnt == op_ob_refcnt && "Reference count incremented instead of stolen.");
+#endif
             }
         } else {
             PyErr_Format(PyExc_ValueError, "Can not create Python set");
@@ -562,12 +568,18 @@ namespace Python_Cpp_Containers {
                 // Oh this is nasty.
                 // PyDict_SetItem() increfs the key and the value rather than stealing a reference.
                 // insertdict(): https://github.com/python/cpython/blob/main/Objects/dictobject.c#L1074
+#ifndef NDEBUG
                 assert(py_k->ob_refcnt == py_k_ob_refcnt + 1 && "PyDict_SetItem failed to increment key refcount.");
+#endif
                 Py_DECREF(py_k);
+#ifndef NDEBUG
                 assert(py_k->ob_refcnt == py_k_ob_refcnt);
                 assert(py_v->ob_refcnt == py_v_ob_refcnt + 1 && "PyDict_SetItem failed to increment value refcount.");
+#endif
                 Py_DECREF(py_v);
+#ifndef NDEBUG
                 assert(py_v->ob_refcnt == py_v_ob_refcnt);
+#endif
             }
         } else {
             PyErr_Format(PyExc_ValueError, "Can not create Python dict");
