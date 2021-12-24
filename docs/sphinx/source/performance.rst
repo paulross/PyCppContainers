@@ -106,16 +106,34 @@ For C++ ``string`` <-> Python ``bytes`` of different lengths:
      - Corresponds to about 41 Gb/s
 
 
-Example of Python List to and from a C++ ``std::vector<T>``
+Python List and C++ ``std::vector<T>``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 TODO: Use this as an extensive example of the methodology.
 
 TODO: bool, int, float Python -> C++
+
+.. image:: plots/images/cpp_py_list_bool_int_float_vector_bool_long_double_time.png
+    :height: 300px
+    :align: center
+
+
+.. image:: plots/images/cpp_py_list_bool_int_float_vector_bool_long_double_rate.png
+    :height: 300px
+    :align: center
+
 TODO: bool, int, float C++ -> Python
 
+.. image:: plots/images/cpp_vector_bool_long_double_py_list_bool_int_float_time.png
+    :height: 300px
+    :align: center
+
+.. image:: plots/images/cpp_vector_bool_long_double_py_list_bool_int_float_rate.png
+    :height: 300px
+    :align: center
 
 TODO: Describe bytes
+TODO: Python -> C++
 
 .. image:: plots/images/cpp_py_list_bytes_vector_string_time.png
     :height: 300px
@@ -127,6 +145,19 @@ TODO:
     :height: 300px
     :align: center
 
+TODO:
+
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+bytes[2]        0.01                    200
+bytes[16]       0.01                    1600
+bytes[128]      0.07                    1,800
+bytes[1024]     0.15 to 0.6             1,600 to 6,800
+=============== ======================= =========================== ===================
+
+
+TODO: C++ -> Python
 TODO:
 
 .. image:: plots/images/cpp_vector_string_py_list_bytes_time.png
@@ -141,7 +172,14 @@ TODO:
 
 TODO:
 
-
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+bytes[2]        0.015 to 0.03           67 to 133
+bytes[16]       0.015 to 0.04           400 to 133
+bytes[128]      0.02 to 0.09            1,400 to 6,400
+bytes[1024]     0.1 to 0.6              1,600 to 10,000
+=============== ======================= =========================== ===================
 
 
 
