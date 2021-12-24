@@ -1,6 +1,7 @@
-//
-// Created by Paul Ross on 22/05/2021.
-//
+/**
+ * Performance tests of one way conversions timed in C++.
+ * Created by Paul Ross on 22/05/2021.
+*/
 
 #include <Python.h>
 
@@ -801,10 +802,10 @@ int test_perf_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test
 }
 
 #define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
-//#define TEST_PERFORMANCE_TUPLES
-//#define TEST_PERFORMANCE_LISTS
-//#define TEST_PERFORMANCE_SETS
-//#define TEST_PERFORMANCE_DICTS
+#define TEST_PERFORMANCE_TUPLES
+#define TEST_PERFORMANCE_LISTS
+#define TEST_PERFORMANCE_SETS
+#define TEST_PERFORMANCE_DICTS
 
 void test_performance_all(TestResultS &test_results) {
     RSSSnapshot rss_overall("==== test_performance.cpp");
@@ -848,7 +849,7 @@ void test_performance_all(TestResultS &test_results) {
         test_py_bytes_to_cpp_string_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
                                              fundamental_types_test_repeat);
     }
-#endif
+#endif // TEST_PERFORMANCE_FUNDAMENTAL_TYPES
 #ifdef TEST_PERFORMANCE_TUPLES
     // Tuple tests
     // Tuple fundamental types C++ -> Python
@@ -903,7 +904,7 @@ void test_performance_all(TestResultS &test_results) {
         test_perf_py_tuple_to_vector_string_multiple(test_results, TEST_REPEAT);
         std::cout << rss << std::endl;
     }
-#endif
+#endif // TEST_PERFORMANCE_TUPLES
 #ifdef TEST_PERFORMANCE_LISTS
     // Test lists
     // List fundamental types C++ -> Python
@@ -958,7 +959,7 @@ void test_performance_all(TestResultS &test_results) {
         test_perf_py_list_to_vector_string_multiple(test_results, TEST_REPEAT);
         std::cout << rss << std::endl;
     }
-#endif
+#endif // TEST_PERFORMANCE_LISTS
 #ifdef TEST_PERFORMANCE_SETS
     // Test sets.
     // Set fundamental types C++ to Python
@@ -998,7 +999,7 @@ void test_performance_all(TestResultS &test_results) {
         test_perf_py_set_bytes_to_unordered_set_string_multiple(test_results, TEST_REPEAT);
         std::cout << rss << std::endl;
     }
-#endif
+#endif // TEST_PERFORMANCE_SETS
 #ifdef TEST_PERFORMANCE_DICTS
     // Test dicts.
     {
@@ -1042,5 +1043,5 @@ void test_performance_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     std::cout << "==== " << rss_overall << std::endl;
-#endif
+#endif // TEST_PERFORMANCE_DICTS
 }
