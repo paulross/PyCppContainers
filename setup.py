@@ -62,15 +62,5 @@ setup(
             ],
             extra_compile_args=extra_compile_args,
         ),
-        Extension(
-            'cDictIter',
-            sources=[
-                'src/ext/cDictIter.cpp',
-            ],
-            include_dirs=[
-                'src',
-            ],
-            extra_compile_args=extra_compile_args,
-        ),
     ]
 )

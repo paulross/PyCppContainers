@@ -64,7 +64,6 @@ add_executable(
         src/cpy/tests/test_memory.h
 
         src/ext/cPyCppContainers.cpp
-        src/ext/cDictIter.cpp
 )
 
 target_link_libraries(PythonCppHomogeneousContainers ${PYTHON_LIBRARIES})
