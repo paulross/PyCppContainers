@@ -43,3 +43,12 @@ Namely:
 
 These are all very simple functions that wrap existing Python API functions or macros.
 
+## `ext/` Files of Note
+
+Here is `cPyCppContainers.cpp` which provides examples of interfacing between C++ and Python with this code.
+This extension is used for the round trip performance tests. 
+
+## `py/` Files of Note
+
+This contains the Python scripts that generate C++ code into the `cpy/` directory. 
+`code_gen.py` is the main script.
