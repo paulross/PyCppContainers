@@ -54,9 +54,6 @@ add_executable(
         src/cpy/python_container_convert.h
         src/cpy/python_container_convert.cpp
 
-        src/cpy/PyMemAllocator.h
-        src/cpy/PyMemAllocator.cpp
-
         src/cpy/tests/test_functional.cpp
         src/cpy/tests/test_functional.h
         src/cpy/tests/test_performance.cpp
