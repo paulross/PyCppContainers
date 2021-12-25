@@ -87,10 +87,10 @@ compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObjec
 }
 
 int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len) {
-    std::vector<std::string> cpp_vector;
+    std::vector<std::vector<char>> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
-//        cpp_vector.push_back(unique_string(str_len));
-        cpp_vector.push_back(std::string(str_len, ' '));
+//        cpp_vector.push_back(unique_vector_char(str_len));
+        cpp_vector.push_back(std::vector<char>(str_len, ' '));
     }
     ExecClock exec_clock;
     PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
@@ -235,8 +235,8 @@ new_py_tuple_bytes(size_t size, size_t str_len) {
     PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
     if (op) {
         for (size_t i = 0; i < size; ++i) {
-            std::string str(str_len, ' ');
-            int err = Python_Cpp_Containers::py_tuple_set(op, i, Python_Cpp_Containers::cpp_string_to_py_bytes(str));
+            std::vector<char> str(str_len, ' ');
+            int err = Python_Cpp_Containers::py_tuple_set(op, i, Python_Cpp_Containers::cpp_vector_char_to_py_bytes(str));
             if (err) {
                 Py_DECREF(op);
                 op = NULL;
@@ -252,8 +252,8 @@ new_py_list_bytes(size_t size, size_t str_len) {
     PyObject *op = Python_Cpp_Containers::py_list_new(size);
     if (op) {
         for (size_t i = 0; i < size; ++i) {
-            std::string str(str_len, ' ');
-            int err = Python_Cpp_Containers::py_list_set(op, i, Python_Cpp_Containers::cpp_string_to_py_bytes(str));
+            std::vector<char> str(str_len, ' ');
+            int err = Python_Cpp_Containers::py_list_set(op, i, Python_Cpp_Containers::cpp_vector_char_to_py_bytes(str));
             if (err) {
                 Py_DECREF(op);
                 op = NULL;
@@ -270,8 +270,8 @@ new_py_set_bytes(size_t size, size_t str_len) {
     PyObject *op = Python_Cpp_Containers::py_set_new(NULL);
     if (op) {
         for (size_t i = 0; i < size; ++i) {
-            std::string str = unique_string(str_len);
-            int err = Python_Cpp_Containers::py_set_add(op, Python_Cpp_Containers::cpp_string_to_py_bytes(str));
+            std::vector<char> str = unique_vector_char(str_len);
+            int err = Python_Cpp_Containers::py_set_add(op, Python_Cpp_Containers::cpp_vector_char_to_py_bytes(str));
             if (err) {
                 Py_DECREF(op);
                 op = NULL;
@@ -288,10 +288,10 @@ new_py_dict_bytes(size_t size, size_t str_len) {
     PyObject *op = PyDict_New();
     if (op) {
         for (size_t i = 0; i < size; ++i) {
-            std::string key = unique_string(str_len);
-            PyObject *py_key = Python_Cpp_Containers::cpp_string_to_py_bytes(key);
-            std::string val = unique_string(str_len);
-            PyObject *py_val = Python_Cpp_Containers::cpp_string_to_py_bytes(val);
+            std::vector<char> key = unique_vector_char(str_len);
+            PyObject *py_key = Python_Cpp_Containers::cpp_vector_char_to_py_bytes(key);
+            std::vector<char> val = unique_vector_char(str_len);
+            PyObject *py_val = Python_Cpp_Containers::cpp_vector_char_to_py_bytes(val);
             if (PyDict_SetItem(op, py_key, py_val)) {
                 PyErr_Format(PyExc_ValueError, "Can not set an item in the Python dict.");
                 Py_DECREF(op);
@@ -379,6 +379,21 @@ int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size
                         if (value != cpp_vector[i]) {
                             result |= 1 << 4;
                         }
+        std::vector<std::vector<char>> cpp_vector;
+        ExecClock exec_clock;
+        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+        exec_time = exec_clock.seconds();
+        if (err != 0) {
+            result |= 1 << 2;
+        } else {
+            if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
+                result |= 1 << 3;
+            } else {
+                for (size_t i = 0; i < size; ++i) {
+                    std::vector<char> value = Python_Cpp_Containers::py_bytes_to_cpp_vector_char(
+                            Python_Cpp_Containers::py_tuple_get(op, i));
+                    if (value != cpp_vector[i]) {
+                        result |= 1 << 4;
                     }
                 }
             }

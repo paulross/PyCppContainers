@@ -293,6 +293,18 @@ std::string unique_string(int width) {
     return os.str();
 }
 
+/**
+ * Creates a unique string.
+ *
+ * @param width If > 0 the string will be at least this width.
+ * @return The unique string.
+ */
+std::vector<char> unique_vector_char(int width) {
+    std::string tmp = unique_string(width);
+    std::vector<char> ret(tmp.begin(), tmp.end());
+    return ret;
+}
+
 size_t count_of_unique_string() {
     return str_count;
 }

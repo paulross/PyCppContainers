@@ -64,26 +64,34 @@ namespace Python_Cpp_Containers {
         return PyComplex_Check(op);
     }
     // Bytes to/from string
-    PyObject *cpp_string_to_py_bytes(const std::string &s) {
-        return PyBytes_FromStringAndSize(s.c_str(), s.size());
+    PyObject *cpp_vector_char_to_py_bytes(const std::vector<char> &s) {
+        return PyBytes_FromStringAndSize(s.data(), s.size());
     }
-    std::string py_bytes_to_cpp_string(PyObject *op) {
+    std::vector<char> py_bytes_to_cpp_vector_char(PyObject *op) {
         assert(op);
         assert(py_bytes_check(op));
-        std::string ret(PyBytes_AS_STRING(op), PyBytes_GET_SIZE(op));
+        std::vector<char> ret(PyBytes_GET_SIZE(op));
+        char *pChar = PyBytes_AS_STRING(op);
+        for(Py_ssize_t i = 0; i < PyBytes_GET_SIZE(op); ++i, ++pChar) {
+            ret[i] = *pChar;
+        }
         return ret;
     }
     int py_bytes_check(PyObject *op) {
         return PyBytes_Check(op);
     }
     // Bytearray to/from string
-    PyObject *cpp_string_to_py_bytearray(const std::string &s) {
-        return PyByteArray_FromStringAndSize(s.c_str(), s.size());
+    PyObject *cpp_string_to_py_bytearray(const std::vector<char> &s) {
+        return PyByteArray_FromStringAndSize(s.data(), s.size());
     }
-    std::string py_bytearray_to_cpp_string(PyObject *op) {
+    std::vector<char> py_bytearray_to_cpp_string(PyObject *op) {
         assert(op);
         assert(py_bytearray_check(op));
-        std::string ret(PyByteArray_AS_STRING(op), PyByteArray_GET_SIZE(op));
+        std::vector<char> ret(PyByteArray_GET_SIZE(op));
+        char *pChar = PyByteArray_AS_STRING(op);
+        for(Py_ssize_t i = 0; i < PyByteArray_GET_SIZE(op); ++i, ++pChar) {
+            ret[i] = *pChar;
+        }
         return ret;
     }
     int py_bytearray_check(PyObject *op) {

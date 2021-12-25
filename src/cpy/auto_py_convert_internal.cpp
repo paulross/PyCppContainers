@@ -9,44 +9,44 @@
 // tuple <-> std::vector<bool>
 // tuple <-> std::vector<long>
 // tuple <-> std::vector<double>
-// tuple <-> std::vector<std::string>
+// tuple <-> std::vector<std::vector<char>>
 // 
 // list:
 // list <-> std::vector<bool>
 // list <-> std::vector<long>
 // list <-> std::vector<double>
-// list <-> std::vector<std::string>
+// list <-> std::vector<std::vector<char>>
 // 
 // set:
 // set <-> std::unordered_set<bool>
 // set <-> std::unordered_set<long>
 // set <-> std::unordered_set<double>
-// set <-> std::unordered_set<std::string>
+// set <-> std::unordered_set<std::vector<char>>
 // 
 // frozenset:
 // frozenset <-> std::unordered_set<bool>
 // frozenset <-> std::unordered_set<long>
 // frozenset <-> std::unordered_set<double>
-// frozenset <-> std::unordered_set<std::string>
+// frozenset <-> std::unordered_set<std::vector<char>>
 // 
 // 
 // Mapping conversions
 // dict <-> std::unordered_map<bool, bool>
 // dict <-> std::unordered_map<bool, long>
 // dict <-> std::unordered_map<bool, double>
-// dict <-> std::unordered_map<bool, std::string>
+// dict <-> std::unordered_map<bool, std::vector<char>>
 // dict <-> std::unordered_map<long, bool>
 // dict <-> std::unordered_map<long, long>
 // dict <-> std::unordered_map<long, double>
-// dict <-> std::unordered_map<long, std::string>
+// dict <-> std::unordered_map<long, std::vector<char>>
 // dict <-> std::unordered_map<double, bool>
 // dict <-> std::unordered_map<double, long>
 // dict <-> std::unordered_map<double, double>
-// dict <-> std::unordered_map<double, std::string>
-// dict <-> std::unordered_map<std::string, bool>
-// dict <-> std::unordered_map<std::string, long>
-// dict <-> std::unordered_map<std::string, double>
-// dict <-> std::unordered_map<std::string, std::string>
+// dict <-> std::unordered_map<double, std::vector<char>>
+// dict <-> std::unordered_map<std::vector<char>, bool>
+// dict <-> std::unordered_map<std::vector<char>, long>
+// dict <-> std::unordered_map<std::vector<char>, double>
+// dict <-> std::unordered_map<std::vector<char>, std::vector<char>>
 // 
 #include "python_convert.h"
 
@@ -74,8 +74,8 @@ cpp_std_vector_to_py_tuple<double>(const std::vector<double> &container) {
 
 template <>
 PyObject *
-cpp_std_vector_to_py_tuple<std::string>(const std::vector<std::string> &container) {
-    return generic_cpp_std_vector_to_py_tuple<std::string, &cpp_string_to_py_bytes>(container);
+cpp_std_vector_to_py_tuple<std::vector<char>>(const std::vector<std::vector<char>> &container) {
+    return generic_cpp_std_vector_to_py_tuple<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
 }
 
 //-------------------- END: std::vector -> Python tuple -------------------
@@ -101,8 +101,8 @@ py_tuple_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container)
 
 template <>
 int
-py_tuple_to_cpp_std_vector<std::string>(PyObject *op, std::vector<std::string> &container) {
-    return generic_py_tuple_to_cpp_std_vector<std::string, &py_bytes_check, &py_bytes_to_cpp_string>(op, container);
+py_tuple_to_cpp_std_vector<std::vector<char>>(PyObject *op, std::vector<std::vector<char>> &container) {
+    return generic_py_tuple_to_cpp_std_vector<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
 }
 
 //-------------------- END: Python tuple -> std::vector -------------------
@@ -128,8 +128,8 @@ cpp_std_vector_to_py_list<double>(const std::vector<double> &container) {
 
 template <>
 PyObject *
-cpp_std_vector_to_py_list<std::string>(const std::vector<std::string> &container) {
-    return generic_cpp_std_vector_to_py_list<std::string, &cpp_string_to_py_bytes>(container);
+cpp_std_vector_to_py_list<std::vector<char>>(const std::vector<std::vector<char>> &container) {
+    return generic_cpp_std_vector_to_py_list<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
 }
 
 //-------------------- END: std::vector -> Python list --------------------
@@ -155,8 +155,8 @@ py_list_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container) 
 
 template <>
 int
-py_list_to_cpp_std_vector<std::string>(PyObject *op, std::vector<std::string> &container) {
-    return generic_py_list_to_cpp_std_vector<std::string, &py_bytes_check, &py_bytes_to_cpp_string>(op, container);
+py_list_to_cpp_std_vector<std::vector<char>>(PyObject *op, std::vector<std::vector<char>> &container) {
+    return generic_py_list_to_cpp_std_vector<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
 }
 
 //-------------------- END: Python list -> std::vector --------------------
@@ -182,8 +182,8 @@ cpp_std_unordered_set_to_py_set<double>(const std::unordered_set<double> &contai
 
 template <>
 PyObject *
-cpp_std_unordered_set_to_py_set<std::string>(const std::unordered_set<std::string> &container) {
-    return generic_cpp_std_unordered_set_to_py_set<std::string, &cpp_string_to_py_bytes>(container);
+cpp_std_unordered_set_to_py_set<std::vector<char>>(const std::unordered_set<std::vector<char>> &container) {
+    return generic_cpp_std_unordered_set_to_py_set<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
 }
 
 //----------------- END: std::unordered_set -> Python set -----------------
@@ -209,8 +209,8 @@ py_set_to_cpp_std_unordered_set<double>(PyObject *op, std::unordered_set<double>
 
 template <>
 int
-py_set_to_cpp_std_unordered_set<std::string>(PyObject *op, std::unordered_set<std::string> &container) {
-    return generic_py_set_to_cpp_std_unordered_set<std::string, &py_bytes_check, &py_bytes_to_cpp_string>(op, container);
+py_set_to_cpp_std_unordered_set<std::vector<char>>(PyObject *op, std::unordered_set<std::vector<char>> &container) {
+    return generic_py_set_to_cpp_std_unordered_set<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
 }
 
 //----------------- END: Python set -> std::unordered_set -----------------
@@ -236,8 +236,8 @@ cpp_std_unordered_set_to_py_frozenset<double>(const std::unordered_set<double> &
 
 template <>
 PyObject *
-cpp_std_unordered_set_to_py_frozenset<std::string>(const std::unordered_set<std::string> &container) {
-    return generic_cpp_std_unordered_set_to_py_frozenset<std::string, &cpp_string_to_py_bytes>(container);
+cpp_std_unordered_set_to_py_frozenset<std::vector<char>>(const std::unordered_set<std::vector<char>> &container) {
+    return generic_cpp_std_unordered_set_to_py_frozenset<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
 }
 
 //-------------- END: std::unordered_set -> Python frozenset --------------
@@ -263,8 +263,8 @@ py_frozenset_to_cpp_std_unordered_set<double>(PyObject *op, std::unordered_set<d
 
 template <>
 int
-py_frozenset_to_cpp_std_unordered_set<std::string>(PyObject *op, std::unordered_set<std::string> &container) {
-    return generic_py_frozenset_to_cpp_std_unordered_set<std::string, &py_bytes_check, &py_bytes_to_cpp_string>(op, container);
+py_frozenset_to_cpp_std_unordered_set<std::vector<char>>(PyObject *op, std::unordered_set<std::vector<char>> &container) {
+    return generic_py_frozenset_to_cpp_std_unordered_set<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
 }
 
 //-------------- END: Python frozenset -> std::unordered_set --------------
@@ -341,26 +341,26 @@ py_dict_to_cpp_std_unordered_map<bool, double>(PyObject* op, std::unordered_map<
     >(op, map);
 }
 
-//------------ Converts a std::unordered_map<bool, std::string> -----------
-//----------- to a Python dict of { bool : std::string, ...}    -----------
+//--------- Converts a std::unordered_map<bool, std::vector<char>> --------
+//-------- to a Python dict of { bool : std::vector<char>, ...}    --------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<bool, std::string>(const std::unordered_map<bool, std::string> &map) {
+cpp_std_unordered_map_to_py_dict<bool, std::vector<char>>(const std::unordered_map<bool, std::vector<char>> &map) {
     return generic_cpp_std_unordered_map_to_py_dict<
-        bool, std::string,
-        &cpp_bool_to_py_bool, &cpp_string_to_py_bytes
+        bool, std::vector<char>,
+        &cpp_bool_to_py_bool, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
-//---------- Converts a Python dict of {bool : std::string, ...} ----------
-//--------------- to a std::unordered_map<bool, std::string> --------------
+//------- Converts a Python dict of {bool : std::vector<char>, ...} -------
+//------------ to a std::unordered_map<bool, std::vector<char>> -----------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<bool, std::string>(PyObject* op, std::unordered_map<bool, std::string> &map) {
+py_dict_to_cpp_std_unordered_map<bool, std::vector<char>>(PyObject* op, std::unordered_map<bool, std::vector<char>> &map) {
     return generic_py_dict_to_cpp_std_unordered_map<
-        bool, std::string,
+        bool, std::vector<char>,
         &py_bool_check, &py_bytes_check,
-        &py_bool_to_cpp_bool, &py_bytes_to_cpp_string
+        &py_bool_to_cpp_bool, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
@@ -433,26 +433,26 @@ py_dict_to_cpp_std_unordered_map<long, double>(PyObject* op, std::unordered_map<
     >(op, map);
 }
 
-//------------ Converts a std::unordered_map<long, std::string> -----------
-//----------- to a Python dict of { long : std::string, ...}    -----------
+//--------- Converts a std::unordered_map<long, std::vector<char>> --------
+//-------- to a Python dict of { long : std::vector<char>, ...}    --------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<long, std::string>(const std::unordered_map<long, std::string> &map) {
+cpp_std_unordered_map_to_py_dict<long, std::vector<char>>(const std::unordered_map<long, std::vector<char>> &map) {
     return generic_cpp_std_unordered_map_to_py_dict<
-        long, std::string,
-        &cpp_long_to_py_long, &cpp_string_to_py_bytes
+        long, std::vector<char>,
+        &cpp_long_to_py_long, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
-//---------- Converts a Python dict of {long : std::string, ...} ----------
-//--------------- to a std::unordered_map<long, std::string> --------------
+//------- Converts a Python dict of {long : std::vector<char>, ...} -------
+//------------ to a std::unordered_map<long, std::vector<char>> -----------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<long, std::string>(PyObject* op, std::unordered_map<long, std::string> &map) {
+py_dict_to_cpp_std_unordered_map<long, std::vector<char>>(PyObject* op, std::unordered_map<long, std::vector<char>> &map) {
     return generic_py_dict_to_cpp_std_unordered_map<
-        long, std::string,
+        long, std::vector<char>,
         &py_long_check, &py_bytes_check,
-        &py_long_to_cpp_long, &py_bytes_to_cpp_string
+        &py_long_to_cpp_long, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
@@ -525,118 +525,118 @@ py_dict_to_cpp_std_unordered_map<double, double>(PyObject* op, std::unordered_ma
     >(op, map);
 }
 
-//----------- Converts a std::unordered_map<double, std::string> ----------
-//---------- to a Python dict of { double : std::string, ...}    ----------
+//-------- Converts a std::unordered_map<double, std::vector<char>> -------
+//------- to a Python dict of { double : std::vector<char>, ...}    -------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<double, std::string>(const std::unordered_map<double, std::string> &map) {
+cpp_std_unordered_map_to_py_dict<double, std::vector<char>>(const std::unordered_map<double, std::vector<char>> &map) {
     return generic_cpp_std_unordered_map_to_py_dict<
-        double, std::string,
-        &cpp_double_to_py_float, &cpp_string_to_py_bytes
+        double, std::vector<char>,
+        &cpp_double_to_py_float, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
-//--------- Converts a Python dict of {double : std::string, ...} ---------
-//-------------- to a std::unordered_map<double, std::string> -------------
+//------ Converts a Python dict of {double : std::vector<char>, ...} ------
+//----------- to a std::unordered_map<double, std::vector<char>> ----------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<double, std::string>(PyObject* op, std::unordered_map<double, std::string> &map) {
+py_dict_to_cpp_std_unordered_map<double, std::vector<char>>(PyObject* op, std::unordered_map<double, std::vector<char>> &map) {
     return generic_py_dict_to_cpp_std_unordered_map<
-        double, std::string,
+        double, std::vector<char>,
         &py_float_check, &py_bytes_check,
-        &py_float_to_cpp_double, &py_bytes_to_cpp_string
+        &py_float_to_cpp_double, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
-//------------ Converts a std::unordered_map<std::string, bool> -----------
-//----------- to a Python dict of { std::string : bool, ...}    -----------
+//--------- Converts a std::unordered_map<std::vector<char>, bool> --------
+//-------- to a Python dict of { std::vector<char> : bool, ...}    --------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::string, bool>(const std::unordered_map<std::string, bool> &map) {
+cpp_std_unordered_map_to_py_dict<std::vector<char>, bool>(const std::unordered_map<std::vector<char>, bool> &map) {
     return generic_cpp_std_unordered_map_to_py_dict<
-        std::string, bool,
-        &cpp_string_to_py_bytes, &cpp_bool_to_py_bool
+        std::vector<char>, bool,
+        &cpp_vector_char_to_py_bytes, &cpp_bool_to_py_bool
     >(map);
 }
 
-//---------- Converts a Python dict of {std::string : bool, ...} ----------
-//--------------- to a std::unordered_map<std::string, bool> --------------
+//------- Converts a Python dict of {std::vector<char> : bool, ...} -------
+//------------ to a std::unordered_map<std::vector<char>, bool> -----------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::string, bool>(PyObject* op, std::unordered_map<std::string, bool> &map) {
+py_dict_to_cpp_std_unordered_map<std::vector<char>, bool>(PyObject* op, std::unordered_map<std::vector<char>, bool> &map) {
     return generic_py_dict_to_cpp_std_unordered_map<
-        std::string, bool,
+        std::vector<char>, bool,
         &py_bytes_check, &py_bool_check,
-        &py_bytes_to_cpp_string, &py_bool_to_cpp_bool
+        &py_bytes_to_cpp_vector_char, &py_bool_to_cpp_bool
     >(op, map);
 }
 
-//------------ Converts a std::unordered_map<std::string, long> -----------
-//----------- to a Python dict of { std::string : long, ...}    -----------
+//--------- Converts a std::unordered_map<std::vector<char>, long> --------
+//-------- to a Python dict of { std::vector<char> : long, ...}    --------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::string, long>(const std::unordered_map<std::string, long> &map) {
+cpp_std_unordered_map_to_py_dict<std::vector<char>, long>(const std::unordered_map<std::vector<char>, long> &map) {
     return generic_cpp_std_unordered_map_to_py_dict<
-        std::string, long,
-        &cpp_string_to_py_bytes, &cpp_long_to_py_long
+        std::vector<char>, long,
+        &cpp_vector_char_to_py_bytes, &cpp_long_to_py_long
     >(map);
 }
 
-//---------- Converts a Python dict of {std::string : long, ...} ----------
-//--------------- to a std::unordered_map<std::string, long> --------------
+//------- Converts a Python dict of {std::vector<char> : long, ...} -------
+//------------ to a std::unordered_map<std::vector<char>, long> -----------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::string, long>(PyObject* op, std::unordered_map<std::string, long> &map) {
+py_dict_to_cpp_std_unordered_map<std::vector<char>, long>(PyObject* op, std::unordered_map<std::vector<char>, long> &map) {
     return generic_py_dict_to_cpp_std_unordered_map<
-        std::string, long,
+        std::vector<char>, long,
         &py_bytes_check, &py_long_check,
-        &py_bytes_to_cpp_string, &py_long_to_cpp_long
+        &py_bytes_to_cpp_vector_char, &py_long_to_cpp_long
     >(op, map);
 }
 
-//----------- Converts a std::unordered_map<std::string, double> ----------
-//---------- to a Python dict of { std::string : double, ...}    ----------
+//-------- Converts a std::unordered_map<std::vector<char>, double> -------
+//------- to a Python dict of { std::vector<char> : double, ...}    -------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::string, double>(const std::unordered_map<std::string, double> &map) {
+cpp_std_unordered_map_to_py_dict<std::vector<char>, double>(const std::unordered_map<std::vector<char>, double> &map) {
     return generic_cpp_std_unordered_map_to_py_dict<
-        std::string, double,
-        &cpp_string_to_py_bytes, &cpp_double_to_py_float
+        std::vector<char>, double,
+        &cpp_vector_char_to_py_bytes, &cpp_double_to_py_float
     >(map);
 }
 
-//--------- Converts a Python dict of {std::string : double, ...} ---------
-//-------------- to a std::unordered_map<std::string, double> -------------
+//------ Converts a Python dict of {std::vector<char> : double, ...} ------
+//----------- to a std::unordered_map<std::vector<char>, double> ----------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::string, double>(PyObject* op, std::unordered_map<std::string, double> &map) {
+py_dict_to_cpp_std_unordered_map<std::vector<char>, double>(PyObject* op, std::unordered_map<std::vector<char>, double> &map) {
     return generic_py_dict_to_cpp_std_unordered_map<
-        std::string, double,
+        std::vector<char>, double,
         &py_bytes_check, &py_float_check,
-        &py_bytes_to_cpp_string, &py_float_to_cpp_double
+        &py_bytes_to_cpp_vector_char, &py_float_to_cpp_double
     >(op, map);
 }
 
-//-------- Converts a std::unordered_map<std::string, std::string> --------
-//-------- to a Python dict of { std::string : std::string, ...}    -------
+//-- Converts a std::unordered_map<std::vector<char>, std::vector<char>> --
+//-- to a Python dict of { std::vector<char> : std::vector<char>, ...}    -
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::string, std::string>(const std::unordered_map<std::string, std::string> &map) {
+cpp_std_unordered_map_to_py_dict<std::vector<char>, std::vector<char>>(const std::unordered_map<std::vector<char>, std::vector<char>> &map) {
     return generic_cpp_std_unordered_map_to_py_dict<
-        std::string, std::string,
-        &cpp_string_to_py_bytes, &cpp_string_to_py_bytes
+        std::vector<char>, std::vector<char>,
+        &cpp_vector_char_to_py_bytes, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
-//------- Converts a Python dict of {std::string : std::string, ...} ------
-//----------- to a std::unordered_map<std::string, std::string> -----------
+//- Converts a Python dict of {std::vector<char> : std::vector<char>, ...} 
+//----- to a std::unordered_map<std::vector<char>, std::vector<char>> -----
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::string, std::string>(PyObject* op, std::unordered_map<std::string, std::string> &map) {
+py_dict_to_cpp_std_unordered_map<std::vector<char>, std::vector<char>>(PyObject* op, std::unordered_map<std::vector<char>, std::vector<char>> &map) {
     return generic_py_dict_to_cpp_std_unordered_map<
-        std::string, std::string,
+        std::vector<char>, std::vector<char>,
         &py_bytes_check, &py_bytes_check,
-        &py_bytes_to_cpp_string, &py_bytes_to_cpp_string
+        &py_bytes_to_cpp_vector_char, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
