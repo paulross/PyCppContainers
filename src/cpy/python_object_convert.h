@@ -9,6 +9,7 @@
 
 #include <complex>
 #include <string>
+#include <vector>
 
 namespace Python_Cpp_Containers {
 
@@ -73,21 +74,21 @@ namespace Python_Cpp_Containers {
 
     int py_complex_check(PyObject *op);
 
-#pragma mark -- Bytes/std::string Conversion Code
+#pragma mark -- Bytes/std::vector<char> Conversion Code
 
     // Bytes to/from string
-    PyObject *cpp_string_to_py_bytes(const std::string &s);
+    PyObject *cpp_vector_char_to_py_bytes(const std::vector<char> &s);
 
-    std::string py_bytes_to_cpp_string(PyObject *op);
+    std::vector<char> py_bytes_to_cpp_vector_char(PyObject *op);
 
     int py_bytes_check(PyObject *op);
 
 #pragma mark -- bytearray/std::string Conversion Code
 
     // bytearray to/from string
-    PyObject *cpp_string_to_py_bytearray(const std::string &s);
+    PyObject *cpp_vector_char_to_py_bytearray(const std::vector<char> &s);
 
-    std::string py_bytearray_to_cpp_string(PyObject *op);
+    std::vector<char> py_bytearray_to_cpp_vector_char(PyObject *op);
 
     int py_bytearray_check(PyObject *op);
 

@@ -193,6 +193,7 @@ protected:
 };
 
 std::string unique_string(int width=0);
+std::vector<char> unique_vector_char(int width);
 size_t count_of_unique_string();
 void reset_count_of_unique_string();
 
