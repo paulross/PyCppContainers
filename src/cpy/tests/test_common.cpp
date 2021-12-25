@@ -88,6 +88,7 @@ compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObjec
 
 int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len) {
     std::vector<std::vector<char>> cpp_vector;
+    std::vector<std::vector<char>> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
 //        cpp_vector.push_back(unique_vector_char(str_len));
         cpp_vector.push_back(std::vector<char>(str_len, ' '));
@@ -137,8 +138,8 @@ int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_
 int test_vector_string_to_py_list(TestResultS &test_results, size_t size, size_t str_len) {
     std::vector<std::string> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
-//        cpp_vector.push_back(unique_string(str_len));
-        cpp_vector.push_back(std::string(str_len, ' '));
+//        cpp_vector.push_back(unique_vector_char(str_len));
+        cpp_vector.push_back(std::vector<char>(str_len, ' '));
     }
     ExecClock exec_clock;
     PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_list(cpp_vector);
@@ -352,6 +353,18 @@ int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size
     if (! op) {
         result |= 1;
     } else {
+        std::vector<std::vector<char>> cpp_vector;
+        ExecClock exec_clock;
+        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+        exec_time = exec_clock.seconds();
+        if (err != 0) {
+            result |= 1 << 2;
+        } else {
+            if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
+                result |= 1 << 3;
+            } else {
+                for (size_t i = 0; i < size; ++i) {
+                    std::vector<char> value = Python_Cpp_Containers::py_bytes_to_cpp_vector_char(
         for (size_t i = 0; i < size; ++i) {
 //            std::string str = unique_string(str_len);
             std::string str(str_len, ' ');
