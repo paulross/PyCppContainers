@@ -297,6 +297,43 @@ int test_py_set_to_unordered_set(TestResultS &test_results, const std::string &t
 }
 
 template<
+        typename T,
+        PyObject *(*Convert_T_To_Py)(const T &),
+        T (*Convert_Py_To_T)(PyObject *)
+>
+int compare_set(std::unordered_set<T> &cpp_set, PyObject *op) {
+    assert(PySet_Check(op));
+    int result = 0;
+    PyObject *py_val = NULL;
+    for (auto iter = cpp_set.begin(); iter != cpp_set.end(); ++iter) {
+        T val = *iter;
+        // New reference
+        py_val = Convert_T_To_Py(val);
+        // Borrowed reference.
+        if (PySet_Contains(op, py_val) != 1) {
+            result |= 1 << 2;
+        }
+        Py_DECREF(py_val);
+    }
+    // TODO: Now iterate across op and check against cpp_map.
+    // Now iterate across op and check against cpp_set.
+    Py_ssize_t pos = 0;
+    PyObject *py_set_iter = PyObject_GetIter(op);
+    if (py_set_iter) {
+        PyObject *item = NULL;
+        while ((item = PyIter_Next(py_set_iter))) {
+            T cpp_item = Convert_Py_To_T(item);
+            if (cpp_set.count(cpp_item) != 1) {
+                result |= 1 << 4;
+            }
+            Py_DECREF(item);
+        }
+        Py_DECREF(py_set_iter);
+    }
+    return result;
+}
+
+template<
         typename K,
         typename V,
         PyObject *(*Convert_K)(const K &),

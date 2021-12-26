@@ -801,15 +801,16 @@ int test_perf_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test
     return result;
 }
 
-#define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
+//#define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
 #define TEST_PERFORMANCE_TUPLES
 #define TEST_PERFORMANCE_LISTS
 #define TEST_PERFORMANCE_SETS
 #define TEST_PERFORMANCE_DICTS
+
 // Control object testing
-#define TEST_PERFORMANCE_OBJECT_BOOL
-#define TEST_PERFORMANCE_OBJECT_LONG
-#define TEST_PERFORMANCE_OBJECT_DOUBLE
+//#define TEST_PERFORMANCE_OBJECT_BOOL
+//#define TEST_PERFORMANCE_OBJECT_LONG
+//#define TEST_PERFORMANCE_OBJECT_DOUBLE
 #define TEST_PERFORMANCE_OBJECT_BYTES
 
 void test_performance_all(TestResultS &test_results) {
@@ -1004,17 +1005,22 @@ void test_performance_all(TestResultS &test_results) {
 #ifdef TEST_PERFORMANCE_SETS
     // Test sets.
     // Set fundamental types C++ to Python
+#ifdef TEST_PERFORMANCE_OBJECT_LONG
     {
         RSSSnapshot rss("test_perf_unordered_set_to_py_set_multiple<long>");
         test_perf_unordered_set_to_py_set_multiple<long>(test_results, "<long>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     {
         RSSSnapshot rss("test_perf_unordered_set_to_py_set_multiple<double>");
         test_perf_unordered_set_to_py_set_multiple<double>(test_results, "<double>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
     // Set fundamental types Python to C++
+#ifdef TEST_PERFORMANCE_OBJECT_LONG
     {
         RSSSnapshot rss("test_perf_py_set_to_unordered_set_multiple<long>");
         test_perf_py_set_to_unordered_set_multiple<long, &Python_Cpp_Containers::cpp_long_to_py_long>(test_results,
@@ -1022,6 +1028,8 @@ void test_performance_all(TestResultS &test_results) {
                                                                                                       TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     {
         RSSSnapshot rss("test_perf_py_set_to_unordered_set_multiple<double>");
         test_perf_py_set_to_unordered_set_multiple<double, &Python_Cpp_Containers::cpp_double_to_py_float>(test_results,
@@ -1029,7 +1037,9 @@ void test_performance_all(TestResultS &test_results) {
                                                                                                            TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
     // Test set of strings Python <-> C++
+#ifdef TEST_PERFORMANCE_OBJECT_BYTES
     {
         RSSSnapshot rss("test_perf_unordered_set_string_to_py_set_multiple");
         test_perf_unordered_set_string_to_py_set_multiple(test_results, TEST_REPEAT);
@@ -1040,19 +1050,25 @@ void test_performance_all(TestResultS &test_results) {
         test_perf_py_set_bytes_to_unordered_set_string_multiple(test_results, TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif // TEST_PERFORMANCE_OBJECT_BYTES
 #endif // TEST_PERFORMANCE_SETS
 #ifdef TEST_PERFORMANCE_DICTS
     // Test dicts.
+#ifdef TEST_PERFORMANCE_OBJECT_LONG
     {
         RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<long,long>");
         test_perf_cpp_std_unordered_map_to_py_dict_multiple<long, long>(test_results, "<long,long>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     {
         RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_multiple<double,double>");
         test_perf_cpp_std_unordered_map_to_py_dict_multiple<double, double>(test_results, "<double,double>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_LONG
     {
         RSSSnapshot rss("test_perf_py_dict_to_cpp_std_unordered_map_multiple<long,long>");
         test_perf_py_dict_to_cpp_std_unordered_map_multiple<
@@ -1063,6 +1079,8 @@ void test_performance_all(TestResultS &test_results) {
         >(test_results, "<long,long>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     {
         RSSSnapshot rss("test_perf_py_dict_to_cpp_std_unordered_map_multiple<double,double>");
         test_perf_py_dict_to_cpp_std_unordered_map_multiple<
@@ -1073,6 +1091,8 @@ void test_performance_all(TestResultS &test_results) {
         >(test_results, "<double,double>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_BYTES
     {
         RSSSnapshot rss("test_perf_cpp_std_unordered_map_to_py_dict_string_multiple");
         test_perf_cpp_std_unordered_map_to_py_dict_string_multiple(test_results, TEST_REPEAT);
@@ -1084,5 +1104,6 @@ void test_performance_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     std::cout << "==== " << rss_overall << std::endl;
+#endif // TEST_PERFORMANCE_OBJECT_BYTES
 #endif // TEST_PERFORMANCE_DICTS
 }
