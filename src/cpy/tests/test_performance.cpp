@@ -173,7 +173,7 @@ int test_py_bytes_to_cpp_vector_char_multiple(TestResultS &test_results, size_t 
 #pragma mark Testing of tuples multiple times
 
 template<typename T>
-int test_vector_to_py_tuple_multiple(TestResultS &test_results, const std::vector<char> &type, size_t size, size_t repeat) {
+int test_vector_to_py_tuple_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat) {
     std::vector<T> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
         cpp_vector.push_back(T(i));
@@ -193,7 +193,7 @@ int test_vector_to_py_tuple_multiple(TestResultS &test_results, const std::vecto
 }
 
 template<typename T>
-int test_perf_vector_to_py_tuple_multiple(TestResultS &test_results, const std::vector<char> &type, size_t repeat) {
+int test_perf_vector_to_py_tuple_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_vector_to_py_tuple_multiple<T>(test_results, type, size, repeat);
@@ -202,7 +202,7 @@ int test_perf_vector_to_py_tuple_multiple(TestResultS &test_results, const std::
 }
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
-int test_py_tuple_to_vector_multiple(TestResultS &test_results, const std::vector<char> &type, size_t size, size_t repeat) {
+int test_py_tuple_to_vector_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat) {
     PyObject *op = Python_Cpp_Containers::py_list_new(size);
     int result = 0;
     double exec_time = -1.0;
@@ -243,7 +243,7 @@ int test_py_tuple_to_vector_multiple(TestResultS &test_results, const std::vecto
 }
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
-int test_perf_py_tuple_to_vector_multiple(TestResultS &test_results, const std::vector<char> &type, size_t repeat) {
+int test_perf_py_tuple_to_vector_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_py_tuple_to_vector_multiple<T, ConvertCppToPy>(test_results, type, size, repeat);
@@ -338,7 +338,7 @@ int test_vector_to_py_list_multiple(TestResultS &test_results, const std::vector
 }
 
 template<typename T>
-int test_perf_vector_to_py_list_multiple(TestResultS &test_results, const std::vector<char> &type, size_t repeat) {
+int test_perf_vector_to_py_list_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_vector_to_py_list_multiple<T>(test_results, type, size, repeat);
@@ -347,7 +347,7 @@ int test_perf_vector_to_py_list_multiple(TestResultS &test_results, const std::v
 }
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
-int test_py_list_to_vector_multiple(TestResultS &test_results, const std::vector<char> &type, size_t size, size_t repeat) {
+int test_py_list_to_vector_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat) {
     PyObject *op = Python_Cpp_Containers::py_list_new(size);
     int result = 0;
     double exec_time = -1.0;
@@ -388,7 +388,7 @@ int test_py_list_to_vector_multiple(TestResultS &test_results, const std::vector
 }
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
-int test_perf_py_list_to_vector_multiple(TestResultS &test_results, const std::vector<char> &type, size_t repeat) {
+int test_perf_py_list_to_vector_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_py_list_to_vector_multiple<T, ConvertCppToPy>(test_results, type, size, repeat);
@@ -464,7 +464,7 @@ int test_perf_vector_string_to_py_list_multiple(TestResultS &test_results, size_
 
 template<typename T>
 int
-test_unordered_set_to_py_set_multiple(TestResultS &test_results, const std::vector<char> &type, size_t size, size_t repeat) {
+test_unordered_set_to_py_set_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat) {
     std::unordered_set<T> cpp_set;
     for (size_t i = 0; i < size; ++i) {
         cpp_set.insert(T(i));
@@ -484,7 +484,7 @@ test_unordered_set_to_py_set_multiple(TestResultS &test_results, const std::vect
 }
 
 template<typename T>
-int test_perf_unordered_set_to_py_set_multiple(TestResultS &test_results, const std::vector<char> &type, size_t repeat) {
+int test_perf_unordered_set_to_py_set_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_unordered_set_to_py_set_multiple<T>(test_results, type, size, repeat);
@@ -494,7 +494,7 @@ int test_perf_unordered_set_to_py_set_multiple(TestResultS &test_results, const 
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
 int
-test_py_set_to_unordered_set_multiple(TestResultS &test_results, const std::vector<char> &type, size_t size, size_t repeat) {
+test_py_set_to_unordered_set_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat) {
     PyObject *op = Python_Cpp_Containers::py_set_new(NULL);
     int result = 0;
     double exec_time = -1.0;
@@ -536,7 +536,7 @@ test_py_set_to_unordered_set_multiple(TestResultS &test_results, const std::vect
 }
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
-int test_perf_py_set_to_unordered_set_multiple(TestResultS &test_results, const std::vector<char> &type, size_t repeat) {
+int test_perf_py_set_to_unordered_set_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_py_set_to_unordered_set_multiple<T, ConvertCppToPy>(test_results, type, size, repeat);
@@ -547,7 +547,7 @@ int test_perf_py_set_to_unordered_set_multiple(TestResultS &test_results, const 
 int test_unordered_set_string_to_py_set_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
     std::unordered_set<std::vector<char>> cpp_set;
     for (size_t i = 0; i < size; ++i) {
-        cpp_set.insert(unique_string(str_len));
+        cpp_set.insert(unique_vector_char(str_len));
     }
     std::ostringstream title;
     title << __FUNCTION__  << "<std::vector<char>[" << str_len << "]>" << "():" << "[" << size << "]";
@@ -608,7 +608,7 @@ int test_perf_py_set_bytes_to_unordered_set_string_multiple(TestResultS &test_re
 #pragma mark Testing of dicts multiple times
 
 template<typename K, typename V>
-int test_cpp_std_unordered_map_to_py_dict_multiple(TestResultS &test_results, const std::vector<char> &type, size_t size,
+int test_cpp_std_unordered_map_to_py_dict_multiple(TestResultS &test_results, const std::string &type, size_t size,
                                                    size_t repeat) {
     std::unordered_map<K, V> cpp_map;
     for (size_t i = 0; i < size; ++i) {
@@ -630,7 +630,7 @@ int test_cpp_std_unordered_map_to_py_dict_multiple(TestResultS &test_results, co
 
 template<typename K, typename V>
 int
-test_perf_cpp_std_unordered_map_to_py_dict_multiple(TestResultS &test_results, const std::vector<char> &type, size_t repeat) {
+test_perf_cpp_std_unordered_map_to_py_dict_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER;
          size < LIMIT_SIZE_OF_CONTAINER_DICT; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
@@ -645,7 +645,7 @@ template<
         PyObject *(*Convert_K)(const K &),
         PyObject *(*Convert_V)(const V &)
 >
-int test_py_dict_to_cpp_std_unordered_map_multiple(TestResultS &test_results, const std::vector<char> &type, size_t size,
+int test_py_dict_to_cpp_std_unordered_map_multiple(TestResultS &test_results, const std::string &type, size_t size,
                                                    size_t repeat) {
     PyObject *op = PyDict_New();
     PyObject *py_k = NULL;
@@ -723,7 +723,7 @@ template<
         PyObject *(*Convert_V)(const V &)
 >
 int
-test_perf_py_dict_to_cpp_std_unordered_map_multiple(TestResultS &test_results, const std::vector<char> &type, size_t repeat) {
+test_perf_py_dict_to_cpp_std_unordered_map_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER;
          size < LIMIT_SIZE_OF_CONTAINER_DICT; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
@@ -737,7 +737,7 @@ int test_cpp_std_unordered_map_to_py_dict_string_multiple(TestResultS &test_resu
     int result = 0;
     std::unordered_map<std::vector<char>, std::vector<char>> cpp_map;
     for (size_t i = 0; i < size; ++i) {
-        cpp_map[unique_string(str_len)] = std::vector<char>(str_len, ' ');
+        cpp_map[unique_vector_char(str_len)] = std::vector<char>(str_len, ' ');
     }
     std::ostringstream title;
     title << __FUNCTION__ << "<std::vector<char>[" << str_len << "]>" << "():" << "[" << size << "]";
