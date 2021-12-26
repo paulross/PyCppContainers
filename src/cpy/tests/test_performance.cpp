@@ -801,16 +801,15 @@ int test_perf_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test
     return result;
 }
 
-//#define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
+#define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
 #define TEST_PERFORMANCE_TUPLES
 #define TEST_PERFORMANCE_LISTS
 #define TEST_PERFORMANCE_SETS
 #define TEST_PERFORMANCE_DICTS
-
 // Control object testing
-//#define TEST_PERFORMANCE_OBJECT_BOOL
-//#define TEST_PERFORMANCE_OBJECT_LONG
-//#define TEST_PERFORMANCE_OBJECT_DOUBLE
+#define TEST_PERFORMANCE_OBJECT_BOOL
+#define TEST_PERFORMANCE_OBJECT_LONG
+#define TEST_PERFORMANCE_OBJECT_DOUBLE
 #define TEST_PERFORMANCE_OBJECT_BYTES
 
 void test_performance_all(TestResultS &test_results) {

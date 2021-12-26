@@ -27,6 +27,23 @@
 /// Functions to handle Python containers.
 #include "python_container_convert.h"
 
+
+/**
+ * Provide a hash function for std::vector<char>.
+ * This just creates a std::string_view over the raw data and uses std::hash on that.
+ */
+namespace std {
+    template<>
+    struct hash<std::vector<char>> {
+        size_t operator()(std::vector<char> const &item) const {
+            size_t ret = 0;
+            std::string_view sv(item.data(), item.size());
+            ret = std::hash<std::string_view>{}(sv);
+            return ret;
+        }
+    };
+}
+
 namespace Python_Cpp_Containers {
 
     // TODO: Enumerate errors codes. Something like:

@@ -51,10 +51,10 @@ void test_example_py_tuple_to_vector_double() {
 
 // Demonstration code
 void test_example_cpp_std_unordered_map_to_py_dict() {
-    std::unordered_map<long, std::string> cpp_map;
+    std::unordered_map<long, std::vector<char>> cpp_map;
     // Populate the map with some data.
     for (long i = 0; i < 128; ++i) {
-        cpp_map[i] = std::string(4, ' ');
+        cpp_map[i] = std::vector<char>(4, ' ');
     }
     // Convert to a Python dict.
     PyObject *op = Python_Cpp_Containers::cpp_std_unordered_map_to_py_dict(cpp_map);
@@ -74,7 +74,7 @@ void test_example_py_dict_to_cpp_std_unordered_map() {
     PyObject *op = PyDict_New();
     // Populate dict with [int, bytes]
     // ...
-    std::unordered_map<long, std::string> cpp_map;
+    std::unordered_map<long, std::vector<char>> cpp_map;
     int err = Python_Cpp_Containers::py_dict_to_cpp_std_unordered_map(op, cpp_map);
     if (err != 0) {
         // Handle error.

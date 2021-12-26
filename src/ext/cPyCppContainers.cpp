@@ -71,7 +71,7 @@ reverse_vector(const std::vector<T> &input){
  */
 static PyObject *
 tuple_reverse(PyObject *Py_UNUSED(module), PyObject *arg) {
-    std::vector<std::string> vec;
+    std::vector<std::vector<char>> vec;
     if (!py_tuple_to_cpp_std_vector(arg, vec)) {
         return cpp_std_vector_to_py_tuple(reverse_vector(vec));
     }
@@ -87,7 +87,7 @@ tuple_reverse(PyObject *Py_UNUSED(module), PyObject *arg) {
  */
 static PyObject *
 dict_inc(PyObject *Py_UNUSED(module), PyObject *arg) {
-    std::unordered_map<std::string, long> dict;
+    std::unordered_map<std::vector<char>, long> dict;
     if (!py_dict_to_cpp_std_unordered_map(arg, dict)) {
         for(auto &key_value: dict) {
             key_value.second += 1;
@@ -136,7 +136,7 @@ new_list_int(PyObject *Py_UNUSED(module), PyObject *arg) {
 
 static PyObject *
 new_list_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_list<std::string>(arg);
+    return new_list<std::vector<char>>(arg);
 }
 
 
@@ -217,7 +217,7 @@ new_set_float(PyObject *Py_UNUSED(module), PyObject *arg) {
  */
 static PyObject *
 new_set_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_set<std::string>(arg);
+    return new_set<std::vector<char>>(arg);
 }
 
 /**
@@ -266,7 +266,7 @@ new_frozenset_float(PyObject *Py_UNUSED(module), PyObject *arg) {
  */
 static PyObject *
 new_frozenset_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_frozenset<std::string>(arg);
+    return new_frozenset<std::vector<char>>(arg);
 }
 
 /**
@@ -309,7 +309,7 @@ new_dict_float_float(PyObject *Py_UNUSED(module), PyObject *arg) {
 
 static PyObject *
 new_dict_bytes_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_dict<std::string, std::string>(arg);
+    return new_dict<std::vector<char>, std::vector<char>>(arg);
 }
 
 
