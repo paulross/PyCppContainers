@@ -117,7 +117,7 @@ This project simplifies this by using a mix of C++ templates and code generators
 
 * Two C++ templates for Python ``tuple`` / ``list`` two way conversions for all types.
 * Two C++ templates for Python ``set`` / ``frozenset`` two way conversions for all types.
-* Two C++ templates for Python ``dict`` two way conversions for all types combinations.
+* Two C++ templates for Python ``dict`` two way conversions for all type combinations.
 
 These templates are fairly simple, comprehensible and, for simplicity, code generation is done with a Python script is used
 to create the final functions.
