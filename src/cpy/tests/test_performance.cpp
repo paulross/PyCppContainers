@@ -806,6 +806,11 @@ int test_perf_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test
 #define TEST_PERFORMANCE_LISTS
 #define TEST_PERFORMANCE_SETS
 #define TEST_PERFORMANCE_DICTS
+// Control object testing
+#define TEST_PERFORMANCE_OBJECT_BOOL
+#define TEST_PERFORMANCE_OBJECT_LONG
+#define TEST_PERFORMANCE_OBJECT_DOUBLE
+#define TEST_PERFORMANCE_OBJECT_BYTES
 
 void test_performance_all(TestResultS &test_results) {
     RSSSnapshot rss_overall("==== test_performance.cpp");
@@ -814,15 +819,22 @@ void test_performance_all(TestResultS &test_results) {
     {
         size_t fundamental_types_test_size = 1000 * 1000;
         size_t fundamental_types_test_repeat = TEST_REPEAT * 4;
+#ifdef TEST_PERFORMANCE_OBJECT_BOOL
         // boolean
         test_bool_to_py_bool_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
         test_py_bool_to_cpp_bool_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_LONG
         // Integer
         test_long_to_py_int_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
         test_py_int_to_cpp_long_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
         // Floating point
         test_double_to_py_float_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
         test_py_float_to_cpp_double_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_BYTES
         // Strings of various sizes.
         test_cpp_string_to_py_bytes_multiple(test_results, 2, fundamental_types_test_size,
                                              fundamental_types_test_repeat);
@@ -848,27 +860,35 @@ void test_performance_all(TestResultS &test_results) {
                                              fundamental_types_test_repeat);
         test_py_bytes_to_cpp_string_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
                                              fundamental_types_test_repeat);
+#endif
     }
 #endif // TEST_PERFORMANCE_FUNDAMENTAL_TYPES
 #ifdef TEST_PERFORMANCE_TUPLES
     // Tuple tests
     // Tuple fundamental types C++ -> Python
+#ifdef TEST_PERFORMANCE_OBJECT_BOOL
     {
         RSSSnapshot rss("test_perf_vector_to_py_tuple_multiple<bool>");
         test_perf_vector_to_py_tuple_multiple<bool>(test_results, "<bool>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_LONG
     {
         RSSSnapshot rss("test_perf_vector_to_py_tuple_multiple<long>");
         test_perf_vector_to_py_tuple_multiple<long>(test_results, "<long>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     {
         RSSSnapshot rss("test_perf_vector_to_py_tuple_multiple<double>");
         test_perf_vector_to_py_tuple_multiple<double>(test_results, "<double>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
     // Tuple fundamental types Python -> C++
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_BOOL
     {
         RSSSnapshot rss("test_perf_py_tuple_to_vector_multiple<bool>");
         test_perf_py_tuple_to_vector_multiple<
@@ -877,6 +897,8 @@ void test_performance_all(TestResultS &test_results) {
         >(test_results,"<bool>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_LONG
     {
         RSSSnapshot rss("test_perf_py_tuple_to_vector_multiple<long>");
         test_perf_py_tuple_to_vector_multiple<
@@ -885,6 +907,8 @@ void test_performance_all(TestResultS &test_results) {
         >(test_results,"<long>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     {
         RSSSnapshot rss("test_perf_py_tuple_to_vector_multiple<double>");
         test_perf_py_tuple_to_vector_multiple<
@@ -893,6 +917,8 @@ void test_performance_all(TestResultS &test_results) {
         >(test_results,"<double>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_BYTES
     // Test list of strings Python <-> C++
     {
         RSSSnapshot rss("test_perf_vector_string_to_py_tuple_multiple");
@@ -904,26 +930,34 @@ void test_performance_all(TestResultS &test_results) {
         test_perf_py_tuple_to_vector_string_multiple(test_results, TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif // TEST_PERFORMANCE_OBJECT_BYTES
 #endif // TEST_PERFORMANCE_TUPLES
 #ifdef TEST_PERFORMANCE_LISTS
     // Test lists
     // List fundamental types C++ -> Python
+#ifdef TEST_PERFORMANCE_OBJECT_BOOL
     {
         RSSSnapshot rss("test_perf_vector_to_py_list_multiple<bool>");
         test_perf_vector_to_py_list_multiple<bool>(test_results, "<bool>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_LONG
     {
         RSSSnapshot rss("test_perf_vector_to_py_list_multiple<long>");
         test_perf_vector_to_py_list_multiple<long>(test_results, "<long>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     {
         RSSSnapshot rss("test_perf_vector_to_py_list_multiple<double>");
         test_perf_vector_to_py_list_multiple<double>(test_results, "<double>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
     // List fundamental types Python -> C++
+#ifdef TEST_PERFORMANCE_OBJECT_BOOL
     {
         RSSSnapshot rss("test_perf_py_list_to_vector_multiple<bool>");
         test_perf_py_list_to_vector_multiple<
@@ -932,6 +966,8 @@ void test_performance_all(TestResultS &test_results) {
         >(test_results,"<bool>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_LONG
     {
         RSSSnapshot rss("test_perf_py_list_to_vector_multiple<long>");
         test_perf_py_list_to_vector_multiple<
@@ -940,6 +976,8 @@ void test_performance_all(TestResultS &test_results) {
         >(test_results,"<long>", TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     {
         RSSSnapshot rss("test_perf_py_list_to_vector_multiple<double>");
         test_perf_py_list_to_vector_multiple<
@@ -949,6 +987,8 @@ void test_performance_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     // Test list of strings Python <-> C++
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_BYTES
     {
         RSSSnapshot rss("test_perf_vector_string_to_py_list_multiple");
         test_perf_vector_string_to_py_list_multiple(test_results, TEST_REPEAT);
@@ -959,6 +999,7 @@ void test_performance_all(TestResultS &test_results) {
         test_perf_py_list_to_vector_string_multiple(test_results, TEST_REPEAT);
         std::cout << rss << std::endl;
     }
+#endif //TEST_PERFORMANCE_OBJECT_BYTES
 #endif // TEST_PERFORMANCE_LISTS
 #ifdef TEST_PERFORMANCE_SETS
     // Test sets.
