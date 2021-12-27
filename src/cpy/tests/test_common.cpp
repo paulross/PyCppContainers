@@ -3,6 +3,36 @@
 //
 #include "test_common.h"
 
+#pragma mark Comparison template specialisations.
+
+template <>
+int
+compare_tuple<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op) {
+    return compare_tuple<
+            std::string,
+            &Python_Cpp_Containers::cpp_string_to_py_bytes,
+            &Python_Cpp_Containers::py_bytes_to_cpp_string>(cpp_vector, op);
+}
+
+template <>
+int
+compare_list<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op) {
+    return compare_list<
+            std::string,
+            &Python_Cpp_Containers::cpp_string_to_py_bytes,
+            &Python_Cpp_Containers::py_bytes_to_cpp_string>(cpp_vector, op);
+}
+
+template <>
+int
+compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObject *op) {
+    return compare_set<
+            std::string,
+            &Python_Cpp_Containers::cpp_string_to_py_bytes,
+            &Python_Cpp_Containers::py_bytes_to_cpp_string>(cpp_set, op);
+}
+
+
 int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len) {
     std::vector<std::string> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
@@ -17,21 +47,8 @@ int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_
         result |= 1;
     } else {
         assert(op->ob_refcnt ==  1);
-        if (! Python_Cpp_Containers::py_tuple_check(op)) {
-            result |= 1 << 1;
-        } else {
-            if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
-                result |= 1 << 2;
-            } else {
-                for (size_t i = 0; i < size; ++i) {
-                    std::string value = Python_Cpp_Containers::py_bytes_to_cpp_string(
-                            Python_Cpp_Containers::py_tuple_get(op, i)
-                            );
-                    if (value != cpp_vector[i]) {
-                        result |= 1 << 2;
-                    }
-                }
-            }
+        if (compare_tuple(cpp_vector, op)) {
+            result = 2;
         }
         assert(op->ob_refcnt == 1);
         Py_DECREF(op);
@@ -72,15 +89,6 @@ int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_
     return result;
 }
 
-template <>
-int
-compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObject *op) {
-    return compare_set<
-            std::string,
-            &Python_Cpp_Containers::cpp_string_to_py_bytes,
-            &Python_Cpp_Containers::py_bytes_to_cpp_string>(cpp_set, op);
-}
-
 int test_unordered_set_bytes_to_py_set(TestResultS &test_results, size_t size, size_t str_len) {
     std::unordered_set<std::string> cpp_set;
     for (size_t i = 0; i < size; ++i) {
@@ -119,9 +127,7 @@ int test_py_set_bytes_to_unordered_set(TestResultS &test_results, size_t size, s
     if (err) {
         result = 1;
     } else {
-        if (compare_set<std::string,
-                &Python_Cpp_Containers::cpp_string_to_py_bytes,
-                &Python_Cpp_Containers::py_bytes_to_cpp_string>(cpp_set, py_set)) {
+        if (compare_set(cpp_set, py_set)) {
             result = 2;
         }
     }

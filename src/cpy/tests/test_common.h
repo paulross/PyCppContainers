@@ -85,7 +85,7 @@ int compare_tuple_or_list(std::vector<T> const &cpp_vector, PyObject *op) {
     if (!PyUnaryContainer_Check(op)) {
         result = 1;
     } else {
-        if (cpp_vector.size() != PyUnaryContainer_Size(op)) {
+        if (cpp_vector.size() != static_cast<size_t>(PyUnaryContainer_Size(op))) {
             result = 2;
         } else {
             // Iterate across cpp_vector and compare against PyObject *op.
@@ -132,6 +132,14 @@ int compare_tuple(std::vector<T> const &cpp_vector, PyObject *op) {
         >(cpp_vector, op);
 }
 
+template<typename T>
+int
+compare_tuple(const std::vector<T> &cpp_vector, PyObject *op);
+
+template <>
+int
+compare_tuple<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op);
+
 /**
  * Compares a Python list with a C++ std::vector.
  *
@@ -153,6 +161,14 @@ int compare_list(std::vector<T> const &cpp_vector, PyObject *op) {
             &Python_Cpp_Containers::py_list_check, &Python_Cpp_Containers::py_list_len, &Python_Cpp_Containers::py_list_get
     >(cpp_vector, op);
 }
+
+template<typename T>
+int
+compare_list(const std::vector<T> &cpp_vector, PyObject *op);
+
+template <>
+int
+compare_list<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op);
 
 /**
  * Compares a Python set or frozenset with a C++ std::unordered_set.
@@ -213,9 +229,8 @@ template <>
 int
 compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObject *op);
 
-
 /**
- * Compare a Python dioct with a C++ std::unordered_map.
+ * Compare a Python dict with a C++ std::unordered_map.
  * @tparam K The C++ type of the keys.
  * @tparam V The C++ type of the values.
  * @tparam Convert_K Pointer to function to convert a C++ type K to a PyObject.
@@ -276,8 +291,6 @@ int compare_dict(std::unordered_map<K, V> const &cpp_map, PyObject *op) {
     }
     return result;
 }
-
-
 
 #pragma mark General test templates
 
