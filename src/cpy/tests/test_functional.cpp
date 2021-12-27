@@ -7,7 +7,9 @@
 #include "cpy/python_convert.h"
 #include "test_functional.h"
 
-// Demonstration code.
+/**
+ * Demonstration code for converting a `std::vector<double>` to a Python tuple.
+ */
 void test_example_vector_to_py_tuple_double() {
     std::vector<double> cpp_vector;
     for (size_t i = 0; i < 1024; ++i) {
@@ -17,18 +19,21 @@ void test_example_vector_to_py_tuple_double() {
     if (! op) {
         // Handle error condition.
     } else {
-        // Use Python tuple
+        // Use the Python tuple
         Py_DECREF(op);
     }
 }
 
-// Demonstration code.
+/**
+ * Demonstration code for converting a Python tuple off floats to a `std::vector<double>`.
+ */
 void test_example_py_tuple_to_vector_double() {
     PyObject *op = Python_Cpp_Containers::py_tuple_new(1024);
     if (! op) {
         // Handle error
     } else {
         for (size_t i = 0; i < 1024; ++i) {
+            // Populate tuple.
             int err = Python_Cpp_Containers::py_tuple_set(
                     op,
                     i,
@@ -43,13 +48,15 @@ void test_example_py_tuple_to_vector_double() {
         if (err != 0) {
             // Handle error
         } else {
-            // Use vector.
+            // Use the C++ vector.
         }
         Py_DECREF(op);
     }
 }
 
-// Demonstration code
+/**
+ * Demonstration code to convert a std::unordered_map<long, std::string> to a Python dict.
+ */
 void test_example_cpp_std_unordered_map_to_py_dict() {
     std::unordered_map<long, std::vector<char>> cpp_map;
     // Populate the map with some data.
@@ -69,7 +76,9 @@ void test_example_cpp_std_unordered_map_to_py_dict() {
     }
 }
 
-// Demonstration code
+/**
+ * Demonstration code to convert a Python dict[int, bytes] to a std::unordered_map<long, std::string>.
+ */
 void test_example_py_dict_to_cpp_std_unordered_map() {
     PyObject *op = PyDict_New();
     // Populate dict with [int, bytes]
@@ -86,27 +95,15 @@ void test_example_py_dict_to_cpp_std_unordered_map() {
     Py_DECREF(op);
 }
 
-void test_py_set_to_unordered_set_bytes(TestResultS &test_results, size_t size) {
-    PyObject *py_set = new_py_set_bytes(size, 32);
-    std::unordered_set<std::string> cpp_set;
-    // TODO: Report via test_results
-    if (Python_Cpp_Containers::py_set_to_cpp_std_unordered_set(py_set, cpp_set)) {
-        // TODO:
-    } else {
-        if (compare_set<std::string,
-                &Python_Cpp_Containers::cpp_string_to_py_bytes,
-                &Python_Cpp_Containers::py_bytes_to_cpp_string>(cpp_set, py_set)) {
-            // TODO:
-        }
-    }
-}
-
 void test_functional_all(TestResultS &test_results) {
     RSSSnapshot rss_overall("==== test_functional.cpp");
+    // Test that the demonstration code works, no record of the result is kept.
     test_example_vector_to_py_tuple_double();
     test_example_py_tuple_to_vector_double();
     test_example_cpp_std_unordered_map_to_py_dict();
     test_example_py_dict_to_cpp_std_unordered_map();
+    // Functional tests that add to the test results.
+    // Tuples.
     {
         RSSSnapshot rss("test_vector_to_py_tuple<bool>");
         test_vector_to_py_tuple<bool, &Python_Cpp_Containers::py_bool_to_cpp_bool>(test_results, "<bool>",
@@ -187,6 +184,87 @@ void test_functional_all(TestResultS &test_results) {
         test_py_tuple_string_to_vector(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
+    // TODO: Lists?
+    {
+        RSSSnapshot rss("test_vector_to_py_list<bool>");
+        test_vector_to_py_list<bool, &Python_Cpp_Containers::py_bool_to_cpp_bool>(test_results, "<bool>",
+                                                                                   1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_vector_to_py_list<long>");
+        test_vector_to_py_list<long, &Python_Cpp_Containers::py_long_to_cpp_long>(test_results, "<long>",
+                                                                                   1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_vector_to_py_list<double>");
+        test_vector_to_py_list<double, &Python_Cpp_Containers::py_float_to_cpp_double>(test_results,
+                                                                                        "<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_list_to_vector<bool>");
+        test_py_list_to_vector<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool, &Python_Cpp_Containers::py_bool_to_cpp_bool>(
+                test_results, "<bool>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_list_to_vector<long>");
+        test_py_list_to_vector<long, &Python_Cpp_Containers::cpp_long_to_py_long, &Python_Cpp_Containers::py_long_to_cpp_long>(
+                test_results, "<long>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_list_to_vector<double>");
+        test_py_list_to_vector<double, &Python_Cpp_Containers::cpp_double_to_py_float, &Python_Cpp_Containers::py_float_to_cpp_double>(
+                test_results, "<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_vector_to_py_list_round_trip<bool>");
+        test_vector_to_py_list_round_trip<bool>(test_results, "<bool>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_vector_to_py_list_round_trip<long>");
+        test_vector_to_py_list_round_trip<long>(test_results, "<long>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_vector_to_py_list_round_trip<double>");
+        test_vector_to_py_list_round_trip<double>(test_results, "<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_list_to_vector_round_trip<bool>");
+        test_py_list_to_vector_round_trip<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool>(test_results,
+                                                                                              "<bool>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_list_to_vector_round_trip<long>");
+        test_py_list_to_vector_round_trip<long, &Python_Cpp_Containers::cpp_long_to_py_long>(test_results,
+                                                                                              "<long>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_list_to_vector_round_trip<double>");
+        test_py_list_to_vector_round_trip<double, &Python_Cpp_Containers::cpp_double_to_py_float>(
+                test_results,
+                "<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_vector_string_to_py_list");
+        test_vector_string_to_py_list(test_results, 1024, 32);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_list_string_to_vector");
+        test_py_list_string_to_vector(test_results, 1024, 32);
+        std::cout << rss << std::endl;
+    }
     // sets
     {
         RSSSnapshot rss("test_unordered_set_to_py_set<long>");
@@ -200,13 +278,54 @@ void test_functional_all(TestResultS &test_results) {
                 test_results, "<long>", 1024);
         std::cout << rss << std::endl;
     }
-    // TODO: Test set of bytes
     {
-        RSSSnapshot rss("test_py_set_to_unordered_set_bytes");
-        test_py_set_to_unordered_set_bytes(test_results, 1024);
+        RSSSnapshot rss("test_unordered_set_to_py_set<double>");
+        test_unordered_set_to_py_set<double, &Python_Cpp_Containers::py_float_to_cpp_double, &Python_Cpp_Containers::cpp_double_to_py_float>(
+                test_results, "<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_set_to_unordered_set<double>");
+        test_py_set_to_unordered_set<double, &Python_Cpp_Containers::py_float_to_cpp_double, &Python_Cpp_Containers::cpp_double_to_py_float>(
+                test_results, "<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    // Test set of bytes
+    {
+        RSSSnapshot rss("test_py_set_bytes_to_unordered_set");
+        test_py_set_bytes_to_unordered_set(test_results, 1024, 32);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_unordered_set_bytes_to_py_set");
+        test_unordered_set_bytes_to_py_set(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
     // Dicts
+    {
+        RSSSnapshot rss("test_cpp_std_unordered_map_to_py_dict<long, long>");
+        test_cpp_std_unordered_map_to_py_dict<
+                long,
+                long,
+                &Python_Cpp_Containers::cpp_long_to_py_long,
+                &Python_Cpp_Containers::cpp_long_to_py_long,
+                &Python_Cpp_Containers::py_long_to_cpp_long,
+                &Python_Cpp_Containers::py_long_to_cpp_long
+        >(test_results, "<long>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_dict_to_cpp_std_unordered_map<long, long>");
+        test_py_dict_to_cpp_std_unordered_map<
+                long,
+                long,
+                &Python_Cpp_Containers::cpp_long_to_py_long,
+                &Python_Cpp_Containers::cpp_long_to_py_long,
+                &Python_Cpp_Containers::py_long_to_cpp_long,
+                &Python_Cpp_Containers::py_long_to_cpp_long
+        >(test_results, "<long>", 1024);
+        std::cout << rss << std::endl;
+    }
     {
         RSSSnapshot rss("test_cpp_std_unordered_map_to_py_dict<double, double>");
         test_cpp_std_unordered_map_to_py_dict<
@@ -229,6 +348,16 @@ void test_functional_all(TestResultS &test_results) {
                 &Python_Cpp_Containers::py_float_to_cpp_double,
                 &Python_Cpp_Containers::py_float_to_cpp_double
         >(test_results, "<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_cpp_std_unordered_map_to_py_dict_string");
+        test_cpp_std_unordered_map_to_py_dict_string(test_results, 1024, 32);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_dict_to_cpp_std_unordered_map_bytes");
+        test_py_dict_to_cpp_std_unordered_map_bytes(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
     std::cout << "====" << rss_overall << std::endl;
