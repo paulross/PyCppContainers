@@ -150,7 +150,7 @@ compare_tuple<double>(const std::vector<double> &cpp_vector, PyObject *op);
 
 template <>
 int
-compare_tuple<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op);
+compare_tuple<std::vector<char>>(const std::vector<std::vector<char>> &cpp_vector, PyObject *op);
 
 /**
  * Compares a Python list with a C++ std::vector.
@@ -332,7 +332,7 @@ int test_py_set_bytes_to_unordered_set(TestResultS &test_results, size_t size, s
 
 // Functional tests of dict of strings
 int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len);
-int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_dict_to_cpp_std_unordered_map_bytes(TestResultS &test_results, size_t size, size_t str_len);
 
 #pragma mark Generic test templates
 

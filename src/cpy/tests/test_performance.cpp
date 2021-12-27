@@ -738,8 +738,6 @@ int test_cpp_std_unordered_map_to_py_dict_string_multiple(TestResultS &test_resu
     std::unordered_map<std::vector<char>, std::vector<char>> cpp_map;
     for (size_t i = 0; i < size; ++i) {
         cpp_map[unique_vector_char(str_len)] = std::vector<char>(str_len, ' ');
-        cpp_map[unique_string(str_len)] = std::vector<char>(str_len, ' ');
-        cpp_map[unique_vector_char(str_len)] = std::vector<char>(str_len, ' ');
     }
     std::ostringstream title;
     title << __FUNCTION__ << "<std::vector<char>[" << str_len << "]>" << "():" << "[" << size << "]";

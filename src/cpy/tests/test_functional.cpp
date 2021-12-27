@@ -356,8 +356,8 @@ void test_functional_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     {
-        RSSSnapshot rss("test_py_dict_to_cpp_std_unordered_map_string");
-        test_py_dict_to_cpp_std_unordered_map_string(test_results, 1024, 32);
+        RSSSnapshot rss("test_py_dict_to_cpp_std_unordered_map_bytes");
+        test_py_dict_to_cpp_std_unordered_map_bytes(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
     std::cout << "====" << rss_overall << std::endl;
