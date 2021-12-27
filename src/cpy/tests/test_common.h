@@ -138,6 +138,18 @@ compare_tuple(const std::vector<T> &cpp_vector, PyObject *op);
 
 template <>
 int
+compare_tuple<bool>(const std::vector<bool> &cpp_vector, PyObject *op);
+
+template <>
+int
+compare_tuple<long>(const std::vector<long> &cpp_vector, PyObject *op);
+
+template <>
+int
+compare_tuple<double>(const std::vector<double> &cpp_vector, PyObject *op);
+
+template <>
+int
 compare_tuple<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op);
 
 /**
@@ -165,6 +177,18 @@ int compare_list(std::vector<T> const &cpp_vector, PyObject *op) {
 template<typename T>
 int
 compare_list(const std::vector<T> &cpp_vector, PyObject *op);
+
+template <>
+int
+compare_list<bool>(const std::vector<bool> &cpp_vector, PyObject *op);
+
+template <>
+int
+compare_list<long>(const std::vector<long> &cpp_vector, PyObject *op);
+
+template <>
+int
+compare_list<double>(const std::vector<double> &cpp_vector, PyObject *op);
 
 template <>
 int
@@ -292,7 +316,25 @@ int compare_dict(std::unordered_map<K, V> const &cpp_map, PyObject *op) {
     return result;
 }
 
-#pragma mark General test templates
+#pragma mark Tests of containers of strings.
+
+// Functional test of tuples of strings
+int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len);
+
+// Functional test of list of strings
+int test_vector_string_to_py_list(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_list_string_to_vector(TestResultS &test_results, size_t size, size_t str_len);
+
+// Functional tests of sets of strings
+int test_unordered_set_bytes_to_py_set(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_set_bytes_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len);
+
+// Functional tests of dict of strings
+int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size_t size, size_t str_len);
+
+#pragma mark Generic test templates
 
 template<typename T, T (*ConvertPyToCpp)(PyObject *)>
 int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, size_t size) {
@@ -305,20 +347,13 @@ int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, 
     double exec_time = exec_clock.seconds();
     int result = 0;
     if (! op) {
-        result |= 1;
+        result = 1;
     } else {
         if (! Python_Cpp_Containers::py_tuple_check(op)) {
-            result |= 1 << 1;
+            result = 2;
         } else {
-            if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
-                result |= 1 << 2;
-            } else {
-                for (size_t i = 0; i < size; ++i) {
-                    T value = ConvertPyToCpp(Python_Cpp_Containers::py_tuple_get(op, i));
-                    if (value != cpp_vector[i]) {
-                        result |= 1 << 2;
-                    }
-                }
+            if (compare_tuple(cpp_vector, op)) {
+                result = 3;
             }
         }
         Py_DECREF(op);
@@ -333,12 +368,12 @@ int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, 
     int result = 0;
     double exec_time = -1.0;
     if (! op) {
-        result |= 1;
+        result = 1;
     } else {
         for (size_t i = 0; i < size; ++i) {
             int err = Python_Cpp_Containers::py_tuple_set(op, i, ConvertCppToPy(static_cast<T>(i)));
             if (err != 0) {
-                result |= 1 << 1;
+                result = 2;
             }
         }
         if (result == 0) {
@@ -347,17 +382,10 @@ int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, 
             int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
             exec_time = exec_clock.seconds();
             if (err != 0) {
-                result |= 1 << 2;
+                result = 3;
             } else {
-                if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
-                    result |= 1 << 3;
-                } else {
-                    for (size_t i = 0; i < size; ++i) {
-                        T value = ConvertPyToCpp(Python_Cpp_Containers::py_tuple_get(op, i));
-                        if (value != cpp_vector[i]) {
-                            result |= 1 << 4;
-                        }
-                    }
+                if (compare_tuple(cpp_vector, op)) {
+                    result = 4;
                 }
             }
         }
@@ -437,13 +465,134 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
     return result;
 }
 
-// Tuples of strings
-int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
-int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len);
+template<typename T, T (*ConvertPyToCpp)(PyObject *)>
+int test_vector_to_py_list(TestResultS &test_results, const std::string &type, size_t size) {
+    std::vector<T> cpp_vector;
+    for (size_t i = 0; i < size; ++i) {
+        cpp_vector.push_back(static_cast<T>(i));
+    }
+    ExecClock exec_clock;
+    PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_list(cpp_vector);
+    double exec_time = exec_clock.seconds();
+    int result = 0;
+    if (! op) {
+        result = 1;
+    } else {
+        if (! Python_Cpp_Containers::py_list_check(op)) {
+            result = 2;
+        } else {
+            if (compare_list(cpp_vector, op)) {
+                result = 3;
+            }
+        }
+        Py_DECREF(op);
+    }
+    REPORT_TEST_OUTPUT;
+    return result;
+}
 
-// Sets of strings
-int test_unordered_set_bytes_to_py_set(TestResultS &test_results, size_t size, size_t str_len);
-int test_py_set_bytes_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len);
+template<typename T, PyObject *(*ConvertCppToPy)(const T &), T (*ConvertPyToCpp)(PyObject *)>
+int test_py_list_to_vector(TestResultS &test_results, const std::string &type, size_t size) {
+    PyObject *op = Python_Cpp_Containers::py_list_new(size);
+    int result = 0;
+    double exec_time = -1.0;
+    if (! op) {
+        result = 1;
+    } else {
+        for (size_t i = 0; i < size; ++i) {
+            int err = Python_Cpp_Containers::py_list_set(op, i, ConvertCppToPy(static_cast<T>(i)));
+            if (err != 0) {
+                result = 2;
+            }
+        }
+        if (result == 0) {
+            std::vector<T> cpp_vector;
+            ExecClock exec_clock;
+            int err = Python_Cpp_Containers::py_list_to_cpp_std_vector(op, cpp_vector);
+            exec_time = exec_clock.seconds();
+            if (err != 0) {
+                result = 3;
+            } else {
+                if (compare_list(cpp_vector, op)) {
+                    result = 4;
+                }
+            }
+        }
+        Py_DECREF(op);
+    }
+    REPORT_TEST_OUTPUT;
+    return result;
+}
+
+template<typename T>
+int test_vector_to_py_list_round_trip(TestResultS &test_results, const std::string &type, size_t size) {
+    std::vector<T> cpp_vector;
+    std::vector<T> cpp_vector_result;
+    for (size_t i = 0; i < size; ++i) {
+        cpp_vector.push_back(static_cast<T>(i));
+    }
+    int result = 0;
+    double exec_time = -1.0;
+    ExecClock exec_clock;
+    PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_list(cpp_vector);
+    if (op) {
+        int err = Python_Cpp_Containers::py_list_to_cpp_std_vector(op, cpp_vector_result);
+        exec_time = exec_clock.seconds();
+        if (err) {
+            result |= 1;
+        } else {
+            if (cpp_vector != cpp_vector_result) {
+                result |= 1 << 1;
+            }
+        }
+        Py_DECREF(op);
+    } else {
+        result |= 1 << 2;
+    }
+    REPORT_TEST_OUTPUT;
+    return result;
+}
+
+template<typename T, PyObject *(*Convert)(const T &)>
+int test_py_list_to_vector_round_trip(TestResultS &test_results, const std::string &type, size_t size) {
+    PyObject *op = Python_Cpp_Containers::py_list_new(size);
+    int result = 0;
+    double exec_time = -1.0;
+    int err = 0;
+    if (! op) {
+        result |= 1;
+    } else {
+        for (size_t i = 0; i < size; ++i) {
+            err = Python_Cpp_Containers::py_list_set(op, i, Convert(static_cast<T>(i)));
+            if (err != 0) {
+                result |= 1 << 1;
+            }
+        }
+        if (result == 0) {
+            std::vector<T> cpp_vector;
+            ExecClock exec_clock;
+            err = Python_Cpp_Containers::py_list_to_cpp_std_vector(op, cpp_vector);
+            if (err != 0) {
+                result |= 1 << 2;
+            } else {
+                //  int PyObject_RichCompareBool(PyObject *o1, PyObject *o2, int opid) Py_EQ -1 error 0 false 1 true
+                PyObject *op_new = Python_Cpp_Containers::cpp_std_vector_to_py_list(cpp_vector);
+                if (op_new) {
+                    exec_time = exec_clock.seconds();
+                    if (PyObject_RichCompareBool(op, op_new, Py_EQ) != 1) {
+                        result |= 1 << 3;
+                    }
+                    Py_DECREF(op_new);
+                } else {
+                    result |= 1 << 4;
+                }
+            }
+        }
+        Py_DECREF(op);
+    }
+    REPORT_TEST_OUTPUT;
+    return result;
+}
 
 template<typename T, T (*ConvertPyToCpp)(PyObject *), PyObject *(*Convert_Py)(const T &)>
 int test_unordered_set_to_py_set(TestResultS &test_results, const std::string &type, size_t size) {
@@ -615,7 +764,7 @@ int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::
     return result;
 }
 
-int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len);
+#pragma mark Creation of new containers populated with bytes.
 
 PyObject *
 new_py_tuple_bytes(size_t size, size_t str_len);
@@ -625,4 +774,5 @@ PyObject *
 new_py_set_bytes(size_t size, size_t str_len);
 PyObject *
 new_py_dict_bytes(size_t size, size_t str_len);
+
 #endif // PYTHONCPPHOMOGENEOUSCONTAINERS_TEST_COMMON_H
