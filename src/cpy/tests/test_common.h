@@ -169,7 +169,7 @@ template<
         PyObject *(*Convert_T_To_Py)(const T &),
         T (*Convert_Py_To_T)(PyObject *)
 >
-int compare_set(std::unordered_set<T> const &cpp_set, PyObject *op) {
+int compare_set(const std::unordered_set<T> &cpp_set, PyObject *op) {
     assert(op);
     int result = 0;
     if (!PySet_Check(op) && !PyFrozenSet_Check(op)) {
@@ -204,6 +204,15 @@ int compare_set(std::unordered_set<T> const &cpp_set, PyObject *op) {
     }
     return result;
 }
+
+template<typename T>
+int
+compare_set(const std::unordered_set<T> &cpp_set, PyObject *op);
+
+template <>
+int
+compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObject *op);
+
 
 /**
  * Compare a Python dioct with a C++ std::unordered_map.
@@ -415,9 +424,13 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
     return result;
 }
 
+// Tuples of strings
 int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len);
 
+// Sets of strings
+int test_unordered_set_bytes_to_py_set(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_set_bytes_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len);
 
 template<typename T, T (*ConvertPyToCpp)(PyObject *), PyObject *(*Convert_Py)(const T &)>
 int test_unordered_set_to_py_set(TestResultS &test_results, const std::string &type, size_t size) {

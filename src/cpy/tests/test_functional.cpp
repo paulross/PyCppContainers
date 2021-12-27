@@ -7,7 +7,9 @@
 #include "cpy/python_convert.h"
 #include "test_functional.h"
 
-// Demonstration code.
+/**
+ * Demonstration code for converting a `std::vector<double>` to a Python tuple.
+ */
 void test_example_vector_to_py_tuple_double() {
     std::vector<double> cpp_vector;
     for (size_t i = 0; i < 1024; ++i) {
@@ -17,18 +19,21 @@ void test_example_vector_to_py_tuple_double() {
     if (! op) {
         // Handle error condition.
     } else {
-        // Use Python tuple
+        // Use the Python tuple
         Py_DECREF(op);
     }
 }
 
-// Demonstration code.
+/**
+ * Demonstration code for converting a Python tuple off floats to a `std::vector<double>`.
+ */
 void test_example_py_tuple_to_vector_double() {
     PyObject *op = Python_Cpp_Containers::py_tuple_new(1024);
     if (! op) {
         // Handle error
     } else {
         for (size_t i = 0; i < 1024; ++i) {
+            // Populate tuple.
             int err = Python_Cpp_Containers::py_tuple_set(
                     op,
                     i,
@@ -43,13 +48,15 @@ void test_example_py_tuple_to_vector_double() {
         if (err != 0) {
             // Handle error
         } else {
-            // Use vector.
+            // Use the C++ vector.
         }
         Py_DECREF(op);
     }
 }
 
-// Demonstration code
+/**
+ * Demonstration code to convert a std::unordered_map<long, std::string> to a Python dict.
+ */
 void test_example_cpp_std_unordered_map_to_py_dict() {
     std::unordered_map<long, std::string> cpp_map;
     // Populate the map with some data.
@@ -69,7 +76,9 @@ void test_example_cpp_std_unordered_map_to_py_dict() {
     }
 }
 
-// Demonstration code
+/**
+ * Demonstration code to convert a Python dict[int, bytes] to a std::unordered_map<long, std::string>.
+ */
 void test_example_py_dict_to_cpp_std_unordered_map() {
     PyObject *op = PyDict_New();
     // Populate dict with [int, bytes]
@@ -86,28 +95,9 @@ void test_example_py_dict_to_cpp_std_unordered_map() {
     Py_DECREF(op);
 }
 
-void test_py_set_to_unordered_set_bytes(TestResultS &test_results, size_t size) {
-    std::unordered_set<std::string> cpp_set;
-    int result = 0;
-    std::string type = "<bytes>";
-    PyObject *py_set = new_py_set_bytes(size, 32);
-    ExecClock exec_clock;
-    int err = Python_Cpp_Containers::py_set_to_cpp_std_unordered_set(py_set, cpp_set);
-    double exec_time = exec_clock.seconds();
-    if (err) {
-        result = 1;
-    } else {
-        if (compare_set<std::string,
-                &Python_Cpp_Containers::cpp_string_to_py_bytes,
-                &Python_Cpp_Containers::py_bytes_to_cpp_string>(cpp_set, py_set)) {
-            result = 2;
-        }
-    }
-    REPORT_TEST_OUTPUT;
-}
-
 void test_functional_all(TestResultS &test_results) {
     RSSSnapshot rss_overall("==== test_functional.cpp");
+    // Test that the demonstration code works.
     test_example_vector_to_py_tuple_double();
     test_example_py_tuple_to_vector_double();
     test_example_cpp_std_unordered_map_to_py_dict();
@@ -207,8 +197,13 @@ void test_functional_all(TestResultS &test_results) {
     }
     // Test set of bytes
     {
-        RSSSnapshot rss("test_py_set_to_unordered_set_bytes");
-        test_py_set_to_unordered_set_bytes(test_results, 1024);
+        RSSSnapshot rss("test_py_set_bytes_to_unordered_set");
+        test_py_set_bytes_to_unordered_set(test_results, 1024, 32);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_unordered_set_bytes_to_py_set");
+        test_unordered_set_bytes_to_py_set(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
     // Dicts

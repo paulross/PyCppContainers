@@ -40,6 +40,95 @@ int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_
     return result;
 }
 
+int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
+    PyObject *op = new_py_tuple_bytes(size, str_len);
+    int result = 0;
+    double exec_time = -1.0;
+    if (! op) {
+        result |= 1;
+    } else {
+        std::vector<std::string> cpp_vector;
+        ExecClock exec_clock;
+        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+        exec_time = exec_clock.seconds();
+        if (err != 0) {
+            result |= 1 << 2;
+        } else {
+            if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
+                result |= 1 << 3;
+            } else {
+                for (size_t i = 0; i < size; ++i) {
+                    std::string value = Python_Cpp_Containers::py_bytes_to_cpp_string(
+                            Python_Cpp_Containers::py_tuple_get(op, i));
+                    if (value != cpp_vector[i]) {
+                        result |= 1 << 4;
+                    }
+                }
+            }
+        }
+        Py_DECREF(op);
+    }
+    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    return result;
+}
+
+template <>
+int
+compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObject *op) {
+    return compare_set<
+            std::string,
+            &Python_Cpp_Containers::cpp_string_to_py_bytes,
+            &Python_Cpp_Containers::py_bytes_to_cpp_string>(cpp_set, op);
+}
+
+int test_unordered_set_bytes_to_py_set(TestResultS &test_results, size_t size, size_t str_len) {
+    std::unordered_set<std::string> cpp_set;
+    for (size_t i = 0; i < size; ++i) {
+        cpp_set.insert(unique_string(str_len));
+    }
+    ExecClock exec_clock;
+    PyObject *op = Python_Cpp_Containers::cpp_std_unordered_set_to_py_set(cpp_set);
+    double exec_time = exec_clock.seconds();
+    int result = 0;
+    if (!op) {
+        result = 1;
+    } else {
+        assert(op->ob_refcnt == 1);
+        if (!Python_Cpp_Containers::py_set_check(op)) {
+            result = 2;
+        } else {
+            if (compare_set(cpp_set, op)) {
+                result = 3;
+            }
+        }
+        assert(op->ob_refcnt == 1);
+        Py_DECREF(op);
+    }
+    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    return result;
+}
+
+int test_py_set_bytes_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len) {
+    std::unordered_set<std::string> cpp_set;
+    int result = 0;
+    std::string type = "<bytes>";
+    PyObject *py_set = new_py_set_bytes(size, str_len);
+    ExecClock exec_clock;
+    int err = Python_Cpp_Containers::py_set_to_cpp_std_unordered_set(py_set, cpp_set);
+    double exec_time = exec_clock.seconds();
+    if (err) {
+        result = 1;
+    } else {
+        if (compare_set<std::string,
+                &Python_Cpp_Containers::cpp_string_to_py_bytes,
+                &Python_Cpp_Containers::py_bytes_to_cpp_string>(cpp_set, py_set)) {
+            result = 2;
+        }
+    }
+    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    return result;
+}
+
 
 // Create a new tuple of bytes
 PyObject *
@@ -113,38 +202,6 @@ new_py_dict_bytes(size_t size, size_t str_len) {
         }
     }
     return op;
-}
-
-int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
-    PyObject *op = new_py_tuple_bytes(size, str_len);
-    int result = 0;
-    double exec_time = -1.0;
-    if (! op) {
-        result |= 1;
-    } else {
-        std::vector<std::string> cpp_vector;
-        ExecClock exec_clock;
-        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
-        exec_time = exec_clock.seconds();
-        if (err != 0) {
-            result |= 1 << 2;
-        } else {
-            if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
-                result |= 1 << 3;
-            } else {
-                for (size_t i = 0; i < size; ++i) {
-                    std::string value = Python_Cpp_Containers::py_bytes_to_cpp_string(
-                            Python_Cpp_Containers::py_tuple_get(op, i));
-                    if (value != cpp_vector[i]) {
-                        result |= 1 << 4;
-                    }
-                }
-            }
-        }
-        Py_DECREF(op);
-    }
-    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
-    return result;
 }
 
 //int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len) {
