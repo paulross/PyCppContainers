@@ -54,6 +54,224 @@
     } while (0)
 #endif
 
+#pragma mark Comparison templates
+
+/**
+ * Compares a Python tuple or list with a C++ std::vector.
+ *
+ * @tparam T C++ Type of objects in the vector.
+ * @tparam Convert_T_To_Py Pointer to function to convert a C++ type T to a PyObject.
+ * @tparam Convert_Py_To_T Pointer to function to convert a PyObject* to a C++ type T.
+ * @tparam PyUnaryContainer_Check A function that takes a PyObject* and returns 1 if it is of a suitable container,
+ * 0 otherwise.
+ * @tparam PyUnaryContainer_Size A function that returns the length of the Python container.
+ * @tparam PyUnaryContainer_GetA function that gets a PyObject* from the Python container at a given index as a
+ * size_t.
+ * @param cpp_vector The C++ vector.
+ * @param op The Python tuple or list.
+ * @return 0 if identical, non-zero if not.
+ */
+template<
+        typename T,
+        PyObject *(*Convert_T_To_Py)(const T &),
+        T (*Convert_Py_To_T)(PyObject *),
+        int(*PyUnaryContainer_Check)(PyObject *),
+        Py_ssize_t(*PyUnaryContainer_Size)(PyObject *),
+        PyObject *(*PyUnaryContainer_Get)(PyObject *, size_t)
+>
+int compare_tuple_or_list(std::vector<T> const &cpp_vector, PyObject *op) {
+    assert(op);
+    int result = 0;
+    if (!PyUnaryContainer_Check(op)) {
+        result = 1;
+    } else {
+        if (cpp_vector.size() != PyUnaryContainer_Size(op)) {
+            result = 2;
+        } else {
+            // Iterate across cpp_vector and compare against PyObject *op.
+            for (size_t i = 0; i < cpp_vector.size(); ++i) {
+                // Check C++ == Python
+                // Borrowed reference.
+                PyObject *py_item = PyUnaryContainer_Get(op, i);
+                T cpp_item = Convert_Py_To_T(py_item);
+                if (cpp_vector[i] != cpp_item) {
+                    result = 3;
+                }
+                // Check Python == C++
+                // New reference
+                PyObject *py_new_item = Convert_T_To_Py(cpp_vector[i]);
+                if (PyObject_RichCompareBool(py_item, py_new_item, Py_EQ) != 1) {
+                    result = 4;
+                }
+                Py_DECREF(py_new_item);
+            }
+        }
+    }
+    return result;
+}
+
+/**
+ * Compares a Python tuple with a C++ std::vector.
+ *
+ * @tparam T C++ Type of objects in the vector.
+ * @tparam Convert_T_To_Py Pointer to function to convert a C++ type T to a PyObject.
+ * @tparam Convert_Py_To_T Pointer to function to convert a PyObject* to a C++ type T.
+ * @param cpp_vector The C++ vector.
+ * @param op The Python tuple.
+ * @return 0 if identical, non-zero if not.
+ */
+template<
+        typename T,
+        PyObject *(*Convert_T_To_Py)(const T &),
+        T (*Convert_Py_To_T)(PyObject *)
+>
+int compare_tuple(std::vector<T> const &cpp_vector, PyObject *op) {
+    return compare_tuple_or_list<
+            T, Convert_T_To_Py, Convert_Py_To_T,
+            &Python_Cpp_Containers::py_tuple_check, &Python_Cpp_Containers::py_tuple_len, &Python_Cpp_Containers::py_tuple_get
+        >(cpp_vector, op);
+}
+
+/**
+ * Compares a Python list with a C++ std::vector.
+ *
+ * @tparam T C++ Type of objects in the vector.
+ * @tparam Convert_T_To_Py Pointer to function to convert a C++ type T to a PyObject.
+ * @tparam Convert_Py_To_T Pointer to function to convert a PyObject* to a C++ type T.
+ * @param cpp_vector The C++ vector.
+ * @param op The Python list.
+ * @return 0 if identical, non-zero if not.
+ */
+template<
+        typename T,
+        PyObject *(*Convert_T_To_Py)(const T &),
+        T (*Convert_Py_To_T)(PyObject *)
+>
+int compare_list(std::vector<T> const &cpp_vector, PyObject *op) {
+    return compare_tuple_or_list<
+            T, Convert_T_To_Py, Convert_Py_To_T,
+            &Python_Cpp_Containers::py_list_check, &Python_Cpp_Containers::py_list_len, &Python_Cpp_Containers::py_list_get
+    >(cpp_vector, op);
+}
+
+/**
+ * Compares a Python set or frozenset with a C++ std::unordered_set.
+ *
+ * @tparam T C++ Type of objects in the set.
+ * @tparam Convert_T_To_Py Pointer to function to convert a C++ type T to a PyObject.
+ * @tparam Convert_Py_To_T Pointer to function to convert a PyObject* to a C++ type T.
+ * @param cpp_set The C++ set.
+ * @param op The Python set.
+ * @return 0 if identical, non-zero if not.
+ */
+template<
+        typename T,
+        PyObject *(*Convert_T_To_Py)(const T &),
+        T (*Convert_Py_To_T)(PyObject *)
+>
+int compare_set(std::unordered_set<T> const &cpp_set, PyObject *op) {
+    assert(op);
+    int result = 0;
+    if (!PySet_Check(op) && !PyFrozenSet_Check(op)) {
+        result = 1;
+    } else {
+        // Iterate across cpp_set and compare against PyObject *op.
+        PyObject *py_val = NULL;
+        for (auto iter = cpp_set.begin(); iter != cpp_set.end(); ++iter) {
+            T val = *iter;
+            // New reference
+            py_val = Convert_T_To_Py(val);
+            // Borrowed reference.
+            if (PySet_Contains(op, py_val) != 1) {
+                result = 2;
+            }
+            Py_DECREF(py_val);
+        }
+        // Now iterate across PyObject *op and check against cpp_set.
+        Py_ssize_t pos = 0;
+        PyObject *py_set_iter = PyObject_GetIter(op);
+        if (py_set_iter) {
+            PyObject *item = NULL;
+            while ((item = PyIter_Next(py_set_iter))) {
+                T cpp_item = Convert_Py_To_T(item);
+                if (cpp_set.count(cpp_item) != 1) {
+                    result = 3;
+                }
+                Py_DECREF(item);
+            }
+            Py_DECREF(py_set_iter);
+        }
+    }
+    return result;
+}
+
+/**
+ * Compare a Python dioct with a C++ std::unordered_map.
+ * @tparam K The C++ type of the keys.
+ * @tparam V The C++ type of the values.
+ * @tparam Convert_K Pointer to function to convert a C++ type K to a PyObject.
+ * @tparam Convert_V Pointer to function to convert a C++ type V to a PyObject.
+ * @tparam Convert_Py_Key Pointer to function to convert a PyObject key to a C++ type K.
+ * @tparam Convert_Py_Val Pointer to function to convert a PyObject value to a C++ type K.
+ * @param cpp_map The C++ std::unordered_map.
+ * @param op The Python dict.
+ * @return 0 if the same, non-zero if different.
+ */
+template<
+        typename K,
+        typename V,
+        PyObject *(*Convert_K)(const K &),
+        PyObject *(*Convert_V)(const V &),
+        K (*Convert_Py_Key)(PyObject *),
+        V (*Convert_Py_Val)(PyObject *)
+>
+int compare_dict(std::unordered_map<K, V> const &cpp_map, PyObject *op) {
+    assert(op);
+    int result = 0;
+    if (!PyDict_Check(op)) {
+        result = 1;
+    } else {
+        PyObject *py_key = NULL;
+        PyObject *py_val = NULL;
+        for (auto iter = cpp_map.begin(); iter != cpp_map.end(); ++iter) {
+            K key = iter->first;
+            V val = iter->second;
+            // New reference
+            py_key = Convert_K(key);
+            py_val = Convert_V(val);
+            // Borrowed reference.
+            PyObject *py_dict_val = PyDict_GetItem(op, py_key);
+            if (py_dict_val == NULL) {
+                result |= 1 << 2;
+            } else {
+                if (PyObject_RichCompareBool(py_val, py_dict_val, Py_EQ) != 1) {
+                    result |= 1 << 3;
+                }
+            }
+            Py_DECREF(py_key);
+            Py_DECREF(py_val);
+        }
+        // Now iterate across op and check against cpp_map.
+        Py_ssize_t pos = 0;
+        while (PyDict_Next(op, &pos, &py_key, &py_val)) {
+            K key = (*Convert_Py_Key)(py_key);
+            V val = (*Convert_Py_Val)(py_val);
+            if (cpp_map.count(key) == 0) {
+                result |= 1 << 4;
+            } else {
+                if (val != cpp_map.at(key)) {
+                    result |= 1 << 5;
+                }
+            }
+        }
+    }
+    return result;
+}
+
+
+
+#pragma mark General test templates
+
 template<typename T, T (*ConvertPyToCpp)(PyObject *)>
 int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, size_t size) {
     std::vector<T> cpp_vector;
@@ -200,42 +418,6 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
 int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len);
 
-// Compare a Python set or frozenset with a std::unordered_set
-// Return 0 if same, non-zero if different.
-template<
-        typename T,
-        PyObject *(*Convert_T)(const T &),
-        T (*Convert_Py)(PyObject *)
->
-int compare_set(const std::unordered_set<T> &cpp_set, PyObject *op) {
-    assert(PySet_Check(op) || PyFrozenSet_Check(op));
-    int result = 0;
-    for (auto iter = cpp_set.begin(); iter != cpp_set.end(); ++iter) {
-        T val = *iter;
-        // New reference
-        PyObject *py_val = Convert_T(val);
-        if (PySet_Contains(op, py_val) == 0) {
-            result |= 1 << 2;
-        }
-        Py_DECREF(py_val);
-    }
-    // Now iterate across op and check against cpp_set.
-    PyObject *py_iter = PyObject_GetIter(op);
-    if (! py_iter) {
-        result |= 1 << 3;
-    } else {
-        PyObject *py_item = NULL;
-        while ((py_item = PyIter_Next(py_iter))) {
-            T val = (*Convert_Py)(py_item);
-            if (cpp_set.count(val) == 0) {
-                result |= 1 << 4;
-            }
-            Py_DECREF(py_item);
-        }
-        Py_DECREF(py_iter);
-    }
-    return result;
-}
 
 template<typename T, T (*ConvertPyToCpp)(PyObject *), PyObject *(*Convert_Py)(const T &)>
 int test_unordered_set_to_py_set(TestResultS &test_results, const std::string &type, size_t size) {
@@ -293,91 +475,6 @@ int test_py_set_to_unordered_set(TestResultS &test_results, const std::string &t
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT;
-    return result;
-}
-
-template<
-        typename T,
-        PyObject *(*Convert_T_To_Py)(const T &),
-        T (*Convert_Py_To_T)(PyObject *)
->
-int compare_set(std::unordered_set<T> &cpp_set, PyObject *op) {
-    assert(PySet_Check(op));
-    int result = 0;
-    PyObject *py_val = NULL;
-    for (auto iter = cpp_set.begin(); iter != cpp_set.end(); ++iter) {
-        T val = *iter;
-        // New reference
-        py_val = Convert_T_To_Py(val);
-        // Borrowed reference.
-        if (PySet_Contains(op, py_val) != 1) {
-            result |= 1 << 2;
-        }
-        Py_DECREF(py_val);
-    }
-    // TODO: Now iterate across op and check against cpp_map.
-    // Now iterate across op and check against cpp_set.
-    Py_ssize_t pos = 0;
-    PyObject *py_set_iter = PyObject_GetIter(op);
-    if (py_set_iter) {
-        PyObject *item = NULL;
-        while ((item = PyIter_Next(py_set_iter))) {
-            T cpp_item = Convert_Py_To_T(item);
-            if (cpp_set.count(cpp_item) != 1) {
-                result |= 1 << 4;
-            }
-            Py_DECREF(item);
-        }
-        Py_DECREF(py_set_iter);
-    }
-    return result;
-}
-
-template<
-        typename K,
-        typename V,
-        PyObject *(*Convert_K)(const K &),
-        PyObject *(*Convert_V)(const V &),
-        K (*Convert_Py_Key)(PyObject *),
-        V (*Convert_Py_Val)(PyObject *)
->
-int compare_dict(std::unordered_map<K, V> &cpp_map, PyObject *op) {
-    assert(PyDict_Check(op));
-    int result = 0;
-    PyObject *py_key = NULL;
-    PyObject *py_val = NULL;
-    for (auto iter = cpp_map.begin(); iter != cpp_map.end(); ++iter) {
-        K key = iter->first;
-        V val = iter->second;
-        // New reference
-        py_key = Convert_K(key);
-        py_val = Convert_V(val);
-        // Borrowed reference.
-        PyObject *py_dict_val = PyDict_GetItem(op, py_key);
-        if (py_dict_val == NULL) {
-            result |= 1 << 2;
-        } else {
-            if (PyObject_RichCompareBool(py_val, py_dict_val, Py_EQ) != 1) {
-                result |= 1 << 3;
-            }
-        }
-        Py_DECREF(py_key);
-        Py_DECREF(py_val);
-    }
-    // TODO: Now iterate across op and check against cpp_map.
-    // Now iterate across op and check against cpp_set.
-    Py_ssize_t pos = 0;
-    while (PyDict_Next(op, &pos, &py_key, &py_val)) {
-        K key = (*Convert_Py_Key)(py_key);
-        V val = (*Convert_Py_Val)(py_val);
-        if (cpp_map.count(key) == 0) {
-            result |= 1 << 4;
-        } else {
-            if (val != cpp_map.at(key)) {
-               result |= 1 << 5;
-            }
-        }
-    }
     return result;
 }
 

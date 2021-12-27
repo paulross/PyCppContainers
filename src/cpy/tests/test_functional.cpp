@@ -87,18 +87,23 @@ void test_example_py_dict_to_cpp_std_unordered_map() {
 }
 
 void test_py_set_to_unordered_set_bytes(TestResultS &test_results, size_t size) {
-    PyObject *py_set = new_py_set_bytes(size, 32);
     std::unordered_set<std::string> cpp_set;
-    // TODO: Report via test_results
-    if (Python_Cpp_Containers::py_set_to_cpp_std_unordered_set(py_set, cpp_set)) {
-        // TODO:
+    int result = 0;
+    std::string type = "<bytes>";
+    PyObject *py_set = new_py_set_bytes(size, 32);
+    ExecClock exec_clock;
+    int err = Python_Cpp_Containers::py_set_to_cpp_std_unordered_set(py_set, cpp_set);
+    double exec_time = exec_clock.seconds();
+    if (err) {
+        result = 1;
     } else {
         if (compare_set<std::string,
                 &Python_Cpp_Containers::cpp_string_to_py_bytes,
                 &Python_Cpp_Containers::py_bytes_to_cpp_string>(cpp_set, py_set)) {
-            // TODO:
+            result = 2;
         }
     }
+    REPORT_TEST_OUTPUT;
 }
 
 void test_functional_all(TestResultS &test_results) {
@@ -200,7 +205,7 @@ void test_functional_all(TestResultS &test_results) {
                 test_results, "<long>", 1024);
         std::cout << rss << std::endl;
     }
-    // TODO: Test set of bytes
+    // Test set of bytes
     {
         RSSSnapshot rss("test_py_set_to_unordered_set_bytes");
         test_py_set_to_unordered_set_bytes(test_results, 1024);
