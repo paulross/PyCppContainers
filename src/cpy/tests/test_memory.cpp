@@ -138,7 +138,7 @@ int test_memory_py_tuple_string_to_vector(TestResultS &test_results, size_t str_
 void test_memory_all(TestResultS &test_results) {
     RSSSnapshot rss_overall("==== test_memory.cpp");
     int repeat_count = 10;
-    std::cout << "test_memory_all(): with repeat count" << repeat_count << std::endl;
+    std::cout << "test_memory_all(): with repeat count: " << repeat_count << std::endl;
     {
         for (int i = 0; i < repeat_count; ++i) {
             RSSSnapshot rss("test_memory_py_tuple");

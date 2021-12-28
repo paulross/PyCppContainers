@@ -11,9 +11,9 @@
 void test_all() {
     TestResultS test_results;
 
-    test_functional_all(test_results);
+//    test_functional_all(test_results);
 //    test_performance_all(test_results);
-//    test_memory_all(test_results);
+    test_memory_all(test_results);
 
     std::cout << test_results << std::endl;
 }
