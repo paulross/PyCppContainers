@@ -18,6 +18,7 @@
 
 #include <Python.h>
 
+#include <iostream> // TODO: Remove this after debugging.
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
@@ -556,8 +557,10 @@ namespace Python_Cpp_Containers {
         PyObject *py_k = NULL;
         PyObject *py_v = NULL;
         if (ret) {
+            size_t trace_i = 0;
             for (const auto &k_v: map) {
                 py_k = (*Convert_K)(k_v.first);
+                std::cout << "TRACE: WAS" << " trace_i: " << trace_i << " of " << map.size() << " py_k->ob_refcnt: " << py_k->ob_refcnt << std::endl;
                 if (!py_k) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     PyErr_Format(PyExc_ValueError, "C++ key of can not be converted.");
@@ -570,6 +573,8 @@ namespace Python_Cpp_Containers {
                 py_v = (*Convert_V)(k_v.second);
                 if (!py_v) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                    // However, we do need to decref the key as it has not been allocated to the dict.
+                    Py_DECREF(py_k);
                     PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
                     goto except;
                 }
@@ -579,14 +584,20 @@ namespace Python_Cpp_Containers {
 #endif
                 if (PyDict_SetItem(ret, py_k, py_v)) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                    // However, we do need to decref the key and the value as they have not been allocated to the dict.
+                    Py_DECREF(py_k);
+                    Py_DECREF(py_v);
                     PyErr_Format(PyExc_ValueError, "Can not set an item in the Python dict.");
                     goto except;
                 }
+                std::cout << "TRACE: NOW" << " trace_i: " << trace_i << " of " << map.size() << " py_k->ob_refcnt: " << py_k->ob_refcnt << " diff " << py_k->ob_refcnt - py_k_ob_refcnt << std::endl;
                 // Oh this is nasty.
                 // PyDict_SetItem() increfs the key and the value rather than stealing a reference.
                 // insertdict(): https://github.com/python/cpython/blob/main/Objects/dictobject.c#L1074
 #ifndef NDEBUG
-                assert(py_k->ob_refcnt == py_k_ob_refcnt + 1 && "PyDict_SetItem failed to increment key refcount.");
+                if (py_k->ob_refcnt != py_k_ob_refcnt + 1) {
+                    assert(py_k->ob_refcnt == py_k_ob_refcnt + 1 && "PyDict_SetItem failed to increment key refcount.");
+                }
 #endif
                 Py_DECREF(py_k);
 #ifndef NDEBUG
@@ -597,6 +608,7 @@ namespace Python_Cpp_Containers {
 #ifndef NDEBUG
                 assert(py_v->ob_refcnt == py_v_ob_refcnt);
 #endif
+                ++trace_i;
             }
         } else {
             PyErr_Format(PyExc_ValueError, "Can not create Python dict");
