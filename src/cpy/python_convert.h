@@ -558,45 +558,38 @@ namespace Python_Cpp_Containers {
         if (ret) {
             for (const auto &k_v: map) {
                 py_k = (*Convert_K)(k_v.first);
+                // NOTE: py_k->ob_refcnt may NOT be 1 for interned values.
                 if (!py_k) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     PyErr_Format(PyExc_ValueError, "C++ key of can not be converted.");
                     goto except;
                 }
-#ifndef NDEBUG
-                // Refcount may well be >> 1 for interned objects.
-                Py_ssize_t py_k_ob_refcnt = py_k->ob_refcnt;
-#endif
                 py_v = (*Convert_V)(k_v.second);
+                // NOTE: py_v->ob_refcnt may NOT be 1 for interned values.
                 if (!py_v) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                    // However, we do need to decref the key as it has not been allocated to the dict.
+                    Py_DECREF(py_k);
                     PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
                     goto except;
                 }
-#ifndef NDEBUG
-                // Refcount may well be >> 1 for interned objects.
-                Py_ssize_t py_v_ob_refcnt = py_v->ob_refcnt;
-#endif
                 if (PyDict_SetItem(ret, py_k, py_v)) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                    // However, we do need to decref the key and the value as they have not been allocated to the dict.
+                    Py_DECREF(py_k);
+                    Py_DECREF(py_v);
                     PyErr_Format(PyExc_ValueError, "Can not set an item in the Python dict.");
                     goto except;
                 }
                 // Oh this is nasty.
                 // PyDict_SetItem() increfs the key and the value rather than stealing a reference.
                 // insertdict(): https://github.com/python/cpython/blob/main/Objects/dictobject.c#L1074
-#ifndef NDEBUG
-                assert(py_k->ob_refcnt == py_k_ob_refcnt + 1 && "PyDict_SetItem failed to increment key refcount.");
-#endif
+                // What is more we can NOT compare before and after refcounts, such as with an assert, as, with
+                // interned values, if a context switch happens in PyDict_SetItem (is that possible?)
+                // another thread may increment/decrement the interned values reference count unknown to us.
+                // It is a mystery why this happens with dicts but not other containers.
                 Py_DECREF(py_k);
-#ifndef NDEBUG
-                assert(py_k->ob_refcnt == py_k_ob_refcnt);
-                assert(py_v->ob_refcnt == py_v_ob_refcnt + 1 && "PyDict_SetItem failed to increment value refcount.");
-#endif
                 Py_DECREF(py_v);
-#ifndef NDEBUG
-                assert(py_v->ob_refcnt == py_v_ob_refcnt);
-#endif
             }
         } else {
             PyErr_Format(PyExc_ValueError, "Can not create Python dict");

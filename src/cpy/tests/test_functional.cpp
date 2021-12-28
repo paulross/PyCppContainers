@@ -180,11 +180,11 @@ void test_functional_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     {
-        RSSSnapshot rss("test_py_tuple_string_to_vector");
-        test_py_tuple_string_to_vector(test_results, 1024, 32);
+        RSSSnapshot rss("test_py_tuple_bytes_to_vector");
+        test_py_tuple_bytes_to_vector(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
-    // TODO: Lists?
+    // Lists
     {
         RSSSnapshot rss("test_vector_to_py_list<bool>");
         test_vector_to_py_list<bool, &Python_Cpp_Containers::py_bool_to_cpp_bool>(test_results, "<bool>",
@@ -261,8 +261,8 @@ void test_functional_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     {
-        RSSSnapshot rss("test_py_list_string_to_vector");
-        test_py_list_string_to_vector(test_results, 1024, 32);
+        RSSSnapshot rss("test_py_list_bytes_to_vector");
+        test_py_list_bytes_to_vector(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
     // sets
@@ -311,7 +311,7 @@ void test_functional_all(TestResultS &test_results) {
                 &Python_Cpp_Containers::cpp_long_to_py_long,
                 &Python_Cpp_Containers::py_long_to_cpp_long,
                 &Python_Cpp_Containers::py_long_to_cpp_long
-        >(test_results, "<long>", 1024);
+        >(test_results, "<long>", 258);
         std::cout << rss << std::endl;
     }
     {
@@ -351,8 +351,8 @@ void test_functional_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     {
-        RSSSnapshot rss("test_cpp_std_unordered_map_to_py_dict_string");
-        test_cpp_std_unordered_map_to_py_dict_string(test_results, 1024, 32);
+        RSSSnapshot rss("test_cpp_std_unordered_map_to_py_dict_bytes");
+        test_cpp_std_unordered_map_to_py_dict_bytes(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
     {

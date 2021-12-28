@@ -128,7 +128,7 @@ int test_memory_py_tuple_string_to_vector(TestResultS &test_results, size_t str_
     int result = 0;
     for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
         for (size_t size = size_min; size <= size_max; size *= 2) {
-            result |= test_py_tuple_string_to_vector(test_results, size, str_len);
+            result |= test_py_tuple_bytes_to_vector(test_results, size, str_len);
         }
     }
     return result;
