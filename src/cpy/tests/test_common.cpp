@@ -110,14 +110,14 @@ int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_
     return result;
 }
 
-int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
+int test_py_tuple_bytes_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
     PyObject *op = new_py_tuple_bytes(size, str_len);
     int result = 0;
     double exec_time = -1.0;
     if (! op) {
         result = 1;
     } else {
-        std::vector<std::string> cpp_vector;
+        std::vector<std::vector<char>> cpp_vector;
         ExecClock exec_clock;
         int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
         exec_time = exec_clock.seconds();
@@ -158,14 +158,14 @@ int test_vector_string_to_py_list(TestResultS &test_results, size_t size, size_t
     return result;
 }
 
-int test_py_list_string_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
+int test_py_list_bytes_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
     PyObject *op = new_py_list_bytes(size, str_len);
     int result = 0;
     double exec_time = -1.0;
     if (! op) {
         result = 1;
     } else {
-        std::vector<std::string> cpp_vector;
+        std::vector<std::vector<char>> cpp_vector;
         ExecClock exec_clock;
         int err = Python_Cpp_Containers::py_list_to_cpp_std_vector(op, cpp_vector);
         exec_time = exec_clock.seconds();
@@ -183,9 +183,9 @@ int test_py_list_string_to_vector(TestResultS &test_results, size_t size, size_t
 }
 
 int test_unordered_set_bytes_to_py_set(TestResultS &test_results, size_t size, size_t str_len) {
-    std::unordered_set<std::string> cpp_set;
+    std::unordered_set<std::vector<char>> cpp_set;
     for (size_t i = 0; i < size; ++i) {
-        cpp_set.insert(unique_string(str_len));
+        cpp_set.insert(unique_vector_char(str_len));
     }
     ExecClock exec_clock;
     PyObject *op = Python_Cpp_Containers::cpp_std_unordered_set_to_py_set(cpp_set);
@@ -210,7 +210,7 @@ int test_unordered_set_bytes_to_py_set(TestResultS &test_results, size_t size, s
 }
 
 int test_py_set_bytes_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len) {
-    std::unordered_set<std::string> cpp_set;
+    std::unordered_set<std::vector<char>> cpp_set;
     int result = 0;
     std::string type = "<bytes>";
     PyObject *py_set = new_py_set_bytes(size, str_len);
@@ -363,45 +363,45 @@ int test_py_dict_to_cpp_std_unordered_map_bytes(TestResultS &test_results, size_
                 result |= 1 << 3;
             } else {
                 for (size_t i = 0; i < size; ++i) {
-                    std::vector<char> value = Python_Cpp_Containers::py_bytes_to_cpp_vector_char(
-        for (size_t i = 0; i < size; ++i) {
-//            std::string str = unique_string(str_len);
-            std::string str(str_len, ' ');
-            int err = Python_Cpp_Containers::py_tuple_set(
-                    op, i, Python_Cpp_Containers::cpp_string_to_py_bytes(str)
-                    );
-            if (err != 0) {
-                result |= 1 << 1;
-            }
-        }
-        if (result == 0) {
-            std::vector<std::string> cpp_vector;
-            ExecClock exec_clock;
-            int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
-            exec_time = exec_clock.seconds();
-            if (err != 0) {
-                result |= 1 << 2;
-            } else {
-                if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
-                    result |= 1 << 3;
-                } else {
-                    for (size_t i = 0; i < size; ++i) {
-                        std::string value = Python_Cpp_Containers::py_bytes_to_cpp_string(
-                                Python_Cpp_Containers::py_tuple_get(op, i));
-                        if (value != cpp_vector[i]) {
-                            result |= 1 << 4;
-                        }
-        std::vector<std::vector<char>> cpp_vector;
-        ExecClock exec_clock;
-        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
-        exec_time = exec_clock.seconds();
-        if (err != 0) {
-            result |= 1 << 2;
-        } else {
-            if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
-                result |= 1 << 3;
-            } else {
-                for (size_t i = 0; i < size; ++i) {
+//                    std::vector<char> value = Python_Cpp_Containers::py_bytes_to_cpp_vector_char(
+//        for (size_t i = 0; i < size; ++i) {
+////            std::string str = unique_string(str_len);
+//            std::string str(str_len, ' ');
+//            int err = Python_Cpp_Containers::py_tuple_set(
+//                    op, i, Python_Cpp_Containers::cpp_string_to_py_bytes(str)
+//                    );
+//            if (err != 0) {
+//                result |= 1 << 1;
+//            }
+//        }
+//        if (result == 0) {
+//            std::vector<std::string> cpp_vector;
+//            ExecClock exec_clock;
+//            int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+//            exec_time = exec_clock.seconds();
+//            if (err != 0) {
+//                result |= 1 << 2;
+//            } else {
+//                if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
+//                    result |= 1 << 3;
+//                } else {
+//                    for (size_t i = 0; i < size; ++i) {
+//                        std::string value = Python_Cpp_Containers::py_bytes_to_cpp_string(
+//                                Python_Cpp_Containers::py_tuple_get(op, i));
+//                        if (value != cpp_vector[i]) {
+//                            result |= 1 << 4;
+//                        }
+//        std::vector<std::vector<char>> cpp_vector;
+//        ExecClock exec_clock;
+//        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+//        exec_time = exec_clock.seconds();
+//        if (err != 0) {
+//            result |= 1 << 2;
+//        } else {
+//            if ((unsigned long) Python_Cpp_Containers::py_tuple_len(op) != cpp_vector.size()) {
+//                result |= 1 << 3;
+//            } else {
+//                for (size_t i = 0; i < size; ++i) {
                     std::vector<char> value = Python_Cpp_Containers::py_bytes_to_cpp_vector_char(
                             Python_Cpp_Containers::py_tuple_get(op, i));
                     if (value != cpp_vector[i]) {

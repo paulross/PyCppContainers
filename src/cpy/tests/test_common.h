@@ -320,18 +320,18 @@ int compare_dict(std::unordered_map<K, V> const &cpp_map, PyObject *op) {
 
 // Functional test of tuples of strings
 int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
-int test_py_tuple_string_to_vector(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_tuple_bytes_to_vector(TestResultS &test_results, size_t size, size_t str_len);
 
 // Functional test of list of strings
 int test_vector_string_to_py_list(TestResultS &test_results, size_t size, size_t str_len);
-int test_py_list_string_to_vector(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_list_bytes_to_vector(TestResultS &test_results, size_t size, size_t str_len);
 
 // Functional tests of sets of strings
 int test_unordered_set_bytes_to_py_set(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_set_bytes_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len);
 
 // Functional tests of dict of strings
-int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len);
+int test_cpp_std_unordered_map_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_dict_to_cpp_std_unordered_map_bytes(TestResultS &test_results, size_t size, size_t str_len);
 
 #pragma mark Generic test templates
@@ -664,6 +664,7 @@ template<
 int test_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::string &type, size_t size) {
     std::unordered_map<K, V> cpp_map;
     for (size_t i = 0; i < size; ++i) {
+//        cpp_map[1000 + static_cast<K>(i)] = 2000 + static_cast<V>(i);
         cpp_map[static_cast<K>(i)] = static_cast<V>(i);
     }
     ExecClock exec_clock;
@@ -734,12 +735,12 @@ int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::
             // Oh this is nasty.
             // PyDict_SetItem() increfs the key and the value rather than stealing a reference.
             // insertdict(): https://github.com/python/cpython/blob/main/Objects/dictobject.c#L1074
-            assert(py_k->ob_refcnt == py_k_ob_refcnt + 1 && "PyDict_SetItem failed to increment key refcount.");
+//            assert(py_k->ob_refcnt == py_k_ob_refcnt + 1 && "PyDict_SetItem failed to increment key refcount.");
             Py_DECREF(py_k);
-            assert(py_k->ob_refcnt == py_k_ob_refcnt);
-            assert(py_v->ob_refcnt == py_v_ob_refcnt + 1 && "PyDict_SetItem failed to increment value refcount.");
+//            assert(py_k->ob_refcnt == py_k_ob_refcnt);
+//            assert(py_v->ob_refcnt == py_v_ob_refcnt + 1 && "PyDict_SetItem failed to increment value refcount.");
             Py_DECREF(py_v);
-            assert(py_v->ob_refcnt == py_v_ob_refcnt);
+//            assert(py_v->ob_refcnt == py_v_ob_refcnt);
 
 //            // TODO: This is a memory leak.
 //            int err = PyDict_SetItem(op, Convert_K(static_cast<K>(i)), Convert_V(static_cast<V>(i)));

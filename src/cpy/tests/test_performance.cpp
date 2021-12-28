@@ -318,7 +318,7 @@ int test_perf_py_tuple_to_vector_string_multiple(TestResultS &test_results, size
 #pragma mark Testing of lists multiple times
 
 template<typename T>
-int test_vector_to_py_list_multiple(TestResultS &test_results, const std::vector<char> &type, size_t size, size_t repeat) {
+int test_vector_to_py_list_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat) {
     std::vector<T> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
         cpp_vector.push_back(T(i));
