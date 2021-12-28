@@ -802,10 +802,12 @@ int test_perf_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test
 }
 
 #define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
+// Control container testing
 #define TEST_PERFORMANCE_TUPLES
 #define TEST_PERFORMANCE_LISTS
 #define TEST_PERFORMANCE_SETS
 #define TEST_PERFORMANCE_DICTS
+
 // Control object testing
 #define TEST_PERFORMANCE_OBJECT_BOOL
 #define TEST_PERFORMANCE_OBJECT_LONG
