@@ -44,14 +44,17 @@ namespace Python_Cpp_Containers {
 
 #pragma mark -- Set and Frozen set Check
 
-    // Wrappers around macos
+    // Wrappers around macros
     int py_set_check(PyObject *op) {
         return PySet_Check(op);
     }
     PyObject *py_set_new(PyObject *iterable) {
         return PySet_New(iterable);
     }
-    int py_set_add(PyObject *set, PyObject*key) {
+    int py_set_add(PyObject *set, PyObject *key) {
+        // NOTE: PySet_Add does NOT increment the key refcount.
+        // So like list/tuple and unlike dict.
+        // See set_add_entry(): https://github.com/python/cpython/blob/main/Objects/setobject.c#L103
         return PySet_Add(set, key);
     }
     Py_ssize_t py_set_len(PyObject *op) {
