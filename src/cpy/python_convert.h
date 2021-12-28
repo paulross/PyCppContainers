@@ -18,7 +18,6 @@
 
 #include <Python.h>
 
-#include <iostream> // TODO: Remove this after debugging.
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
@@ -557,20 +556,16 @@ namespace Python_Cpp_Containers {
         PyObject *py_k = NULL;
         PyObject *py_v = NULL;
         if (ret) {
-            size_t trace_i = 0;
             for (const auto &k_v: map) {
                 py_k = (*Convert_K)(k_v.first);
-                std::cout << "TRACE: WAS" << " trace_i: " << trace_i << " of " << map.size() << " py_k->ob_refcnt: " << py_k->ob_refcnt << std::endl;
+                // NOTE: py_k->ob_refcnt may NOT be 1 for interned values.
                 if (!py_k) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     PyErr_Format(PyExc_ValueError, "C++ key of can not be converted.");
                     goto except;
                 }
-#ifndef NDEBUG
-                // Refcount may well be >> 1 for interned objects.
-                Py_ssize_t py_k_ob_refcnt = py_k->ob_refcnt;
-#endif
                 py_v = (*Convert_V)(k_v.second);
+                // NOTE: py_v->ob_refcnt may NOT be 1 for interned values.
                 if (!py_v) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     // However, we do need to decref the key as it has not been allocated to the dict.
@@ -578,10 +573,6 @@ namespace Python_Cpp_Containers {
                     PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
                     goto except;
                 }
-#ifndef NDEBUG
-                // Refcount may well be >> 1 for interned objects.
-                Py_ssize_t py_v_ob_refcnt = py_v->ob_refcnt;
-#endif
                 if (PyDict_SetItem(ret, py_k, py_v)) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                     // However, we do need to decref the key and the value as they have not been allocated to the dict.
@@ -590,25 +581,15 @@ namespace Python_Cpp_Containers {
                     PyErr_Format(PyExc_ValueError, "Can not set an item in the Python dict.");
                     goto except;
                 }
-                std::cout << "TRACE: NOW" << " trace_i: " << trace_i << " of " << map.size() << " py_k->ob_refcnt: " << py_k->ob_refcnt << " diff " << py_k->ob_refcnt - py_k_ob_refcnt << std::endl;
                 // Oh this is nasty.
                 // PyDict_SetItem() increfs the key and the value rather than stealing a reference.
                 // insertdict(): https://github.com/python/cpython/blob/main/Objects/dictobject.c#L1074
-#ifndef NDEBUG
-                if (py_k->ob_refcnt != py_k_ob_refcnt + 1) {
-//                    assert(py_k->ob_refcnt == py_k_ob_refcnt + 1 && "PyDict_SetItem failed to increment key refcount.");
-                }
-#endif
+                // What is more we can NOT compare before and after refcounts, such as with an assert, as, with
+                // interned values, if a context switch happens in PyDict_SetItem (is that possible?)
+                // another thread may increment/decrement the interned values reference count unknown to us.
+                // It is a mystery why this happens with dicts but not other containers.
                 Py_DECREF(py_k);
-#ifndef NDEBUG
-//                assert(py_k->ob_refcnt == py_k_ob_refcnt && "Failed to return key refcount to previous value.");
-                assert(py_v->ob_refcnt == py_v_ob_refcnt + 1 && "PyDict_SetItem failed to increment value refcount.");
-#endif
                 Py_DECREF(py_v);
-#ifndef NDEBUG
-                assert(py_v->ob_refcnt == py_v_ob_refcnt && "Failed to return value refcount to previous value.");
-#endif
-                ++trace_i;
             }
         } else {
             PyErr_Format(PyExc_ValueError, "Can not create Python dict");
