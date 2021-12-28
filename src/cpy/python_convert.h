@@ -596,17 +596,17 @@ namespace Python_Cpp_Containers {
                 // insertdict(): https://github.com/python/cpython/blob/main/Objects/dictobject.c#L1074
 #ifndef NDEBUG
                 if (py_k->ob_refcnt != py_k_ob_refcnt + 1) {
-                    assert(py_k->ob_refcnt == py_k_ob_refcnt + 1 && "PyDict_SetItem failed to increment key refcount.");
+//                    assert(py_k->ob_refcnt == py_k_ob_refcnt + 1 && "PyDict_SetItem failed to increment key refcount.");
                 }
 #endif
                 Py_DECREF(py_k);
 #ifndef NDEBUG
-                assert(py_k->ob_refcnt == py_k_ob_refcnt);
+//                assert(py_k->ob_refcnt == py_k_ob_refcnt && "Failed to return key refcount to previous value.");
                 assert(py_v->ob_refcnt == py_v_ob_refcnt + 1 && "PyDict_SetItem failed to increment value refcount.");
 #endif
                 Py_DECREF(py_v);
 #ifndef NDEBUG
-                assert(py_v->ob_refcnt == py_v_ob_refcnt);
+                assert(py_v->ob_refcnt == py_v_ob_refcnt && "Failed to return value refcount to previous value.");
 #endif
                 ++trace_i;
             }
