@@ -132,10 +132,12 @@ int compare_tuple(std::vector<T> const &cpp_vector, PyObject *op) {
         >(cpp_vector, op);
 }
 
+// Base tamplate
 template<typename T>
 int
 compare_tuple(const std::vector<T> &cpp_vector, PyObject *op);
 
+// Instantiations
 template <>
 int
 compare_tuple<bool>(const std::vector<bool> &cpp_vector, PyObject *op);
@@ -174,10 +176,12 @@ int compare_list(std::vector<T> const &cpp_vector, PyObject *op) {
     >(cpp_vector, op);
 }
 
+// Base declaration
 template<typename T>
 int
 compare_list(const std::vector<T> &cpp_vector, PyObject *op);
 
+// Instatiations
 template <>
 int
 compare_list<bool>(const std::vector<bool> &cpp_vector, PyObject *op);
@@ -192,7 +196,7 @@ compare_list<double>(const std::vector<double> &cpp_vector, PyObject *op);
 
 template <>
 int
-compare_list<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op);
+compare_list<std::vector<char>>(const std::vector<std::vector<char>> &cpp_vector, PyObject *op);
 
 /**
  * Compares a Python set or frozenset with a C++ std::unordered_set.
@@ -245,13 +249,15 @@ int compare_set(const std::unordered_set<T> &cpp_set, PyObject *op) {
     return result;
 }
 
+// Base declaration
 template<typename T>
 int
 compare_set(const std::unordered_set<T> &cpp_set, PyObject *op);
 
+// Instatiations
 template <>
 int
-compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObject *op);
+compare_set<std::vector<char>>(const std::unordered_set<std::vector<char>> &cpp_set, PyObject *op);
 
 /**
  * Compare a Python dict with a C++ std::unordered_map.
@@ -315,6 +321,18 @@ int compare_dict(std::unordered_map<K, V> const &cpp_map, PyObject *op) {
     }
     return result;
 }
+
+// Base declaration
+template<typename K, typename V>
+int
+compare_dict(const std::unordered_map<K, V> &cpp_map, PyObject *op);
+
+// Instatiations
+template <>
+int
+compare_dict<
+        std::vector<char>, std::vector<char>
+        >(const std::unordered_map<std::vector<char>, std::vector<char>> &cpp_map, PyObject *op);
 
 #pragma mark Tests of containers of strings.
 
