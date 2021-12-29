@@ -35,9 +35,8 @@ CPP_TYPE_TO_FUNCS = {
                                                'float'),
     # 'std::complex<double>': code_gen_common.CppTypeFunctions('py_complex_from_complex', 'py_complex_check', 'py_complex_as_complex'),
     'std::vector<char>': code_gen_common.CppTypeFunctions('cpp_vector_char_to_py_bytes', 'py_bytes_check',
-                                                    'py_bytes_to_cpp_vector_char', 'bytes'),
+                                                          'py_bytes_to_cpp_vector_char', 'bytes'),
 }
-
 
 #: This is the map of C++ containers of those types and conversion functions that we are going to need.
 #: These refer to hand written template functions.
@@ -49,7 +48,6 @@ UNARY_COLLECTIONS = {
     'frozenset': code_gen_common.UnaryFunctions('std::unordered_set', 'cpp_std_unordered_set_to_py_frozenset',
                                                 'py_frozenset_to_cpp_std_unordered_set'),
 }
-
 
 #: Not really needed as the hand written file, python_convert.h does this.
 REQUIRED_INCLUDES = []
@@ -133,6 +131,7 @@ py_dict_to_cpp_std_unordered_map<{type_K}, {type_V}>(PyObject* op, std::unordere
     >(op, map);
 }}
 """
+
 
 # ==== END: String templates for C++ declarations and definitions. ====
 
