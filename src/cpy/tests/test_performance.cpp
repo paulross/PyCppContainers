@@ -821,48 +821,67 @@ void test_performance_all(TestResultS &test_results) {
     {
         size_t fundamental_types_test_size = 1000 * 1000;
         size_t fundamental_types_test_repeat = TEST_REPEAT * 4;
+        RSSSnapshot rss("TEST_PERFORMANCE_FUNDAMENTAL_TYPES");
 #ifdef TEST_PERFORMANCE_OBJECT_BOOL
         // boolean
-        test_bool_to_py_bool_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
-        test_py_bool_to_cpp_bool_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+        {
+            RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_BOOL");
+            test_bool_to_py_bool_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+            test_py_bool_to_cpp_bool_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+            std::cout << rss_inner << std::endl;
+        }
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_LONG
         // Integer
-        test_long_to_py_int_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
-        test_py_int_to_cpp_long_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+        {
+            RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_LONG");
+            test_long_to_py_int_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+            test_py_int_to_cpp_long_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+            std::cout << rss_inner << std::endl;
+        }
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
         // Floating point
-        test_double_to_py_float_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
-        test_py_float_to_cpp_double_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+        {
+            RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_DOUBLE");
+            test_double_to_py_float_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+            test_py_float_to_cpp_double_multiple(test_results, fundamental_types_test_size,
+                                                 fundamental_types_test_repeat);
+            std::cout << rss_inner << std::endl;
+        }
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_BYTES
         // Strings of various sizes.
-        test_cpp_vector_char_to_py_bytes_multiple(test_results, 2, fundamental_types_test_size,
-                                             fundamental_types_test_repeat);
-        test_cpp_vector_char_to_py_bytes_multiple(test_results, 16, fundamental_types_test_size,
-                                             fundamental_types_test_repeat);
-        test_cpp_vector_char_to_py_bytes_multiple(test_results, 128, fundamental_types_test_size,
-                                             fundamental_types_test_repeat);
-        test_cpp_vector_char_to_py_bytes_multiple(test_results, 1024, fundamental_types_test_size,
-                                             fundamental_types_test_repeat);
-        test_cpp_vector_char_to_py_bytes_multiple(test_results, 1024 * 8, fundamental_types_test_size,
-                                             fundamental_types_test_repeat);
-        test_cpp_vector_char_to_py_bytes_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
-                                             fundamental_types_test_repeat);
-        test_py_bytes_to_cpp_vector_char_multiple(test_results, 2, fundamental_types_test_size,
-                                             fundamental_types_test_repeat);
-        test_py_bytes_to_cpp_vector_char_multiple(test_results, 16, fundamental_types_test_size,
-                                             fundamental_types_test_repeat);
-        test_py_bytes_to_cpp_vector_char_multiple(test_results, 128, fundamental_types_test_size,
-                                             fundamental_types_test_repeat);
-        test_py_bytes_to_cpp_vector_char_multiple(test_results, 1024, fundamental_types_test_size,
-                                             fundamental_types_test_repeat);
-        test_py_bytes_to_cpp_vector_char_multiple(test_results, 1024 * 8, fundamental_types_test_size,
-                                             fundamental_types_test_repeat);
-        test_py_bytes_to_cpp_vector_char_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
-                                             fundamental_types_test_repeat);
+        {
+            RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_BYTES");
+            test_cpp_vector_char_to_py_bytes_multiple(test_results, 2, fundamental_types_test_size,
+                                                      fundamental_types_test_repeat);
+            test_cpp_vector_char_to_py_bytes_multiple(test_results, 16, fundamental_types_test_size,
+                                                      fundamental_types_test_repeat);
+            test_cpp_vector_char_to_py_bytes_multiple(test_results, 128, fundamental_types_test_size,
+                                                      fundamental_types_test_repeat);
+            test_cpp_vector_char_to_py_bytes_multiple(test_results, 1024, fundamental_types_test_size,
+                                                      fundamental_types_test_repeat);
+            test_cpp_vector_char_to_py_bytes_multiple(test_results, 1024 * 8, fundamental_types_test_size,
+                                                      fundamental_types_test_repeat);
+            test_cpp_vector_char_to_py_bytes_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
+                                                      fundamental_types_test_repeat);
+            test_py_bytes_to_cpp_vector_char_multiple(test_results, 2, fundamental_types_test_size,
+                                                      fundamental_types_test_repeat);
+            test_py_bytes_to_cpp_vector_char_multiple(test_results, 16, fundamental_types_test_size,
+                                                      fundamental_types_test_repeat);
+            test_py_bytes_to_cpp_vector_char_multiple(test_results, 128, fundamental_types_test_size,
+                                                      fundamental_types_test_repeat);
+            test_py_bytes_to_cpp_vector_char_multiple(test_results, 1024, fundamental_types_test_size,
+                                                      fundamental_types_test_repeat);
+            test_py_bytes_to_cpp_vector_char_multiple(test_results, 1024 * 8, fundamental_types_test_size,
+                                                      fundamental_types_test_repeat);
+            test_py_bytes_to_cpp_vector_char_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
+                                                      fundamental_types_test_repeat);
+            std::cout << rss_inner << std::endl;
+        }
 #endif
+        std::cout << rss << std::endl;
     }
 #endif // TEST_PERFORMANCE_FUNDAMENTAL_TYPES
 #ifdef TEST_PERFORMANCE_TUPLES
