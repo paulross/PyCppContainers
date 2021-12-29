@@ -35,7 +35,7 @@ CPP_TYPE_TO_FUNCS = {
                                                'float'),
     # 'std::complex<double>': code_gen_common.CppTypeFunctions('py_complex_from_complex', 'py_complex_check', 'py_complex_as_complex'),
     'std::vector<char>': code_gen_common.CppTypeFunctions('cpp_vector_char_to_py_bytes', 'py_bytes_check',
-                                                    'py_bytes_to_cpp_vector_char', 'str'),
+                                                    'py_bytes_to_cpp_vector_char', 'bytes'),
 }
 
 

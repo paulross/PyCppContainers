@@ -100,10 +100,10 @@ PyObject *
 cpp_std_vector_to_py_tuple<double>(const std::vector<double> &container);
 
 /**
- * Instantiation for converting C++ std::vector<std::vector<char>> to a Python tuple of str.
+ * Instantiation for converting C++ std::vector<std::vector<char>> to a Python tuple of bytes.
  *
  * @param container C++ input as a std::vector<std::vector<char>>.
- * @return A Python tuple containing str objects.
+ * @return A Python tuple containing bytes objects.
  */
 template <>
 PyObject *
@@ -160,9 +160,9 @@ int
 py_tuple_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container);
 
 /**
- * Instantiation for converting a Python tuple of str to a C++ std::vector<std::vector<char>>.
+ * Instantiation for converting a Python tuple of bytes to a C++ std::vector<std::vector<char>>.
  *
- * @param op Python input as a tuple of str.
+ * @param op Python input as a tuple of bytes.
  * @param container C++ output as a std::vector<std::vector<char>>.
  * @return 0 on success, non-zero on failure.
  */
@@ -217,10 +217,10 @@ PyObject *
 cpp_std_vector_to_py_list<double>(const std::vector<double> &container);
 
 /**
- * Instantiation for converting C++ std::vector<std::vector<char>> to a Python list of str.
+ * Instantiation for converting C++ std::vector<std::vector<char>> to a Python list of bytes.
  *
  * @param container C++ input as a std::vector<std::vector<char>>.
- * @return A Python list containing str objects.
+ * @return A Python list containing bytes objects.
  */
 template <>
 PyObject *
@@ -277,9 +277,9 @@ int
 py_list_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container);
 
 /**
- * Instantiation for converting a Python list of str to a C++ std::vector<std::vector<char>>.
+ * Instantiation for converting a Python list of bytes to a C++ std::vector<std::vector<char>>.
  *
- * @param op Python input as a list of str.
+ * @param op Python input as a list of bytes.
  * @param container C++ output as a std::vector<std::vector<char>>.
  * @return 0 on success, non-zero on failure.
  */
@@ -334,10 +334,10 @@ PyObject *
 cpp_std_unordered_set_to_py_set<double>(const std::unordered_set<double> &container);
 
 /**
- * Instantiation for converting C++ std::unordered_set<std::vector<char>> to a Python set of str.
+ * Instantiation for converting C++ std::unordered_set<std::vector<char>> to a Python set of bytes.
  *
  * @param container C++ input as a std::unordered_set<std::vector<char>>.
- * @return A Python set containing str objects.
+ * @return A Python set containing bytes objects.
  */
 template <>
 PyObject *
@@ -394,9 +394,9 @@ int
 py_set_to_cpp_std_unordered_set<double>(PyObject *op, std::unordered_set<double> &container);
 
 /**
- * Instantiation for converting a Python set of str to a C++ std::unordered_set<std::vector<char>>.
+ * Instantiation for converting a Python set of bytes to a C++ std::unordered_set<std::vector<char>>.
  *
- * @param op Python input as a set of str.
+ * @param op Python input as a set of bytes.
  * @param container C++ output as a std::unordered_set<std::vector<char>>.
  * @return 0 on success, non-zero on failure.
  */
@@ -451,10 +451,10 @@ PyObject *
 cpp_std_unordered_set_to_py_frozenset<double>(const std::unordered_set<double> &container);
 
 /**
- * Instantiation for converting C++ std::unordered_set<std::vector<char>> to a Python frozenset of str.
+ * Instantiation for converting C++ std::unordered_set<std::vector<char>> to a Python frozenset of bytes.
  *
  * @param container C++ input as a std::unordered_set<std::vector<char>>.
- * @return A Python frozenset containing str objects.
+ * @return A Python frozenset containing bytes objects.
  */
 template <>
 PyObject *
@@ -511,9 +511,9 @@ int
 py_frozenset_to_cpp_std_unordered_set<double>(PyObject *op, std::unordered_set<double> &container);
 
 /**
- * Instantiation for converting a Python frozenset of str to a C++ std::unordered_set<std::vector<char>>.
+ * Instantiation for converting a Python frozenset of bytes to a C++ std::unordered_set<std::vector<char>>.
  *
- * @param op Python input as a frozenset of str.
+ * @param op Python input as a frozenset of bytes.
  * @param container C++ output as a std::unordered_set<std::vector<char>>.
  * @return 0 on success, non-zero on failure.
  */
@@ -575,7 +575,7 @@ cpp_std_unordered_map_to_py_dict<bool, double>(const std::unordered_map<bool, do
  * Instantiation for converting a C++ std::unordered_map<bool, std::vector<char>> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<bool, std::vector<char>>.
- * @return A Python dictionary of {bool : str, ...}.
+ * @return A Python dictionary of {bool : bytes, ...}.
  */
 template <>
 PyObject *
@@ -615,7 +615,7 @@ cpp_std_unordered_map_to_py_dict<long, double>(const std::unordered_map<long, do
  * Instantiation for converting a C++ std::unordered_map<long, std::vector<char>> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<long, std::vector<char>>.
- * @return A Python dictionary of {int : str, ...}.
+ * @return A Python dictionary of {int : bytes, ...}.
  */
 template <>
 PyObject *
@@ -655,7 +655,7 @@ cpp_std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double
  * Instantiation for converting a C++ std::unordered_map<double, std::vector<char>> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<double, std::vector<char>>.
- * @return A Python dictionary of {float : str, ...}.
+ * @return A Python dictionary of {float : bytes, ...}.
  */
 template <>
 PyObject *
@@ -665,7 +665,7 @@ cpp_std_unordered_map_to_py_dict<double, std::vector<char>>(const std::unordered
  * Instantiation for converting a C++ std::unordered_map<std::vector<char>, bool> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<std::vector<char>, bool>.
- * @return A Python dictionary of {str : bool, ...}.
+ * @return A Python dictionary of {bytes : bool, ...}.
  */
 template <>
 PyObject *
@@ -675,7 +675,7 @@ cpp_std_unordered_map_to_py_dict<std::vector<char>, bool>(const std::unordered_m
  * Instantiation for converting a C++ std::unordered_map<std::vector<char>, long> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<std::vector<char>, long>.
- * @return A Python dictionary of {str : int, ...}.
+ * @return A Python dictionary of {bytes : int, ...}.
  */
 template <>
 PyObject *
@@ -685,7 +685,7 @@ cpp_std_unordered_map_to_py_dict<std::vector<char>, long>(const std::unordered_m
  * Instantiation for converting a C++ std::unordered_map<std::vector<char>, double> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<std::vector<char>, double>.
- * @return A Python dictionary of {str : float, ...}.
+ * @return A Python dictionary of {bytes : float, ...}.
  */
 template <>
 PyObject *
@@ -695,7 +695,7 @@ cpp_std_unordered_map_to_py_dict<std::vector<char>, double>(const std::unordered
  * Instantiation for converting a C++ std::unordered_map<std::vector<char>, std::vector<char>> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<std::vector<char>, std::vector<char>>.
- * @return A Python dictionary of {str : str, ...}.
+ * @return A Python dictionary of {bytes : bytes, ...}.
  */
 template <>
 PyObject *
@@ -753,9 +753,9 @@ int
 py_dict_to_cpp_std_unordered_map<bool, double>(PyObject* op, std::unordered_map<bool, double> &map);
 
 /**
- * Instantiation for converting a Python dictionary {bool : str, ...} to a C++ std::unordered_map<bool, std::vector<char>>.
+ * Instantiation for converting a Python dictionary {bool : bytes, ...} to a C++ std::unordered_map<bool, std::vector<char>>.
  *
- * @param op A Python dictionary of {bool : str, ...} as the input.
+ * @param op A Python dictionary of {bool : bytes, ...} as the input.
  * @param map The C++ std::unordered_map<bool, std::vector<char>> to write to.
  * @return 0 on success, non-zero on failure.
  */
@@ -797,9 +797,9 @@ int
 py_dict_to_cpp_std_unordered_map<long, double>(PyObject* op, std::unordered_map<long, double> &map);
 
 /**
- * Instantiation for converting a Python dictionary {int : str, ...} to a C++ std::unordered_map<long, std::vector<char>>.
+ * Instantiation for converting a Python dictionary {int : bytes, ...} to a C++ std::unordered_map<long, std::vector<char>>.
  *
- * @param op A Python dictionary of {int : str, ...} as the input.
+ * @param op A Python dictionary of {int : bytes, ...} as the input.
  * @param map The C++ std::unordered_map<long, std::vector<char>> to write to.
  * @return 0 on success, non-zero on failure.
  */
@@ -841,9 +841,9 @@ int
 py_dict_to_cpp_std_unordered_map<double, double>(PyObject* op, std::unordered_map<double, double> &map);
 
 /**
- * Instantiation for converting a Python dictionary {float : str, ...} to a C++ std::unordered_map<double, std::vector<char>>.
+ * Instantiation for converting a Python dictionary {float : bytes, ...} to a C++ std::unordered_map<double, std::vector<char>>.
  *
- * @param op A Python dictionary of {float : str, ...} as the input.
+ * @param op A Python dictionary of {float : bytes, ...} as the input.
  * @param map The C++ std::unordered_map<double, std::vector<char>> to write to.
  * @return 0 on success, non-zero on failure.
  */
@@ -852,9 +852,9 @@ int
 py_dict_to_cpp_std_unordered_map<double, std::vector<char>>(PyObject* op, std::unordered_map<double, std::vector<char>> &map);
 
 /**
- * Instantiation for converting a Python dictionary {str : bool, ...} to a C++ std::unordered_map<std::vector<char>, bool>.
+ * Instantiation for converting a Python dictionary {bytes : bool, ...} to a C++ std::unordered_map<std::vector<char>, bool>.
  *
- * @param op A Python dictionary of {str : bool, ...} as the input.
+ * @param op A Python dictionary of {bytes : bool, ...} as the input.
  * @param map The C++ std::unordered_map<std::vector<char>, bool> to write to.
  * @return 0 on success, non-zero on failure.
  */
@@ -863,9 +863,9 @@ int
 py_dict_to_cpp_std_unordered_map<std::vector<char>, bool>(PyObject* op, std::unordered_map<std::vector<char>, bool> &map);
 
 /**
- * Instantiation for converting a Python dictionary {str : int, ...} to a C++ std::unordered_map<std::vector<char>, long>.
+ * Instantiation for converting a Python dictionary {bytes : int, ...} to a C++ std::unordered_map<std::vector<char>, long>.
  *
- * @param op A Python dictionary of {str : int, ...} as the input.
+ * @param op A Python dictionary of {bytes : int, ...} as the input.
  * @param map The C++ std::unordered_map<std::vector<char>, long> to write to.
  * @return 0 on success, non-zero on failure.
  */
@@ -874,9 +874,9 @@ int
 py_dict_to_cpp_std_unordered_map<std::vector<char>, long>(PyObject* op, std::unordered_map<std::vector<char>, long> &map);
 
 /**
- * Instantiation for converting a Python dictionary {str : float, ...} to a C++ std::unordered_map<std::vector<char>, double>.
+ * Instantiation for converting a Python dictionary {bytes : float, ...} to a C++ std::unordered_map<std::vector<char>, double>.
  *
- * @param op A Python dictionary of {str : float, ...} as the input.
+ * @param op A Python dictionary of {bytes : float, ...} as the input.
  * @param map The C++ std::unordered_map<std::vector<char>, double> to write to.
  * @return 0 on success, non-zero on failure.
  */
@@ -885,9 +885,9 @@ int
 py_dict_to_cpp_std_unordered_map<std::vector<char>, double>(PyObject* op, std::unordered_map<std::vector<char>, double> &map);
 
 /**
- * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::vector<char>, std::vector<char>>.
+ * Instantiation for converting a Python dictionary {bytes : bytes, ...} to a C++ std::unordered_map<std::vector<char>, std::vector<char>>.
  *
- * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param op A Python dictionary of {bytes : bytes, ...} as the input.
  * @param map The C++ std::unordered_map<std::vector<char>, std::vector<char>> to write to.
  * @return 0 on success, non-zero on failure.
  */
