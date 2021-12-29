@@ -83,13 +83,16 @@ namespace Python_Cpp_Containers {
 
     int py_bytes_check(PyObject *op);
 
-#pragma mark -- bytearray/std::string Conversion Code
+#pragma mark -- bytearray/std::vector<char> Conversion Code
 
     // bytearray to/from string
+    // TODO: Delete?
     PyObject *cpp_vector_char_to_py_bytearray(const std::vector<char> &s);
 
+    // TODO: Delete?
     std::vector<char> py_bytearray_to_cpp_vector_char(PyObject *op);
 
+    // TODO: Delete?
     int py_bytearray_check(PyObject *op);
 
 #pragma mark -- str/std::string Conversion Code
