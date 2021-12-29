@@ -36,6 +36,8 @@ CPP_TYPE_TO_FUNCS = {
     # 'std::complex<double>': code_gen_common.CppTypeFunctions('py_complex_from_complex', 'py_complex_check', 'py_complex_as_complex'),
     'std::vector<char>': code_gen_common.CppTypeFunctions('cpp_vector_char_to_py_bytes', 'py_bytes_check',
                                                           'py_bytes_to_cpp_vector_char', 'bytes'),
+    'std::string': code_gen_common.CppTypeFunctions('cpp_string_to_py_unicode', 'py_unicode_check',
+                                                          'py_unicode_to_cpp_string', 'str'),
 }
 
 #: This is the map of C++ containers of those types and conversion functions that we are going to need.
