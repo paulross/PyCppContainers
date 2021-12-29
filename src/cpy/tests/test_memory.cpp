@@ -106,24 +106,24 @@ finally:
     return result;
 }
 
-// Similar to test_perf_vector_string_to_py_tuple()
+// Similar to test_perf_vector_vector_char_to_py_tuple()
 // This is a long running test.
 // min/max are inclusive.
-int test_memory_vector_string_to_py_tuple(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
+int test_memory_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
                                           size_t size_min, size_t size_max) {
     int result = 0;
     for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
         for (size_t size = size_min; size <= size_max; size *= 2) {
-            result |= test_vector_string_to_py_tuple(test_results, size, str_len);
+            result |= test_vector_vector_char_to_py_tuple(test_results, size, str_len);
         }
     }
     return result;
 }
 
-// Similar to test_perf_py_tuple_string_to_vector()
+// Similar to test_perf_py_tuple_vector_char_to_vector()
 // This is a long running test.
 // min/max are inclusive.
-int test_memory_py_tuple_string_to_vector(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
+int test_memory_py_tuple_vector_char_to_vector(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
                                         size_t size_min, size_t size_max) {
     int result = 0;
     for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
@@ -136,6 +136,7 @@ int test_memory_py_tuple_string_to_vector(TestResultS &test_results, size_t str_
 
 
 void test_memory_all(TestResultS &test_results) {
+    std::cout << __FUNCTION__ << " START" << std::endl;
     RSSSnapshot rss_overall("==== test_memory.cpp");
     int repeat_count = 10;
     std::cout << "test_memory_all(): with repeat count: " << repeat_count << std::endl;
@@ -175,10 +176,11 @@ void test_memory_all(TestResultS &test_results) {
     }
     {
         for (int i = 0; i < repeat_count; ++i) {
-            RSSSnapshot rss("test_memory_vector_string_to_py_tuple(1024, 2048, 512, 1<<16)");
-            test_memory_vector_string_to_py_tuple(test_results, 8, 2048, 512, 1 << 16);
+            RSSSnapshot rss("test_memory_vector_vector_char_to_py_tuple(1024, 2048, 512, 1<<16)");
+            test_memory_vector_vector_char_to_py_tuple(test_results, 8, 2048, 512, 1 << 16);
             std::cout << rss << std::endl;
         }
     }
     std::cout << "====" << rss_overall << std::endl;
+    std::cout << __FUNCTION__ << " FINISH" << std::endl;
 }

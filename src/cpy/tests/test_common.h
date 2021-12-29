@@ -337,11 +337,11 @@ compare_dict<
 #pragma mark Tests of containers of strings.
 
 // Functional test of tuples of strings
-int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
+int test_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_tuple_bytes_to_vector(TestResultS &test_results, size_t size, size_t str_len);
 
 // Functional test of list of strings
-int test_vector_string_to_py_list(TestResultS &test_results, size_t size, size_t str_len);
+int test_vector_vector_char_to_py_list(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_list_bytes_to_vector(TestResultS &test_results, size_t size, size_t str_len);
 
 // Functional tests of sets of strings

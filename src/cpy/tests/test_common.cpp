@@ -102,7 +102,7 @@ compare_dict<
             >(cpp_map, op);
 }
 
-int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len) {
+int test_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len) {
     std::vector<std::vector<char>> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
 //        cpp_vector.push_back(unique_vector_char(str_len));
@@ -150,7 +150,7 @@ int test_py_tuple_bytes_to_vector(TestResultS &test_results, size_t size, size_t
     return result;
 }
 
-int test_vector_string_to_py_list(TestResultS &test_results, size_t size, size_t str_len) {
+int test_vector_vector_char_to_py_list(TestResultS &test_results, size_t size, size_t str_len) {
     std::vector<std::vector<char>> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
 //        cpp_vector.push_back(unique_vector_char(str_len));

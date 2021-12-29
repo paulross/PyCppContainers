@@ -96,6 +96,7 @@ void test_example_py_dict_to_cpp_std_unordered_map() {
 }
 
 void test_functional_all(TestResultS &test_results) {
+    std::cout << __FUNCTION__ << " START" << std::endl;
     RSSSnapshot rss_overall("==== test_functional.cpp");
     // Test that the demonstration code works, no record of the result is kept.
     test_example_vector_to_py_tuple_double();
@@ -175,8 +176,8 @@ void test_functional_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     {
-        RSSSnapshot rss("test_vector_string_to_py_tuple");
-        test_vector_string_to_py_tuple(test_results, 1024, 32);
+        RSSSnapshot rss("test_vector_vector_char_to_py_tuple");
+        test_vector_vector_char_to_py_tuple(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
     {
@@ -256,8 +257,8 @@ void test_functional_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     {
-        RSSSnapshot rss("test_vector_string_to_py_list");
-        test_vector_string_to_py_list(test_results, 1024, 32);
+        RSSSnapshot rss("test_vector_vector_char_to_py_list");
+        test_vector_vector_char_to_py_list(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
     {
@@ -361,4 +362,5 @@ void test_functional_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     std::cout << "====" << rss_overall << std::endl;
+    std::cout << __FUNCTION__ << " FINISH" << std::endl;
 }
