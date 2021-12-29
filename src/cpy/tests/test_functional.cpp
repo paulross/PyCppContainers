@@ -185,6 +185,16 @@ void test_functional_all(TestResultS &test_results) {
         test_py_tuple_bytes_to_vector(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
+    {
+        RSSSnapshot rss("test_vector_string_to_py_tuple");
+        test_vector_string_to_py_tuple(test_results, 1024, 32);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_tuple_string_to_vector");
+        test_py_tuple_str_to_vector(test_results, 1024, 32);
+        std::cout << rss << std::endl;
+    }
     // Lists
     {
         RSSSnapshot rss("test_vector_to_py_list<bool>");
@@ -266,6 +276,16 @@ void test_functional_all(TestResultS &test_results) {
         test_py_list_bytes_to_vector(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
+    {
+        RSSSnapshot rss("test_list_string_to_py_tuple");
+        test_vector_string_to_py_list(test_results, 1024, 32);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_list_str_to_vector");
+        test_py_list_str_to_vector(test_results, 1024, 32);
+        std::cout << rss << std::endl;
+    }
     // sets
     {
         RSSSnapshot rss("test_unordered_set_to_py_set<long>");
@@ -300,6 +320,16 @@ void test_functional_all(TestResultS &test_results) {
     {
         RSSSnapshot rss("test_unordered_set_bytes_to_py_set");
         test_unordered_set_bytes_to_py_set(test_results, 1024, 32);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_unordered_set_string_to_py_set");
+        test_unordered_set_string_to_py_set(test_results, 1024, 32);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_set_string_to_unordered_set");
+        test_py_set_string_to_unordered_set(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
     // Dicts
@@ -359,6 +389,16 @@ void test_functional_all(TestResultS &test_results) {
     {
         RSSSnapshot rss("test_py_dict_to_cpp_std_unordered_map_bytes");
         test_py_dict_to_cpp_std_unordered_map_bytes(test_results, 1024, 32);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_cpp_std_unordered_map_to_py_dict_string");
+        test_cpp_std_unordered_map_to_py_dict_string(test_results, 1024, 32);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_dict_to_cpp_std_unordered_map_string");
+        test_py_dict_to_cpp_std_unordered_map_string(test_results, 1024, 32);
         std::cout << rss << std::endl;
     }
     std::cout << "====" << rss_overall << std::endl;

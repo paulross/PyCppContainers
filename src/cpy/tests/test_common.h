@@ -154,6 +154,10 @@ template <>
 int
 compare_tuple<std::vector<char>>(const std::vector<std::vector<char>> &cpp_vector, PyObject *op);
 
+template <>
+int
+compare_tuple<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op);
+
 /**
  * Compares a Python list with a C++ std::vector.
  *
@@ -197,6 +201,10 @@ compare_list<double>(const std::vector<double> &cpp_vector, PyObject *op);
 template <>
 int
 compare_list<std::vector<char>>(const std::vector<std::vector<char>> &cpp_vector, PyObject *op);
+
+template <>
+int
+compare_list<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op);
 
 /**
  * Compares a Python set or frozenset with a C++ std::unordered_set.
@@ -258,6 +266,10 @@ compare_set(const std::unordered_set<T> &cpp_set, PyObject *op);
 template <>
 int
 compare_set<std::vector<char>>(const std::unordered_set<std::vector<char>> &cpp_set, PyObject *op);
+
+template <>
+int
+compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObject *op);
 
 /**
  * Compare a Python dict with a C++ std::unordered_map.
@@ -334,23 +346,41 @@ compare_dict<
         std::vector<char>, std::vector<char>
         >(const std::unordered_map<std::vector<char>, std::vector<char>> &cpp_map, PyObject *op);
 
+template <>
+int
+compare_dict<
+        std::string, std::string
+        >(const std::unordered_map<std::string, std::string> &cpp_map, PyObject *op);
+
 #pragma mark Tests of containers of strings.
 
-// Functional test of tuples of strings
+// Functional test of tuples of vector<char>
 int test_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_tuple_bytes_to_vector(TestResultS &test_results, size_t size, size_t str_len);
+// Functional test of tuples of strings
+int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_tuple_str_to_vector(TestResultS &test_results, size_t size, size_t str_len);
 
-// Functional test of list of strings
+// Functional test of list of vector<char>
 int test_vector_vector_char_to_py_list(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_list_bytes_to_vector(TestResultS &test_results, size_t size, size_t str_len);
+// Functional test of list of string
+int test_vector_string_to_py_list(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_list_str_to_vector(TestResultS &test_results, size_t size, size_t str_len);
 
-// Functional tests of sets of strings
+// Functional tests of sets of bytes
 int test_unordered_set_bytes_to_py_set(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_set_bytes_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len);
+// Functional tests of sets of strings
+int test_unordered_set_string_to_py_set(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_set_string_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len);
 
-// Functional tests of dict of strings
+// Functional tests of dict of bytes
 int test_cpp_std_unordered_map_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_dict_to_cpp_std_unordered_map_bytes(TestResultS &test_results, size_t size, size_t str_len);
+// Functional tests of dict of strings
+int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size_t size, size_t str_len);
 
 #pragma mark Generic test templates
 
@@ -788,10 +818,18 @@ int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::
 PyObject *
 new_py_tuple_bytes(size_t size, size_t str_len);
 PyObject *
+new_py_tuple_string(size_t size, size_t str_len);
+PyObject *
 new_py_list_bytes(size_t size, size_t str_len);
+PyObject *
+new_py_list_string(size_t size, size_t str_len);
 PyObject *
 new_py_set_bytes(size_t size, size_t str_len);
 PyObject *
+new_py_set_string(size_t size, size_t str_len);
+PyObject *
 new_py_dict_bytes(size_t size, size_t str_len);
+PyObject *
+new_py_dict_string(size_t size, size_t str_len);
 
 #endif // PYTHONCPPHOMOGENEOUSCONTAINERS_TEST_COMMON_H
