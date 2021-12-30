@@ -591,7 +591,7 @@ int test_perf_vector_string_to_py_list_multiple(TestResultS &test_results, size_
 }
 
 int
-test_py_list_bytes_to_vector_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+test_py_list_str_to_vector_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
@@ -618,7 +618,7 @@ int test_perf_py_list_to_vector_string_multiple(TestResultS &test_results, size_
     for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
-            result |= test_py_list_bytes_to_vector_string_multiple(test_results, size, str_len, repeat);
+            result |= test_py_list_str_to_vector_string_multiple(test_results, size, str_len, repeat);
         }
     }
     return result;
@@ -798,7 +798,7 @@ int test_perf_unordered_set_string_to_py_set_multiple(TestResultS &test_results,
     return result;
 }
 
-int test_py_set_bytes_to_unordered_set_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+int test_py_set_str_to_unordered_set_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__  << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
@@ -820,11 +820,11 @@ int test_py_set_bytes_to_unordered_set_string_multiple(TestResultS &test_results
     return result;
 }
 
-int test_perf_py_set_bytes_to_unordered_set_string_multiple(TestResultS &test_results, size_t repeat) {
+int test_perf_py_set_str_to_unordered_set_string_multiple(TestResultS &test_results, size_t repeat) {
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
-            result |= test_py_set_bytes_to_unordered_set_string_multiple(test_results, size, str_len, repeat);
+            result |= test_py_set_str_to_unordered_set_string_multiple(test_results, size, str_len, repeat);
         }
     }
     return result;
@@ -1430,8 +1430,8 @@ void test_performance_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     {
-        RSSSnapshot rss("test_perf_py_set_bytes_to_unordered_set_string_multiple");
-        test_perf_py_set_bytes_to_unordered_set_string_multiple(test_results, TEST_REPEAT);
+        RSSSnapshot rss("test_perf_py_set_str_to_unordered_set_string_multiple");
+        test_perf_py_set_str_to_unordered_set_string_multiple(test_results, TEST_REPEAT);
         std::cout << rss << std::endl;
     }
 #endif // TEST_PERFORMANCE_OBJECT_STRING

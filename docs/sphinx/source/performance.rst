@@ -121,13 +121,13 @@ TODO: bool, int, float C++ -> Python
 TODO: Describe bytes
 TODO: Python -> C++
 
-.. image:: plots/images/cpp_py_list_bytes_vector_string_time.png
+.. image:: plots/images/cpp_py_list_bytes_vector_vector_char_time.png
     :height: 300px
     :align: center
 
 TODO:
 
-.. image:: plots/images/cpp_py_list_bytes_vector_string_rate.png
+.. image:: plots/images/cpp_py_list_bytes_vector_vector_char_rate.png
     :height: 300px
     :align: center
 
@@ -146,13 +146,13 @@ bytes[1024]     0.15 to 0.6             1,600 to 6,800
 TODO: C++ -> Python
 TODO:
 
-.. image:: plots/images/cpp_vector_string_py_list_bytes_time.png
+.. image:: plots/images/cpp_vector_vector_char_py_list_bytes_time.png
     :height: 300px
     :align: center
 
 TODO:
 
-.. image:: plots/images/cpp_vector_string_py_list_bytes_rate.png
+.. image:: plots/images/cpp_vector_vector_char_py_list_bytes_rate.png
     :height: 300px
     :align: center
 
