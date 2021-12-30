@@ -1,3 +1,0 @@
-# HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
-# $1    $2      $3      $4              $5              $6              $7              $8        $9           $10  $11
-TEST:    0 1000000      20     0.003501569     0.000139966     0.003433333     0.004048833        20        5711.7 test_py_float_to_cpp_double_multiple[1000000]

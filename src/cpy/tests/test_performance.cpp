@@ -801,7 +801,7 @@ int test_perf_unordered_set_string_to_py_set_multiple(TestResultS &test_results,
 int test_py_set_bytes_to_unordered_set_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
     int result = 0;
     std::ostringstream title;
-    title << __FUNCTION__  << "<std::vector<char>[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__  << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     PyObject *op = new_py_set_string(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {

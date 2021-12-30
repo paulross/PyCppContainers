@@ -53,18 +53,24 @@ def main():
         '# HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name\n',
         '# $1    $2      $3      $4              $5              $6              $7              $8        $9           $10  $11\n',
     ]
+    file_count = 0
     for k in sorted(dat_file_lines.keys()):
         # print(f'{k} : {dat_file_lines[k]}')
         dat_filename = os.path.join(TARGET_DIRECTORY, k)
-        with open(dat_filename, 'w') as file:
-            line_count = 0
-            for line in headers:
-                file.write(line)
-                line_count += 1
-            for line in dat_file_lines[k]:
-                file.write(line)
-                line_count += 1
-            print(f'Wrote {line_count:4d} lines ({line_count - len(headers):4d} data lines) to "{dat_filename}"')
+        if len(dat_file_lines[k]) == 21:
+            with open(dat_filename, 'w') as file:
+                line_count = 0
+                for line in headers:
+                    file.write(line)
+                    line_count += 1
+                for line in dat_file_lines[k]:
+                    file.write(line)
+                    line_count += 1
+                print(f'Wrote {line_count:4d} lines ({line_count - len(headers):4d} data lines) to "{dat_filename}"')
+                file_count += 1
+        else:
+            print(f'Ignored {len(dat_file_lines[k]):4d} data lines for "{dat_filename}"')
+    print(f'Wrote {file_count} files.')
 
 
 if __name__ == '__main__':

@@ -1,3 +1,0 @@
-# HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
-# $1    $2      $3      $4              $5              $6              $7              $8        $9           $10  $11
-TEST:    0 1000000      20     0.026731273     0.000649499     0.026369085     0.029143666        20         748.2 test_py_bytes_to_cpp_vector_char_multiple_128[1000000]
