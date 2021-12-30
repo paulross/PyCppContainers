@@ -60,8 +60,8 @@ And the inverse, ``read_from_vector`` creating a new Python list from a C++ ``st
 
 There is no error handling here and all errors are runtime errors.
 
-However if you need to support other object types, say lists of ``int``, ``bytes`` then each one needs a pair of hand written functions.
-It gets worse when you want to support other containers such as (``tuple``, ``set``, ``dict``).
+However if you need to support other object types, say lists of ``int``, ``str``, ``bytes`` then each one needs a pair of hand written functions.
+It gets worse when you want to support other containers such as (``tuple``, ``list``, ``set``, ``frozenset``, ``dict``).
 Then you have to write individual conversion functions for all the combinations of object types *and* containers.
 This is tedious and error prone.
 
@@ -87,6 +87,8 @@ If we want to support a fairly basic set of types:
    * - ``float``
      - ``double``
    * - ``bytes``
+     - ``std::vector<char>``
+   * - ``str``
      - ``std::string``
 
 And a basic set of containers:
@@ -111,9 +113,9 @@ And a basic set of containers:
 The number of conversion functions is worse than the cartesian product of the types and containers as in the case of a
 dict the types can appear as either a key or a value.
 
-The tables above would normally require 64 conversion functions to be written, tested and documented [#]_ .
+The tables above would normally require 90 conversion functions to be written, tested and documented [#]_ .
 
-This project simplifies this by using a mix of C++ templates and code generators to reduce this number to just **six** hand written functions for all 64 cases.
+This project simplifies this by using a mix of C++ templates and code generators to reduce this number to just **six** hand written functions for all 90 cases.
 
 * Two C++ templates for Python ``tuple`` / ``list`` two way conversions for all types.
 * Two C++ templates for Python ``set`` / ``frozenset`` two way conversions for all types.
@@ -336,6 +338,6 @@ Alternatives
 .. rubric:: Footnotes
 .. [#] There are four unary containers (``tuple``, ``list``, ``set``, ``frozenset``).
     Each container/type combination requires two functions to give two way conversion from Python to C++ and back.
-    Thus 4 (containers) * 4 (types) * 2 (way conversion) = 32 required functions.
-    For ``dict`` there are four types but the key and the value can be either so 16 possible variations (any 2 out of 4).
-    With two way conversion this means another 32 functions. This is a total of 64 functions.
+    Thus 4 (containers) * 5 (types) * 2 (way conversion) = 40 required functions.
+    For ``dict`` there are five types but the key and the value can be either so 25 possible variations (any 2 out of 5).
+    With two way conversion this means another 50 functions. This is a total of 90 functions.
