@@ -143,7 +143,8 @@ int test_py_float_to_cpp_double_multiple(TestResultS &test_results, size_t size,
     return 0;
 }
 
-int test_cpp_vector_char_to_py_bytes_multiple(TestResultS &test_results, size_t string_size, size_t size, size_t repeat) {
+int
+test_cpp_vector_char_to_py_bytes_multiple(TestResultS &test_results, size_t string_size, size_t size, size_t repeat) {
     std::ostringstream title;
     title << __FUNCTION__ << "_" << string_size << "[" << size << "]";
     TestResult test_result(title.str());
@@ -161,7 +162,8 @@ int test_cpp_vector_char_to_py_bytes_multiple(TestResultS &test_results, size_t 
     return 0;
 }
 
-int test_py_bytes_to_cpp_vector_char_multiple(TestResultS &test_results, size_t string_size, size_t size, size_t repeat) {
+int
+test_py_bytes_to_cpp_vector_char_multiple(TestResultS &test_results, size_t string_size, size_t size, size_t repeat) {
     std::ostringstream title;
     title << __FUNCTION__ << "_" << string_size << "[" << size << "]";
     TestResult test_result(title.str());
@@ -302,7 +304,8 @@ int test_perf_py_tuple_to_vector_multiple(TestResultS &test_results, const std::
     return result;
 }
 
-int test_vector_vector_char_to_py_tuple_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+int
+test_vector_vector_char_to_py_tuple_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
     std::vector<std::vector<char>> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
         cpp_vector.push_back(std::vector<char>(str_len, ' '));
@@ -335,7 +338,8 @@ int test_perf_vector_vector_char_to_py_tuple_multiple(TestResultS &test_results,
 }
 
 int
-test_py_tuple_bytes_to_vector_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+test_py_tuple_bytes_to_vector_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len,
+                                                   size_t repeat) {
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "<std::vector<char>[" << str_len << "]>" << "():" << "[" << size << "]";
@@ -556,7 +560,8 @@ int test_perf_vector_vector_char_to_py_list_multiple(TestResultS &test_results, 
 }
 
 int
-test_py_list_bytes_to_vector_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+test_py_list_bytes_to_vector_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len,
+                                                  size_t repeat) {
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "<std::vector<char>[" << str_len << "]>" << "():" << "[" << size << "]";
@@ -747,13 +752,14 @@ int test_perf_py_set_to_unordered_set_multiple(TestResultS &test_results, const 
     return result;
 }
 
-int test_unordered_set_vector_char_to_py_set_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+int test_unordered_set_vector_char_to_py_set_multiple(TestResultS &test_results, size_t size, size_t str_len,
+                                                      size_t repeat) {
     std::unordered_set<std::vector<char>> cpp_set;
     for (size_t i = 0; i < size; ++i) {
         cpp_set.insert(unique_vector_char(str_len));
     }
     std::ostringstream title;
-    title << __FUNCTION__  << "<std::vector<char>[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "<std::vector<char>[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
@@ -770,7 +776,8 @@ int test_perf_unordered_set_vector_char_to_py_set_multiple(TestResultS &test_res
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
-        for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_unordered_set_vector_char_to_py_set_multiple(test_results, size, str_len, repeat);
         }
     }
@@ -778,10 +785,11 @@ int test_perf_unordered_set_vector_char_to_py_set_multiple(TestResultS &test_res
     return result;
 }
 
-int test_py_set_bytes_to_unordered_set_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+int test_py_set_bytes_to_unordered_set_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len,
+                                                            size_t repeat) {
     int result = 0;
     std::ostringstream title;
-    title << __FUNCTION__  << "<std::vector<char>[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "<std::vector<char>[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     PyObject *op = new_py_set_bytes(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
@@ -804,7 +812,8 @@ int test_perf_py_set_bytes_to_unordered_set_vector_char_multiple(TestResultS &te
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
-        for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_py_set_bytes_to_unordered_set_vector_char_multiple(test_results, size, str_len, repeat);
         }
     }
@@ -812,13 +821,14 @@ int test_perf_py_set_bytes_to_unordered_set_vector_char_multiple(TestResultS &te
     return result;
 }
 
-int test_unordered_set_string_to_py_set_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+int
+test_unordered_set_string_to_py_set_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
     std::unordered_set<std::string> cpp_set;
     for (size_t i = 0; i < size; ++i) {
         cpp_set.insert(unique_string(str_len));
     }
     std::ostringstream title;
-    title << __FUNCTION__  << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
@@ -835,7 +845,8 @@ int test_perf_unordered_set_string_to_py_set_multiple(TestResultS &test_results,
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
-        for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_unordered_set_string_to_py_set_multiple(test_results, size, str_len, repeat);
         }
     }
@@ -843,10 +854,11 @@ int test_perf_unordered_set_string_to_py_set_multiple(TestResultS &test_results,
     return result;
 }
 
-int test_py_set_str_to_unordered_set_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+int test_py_set_str_to_unordered_set_string_multiple(TestResultS &test_results, size_t size, size_t str_len,
+                                                     size_t repeat) {
     int result = 0;
     std::ostringstream title;
-    title << __FUNCTION__  << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     PyObject *op = new_py_set_string(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
@@ -869,7 +881,8 @@ int test_perf_py_set_str_to_unordered_set_string_multiple(TestResultS &test_resu
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
-        for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_py_set_str_to_unordered_set_string_multiple(test_results, size, str_len, repeat);
         }
     }
@@ -1009,7 +1022,8 @@ test_perf_py_dict_to_cpp_std_unordered_map_multiple(TestResultS &test_results, c
     return result;
 }
 
-int test_cpp_std_unordered_map_to_py_dict_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+int test_cpp_std_unordered_map_to_py_dict_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len,
+                                                               size_t repeat) {
     int result = 0;
     std::unordered_map<std::vector<char>, std::vector<char>> cpp_map;
     for (size_t i = 0; i < size; ++i) {
@@ -1046,10 +1060,11 @@ int test_perf_cpp_std_unordered_map_to_py_dict_vector_char_multiple(TestResultS 
     return result;
 }
 
-int test_py_dict_to_cpp_std_unordered_map_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+int test_py_dict_to_cpp_std_unordered_map_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len,
+                                                               size_t repeat) {
     int result = 0;
     std::ostringstream title;
-    title << __FUNCTION__  << "<std::vector<char>[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "<std::vector<char>[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     PyObject *op = new_py_dict_bytes(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
@@ -1081,7 +1096,8 @@ int test_perf_py_dict_to_cpp_std_unordered_map_vector_char_multiple(TestResultS 
     return result;
 }
 
-int test_cpp_std_unordered_map_to_py_dict_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+int test_cpp_std_unordered_map_to_py_dict_string_multiple(TestResultS &test_results, size_t size, size_t str_len,
+                                                          size_t repeat) {
     int result = 0;
     std::unordered_map<std::string, std::string> cpp_map;
     for (size_t i = 0; i < size; ++i) {
@@ -1118,10 +1134,11 @@ int test_perf_cpp_std_unordered_map_to_py_dict_string_multiple(TestResultS &test
     return result;
 }
 
-int test_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+int test_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test_results, size_t size, size_t str_len,
+                                                          size_t repeat) {
     int result = 0;
     std::ostringstream title;
-    title << __FUNCTION__  << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     PyObject *op = new_py_dict_string(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
@@ -1240,29 +1257,29 @@ void test_performance_all(TestResultS &test_results) {
         {
             RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_BYTES");
             test_cpp_string_to_py_str_multiple(test_results, 2, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
+                                               fundamental_types_test_repeat);
             test_cpp_string_to_py_str_multiple(test_results, 16, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
+                                               fundamental_types_test_repeat);
             test_cpp_string_to_py_str_multiple(test_results, 128, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
+                                               fundamental_types_test_repeat);
             test_cpp_string_to_py_str_multiple(test_results, 1024, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
+                                               fundamental_types_test_repeat);
             test_cpp_string_to_py_str_multiple(test_results, 1024 * 8, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
+                                               fundamental_types_test_repeat);
             test_cpp_string_to_py_str_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
+                                               fundamental_types_test_repeat);
             test_py_str_to_cpp_string_multiple(test_results, 2, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
+                                               fundamental_types_test_repeat);
             test_py_str_to_cpp_string_multiple(test_results, 16, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
+                                               fundamental_types_test_repeat);
             test_py_str_to_cpp_string_multiple(test_results, 128, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
+                                               fundamental_types_test_repeat);
             test_py_str_to_cpp_string_multiple(test_results, 1024, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
+                                               fundamental_types_test_repeat);
             test_py_str_to_cpp_string_multiple(test_results, 1024 * 8, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
+                                               fundamental_types_test_repeat);
             test_py_str_to_cpp_string_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
+                                               fundamental_types_test_repeat);
             std::cout << rss_inner << std::endl;
         }
 #endif
@@ -1284,18 +1301,18 @@ void test_performance_all(TestResultS &test_results) {
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_BOOL
     test_perf_py_tuple_to_vector_multiple<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool>(
-            test_results,"<bool>", TEST_REPEAT
-            );
+            test_results, "<bool>", TEST_REPEAT
+    );
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_LONG
     test_perf_py_tuple_to_vector_multiple<long, &Python_Cpp_Containers::cpp_long_to_py_long>(
-            test_results,"<long>", TEST_REPEAT
-            );
+            test_results, "<long>", TEST_REPEAT
+    );
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     test_perf_py_tuple_to_vector_multiple<double, &Python_Cpp_Containers::cpp_double_to_py_float>(
-            test_results,"<double>", TEST_REPEAT
-            );
+            test_results, "<double>", TEST_REPEAT
+    );
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_BYTES
     // Test list of bytes Python <-> C++
@@ -1323,18 +1340,18 @@ void test_performance_all(TestResultS &test_results) {
     // List fundamental types Python -> C++
 #ifdef TEST_PERFORMANCE_OBJECT_BOOL
     test_perf_py_list_to_vector_multiple<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool>(
-            test_results,"<bool>", TEST_REPEAT
-            );
+            test_results, "<bool>", TEST_REPEAT
+    );
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_LONG
     test_perf_py_list_to_vector_multiple<long, &Python_Cpp_Containers::cpp_long_to_py_long>(
-            test_results,"<long>", TEST_REPEAT
-            );
+            test_results, "<long>", TEST_REPEAT
+    );
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     test_perf_py_list_to_vector_multiple<double, &Python_Cpp_Containers::cpp_double_to_py_float>(
-            test_results,"<double>", TEST_REPEAT
-            );
+            test_results, "<double>", TEST_REPEAT
+    );
     // Test list of strings Python <-> C++
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_BYTES
@@ -1354,18 +1371,18 @@ void test_performance_all(TestResultS &test_results) {
     test_perf_unordered_set_to_py_set_multiple<long>(test_results, "<long>", TEST_REPEAT);
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
-        test_perf_unordered_set_to_py_set_multiple<double>(test_results, "<double>", TEST_REPEAT);
+    test_perf_unordered_set_to_py_set_multiple<double>(test_results, "<double>", TEST_REPEAT);
 #endif
     // Set fundamental types Python to C++
 #ifdef TEST_PERFORMANCE_OBJECT_LONG
     test_perf_py_set_to_unordered_set_multiple<long, &Python_Cpp_Containers::cpp_long_to_py_long>(test_results,
-                                                                                                      "<long>",
-                                                                                                      TEST_REPEAT);
+                                                                                                  "<long>",
+                                                                                                  TEST_REPEAT);
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
-        test_perf_py_set_to_unordered_set_multiple<double, &Python_Cpp_Containers::cpp_double_to_py_float>(test_results,
-                                                                                                           "<double>",
-                                                                                                           TEST_REPEAT);
+    test_perf_py_set_to_unordered_set_multiple<double, &Python_Cpp_Containers::cpp_double_to_py_float>(test_results,
+                                                                                                       "<double>",
+                                                                                                       TEST_REPEAT);
 #endif
     // Test set of strings Python <-> C++
 #ifdef TEST_PERFORMANCE_OBJECT_BYTES
