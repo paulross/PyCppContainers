@@ -28,7 +28,7 @@ PACKAGE_NAME = 'cPyCppContainers'
 
 setup(
     name=PACKAGE_NAME,
-    version='0.1.0',
+    version='0.3.0',
     author='Paul Ross',
     author_email='apaulross@gmail.com',
     maintainer='Paul Ross',
