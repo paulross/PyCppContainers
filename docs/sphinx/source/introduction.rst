@@ -162,7 +162,7 @@ This template has these parameters:
    * - ``PyObject_Check``
      - A pointer to a function that checks that any ``PyObject *`` in the Python container is the correct type, for example that it is a ``bytes`` object.
    * - ``PyObject_Convert``
-     - A pointer to a function that converts any ``PyObject *`` in the Python container to the C++ type, for example from ``bytes`` -> ``std::string``.
+     - A pointer to a function that converts any ``PyObject *`` in the Python container to the C++ type, for example from ``bytes`` -> ``std::vector<char>``.
    * - ``PyUnaryContainer_Check``
      - A pointer to a function that checks that the ``PyObject *`` argument is the correct container type, for example a ``tuple``.
    * - ``PyUnaryContainer_Size``
@@ -170,7 +170,7 @@ This template has these parameters:
    * - ``PyUnaryContainer_Get``
      - A pointer to a function that gets a ``PyObject *`` from the Python container at a given index.
 
-The function has the following parameters.
+And the function has the following parameters.
 
 .. list-table:: ``generic_py_unary_to_cpp_std_vector()`` parameters.
    :widths: 20 20 50
@@ -203,10 +203,21 @@ These are thin wrappers around existing functions or macros in ``"Python.h"``.
 
 .. code-block:: cpp
 
-    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
+    template<
+        typename T,
+        int (*PyObject_Check)(PyObject *),
+        T (*PyObject_Convert)(PyObject *)
+    >
     int generic_py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
-        return generic_py_unary_to_cpp_std_vector<T, PyObject_Check, PyObject_Convert,
-            &py_list_check, &py_list_len, &py_list_get>(op, vec);
+        return generic_py_unary_to_cpp_std_vector<
+            T,
+            PyObject_Check,
+            PyObject_Convert,
+            &py_list_check,
+            &py_list_len,
+            &py_list_get>(
+                op, vec
+            );
     }
 
 
