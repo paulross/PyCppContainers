@@ -1,0 +1,5 @@
+# HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+# $1    $2      $3      $4              $5              $6              $7              $8        $9           $10  $11
+TEST:    0    1024       1     0.000015251             N/A             N/A             N/A         1       65571.6 test_py_tuple_to_vector_round_trip():[1024]
+TEST:    0    1024       1     0.000026125             N/A             N/A             N/A         1       38276.8 test_py_tuple_to_vector_round_trip():[1024]
+TEST:    0    1024       1     0.000027375             N/A             N/A             N/A         1       36529.0 test_py_tuple_to_vector_round_trip():[1024]

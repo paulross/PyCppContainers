@@ -1,0 +1,3 @@
+# HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+# $1    $2      $3      $4              $5              $6              $7              $8        $9           $10  $11
+TEST:    0 1000000      20     0.000939071     0.000003581     0.000936333     0.000949668        20       21297.6 test_py_bool_to_cpp_bool_multiple[1000000]

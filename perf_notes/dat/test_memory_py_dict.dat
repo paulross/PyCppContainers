@@ -1,0 +1,12 @@
+# HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+# $1    $2      $3      $4              $5              $6              $7              $8        $9           $10  $11
+TEST:    0 1048576       1     0.040796668             N/A             N/A             N/A         1          24.5 test_memory_py_dict():[1048576]
+TEST:    0 1048576       1     0.037263708             N/A             N/A             N/A         1          26.8 test_memory_py_dict():[1048576]
+TEST:    0 1048576       1     0.036199458             N/A             N/A             N/A         1          27.6 test_memory_py_dict():[1048576]
+TEST:    0 1048576       1     0.036108460             N/A             N/A             N/A         1          27.7 test_memory_py_dict():[1048576]
+TEST:    0 1048576       1     0.036394708             N/A             N/A             N/A         1          27.5 test_memory_py_dict():[1048576]
+TEST:    0 1048576       1     0.036216791             N/A             N/A             N/A         1          27.6 test_memory_py_dict():[1048576]
+TEST:    0 1048576       1     0.036192251             N/A             N/A             N/A         1          27.6 test_memory_py_dict():[1048576]
+TEST:    0 1048576       1     0.036461709             N/A             N/A             N/A         1          27.4 test_memory_py_dict():[1048576]
+TEST:    0 1048576       1     0.036083958             N/A             N/A             N/A         1          27.7 test_memory_py_dict():[1048576]
+TEST:    0 1048576       1     0.036170875             N/A             N/A             N/A         1          27.6 test_memory_py_dict():[1048576]
