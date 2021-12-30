@@ -43,7 +43,9 @@
 #else
 #define REPORT_TEST_OUTPUT \
     do {                   \
-        test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size)); \
+        std::ostringstream title; \
+        title << __FUNCTION__  << "():" << "[" << size << "]"; \
+        test_results.push_back(TestResult(title.str(), result, exec_time, 1, size)); \
     } while (0)
 
 #define REPORT_TEST_OUTPUT_WITH_STRING_LENGTH \
