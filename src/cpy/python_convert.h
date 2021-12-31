@@ -18,6 +18,7 @@
 
 #include <Python.h>
 
+#include <complex>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
@@ -27,12 +28,11 @@
 /// Functions to handle Python containers.
 #include "python_container_convert.h"
 
-
-/**
- * Provide a hash function for std::vector<char>.
- * This just creates a std::string_view over the raw data and uses std::hash on that.
- */
 namespace std {
+    /**
+     * Provide a hash function for std::vector<char>.
+     * This just creates a std::string_view over the raw data and uses std::hash on that.
+     */
     template<>
     struct hash<std::vector<char>> {
         size_t operator()(std::vector<char> const &item) const {
@@ -40,6 +40,49 @@ namespace std {
             std::string_view sv(item.data(), item.size());
             ret = std::hash<std::string_view>{}(sv);
             return ret;
+        }
+    };
+    /**
+     * Provide a hash function for std::complex<double>.
+     * This mimics the Python hash of complex, see complex_hash() typically at
+     * https://github.com/python/cpython/blob/main/Objects/complexobject.c#L407
+     * See also: Include/pyhash.h
+     */
+    template<>
+    struct hash<std::complex<double>> {
+        size_t operator()(std::complex<double> const &item) const {
+            // _PyHASH_IMAG is 1000003UL /* 0xf4243 */
+            // Py_uhash_t hashreal, hashimag, combined;
+            //    hashreal = (Py_uhash_t)_Py_HashDouble((PyObject *) v, v->cval.real);
+            //    if (hashreal == (Py_uhash_t)-1)
+            //        return -1;
+            //    hashimag = (Py_uhash_t)_Py_HashDouble((PyObject *)v, v->cval.imag);
+            //    if (hashimag == (Py_uhash_t)-1)
+            //        return -1;
+            //    /* Note:  if the imaginary part is 0, hashimag is 0 now,
+            //     * so the following returns hashreal unchanged.  This is
+            //     * important because numbers of different types that
+            //     * compare equal must have the same hash value, so that
+            //     * hash(x + 0*j) must equal hash(x).
+            //     */
+            //    combined = hashreal + _PyHASH_IMAG * hashimag;
+            //    if (combined == (Py_uhash_t)-1)
+            //        combined = (Py_uhash_t)-2;
+            //    return (Py_hash_t)combined;
+            size_t hashreal, hashimag, combined;
+            hashreal = std::hash<double>{}(item.real());
+            if (hashreal == (size_t) -1) {
+                return -1;
+            }
+            hashimag = std::hash<double>{}(item.imag());
+            if (hashimag == (size_t) -1) {
+                return -1;
+            }
+            combined = hashreal + 1000003UL * hashimag;
+            if (combined == (size_t) -1) {
+                combined = (size_t) -2;
+            }
+            return combined;
         }
     };
 }

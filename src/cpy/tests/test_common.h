@@ -27,6 +27,21 @@
         test_results.push_back(TestResult(std::string(__FUNCTION__) + type, result, exec_time, 1, size)); \
     } while (0)
 
+#define REPORT_TEST_OUTPUT_WITH_TYPE \
+    do {                   \
+        std::ostringstream title; \
+        title << __FUNCTION__  << '<' << type << ">():" << "[" << size << "]"; \
+        if (result) { \
+            std::cout << "    FAIL: " << title.str() << std::endl; \
+            std::cout << result << std::endl; \
+            PyErr_Print(); \
+            PyErr_Clear(); \
+        } else { \
+            std::cout << "      OK: " << title.str() << std::endl; \
+        }                  \
+        test_results.push_back(TestResult(title.str(), result, exec_time, 1, size)); \
+    } while (0)
+
 #define REPORT_TEST_OUTPUT_WITH_STRING_LENGTH \
     do {                              \
         std::ostringstream title; \
@@ -45,6 +60,13 @@
     do {                   \
         std::ostringstream title; \
         title << __FUNCTION__  << "():" << "[" << size << "]"; \
+        test_results.push_back(TestResult(title.str(), result, exec_time, 1, size)); \
+    } while (0)
+
+#define REPORT_TEST_OUTPUT_WITH_TYPE \
+    do {                   \
+        std::ostringstream title; \
+        title << __FUNCTION__  << '<' << type << ">():" << "[" << size << "]"; \
         test_results.push_back(TestResult(title.str(), result, exec_time, 1, size)); \
     } while (0)
 
@@ -154,6 +176,10 @@ compare_tuple<double>(const std::vector<double> &cpp_vector, PyObject *op);
 
 template <>
 int
+compare_tuple<std::complex<double>>(const std::vector<std::complex<double>> &cpp_vector, PyObject *op);
+
+template <>
+int
 compare_tuple<std::vector<char>>(const std::vector<std::vector<char>> &cpp_vector, PyObject *op);
 
 template <>
@@ -199,6 +225,10 @@ compare_list<long>(const std::vector<long> &cpp_vector, PyObject *op);
 template <>
 int
 compare_list<double>(const std::vector<double> &cpp_vector, PyObject *op);
+
+template <>
+int
+compare_list<std::complex<double>>(const std::vector<std::complex<double>> &cpp_vector, PyObject *op);
 
 template <>
 int
@@ -408,7 +438,7 @@ int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, 
         }
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT;
+    REPORT_TEST_OUTPUT_WITH_TYPE;
     return result;
 }
 
@@ -441,7 +471,7 @@ int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, 
         }
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT;
+    REPORT_TEST_OUTPUT_WITH_TYPE;
     return result;
 }
 
@@ -470,7 +500,7 @@ int test_vector_to_py_tuple_round_trip(TestResultS &test_results, const std::str
     } else {
         result |= 1 << 2;
     }
-    REPORT_TEST_OUTPUT;
+    REPORT_TEST_OUTPUT_WITH_TYPE;
     return result;
 }
 
@@ -511,7 +541,7 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
         }
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT;
+    REPORT_TEST_OUTPUT_WITH_TYPE;
     return result;
 }
 
@@ -537,7 +567,7 @@ int test_vector_to_py_list(TestResultS &test_results, const std::string &type, s
         }
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT;
+    REPORT_TEST_OUTPUT_WITH_TYPE;
     return result;
 }
 
@@ -570,7 +600,7 @@ int test_py_list_to_vector(TestResultS &test_results, const std::string &type, s
         }
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT;
+    REPORT_TEST_OUTPUT_WITH_TYPE;
     return result;
 }
 
@@ -599,7 +629,7 @@ int test_vector_to_py_list_round_trip(TestResultS &test_results, const std::stri
     } else {
         result |= 1 << 2;
     }
-    REPORT_TEST_OUTPUT;
+    REPORT_TEST_OUTPUT_WITH_TYPE;
     return result;
 }
 
@@ -640,7 +670,7 @@ int test_py_list_to_vector_round_trip(TestResultS &test_results, const std::stri
         }
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT;
+    REPORT_TEST_OUTPUT_WITH_TYPE;
     return result;
 }
 
@@ -666,7 +696,7 @@ int test_unordered_set_to_py_set(TestResultS &test_results, const std::string &t
         }
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT;
+    REPORT_TEST_OUTPUT_WITH_TYPE;
     return result;
 }
 
@@ -699,7 +729,7 @@ int test_py_set_to_unordered_set(TestResultS &test_results, const std::string &t
         }
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT;
+    REPORT_TEST_OUTPUT_WITH_TYPE;
     return result;
 }
 
@@ -735,7 +765,7 @@ int test_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::
         }
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT;
+    REPORT_TEST_OUTPUT_WITH_TYPE;
     return result;
 }
 
@@ -811,11 +841,11 @@ int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::
         }
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT;
+    REPORT_TEST_OUTPUT_WITH_TYPE;
     return result;
 }
 
-#pragma mark Creation of new containers populated with bytes.
+#pragma mark Creation of new containers populated with bytes or strings.
 
 PyObject *
 new_py_tuple_bytes(size_t size, size_t str_len);

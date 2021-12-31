@@ -9,6 +9,7 @@
 // tuple <-> std::vector<bool>
 // tuple <-> std::vector<long>
 // tuple <-> std::vector<double>
+// tuple <-> std::vector<std::complex<double>>
 // tuple <-> std::vector<std::vector<char>>
 // tuple <-> std::vector<std::string>
 // 
@@ -16,6 +17,7 @@
 // list <-> std::vector<bool>
 // list <-> std::vector<long>
 // list <-> std::vector<double>
+// list <-> std::vector<std::complex<double>>
 // list <-> std::vector<std::vector<char>>
 // list <-> std::vector<std::string>
 // 
@@ -23,6 +25,7 @@
 // set <-> std::unordered_set<bool>
 // set <-> std::unordered_set<long>
 // set <-> std::unordered_set<double>
+// set <-> std::unordered_set<std::complex<double>>
 // set <-> std::unordered_set<std::vector<char>>
 // set <-> std::unordered_set<std::string>
 // 
@@ -30,6 +33,7 @@
 // frozenset <-> std::unordered_set<bool>
 // frozenset <-> std::unordered_set<long>
 // frozenset <-> std::unordered_set<double>
+// frozenset <-> std::unordered_set<std::complex<double>>
 // frozenset <-> std::unordered_set<std::vector<char>>
 // frozenset <-> std::unordered_set<std::string>
 // 
@@ -38,26 +42,37 @@
 // dict <-> std::unordered_map<bool, bool>
 // dict <-> std::unordered_map<bool, long>
 // dict <-> std::unordered_map<bool, double>
+// dict <-> std::unordered_map<bool, std::complex<double>>
 // dict <-> std::unordered_map<bool, std::vector<char>>
 // dict <-> std::unordered_map<bool, std::string>
 // dict <-> std::unordered_map<long, bool>
 // dict <-> std::unordered_map<long, long>
 // dict <-> std::unordered_map<long, double>
+// dict <-> std::unordered_map<long, std::complex<double>>
 // dict <-> std::unordered_map<long, std::vector<char>>
 // dict <-> std::unordered_map<long, std::string>
 // dict <-> std::unordered_map<double, bool>
 // dict <-> std::unordered_map<double, long>
 // dict <-> std::unordered_map<double, double>
+// dict <-> std::unordered_map<double, std::complex<double>>
 // dict <-> std::unordered_map<double, std::vector<char>>
 // dict <-> std::unordered_map<double, std::string>
+// dict <-> std::unordered_map<std::complex<double>, bool>
+// dict <-> std::unordered_map<std::complex<double>, long>
+// dict <-> std::unordered_map<std::complex<double>, double>
+// dict <-> std::unordered_map<std::complex<double>, std::complex<double>>
+// dict <-> std::unordered_map<std::complex<double>, std::vector<char>>
+// dict <-> std::unordered_map<std::complex<double>, std::string>
 // dict <-> std::unordered_map<std::vector<char>, bool>
 // dict <-> std::unordered_map<std::vector<char>, long>
 // dict <-> std::unordered_map<std::vector<char>, double>
+// dict <-> std::unordered_map<std::vector<char>, std::complex<double>>
 // dict <-> std::unordered_map<std::vector<char>, std::vector<char>>
 // dict <-> std::unordered_map<std::vector<char>, std::string>
 // dict <-> std::unordered_map<std::string, bool>
 // dict <-> std::unordered_map<std::string, long>
 // dict <-> std::unordered_map<std::string, double>
+// dict <-> std::unordered_map<std::string, std::complex<double>>
 // dict <-> std::unordered_map<std::string, std::vector<char>>
 // dict <-> std::unordered_map<std::string, std::string>
 // 
@@ -111,6 +126,16 @@ cpp_std_vector_to_py_tuple<long>(const std::vector<long> &container);
 template <>
 PyObject *
 cpp_std_vector_to_py_tuple<double>(const std::vector<double> &container);
+
+/**
+ * Instantiation for converting C++ std::vector<std::complex<double>> to a Python tuple of complex.
+ *
+ * @param container C++ input as a std::vector<std::complex<double>>.
+ * @return A Python tuple containing complex objects.
+ */
+template <>
+PyObject *
+cpp_std_vector_to_py_tuple<std::complex<double>>(const std::vector<std::complex<double>> &container);
 
 /**
  * Instantiation for converting C++ std::vector<std::vector<char>> to a Python tuple of bytes.
@@ -183,6 +208,17 @@ int
 py_tuple_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container);
 
 /**
+ * Instantiation for converting a Python tuple of complex to a C++ std::vector<std::complex<double>>.
+ *
+ * @param op Python input as a tuple of complex.
+ * @param container C++ output as a std::vector<std::complex<double>>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_tuple_to_cpp_std_vector<std::complex<double>>(PyObject *op, std::vector<std::complex<double>> &container);
+
+/**
  * Instantiation for converting a Python tuple of bytes to a C++ std::vector<std::vector<char>>.
  *
  * @param op Python input as a tuple of bytes.
@@ -249,6 +285,16 @@ cpp_std_vector_to_py_list<long>(const std::vector<long> &container);
 template <>
 PyObject *
 cpp_std_vector_to_py_list<double>(const std::vector<double> &container);
+
+/**
+ * Instantiation for converting C++ std::vector<std::complex<double>> to a Python list of complex.
+ *
+ * @param container C++ input as a std::vector<std::complex<double>>.
+ * @return A Python list containing complex objects.
+ */
+template <>
+PyObject *
+cpp_std_vector_to_py_list<std::complex<double>>(const std::vector<std::complex<double>> &container);
 
 /**
  * Instantiation for converting C++ std::vector<std::vector<char>> to a Python list of bytes.
@@ -321,6 +367,17 @@ int
 py_list_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container);
 
 /**
+ * Instantiation for converting a Python list of complex to a C++ std::vector<std::complex<double>>.
+ *
+ * @param op Python input as a list of complex.
+ * @param container C++ output as a std::vector<std::complex<double>>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_list_to_cpp_std_vector<std::complex<double>>(PyObject *op, std::vector<std::complex<double>> &container);
+
+/**
  * Instantiation for converting a Python list of bytes to a C++ std::vector<std::vector<char>>.
  *
  * @param op Python input as a list of bytes.
@@ -387,6 +444,16 @@ cpp_std_unordered_set_to_py_set<long>(const std::unordered_set<long> &container)
 template <>
 PyObject *
 cpp_std_unordered_set_to_py_set<double>(const std::unordered_set<double> &container);
+
+/**
+ * Instantiation for converting C++ std::unordered_set<std::complex<double>> to a Python set of complex.
+ *
+ * @param container C++ input as a std::unordered_set<std::complex<double>>.
+ * @return A Python set containing complex objects.
+ */
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_set<std::complex<double>>(const std::unordered_set<std::complex<double>> &container);
 
 /**
  * Instantiation for converting C++ std::unordered_set<std::vector<char>> to a Python set of bytes.
@@ -459,6 +526,17 @@ int
 py_set_to_cpp_std_unordered_set<double>(PyObject *op, std::unordered_set<double> &container);
 
 /**
+ * Instantiation for converting a Python set of complex to a C++ std::unordered_set<std::complex<double>>.
+ *
+ * @param op Python input as a set of complex.
+ * @param container C++ output as a std::unordered_set<std::complex<double>>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_set_to_cpp_std_unordered_set<std::complex<double>>(PyObject *op, std::unordered_set<std::complex<double>> &container);
+
+/**
  * Instantiation for converting a Python set of bytes to a C++ std::unordered_set<std::vector<char>>.
  *
  * @param op Python input as a set of bytes.
@@ -525,6 +603,16 @@ cpp_std_unordered_set_to_py_frozenset<long>(const std::unordered_set<long> &cont
 template <>
 PyObject *
 cpp_std_unordered_set_to_py_frozenset<double>(const std::unordered_set<double> &container);
+
+/**
+ * Instantiation for converting C++ std::unordered_set<std::complex<double>> to a Python frozenset of complex.
+ *
+ * @param container C++ input as a std::unordered_set<std::complex<double>>.
+ * @return A Python frozenset containing complex objects.
+ */
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_frozenset<std::complex<double>>(const std::unordered_set<std::complex<double>> &container);
 
 /**
  * Instantiation for converting C++ std::unordered_set<std::vector<char>> to a Python frozenset of bytes.
@@ -595,6 +683,17 @@ py_frozenset_to_cpp_std_unordered_set<long>(PyObject *op, std::unordered_set<lon
 template <>
 int
 py_frozenset_to_cpp_std_unordered_set<double>(PyObject *op, std::unordered_set<double> &container);
+
+/**
+ * Instantiation for converting a Python frozenset of complex to a C++ std::unordered_set<std::complex<double>>.
+ *
+ * @param op Python input as a frozenset of complex.
+ * @param container C++ output as a std::unordered_set<std::complex<double>>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_frozenset_to_cpp_std_unordered_set<std::complex<double>>(PyObject *op, std::unordered_set<std::complex<double>> &container);
 
 /**
  * Instantiation for converting a Python frozenset of bytes to a C++ std::unordered_set<std::vector<char>>.
@@ -669,6 +768,16 @@ PyObject *
 cpp_std_unordered_map_to_py_dict<bool, double>(const std::unordered_map<bool, double> &map);
 
 /**
+ * Instantiation for converting a C++ std::unordered_map<bool, std::complex<double>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<bool, std::complex<double>>.
+ * @return A Python dictionary of {bool : complex, ...}.
+ */
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<bool, std::complex<double>>(const std::unordered_map<bool, std::complex<double>> &map);
+
+/**
  * Instantiation for converting a C++ std::unordered_map<bool, std::vector<char>> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<bool, std::vector<char>>.
@@ -717,6 +826,16 @@ cpp_std_unordered_map_to_py_dict<long, long>(const std::unordered_map<long, long
 template <>
 PyObject *
 cpp_std_unordered_map_to_py_dict<long, double>(const std::unordered_map<long, double> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<long, std::complex<double>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<long, std::complex<double>>.
+ * @return A Python dictionary of {int : complex, ...}.
+ */
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<long, std::complex<double>>(const std::unordered_map<long, std::complex<double>> &map);
 
 /**
  * Instantiation for converting a C++ std::unordered_map<long, std::vector<char>> to a Python dictionary.
@@ -769,6 +888,16 @@ PyObject *
 cpp_std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double, double> &map);
 
 /**
+ * Instantiation for converting a C++ std::unordered_map<double, std::complex<double>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<double, std::complex<double>>.
+ * @return A Python dictionary of {float : complex, ...}.
+ */
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<double, std::complex<double>>(const std::unordered_map<double, std::complex<double>> &map);
+
+/**
  * Instantiation for converting a C++ std::unordered_map<double, std::vector<char>> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<double, std::vector<char>>.
@@ -787,6 +916,66 @@ cpp_std_unordered_map_to_py_dict<double, std::vector<char>>(const std::unordered
 template <>
 PyObject *
 cpp_std_unordered_map_to_py_dict<double, std::string>(const std::unordered_map<double, std::string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::complex<double>, bool> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::complex<double>, bool>.
+ * @return A Python dictionary of {complex : bool, ...}.
+ */
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::complex<double>, bool>(const std::unordered_map<std::complex<double>, bool> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::complex<double>, long> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::complex<double>, long>.
+ * @return A Python dictionary of {complex : int, ...}.
+ */
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::complex<double>, long>(const std::unordered_map<std::complex<double>, long> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::complex<double>, double> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::complex<double>, double>.
+ * @return A Python dictionary of {complex : float, ...}.
+ */
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::complex<double>, double>(const std::unordered_map<std::complex<double>, double> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::complex<double>, std::complex<double>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::complex<double>, std::complex<double>>.
+ * @return A Python dictionary of {complex : complex, ...}.
+ */
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::complex<double>, std::complex<double>>(const std::unordered_map<std::complex<double>, std::complex<double>> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::complex<double>, std::vector<char>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::complex<double>, std::vector<char>>.
+ * @return A Python dictionary of {complex : bytes, ...}.
+ */
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::complex<double>, std::vector<char>>(const std::unordered_map<std::complex<double>, std::vector<char>> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::complex<double>, std::string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::complex<double>, std::string>.
+ * @return A Python dictionary of {complex : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::complex<double>, std::string>(const std::unordered_map<std::complex<double>, std::string> &map);
 
 /**
  * Instantiation for converting a C++ std::unordered_map<std::vector<char>, bool> to a Python dictionary.
@@ -817,6 +1006,16 @@ cpp_std_unordered_map_to_py_dict<std::vector<char>, long>(const std::unordered_m
 template <>
 PyObject *
 cpp_std_unordered_map_to_py_dict<std::vector<char>, double>(const std::unordered_map<std::vector<char>, double> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::vector<char>, std::complex<double>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::vector<char>, std::complex<double>>.
+ * @return A Python dictionary of {bytes : complex, ...}.
+ */
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::vector<char>, std::complex<double>>(const std::unordered_map<std::vector<char>, std::complex<double>> &map);
 
 /**
  * Instantiation for converting a C++ std::unordered_map<std::vector<char>, std::vector<char>> to a Python dictionary.
@@ -867,6 +1066,16 @@ cpp_std_unordered_map_to_py_dict<std::string, long>(const std::unordered_map<std
 template <>
 PyObject *
 cpp_std_unordered_map_to_py_dict<std::string, double>(const std::unordered_map<std::string, double> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::string, std::complex<double>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::string, std::complex<double>>.
+ * @return A Python dictionary of {str : complex, ...}.
+ */
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::string, std::complex<double>>(const std::unordered_map<std::string, std::complex<double>> &map);
 
 /**
  * Instantiation for converting a C++ std::unordered_map<std::string, std::vector<char>> to a Python dictionary.
@@ -940,6 +1149,17 @@ int
 py_dict_to_cpp_std_unordered_map<bool, double>(PyObject* op, std::unordered_map<bool, double> &map);
 
 /**
+ * Instantiation for converting a Python dictionary {bool : complex, ...} to a C++ std::unordered_map<bool, std::complex<double>>.
+ *
+ * @param op A Python dictionary of {bool : complex, ...} as the input.
+ * @param map The C++ std::unordered_map<bool, std::complex<double>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_unordered_map<bool, std::complex<double>>(PyObject* op, std::unordered_map<bool, std::complex<double>> &map);
+
+/**
  * Instantiation for converting a Python dictionary {bool : bytes, ...} to a C++ std::unordered_map<bool, std::vector<char>>.
  *
  * @param op A Python dictionary of {bool : bytes, ...} as the input.
@@ -993,6 +1213,17 @@ py_dict_to_cpp_std_unordered_map<long, long>(PyObject* op, std::unordered_map<lo
 template <>
 int
 py_dict_to_cpp_std_unordered_map<long, double>(PyObject* op, std::unordered_map<long, double> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {int : complex, ...} to a C++ std::unordered_map<long, std::complex<double>>.
+ *
+ * @param op A Python dictionary of {int : complex, ...} as the input.
+ * @param map The C++ std::unordered_map<long, std::complex<double>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_unordered_map<long, std::complex<double>>(PyObject* op, std::unordered_map<long, std::complex<double>> &map);
 
 /**
  * Instantiation for converting a Python dictionary {int : bytes, ...} to a C++ std::unordered_map<long, std::vector<char>>.
@@ -1050,6 +1281,17 @@ int
 py_dict_to_cpp_std_unordered_map<double, double>(PyObject* op, std::unordered_map<double, double> &map);
 
 /**
+ * Instantiation for converting a Python dictionary {float : complex, ...} to a C++ std::unordered_map<double, std::complex<double>>.
+ *
+ * @param op A Python dictionary of {float : complex, ...} as the input.
+ * @param map The C++ std::unordered_map<double, std::complex<double>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_unordered_map<double, std::complex<double>>(PyObject* op, std::unordered_map<double, std::complex<double>> &map);
+
+/**
  * Instantiation for converting a Python dictionary {float : bytes, ...} to a C++ std::unordered_map<double, std::vector<char>>.
  *
  * @param op A Python dictionary of {float : bytes, ...} as the input.
@@ -1070,6 +1312,72 @@ py_dict_to_cpp_std_unordered_map<double, std::vector<char>>(PyObject* op, std::u
 template <>
 int
 py_dict_to_cpp_std_unordered_map<double, std::string>(PyObject* op, std::unordered_map<double, std::string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {complex : bool, ...} to a C++ std::unordered_map<std::complex<double>, bool>.
+ *
+ * @param op A Python dictionary of {complex : bool, ...} as the input.
+ * @param map The C++ std::unordered_map<std::complex<double>, bool> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::complex<double>, bool>(PyObject* op, std::unordered_map<std::complex<double>, bool> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {complex : int, ...} to a C++ std::unordered_map<std::complex<double>, long>.
+ *
+ * @param op A Python dictionary of {complex : int, ...} as the input.
+ * @param map The C++ std::unordered_map<std::complex<double>, long> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::complex<double>, long>(PyObject* op, std::unordered_map<std::complex<double>, long> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {complex : float, ...} to a C++ std::unordered_map<std::complex<double>, double>.
+ *
+ * @param op A Python dictionary of {complex : float, ...} as the input.
+ * @param map The C++ std::unordered_map<std::complex<double>, double> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::complex<double>, double>(PyObject* op, std::unordered_map<std::complex<double>, double> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {complex : complex, ...} to a C++ std::unordered_map<std::complex<double>, std::complex<double>>.
+ *
+ * @param op A Python dictionary of {complex : complex, ...} as the input.
+ * @param map The C++ std::unordered_map<std::complex<double>, std::complex<double>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::complex<double>, std::complex<double>>(PyObject* op, std::unordered_map<std::complex<double>, std::complex<double>> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {complex : bytes, ...} to a C++ std::unordered_map<std::complex<double>, std::vector<char>>.
+ *
+ * @param op A Python dictionary of {complex : bytes, ...} as the input.
+ * @param map The C++ std::unordered_map<std::complex<double>, std::vector<char>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::complex<double>, std::vector<char>>(PyObject* op, std::unordered_map<std::complex<double>, std::vector<char>> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {complex : str, ...} to a C++ std::unordered_map<std::complex<double>, std::string>.
+ *
+ * @param op A Python dictionary of {complex : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::complex<double>, std::string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::complex<double>, std::string>(PyObject* op, std::unordered_map<std::complex<double>, std::string> &map);
 
 /**
  * Instantiation for converting a Python dictionary {bytes : bool, ...} to a C++ std::unordered_map<std::vector<char>, bool>.
@@ -1103,6 +1411,17 @@ py_dict_to_cpp_std_unordered_map<std::vector<char>, long>(PyObject* op, std::uno
 template <>
 int
 py_dict_to_cpp_std_unordered_map<std::vector<char>, double>(PyObject* op, std::unordered_map<std::vector<char>, double> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {bytes : complex, ...} to a C++ std::unordered_map<std::vector<char>, std::complex<double>>.
+ *
+ * @param op A Python dictionary of {bytes : complex, ...} as the input.
+ * @param map The C++ std::unordered_map<std::vector<char>, std::complex<double>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::vector<char>, std::complex<double>>(PyObject* op, std::unordered_map<std::vector<char>, std::complex<double>> &map);
 
 /**
  * Instantiation for converting a Python dictionary {bytes : bytes, ...} to a C++ std::unordered_map<std::vector<char>, std::vector<char>>.
@@ -1160,6 +1479,17 @@ int
 py_dict_to_cpp_std_unordered_map<std::string, double>(PyObject* op, std::unordered_map<std::string, double> &map);
 
 /**
+ * Instantiation for converting a Python dictionary {str : complex, ...} to a C++ std::unordered_map<std::string, std::complex<double>>.
+ *
+ * @param op A Python dictionary of {str : complex, ...} as the input.
+ * @param map The C++ std::unordered_map<std::string, std::complex<double>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::string, std::complex<double>>(PyObject* op, std::unordered_map<std::string, std::complex<double>> &map);
+
+/**
  * Instantiation for converting a Python dictionary {str : bytes, ...} to a C++ std::unordered_map<std::string, std::vector<char>>.
  *
  * @param op A Python dictionary of {str : bytes, ...} as the input.
@@ -1185,7 +1515,7 @@ py_dict_to_cpp_std_unordered_map<std::string, std::string>(PyObject* op, std::un
 
 //**************** END: std::unordered_map <-> Python dict ****************
 
-// Declarations written: 92
+// Declarations written: 122
 //#########################################################################
 //#### END: Auto-generated code - do not edit. Seriously, do NOT edit. ####
 //#########################################################################

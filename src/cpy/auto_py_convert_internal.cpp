@@ -9,6 +9,7 @@
 // tuple <-> std::vector<bool>
 // tuple <-> std::vector<long>
 // tuple <-> std::vector<double>
+// tuple <-> std::vector<std::complex<double>>
 // tuple <-> std::vector<std::vector<char>>
 // tuple <-> std::vector<std::string>
 // 
@@ -16,6 +17,7 @@
 // list <-> std::vector<bool>
 // list <-> std::vector<long>
 // list <-> std::vector<double>
+// list <-> std::vector<std::complex<double>>
 // list <-> std::vector<std::vector<char>>
 // list <-> std::vector<std::string>
 // 
@@ -23,6 +25,7 @@
 // set <-> std::unordered_set<bool>
 // set <-> std::unordered_set<long>
 // set <-> std::unordered_set<double>
+// set <-> std::unordered_set<std::complex<double>>
 // set <-> std::unordered_set<std::vector<char>>
 // set <-> std::unordered_set<std::string>
 // 
@@ -30,6 +33,7 @@
 // frozenset <-> std::unordered_set<bool>
 // frozenset <-> std::unordered_set<long>
 // frozenset <-> std::unordered_set<double>
+// frozenset <-> std::unordered_set<std::complex<double>>
 // frozenset <-> std::unordered_set<std::vector<char>>
 // frozenset <-> std::unordered_set<std::string>
 // 
@@ -38,26 +42,37 @@
 // dict <-> std::unordered_map<bool, bool>
 // dict <-> std::unordered_map<bool, long>
 // dict <-> std::unordered_map<bool, double>
+// dict <-> std::unordered_map<bool, std::complex<double>>
 // dict <-> std::unordered_map<bool, std::vector<char>>
 // dict <-> std::unordered_map<bool, std::string>
 // dict <-> std::unordered_map<long, bool>
 // dict <-> std::unordered_map<long, long>
 // dict <-> std::unordered_map<long, double>
+// dict <-> std::unordered_map<long, std::complex<double>>
 // dict <-> std::unordered_map<long, std::vector<char>>
 // dict <-> std::unordered_map<long, std::string>
 // dict <-> std::unordered_map<double, bool>
 // dict <-> std::unordered_map<double, long>
 // dict <-> std::unordered_map<double, double>
+// dict <-> std::unordered_map<double, std::complex<double>>
 // dict <-> std::unordered_map<double, std::vector<char>>
 // dict <-> std::unordered_map<double, std::string>
+// dict <-> std::unordered_map<std::complex<double>, bool>
+// dict <-> std::unordered_map<std::complex<double>, long>
+// dict <-> std::unordered_map<std::complex<double>, double>
+// dict <-> std::unordered_map<std::complex<double>, std::complex<double>>
+// dict <-> std::unordered_map<std::complex<double>, std::vector<char>>
+// dict <-> std::unordered_map<std::complex<double>, std::string>
 // dict <-> std::unordered_map<std::vector<char>, bool>
 // dict <-> std::unordered_map<std::vector<char>, long>
 // dict <-> std::unordered_map<std::vector<char>, double>
+// dict <-> std::unordered_map<std::vector<char>, std::complex<double>>
 // dict <-> std::unordered_map<std::vector<char>, std::vector<char>>
 // dict <-> std::unordered_map<std::vector<char>, std::string>
 // dict <-> std::unordered_map<std::string, bool>
 // dict <-> std::unordered_map<std::string, long>
 // dict <-> std::unordered_map<std::string, double>
+// dict <-> std::unordered_map<std::string, std::complex<double>>
 // dict <-> std::unordered_map<std::string, std::vector<char>>
 // dict <-> std::unordered_map<std::string, std::string>
 // 
@@ -83,6 +98,12 @@ template <>
 PyObject *
 cpp_std_vector_to_py_tuple<double>(const std::vector<double> &container) {
     return generic_cpp_std_vector_to_py_tuple<double, &cpp_double_to_py_float>(container);
+}
+
+template <>
+PyObject *
+cpp_std_vector_to_py_tuple<std::complex<double>>(const std::vector<std::complex<double>> &container) {
+    return generic_cpp_std_vector_to_py_tuple<std::complex<double>, &cpp_complex_to_py_complex>(container);
 }
 
 template <>
@@ -120,6 +141,12 @@ py_tuple_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container)
 
 template <>
 int
+py_tuple_to_cpp_std_vector<std::complex<double>>(PyObject *op, std::vector<std::complex<double>> &container) {
+    return generic_py_tuple_to_cpp_std_vector<std::complex<double>, &py_complex_check, &py_complex_to_cpp_complex>(op, container);
+}
+
+template <>
+int
 py_tuple_to_cpp_std_vector<std::vector<char>>(PyObject *op, std::vector<std::vector<char>> &container) {
     return generic_py_tuple_to_cpp_std_vector<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
 }
@@ -149,6 +176,12 @@ template <>
 PyObject *
 cpp_std_vector_to_py_list<double>(const std::vector<double> &container) {
     return generic_cpp_std_vector_to_py_list<double, &cpp_double_to_py_float>(container);
+}
+
+template <>
+PyObject *
+cpp_std_vector_to_py_list<std::complex<double>>(const std::vector<std::complex<double>> &container) {
+    return generic_cpp_std_vector_to_py_list<std::complex<double>, &cpp_complex_to_py_complex>(container);
 }
 
 template <>
@@ -186,6 +219,12 @@ py_list_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container) 
 
 template <>
 int
+py_list_to_cpp_std_vector<std::complex<double>>(PyObject *op, std::vector<std::complex<double>> &container) {
+    return generic_py_list_to_cpp_std_vector<std::complex<double>, &py_complex_check, &py_complex_to_cpp_complex>(op, container);
+}
+
+template <>
+int
 py_list_to_cpp_std_vector<std::vector<char>>(PyObject *op, std::vector<std::vector<char>> &container) {
     return generic_py_list_to_cpp_std_vector<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
 }
@@ -215,6 +254,12 @@ template <>
 PyObject *
 cpp_std_unordered_set_to_py_set<double>(const std::unordered_set<double> &container) {
     return generic_cpp_std_unordered_set_to_py_set<double, &cpp_double_to_py_float>(container);
+}
+
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_set<std::complex<double>>(const std::unordered_set<std::complex<double>> &container) {
+    return generic_cpp_std_unordered_set_to_py_set<std::complex<double>, &cpp_complex_to_py_complex>(container);
 }
 
 template <>
@@ -252,6 +297,12 @@ py_set_to_cpp_std_unordered_set<double>(PyObject *op, std::unordered_set<double>
 
 template <>
 int
+py_set_to_cpp_std_unordered_set<std::complex<double>>(PyObject *op, std::unordered_set<std::complex<double>> &container) {
+    return generic_py_set_to_cpp_std_unordered_set<std::complex<double>, &py_complex_check, &py_complex_to_cpp_complex>(op, container);
+}
+
+template <>
+int
 py_set_to_cpp_std_unordered_set<std::vector<char>>(PyObject *op, std::unordered_set<std::vector<char>> &container) {
     return generic_py_set_to_cpp_std_unordered_set<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
 }
@@ -285,6 +336,12 @@ cpp_std_unordered_set_to_py_frozenset<double>(const std::unordered_set<double> &
 
 template <>
 PyObject *
+cpp_std_unordered_set_to_py_frozenset<std::complex<double>>(const std::unordered_set<std::complex<double>> &container) {
+    return generic_cpp_std_unordered_set_to_py_frozenset<std::complex<double>, &cpp_complex_to_py_complex>(container);
+}
+
+template <>
+PyObject *
 cpp_std_unordered_set_to_py_frozenset<std::vector<char>>(const std::unordered_set<std::vector<char>> &container) {
     return generic_cpp_std_unordered_set_to_py_frozenset<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
 }
@@ -314,6 +371,12 @@ template <>
 int
 py_frozenset_to_cpp_std_unordered_set<double>(PyObject *op, std::unordered_set<double> &container) {
     return generic_py_frozenset_to_cpp_std_unordered_set<double, &py_float_check, &py_float_to_cpp_double>(op, container);
+}
+
+template <>
+int
+py_frozenset_to_cpp_std_unordered_set<std::complex<double>>(PyObject *op, std::unordered_set<std::complex<double>> &container) {
+    return generic_py_frozenset_to_cpp_std_unordered_set<std::complex<double>, &py_complex_check, &py_complex_to_cpp_complex>(op, container);
 }
 
 template <>
@@ -399,6 +462,29 @@ py_dict_to_cpp_std_unordered_map<bool, double>(PyObject* op, std::unordered_map<
         bool, double,
         &py_bool_check, &py_float_check,
         &py_bool_to_cpp_bool, &py_float_to_cpp_double
+    >(op, map);
+}
+
+//------- Converts a std::unordered_map<bool, std::complex<double>> -------
+//------- to a Python dict of { bool : std::complex<double>, ...}    ------
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<bool, std::complex<double>>(const std::unordered_map<bool, std::complex<double>> &map) {
+    return generic_cpp_std_unordered_map_to_py_dict<
+        bool, std::complex<double>,
+        &cpp_bool_to_py_bool, &cpp_complex_to_py_complex
+    >(map);
+}
+
+//------ Converts a Python dict of {bool : std::complex<double>, ...} -----
+//---------- to a std::unordered_map<bool, std::complex<double>> ----------
+template <>
+int
+py_dict_to_cpp_std_unordered_map<bool, std::complex<double>>(PyObject* op, std::unordered_map<bool, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_unordered_map<
+        bool, std::complex<double>,
+        &py_bool_check, &py_complex_check,
+        &py_bool_to_cpp_bool, &py_complex_to_cpp_complex
     >(op, map);
 }
 
@@ -517,6 +603,29 @@ py_dict_to_cpp_std_unordered_map<long, double>(PyObject* op, std::unordered_map<
     >(op, map);
 }
 
+//------- Converts a std::unordered_map<long, std::complex<double>> -------
+//------- to a Python dict of { long : std::complex<double>, ...}    ------
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<long, std::complex<double>>(const std::unordered_map<long, std::complex<double>> &map) {
+    return generic_cpp_std_unordered_map_to_py_dict<
+        long, std::complex<double>,
+        &cpp_long_to_py_long, &cpp_complex_to_py_complex
+    >(map);
+}
+
+//------ Converts a Python dict of {long : std::complex<double>, ...} -----
+//---------- to a std::unordered_map<long, std::complex<double>> ----------
+template <>
+int
+py_dict_to_cpp_std_unordered_map<long, std::complex<double>>(PyObject* op, std::unordered_map<long, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_unordered_map<
+        long, std::complex<double>,
+        &py_long_check, &py_complex_check,
+        &py_long_to_cpp_long, &py_complex_to_cpp_complex
+    >(op, map);
+}
+
 //--------- Converts a std::unordered_map<long, std::vector<char>> --------
 //-------- to a Python dict of { long : std::vector<char>, ...}    --------
 template <>
@@ -632,6 +741,29 @@ py_dict_to_cpp_std_unordered_map<double, double>(PyObject* op, std::unordered_ma
     >(op, map);
 }
 
+//------ Converts a std::unordered_map<double, std::complex<double>> ------
+//------ to a Python dict of { double : std::complex<double>, ...}    -----
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<double, std::complex<double>>(const std::unordered_map<double, std::complex<double>> &map) {
+    return generic_cpp_std_unordered_map_to_py_dict<
+        double, std::complex<double>,
+        &cpp_double_to_py_float, &cpp_complex_to_py_complex
+    >(map);
+}
+
+//----- Converts a Python dict of {double : std::complex<double>, ...} ----
+//--------- to a std::unordered_map<double, std::complex<double>> ---------
+template <>
+int
+py_dict_to_cpp_std_unordered_map<double, std::complex<double>>(PyObject* op, std::unordered_map<double, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_unordered_map<
+        double, std::complex<double>,
+        &py_float_check, &py_complex_check,
+        &py_float_to_cpp_double, &py_complex_to_cpp_complex
+    >(op, map);
+}
+
 //-------- Converts a std::unordered_map<double, std::vector<char>> -------
 //------- to a Python dict of { double : std::vector<char>, ...}    -------
 template <>
@@ -675,6 +807,144 @@ py_dict_to_cpp_std_unordered_map<double, std::string>(PyObject* op, std::unorder
         double, std::string,
         &py_float_check, &py_unicode_check,
         &py_float_to_cpp_double, &py_unicode_to_cpp_string
+    >(op, map);
+}
+
+//------- Converts a std::unordered_map<std::complex<double>, bool> -------
+//------- to a Python dict of { std::complex<double> : bool, ...}    ------
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::complex<double>, bool>(const std::unordered_map<std::complex<double>, bool> &map) {
+    return generic_cpp_std_unordered_map_to_py_dict<
+        std::complex<double>, bool,
+        &cpp_complex_to_py_complex, &cpp_bool_to_py_bool
+    >(map);
+}
+
+//------ Converts a Python dict of {std::complex<double> : bool, ...} -----
+//---------- to a std::unordered_map<std::complex<double>, bool> ----------
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::complex<double>, bool>(PyObject* op, std::unordered_map<std::complex<double>, bool> &map) {
+    return generic_py_dict_to_cpp_std_unordered_map<
+        std::complex<double>, bool,
+        &py_complex_check, &py_bool_check,
+        &py_complex_to_cpp_complex, &py_bool_to_cpp_bool
+    >(op, map);
+}
+
+//------- Converts a std::unordered_map<std::complex<double>, long> -------
+//------- to a Python dict of { std::complex<double> : long, ...}    ------
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::complex<double>, long>(const std::unordered_map<std::complex<double>, long> &map) {
+    return generic_cpp_std_unordered_map_to_py_dict<
+        std::complex<double>, long,
+        &cpp_complex_to_py_complex, &cpp_long_to_py_long
+    >(map);
+}
+
+//------ Converts a Python dict of {std::complex<double> : long, ...} -----
+//---------- to a std::unordered_map<std::complex<double>, long> ----------
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::complex<double>, long>(PyObject* op, std::unordered_map<std::complex<double>, long> &map) {
+    return generic_py_dict_to_cpp_std_unordered_map<
+        std::complex<double>, long,
+        &py_complex_check, &py_long_check,
+        &py_complex_to_cpp_complex, &py_long_to_cpp_long
+    >(op, map);
+}
+
+//------ Converts a std::unordered_map<std::complex<double>, double> ------
+//------ to a Python dict of { std::complex<double> : double, ...}    -----
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::complex<double>, double>(const std::unordered_map<std::complex<double>, double> &map) {
+    return generic_cpp_std_unordered_map_to_py_dict<
+        std::complex<double>, double,
+        &cpp_complex_to_py_complex, &cpp_double_to_py_float
+    >(map);
+}
+
+//----- Converts a Python dict of {std::complex<double> : double, ...} ----
+//--------- to a std::unordered_map<std::complex<double>, double> ---------
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::complex<double>, double>(PyObject* op, std::unordered_map<std::complex<double>, double> &map) {
+    return generic_py_dict_to_cpp_std_unordered_map<
+        std::complex<double>, double,
+        &py_complex_check, &py_float_check,
+        &py_complex_to_cpp_complex, &py_float_to_cpp_double
+    >(op, map);
+}
+
+// Converts a std::unordered_map<std::complex<double>, std::complex<double>> 
+// to a Python dict of { std::complex<double> : std::complex<double>, ...}    
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::complex<double>, std::complex<double>>(const std::unordered_map<std::complex<double>, std::complex<double>> &map) {
+    return generic_cpp_std_unordered_map_to_py_dict<
+        std::complex<double>, std::complex<double>,
+        &cpp_complex_to_py_complex, &cpp_complex_to_py_complex
+    >(map);
+}
+
+// Converts a Python dict of {std::complex<double> : std::complex<double>, ...} 
+//-- to a std::unordered_map<std::complex<double>, std::complex<double>> --
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::complex<double>, std::complex<double>>(PyObject* op, std::unordered_map<std::complex<double>, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_unordered_map<
+        std::complex<double>, std::complex<double>,
+        &py_complex_check, &py_complex_check,
+        &py_complex_to_cpp_complex, &py_complex_to_cpp_complex
+    >(op, map);
+}
+
+//- Converts a std::unordered_map<std::complex<double>, std::vector<char>> 
+// to a Python dict of { std::complex<double> : std::vector<char>, ...}    
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::complex<double>, std::vector<char>>(const std::unordered_map<std::complex<double>, std::vector<char>> &map) {
+    return generic_cpp_std_unordered_map_to_py_dict<
+        std::complex<double>, std::vector<char>,
+        &cpp_complex_to_py_complex, &cpp_vector_char_to_py_bytes
+    >(map);
+}
+
+// Converts a Python dict of {std::complex<double> : std::vector<char>, ...} 
+//---- to a std::unordered_map<std::complex<double>, std::vector<char>> ---
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::complex<double>, std::vector<char>>(PyObject* op, std::unordered_map<std::complex<double>, std::vector<char>> &map) {
+    return generic_py_dict_to_cpp_std_unordered_map<
+        std::complex<double>, std::vector<char>,
+        &py_complex_check, &py_bytes_check,
+        &py_complex_to_cpp_complex, &py_bytes_to_cpp_vector_char
+    >(op, map);
+}
+
+//---- Converts a std::unordered_map<std::complex<double>, std::string> ---
+//--- to a Python dict of { std::complex<double> : std::string, ...}    ---
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::complex<double>, std::string>(const std::unordered_map<std::complex<double>, std::string> &map) {
+    return generic_cpp_std_unordered_map_to_py_dict<
+        std::complex<double>, std::string,
+        &cpp_complex_to_py_complex, &cpp_string_to_py_unicode
+    >(map);
+}
+
+//-- Converts a Python dict of {std::complex<double> : std::string, ...} --
+//------- to a std::unordered_map<std::complex<double>, std::string> ------
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::complex<double>, std::string>(PyObject* op, std::unordered_map<std::complex<double>, std::string> &map) {
+    return generic_py_dict_to_cpp_std_unordered_map<
+        std::complex<double>, std::string,
+        &py_complex_check, &py_unicode_check,
+        &py_complex_to_cpp_complex, &py_unicode_to_cpp_string
     >(op, map);
 }
 
@@ -744,6 +1014,29 @@ py_dict_to_cpp_std_unordered_map<std::vector<char>, double>(PyObject* op, std::u
         std::vector<char>, double,
         &py_bytes_check, &py_float_check,
         &py_bytes_to_cpp_vector_char, &py_float_to_cpp_double
+    >(op, map);
+}
+
+//- Converts a std::unordered_map<std::vector<char>, std::complex<double>> 
+// to a Python dict of { std::vector<char> : std::complex<double>, ...}    
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::vector<char>, std::complex<double>>(const std::unordered_map<std::vector<char>, std::complex<double>> &map) {
+    return generic_cpp_std_unordered_map_to_py_dict<
+        std::vector<char>, std::complex<double>,
+        &cpp_vector_char_to_py_bytes, &cpp_complex_to_py_complex
+    >(map);
+}
+
+// Converts a Python dict of {std::vector<char> : std::complex<double>, ...} 
+//---- to a std::unordered_map<std::vector<char>, std::complex<double>> ---
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::vector<char>, std::complex<double>>(PyObject* op, std::unordered_map<std::vector<char>, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_unordered_map<
+        std::vector<char>, std::complex<double>,
+        &py_bytes_check, &py_complex_check,
+        &py_bytes_to_cpp_vector_char, &py_complex_to_cpp_complex
     >(op, map);
 }
 
@@ -862,6 +1155,29 @@ py_dict_to_cpp_std_unordered_map<std::string, double>(PyObject* op, std::unorder
     >(op, map);
 }
 
+//---- Converts a std::unordered_map<std::string, std::complex<double>> ---
+//--- to a Python dict of { std::string : std::complex<double>, ...}    ---
+template <>
+PyObject *
+cpp_std_unordered_map_to_py_dict<std::string, std::complex<double>>(const std::unordered_map<std::string, std::complex<double>> &map) {
+    return generic_cpp_std_unordered_map_to_py_dict<
+        std::string, std::complex<double>,
+        &cpp_string_to_py_unicode, &cpp_complex_to_py_complex
+    >(map);
+}
+
+//-- Converts a Python dict of {std::string : std::complex<double>, ...} --
+//------- to a std::unordered_map<std::string, std::complex<double>> ------
+template <>
+int
+py_dict_to_cpp_std_unordered_map<std::string, std::complex<double>>(PyObject* op, std::unordered_map<std::string, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_unordered_map<
+        std::string, std::complex<double>,
+        &py_unicode_check, &py_complex_check,
+        &py_unicode_to_cpp_string, &py_complex_to_cpp_complex
+    >(op, map);
+}
+
 //----- Converts a std::unordered_map<std::string, std::vector<char>> -----
 //----- to a Python dict of { std::string : std::vector<char>, ...}    ----
 template <>
@@ -910,7 +1226,7 @@ py_dict_to_cpp_std_unordered_map<std::string, std::string>(PyObject* op, std::un
 
 //**************** END: std::unordered_map <-> Python dict ****************
 
-// Definitions written: 90
+// Definitions written: 120
 //#########################################################################
 //#### END: Auto-generated code - do not edit. Seriously, do NOT edit. ####
 //#########################################################################

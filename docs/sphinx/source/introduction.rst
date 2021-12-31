@@ -79,13 +79,15 @@ If we want to support a fairly basic set of types:
    :header-rows: 1
 
    * - Python Type
-     - C++ Type
+     - C++ Equivalent Type
    * - ``True``, ``False``
      - ``bool``
    * - ``int``
      - ``long``
    * - ``float``
      - ``double``
+   * - ``complex``
+     - ``std::complex<double>``
    * - ``bytes``
      - ``std::vector<char>``
    * - ``str``
@@ -113,16 +115,16 @@ And a basic set of containers:
 The number of conversion functions is worse than the cartesian product of the types and containers as in the case of a
 dict the types can appear as either a key or a value.
 
-The tables above would normally require 90 conversion functions to be written, tested and documented [#]_ .
+The tables above would normally require 120 conversion functions to be written, tested and documented [#]_ .
 
-This project simplifies this by using a mix of C++ templates and code generators to reduce this number to just **six** hand written functions for all 90 cases.
+This project simplifies this by using a mix of C++ templates and code generators to reduce this number to just **six** hand written functions for all 120 cases.
 
 * Two C++ templates for Python ``tuple`` / ``list`` two way conversions for all types.
 * Two C++ templates for Python ``set`` / ``frozenset`` two way conversions for all types.
 * Two C++ templates for Python ``dict`` two way conversions for all type combinations.
 
 These templates are fairly simple, comprehensible and, for simplicity, code generation is done with a Python script is used
-to create the final functions.
+to create the final 120 functions.
 
 Hand Written Functions
 =============================
@@ -347,8 +349,10 @@ Alternatives
 
 
 .. rubric:: Footnotes
-.. [#] There are four unary containers (``tuple``, ``list``, ``set``, ``frozenset``).
+.. [#] There are four unary containers (``tuple``, ``list``, ``set``, ``frozenset``) and six types
+    (``bool``, ``int``, ``float``, ``complex``, ``bytes``, ``str``).
     Each container/type combination requires two functions to give two way conversion from Python to C++ and back.
-    Thus 4 (containers) * 5 (types) * 2 (way conversion) = 40 required functions.
-    For ``dict`` there are five types but the key and the value can be either so 25 possible variations (any 2 out of 5).
-    With two way conversion this means another 50 functions. This is a total of 90 functions.
+    Thus 4 (containers) * 6 (types) * 2 (way conversion) = 48 required functions.
+    For ``dict`` there are five types but the key and the value can be either so 36 possible variations (any 2 out of 6).
+    With two way conversion this means another 72 functions.
+    This is a total of 120 functions.

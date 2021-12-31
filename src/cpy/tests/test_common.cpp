@@ -34,6 +34,15 @@ compare_tuple<double>(const std::vector<double> &cpp_vector, PyObject *op) {
 
 template <>
 int
+compare_tuple<std::complex<double>>(const std::vector<std::complex<double>> &cpp_vector, PyObject *op) {
+    return compare_tuple<
+            std::complex<double>,
+            &Python_Cpp_Containers::cpp_complex_to_py_complex,
+            &Python_Cpp_Containers::py_complex_to_cpp_complex>(cpp_vector, op);
+}
+
+template <>
+int
 compare_tuple<std::vector<char>>(const std::vector<std::vector<char>> &cpp_vector, PyObject *op) {
     return compare_tuple<
             std::vector<char>,
@@ -75,6 +84,15 @@ compare_list<double>(const std::vector<double> &cpp_vector, PyObject *op) {
             double,
             &Python_Cpp_Containers::cpp_double_to_py_float,
             &Python_Cpp_Containers::py_float_to_cpp_double>(cpp_vector, op);
+}
+
+template <>
+int
+compare_list<std::complex<double>>(const std::vector<std::complex<double>> &cpp_vector, PyObject *op) {
+    return compare_list<
+            std::complex<double>,
+            &Python_Cpp_Containers::cpp_complex_to_py_complex,
+            &Python_Cpp_Containers::py_complex_to_cpp_complex>(cpp_vector, op);
 }
 
 template <>

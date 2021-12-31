@@ -124,6 +124,12 @@ void test_functional_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     {
+        RSSSnapshot rss("test_vector_to_py_tuple<std::complex<double>>");
+        test_vector_to_py_tuple<std::complex<double>, &Python_Cpp_Containers::py_complex_to_cpp_complex>(test_results,
+                                                                                                "std::complex<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
         RSSSnapshot rss("test_py_tuple_to_vector<bool>");
         test_py_tuple_to_vector<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool, &Python_Cpp_Containers::py_bool_to_cpp_bool>(
                 test_results, "<bool>", 1024);
@@ -142,6 +148,13 @@ void test_functional_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     {
+        RSSSnapshot rss("test_py_tuple_to_vector<std::complex<double>>");
+        test_py_tuple_to_vector<std::complex<double>, &Python_Cpp_Containers::cpp_complex_to_py_complex,
+                                &Python_Cpp_Containers::py_complex_to_cpp_complex>(
+                test_results, "std::complex<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
         RSSSnapshot rss("test_vector_to_py_tuple_round_trip<bool>");
         test_vector_to_py_tuple_round_trip<bool>(test_results, "<bool>", 1024);
         std::cout << rss << std::endl;
@@ -154,6 +167,11 @@ void test_functional_all(TestResultS &test_results) {
     {
         RSSSnapshot rss("test_vector_to_py_tuple_round_trip<double>");
         test_vector_to_py_tuple_round_trip<double>(test_results, "<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_vector_to_py_tuple_round_trip<std::complex<double>>");
+        test_vector_to_py_tuple_round_trip<std::complex<double>>(test_results, "<std::complex<double>>", 1024);
         std::cout << rss << std::endl;
     }
     {
@@ -173,6 +191,13 @@ void test_functional_all(TestResultS &test_results) {
         test_py_tuple_to_vector_round_trip<double, &Python_Cpp_Containers::cpp_double_to_py_float>(
                 test_results,
                 "<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_tuple_to_vector_round_trip<std::complex<double>>");
+        test_py_tuple_to_vector_round_trip<std::complex<double>, &Python_Cpp_Containers::cpp_complex_to_py_complex>(
+                test_results,
+                "<std::complex<double>>", 1024);
         std::cout << rss << std::endl;
     }
     {
@@ -215,6 +240,12 @@ void test_functional_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     {
+        RSSSnapshot rss("test_vector_to_py_list<std::complex<double>>");
+        test_vector_to_py_list<std::complex<double>, &Python_Cpp_Containers::py_complex_to_cpp_complex>(test_results,
+                                                                                        "std::complex<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
         RSSSnapshot rss("test_py_list_to_vector<bool>");
         test_py_list_to_vector<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool, &Python_Cpp_Containers::py_bool_to_cpp_bool>(
                 test_results, "<bool>", 1024);
@@ -233,6 +264,12 @@ void test_functional_all(TestResultS &test_results) {
         std::cout << rss << std::endl;
     }
     {
+        RSSSnapshot rss("test_py_list_to_vector<std::complex<double>>");
+        test_py_list_to_vector<std::complex<double>, &Python_Cpp_Containers::cpp_complex_to_py_complex, &Python_Cpp_Containers::py_complex_to_cpp_complex>(
+                test_results, "std::complex<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
         RSSSnapshot rss("test_vector_to_py_list_round_trip<bool>");
         test_vector_to_py_list_round_trip<bool>(test_results, "<bool>", 1024);
         std::cout << rss << std::endl;
@@ -245,6 +282,11 @@ void test_functional_all(TestResultS &test_results) {
     {
         RSSSnapshot rss("test_vector_to_py_list_round_trip<double>");
         test_vector_to_py_list_round_trip<double>(test_results, "<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_vector_to_py_list_round_trip<std::complex<double>>");
+        test_vector_to_py_list_round_trip<std::complex<double>>(test_results, "std::complex<double>", 1024);
         std::cout << rss << std::endl;
     }
     {
@@ -264,6 +306,13 @@ void test_functional_all(TestResultS &test_results) {
         test_py_list_to_vector_round_trip<double, &Python_Cpp_Containers::cpp_double_to_py_float>(
                 test_results,
                 "<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_list_to_vector_round_trip<std::complex<double>>");
+        test_py_list_to_vector_round_trip<std::complex<double>, &Python_Cpp_Containers::cpp_complex_to_py_complex>(
+                test_results,
+                "std::complex<double>", 1024);
         std::cout << rss << std::endl;
     }
     {
@@ -309,6 +358,20 @@ void test_functional_all(TestResultS &test_results) {
         RSSSnapshot rss("test_py_set_to_unordered_set<double>");
         test_py_set_to_unordered_set<double, &Python_Cpp_Containers::py_float_to_cpp_double, &Python_Cpp_Containers::cpp_double_to_py_float>(
                 test_results, "<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_unordered_set_to_py_set<std::complex<double>>");
+        test_unordered_set_to_py_set<std::complex<double>, &Python_Cpp_Containers::py_complex_to_cpp_complex,
+                                    &Python_Cpp_Containers::cpp_complex_to_py_complex>(
+                test_results, "<std::complex<double>>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_set_to_unordered_set<std::complex<double>>");
+        test_py_set_to_unordered_set<std::complex<double>, &Python_Cpp_Containers::py_complex_to_cpp_complex,
+                                    &Python_Cpp_Containers::cpp_complex_to_py_complex>(
+                test_results, "<std::complex<double>>", 1024);
         std::cout << rss << std::endl;
     }
     // Test set of bytes
@@ -379,6 +442,30 @@ void test_functional_all(TestResultS &test_results) {
                 &Python_Cpp_Containers::py_float_to_cpp_double,
                 &Python_Cpp_Containers::py_float_to_cpp_double
         >(test_results, "<double>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_cpp_std_unordered_map_to_py_dict<std::complex<double>, std::complex<double>>");
+        test_cpp_std_unordered_map_to_py_dict<
+                std::complex<double>,
+                std::complex<double>,
+                &Python_Cpp_Containers::cpp_complex_to_py_complex,
+                &Python_Cpp_Containers::cpp_complex_to_py_complex,
+                &Python_Cpp_Containers::py_complex_to_cpp_complex,
+                &Python_Cpp_Containers::py_complex_to_cpp_complex
+        >(test_results, "<std::complex<double>>", 1024);
+        std::cout << rss << std::endl;
+    }
+    {
+        RSSSnapshot rss("test_py_dict_to_cpp_std_unordered_map<std::complex<double>, std::complex<double>>");
+        test_py_dict_to_cpp_std_unordered_map<
+                std::complex<double>,
+                std::complex<double>,
+                &Python_Cpp_Containers::cpp_complex_to_py_complex,
+                &Python_Cpp_Containers::cpp_complex_to_py_complex,
+                &Python_Cpp_Containers::py_complex_to_cpp_complex,
+                &Python_Cpp_Containers::py_complex_to_cpp_complex
+        >(test_results, "<std::complex<double>>", 1024);
         std::cout << rss << std::endl;
     }
     {
