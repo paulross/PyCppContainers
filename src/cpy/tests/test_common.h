@@ -78,6 +78,25 @@
     } while (0)
 #endif
 
+// Some macros to do RSS snapshots.
+#define RSS_SNAPSHOT
+//#undef RSS_SNAPSHOT
+
+#ifdef RSS_SNAPSHOT
+#define RSS_SNAPSHOT_WITHOUT_TYPE RSSSnapshot rss(__FUNCTION__);
+
+#define RSS_SNAPSHOT_WITH_TYPE(type) \
+        std::ostringstream rss_title; \
+        rss_title << __FUNCTION__ << type; \
+        RSSSnapshot rss(rss_title.str());
+
+#define RSS_SNAPSHOT_REPORT std::cout << rss << std::endl;
+#else
+#define RSS_SNAPSHOT_WITHOUT_TYPE
+#define RSS_SNAPSHOT_WITH_TYPE(type)
+#define RSS_SNAPSHOT_REPORT
+#endif // RSS_SNAPSHOT
+
 #pragma mark Comparison templates
 
 /**
@@ -418,6 +437,7 @@ int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size
 
 template<typename T, T (*ConvertPyToCpp)(PyObject *)>
 int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
     std::vector<T> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
         cpp_vector.push_back(static_cast<T>(i));
@@ -439,11 +459,13 @@ int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, 
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_TYPE;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &), T (*ConvertPyToCpp)(PyObject *)>
 int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
     PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
     int result = 0;
     double exec_time = -1.0;
@@ -472,11 +494,13 @@ int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, 
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_TYPE;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 template<typename T>
 int test_vector_to_py_tuple_round_trip(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
     std::vector<T> cpp_vector;
     std::vector<T> cpp_vector_result;
     for (size_t i = 0; i < size; ++i) {
@@ -501,11 +525,13 @@ int test_vector_to_py_tuple_round_trip(TestResultS &test_results, const std::str
         result |= 1 << 2;
     }
     REPORT_TEST_OUTPUT_WITH_TYPE;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 template<typename T, PyObject *(*Convert)(const T &)>
 int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
     PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
     int result = 0;
     double exec_time = -1.0;
@@ -542,11 +568,13 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_TYPE;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 template<typename T, T (*ConvertPyToCpp)(PyObject *)>
 int test_vector_to_py_list(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
     std::vector<T> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
         cpp_vector.push_back(static_cast<T>(i));
@@ -568,11 +596,13 @@ int test_vector_to_py_list(TestResultS &test_results, const std::string &type, s
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_TYPE;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &), T (*ConvertPyToCpp)(PyObject *)>
 int test_py_list_to_vector(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
     PyObject *op = Python_Cpp_Containers::py_list_new(size);
     int result = 0;
     double exec_time = -1.0;
@@ -601,11 +631,13 @@ int test_py_list_to_vector(TestResultS &test_results, const std::string &type, s
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_TYPE;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 template<typename T>
 int test_vector_to_py_list_round_trip(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
     std::vector<T> cpp_vector;
     std::vector<T> cpp_vector_result;
     for (size_t i = 0; i < size; ++i) {
@@ -630,11 +662,13 @@ int test_vector_to_py_list_round_trip(TestResultS &test_results, const std::stri
         result |= 1 << 2;
     }
     REPORT_TEST_OUTPUT_WITH_TYPE;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 template<typename T, PyObject *(*Convert)(const T &)>
 int test_py_list_to_vector_round_trip(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
     PyObject *op = Python_Cpp_Containers::py_list_new(size);
     int result = 0;
     double exec_time = -1.0;
@@ -671,11 +705,13 @@ int test_py_list_to_vector_round_trip(TestResultS &test_results, const std::stri
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_TYPE;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 template<typename T, T (*ConvertPyToCpp)(PyObject *), PyObject *(*Convert_Py)(const T &)>
 int test_unordered_set_to_py_set(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
     std::unordered_set<T> cpp_container;
     for (size_t i = 0; i < size; ++i) {
         cpp_container.insert(static_cast<T>(i));
@@ -697,11 +733,13 @@ int test_unordered_set_to_py_set(TestResultS &test_results, const std::string &t
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_TYPE;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 template<typename T, T (*ConvertPyToCpp)(PyObject *), PyObject *(*ConvertCppToPy)(const T &)>
 int test_py_set_to_unordered_set(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
     PyObject *op = Python_Cpp_Containers::py_set_new();
     int result = 0;
     double exec_time = -1.0;
@@ -730,6 +768,7 @@ int test_py_set_to_unordered_set(TestResultS &test_results, const std::string &t
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_TYPE;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
@@ -742,6 +781,7 @@ template<
         V (*Convert_Py_Val)(PyObject *)
 >
 int test_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
     std::unordered_map<K, V> cpp_map;
     for (size_t i = 0; i < size; ++i) {
 //        cpp_map[1000 + static_cast<K>(i)] = 2000 + static_cast<V>(i);
@@ -766,6 +806,7 @@ int test_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_TYPE;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
@@ -778,6 +819,7 @@ template<
         V (*Convert_Py_Val)(PyObject *)
 >
 int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
     PyObject *op = PyDict_New();
     PyObject *py_k = NULL;
     PyObject *py_v = NULL;
@@ -842,6 +884,7 @@ int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_TYPE;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 

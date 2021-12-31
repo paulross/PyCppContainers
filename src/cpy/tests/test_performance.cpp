@@ -25,17 +25,6 @@ const size_t MIN_STRING_LENGTH = 2;//8;
 const size_t LIMIT_STRING_LENGTH = 1024 * 2;//4096 * 2; // Maximum value < this value
 const size_t INC_STRING_LENGTH_MULTIPLE = 8; // How much to increment the string size.
 
-// Some macros to do RSS snapshots.
-#define RSS_SNAPSHOT_WITHOUT_TYPE RSSSnapshot rss(__FUNCTION__);
-
-#define RSS_SNAPSHOT_WITH_TYPE(type) \
-        std::ostringstream rss_title; \
-        rss_title << __FUNCTION__ << type; \
-        RSSSnapshot rss(rss_title.str());
-
-#define RSS_SNAPSHOT_REPORT std::cout << rss << std::endl
-
-
 #pragma mark Testing of object conversion
 
 int test_bool_to_py_bool_multiple(TestResultS &test_results, size_t size, size_t repeat) {

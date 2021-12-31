@@ -163,6 +163,7 @@ compare_dict<
 }
 
 int test_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     std::vector<std::vector<char>> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
 //        cpp_vector.push_back(unique_vector_char(str_len));
@@ -183,10 +184,12 @@ int test_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t size, 
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_py_tuple_bytes_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     PyObject *op = new_py_tuple_bytes(size, str_len);
     int result = 0;
     double exec_time = -1.0;
@@ -207,10 +210,12 @@ int test_py_tuple_bytes_to_vector(TestResultS &test_results, size_t size, size_t
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     assert(!PyErr_Occurred());
     std::vector<std::string> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
@@ -233,10 +238,12 @@ int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
     assert(!PyErr_Occurred());
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_py_tuple_str_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     assert(!PyErr_Occurred());
     PyObject *op = new_py_tuple_string(size, str_len);
     int result = 0;
@@ -259,10 +266,12 @@ int test_py_tuple_str_to_vector(TestResultS &test_results, size_t size, size_t s
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
     assert(!PyErr_Occurred());
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_vector_vector_char_to_py_list(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     std::vector<std::vector<char>> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
 //        cpp_vector.push_back(unique_vector_char(str_len));
@@ -283,10 +292,12 @@ int test_vector_vector_char_to_py_list(TestResultS &test_results, size_t size, s
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_py_list_bytes_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     PyObject *op = new_py_list_bytes(size, str_len);
     int result = 0;
     double exec_time = -1.0;
@@ -307,10 +318,12 @@ int test_py_list_bytes_to_vector(TestResultS &test_results, size_t size, size_t 
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_vector_string_to_py_list(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     assert(!PyErr_Occurred());
     std::vector<std::string> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
@@ -333,10 +346,12 @@ int test_vector_string_to_py_list(TestResultS &test_results, size_t size, size_t
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
     assert(!PyErr_Occurred());
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_py_list_str_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     assert(!PyErr_Occurred());
     PyObject *op = new_py_list_string(size, str_len);
     int result = 0;
@@ -359,10 +374,12 @@ int test_py_list_str_to_vector(TestResultS &test_results, size_t size, size_t st
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
     assert(!PyErr_Occurred());
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_unordered_set_bytes_to_py_set(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     std::unordered_set<std::vector<char>> cpp_set;
     for (size_t i = 0; i < size; ++i) {
         cpp_set.insert(unique_vector_char(str_len));
@@ -386,10 +403,12 @@ int test_unordered_set_bytes_to_py_set(TestResultS &test_results, size_t size, s
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_py_set_bytes_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     std::unordered_set<std::vector<char>> cpp_set;
     int result = 0;
     std::string type = "<bytes>";
@@ -405,10 +424,12 @@ int test_py_set_bytes_to_unordered_set(TestResultS &test_results, size_t size, s
         }
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_unordered_set_string_to_py_set(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     std::unordered_set<std::string> cpp_set;
     for (size_t i = 0; i < size; ++i) {
         cpp_set.insert(unique_string(str_len));
@@ -432,10 +453,12 @@ int test_unordered_set_string_to_py_set(TestResultS &test_results, size_t size, 
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_py_set_string_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     std::unordered_set<std::string> cpp_set;
     int result = 0;
     std::string type = "<bytes>";
@@ -451,6 +474,7 @@ int test_py_set_string_to_unordered_set(TestResultS &test_results, size_t size, 
         }
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
@@ -609,6 +633,7 @@ new_py_dict_string(size_t size, size_t str_len) {
 }
 
 int test_cpp_std_unordered_map_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     std::unordered_map<std::vector<char>, std::vector<char>> cpp_map;
     for (size_t i = 0; i < size; ++i) {
         cpp_map[unique_vector_char(str_len)] = std::vector<char>(str_len, ' ');
@@ -632,10 +657,12 @@ int test_cpp_std_unordered_map_to_py_dict_bytes(TestResultS &test_results, size_
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_py_dict_to_cpp_std_unordered_map_bytes(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     PyObject *op = new_py_dict_bytes(size, str_len);
     int result = 0;
     double exec_time = -1.0;
@@ -657,10 +684,12 @@ int test_py_dict_to_cpp_std_unordered_map_bytes(TestResultS &test_results, size_
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     std::unordered_map<std::string, std::string> cpp_map;
     for (size_t i = 0; i < size; ++i) {
         cpp_map[unique_string(str_len)] = std::string(str_len, ' ');
@@ -684,10 +713,12 @@ int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     PyObject *op = new_py_dict_string(size, str_len);
     int result = 0;
     double exec_time = -1.0;
@@ -709,5 +740,6 @@ int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
