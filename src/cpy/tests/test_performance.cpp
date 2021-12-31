@@ -52,7 +52,7 @@ int test_py_bool_to_cpp_bool_multiple(TestResultS &test_results, size_t size, si
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
         for (size_t j = 0; j < size; ++j) {
-            Python_Cpp_Containers::py_bool_to_cpp_bool(op);
+            volatile auto temp = Python_Cpp_Containers::py_bool_to_cpp_bool(op);
         }
         double exec_time = exec_clock.seconds();
         test_result.execTimeAdd(0, exec_time, 1, size);
@@ -87,7 +87,7 @@ int test_py_int_to_cpp_long_multiple(TestResultS &test_results, size_t size, siz
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
         for (size_t j = 0; j < size; ++j) {
-            Python_Cpp_Containers::py_long_to_cpp_long(op);
+            volatile auto temp = Python_Cpp_Containers::py_long_to_cpp_long(op);
         }
         double exec_time = exec_clock.seconds();
         test_result.execTimeAdd(0, exec_time, 1, size);
@@ -122,7 +122,42 @@ int test_py_float_to_cpp_double_multiple(TestResultS &test_results, size_t size,
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
         for (size_t j = 0; j < size; ++j) {
-            Python_Cpp_Containers::py_float_to_cpp_double(op);
+            volatile auto temp = Python_Cpp_Containers::py_float_to_cpp_double(op);
+        }
+        double exec_time = exec_clock.seconds();
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    Py_DECREF(op);
+    test_results.push_back(test_result);
+    return 0;
+}
+
+int test_complex_to_py_complex_multiple(TestResultS &test_results, size_t size, size_t repeat) {
+    std::ostringstream title;
+    title << __FUNCTION__ << "[" << size << "]";
+    TestResult test_result(title.str());
+    for (size_t i = 0; i < repeat; ++i) {
+        ExecClock exec_clock;
+        for (size_t j = 0; j < size; ++j) {
+            PyObject *op = Python_Cpp_Containers::cpp_complex_to_py_complex(100.0);
+            Py_DECREF(op);
+        }
+        double exec_time = exec_clock.seconds();
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    test_results.push_back(test_result);
+    return 0;
+}
+
+int test_py_complex_to_cpp_complex_multiple(TestResultS &test_results, size_t size, size_t repeat) {
+    std::ostringstream title;
+    title << __FUNCTION__ << "[" << size << "]";
+    TestResult test_result(title.str());
+    PyObject *op = Python_Cpp_Containers::cpp_complex_to_py_complex(1234.0);
+    for (size_t i = 0; i < repeat; ++i) {
+        ExecClock exec_clock;
+        for (size_t j = 0; j < size; ++j) {
+            volatile auto temp = Python_Cpp_Containers::py_complex_to_cpp_complex(op);
         }
         double exec_time = exec_clock.seconds();
         test_result.execTimeAdd(0, exec_time, 1, size);
@@ -161,7 +196,7 @@ test_py_bytes_to_cpp_vector_char_multiple(TestResultS &test_results, size_t stri
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
         for (size_t j = 0; j < size; ++j) {
-            Python_Cpp_Containers::py_bytes_to_cpp_vector_char(op);
+            volatile auto temp = Python_Cpp_Containers::py_bytes_to_cpp_vector_char(op);
         }
         double exec_time = exec_clock.seconds();
         test_result.execTimeAdd(0, exec_time, 1, size);
@@ -198,7 +233,7 @@ int test_py_str_to_cpp_string_multiple(TestResultS &test_results, size_t string_
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
         for (size_t j = 0; j < size; ++j) {
-            Python_Cpp_Containers::py_unicode_to_cpp_string(op);
+            volatile auto temp = Python_Cpp_Containers::py_unicode_to_cpp_string(op);
         }
         double exec_time = exec_clock.seconds();
         test_result.execTimeAdd(0, exec_time, 1, size);
@@ -1161,17 +1196,18 @@ int test_perf_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test
 
 #define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
 // Control container testing
-#define TEST_PERFORMANCE_TUPLES
-#define TEST_PERFORMANCE_LISTS
-#define TEST_PERFORMANCE_SETS
-#define TEST_PERFORMANCE_DICTS
+//#define TEST_PERFORMANCE_TUPLES
+//#define TEST_PERFORMANCE_LISTS
+//#define TEST_PERFORMANCE_SETS
+//#define TEST_PERFORMANCE_DICTS
 
 // Control object testing
 #define TEST_PERFORMANCE_OBJECT_BOOL
 #define TEST_PERFORMANCE_OBJECT_LONG
 #define TEST_PERFORMANCE_OBJECT_DOUBLE
-#define TEST_PERFORMANCE_OBJECT_BYTES
-#define TEST_PERFORMANCE_OBJECT_STRING
+#define TEST_PERFORMANCE_OBJECT_COMPLEX
+//#define TEST_PERFORMANCE_OBJECT_BYTES
+//#define TEST_PERFORMANCE_OBJECT_STRING
 
 void test_performance_all(TestResultS &test_results) {
     std::cout << __FUNCTION__ << " START" << std::endl;
@@ -1206,6 +1242,16 @@ void test_performance_all(TestResultS &test_results) {
             RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_DOUBLE");
             test_double_to_py_float_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
             test_py_float_to_cpp_double_multiple(test_results, fundamental_types_test_size,
+                                                 fundamental_types_test_repeat);
+            std::cout << rss_inner << std::endl;
+        }
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_COMPLEX
+        // Complex numbers
+        {
+            RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_COMPLEX");
+            test_complex_to_py_complex_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+            test_py_complex_to_cpp_complex_multiple(test_results, fundamental_types_test_size,
                                                  fundamental_types_test_repeat);
             std::cout << rss_inner << std::endl;
         }
