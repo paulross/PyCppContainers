@@ -53,6 +53,10 @@ These test are executed if the macro ``TEST_PERFORMANCE_FUNDAMENTAL_TYPES`` is d
      - 0.0086
      - 0.0027
      - Converting C++ to Python is around x3 time the reverse.
+   * - C++ ``std::complex<double>`` <-> Python ``complex``
+     - 0.0113
+     - 0.0049
+     - Converting C++ to Python is around x2 time the reverse.
 
 For C++ ``string`` <-> Python ``bytes`` of different lengths:
 

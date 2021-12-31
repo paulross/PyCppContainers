@@ -1206,8 +1206,8 @@ int test_perf_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test
 #define TEST_PERFORMANCE_OBJECT_LONG
 #define TEST_PERFORMANCE_OBJECT_DOUBLE
 #define TEST_PERFORMANCE_OBJECT_COMPLEX
-//#define TEST_PERFORMANCE_OBJECT_BYTES
-//#define TEST_PERFORMANCE_OBJECT_STRING
+#define TEST_PERFORMANCE_OBJECT_BYTES
+#define TEST_PERFORMANCE_OBJECT_STRING
 
 void test_performance_all(TestResultS &test_results) {
     std::cout << __FUNCTION__ << " START" << std::endl;
