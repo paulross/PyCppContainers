@@ -1196,10 +1196,10 @@ int test_perf_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test
 
 #define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
 // Control container testing
-//#define TEST_PERFORMANCE_TUPLES
-//#define TEST_PERFORMANCE_LISTS
-//#define TEST_PERFORMANCE_SETS
-//#define TEST_PERFORMANCE_DICTS
+#define TEST_PERFORMANCE_TUPLES
+#define TEST_PERFORMANCE_LISTS
+#define TEST_PERFORMANCE_SETS
+#define TEST_PERFORMANCE_DICTS
 
 // Control object testing
 #define TEST_PERFORMANCE_OBJECT_BOOL
@@ -1250,9 +1250,10 @@ void test_performance_all(TestResultS &test_results) {
         // Complex numbers
         {
             RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_COMPLEX");
-            test_complex_to_py_complex_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+            test_complex_to_py_complex_multiple(test_results, fundamental_types_test_size,
+                                                fundamental_types_test_repeat);
             test_py_complex_to_cpp_complex_multiple(test_results, fundamental_types_test_size,
-                                                 fundamental_types_test_repeat);
+                                                    fundamental_types_test_repeat);
             std::cout << rss_inner << std::endl;
         }
 #endif
@@ -1317,7 +1318,7 @@ void test_performance_all(TestResultS &test_results) {
                                                fundamental_types_test_repeat);
             std::cout << rss_inner << std::endl;
         }
-#endif
+#endif // TEST_PERFORMANCE_OBJECT_STRING
         std::cout << rss << std::endl;
     }
 #endif // TEST_PERFORMANCE_FUNDAMENTAL_TYPES
@@ -1332,8 +1333,11 @@ void test_performance_all(TestResultS &test_results) {
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     test_perf_vector_to_py_tuple_multiple<double>(test_results, "<double>", TEST_REPEAT);
-    // Tuple fundamental types Python -> C++
 #endif
+#ifdef TEST_PERFORMANCE_OBJECT_COMPLEX
+    test_perf_vector_to_py_tuple_multiple<std::complex<double>>(test_results, "<std::complex<double>>", TEST_REPEAT);
+#endif
+    // Tuple fundamental types Python -> C++
 #ifdef TEST_PERFORMANCE_OBJECT_BOOL
     test_perf_py_tuple_to_vector_multiple<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool>(
             test_results, "<bool>", TEST_REPEAT
@@ -1348,7 +1352,12 @@ void test_performance_all(TestResultS &test_results) {
     test_perf_py_tuple_to_vector_multiple<double, &Python_Cpp_Containers::cpp_double_to_py_float>(
             test_results, "<double>", TEST_REPEAT
     );
-#endif
+#ifdef TEST_PERFORMANCE_OBJECT_COMPLEX
+    test_perf_py_tuple_to_vector_multiple<std::complex<double>, &Python_Cpp_Containers::cpp_complex_to_py_complex>(
+            test_results, "<std::complex<double>>", TEST_REPEAT
+    );
+#endif // TEST_PERFORMANCE_OBJECT_COMPLEX
+#endif // TEST_PERFORMANCE_TUPLES
 #ifdef TEST_PERFORMANCE_OBJECT_BYTES
     // Test list of bytes Python <-> C++
     test_perf_vector_vector_char_to_py_tuple_multiple(test_results, TEST_REPEAT);
@@ -1372,6 +1381,9 @@ void test_performance_all(TestResultS &test_results) {
 #ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     test_perf_vector_to_py_list_multiple<double>(test_results, "<double>", TEST_REPEAT);
 #endif
+#ifdef TEST_PERFORMANCE_OBJECT_COMPLEX
+    test_perf_vector_to_py_list_multiple<std::complex<double>>(test_results, "<std::complex<double>>", TEST_REPEAT);
+#endif
     // List fundamental types Python -> C++
 #ifdef TEST_PERFORMANCE_OBJECT_BOOL
     test_perf_py_list_to_vector_multiple<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool>(
@@ -1387,8 +1399,13 @@ void test_performance_all(TestResultS &test_results) {
     test_perf_py_list_to_vector_multiple<double, &Python_Cpp_Containers::cpp_double_to_py_float>(
             test_results, "<double>", TEST_REPEAT
     );
-    // Test list of strings Python <-> C++
 #endif
+#ifdef TEST_PERFORMANCE_OBJECT_COMPLEX
+    test_perf_py_list_to_vector_multiple<std::complex<double>, &Python_Cpp_Containers::cpp_complex_to_py_complex>(
+            test_results, "<std::complex<double>>", TEST_REPEAT
+    );
+#endif
+    // Test list of strings Python <-> C++
 #ifdef TEST_PERFORMANCE_OBJECT_BYTES
     test_perf_vector_vector_char_to_py_list_multiple(test_results, TEST_REPEAT);
     test_perf_py_list_to_vector_vector_char_multiple(test_results, TEST_REPEAT);
@@ -1408,6 +1425,10 @@ void test_performance_all(TestResultS &test_results) {
 #ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     test_perf_unordered_set_to_py_set_multiple<double>(test_results, "<double>", TEST_REPEAT);
 #endif
+#ifdef TEST_PERFORMANCE_OBJECT_COMPLEX
+    test_perf_unordered_set_to_py_set_multiple<std::complex<double>>(test_results, "<std::complex<double>>",
+                                                                     TEST_REPEAT);
+#endif
     // Set fundamental types Python to C++
 #ifdef TEST_PERFORMANCE_OBJECT_LONG
     test_perf_py_set_to_unordered_set_multiple<long, &Python_Cpp_Containers::cpp_long_to_py_long>(test_results,
@@ -1418,6 +1439,12 @@ void test_performance_all(TestResultS &test_results) {
     test_perf_py_set_to_unordered_set_multiple<double, &Python_Cpp_Containers::cpp_double_to_py_float>(test_results,
                                                                                                        "<double>",
                                                                                                        TEST_REPEAT);
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
+    test_perf_py_set_to_unordered_set_multiple<std::complex<double>, &Python_Cpp_Containers::cpp_complex_to_py_complex>(
+            test_results,
+            "<std::complex<double>>",
+            TEST_REPEAT);
 #endif
     // Test set of strings Python <-> C++
 #ifdef TEST_PERFORMANCE_OBJECT_BYTES
@@ -1437,6 +1464,11 @@ void test_performance_all(TestResultS &test_results) {
 #ifdef TEST_PERFORMANCE_OBJECT_DOUBLE
     test_perf_cpp_std_unordered_map_to_py_dict_multiple<double, double>(test_results, "<double,double>", TEST_REPEAT);
 #endif
+#ifdef TEST_PERFORMANCE_OBJECT_COMPLEX
+    test_perf_cpp_std_unordered_map_to_py_dict_multiple<std::complex<double>, std::complex<double>>(test_results,
+                                                                                                    "<std::complex<double>,std::complex<double>>",
+                                                                                                    TEST_REPEAT);
+#endif
 #ifdef TEST_PERFORMANCE_OBJECT_LONG
     test_perf_py_dict_to_cpp_std_unordered_map_multiple<
             long,
@@ -1452,6 +1484,14 @@ void test_performance_all(TestResultS &test_results) {
             &Python_Cpp_Containers::cpp_double_to_py_float,
             &Python_Cpp_Containers::cpp_double_to_py_float
     >(test_results, "<double,double>", TEST_REPEAT);
+#endif
+#ifdef TEST_PERFORMANCE_OBJECT_COMPLEX
+    test_perf_py_dict_to_cpp_std_unordered_map_multiple<
+            std::complex<double>,
+            std::complex<double>,
+            &Python_Cpp_Containers::cpp_complex_to_py_complex,
+            &Python_Cpp_Containers::cpp_complex_to_py_complex
+    >(test_results, "<std::complex<double>,std::complex<double>>", TEST_REPEAT);
 #endif
 #ifdef TEST_PERFORMANCE_OBJECT_BYTES
     test_perf_cpp_std_unordered_map_to_py_dict_vector_char_multiple(test_results, TEST_REPEAT);
