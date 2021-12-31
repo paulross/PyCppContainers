@@ -6,8 +6,8 @@ Python is well known for it's ability to handle *heterogeneous* data in containe
 But what if you need to interact with C++ containers such as ``std::vector<T>`` that require *homogeneous* data types?
 
 
-This project is about converting Python containers (``list``, ``dict``, ``set``, ``tuple``) containing homogeneous types
-to and from their C++ equivalent.
+This project is about converting Python containers (``list``, ``dict``, ``set``, ``frozenset``, ``tuple``) containing
+homogeneous types (``bool``, ``int``, ``float``, ``complex``, ``bytes``, ``str``) to and from their C++ equivalent.
 
 
 A Problematic Example
@@ -72,7 +72,7 @@ This project makes extensive use of C++ templates, partial template specialisati
 dramatically the amount of hand maintained code.
 It also converts many runtime errors to compile time errors.
 
-If we want to support a fairly basic set of types:
+If we want to support this set of types:
 
 .. list-table:: Supported Object types.
    :widths: 30 30
@@ -93,14 +93,14 @@ If we want to support a fairly basic set of types:
    * - ``str``
      - ``std::string``
 
-And a basic set of containers:
+And this set of containers:
 
 .. list-table:: Supported Containers.
    :widths: 50 50
    :header-rows: 1
 
    * - Python Type
-     - C++ Type
+     - C++ Equivalent Type
    * - ``tuple``
      - ``std::vector``
    * - ``list``
@@ -124,7 +124,7 @@ This project simplifies this by using a mix of C++ templates and code generators
 * Two C++ templates for Python ``dict`` two way conversions for all type combinations.
 
 These templates are fairly simple, comprehensible and, for simplicity, code generation is done with a Python script is used
-to create the final 120 functions.
+to create the final, instantiated, 120 functions.
 
 Hand Written Functions
 =============================
@@ -353,6 +353,6 @@ Alternatives
     (``bool``, ``int``, ``float``, ``complex``, ``bytes``, ``str``).
     Each container/type combination requires two functions to give two way conversion from Python to C++ and back.
     Thus 4 (containers) * 6 (types) * 2 (way conversion) = 48 required functions.
-    For ``dict`` there are five types but the key and the value can be either so 36 possible variations (any 2 out of 6).
+    For ``dict`` there are six types either of which can be the key or the value so 36 possible variations (any 2 out of 6).
     With two way conversion this means another 72 functions.
-    This is a total of 120 functions.
+    Thus is a total of 120 functions.
