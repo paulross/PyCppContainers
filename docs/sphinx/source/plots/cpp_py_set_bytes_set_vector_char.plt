@@ -40,7 +40,7 @@ set boxwidth 0.2 relative
 set ylabel "Time (µs)"
 
 set terminal svg size 1400,700           # choose the file format
-set output "images/cpp_py_set_bytes_vector_vector_char_time.svg"   # choose the output device
+set output "images/cpp_py_set_bytes_unordered_set_vector_char_time.svg"   # choose the output device
 
 plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_char_2.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
         t "Python List -> C++, string length 2" with candlesticks whiskerbars 0.5,\
@@ -55,7 +55,7 @@ plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_cha
     "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_char_2.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
 set terminal png size 1400,700           # choose the file format
-set output "images/cpp_py_set_bytes_vector_vector_char_time.png"   # choose the output device
+set output "images/cpp_py_set_bytes_unordered_set_vector_char_time.png"   # choose the output device
 
 plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_char_2.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
     t "String length 2" with candlesticks whiskerbars 0.5 linetype 1,\
@@ -74,7 +74,7 @@ plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_cha
 set ylabel "Time per Item (µs)"
 
 set terminal svg size 1400,700           # choose the file format
-set output "images/cpp_py_set_bytes_vector_vector_char_rate.svg"   # choose the output device
+set output "images/cpp_py_set_bytes_unordered_set_vector_char_rate.svg"   # choose the output device
 
 plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_char_2.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
     t "String length 2" with candlesticks whiskerbars 0.5 linetype 1,\
@@ -91,7 +91,7 @@ plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_cha
 #plot "dat/py_tuple_bytes_to_vector_string.dat" using 1:(1e6 * $2 / $1):(1e6 * $4 / $1):(1e6 * $5 / $1) t "String length 128" with yerrorbars
 
 set terminal png size 1400,700           # choose the file format
-set output "images/cpp_py_set_bytes_vector_vector_char_rate.png"   # choose the output device
+set output "images/cpp_py_set_bytes_unordered_set_vector_char_rate.png"   # choose the output device
 
 plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_char_2.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
     t "String length 2" with candlesticks whiskerbars 0.5 linetype 1,\
