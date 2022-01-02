@@ -117,7 +117,8 @@ dict the types can appear as either a key or a value.
 
 The tables above would normally require 120 conversion functions to be written, tested and documented [#]_ .
 
-This project simplifies this by using a mix of C++ templates and code generators to reduce this number to just **six** hand written functions for all 120 cases.
+This project simplifies this by using a mix of C++ templates and code generators to reduce this number to just
+**six** hand written templates for all 120 cases.
 
 * Two C++ templates for Python ``tuple`` / ``list`` two way conversions for all types.
 * Two C++ templates for Python ``set`` / ``frozenset`` two way conversions for all types.

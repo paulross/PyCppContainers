@@ -11,9 +11,14 @@
 void test_all() {
     TestResultS test_results;
 
-//    test_functional_all(test_results);
+    // With debug this take around 130 seconds.
+    // With release this takes around 900 seconds.
+    test_functional_all(test_results);
+#ifdef NDEBUG
+    // These take a long time
     test_performance_all(test_results);
-//    test_memory_all(test_results);
+#endif
+    test_memory_all(test_results);
 
     std::cout << test_results << std::endl;
 }

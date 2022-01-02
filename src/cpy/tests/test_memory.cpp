@@ -16,6 +16,7 @@
 #include "test_common.h"
 
 int test_memory_py_tuple(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
     assert(!PyErr_Occurred());
     int result = 0;
     double exec_time = -1.0;
@@ -53,11 +54,13 @@ except:
 finally:
     Py_XDECREF(p_tuple);
     REPORT_TEST_OUTPUT;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
 int test_memory_py_dict(TestResultS &test_results, const std::string &type, size_t size) {
     assert(!PyErr_Occurred());
+    RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     double exec_time = -1.0;
     ExecClock exec_clock;
@@ -103,6 +106,7 @@ except:
 finally:
     Py_XDECREF(p_container);
     REPORT_TEST_OUTPUT;
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
@@ -111,12 +115,14 @@ finally:
 // min/max are inclusive.
 int test_memory_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
                                           size_t size_min, size_t size_max) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
         for (size_t size = size_min; size <= size_max; size *= 2) {
             result |= test_vector_vector_char_to_py_tuple(test_results, size, str_len);
         }
     }
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
@@ -125,12 +131,14 @@ int test_memory_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t
 // min/max are inclusive.
 int test_memory_py_tuple_vector_char_to_vector(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
                                         size_t size_min, size_t size_max) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
         for (size_t size = size_min; size <= size_max; size *= 2) {
             result |= test_py_tuple_bytes_to_vector(test_results, size, str_len);
         }
     }
+    RSS_SNAPSHOT_REPORT;
     return result;
 }
 
@@ -138,11 +146,10 @@ int test_memory_py_tuple_vector_char_to_vector(TestResultS &test_results, size_t
 void test_memory_all(TestResultS &test_results) {
     std::cout << __FUNCTION__ << " START" << std::endl;
     RSSSnapshot rss_overall("==== test_memory.cpp");
-    int repeat_count = 10;
+    int repeat_count = 5;
     std::cout << "test_memory_all(): with repeat count: " << repeat_count << std::endl;
     {
         for (int i = 0; i < repeat_count; ++i) {
-            RSSSnapshot rss("test_memory_py_tuple");
             // Running this on its own give the following memory profile, values in MB and the delta:
             // Start, Python initialised:                        3.0
             // Start of test_memory_py_tuple():                  3.0
@@ -154,12 +161,10 @@ void test_memory_all(TestResultS &test_results) {
             // Python floats are 24 bytes so 24MB allocated/deallocated.
             // Repeating this 1000 times gives the identical memory profile.
             test_memory_py_tuple(test_results, "<double>", 1 << 20);
-            std::cout << rss << std::endl;
         }
     }
     {
         for (int i = 0; i < repeat_count; ++i) {
-            RSSSnapshot rss("test_memory_py_dict");
             // Running this on its own give the following memory profile, values in MB and the delta:
             // Start, Python initialised:                        3.1
             // Start of test_memory_py_dict():                   3.1
@@ -171,14 +176,11 @@ void test_memory_all(TestResultS &test_results) {
             // Python floats are 24 bytes so 24MB allocated/deallocated.
             // Repeating this 1000 times gives the identical memory profile.
             test_memory_py_dict(test_results, "<double>", 1 << 20);
-            std::cout << rss << std::endl;
         }
     }
     {
         for (int i = 0; i < repeat_count; ++i) {
-            RSSSnapshot rss("test_memory_vector_vector_char_to_py_tuple(1024, 2048, 512, 1<<16)");
             test_memory_vector_vector_char_to_py_tuple(test_results, 8, 2048, 512, 1 << 16);
-            std::cout << rss << std::endl;
         }
     }
     std::cout << "====" << rss_overall << std::endl;

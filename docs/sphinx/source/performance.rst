@@ -48,17 +48,17 @@ These test are executed if the macro ``TEST_PERFORMANCE_FUNDAMENTAL_TYPES`` is d
    * - C++ ``long`` <-> Python ``int``
      - 0.0146
      - 0.0046
-     - Converting C++ to Python is around x3 time the reverse.
+     - Converting C++ to Python is around x3 times the reverse.
    * - C++ ``double`` <-> Python ``float``
      - 0.0086
      - 0.0027
-     - Converting C++ to Python is around x3 time the reverse.
+     - Converting C++ to Python is around x3 times the reverse.
    * - C++ ``std::complex<double>`` <-> Python ``complex``
-     - 0.0113
+     - 0.0122
      - 0.0049
-     - Converting C++ to Python is around x2 time the reverse.
+     - Converting C++ to Python is around x2.5 times the reverse.
 
-For C++ ``string`` <-> Python ``bytes`` of different lengths:
+For a single C++ ``std::vector<char>`` to and from Python ``bytes`` of different lengths:
 
 .. list-table::
    :widths: 20 25 25 50
@@ -93,7 +93,45 @@ For C++ ``string`` <-> Python ``bytes`` of different lengths:
      - 1.551
      - Corresponds to about 41 Gb/s
 
-String conversion from C++ to Python or the reverse takes asymptotically: t (µs) = 0.017 * length / 42
+Bytes conversion time from C++ to Python or the reverse takes asymptotically and roughly: t (µs) = 0.017 * length / 50,000
+
+For a single C++ ``std::string`` to and from Python ``str`` of different lengths:
+
+.. list-table::
+   :widths: 20 25 25 50
+   :header-rows: 1
+
+   * - Length
+     - C++ to Python (µs)
+     - Python to C++ (µs)
+     - Notes
+   * - 2
+     - 0.0309
+     - 0.0052
+     -
+   * - 16
+     - 0.0337
+     - 0.0045
+     -
+   * - 128
+     - 0.0301
+     - 0.0634
+     -
+   * - 1024
+     - 0.126
+     - 0.0667
+     - Corresponds to about 8 to 15 Gb/s, Python to C++ being about twice as fast.
+   * - 8192
+     - 0.435
+     - 0.122
+     - Corresponds to about 20 to 65 Gb/s, Python to C++ being about thrice as fast.
+   * - 65536
+     - 3.46
+     - 1.53
+     - Corresponds to about 20 to 40 Gb/s, Python to C++ being about twice as fast.
+
+String conversion time from C++ to Python or the reverse takes asymptotically and roughly: t (µs) = 0.015 * length / 24,000.
+This is about twice the time for ``bytes`` and ``std::vector<char>``.
 
 
 Python List and C++ ``std::vector<T>``
