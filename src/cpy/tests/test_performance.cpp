@@ -431,7 +431,7 @@ int test_perf_vector_string_to_py_tuple_multiple(TestResultS &test_results, size
 }
 
 int
-test_py_tuple_bytes_to_vector_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+test_py_tuple_str_to_vector_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
@@ -459,7 +459,7 @@ int test_perf_py_tuple_to_vector_string_multiple(TestResultS &test_results, size
     for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
-            result |= test_py_tuple_bytes_to_vector_string_multiple(test_results, size, str_len, repeat);
+            result |= test_py_tuple_str_to_vector_string_multiple(test_results, size, str_len, repeat);
         }
     }
     RSS_SNAPSHOT_REPORT;
