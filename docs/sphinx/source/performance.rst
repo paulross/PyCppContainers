@@ -153,35 +153,32 @@ TODO:
 Rate line shows minimum.
 
 
-
-TODO: bool, int, float, complex Python -> C++
+Here is the total time to convert a list of ``bool``, ``int``, ``float`` and ``complex`` Python values to C++ for various list lengths:
 
 .. image:: plots/images/cpp_py_list_bool_int_float_vector_bool_long_double_time.png
     :height: 300px
     :align: center
 
+More useful is the *rate* of conversion, that is the total time divided by the list size:
 
 .. image:: plots/images/cpp_py_list_bool_int_float_vector_bool_long_double_rate.png
     :height: 300px
     :align: center
 
-TODO: bool, int, float, complex C++ -> Python
+``int``, ``float`` and ``complex`` take 0.01 µs per object to convert.
+``bool`` objects take around 0.006 µs per object, roughly twice as fast.
 
-.. image:: plots/images/cpp_vector_bool_long_double_py_list_bool_int_float_time.png
-    :height: 300px
-    :align: center
+
+And the reverse converting a list of ``bool``, ``int``, ``float`` and ``complex`` from C++ to Python:
 
 .. image:: plots/images/cpp_vector_bool_long_double_py_list_bool_int_float_rate.png
     :height: 300px
     :align: center
 
-TODO: Describe bytes
-TODO: Python -> C++
+This is broadly symmetric with the Python to C++ performance except that ``bool`` values are twice as quick.
 
-.. image:: plots/images/cpp_py_list_bytes_vector_vector_char_time.png
-    :height: 300px
-    :align: center
-
+Another area of interest is the conversion of a list of ``bytes`` or ``str`` between Python and C++.
+In these tests a list of of ``bytes`` or ``str`` objects
 TODO:
 
 .. image:: plots/images/cpp_py_list_bytes_vector_vector_char_rate.png

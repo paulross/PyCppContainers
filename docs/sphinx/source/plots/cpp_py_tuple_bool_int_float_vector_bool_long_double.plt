@@ -106,7 +106,7 @@ plot "dat/test_vector_to_py_tuple_multiple_bool.dat" using 3:(1e6 * ($5 - $6)):(
 
 # Now the rate graphs.
 # Python to C++
-set title "Rate of copying a Python tuple of bool, int, float to a C++ std::vector<T>."
+set title "Rate of copying a Python tuple of bool, int, float, complex to a C++ std::vector<T>."
 set key right
 set ylabel "Time per Item (µs)"
 set yrange [0.001:0.1]
