@@ -2,7 +2,7 @@
 This is a fairly exhaustive set of tests that take a long time to run.
 
 Run this with:
-$ pytest -vs --runslow tests/unit/test_perf_cPyCppContainers.py
+$ caffeinate pytest -vs --runslow tests/unit/test_perf_cPyCppContainers.py
 """
 import random
 import statistics
@@ -335,7 +335,10 @@ def test_new_set_bytes():
         for size in SIZE_DOUBLING:
             original = set()
             for i in range(size):
-                random.shuffle(random_bytes)
+                # random.shuffle(random_bytes)
+                # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
+                index = random.randint(0, len(random_bytes) - 1)
+                random_bytes[index] = (random_bytes[index] + 1) % 256
                 k = bytes(random_bytes[:byte_length])
                 original.add(k)
             # print(f'TRACE dict len {len(original)}')
@@ -366,7 +369,10 @@ def test_new_set_str():
         for size in SIZE_DOUBLING:
             original = set()
             for i in range(size):
-                random.shuffle(random_bytes)
+                # random.shuffle(random_bytes)
+                # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
+                index = random.randint(0, len(random_bytes) - 1)
+                random_bytes[index] = (random_bytes[index] + 1) % 127
                 k = bytes(random_bytes[:byte_length])
                 original.add(k.decode('ascii'))
             # print(f'TRACE dict len {len(original)}')
@@ -475,7 +481,10 @@ def test_new_dict_bytes_bytes():
         for size in SIZE_DOUBLING:
             original = {}
             for i in range(size):
-                random.shuffle(random_bytes)
+                # random.shuffle(random_bytes)
+                # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
+                index = random.randint(0, len(random_bytes) - 1)
+                random_bytes[index] = (random_bytes[index] + 1) % 256
                 k = bytes(random_bytes[:byte_length])
                 original[k] = b' ' * byte_length
             # print(f'TRACE dict len {len(original)}')
@@ -506,7 +515,10 @@ def test_new_dict_bytes_bytes():
         for size in SIZE_DOUBLING:
             original = {}
             for i in range(size):
-                random.shuffle(random_bytes)
+                # random.shuffle(random_bytes)
+                # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
+                index = random.randint(0, len(random_bytes) - 1)
+                random_bytes[index] = (random_bytes[index] + 1) % 256
                 k = bytes(random_bytes[:byte_length])
                 original[k] = b' ' * byte_length
             # print(f'TRACE dict len {len(original)}')
@@ -537,7 +549,10 @@ def test_new_dict_str_str():
         for size in SIZE_DOUBLING:
             original = {}
             for i in range(size):
-                random.shuffle(random_bytes)
+                # random.shuffle(random_bytes)
+                # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
+                index = random.randint(0, len(random_bytes) - 1)
+                random_bytes[index] = (random_bytes[index] + 1) % 128
                 k = bytes(random_bytes[:byte_length])
                 original[k.decode('ascii')] = ' ' * byte_length
             # print(f'TRACE dict len {len(original)}')
