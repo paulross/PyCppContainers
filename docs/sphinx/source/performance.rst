@@ -139,6 +139,21 @@ Python List and C++ ``std::vector<T>``
 
 TODO: Use this as an extensive example of the methodology.
 
+TODO: Use this as an example of the methodology, this shows RATE, the rest show time.
+
+This shows the conversion cost of various length strings from a Python tuple to a C++ vector.
+Each test was repeated 5 times.
+The line shows the mean time per object in µs.
+The extreme whiskers show the minimum and maximum test values.
+The box shows the mean time ±the standard deviation, this is asymmetric as it is plotted on a log scale.
+The box will often extend beyond a minimum value where the minimum is close to the mean and the maximum large.
+
+
+TODO:
+Rate line shows minimum.
+
+
+
 TODO: bool, int, float, complex Python -> C++
 
 .. image:: plots/images/cpp_py_list_bool_int_float_vector_bool_long_double_time.png
@@ -210,6 +225,56 @@ bytes[1024]     0.1 to 0.6              1,600 to 10,000
 =============== ======================= =========================== ===================
 
 
+TODO: Describe str
+TODO: Python -> C++
+
+.. image:: plots/images/cpp_py_list_str_vector_string_time.png
+    :height: 300px
+    :align: center
+
+TODO:
+
+.. image:: plots/images/cpp_py_list_str_vector_string_rate.png
+    :height: 300px
+    :align: center
+
+TODO:
+
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+bytes[2]        0.01                    200
+bytes[16]       0.01                    1600
+bytes[128]      0.07                    1,800
+bytes[1024]     0.15 to 0.6             1,600 to 6,800
+=============== ======================= =========================== ===================
+
+
+TODO: str C++ -> Python
+TODO:
+
+.. image:: plots/images/cpp_vector_string_py_list_str_time.png
+    :height: 300px
+    :align: center
+
+TODO:
+
+.. image:: plots/images/cpp_vector_string_py_list_str_rate.png
+    :height: 300px
+    :align: center
+
+TODO:
+
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+bytes[2]        0.015 to 0.03           67 to 133
+bytes[16]       0.015 to 0.04           400 to 133
+bytes[128]      0.02 to 0.09            1,400 to 6,400
+bytes[1024]     0.1 to 0.6              1,600 to 10,000
+=============== ======================= =========================== ===================
+
+
 
 
 
@@ -221,132 +286,23 @@ bytes[1024]     0.1 to 0.6              1,600 to 10,000
 Example of Python Tuple of ``bytes`` to a C++ ``std::vector<std::string>``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TODO: Use this as an example of the methodology, this shows RATE, the rest show time.
-
-This shows the conversion cost of various length strings from a Python tuple to a C++ vector.
-Each test was repeated 5 times.
-The line shows the mean time per object in µs.
-The extreme whiskers show the minimum and maximum test values.
-The box shows the mean time ±the standard deviation, this is asymmetric as it is plotted on a log scale.
-The box will often extend beyond a minimum value where the minimum is close to the mean and the maximum large.
-
-.. image:: plots/images/cpp_py_tuple_bytes_vector_string_time.png
-    :height: 300px
-    :align: center
-
-TODO:
-Line shows minimum.
-
-.. image:: plots/images/cpp_py_tuple_bytes_vector_string_rate.png
-    :height: 300px
-    :align: center
-
-
-=============== ======================= =========================== ===================
-Object          ~Time per object (µs)   Rate Mb/s                   Notes
-=============== ======================= =========================== ===================
-bytes[8]        0.01                    800
-bytes[64]       0.06                    1,000
-bytes[512]      0.1                     5,000
-bytes[4096]     0.2 to 2.0              20,000 to 2,000             Slower large arrays are probably because the 8Gb memory demand is hitting the virtual memory system.
-=============== ======================= =========================== ===================
-
-
-
-
-Python Tuple and Lists to and from a C++ ``std::vector`` - Fundamental Types
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Here is an example of converting a Python tuple or list to and from a C++ ``std::vector<T>`` for up to 1m ``bool``, ``long`` and ``double`` types.
-
 TODO:
 
-.. image:: plots/images/cpp_vs_size_tuple_list_time.png
-    :height: 300px
-    :align: center
-
-TODO:
-
-.. image:: plots/images/cpp_vs_size_tuple_list_rate.png
-    :height: 300px
-    :align: center
-
-Notes:
-
-TODO:
-
-* For int and float the  conversion rate is around 0.015 µs per item or around 70m objects per second.
-* booleans are twice as quick taking around 0.007 µs/object or around 150m/s.
-* A 1m float/long conversion takes about 10 to 20 ms in total.
 
 
-Python Lists to and from a C++ ``std::vector`` - ``bytes`` of Varying Length
+
+
+
+
+Python Set to an from a C++ ``std::unordered_set<T>``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
-TODO:
-
-.. image:: plots/images/cpp_py_list_bytes_vector_string_rate.png
-    :height: 300px
-    :align: center
-
-
-TODO:
-
-.. image:: plots/images/cpp_vector_string_py_list_bytes_rate.png
-    :height: 300px
-    :align: center
-
-TODO:
-
-
-Python Tuples to and from a C++ ``std::vector`` - ``bytes`` of Varying Length
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
-TODO:
-
-.. image:: plots/images/cpp_py_tuple_bytes_vector_string_rate.png
-    :height: 300px
-    :align: center
-
-
-TODO:
-
-.. image:: plots/images/cpp_vector_string_py_tuple_bytes_rate.png
-    :height: 300px
-    :align: center
-
 TODO:
 
 
 
-
-Sets and Dictionaries with ``int`` and ``float``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-of [float, float] to a C++ ``std::unordered_map<double, double>``
-TODO:
-
-.. image:: plots/images/cpp_vs_size_set_dict_time.png
-    :height: 300px
-    :align: center
-
-
-TODO:
-
-.. image:: plots/images/cpp_vs_size_set_dict_rate.png
-    :height: 300px
-    :align: center
-
-TODO:
-
-
-Python Dict of [bytes, bytes] to a C++ ``std::unordered_map<std::string, std::string>``
+Python Dict to and from a C++ ``std::unordered_map<K, V>``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Similarly for dicts of bytes.
-This corresponds, roughly, to a data rate of around 500 Mb/s.
 
 TODO:
 

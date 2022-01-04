@@ -105,6 +105,7 @@ plot "dat/test_vector_string_to_py_list_multiple_std_string_2.dat" using 3:(1e6 
 # Now the rate graph.
 set title "Rate of copying a Python list of str to a C++ std::vector<std::string> with different string lengths."
 set ylabel "Time per Item (µs)"
+set yrange[0.001:1]
 
 set terminal svg size 1400,700           # choose the file format
 set output "images/cpp_py_list_str_vector_string_rate.svg"   # choose the output device
@@ -143,6 +144,7 @@ set output "images/cpp_vector_string_py_list_str_rate.svg"   # choose the output
 
 set title "Rate of copying a C++ std::vector<std::string> to a Python list of str with different string lengths."
 set ylabel "Time per Item (µs)"
+set yrange[0.01:1]
 
 plot "dat/test_vector_string_to_py_list_multiple_std_string_2.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
             t "C+ List -> Python, string length 2" with candlesticks whiskerbars 0.5,\
