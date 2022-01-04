@@ -168,6 +168,22 @@ def test_new_list_float(given):
     assert all(all_ids_different)
 
 
+@pytest.mark.parametrize(
+    'given',
+    (
+            [],
+            [1.0 + 4.0j, 2.0 + 8.0j],
+    ),
+)
+def test_new_list_complex(given):
+    result = cPyCppContainers.new_list_complex(given)
+    assert result == given
+    assert id(result) != id(given)
+    # complex numbers are not interned
+    all_ids_different = [id(a) != id(b) for a, b in zip(given, result)]
+    assert all(all_ids_different)
+
+
 # Because of the nature of the code in cPyCppContainers.cpp this test covers all new_list_* functions.
 @pytest.mark.parametrize(
     'given, expected',
@@ -236,6 +252,22 @@ def test_new_list_bytes(given):
 @pytest.mark.parametrize(
     'given',
     (
+            [],
+            ['abc', 'xyz'],
+    ),
+)
+def test_new_list_str(given):
+    result = cPyCppContainers.new_list_str(given)
+    assert result == given
+    assert id(result) != id(given)
+    # these strings should not be interned
+    all_ids_different = [id(a) != id(b) for a, b in zip(given, result)]
+    assert all(all_ids_different)
+
+
+@pytest.mark.parametrize(
+    'given',
+    (
             {},
             {1: 45, 2: 123, },
     ),
@@ -268,6 +300,19 @@ def test_new_dict_float_float(given):
 )
 def test_new_dict_bytes_bytes(given):
     result = cPyCppContainers.new_dict_bytes_bytes(given)
+    assert result == given
+    assert id(result) != id(given)
+
+
+@pytest.mark.parametrize(
+    'given',
+    (
+            {},
+            {'abc': '123', 'xyz': '8790', },
+    ),
+)
+def test_new_dict_str_str(given):
+    result = cPyCppContainers.new_dict_str_str(given)
     assert result == given
     assert id(result) != id(given)
 

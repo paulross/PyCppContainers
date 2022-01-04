@@ -135,8 +135,18 @@ new_list_int(PyObject *Py_UNUSED(module), PyObject *arg) {
 }
 
 static PyObject *
+new_list_complex(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::complex<double>>(arg);
+}
+
+static PyObject *
 new_list_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
     return new_list<std::vector<char>>(arg);
+}
+
+static PyObject *
+new_list_str(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::string>(arg);
 }
 
 
@@ -210,6 +220,17 @@ new_set_float(PyObject *Py_UNUSED(module), PyObject *arg) {
 }
 
 /**
+ * Create a new set of [complex] by copying into a std::unordered_set and back.
+ *
+ * @param arg The Python set. This is const.
+ * @return A new Python set of [complex].
+ */
+static PyObject *
+new_set_complex(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_set<std::complex<double>>(arg);
+}
+
+/**
  * Create a new set of [bytes] by copying into a std::unordered_set and back.
  *
  * @param arg The Python set. This is const.
@@ -218,6 +239,17 @@ new_set_float(PyObject *Py_UNUSED(module), PyObject *arg) {
 static PyObject *
 new_set_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
     return new_set<std::vector<char>>(arg);
+}
+
+/**
+ * Create a new set of [str] by copying into a std::unordered_set and back.
+ *
+ * @param arg The Python set. This is const.
+ * @return A new Python set of [str].
+ */
+static PyObject *
+new_set_str(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_set<std::string>(arg);
 }
 
 /**
@@ -259,6 +291,17 @@ new_frozenset_float(PyObject *Py_UNUSED(module), PyObject *arg) {
 }
 
 /**
+ * Create a new frozenset of [complex] by copying into a std::unordered_set and back.
+ *
+ * @param arg The Python frozenset. This is const.
+ * @return A new Python frozenset of [complex].
+ */
+static PyObject *
+new_frozenset_complex(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_frozenset<std::complex<double>>(arg);
+}
+
+/**
  * Create a new frozenset of [bytes] by copying into a std::unordered_set and back.
  *
  * @param arg The Python frozenset. This is const.
@@ -267,6 +310,17 @@ new_frozenset_float(PyObject *Py_UNUSED(module), PyObject *arg) {
 static PyObject *
 new_frozenset_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
     return new_frozenset<std::vector<char>>(arg);
+}
+
+/**
+ * Create a new frozenset of [str] by copying into a std::unordered_set and back.
+ *
+ * @param arg The Python frozenset. This is const.
+ * @return A new Python frozenset of [str].
+ */
+static PyObject *
+new_frozenset_str(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_frozenset<std::string>(arg);
 }
 
 /**
@@ -307,9 +361,25 @@ new_dict_float_float(PyObject *Py_UNUSED(module), PyObject *arg) {
     return new_dict<double, double>(arg);
 }
 
+/**
+ * Create a new dict of [complex, complex] by copying into a std::unordered_map and back.
+ *
+ * @param arg The Python dict. This is const.
+ * @return A new Python dict of [complex, complex].
+ */
+static PyObject *
+new_dict_complex_complex(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::complex<double>, std::complex<double>>(arg);
+}
+
 static PyObject *
 new_dict_bytes_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
     return new_dict<std::vector<char>, std::vector<char>>(arg);
+}
+
+static PyObject *
+new_dict_str_str(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::string, std::string>(arg);
 }
 
 
@@ -429,22 +499,34 @@ static PyMethodDef cPyCppContainersMethods[] = {
                 "Take a list of booleans and return a new list with the same values."},
         {"new_list_int", new_list_int, METH_O,
                 "Take a list of ints and return a new list with the same values."},
+        {"new_list_complex", new_list_complex, METH_O,
+                "Take a list of complex numbers and return a new list with the same values."},
         {"new_list_bytes", new_list_bytes, METH_O,
                 "Take a list of bytes and return a new list with the same values."},
+        {"new_list_str", new_list_str, METH_O,
+                "Take a list of str and return a new list with the same values."},
         /* Sets. */
         {"new_set_int", new_set_int, METH_O,
                 "Take a set of ints and return a new set with the same values."},
         {"new_set_float", new_set_float, METH_O,
                 "Take a set of floats and return a new set with the same values."},
+        {"new_set_complex", new_set_complex, METH_O,
+                "Take a set of complex numbers and return a new set with the same values."},
         {"new_set_bytes", new_set_bytes, METH_O,
                 "Take a set of bytes and return a new set with the same values."},
+        {"new_set_str", new_set_str, METH_O,
+                "Take a set of str and return a new set with the same values."},
         /* Frozen Sets. */
         {"new_frozenset_int", new_frozenset_int, METH_O,
                 "Take a frozenset of ints and return a new frozenset with the same values."},
         {"new_frozenset_float", new_frozenset_float, METH_O,
                 "Take a frozenset of floats and return a new frozenset with the same values."},
+        {"new_frozenset_complex", new_frozenset_complex, METH_O,
+                "Take a frozenset of complex numbers and return a new frozenset with the same values."},
         {"new_frozenset_bytes", new_frozenset_bytes, METH_O,
                 "Take a frozenset of bytes and return a new frozenset with the same values."},
+        {"new_frozenset_str", new_frozenset_str, METH_O,
+                "Take a frozenset of str and return a new frozenset with the same values."},
 #if 0
         // Example of failure as there is no template new_list<unsigned int>(arg)
         {"new_list_unsigned_int", new_list_unsigned_int, METH_O,
@@ -455,8 +537,12 @@ static PyMethodDef cPyCppContainersMethods[] = {
                 "Take a dict of [int, int] and return a new dict with the same values."},
         {"new_dict_float_float", new_dict_float_float, METH_O,
                 "Take a dict of [float, float] and return a new dict with the same values."},
+        {"new_dict_complex_complex", new_dict_complex_complex, METH_O,
+                "Take a dict of [complex, complex] and return a new dict with the same values."},
         {"new_dict_bytes_bytes", new_dict_bytes_bytes, METH_O,
                 "Take a dict of [bytes, bytes] and return a new dict with the same values."},
+        {"new_dict_str_str", new_dict_str_str, METH_O,
+                "Take a dict of [str, str] and return a new dict with the same values."},
                 // Debug
         {"new_dict_debug_int_int", new_dict_debug_int_int, METH_O,
                 "Debug a dict of [int, int]."},
