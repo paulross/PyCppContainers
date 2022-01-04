@@ -1,4 +1,4 @@
-set title "Time to copy a Python set of str to and from C++ set with different string lengths."
+set title "Time to copy a Python set of str to a C++ set with different string lengths."
 set grid
 
 set logscale x
@@ -43,32 +43,29 @@ set terminal svg size 1400,700           # choose the file format
 set output "images/cpp_py_set_str_unordered_set_string_time.svg"   # choose the output device
 
 plot "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_2.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
-        t "Python List -> C++, string length 2" with candlesticks whiskerbars 0.5,\
+        t "Python Set -> C++, string length 2" with candlesticks whiskerbars 0.5,\
     "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_16.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
-        t "List, string length 16" with candlesticks whiskerbars 0.5,\
+        t "Python Set, string length 16" with candlesticks whiskerbars 0.5,\
     "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_128.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
-        t "List, string length 128" with candlesticks whiskerbars 0.5,\
+        t "Python Set, string length 128" with candlesticks whiskerbars 0.5,\
     "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
-        t "List, string length 1024" with candlesticks whiskerbars 0.5,\
+        t "Python Set, string length 1024" with candlesticks whiskerbars 0.5,\
     "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_2.dat" using 3:(rate_1_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_2.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 2
+    "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
 set terminal png size 1400,700           # choose the file format
 set output "images/cpp_py_set_str_unordered_set_string_time.png"   # choose the output device
 
 plot "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_2.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
-    t "String length 2" with candlesticks whiskerbars 0.5 linetype 1,\
+        t "Python Set -> C++, string length 2" with candlesticks whiskerbars 0.5,\
     "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_16.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
-    t "String length 16" with candlesticks whiskerbars 0.5 linetype 2,\
+        t "Python Set, string length 16" with candlesticks whiskerbars 0.5,\
     "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_128.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
-    t "String length 128" with candlesticks whiskerbars 0.5 linetype 4,\
+        t "Python Set, string length 128" with candlesticks whiskerbars 0.5,\
     "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
-    t "String length 1024" with candlesticks whiskerbars 0.5 linetype 7,\
-    "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_2.dat" using 3:(rate_1_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines dashtype 2, \
-    "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2, \
-    "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_2.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2
-#plot "dat/py_tuple_str_to_vector_string.dat" using 1:(1e6 * $2 / $1):(1e6 * $4 / $1):(1e6 * $5 / $1) t "String length 128" with yerrorbars
+        t "Python Set, string length 1024" with candlesticks whiskerbars 0.5,\
+    "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_2.dat" using 3:(rate_1_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
+    "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
 # Now the rate graph.
 set ylabel "Time per Item (µs)"
@@ -129,8 +126,7 @@ plot "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
         t "Set, bytes length 1024" with candlesticks whiskerbars 0.5,\
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3:(rate_1_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 2
+    "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
 set terminal png size 1400,700           # choose the file format
 set output "images/cpp_unordered_set_string_to_py_set_multiple_std_string_time.png"   # choose the output device
@@ -144,8 +140,7 @@ plot "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
         t "Set, bytes length 1024" with candlesticks whiskerbars 0.5,\
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3:(rate_1_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 2
+    "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
 # Now the rate graph.
 set ylabel "Time per Item (µs)"
@@ -154,32 +149,32 @@ set terminal svg size 1400,700           # choose the file format
 set output "images/cpp_unordered_set_string_to_py_set_multiple_std_string_rate.svg"   # choose the output device
 
 plot "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
-    t "Bytes length 2" with candlesticks whiskerbars 0.5 linetype 1,\
+    t "String length 2" with candlesticks whiskerbars 0.5 linetype 1,\
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 1, \
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_16.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
-    t "Bytes length 16" with candlesticks whiskerbars 0.5 linetype 2,\
+    t "String length 16" with candlesticks whiskerbars 0.5 linetype 2,\
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_16.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 2, \
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_128.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
-    t "Bytes length 128" with candlesticks whiskerbars 0.5 linetype 4,\
+    t "String length 128" with candlesticks whiskerbars 0.5 linetype 4,\
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_128.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 4, \
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
-    t "Bytes length 1024" with candlesticks whiskerbars 0.5 linetype 7,\
+    t "String length 1024" with candlesticks whiskerbars 0.5 linetype 7,\
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_1024.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 7
 
 set terminal png size 1400,700           # choose the file format
 set output "images/cpp_unordered_set_string_to_py_set_multiple_std_string_rate.png"   # choose the output device
 
 plot "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
-    t "Bytes length 2" with candlesticks whiskerbars 0.5 linetype 1,\
+    t "String length 2" with candlesticks whiskerbars 0.5 linetype 1,\
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_2.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 1, \
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_16.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
-    t "Bytes length 16" with candlesticks whiskerbars 0.5 linetype 2,\
+    t "String length 16" with candlesticks whiskerbars 0.5 linetype 2,\
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_16.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 2, \
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_128.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
-    t "Bytes length 128" with candlesticks whiskerbars 0.5 linetype 4,\
+    t "String length 128" with candlesticks whiskerbars 0.5 linetype 4,\
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_128.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 4, \
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
-    t "Bytes length 1024" with candlesticks whiskerbars 0.5 linetype 7,\
+    t "String length 1024" with candlesticks whiskerbars 0.5 linetype 7,\
     "dat/test_unordered_set_string_to_py_set_multiple_std_string_1024.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 7
 
 reset
