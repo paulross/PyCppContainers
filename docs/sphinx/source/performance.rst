@@ -139,7 +139,7 @@ Python List and C++ ``std::vector<T>``
 
 TODO: Use this as an extensive example of the methodology.
 
-TODO: bool, int, float Python -> C++
+TODO: bool, int, float, complex Python -> C++
 
 .. image:: plots/images/cpp_py_list_bool_int_float_vector_bool_long_double_time.png
     :height: 300px
@@ -150,7 +150,7 @@ TODO: bool, int, float Python -> C++
     :height: 300px
     :align: center
 
-TODO: bool, int, float C++ -> Python
+TODO: bool, int, float, complex C++ -> Python
 
 .. image:: plots/images/cpp_vector_bool_long_double_py_list_bool_int_float_time.png
     :height: 300px
@@ -185,7 +185,7 @@ bytes[1024]     0.15 to 0.6             1,600 to 6,800
 =============== ======================= =========================== ===================
 
 
-TODO: C++ -> Python
+TODO: bytes C++ -> Python
 TODO:
 
 .. image:: plots/images/cpp_vector_vector_char_py_list_bytes_time.png
@@ -208,6 +208,13 @@ bytes[16]       0.015 to 0.04           400 to 133
 bytes[128]      0.02 to 0.09            1,400 to 6,400
 bytes[1024]     0.1 to 0.6              1,600 to 10,000
 =============== ======================= =========================== ===================
+
+
+
+
+
+
+
 
 
 
