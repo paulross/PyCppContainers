@@ -43,6 +43,8 @@ plot "dat/roundtrip_set_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7)
         t "Set [int] <-> C++ <long>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_set_float.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "Set [float] <-> C++ <double>" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_set_complex.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
+        t "Set [complex] <-> C++ <std::complex<double>>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_set_int.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.1f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
     "dat/roundtrip_set_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.1f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
@@ -53,12 +55,14 @@ plot "dat/roundtrip_set_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7)
         t "Set [int] <-> C++ <long>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_set_float.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "Set [float] <-> C++ <double>" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_set_complex.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
+        t "Set [complex] <-> C++ <std::complex<double>>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_set_int.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.1f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
     "dat/roundtrip_set_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.1f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
 # Rate plots
 set ylabel "Time per Item (µs)"
-set yrange [0.01:1]
+set yrange [0.1:1]
 
 set terminal svg size 1400,700           # choose the file format
 set output "images/roundtrip_set_ints_and_floats_rate.svg"   # choose the output device
@@ -68,6 +72,8 @@ plot "dat/roundtrip_set_int.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):
     "dat/roundtrip_set_int.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [int] <-> C++ <long>" with lines, \
     "dat/roundtrip_set_float.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
         t "Set [float] <-> C++ <double>" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_set_complex.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
+        t "Set [complex] <-> C++ <std::complex<double>>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_set_float.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [float] <-> C++ <double>" with lines
 
 set terminal png size 1400,700           # choose the file format
@@ -78,6 +84,8 @@ plot "dat/roundtrip_set_int.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):
     "dat/roundtrip_set_int.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [int] <-> C++ <long>" with lines, \
     "dat/roundtrip_set_float.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
         t "Set [float] <-> C++ <double>" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_set_complex.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
+        t "Set [complex] <-> C++ <std::complex<double>>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_set_float.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [float] <-> C++ <double>" with lines
 
 reset

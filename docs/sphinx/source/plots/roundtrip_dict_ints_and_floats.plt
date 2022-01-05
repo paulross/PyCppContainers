@@ -43,6 +43,8 @@ plot "dat/roundtrip_dict_int_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 
          t "Dict [int, int] <-> C++ <long, long>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_dict_float_float.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "Dict [float, float] <-> C++ <double, double>" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_dict_complex_complex.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
+        t "Dict [complex, complex] <-> C++ <std::complex<double>, std::complex<double>>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_dict_int_int.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
     "dat/roundtrip_dict_int_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
@@ -53,6 +55,8 @@ plot "dat/roundtrip_dict_int_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 
          t "Dict [int, int] <-> C++ <long, long>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_dict_float_float.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "Dict [float, float] <-> C++ <double, double>" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_dict_complex_complex.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
+        t "Dict [complex, complex] <-> C++ <std::complex<double>, std::complex<double>>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_dict_int_int.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
     "dat/roundtrip_dict_int_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
@@ -68,7 +72,10 @@ plot "dat/roundtrip_dict_int_int.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 /
     "dat/roundtrip_dict_int_int.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [int, int] <-> C++ <long, long>" with lines, \
     "dat/roundtrip_dict_float_float.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
         t "Dict [float, float] <-> C++ <double, double>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_float_float.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [float, float] <-> C++ <double, double>" with lines
+    "dat/roundtrip_dict_float_float.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [float, float] <-> C++ <double, double>" with lines, \
+    "dat/roundtrip_dict_complex_complex.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
+        t "Dict [complex, complex] <-> C++ <std::complex<double>, std::complex<double>>" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_dict_complex_complex.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [complex, complex] <-> C++ <std::complex<double>, std::complex<double>>" with lines
 
 set terminal png size 1400,700           # choose the file format
 set output "images/roundtrip_dict_ints_and_floats_rate.png"   # choose the output device
@@ -78,6 +85,9 @@ plot "dat/roundtrip_dict_int_int.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 /
     "dat/roundtrip_dict_int_int.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [int, int] <-> C++ <long, long>" with lines, \
     "dat/roundtrip_dict_float_float.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
         t "Dict [float, float] <-> C++ <double, double>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_float_float.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [float, float] <-> C++ <double, double>" with lines
+    "dat/roundtrip_dict_float_float.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [float, float] <-> C++ <double, double>" with lines, \
+    "dat/roundtrip_dict_complex_complex.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
+        t "Dict [complex, complex] <-> C++ <std::complex<double>, std::complex<double>>" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_dict_complex_complex.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [complex, complex] <-> C++ <std::complex<double>, std::complex<double>>" with lines
 
 reset

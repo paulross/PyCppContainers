@@ -506,40 +506,6 @@ def test_new_dict_bytes_bytes():
 
 
 @pytest.mark.slow
-def test_new_dict_bytes_bytes():
-    random_bytes = [random.randint(0, 255) for _i in range(max(SIZE_DOUBLING_BYTE_LENGTH))]
-    proc = psutil.Process()
-    for byte_length in SIZE_DOUBLING_BYTE_LENGTH:
-        results = []
-        rss = proc.memory_info().rss
-        for size in SIZE_DOUBLING:
-            original = {}
-            for i in range(size):
-                # random.shuffle(random_bytes)
-                # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
-                index = random.randint(0, len(random_bytes) - 1)
-                random_bytes[index] = (random_bytes[index] + 1) % 256
-                k = bytes(random_bytes[:byte_length])
-                original[k] = b' ' * byte_length
-            # print(f'TRACE dict len {len(original)}')
-            timer = TimedResults()
-            for _r in range(REPEAT):
-                time_start = time.perf_counter()
-                cPyCppContainers.new_dict_bytes_bytes(original)
-                time_exec = time.perf_counter() - time_start
-                timer.add(time_exec)
-            results.append((size, timer))
-        # pprint.pprint(results)
-        print()
-        rss_new = proc.memory_info().rss
-        print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
-        print(f'test_new_dict_bytes_bytes() String length {byte_length}')
-        print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
-        for s, t in results:
-            print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
-
-
-@pytest.mark.slow
 def test_new_dict_str_str():
     random_bytes = [random.randint(0, 127) for _i in range(max(SIZE_DOUBLING_BYTE_LENGTH))]
     proc = psutil.Process()

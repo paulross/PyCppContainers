@@ -45,6 +45,8 @@ plot "dat/roundtrip_list_bool.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $
         t "List [int] <-> C++ <long>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_list_float.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "List [float] <-> C++ <double>" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_list_complex.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
+        t "List [complex] <-> C++ <std::complex<double>>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_list_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.1f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
     "dat/roundtrip_list_int.dat" using 1:(rate_100_000_000($1) * 1e6) t sprintf("Guide: %.1f µs + 100m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
@@ -57,6 +59,8 @@ plot "dat/roundtrip_list_bool.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $
         t "List [int] <-> C++ <long>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_list_float.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "List [float] <-> C++ <double>" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_list_complex.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
+        t "List [complex] <-> C++ <std::complex<double>>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_list_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.1f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
     "dat/roundtrip_list_int.dat" using 1:(rate_100_000_000($1) * 1e6) t sprintf("Guide: %.1f µs + 100m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
@@ -75,7 +79,10 @@ plot "dat/roundtrip_list_bool.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1
     "dat/roundtrip_list_int.dat" using 1:(1e6 * $3 / $1) t "Minimum List [int] <-> C++ <long>" with lines, \
     "dat/roundtrip_list_float.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
         t "List [float] <-> C++ <double>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_list_float.dat" using 1:(1e6 * $3 / $1) t "Minimum List [float] <-> C++ <double>" with lines
+    "dat/roundtrip_list_float.dat" using 1:(1e6 * $3 / $1) t "Minimum List [float] <-> C++ <double>" with lines, \
+    "dat/roundtrip_list_complex.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
+        t "List [complex] <-> C++ <std::complex<double>>" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_list_complex.dat" using 1:(1e6 * $3 / $1) t "Minimum List [complex] <-> C++ <std::complex<double>>" with lines
 
 set terminal png size 1400,700           # choose the file format
 set output "images/roundtrip_list_ints_floats_and_bools_rate.png"   # choose the output device
@@ -88,6 +95,9 @@ plot "dat/roundtrip_list_bool.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1
     "dat/roundtrip_list_int.dat" using 1:(1e6 * $3 / $1) t "Minimum List [int] <-> C++ <long>" with lines, \
     "dat/roundtrip_list_float.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
         t "List [float] <-> C++ <double>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_list_float.dat" using 1:(1e6 * $3 / $1) t "Minimum List [float] <-> C++ <double>" with lines
+    "dat/roundtrip_list_float.dat" using 1:(1e6 * $3 / $1) t "Minimum List [float] <-> C++ <double>" with lines, \
+    "dat/roundtrip_list_complex.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
+        t "List [complex] <-> C++ <std::complex<double>>" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_list_complex.dat" using 1:(1e6 * $3 / $1) t "Minimum List [complex] <-> C++ <std::complex<double>>" with lines
 
 reset
