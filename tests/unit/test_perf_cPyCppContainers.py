@@ -18,6 +18,11 @@ SIZE_DOUBLING = tuple(2 ** v for v in range(1, 20 + 1))
 # SIZE_DOUBLING = tuple(2 ** v for v in range(1, 16 + 1))
 # SIZE_DOUBLING_BYTE_LENGTH = (8, 64, 512, 4096)
 SIZE_DOUBLING_BYTE_LENGTH = (2, 16, 128, 1024)
+# There is an issue here in that if we are only inserting, say, 2 byte objects into a large set or dict
+# it is impossible to make them unique.
+# So we limit our set and dict tests to larger byte values which can be randomised effectively.
+# Practice shows that a lower limit o 16 for containers up to 1M long is OK.
+SIZE_DOUBLING_HASHABLE_BYTE_LENGTH = (16, 128, 1024)
 # SIZE_DOUBLING_BYTE_LENGTH = (8, 64)
 REPEAT = 5
 
@@ -329,7 +334,7 @@ def test_new_set_complex():
 def test_new_set_bytes():
     random_bytes = [random.randint(0, 255) for _i in range(max(SIZE_DOUBLING_BYTE_LENGTH))]
     proc = psutil.Process()
-    for byte_length in SIZE_DOUBLING_BYTE_LENGTH:
+    for byte_length in SIZE_DOUBLING_HASHABLE_BYTE_LENGTH:
         results = []
         rss = proc.memory_info().rss
         for size in SIZE_DOUBLING:
@@ -337,11 +342,11 @@ def test_new_set_bytes():
             for i in range(size):
                 # random.shuffle(random_bytes)
                 # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
-                index = random.randint(0, len(random_bytes) - 1)
+                index = random.randint(0, byte_length - 1)
                 random_bytes[index] = (random_bytes[index] + 1) % 256
                 k = bytes(random_bytes[:byte_length])
                 original.add(k)
-            # print(f'TRACE dict len {len(original)}')
+            # print(f'TRACE expected set len {size} got {len(original)} DIFF {size - len(original)}')
             timer = TimedResults()
             for _r in range(REPEAT):
                 time_start = time.perf_counter()
@@ -363,7 +368,7 @@ def test_new_set_bytes():
 def test_new_set_str():
     random_bytes = [random.randint(0, 127) for _i in range(max(SIZE_DOUBLING_BYTE_LENGTH))]
     proc = psutil.Process()
-    for byte_length in SIZE_DOUBLING_BYTE_LENGTH:
+    for byte_length in SIZE_DOUBLING_HASHABLE_BYTE_LENGTH:
         results = []
         rss = proc.memory_info().rss
         for size in SIZE_DOUBLING:
@@ -371,7 +376,7 @@ def test_new_set_str():
             for i in range(size):
                 # random.shuffle(random_bytes)
                 # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
-                index = random.randint(0, len(random_bytes) - 1)
+                index = random.randint(0, byte_length - 1)
                 random_bytes[index] = (random_bytes[index] + 1) % 127
                 k = bytes(random_bytes[:byte_length])
                 original.add(k.decode('ascii'))
@@ -475,7 +480,7 @@ def test_new_dict_complex_complex():
 def test_new_dict_bytes_bytes():
     random_bytes = [random.randint(0, 255) for _i in range(max(SIZE_DOUBLING_BYTE_LENGTH))]
     proc = psutil.Process()
-    for byte_length in SIZE_DOUBLING_BYTE_LENGTH:
+    for byte_length in SIZE_DOUBLING_HASHABLE_BYTE_LENGTH:
         results = []
         rss = proc.memory_info().rss
         for size in SIZE_DOUBLING:
@@ -483,7 +488,7 @@ def test_new_dict_bytes_bytes():
             for i in range(size):
                 # random.shuffle(random_bytes)
                 # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
-                index = random.randint(0, len(random_bytes) - 1)
+                index = random.randint(0, byte_length - 1)
                 random_bytes[index] = (random_bytes[index] + 1) % 256
                 k = bytes(random_bytes[:byte_length])
                 original[k] = b' ' * byte_length
@@ -509,7 +514,7 @@ def test_new_dict_bytes_bytes():
 def test_new_dict_str_str():
     random_bytes = [random.randint(0, 127) for _i in range(max(SIZE_DOUBLING_BYTE_LENGTH))]
     proc = psutil.Process()
-    for byte_length in SIZE_DOUBLING_BYTE_LENGTH:
+    for byte_length in SIZE_DOUBLING_HASHABLE_BYTE_LENGTH:
         results = []
         rss = proc.memory_info().rss
         for size in SIZE_DOUBLING:
@@ -517,7 +522,7 @@ def test_new_dict_str_str():
             for i in range(size):
                 # random.shuffle(random_bytes)
                 # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
-                index = random.randint(0, len(random_bytes) - 1)
+                index = random.randint(0, byte_length - 1)
                 random_bytes[index] = (random_bytes[index] + 1) % 128
                 k = bytes(random_bytes[:byte_length])
                 original[k.decode('ascii')] = ' ' * byte_length
