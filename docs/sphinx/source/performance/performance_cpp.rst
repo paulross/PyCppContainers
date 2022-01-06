@@ -1,9 +1,14 @@
+.. moduleauthor:: Paul Ross <apaulross@gmail.com>
+.. sectionauthor:: Paul Ross <apaulross@gmail.com>
 
+.. C++ performance
 
 C++ Performance Tests
 ==============================
 
 These tests are in ``src/cpy/tests/test_performance.h`` and ``src/cpy/tests/test_performance.cpp``.
+There are a number of macros ``TEST_PERFORMANCE_*`` there that control which tests are run.
+Running all tests takes about 900 seconds.
 
 Conversion of Fundamental Types
 ------------------------------------
@@ -115,39 +120,43 @@ This is about twice the time for ``bytes`` and ``std::vector<char>``.
 Python List to and from a C++ ``std::vector<T>``
 ----------------------------------------------------------
 
-TODO: Use this as an extensive example of the methodology.
+This as an extensive example of the methodology used for performance tests.
+Each container test is repeated 5 times and the min/mean/max/std. dev. is recorded.
+The min value is regarded as the most consistent one as other results may be affected by arbitrary context switching.
+The tests are run on containers of lengths up to 1m items.
 
-TODO: Use this as an example of the methodology, this shows RATE, the rest show time.
-
-This shows the conversion cost of various length strings from a Python tuple to a C++ vector.
-Each test was repeated 5 times.
-The line shows the mean time per object in µs.
-The extreme whiskers show the minimum and maximum test values.
-The box shows the mean time ±the standard deviation, this is asymmetric as it is plotted on a log scale.
-The box will often extend beyond a minimum value where the minimum is close to the mean and the maximum large.
-
-
-TODO:
-Rate line shows minimum.
-
-Lists of ``bool``, ``int``, ``float`` and ``complex``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
-Here is the total time to convert a list of ``bool``, ``int``, ``float`` and ``complex`` Python values to C++ for various list lengths:
+For example here is the total time to convert a list of ``bool``, ``int``, ``float`` and ``complex`` Python values to C++ for various list lengths:
 
 .. image:: ../plots/images/cpp_py_list_bool_int_float_vector_bool_long_double_time.png
     :height: 300px
     :align: center
 
-More useful is the *rate* of conversion, that is the total time divided by the list size:
+This time plot is not that informative apart from showing linear behaviour.
+More useful are *rate* plots that show the total time for the test divided by the container length.
+These rate plots have the following design features:
+
+* For consistency a rate scale of µs/item is used.
+* The extreme whiskers show the minimum and maximum test values.
+* The box shows the mean time ±the standard deviation, this is asymmetric as it is plotted on a log scale.
+* The box will often extend beyond a minimum value where the minimum is close to the mean and the maximum large.
+* The line shows the minimum time per object in µs.
+
+
+Here is the rate of converting a list of ``bool``, ``int``, ``float`` and ``complex`` Python values to C++ for various list lengths:
 
 .. image:: ../plots/images/cpp_py_list_bool_int_float_vector_bool_long_double_rate.png
     :height: 300px
     :align: center
 
-``int``, ``float`` and ``complex`` take 0.01 µs per object to convert.
-``bool`` objects take around 0.006 µs per object, roughly twice as fast.
+These rate plots are used for the rest of this section.
+
+Lists of ``bool``, ``int``, ``float`` and ``complex``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The rate plot is shown above, it shows that:
+
+* ``int``, ``float`` and ``complex`` take 0.01 µs per object to convert.
+* ``bool`` objects take around 0.006 µs per object, roughly twice as fast.
 
 
 And the reverse converting a list of ``bool``, ``int``, ``float`` and ``complex`` from C++ to Python:
@@ -162,40 +171,34 @@ Lists of ``bytes``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Another area of interest is the conversion of a list of ``bytes`` or ``str`` between Python and C++.
-In these tests a list of of ``bytes`` or ``str`` objects
-TODO:
+In these tests a list of of ``bytes`` or ``str`` objects of lengths 2, 16, 128 and 1024 are used to  convert from Python to C++.
 
 .. image:: ../plots/images/cpp_py_list_bytes_vector_vector_char_rate.png
     :height: 300px
     :align: center
 
-TODO:
+This graph shows a characteristic rise in rate for larger list lengths of larger objects.
+This is most likely because of memory contention issues with the larger, up to 1GB, containers.
+This characteristic is observed on most of the following plots, particularly with containers of ``bytes`` and ``str``.
+
+In summary:
 
 =============== ======================= =========================== ===================
 Object          ~Time per object (µs)   Rate Mb/s                   Notes
 =============== ======================= =========================== ===================
-bytes[2]        0.01                    200
-bytes[16]       0.01                    1600
-bytes[128]      0.07                    1,800
-bytes[1024]     0.15 to 0.6             1,600 to 6,800
+bytes[2]        0.06                    30
+bytes[16]       0.06                    270
+bytes[128]      0.06                    2,000
+bytes[1024]     0.15 to 0.4             2,500 to 6,800
 =============== ======================= =========================== ===================
 
 
-TODO: bytes C++ -> Python
-TODO:
-
-.. image:: ../plots/images/cpp_vector_vector_char_py_list_bytes_time.png
-    :height: 300px
-    :align: center
-
-TODO:
+This is the inverse, converting a C++ ``std::vector<std::vector<char>>`` to a Python list of ``bytes``:
 
 .. image:: ../plots/images/cpp_vector_vector_char_py_list_bytes_rate.png
     :height: 300px
     :align: center
 
-TODO:
-
 =============== ======================= =========================== ===================
 Object          ~Time per object (µs)   Rate Mb/s                   Notes
 =============== ======================= =========================== ===================
@@ -205,78 +208,140 @@ bytes[128]      0.02 to 0.09            1,400 to 6,400
 bytes[1024]     0.1 to 0.6              1,600 to 10,000
 =============== ======================= =========================== ===================
 
+This shows that converting C++ to Python is about twice as fast as the other way around.
+This is in line with the performance of conversion of fundamental types described above.
+
 Lists of ``str``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
-TODO: Describe str
-TODO: Python -> C++
-
-.. image:: ../plots/images/cpp_py_list_str_vector_string_time.png
-    :height: 300px
-    :align: center
-
-TODO:
+Similarly for converting a a Python list of ``str`` to and from a C++ ``std::vector<std::string>``.
+First Python -> C++:
 
 .. image:: ../plots/images/cpp_py_list_str_vector_string_rate.png
     :height: 300px
     :align: center
 
-TODO:
+Notably with small strings (2 and 16 long) are about eight times faster that for bytes.
+For larger strings this perfformance is very similar to Python ``bytes`` to a C++ ``std::vector<std::vector<char>>``:
 
 =============== ======================= =========================== ===================
 Object          ~Time per object (µs)   Rate Mb/s                   Notes
 =============== ======================= =========================== ===================
-bytes[2]        0.01                    200
-bytes[16]       0.01                    1600
-bytes[128]      0.07                    1,800
-bytes[1024]     0.15 to 0.6             1,600 to 6,800
+str[2]          0.01                    200
+str[16]         0.01                    1600
+str[128]        0.07                    1,800
+str[1024]       0.1 to 0.6              1,600 to 10,000
 =============== ======================= =========================== ===================
 
-
-TODO: str C++ -> Python
-TODO:
-
-.. image:: ../plots/images/cpp_vector_string_py_list_str_time.png
-    :height: 300px
-    :align: center
-
-TODO:
+And C++ -> Python:
 
 .. image:: ../plots/images/cpp_vector_string_py_list_str_rate.png
     :height: 300px
     :align: center
 
-TODO:
-
 =============== ======================= =========================== ===================
 Object          ~Time per object (µs)   Rate Mb/s                   Notes
 =============== ======================= =========================== ===================
-bytes[2]        0.015 to 0.03           67 to 133
-bytes[16]       0.015 to 0.04           400 to 133
-bytes[128]      0.02 to 0.09            1,400 to 6,400
-bytes[1024]     0.1 to 0.6              1,600 to 10,000
+str[2]          0.03                    70
+str[16]         0.03                    500
+str[128]        0.03 to 0.1             1,300 to 4,000
+str[1024]       0.15 to 0.6             1,700 to 6,800
 =============== ======================= =========================== ===================
 
-
-
-
+Slightly slower than the twice the time for converting ``bytes`` especially for small strings
+this is abut twice the time for converting ``bytes`` but otherwise very similar to Python ``bytes``
+to a C++ ``std::vector<std::vector<char>>``:
 
 Python Tuple to and from a C++ ``std::vector<T>``
 ----------------------------------------------------------
 
-TODO:
+This is near identical to the performance of a list for:
 
+* The conversion of  ``bool``, ``int``, ``float`` and ``complex`` for Python to C++ and C++ to Python.
+* The conversion of  ``bytes`` for Python to C++ and C++ to Python.
+* The conversion of  ``str`` for Python to C++ and C++ to Python.
 
 
 Python Set to and from a C++ ``std::unordered_set<T>``
 ----------------------------------------------------------
 
+Set Python int to C++
+
+.. image:: ../plots/images/cpp_py_set_int_float_unordered_set_long_double_rate.png
+    :height: 300px
+    :align: center
+
+Set C++ int etc. to Python
+
+.. image:: ../plots/images/cpp_unordered_set_long_double_py_set_int_float_rate.png
+    :height: 300px
+    :align: center
+
+Set Python bytes to C++
+
+.. image:: ../plots/images/cpp_py_set_bytes_unordered_set_vector_char_rate.png
+    :height: 300px
+    :align: center
+
+Set C++ bytes etc. to Python
+
+.. image:: ../plots/images/cpp_unordered_set_vector_char_to_py_set_multiple_std_vector_char_rate.png
+    :height: 300px
+    :align: center
+
+Set Python str to C++
+
+.. image:: ../plots/images/cpp_py_set_str_unordered_set_string_rate.png
+    :height: 300px
+    :align: center
+
+Set C++ str etc. to Python
+
+.. image:: ../plots/images/cpp_unordered_set_string_to_py_set_multiple_std_string_rate.png
+    :height: 300px
+    :align: center
+
 TODO:
-
-
 
 Python Dict to and from a C++ ``std::unordered_map<K, V>``
 -------------------------------------------------------------
 
 TODO:
+
+Dictionary Python int to C++
+
+.. image:: ../plots/images/cpp_py_dict_int_float_unordered_map_long_double_rate.png
+    :height: 300px
+    :align: center
+
+Dictionary C++ int etc. to Python
+
+.. image:: ../plots/images/cpp_unordered_map_long_double_py_dict_int_float_rate.png
+    :height: 300px
+    :align: center
+
+Dictionary Python bytes to C++
+
+.. image:: ../plots/images/cpp_py_dict_bytes_unordered_map_vector_char_rate.png
+    :height: 300px
+    :align: center
+
+Dictionary C++ bytes etc. to Python
+
+.. image:: ../plots/images/cpp_unordered_map_vector_char_to_py_dict_multiple_std_vector_char_rate.png
+    :height: 300px
+    :align: center
+
+Dictionary Python str to C++
+
+.. image:: ../plots/images/cpp_py_dict_str_unordered_map_string_rate.png
+    :height: 300px
+    :align: center
+
+Dictionary C++ str etc. to Python
+
+.. image:: ../plots/images/cpp_unordered_map_string_to_py_dict_multiple_std_string_rate.png
+    :height: 300px
+    :align: center
+
+

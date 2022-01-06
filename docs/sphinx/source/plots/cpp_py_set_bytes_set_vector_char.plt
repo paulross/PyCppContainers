@@ -41,7 +41,7 @@ set title "Time to copy a Python set of bytes to and from C++ std::unordered_set
 
 set key left
 
-# First the raw time graph:
+# First the raw time graphs:
 set ylabel "Time (µs)"
 
 set terminal svg size 1400,700           # choose the file format
@@ -76,6 +76,7 @@ plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_cha
 
 # Now the rate graph.
 set ylabel "Time per Item (µs)"
+# set yrange [0.1:10]
 
 set terminal svg size 1400,700           # choose the file format
 set output "images/cpp_py_set_bytes_unordered_set_vector_char_rate.svg"   # choose the output device

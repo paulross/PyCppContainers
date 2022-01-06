@@ -68,7 +68,7 @@ plot "dat/roundtrip_set_str_16.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * 
 
 # Rate plots
 set ylabel "Time per Item (µs)"
-set yrange [:10]
+set yrange [0.1:10]
 
 set terminal svg size 1400,700           # choose the file format
 set output "images/roundtrip_set_str_rate.svg"   # choose the output device

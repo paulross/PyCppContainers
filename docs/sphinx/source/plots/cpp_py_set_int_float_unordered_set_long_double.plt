@@ -101,7 +101,7 @@ plot "dat/test_unordered_set_to_py_set_multiple_long.dat" using 3:(1e6 * ($5 - $
 set title "Rate of copying a Python set of int, float, complex to a C++ std::unordered_set<T>."
 set key right
 set ylabel "Time per Item (µs)"
-set yrange [0.001:0.1]
+set yrange [0.01:1]
 
 
 set terminal svg size 1400,700           # choose the file format
@@ -136,6 +136,7 @@ set output "images/cpp_unordered_set_long_double_py_set_int_float_rate.svg"   # 
 
 set title "Rate of copying a C++ std::unordered_set<T> to a Python set of int, float, complex."
 set ylabel "Time per Item (µs)"
+set yrange [0.001:0.1]
 
 plot "dat/test_unordered_set_to_py_set_multiple_long.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
         t "C++ Set<long> -> Python" with candlesticks whiskerbars 0.5,\
