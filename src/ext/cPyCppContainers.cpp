@@ -114,6 +114,17 @@ new_list(PyObject *arg) {
 }
 
 /**
+ * Create a new list of bools by copying into a vector and back.
+ *
+ * @param arg The Python list. This is const.
+ * @return A new Python list of bool.
+ */
+static PyObject *
+new_list_bool(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<bool>(arg);
+}
+
+/**
  * Create a new list of floats by copying into a vector and back.
  *
  * @param arg The Python list. This is const.
@@ -122,11 +133,6 @@ new_list(PyObject *arg) {
 static PyObject *
 new_list_float(PyObject *Py_UNUSED(module), PyObject *arg) {
     return new_list<double>(arg);
-}
-
-static PyObject *
-new_list_bool(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_list<bool>(arg);
 }
 
 static PyObject *

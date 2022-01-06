@@ -80,7 +80,7 @@
 <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M231.1,642.4 L231.1,153.1 M231.1,63.1 L231.1,54.1  '/></g>
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M231.1,642.4 L231.1,171.1 M231.1,63.1 L231.1,54.1  '/></g>
 <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -97,7 +97,7 @@
 <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M459.0,642.4 L459.0,153.1 M459.0,63.1 L459.0,54.1  '/></g>
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M459.0,642.4 L459.0,171.1 M459.0,63.1 L459.0,54.1  '/></g>
 <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -191,12 +191,12 @@
 </g>
 	<g id="gnuplot_plot_1" ><title>Set [int] &lt;-> C++ &lt;long></title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(445.4,76.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+	<g transform="translate(511.8,76.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
 		<text><tspan font-family="Arial" >Set [int] &lt;-> C++ &lt;long></tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(148,   0, 211)'  d='M453.7,76.6 L495.9,76.6 L495.9,67.6 L453.7,67.6 L453.7,76.6 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M130.1,508.0 L149.9,508.0 L149.9,265.8 L130.1,265.8 L130.1,508.0 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M140.5,431.3 L140.5,508.0 M140.5,265.8 L140.5,212.4 M135.0,212.4 L145.0,212.4 M135.0,431.3 L145.0,431.3
+	<path stroke='rgb(148,   0, 211)'  d='M520.1,76.6 L562.3,76.6 L562.3,67.6 L520.1,67.6 L520.1,76.6 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M130.1,508.0 L149.9,508.0 L149.9,265.8 L130.1,265.8 L130.1,508.0 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M140.5,431.3 L140.5,508.0 M140.5,265.8 L140.5,212.4 M135.0,212.4 L145.0,212.4 M135.0,431.3 L145.0,431.3
 		M204.0,466.9 L218.6,466.9 L218.6,399.7 L204.0,399.7 L204.0,466.9 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M209.2,458.1 L209.2,466.9 M209.2,399.7 L209.2,381.1 M207.6,381.1 L215.0,381.1 M207.6,458.1 L215.0,458.1
 		M272.6,515.7 L282.6,515.7 L282.6,444.5 L272.6,444.5 L272.6,515.7 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M277.6,502.0 L277.6,515.7 M277.6,444.5 L277.6,422.6 M275.1,422.6 L280.1,422.6 M275.1,502.0 L280.1,502.0
 		M409.7,558.7 L424.3,558.7 L424.3,494.1 L409.7,494.1 L409.7,558.7 Z  '/>	<path stroke='rgb(148,   0, 211)'  d='M414.8,542.9 L414.8,558.7 M414.8,494.1 L414.8,473.0 M413.3,473.0 L420.7,473.0 M413.3,542.9 L420.7,542.9
@@ -218,23 +218,23 @@
 	</g>
 	<g id="gnuplot_plot_2" ><title>Minimum Set [int] &lt;-> C++ &lt;long></title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(445.4,94.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+	<g transform="translate(511.8,94.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
 		<text><tspan font-family="Arial" >Minimum Set [int] &lt;-> C++ &lt;long></tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(  0, 158, 115)'  d='M453.7,90.1 L495.9,90.1 M71.9,364.7 L140.5,431.3 L209.1,458.1 L277.7,502.0 L346.2,529.8 L414.8,542.9
+	<path stroke='rgb(  0, 158, 115)'  d='M520.1,90.1 L562.3,90.1 M71.9,364.7 L140.5,431.3 L209.1,458.1 L277.7,502.0 L346.2,529.8 L414.8,542.9
 		L483.4,541.5 L552.0,549.6 L620.6,534.9 L689.2,544.7 L757.7,549.1 L826.3,560.6 L894.9,562.7 L963.5,559.4
 		L1032.1,538.1 L1100.7,547.8 L1169.2,527.5 L1237.8,506.4 L1306.4,476.1 L1375.0,468.1  '/></g>
 	</g>
 	<g id="gnuplot_plot_3" ><title>Set [float] &lt;-> C++ &lt;double></title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(445.4,112.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+	<g transform="translate(511.8,112.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
 		<text><tspan font-family="Arial" >Set [float] &lt;-> C++ &lt;double></tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb( 86, 180, 233)'  d='M453.7,112.6 L495.9,112.6 L495.9,103.6 L453.7,103.6 L453.7,112.6 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M138.0,432.9 L143.0,432.9 L143.0,253.3 L138.0,253.3 L138.0,432.9 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M140.5,392.7 L140.5,432.9 M140.5,253.3 L140.5,209.8 M139.2,209.8 L141.8,209.8 M139.2,392.7 L141.8,392.7
+	<path stroke='rgb( 86, 180, 233)'  d='M520.1,112.6 L562.3,112.6 L562.3,103.6 L520.1,103.6 L520.1,112.6 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M138.0,432.9 L143.0,432.9 L143.0,253.3 L138.0,253.3 L138.0,432.9 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M140.5,392.7 L140.5,432.9 M140.5,253.3 L140.5,209.8 M139.2,209.8 L141.8,209.8 M139.2,392.7 L141.8,392.7
 		M272.6,452.5 L287.2,452.5 L287.2,404.2 L272.6,404.2 L272.6,452.5 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M277.8,444.2 L277.8,452.5 M277.8,404.2 L277.8,389.7 M276.2,389.7 L283.6,389.7 M276.2,444.2 L283.6,444.2
 		M341.2,458.0 L355.8,458.0 L355.8,413.0 L341.2,413.0 L341.2,458.0 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M346.3,458.3 L346.3,458.0 M346.3,413.0 L346.3,400.8 M344.8,400.8 L352.2,400.8 M344.8,458.3 L352.2,458.3
 		M409.7,473.7 L424.3,473.7 L424.3,450.3 L409.7,450.3 L409.7,473.7 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M414.8,473.6 L414.8,473.7 M414.8,450.3 L414.8,449.7 M413.3,449.7 L420.7,449.7 M413.3,473.6 L420.7,473.6
@@ -254,46 +254,57 @@
 		M1369.9,307.9 L1375.1,307.9 L1375.1,299.7 L1369.9,299.7 L1369.9,307.9 Z  '/>	<path stroke='rgb( 86, 180, 233)'  d='M1374.9,308.1 L1374.9,307.9 M1374.9,299.7 L1374.9,298.5 M1371.2,298.5 L1373.8,298.5 M1371.2,308.1 L1373.8,308.1
 		 '/></g>
 	</g>
-	<g id="gnuplot_plot_4" ><title>Set [complex] &lt;-> C++ &lt;std::complex&lt;double>></title>
+	<g id="gnuplot_plot_4" ><title>Minimum Set [float] &lt;-> C++ &lt;double></title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(445.4,130.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >Set [complex] &lt;-> C++ &lt;std::complex&lt;double>></tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(230, 159,   0)'  d='M453.7,130.6 L495.9,130.6 L495.9,121.6 L453.7,121.6 L453.7,130.6 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M130.1,374.1 L149.9,374.1 L149.9,232.3 L130.1,232.3 L130.1,374.1 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M140.5,351.5 L140.5,374.1 M140.5,232.3 L140.5,200.8 M135.0,200.8 L145.0,200.8 M135.0,351.5 L145.0,351.5
-		M204.0,393.9 L218.6,393.9 L218.6,292.2 L204.0,292.2 L204.0,393.9 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M209.2,379.1 L209.2,393.9 M209.2,292.2 L209.2,269.4 M207.6,269.4 L215.0,269.4 M207.6,379.1 L215.0,379.1
-		M272.6,413.8 L287.2,413.8 L287.2,344.3 L272.6,344.3 L272.6,413.8 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M277.8,401.5 L277.8,413.8 M277.8,344.3 L277.8,324.6 M276.2,324.6 L283.6,324.6 M276.2,401.5 L283.6,401.5
-		M341.2,424.4 L355.8,424.4 L355.8,365.6 L341.2,365.6 L341.2,424.4 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M346.3,416.0 L346.3,424.4 M346.3,365.6 L346.3,348.1 M344.8,348.1 L352.2,348.1 M344.8,416.0 L352.2,416.0
-		M409.7,427.8 L424.3,427.8 L424.3,385.8 L409.7,385.8 L409.7,427.8 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M414.8,422.8 L414.8,427.8 M414.8,385.8 L414.8,373.5 M413.3,373.5 L420.7,373.5 M413.3,422.8 L420.7,422.8
-		M478.3,429.0 L492.9,429.0 L492.9,399.8 L478.3,399.8 L478.3,429.0 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M483.5,426.3 L483.5,429.0 M483.5,399.8 L483.5,390.9 M481.9,390.9 L489.3,390.9 M481.9,426.3 L489.3,426.3
-		M546.9,433.0 L561.5,433.0 L561.5,412.7 L546.9,412.7 L546.9,433.0 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M552.1,430.0 L552.1,433.0 M552.1,412.7 L552.1,405.9 M550.5,405.9 L557.9,405.9 M550.5,430.0 L557.9,430.0
-		M615.5,434.5 L630.1,434.5 L630.1,421.4 L615.5,421.4 L615.5,434.5 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M620.7,432.7 L620.7,434.5 M620.7,421.4 L620.7,417.3 M619.1,417.3 L626.5,417.3 M619.1,432.7 L626.5,432.7
-		M684.1,412.0 L698.7,412.0 L698.7,394.2 L684.1,394.2 L684.1,412.0 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M689.3,409.7 L689.3,412.0 M689.3,394.2 L689.3,388.1 M687.7,388.1 L695.1,388.1 M687.7,409.7 L695.1,409.7
-		M752.7,389.4 L767.3,389.4 L767.3,359.8 L752.7,359.8 L752.7,389.4 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M757.8,383.5 L757.8,389.4 M757.8,359.8 L757.8,349.2 M756.3,349.2 L763.7,349.2 M756.3,383.5 L763.7,383.5
-		M821.3,385.2 L835.9,385.2 L835.9,359.7 L821.3,359.7 L821.3,385.2 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M826.4,394.2 L826.4,385.2 M826.4,359.7 L826.4,359.0 M824.9,359.0 L832.3,359.0 M824.9,394.2 L832.3,394.2
-		M889.8,391.8 L904.4,391.8 L904.4,352.7 L889.8,352.7 L889.8,391.8 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M895.0,391.1 L895.0,391.8 M895.0,352.7 L895.0,342.1 M893.4,342.1 L900.8,342.1 M893.4,391.1 L900.8,391.1
-		M958.4,409.2 L973.0,409.2 L973.0,389.6 L958.4,389.6 L958.4,409.2 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M963.6,410.7 L963.6,409.2 M963.6,389.6 L963.6,384.8 M962.0,384.8 L969.4,384.8 M962.0,410.7 L969.4,410.7
-		M1027.0,364.1 L1041.6,364.1 L1041.6,354.3 L1027.0,354.3 L1027.0,364.1 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M1032.2,367.4 L1032.2,364.1 M1032.2,354.3 L1032.2,354.7 M1030.6,354.7 L1038.0,354.7 M1030.6,367.4 L1038.0,367.4
-		M1095.6,353.6 L1110.2,353.6 L1110.2,320.7 L1095.6,320.7 L1095.6,353.6 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M1100.8,351.8 L1100.8,353.6 M1100.8,320.7 L1100.8,309.8 M1099.2,309.8 L1106.6,309.8 M1099.2,351.8 L1106.6,351.8
-		M1164.2,313.0 L1178.8,313.0 L1178.8,307.5 L1164.2,307.5 L1164.2,313.0 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M1169.3,312.5 L1169.3,313.0 M1169.3,307.5 L1169.3,306.5 M1167.8,306.5 L1175.2,306.5 M1167.8,312.5 L1175.2,312.5
-		M1232.8,226.5 L1247.4,226.5 L1247.4,218.8 L1232.8,218.8 L1232.8,226.5 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M1237.9,226.4 L1237.9,226.5 M1237.9,218.8 L1237.9,217.3 M1236.4,217.3 L1243.8,217.3 M1236.4,226.4 L1243.8,226.4
-		M1301.3,133.7 L1315.9,133.7 L1315.9,126.3 L1301.3,126.3 L1301.3,133.7 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M1306.5,132.9 L1306.5,133.7 M1306.5,126.3 L1306.5,123.7 M1304.9,123.7 L1312.3,123.7 M1304.9,132.9 L1312.3,132.9
-		M1369.9,129.1 L1375.1,129.1 L1375.1,125.0 L1369.9,125.0 L1369.9,129.1 Z  '/>	<path stroke='rgb(230, 159,   0)'  d='M1374.9,130.2 L1374.9,129.1 M1374.9,125.0 L1374.9,124.9 M1371.2,124.9 L1373.8,124.9 M1371.2,130.2 L1373.8,130.2
-		 '/></g>
-	</g>
-	<g id="gnuplot_plot_5" ><title>Minimum Set [float] &lt;-> C++ &lt;double></title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(445.4,148.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+	<g transform="translate(511.8,130.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
 		<text><tspan font-family="Arial" >Minimum Set [float] &lt;-> C++ &lt;double></tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(240, 228,  66)'  d='M453.7,144.1 L495.9,144.1 M71.9,362.1 L140.5,392.7 L209.1,414.4 L277.7,444.2 L346.2,458.3 L414.8,473.6
+	<path stroke='rgb(230, 159,   0)'  d='M520.1,126.1 L562.3,126.1 M71.9,362.1 L140.5,392.7 L209.1,414.4 L277.7,444.2 L346.2,458.3 L414.8,473.6
 		L483.4,475.7 L552.0,483.6 L620.6,480.3 L689.2,486.0 L757.7,482.9 L826.3,485.5 L894.9,464.1 L963.5,466.5
 		L1032.1,461.4 L1100.7,454.4 L1169.2,418.0 L1237.8,398.5 L1306.4,349.9 L1375.0,308.1  '/></g>
 	</g>
-<g fill="none" color="white" stroke="rgb(240, 228,  66)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_5" ><title>Set [complex] &lt;-> C++ &lt;std::complex&lt;double>></title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(511.8,148.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >Set [complex] &lt;-> C++ &lt;std::complex&lt;double>></tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(240, 228,  66)'  d='M520.1,148.6 L562.3,148.6 L562.3,139.6 L520.1,139.6 L520.1,148.6 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M130.1,374.1 L149.9,374.1 L149.9,232.3 L130.1,232.3 L130.1,374.1 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M140.5,351.5 L140.5,374.1 M140.5,232.3 L140.5,200.8 M135.0,200.8 L145.0,200.8 M135.0,351.5 L145.0,351.5
+		M204.0,393.9 L218.6,393.9 L218.6,292.2 L204.0,292.2 L204.0,393.9 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M209.2,379.1 L209.2,393.9 M209.2,292.2 L209.2,269.4 M207.6,269.4 L215.0,269.4 M207.6,379.1 L215.0,379.1
+		M272.6,413.8 L287.2,413.8 L287.2,344.3 L272.6,344.3 L272.6,413.8 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M277.8,401.5 L277.8,413.8 M277.8,344.3 L277.8,324.6 M276.2,324.6 L283.6,324.6 M276.2,401.5 L283.6,401.5
+		M341.2,424.4 L355.8,424.4 L355.8,365.6 L341.2,365.6 L341.2,424.4 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M346.3,416.0 L346.3,424.4 M346.3,365.6 L346.3,348.1 M344.8,348.1 L352.2,348.1 M344.8,416.0 L352.2,416.0
+		M409.7,427.8 L424.3,427.8 L424.3,385.8 L409.7,385.8 L409.7,427.8 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M414.8,422.8 L414.8,427.8 M414.8,385.8 L414.8,373.5 M413.3,373.5 L420.7,373.5 M413.3,422.8 L420.7,422.8
+		M478.3,429.0 L492.9,429.0 L492.9,399.8 L478.3,399.8 L478.3,429.0 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M483.5,426.3 L483.5,429.0 M483.5,399.8 L483.5,390.9 M481.9,390.9 L489.3,390.9 M481.9,426.3 L489.3,426.3
+		M546.9,433.0 L561.5,433.0 L561.5,412.7 L546.9,412.7 L546.9,433.0 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M552.1,430.0 L552.1,433.0 M552.1,412.7 L552.1,405.9 M550.5,405.9 L557.9,405.9 M550.5,430.0 L557.9,430.0
+		M615.5,434.5 L630.1,434.5 L630.1,421.4 L615.5,421.4 L615.5,434.5 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M620.7,432.7 L620.7,434.5 M620.7,421.4 L620.7,417.3 M619.1,417.3 L626.5,417.3 M619.1,432.7 L626.5,432.7
+		M684.1,412.0 L698.7,412.0 L698.7,394.2 L684.1,394.2 L684.1,412.0 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M689.3,409.7 L689.3,412.0 M689.3,394.2 L689.3,388.1 M687.7,388.1 L695.1,388.1 M687.7,409.7 L695.1,409.7
+		M752.7,389.4 L767.3,389.4 L767.3,359.8 L752.7,359.8 L752.7,389.4 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M757.8,383.5 L757.8,389.4 M757.8,359.8 L757.8,349.2 M756.3,349.2 L763.7,349.2 M756.3,383.5 L763.7,383.5
+		M821.3,385.2 L835.9,385.2 L835.9,359.7 L821.3,359.7 L821.3,385.2 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M826.4,394.2 L826.4,385.2 M826.4,359.7 L826.4,359.0 M824.9,359.0 L832.3,359.0 M824.9,394.2 L832.3,394.2
+		M889.8,391.8 L904.4,391.8 L904.4,352.7 L889.8,352.7 L889.8,391.8 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M895.0,391.1 L895.0,391.8 M895.0,352.7 L895.0,342.1 M893.4,342.1 L900.8,342.1 M893.4,391.1 L900.8,391.1
+		M958.4,409.2 L973.0,409.2 L973.0,389.6 L958.4,389.6 L958.4,409.2 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M963.6,410.7 L963.6,409.2 M963.6,389.6 L963.6,384.8 M962.0,384.8 L969.4,384.8 M962.0,410.7 L969.4,410.7
+		M1027.0,364.1 L1041.6,364.1 L1041.6,354.3 L1027.0,354.3 L1027.0,364.1 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M1032.2,367.4 L1032.2,364.1 M1032.2,354.3 L1032.2,354.7 M1030.6,354.7 L1038.0,354.7 M1030.6,367.4 L1038.0,367.4
+		M1095.6,353.6 L1110.2,353.6 L1110.2,320.7 L1095.6,320.7 L1095.6,353.6 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M1100.8,351.8 L1100.8,353.6 M1100.8,320.7 L1100.8,309.8 M1099.2,309.8 L1106.6,309.8 M1099.2,351.8 L1106.6,351.8
+		M1164.2,313.0 L1178.8,313.0 L1178.8,307.5 L1164.2,307.5 L1164.2,313.0 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M1169.3,312.5 L1169.3,313.0 M1169.3,307.5 L1169.3,306.5 M1167.8,306.5 L1175.2,306.5 M1167.8,312.5 L1175.2,312.5
+		M1232.8,226.5 L1247.4,226.5 L1247.4,218.8 L1232.8,218.8 L1232.8,226.5 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M1237.9,226.4 L1237.9,226.5 M1237.9,218.8 L1237.9,217.3 M1236.4,217.3 L1243.8,217.3 M1236.4,226.4 L1243.8,226.4
+		M1301.3,133.7 L1315.9,133.7 L1315.9,126.3 L1301.3,126.3 L1301.3,133.7 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M1306.5,132.9 L1306.5,133.7 M1306.5,126.3 L1306.5,123.7 M1304.9,123.7 L1312.3,123.7 M1304.9,132.9 L1312.3,132.9
+		M1369.9,129.1 L1375.1,129.1 L1375.1,125.0 L1369.9,125.0 L1369.9,129.1 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M1374.9,130.2 L1374.9,129.1 M1374.9,125.0 L1374.9,124.9 M1371.2,124.9 L1373.8,124.9 M1371.2,130.2 L1373.8,130.2
+		 '/></g>
+	</g>
+	<g id="gnuplot_plot_6" ><title>Minimum Set [complex] &lt;-> C++ &lt;std::complex&lt;double>></title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(511.8,166.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >Minimum Set [complex] &lt;-> C++ &lt;std::complex&lt;double>></tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(  0, 114, 178)'  d='M520.1,162.1 L562.3,162.1 M71.9,322.0 L140.5,351.5 L209.1,379.1 L277.7,401.5 L346.2,416.0 L414.8,422.8
+		L483.4,426.3 L552.0,430.0 L620.6,432.7 L689.2,409.7 L757.7,383.5 L826.3,394.2 L894.9,391.1 L963.5,410.7
+		L1032.1,367.4 L1100.7,351.8 L1169.2,312.5 L1237.8,226.4 L1306.4,132.9 L1375.0,130.2  '/></g>
+	</g>
+<g fill="none" color="white" stroke="rgb(  0, 114, 178)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
