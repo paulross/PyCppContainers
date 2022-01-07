@@ -21,7 +21,11 @@ const size_t TEST_REPEAT = 5;
 // Either 8, 64, 512, 4096
 // Or could use 4, 32, 256, 2048
 // Or could use 2, 16, 128, 1024
-const size_t MIN_STRING_LENGTH = 2;//8;
+// For things like lists and tuples as std::vectors we can insert small strings so can measure that performance.
+const size_t MIN_STRING_LENGTH_NON_HASHABLE = 2;
+// For things like sets and dicts we can not insert a large number of small strings because of duplication
+// so can not measure that performance.
+const size_t MIN_STRING_LENGTH_HASHABLE = 16;
 const size_t LIMIT_STRING_LENGTH = 1024 * 2;//4096 * 2; // Maximum value < this value
 const size_t INC_STRING_LENGTH_MULTIPLE = 8; // How much to increment the string size.
 
@@ -351,7 +355,7 @@ test_vector_vector_char_to_py_tuple_multiple(TestResultS &test_results, size_t s
 int test_perf_vector_vector_char_to_py_tuple_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_vector_vector_char_to_py_tuple_multiple(test_results, size, str_len, repeat);
@@ -388,7 +392,7 @@ test_py_tuple_bytes_to_vector_vector_char_multiple(TestResultS &test_results, si
 int test_perf_py_tuple_to_vector_vector_char_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_py_tuple_bytes_to_vector_vector_char_multiple(test_results, size, str_len, repeat);
@@ -420,7 +424,7 @@ int test_vector_string_to_py_tuple_multiple(TestResultS &test_results, size_t si
 int test_perf_vector_string_to_py_tuple_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_vector_string_to_py_tuple_multiple(test_results, size, str_len, repeat);
@@ -456,7 +460,7 @@ test_py_tuple_str_to_vector_string_multiple(TestResultS &test_results, size_t si
 int test_perf_py_tuple_to_vector_string_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_py_tuple_str_to_vector_string_multiple(test_results, size, str_len, repeat);
@@ -573,7 +577,7 @@ int test_vector_vector_char_to_py_list_multiple(TestResultS &test_results, size_
 int test_perf_vector_vector_char_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_vector_vector_char_to_py_list_multiple(test_results, size, str_len, repeat);
@@ -610,7 +614,7 @@ test_py_list_bytes_to_vector_vector_char_multiple(TestResultS &test_results, siz
 int test_perf_py_list_to_vector_vector_char_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_py_list_bytes_to_vector_vector_char_multiple(test_results, size, str_len, repeat);
@@ -642,7 +646,7 @@ int test_vector_string_to_py_list_multiple(TestResultS &test_results, size_t siz
 int test_perf_vector_string_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_vector_string_to_py_list_multiple(test_results, size, str_len, repeat);
@@ -678,7 +682,7 @@ test_py_list_str_to_vector_string_multiple(TestResultS &test_results, size_t siz
 int test_perf_py_list_to_vector_string_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_py_list_str_to_vector_string_multiple(test_results, size, str_len, repeat);
@@ -799,7 +803,7 @@ int test_unordered_set_vector_char_to_py_set_multiple(TestResultS &test_results,
 int test_perf_unordered_set_vector_char_to_py_set_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_unordered_set_vector_char_to_py_set_multiple(test_results, size, str_len, repeat);
@@ -835,7 +839,7 @@ int test_py_set_bytes_to_unordered_set_vector_char_multiple(TestResultS &test_re
 int test_perf_py_set_bytes_to_unordered_set_vector_char_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_py_set_bytes_to_unordered_set_vector_char_multiple(test_results, size, str_len, repeat);
@@ -868,7 +872,7 @@ test_unordered_set_string_to_py_set_multiple(TestResultS &test_results, size_t s
 int test_perf_unordered_set_string_to_py_set_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_unordered_set_string_to_py_set_multiple(test_results, size, str_len, repeat);
@@ -904,7 +908,7 @@ int test_py_set_str_to_unordered_set_string_multiple(TestResultS &test_results, 
 int test_perf_py_set_str_to_unordered_set_string_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_py_set_str_to_unordered_set_string_multiple(test_results, size, str_len, repeat);
@@ -1074,7 +1078,7 @@ int test_cpp_std_unordered_map_to_py_dict_vector_char_multiple(TestResultS &test
 int test_perf_cpp_std_unordered_map_to_py_dict_vector_char_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_cpp_std_unordered_map_to_py_dict_vector_char_multiple(test_results, size, str_len, repeat);
@@ -1110,7 +1114,7 @@ int test_py_dict_to_cpp_std_unordered_map_vector_char_multiple(TestResultS &test
 int test_perf_py_dict_to_cpp_std_unordered_map_vector_char_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_py_dict_to_cpp_std_unordered_map_vector_char_multiple(test_results, size, str_len, repeat);
@@ -1148,7 +1152,7 @@ int test_cpp_std_unordered_map_to_py_dict_string_multiple(TestResultS &test_resu
 int test_perf_cpp_std_unordered_map_to_py_dict_string_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_cpp_std_unordered_map_to_py_dict_string_multiple(test_results, size, str_len, repeat);
@@ -1184,7 +1188,7 @@ int test_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test_resu
 int test_perf_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
-    for (size_t str_len = MIN_STRING_LENGTH; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+    for (size_t str_len = MIN_STRING_LENGTH_HASHABLE; str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_py_dict_to_cpp_std_unordered_map_string_multiple(test_results, size, str_len, repeat);
