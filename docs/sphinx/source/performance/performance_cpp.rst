@@ -265,43 +265,80 @@ This is near identical to the performance of a list for:
 Python Set to and from a C++ ``std::unordered_set<T>``
 ----------------------------------------------------------
 
-Set Python int to C++
+Set of ``bool``, ``int``, ``float`` and ``complex``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Here is the rate graph for converting a Python ``set`` to C++ ``std::unordered_set<T>`` for Python
+``int``, ``float`` and ``complex`` objects:
 
 .. image:: ../plots/images/cpp_py_set_int_float_unordered_set_long_double_rate.png
     :height: 300px
     :align: center
 
-Set C++ int etc. to Python
+Here is the time per object compared with a list:
+
+=============== =================================== =================================== =========== ===================
+Object          set (µs)                            list (µs)                           Ratio       Notes
+=============== =================================== =================================== =========== ===================
+int             0.09                                0.01                                x9
+double          0.1                                 0.01                                x10
+complex         0.1                                 0.01                                x10
+=============== =================================== =================================== =========== ===================
+
+The cost of insertion is O(N) for both list and set but due to the hashing heeded for the set it is about 10x slower.
+
+And the reverse, converting a C++ ``std::unordered_set<T>`` to a Python ``set`` to for Python
+``int``, ``float`` and ``complex`` objects:
 
 .. image:: ../plots/images/cpp_unordered_set_long_double_py_set_int_float_rate.png
     :height: 300px
     :align: center
 
-Set Python bytes to C++
+The conversion and insertion of C++ to Python is strikingly faster that from Python to C++.
+Here is the time per object compared with a list:
+
+=============== =================================== =================================== =========== ===================
+Object          set (µs)                            list (µs)                           Ratio       Notes
+=============== =================================== =================================== =========== ===================
+int             0.02                                0.01                                x2
+double          0.025                               0.01                                x2.5
+complex         0.04                                0.01                                x4
+=============== =================================== =================================== =========== ===================
+
+
+Set of ``bytes``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TODO:
+
+Here is the rate graph for converting a Python ``set`` of ``bytes`` to C++ ``std::unordered_set<std::vector<char>>``:
+
 
 .. image:: ../plots/images/cpp_py_set_bytes_unordered_set_vector_char_rate.png
     :height: 300px
     :align: center
 
-Set C++ bytes etc. to Python
+And the reverse, converting a C++ ``std::unordered_set<std::vector<char>>`` to a Python ``set`` of ``bytes``:
 
 .. image:: ../plots/images/cpp_unordered_set_vector_char_to_py_set_multiple_std_vector_char_rate.png
     :height: 300px
     :align: center
 
-Set Python str to C++
+Set of ``str``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Here is the rate graph for converting a Python ``set`` of ``str`` to C++ ``std::unordered_set<std::string>``:
 
 .. image:: ../plots/images/cpp_py_set_str_unordered_set_string_rate.png
     :height: 300px
     :align: center
 
-Set C++ str etc. to Python
+And the reverse, converting a C++ ``std::unordered_set<std::string>`` to a Python ``set`` of ``str``:
 
 .. image:: ../plots/images/cpp_unordered_set_string_to_py_set_multiple_std_string_rate.png
     :height: 300px
     :align: center
 
-TODO:
 
 Python Dict to and from a C++ ``std::unordered_map<K, V>``
 -------------------------------------------------------------
