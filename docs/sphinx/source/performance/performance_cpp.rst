@@ -27,19 +27,19 @@ These test are executed if the macro ``TEST_PERFORMANCE_FUNDAMENTAL_TYPES`` is d
    * - C++ ``bool`` <-> Python ``bool``
      - 0.0027
      - 0.0016
-     -
+     - The mean is around 400m/s
    * - C++ ``long`` <-> Python ``int``
      - 0.0146
      - 0.0046
-     - Converting C++ to Python is around x3 times the reverse.
+     - The mean is around 50m/s. Converting C++ to Python is around x3 times the reverse.
    * - C++ ``double`` <-> Python ``float``
      - 0.0086
      - 0.0027
-     - Converting C++ to Python is around x3 times the reverse.
+     - The mean is around 200m/s. Converting C++ to Python is around x3 times the reverse.
    * - C++ ``std::complex<double>`` <-> Python ``complex``
      - 0.0122
      - 0.0049
-     - Converting C++ to Python is around x2.5 times the reverse.
+     - The mean is around 125m/s. Converting C++ to Python is around x2.5 times the reverse.
 
 For a single C++ ``std::vector<char>`` to and from Python ``bytes`` of different lengths:
 
@@ -265,7 +265,7 @@ This is near identical to the performance of a list for:
 Python Set to and from a C++ ``std::unordered_set<T>``
 ----------------------------------------------------------
 
-Set of ``bool``, ``int``, ``float`` and ``complex``
+Set of ``int``, ``float`` and ``complex``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Here is the rate graph for converting a Python ``set`` to C++ ``std::unordered_set<T>`` for Python
@@ -294,7 +294,7 @@ And the reverse, converting a C++ ``std::unordered_set<T>`` to a Python ``set`` 
     :height: 300px
     :align: center
 
-The conversion and insertion of C++ to Python is strikingly faster that from Python to C++.
+The conversion and insertion of C++ to Python is significantly faster that from Python to C++.
 Here is the time per object compared with a list:
 
 =============== =================================== =================================== =========== ===================
@@ -309,14 +309,29 @@ complex         0.04                                0.01                        
 Set of ``bytes``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TODO:
-
 Here is the rate graph for converting a Python ``set`` of ``bytes`` to C++ ``std::unordered_set<std::vector<char>>``:
-
 
 .. image:: ../plots/images/cpp_py_set_bytes_unordered_set_vector_char_rate.png
     :height: 300px
     :align: center
+
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+bytes[16]       0.4                     40
+bytes[128]      0.5                     250
+bytes[1024]     1.0                     1,000
+=============== ======================= =========================== ===================
+
+Here is the time per object compared with a list:
+
+=============== =================================== =================================== =========== ===================
+Object          set (µs)                            list (µs)                           Ratio       Notes
+=============== =================================== =================================== =========== ===================
+bytes[16]       0.4                                 0.06                                x7
+bytes[128]      0.5                                 0.06                                x8
+bytes[1024]     1.0                                 0.15 to 0.4                         x2.5 to x7
+=============== =================================== =================================== =========== ===================
 
 And the reverse, converting a C++ ``std::unordered_set<std::vector<char>>`` to a Python ``set`` of ``bytes``:
 
@@ -324,14 +339,55 @@ And the reverse, converting a C++ ``std::unordered_set<std::vector<char>>`` to a
     :height: 300px
     :align: center
 
+
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+bytes[16]       0.05                    320
+bytes[128]      0.1                     1,280
+bytes[1024]     0.6                     1,600
+=============== ======================= =========================== ===================
+
+Here is the time per object compared with a list:
+
+=============== =================================== =================================== =========== ===================
+Object          set (µs)                            list (µs)                           Ratio       Notes
+=============== =================================== =================================== =========== ===================
+bytes[16]       0.05                                0.015 to 0.04                       x3 to x1.25
+bytes[128]      0.1                                 0.02 to 0.09                        x1 to x5
+bytes[1024]     0.6                                 0.1 to 0.6                          x1 to x6
+=============== =================================== =================================== =========== ===================
+
+
 Set of ``str``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 Here is the rate graph for converting a Python ``set`` of ``str`` to C++ ``std::unordered_set<std::string>``:
 
 .. image:: ../plots/images/cpp_py_set_str_unordered_set_string_rate.png
     :height: 300px
     :align: center
+
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+bytes[16]       0.2                     80
+bytes[128]      0.4                     3000
+bytes[1024]     0.5 to 2.0              500 to 2,000
+=============== ======================= =========================== ===================
+
+Here is the time per object compared with a list:
+
+=============== =================================== =================================== =========== ===================
+Object          set (µs)                            list (µs)                           Ratio       Notes
+=============== =================================== =================================== =========== ===================
+bytes[16]       0.2                                 0.01                                x20
+bytes[128]      0.4                                 0.07                                x6
+bytes[1024]     0.5 to 2.0                          0.1 to 0.6                          ~x5
+=============== =================================== =================================== =========== ===================
+
+
 
 And the reverse, converting a C++ ``std::unordered_set<std::string>`` to a Python ``set`` of ``str``:
 
@@ -340,45 +396,55 @@ And the reverse, converting a C++ ``std::unordered_set<std::string>`` to a Pytho
     :align: center
 
 
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+bytes[16]       0.08                    200
+bytes[128]      0.15                    850
+bytes[1024]     0.8                     1,300
+=============== ======================= =========================== ===================
+
+Here is the time per object compared with a list:
+
+=============== =================================== =================================== =========== ===================
+Object          set (µs)                            list (µs)                           Ratio       Notes
+=============== =================================== =================================== =========== ===================
+bytes[16]       0.08                                0.03                                x3
+bytes[128]      0.15                                0.03                                x5
+bytes[1024]     0.8                                 0.15                                x5
+=============== =================================== =================================== =========== ===================
+
 Python Dict to and from a C++ ``std::unordered_map<K, V>``
 -------------------------------------------------------------
 
-TODO:
+Since dictionaries operate in much the same way as sets the performance is rather similar.
+For brevity the full results of dictionaries are not reproduced here, instead here is a summary of the performance of a
+dictionary compared to a set.
 
-Dictionary Python int to C++
+=============================== =================================== =================================== ===========
+Object                          Python to C++                       C++ to Python                       Notes
+=============================== =================================== =================================== ===========
+``int``, ``float``, ``complex`` Same as a set                       Twice that of a set
+``bytes``                       Slightly slower than a set          Twice that of a set
+``str``                         Same as a set                       Twice that of a set
+=============================== =================================== =================================== ===========
 
-.. image:: ../plots/images/cpp_py_dict_int_float_unordered_map_long_double_rate.png
-    :height: 300px
-    :align: center
+Summary
+------------------
 
-Dictionary C++ int etc. to Python
+Converting Individual Objects
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. image:: ../plots/images/cpp_unordered_map_long_double_py_dict_int_float_rate.png
-    :height: 300px
-    :align: center
+* ``bool``, ``int``, ``float``, ``complex`` from C++ to Python is around two to three times faster than from Python to C++.
+* Converting ``bytes`` from C++ to Python is the same as from Python to C++. This is memory bound at around 50 Gb/s.
+* With ``str`` then Python to C++ is about twice as fast as C++ to Python.
+    With the former performance is twice as fast as ``bytes``, for the latter it is broadly similar to ``bytes`` conversion.
 
-Dictionary Python bytes to C++
+Converting Containers of Objects
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. image:: ../plots/images/cpp_py_dict_bytes_unordered_map_vector_char_rate.png
-    :height: 300px
-    :align: center
-
-Dictionary C++ bytes etc. to Python
-
-.. image:: ../plots/images/cpp_unordered_map_vector_char_to_py_dict_multiple_std_vector_char_rate.png
-    :height: 300px
-    :align: center
-
-Dictionary Python str to C++
-
-.. image:: ../plots/images/cpp_py_dict_str_unordered_map_string_rate.png
-    :height: 300px
-    :align: center
-
-Dictionary C++ str etc. to Python
-
-.. image:: ../plots/images/cpp_unordered_map_string_to_py_dict_multiple_std_string_rate.png
-    :height: 300px
-    :align: center
-
-
+* The performance of Python ``lists`` and ``tuple`` is the same.
+* For Python ``list`` containers converting C++ to Python may be 2x faster in some cases compared to Python to C++.
+* For Python ``list`` containing ``bytes`` and ``str`` objects are converted at a rate of 2 to 5 Gib/s, with some latency.
+* Python ``set`` <-> C++ ``std::unordered_set`` and Python ``dict`` <-> C++ ``std::unordered_map`` conversion is typically
+    x3 to x10 times slower than for lists and tuples.

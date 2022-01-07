@@ -293,5 +293,7 @@ str[1024]       2 to 8                  0.125 to 0.5                125 to 500
 
 Summary
 ------------------
-TODO:
 
+The fairly simple summary is that the round trip performance, as measured by the Python interpreter, agrees very
+closely with the total cost Python -> C++ and C++ -> Python.
+In some cases the performance is twice that figure but no more.
