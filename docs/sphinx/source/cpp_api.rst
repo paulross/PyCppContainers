@@ -2,15 +2,28 @@
 C++ API
 ****************************
 
-Python Containers to C++
+Include File and Namespace
 ============================
-
 
 .. code-block:: cpp
 
     #include "python_convert.h"
 
 All these APIs are in the namespace ``Python_Cpp_Containers``.
+
+Python Containers to C++
+============================
+
+Error Indication
+--------------------------
+
+All of the conversion functions from Python to C++ return an integer which is zero on success, non-zero otherwise.
+Reasons for failure can be:
+
+* The ``PyObject *`` is not the expected Python container, for example passing  a Python tuple when a list is expected.
+* A member of the Python container can not be converted to C++ type ``<T>``.
+
+In the error case a ``PyErr_...`` will be set.
 
 Python ``tuple`` to ``std::vector``
 ---------------------------------------------
@@ -222,7 +235,22 @@ Process a dict of Python ``[int, float]``:
 C++ Containers to Python
 ============================
 
-CPP ``std::vector`` to Python ``tuple``
+Error Indication
+--------------------------
+
+All of the conversion functions from C++ to Python return an ``PyObject *``.
+If this is non-NULL it is a *new reference* and it is te responsibility of the caller to dispose off it.
+
+On failure these functions will return NULL
+Reasons for failure can be:
+
+* The new Python container can not be created with the CPython API, perhaps for memory reasons.
+* A C++ object can not be converted to a Python object. I can not imagine how this would be the case.
+* The converted C++ object can not be can  not be inserted into the Python container. I can not imagine how this would be the case.
+
+In the failure case a ``PyErr_...`` will be set.
+
+C++ ``std::vector`` to Python ``tuple``
 ---------------------------------------------
 
 API
@@ -261,7 +289,7 @@ Create a tuple of Python ``float``:
     }
 
 
-CPP ``std::vector`` to Python ``list``
+C++ ``std::vector`` to Python ``list``
 ---------------------------------------------
 
 API
@@ -299,7 +327,7 @@ Create a list of Python ``float``:
         return cpp_std_vector_to_py_list(vec);
     }
 
-CPP ``std::unordered_set`` to Python ``set``
+C++ ``std::unordered_set`` to Python ``set``
 ---------------------------------------------
 
 API
@@ -337,7 +365,7 @@ Create a set of Python ``float``:
         return cpp_std_unordered_set_to_py_set(set);
     }
 
-CPP ``std::unordered_set`` to Python ``frozenset``
+C++ ``std::unordered_set`` to Python ``frozenset``
 ----------------------------------------------------------
 
 API
