@@ -72,7 +72,26 @@ This project makes extensive use of C++ templates, partial template specialisati
 dramatically the amount of hand maintained code.
 It also converts many runtime errors to compile time errors.
 
-If we want to support this set of types:
+This project supports two way conversion of this set of containers:
+
+.. list-table:: Supported Containers.
+   :widths: 50 50
+   :header-rows: 1
+
+   * - Python Type
+     - C++ Equivalent Type
+   * - ``tuple``
+     - ``std::vector``
+   * - ``list``
+     - ``std::vector``
+   * - ``set``
+     - ``std::unordered_set``
+   * - ``frozenset``
+     - ``std::unordered_set``
+   * - ``dict``
+     - ``std::unordered_map``
+
+Which contain any of this set of types:
 
 .. list-table:: Supported Object types.
    :widths: 30 30
@@ -92,25 +111,6 @@ If we want to support this set of types:
      - ``std::vector<char>``
    * - ``str``
      - ``std::string``
-
-And this set of containers:
-
-.. list-table:: Supported Containers.
-   :widths: 50 50
-   :header-rows: 1
-
-   * - Python Type
-     - C++ Equivalent Type
-   * - ``tuple``
-     - ``std::vector``
-   * - ``list``
-     - ``std::vector``
-   * - ``set``
-     - ``std::unordered_set``
-   * - ``frozenset``
-     - ``std::unordered_set``
-   * - ``dict``
-     - ``std::unordered_map``
 
 The number of conversion functions is worse than the cartesian product of the types and containers as in the case of a
 dict the types can appear as either a key or a value.

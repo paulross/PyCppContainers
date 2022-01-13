@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Python/C++ Homogeneous Containers'
+project = 'Python/C++ Containers'
 copyright = '2021, Paul Ross'
 author = 'Paul Ross'
 
@@ -56,3 +56,14 @@ html_theme = 'sphinxdoc'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# -- Options for Latex output -------------------------------------------------
+latex_documents = [
+    (
+        'index',
+        'PythonCppContainers.tex',
+        'Python and C++ Containers',
+        'Paul Ross',
+        'manual',
+    )
+]
