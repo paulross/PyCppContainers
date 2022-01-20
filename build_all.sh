@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Builds TotalDepth for distribution
+# Builds cPyCppContainers for distribution
 # Ref: https://packaging.python.org/tutorials/packaging-projects/
 #
 # Other references:

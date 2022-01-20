@@ -5,12 +5,10 @@ Using this Library in Your C++ Code
 The Basics
 ============================================
 
-
 Code Generation
 ----------------------
 
 If necessary run the code generator:
-
 
 .. code-block:: shell
 
@@ -21,12 +19,13 @@ Which should give you something like:
 
 .. code-block:: none
 
+    venv/bin/python src/py/code_gen.py
     Target directory "src/cpy"
     Writing declarations to "src/cpy/auto_py_convert_internal.h"
-    Wrote 910 lines of code with 66 declarations.
+    Wrote 1526 lines of code with 122 declarations.
     Writing definitions to  "src/cpy/auto_py_convert_internal.cpp"
-    Wrote 653 lines of code with 64 definitions.
-
+    Wrote 1237 lines of code with 120 definitions.
+    
     Process finished with exit code 0
 
 
@@ -46,20 +45,15 @@ You need to compile the following C++ files by adding them to your makefile or C
 Source Inclusion
 --------------------------
 
-Your pre-processor needs access to the header files with the compiler flag:
+Your pre-processor needs access to the header files with the compiler flag ``-I src/cpy``.
 
-.. code-block:: none
-
-    -I src/cpy
-
-
-Then in your Python extension include the line:
+Then in your C++ code include:
 
 .. code-block:: c
 
     #include "python_convert.h"
 
-An this gives you access to the whole API.
+Which gives you access to the whole API in the namespace ``Python_Cpp_Containers``.
 
 
 Errors

@@ -36,6 +36,7 @@ def _test_new_list_bytes():
     print(f'Total bytes {total_bytes:16,d} RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
 
 
+@pytest.mark.pymemtrace
 def test_new_list_bytes():
     proc = psutil.Process()
     rss = proc.memory_info().rss
@@ -84,6 +85,7 @@ def _test_new_set_bytes():
     print(f'_test_new_set_bytes(): Total bytes {total_bytes:16,d} RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
 
 
+@pytest.mark.pymemtrace
 def test_new_set_bytes():
     proc = psutil.Process()
     rss = proc.memory_info().rss
@@ -133,6 +135,7 @@ def _test_new_dict_bytes():
     print(f'_test_new_dict_bytes(): Total bytes {total_bytes:16,d} RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
 
 
+@pytest.mark.pymemtrace
 def test_new_dict_bytes():
     proc = psutil.Process()
     rss = proc.memory_info().rss
@@ -147,6 +150,7 @@ def test_new_dict_bytes():
 
 
 # Test for single item container leaks.
+@pytest.mark.pymemtrace
 def test_new_list_bytes_one_item():
     """Tests converting a list with a single 1024 byte item 10m times to look for memory leaks in list creation.
 
@@ -188,6 +192,7 @@ def test_new_list_bytes_one_item():
         gc.collect()
 
 
+@pytest.mark.pymemtrace
 def test_new_set_bytes_one_item():
     """Tests converting a set with a single 1024 byte item 10m times to look for memory leaks in set creation.
 
@@ -219,6 +224,7 @@ def test_new_set_bytes_one_item():
         gc.collect()
 
 
+@pytest.mark.pymemtrace
 def test_new_dict_bytes_one_item():
     """Tests converting a dict with a single 1024 byte item 1m times to look for memory leaks in dict creation.
 
