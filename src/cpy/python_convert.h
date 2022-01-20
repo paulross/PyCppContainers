@@ -51,6 +51,8 @@ namespace std {
     template<>
     struct hash<std::complex<double>> {
         size_t operator()(std::complex<double> const &item) const {
+            // From the Python hash code for complex values:
+            //
             // _PyHASH_IMAG is 1000003UL /* 0xf4243 */
             // Py_uhash_t hashreal, hashimag, combined;
             //    hashreal = (Py_uhash_t)_Py_HashDouble((PyObject *) v, v->cval.real);
@@ -440,12 +442,12 @@ namespace Python_Cpp_Containers {
     }
 
     /**
-     * Specific instantiation to convert a C++ std::unordered_set<T> to a Python frozenset.
+     * Specific instantiation to convert a C++ \c std::unordered_set<T> to a Python frozenset.
      *
-     * @tparam T The C++ type of the objects in the std::unordered_set.
-     * @tparam ConvertCppToPy Function to convert the C++ <T> to a PyObject*.
-     * @param set The C++ std::unordered_set as input data.
-     * @return The PyObject* frozenset containing the values of the C++ std::unordered_set.
+     * @tparam T The C++ type of the objects in the \c std::unordered_set.
+     * @tparam ConvertCppToPy Function to convert the C++ \c <T> to a \c PyObject*.
+     * @param set The C++ \c std::unordered_set as input data.
+     * @return The \c PyObject* frozenset containing the values of the C++ \c std::unordered_set.
      */
     template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
@@ -456,7 +458,7 @@ namespace Python_Cpp_Containers {
     /**
      * This is a hand written generic function to convert a Python set or frozenset to a C++ std::unordered_set<T>.
      *
-     * @tparam T The C++ type of the objects in the std::unordered_set.
+     * @tparam T The C++ type of the objects in the \c std::unordered_set.
      * @tparam PyContainer_Check A pointer to a function that checks that the Python container is the correct type.
      * @tparam PyObject_Check A pointer to a function that checks that a member of thePython container is the correct type.
      * @tparam PyObject_Convert A pointer to a function that converts a Python object to the C++ object of type T.
@@ -571,6 +573,8 @@ namespace Python_Cpp_Containers {
      *
      * Example:
      *
+     * \code
+     *
      *  template <>
      *  PyObject *
      *  std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double, double> &map) {
@@ -579,7 +583,9 @@ namespace Python_Cpp_Containers {
      *            &cpp_double_to_py_float, &cpp_double_to_py_float
      *      >(map);
      *  }
-     * 
+     *
+     * \endcode
+     *
      * @tparam K The C++ type of the key.
      * @tparam V The C++ type of the value.
      * @tparam Convert_K A function to convert a C++ type K to a PyObject*.

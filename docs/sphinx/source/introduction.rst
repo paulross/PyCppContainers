@@ -78,8 +78,8 @@ This project supports two way conversion of this set of containers:
    :widths: 50 50
    :header-rows: 1
 
-   * - Python Type
-     - C++ Equivalent Type
+   * - Python
+     - C++ Equivalent
    * - ``tuple``
      - ``std::vector``
    * - ``list``
@@ -97,8 +97,8 @@ Which contain any of this set of types:
    :widths: 30 30
    :header-rows: 1
 
-   * - Python Type
-     - C++ Equivalent Type
+   * - Python
+     - C++ Equivalent
    * - ``True``, ``False``
      - ``bool``
    * - ``int``
@@ -112,7 +112,7 @@ Which contain any of this set of types:
    * - ``str``
      - ``std::string``
 
-The number of conversion functions is worse than the cartesian product of the types and containers as in the case of a
+The number of possible conversion functions is worse than the cartesian product of the types and containers as in the case of a
 dict the types can appear as either a key or a value.
 
 The tables above would normally require 120 conversion functions to be written, tested and documented [#]_ .

@@ -1,13 +1,13 @@
-//
-//  python_convert.cpp
-//  PythonC++
-//
-//  Created by Paul Ross on 22/11/2018.
-//  Copyright © 2018 Paul Ross. All rights reserved.
-//
-// This contains the non-template hand maintained functions.
-// Basically type conversion and checking functions.
-//
+///
+///  python_convert.cpp
+///  PythonC++
+///
+///  Created by Paul Ross on 22/11/2018.
+///  Copyright © 2018 Paul Ross. All rights reserved.
+///
+/// This contains the non-template hand maintained functions.
+/// Basically type conversion and checking functions.
+///
 
 #include "python_object_convert.h"
 
