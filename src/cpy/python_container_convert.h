@@ -122,9 +122,8 @@ namespace Python_Cpp_Containers {
      */
     PyObject *py_list_get(PyObject *list_p, size_t pos);
 
-#pragma mark -- Set and Frozen set Check, Create, Length.
+#pragma mark -- Set and Frozen set Check. Note Create, Add, Length are called directly.
 
-    // Wrappers around macros
     /**
      * Return non-zero if the given value is a Python \c set.
      * This is a wrapper around \c PySet_Check
@@ -135,34 +134,6 @@ namespace Python_Cpp_Containers {
     int py_set_check(PyObject *op);
 
     /**
-     * Creates a new Python \c set.
-     * This is a wrapper around \c PySet_New
-     *
-     * @param iterable Iterable to load the container.
-     * @return A new container or \c NULL on failure.
-     */
-    PyObject *py_set_new(PyObject *iterable = NULL);
-
-    /**
-     * Add an item to the set.
-     *
-     * @param set The Python \c set to add to.
-     * @param key The Python \c object to add. The reference is stolen.
-     * @return 0 on success.
-     */
-    int py_set_add(PyObject *set, PyObject *key);
-
-    /**
-     * Returns the length of the Python \c set
-     * This is a wrapper around \c PySet_Size
-     * This is undefined if \c *op is not a \c set
-     *
-     * @param op The Python \c set
-     * @return Length.
-     */
-    Py_ssize_t py_set_len(PyObject *op);
-
-    /**
      * Return non-zero if the given value is a Python \c frozenset.
      * This is a wrapper around \c PyFrozenSet_Check
      *
@@ -170,25 +141,6 @@ namespace Python_Cpp_Containers {
      * @return Zero if not a Python \c frozenset, non-zero if a Python \c frozenset.
      */
     int py_frozenset_check(PyObject *op);
-
-    /**
-     * Creates a new Python \c frozenset.
-     * This is a wrapper around \c PyFrozenSet_New
-     *
-     * @param iterable Iterable to load the container.
-     * @return A new container or \c NULL on failure.
-     */
-    PyObject *py_frozenset_new(PyObject *iterable = NULL);
-
-    /**
-     * Returns the length of the Python \c frozenset.
-     * This is a wrapper around \c PySet_Size
-     * This is undefined if \c *op is not a \c frozenset.
-     *
-     * @param op The Python \c frozenset.
-     * @return Length.
-     */
-    Py_ssize_t py_frozenset_len(PyObject *op);
 
 } // namespace Python_Cpp_Containers
 

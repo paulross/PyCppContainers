@@ -740,14 +740,14 @@ int test_unordered_set_to_py_set(TestResultS &test_results, const std::string &t
 template<typename T, T (*ConvertPyToCpp)(PyObject *), PyObject *(*ConvertCppToPy)(const T &)>
 int test_py_set_to_unordered_set(TestResultS &test_results, const std::string &type, size_t size) {
     RSS_SNAPSHOT_WITH_TYPE(type);
-    PyObject *op = Python_Cpp_Containers::py_set_new();
+    PyObject *op = PySet_New(NULL);
     int result = 0;
     double exec_time = -1.0;
     if (! op) {
         result |= 1;
     } else {
         for (size_t i = 0; i < size; ++i) {
-            int err = Python_Cpp_Containers::py_set_add(op, ConvertCppToPy(static_cast<T>(i)));
+            int err = PySet_Add(op, ConvertCppToPy(static_cast<T>(i)));
             if (err != 0) {
                 result |= 1 << 1;
             }

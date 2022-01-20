@@ -729,14 +729,14 @@ int test_perf_unordered_set_to_py_set_multiple(TestResultS &test_results, const 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
 int
 test_py_set_to_unordered_set_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat) {
-    PyObject *op = Python_Cpp_Containers::py_set_new(NULL);
+    PyObject *op = PySet_New(NULL);
     int result = 0;
     double exec_time = -1.0;
     if (!op) {
         result |= 1;
     } else {
         for (size_t i = 0; i < size; ++i) {
-            int err = Python_Cpp_Containers::py_set_add(op, ConvertCppToPy(static_cast<T>(i)));
+            int err = PySet_Add(op, ConvertCppToPy(static_cast<T>(i)));
             if (err != 0) {
                 result |= 1 << 1;
             }
@@ -753,7 +753,7 @@ test_py_set_to_unordered_set_multiple(TestResultS &test_results, const std::stri
                 if (err != 0) {
                     result |= 1 << 2;
                 } else {
-                    if ((unsigned long) Python_Cpp_Containers::py_set_len(op) != cpp_set.size()) {
+                    if ((unsigned long) PySet_Size(op) != cpp_set.size()) {
                         result |= 1 << 3;
                     } else {
                         // Omit comparison of values as this is a performance test.

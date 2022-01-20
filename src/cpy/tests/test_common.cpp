@@ -549,11 +549,11 @@ new_py_list_string(size_t size, size_t str_len) {
 // Create a new set of bytes
 PyObject *
 new_py_set_bytes(size_t size, size_t str_len) {
-    PyObject *op = Python_Cpp_Containers::py_set_new(NULL);
+    PyObject *op = PySet_New(NULL);
     if (op) {
         for (size_t i = 0; i < size; ++i) {
             std::vector<char> str = unique_vector_char(str_len);
-            int err = Python_Cpp_Containers::py_set_add(op, Python_Cpp_Containers::cpp_vector_char_to_py_bytes(str));
+            int err = PySet_Add(op, Python_Cpp_Containers::cpp_vector_char_to_py_bytes(str));
             if (err) {
                 Py_DECREF(op);
                 op = NULL;
@@ -566,11 +566,11 @@ new_py_set_bytes(size_t size, size_t str_len) {
 // Create a new Python set of std::string
 PyObject *
 new_py_set_string(size_t size, size_t str_len) {
-    PyObject *op = Python_Cpp_Containers::py_set_new(NULL);
+    PyObject *op = PySet_New(NULL);
     if (op) {
         for (size_t i = 0; i < size; ++i) {
             std::string str = unique_string(str_len);
-            int err = Python_Cpp_Containers::py_set_add(op, Python_Cpp_Containers::cpp_string_to_py_unicode(str));
+            int err = PySet_Add(op, Python_Cpp_Containers::cpp_string_to_py_unicode(str));
             if (err) {
                 Py_DECREF(op);
                 op = NULL;

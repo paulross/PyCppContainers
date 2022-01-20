@@ -399,7 +399,8 @@ namespace Python_Cpp_Containers {
                 // Refcount may well be >> 1 for interned objects.
                 Py_ssize_t op_ob_refcnt = op->ob_refcnt;
 #endif
-                // This usually wraps a void function, always succeeds.
+                // NOTE: PySet_Add does NOT increment the key refcount so steals it like list/tuple and unlike dict.
+                // See set_add_entry(): https://github.com/python/cpython/blob/main/Objects/setobject.c#L103
                 if (PySet_Add(ret, op)) { // Stolen reference.
                     PyErr_Format(PyExc_RuntimeError, "Can not set value into the set.");
                     goto except;
