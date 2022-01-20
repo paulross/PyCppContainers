@@ -285,3 +285,117 @@ Once the extension is built this can be used thus:
     {b'Z': 91, b'A': 66}
 
 There are several other examples in *src/ext/cPyCppContainers.cpp* with tests in *tests/unit/test_cPyCppContainers.py*.
+
+Testing
+=======================
+
+Testing With C++
+-----------------------
+
+Debug Build
+^^^^^^^^^^^^^^^^^^^
+
+Building the C++ code and running with ``main()`` will execute all functional tests when built as a debug build.
+This takes a couple of minutes or so.
+
+.. code-block:: text
+
+    test_functional_all START
+    ...
+    Number of tests: 430
+    REGEX_HEAD: "HEAD:\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)"
+    REGEX_TEST: "TEST:\s+(\d+)\s+(\d+)\s+(\d+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+(\d+)\s+([0-9+-.]+)\s+(\S+)"
+    REGEX_TAIL: "TAIL:\s+(.+)"
+    HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+    TEST:    0    1024       1     0.000026474             N/A             N/A             N/A         1       37772.2 test_vector_to_py_tuple<<bool>>():[1024]
+    ...
+    TEST:    0   65536       1     0.084335436             N/A             N/A             N/A         1          11.9 test_vector_vector_char_to_py_tuple<std::string[2048]>():[65536]
+    TAIL: Passed=430/430 Failed=0/430
+
+    ====RSS(Mb): was:      5.633 now:    116.824 diff:   +111.191 Peak was:      5.633 now:    340.168 diff:   +334.535 main.cpp
+    Total execution time: 142 (s)
+    Bye, bye!
+
+Release Build
+^^^^^^^^^^^^^^^^^^^
+
+With a release build this will run the performance tests as well.
+This can require 10Gb of memory and can take 20 minutes or so.
+
+.. code-block:: text
+
+    test_functional_all START
+    ...
+    test_memory_all FINISH
+    Number of tests: 2226
+    REGEX_HEAD: "HEAD:\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)"
+    REGEX_TEST: "TEST:\s+(\d+)\s+(\d+)\s+(\d+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+(\d+)\s+([0-9+-.]+)\s+(\S+)"
+    REGEX_TAIL: "TAIL:\s+(.+)"
+    HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+    TEST:    0    1024       1     0.000003310             N/A             N/A             N/A         1      302069.2 test_vector_to_py_tuple<<bool>>():[1024]
+    ...
+    TEST:    0   65536       1     0.029584157             N/A             N/A             N/A         1          33.8 test_vector_vector_char_to_py_tuple<std::string[2048]>():[65536]
+    TAIL: Passed=9890/9890 Failed=0/9890
+
+    ====RSS(Mb): was:      5.430 now:   2047.426 diff:  +2041.996 Peak was:      5.430 now:   7725.137 diff:  +7719.707 main.cpp
+    Total execution time: 1e+03 (s)
+    Bye, bye!
+
+
+Testing With Python
+-----------------------
+
+Unit Tests
+^^^^^^^^^^^^^^^^^^^
+
+Running the basic unit tests on the ``cPyCppContainers`` extension that exercises all the code:
+
+.. code-block:: shell
+
+    $ pytest tests/
+
+This takes two or three seconds.
+
+Extra Tests
+^^^^^^^^^^^^^^^^^^^
+
+There are a couple of options that can be added:
+
+* ``--runslow`` will run slow tests including performance test. Use the ``-s`` option to obtain the performance output.
+* ``--pymemtrace`` will run memory tracing tests. This requires `pymemtrace <https://pypi.org/project/pymemtrace/>`_ to be installed.
+
+For the full set of tests use:
+
+.. code-block:: shell
+
+    $ pytest tests/ -vs --runslow --pymemtrace
+
+This can take around 30 minutes to complete.
+
+Documentation
+=======================
+
+To create the documentation with ``Sphinx`` or ``doxygen``.
+
+Sphinx
+-----------------------
+
+To build the HTML and PDF documentation from the project directory:
+
+.. code-block:: shell
+
+    $ cd docs/sphinx
+    $ make html latexpdf
+    $ open build/html/index.html
+    $ open build/latex/PythonCppContainers.pdf
+
+Doxygen
+-----------------------
+
+To build the HTML Doxygen documentation from the project directory:
+
+.. code-block:: shell
+
+    $ cd docs
+    $ doxygen PythonCppContainers.dox
+    $ open doxygen/html/index.html

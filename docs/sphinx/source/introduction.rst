@@ -314,11 +314,6 @@ Using the concrete function is as simple as this:
     // new_op will be null on failure and a Python exception will have been set.
 
 
-
-
-
-
-
 Converting a C++ ``std::vector<T>`` to a Python tuple or list
 --------------------------------------------------------------------------------------------------------------------
 
@@ -334,20 +329,16 @@ The generic function signature looks like this:
     PyObject *
     generic_cpp_std_vector_to_py_unary(const std::vector<T> &vec);
 
-
-
-
-
 Alternatives
 --------------------
 
-`Buffer protocol <https://docs.python.org/3/c-api/buffer.html>`_
+If your use case can be solved by using any of the following then this project is not for you:
 
-`multiprocessing.shared_memory <https://docs.python.org/3/library/multiprocessing.shared_memory.html#module-multiprocessing.shared_memory>`_
+`numpy <https://numpy.org>`_
 
+The `Buffer protocol <https://docs.python.org/3/c-api/buffer.html>`_
 
-`numpy <https://numpy.org>`_ is a common example.
-
+Python's `multiprocessing.shared_memory <https://docs.python.org/3/library/multiprocessing.shared_memory.html#module-multiprocessing.shared_memory>`_
 
 .. rubric:: Footnotes
 .. [#] There are four unary containers (``tuple``, ``list``, ``set``, ``frozenset``) and six types

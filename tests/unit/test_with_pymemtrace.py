@@ -47,7 +47,6 @@ def test_new_list_bytes():
     #     time.sleep(1.0)
     rss_new = proc.memory_info().rss
     print(f'RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
-    assert 0
 
 
 def _test_new_set_bytes():
@@ -97,7 +96,6 @@ def test_new_set_bytes():
     #     time.sleep(1.0)
     rss_new = proc.memory_info().rss
     print(f'test_new_set_bytes(): RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
-    assert 0
 
 
 def _test_new_dict_bytes():
@@ -146,7 +144,6 @@ def test_new_dict_bytes():
     #     time.sleep(1.0)
     rss_new = proc.memory_info().rss
     print(f'test_new_dict_bytes(): RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
-    assert 0
 
 
 # Test for single item container leaks.

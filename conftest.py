@@ -20,7 +20,7 @@ def pytest_collection_modifyitems(config, items):
         # --runslow given in cli: do not skip slow tests
         return
     if config.getoption("--pymemtrace"):
-        # --pymemtrace given in cli: do not skip slow tests
+        # --pymemtrace given in cli: do not skip pymemtrace tests
         return
     skip_slow = pytest.mark.skip(reason="need --runslow option to run")
     for item in items:
