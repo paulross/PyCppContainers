@@ -1,3 +1,10 @@
+.. moduleauthor:: Paul Ross <apaulross@gmail.com>
+.. sectionauthor:: Paul Ross <apaulross@gmail.com>
+
+.. PythonCppContainers Introduction
+
+.. _PythonCppContainers.Introduction:
+
 *********************
 Introduction
 *********************

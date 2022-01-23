@@ -1,7 +1,15 @@
+.. moduleauthor:: Paul Ross <apaulross@gmail.com>
+.. sectionauthor:: Paul Ross <apaulross@gmail.com>
 
+.. PythonCppContainers Design
+
+.. _PythonCppContainers.Design:
 
 Design
 ==================
+
+This library uses C++ templates but not in a particularly complex way.
+There are six essential C++ templates and a Python script is used to to auto-generate the partial template specialisations and their instantiations.
 
 ``python_object_convert.h`` and ``python_object_convert.cpp``
 -----------------------------------------------------------------

@@ -1,3 +1,10 @@
+.. moduleauthor:: Paul Ross <apaulross@gmail.com>
+.. sectionauthor:: Paul Ross <apaulross@gmail.com>
+
+.. PythonCppContainers Usage
+
+.. _PythonCppContainers.Usage:
+
 ***************************************
 Using this Library in Your C++ Code
 ***************************************

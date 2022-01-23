@@ -3,6 +3,8 @@
 
 .. C++ performance
 
+.. _PythonCppContainers.Performance.Cpp:
+
 C++ Performance Tests
 ==============================
 

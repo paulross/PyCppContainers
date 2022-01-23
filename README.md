@@ -129,15 +129,48 @@ And to use it:
 import cPyCppContainer
 ```
 
+There are a number of functions there that exploit the C++ library.
+For example this C function create a C++ ``std::vector<double>`` from a Python list of
+floats then creates a new Python list of floats from that C++ container.
+
+```c++
+static PyObject *
+new_list(PyObject *arg) {
+    std::vector<double> vec;
+    if (!py_list_to_cpp_std_vector(arg, vec)) {
+        return cpp_std_vector_to_py_list(vec);
+    }
+    return NULL;
+}
+```
+
+This can be called from Python thus:
+
+```python
+>>> import cPyCppContainers
+>>> cPyCppContainers.new_list_float([1.0, 2.0])
+[1.0, 2.0]
+```
+
+If the Python list contains non-floats an exception will be raised:
+
+```python
+>>> cPyCppContainers.new_list_float([1.0, 2])
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+ValueError: Python value of type int can not be converted
+```
+
 ### Testing
 
-To test that extension:
+To test the cPyCppContainers extension:
 
 ```shell
 $ pytest tests/
 ```
 
-To run all the performance tests on that extension with verbose, this can take a long while:
+To run all the Python round-trip performance tests on that extension with verbose,
+this can take a long while:
 
 ```shell
 $ pytest tests/ -vs --runslow
