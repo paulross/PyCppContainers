@@ -169,12 +169,19 @@ To test the cPyCppContainers extension:
 $ pytest tests/
 ```
 
-To run all the Python round-trip performance tests on that extension with verbose,
-this can take a long while:
+This takes a few seconds.
+There are a couple of options that can be added:
 
-```shell
-$ pytest tests/ -vs --runslow
+* ``--runslow`` will run slow tests including performance test. Use the ``-s`` option to obtain the performance output.
+* ``--pymemtrace`` will run memory tracing tests. This requires [pymemtrace](https://pypi.org/project/pymemtrace/) to be installed.
+
+So for the full set of tests:
+
+``` shell
+$ pytest tests/ -vs --runslow --pymemtrace
 ```
+
+This can take around 30 minutes to complete.
 
 # Credits
 
