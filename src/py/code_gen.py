@@ -95,39 +95,40 @@ int
 }}
 """
 
-# ===== std::unordered_map <-> dict ====
+# ===== std::unordered_map and std::map <-> dict ====
+CPP_MAP_TYPES = ('unordered_map',)# 'map')
 # Declarations to go in header file
-CPP_STD_UNORDERED_MAP_TO_PY_DICT_BASE_DECL = """template<typename K, typename V>
+CPP_MAP_TYPE_TO_PY_DICT_BASE_DECL = """template<typename K, typename V>
 PyObject *
-cpp_std_unordered_map_to_py_dict(const std::unordered_map<K, V> &map);"""
+cpp_std_{cpp_map_type}_to_py_dict(const std::{cpp_map_type}<K, V> &map);"""
 
-CPP_STD_UNORDERED_MAP_TO_PY_DICT_DECL = """template <>
+CPP_MAP_TYPE_TO_PY_DICT_DECL = """template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<{cpp_type_K}, {cpp_type_V}>(const std::unordered_map<{cpp_type_K}, {cpp_type_V}> &map);"""
+cpp_std_{cpp_map_type}_to_py_dict<{cpp_type_K}, {cpp_type_V}>(const std::{cpp_map_type}<{cpp_type_K}, {cpp_type_V}> &map);"""
 
-CPP_PY_DICT_TO_STD_UNORDERED_MAP_BASE_DECL = """template<typename K, typename V>
+CPP_PY_DICT_TO_MAP_TYPE_BASE_DECL = """template<typename K, typename V>
 int 
-py_dict_to_cpp_std_unordered_map(PyObject *op, std::unordered_map<K, V> &map);"""
+py_dict_to_cpp_std_{cpp_map_type}(PyObject *op, std::{cpp_map_type}<K, V> &map);"""
 
-CPP_PY_DICT_TO_STD_UNORDERED_MAP_DECL = """template <>
+CPP_PY_DICT_TO_MAP_TYPE_DECL = """template <>
 int
-py_dict_to_cpp_std_unordered_map<{cpp_type_K}, {cpp_type_V}>(PyObject* op, std::unordered_map<{cpp_type_K}, {cpp_type_V}> &map);"""
+py_dict_to_cpp_std_{cpp_map_type}<{cpp_type_K}, {cpp_type_V}>(PyObject* op, std::{cpp_map_type}<{cpp_type_K}, {cpp_type_V}> &map);"""
 
 # Definitions to go in implementation file
-CPP_STD_UNORDERED_MAP_TO_PY_DICT_DEFN = """template <>
+CPP_MAP_TYPE_TO_PY_DICT_DEFN = """template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<{type_K}, {type_V}>(const std::unordered_map<{type_K}, {type_V}> &map) {{
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_{cpp_map_type}_to_py_dict<{type_K}, {type_V}>(const std::{cpp_map_type}<{type_K}, {type_V}> &map) {{
+    return generic_cpp_std_{cpp_map_type}_to_py_dict<
         {type_K}, {type_V},
         &{convert_K_to_py}, &{convert_V_to_py}
     >(map);
 }}
 """
 
-CPP_PY_DICT_TO_STD_UNORDERED_MAP_DEFN = """template <>
+CPP_PY_DICT_TO_MAP_TYPE_DEFN = """template <>
 int
-py_dict_to_cpp_std_unordered_map<{type_K}, {type_V}>(PyObject* op, std::unordered_map<{type_K}, {type_V}> &map) {{
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_{cpp_map_type}<{type_K}, {type_V}>(PyObject* op, std::{cpp_map_type}<{type_K}, {type_V}> &map) {{
+    return generic_py_dict_to_cpp_std_{cpp_map_type}<
         {type_K}, {type_V},
         &{py_check_K}, &{py_check_V},
         &{convert_K_from_py}, &{convert_V_from_py}
@@ -237,91 +238,96 @@ def unary_definitions() -> CodeCount:
     return CodeCount(code, count)
 
 
-def dict_unordered_map_declarations() -> CodeCount:
+def dict_map_declarations() -> CodeCount:
     """Returns the C++ code for the Python dictionary declarations."""
     code = []
     count_decl = 0
-    with code_gen_documentation.cpp_comment_section(code, 'std::unordered_map <-> Python dict', '*'):
-        # Python dict
-        with code_gen_documentation.cpp_comment_section(code, 'std::unordered_map -> Python dict', '-'):
-            code.append(code_gen_documentation.comment_str(' Base declaration'))
-            # Doxygen comment
-            code.extend(code_gen_documentation.doxygen_cpp_to_python_dict_base_class())
-            code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_BASE_DECL)
-            code.append('')
-            count_decl += 1
-            code.append(code_gen_documentation.comment_str(' Instantiations'))
-            for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
+    for cpp_map_type in CPP_MAP_TYPES:
+        with code_gen_documentation.cpp_comment_section(code, f'std::{cpp_map_type} <-> Python dict', '*'):
+            # Python dict
+            with code_gen_documentation.cpp_comment_section(code, f'std::{cpp_map_type} -> Python dict', '-'):
+                code.append(code_gen_documentation.comment_str(' Base declaration'))
                 # Doxygen comment
-                code.extend(
-                    code_gen_documentation.doxygen_cpp_to_python_dict_instantiation(
-                        k, v, CPP_TYPE_TO_FUNCS[k].py_type, CPP_TYPE_TO_FUNCS[v].py_type,
-                    )
-                )
-                code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_DECL.format(cpp_type_K=k, cpp_type_V=v))
+                code.extend(code_gen_documentation.doxygen_cpp_to_python_dict_base_class())
+                code.append(CPP_MAP_TYPE_TO_PY_DICT_BASE_DECL.format(cpp_map_type=cpp_map_type))
                 code.append('')
                 count_decl += 1
-        with code_gen_documentation.cpp_comment_section(code, 'Python dict -> std::unordered_map', '-'):
-            code.append(code_gen_documentation.comment_str(' Base declaration'))
-            # Doxygen comment
-            code.extend(code_gen_documentation.doxygen_python_dict_to_cpp_base_class())
-            code.append(CPP_PY_DICT_TO_STD_UNORDERED_MAP_BASE_DECL)
-            code.append('')
-            count_decl += 1
-            code.append(code_gen_documentation.comment_str(' Instantiations'))
-            for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
-                # Doxygen comment
-                code.extend(
-                    code_gen_documentation.doxygen_python_dict_to_cpp_instantiation(
-                        k, v, CPP_TYPE_TO_FUNCS[k].py_type, CPP_TYPE_TO_FUNCS[v].py_type,
+                code.append(code_gen_documentation.comment_str(' Instantiations'))
+                for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
+                    # Doxygen comment
+                    code.extend(
+                        code_gen_documentation.doxygen_cpp_to_python_dict_instantiation(
+                            k, v, CPP_TYPE_TO_FUNCS[k].py_type, CPP_TYPE_TO_FUNCS[v].py_type,
+                        )
                     )
-                )
-                code.append(CPP_PY_DICT_TO_STD_UNORDERED_MAP_DECL.format(cpp_type_K=k, cpp_type_V=v))
+                    code.append(CPP_MAP_TYPE_TO_PY_DICT_DECL.format(cpp_map_type=cpp_map_type, cpp_type_K=k, cpp_type_V=v))
+                    code.append('')
+                    count_decl += 1
+            with code_gen_documentation.cpp_comment_section(code, 'Python dict -> std::unordered_map', '-'):
+                code.append(code_gen_documentation.comment_str(' Base declaration'))
+                # Doxygen comment
+                code.extend(code_gen_documentation.doxygen_python_dict_to_cpp_base_class())
+                code.append(CPP_PY_DICT_TO_MAP_TYPE_BASE_DECL.format(cpp_map_type=cpp_map_type))
                 code.append('')
                 count_decl += 1
+                code.append(code_gen_documentation.comment_str(' Instantiations'))
+                for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
+                    # Doxygen comment
+                    code.extend(
+                        code_gen_documentation.doxygen_python_dict_to_cpp_instantiation(
+                            k, v, CPP_TYPE_TO_FUNCS[k].py_type, CPP_TYPE_TO_FUNCS[v].py_type,
+                        )
+                    )
+                    code.append(CPP_PY_DICT_TO_MAP_TYPE_DECL.format(cpp_map_type=cpp_map_type, cpp_type_K=k, cpp_type_V=v))
+                    code.append('')
+                    count_decl += 1
     return CodeCount(code, count_decl)
 
 
-def dict_unordered_map_definitions() -> CodeCount:
+def dict_map_definitions() -> CodeCount:
     """Returns the C++ code for the Python dictionary definitions."""
     code = []
     count_defn = 0
-    with code_gen_documentation.cpp_comment_section(code, 'std::unordered_map <-> Python dict', '*'):
-        for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
-            code.append(code_gen_documentation.comment_str('{}'.format(
-                ' Converts a std::unordered_map<{type_K}, {type_V}> '.format(
+    for cpp_map_type in CPP_MAP_TYPES:
+        with code_gen_documentation.cpp_comment_section(code, f'std::{cpp_map_type} <-> Python dict', '*'):
+            for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
+                code.append(code_gen_documentation.comment_str('{}'.format(
+                    ' Converts a std::{cpp_map_type}<{type_K}, {type_V}> '.format(
+                        cpp_map_type=cpp_map_type, type_K=k, type_V=v,
+                    ).center(code_gen_documentation.WIDTH, '-')
+                )))
+                code.append(code_gen_documentation.comment_str('{}'.format(
+                    ' to a Python dict of {{ {type_K} : {type_V}, ...}}    '.format(
+                        type_K=k, type_V=v,
+                    ).center(code_gen_documentation.WIDTH, '-')
+                )))
+                code.append(CPP_MAP_TYPE_TO_PY_DICT_DEFN.format(
+                    cpp_map_type=cpp_map_type,
                     type_K=k, type_V=v,
-                ).center(code_gen_documentation.WIDTH, '-')
-            )))
-            code.append(code_gen_documentation.comment_str('{}'.format(
-                ' to a Python dict of {{ {type_K} : {type_V}, ...}}    '.format(
+                    convert_K_to_py=CPP_TYPE_TO_FUNCS[k].cpp_type_to_py_type,
+                    convert_V_to_py=CPP_TYPE_TO_FUNCS[v].cpp_type_to_py_type,
+                ))
+                count_defn += 1
+                code.append(code_gen_documentation.comment_str('{}'.format(
+                    ' Converts a Python dict of {{{type_K} : {type_V}, ...}} '.format(
+                        type_K=k, type_V=v,
+                    ).center(code_gen_documentation.WIDTH, '-')
+                )))
+                code.append(code_gen_documentation.comment_str('{}'.format(
+                    ' to a std::{cpp_map_type}<{type_K}, {type_V}> '.format(
+                        cpp_map_type=cpp_map_type,
+                        type_K=k, type_V=v,
+                    ).center(code_gen_documentation.WIDTH, '-')
+                )))
+                code.append(CPP_PY_DICT_TO_MAP_TYPE_DEFN.format(
+                    cpp_map_type=cpp_map_type,
                     type_K=k, type_V=v,
-                ).center(code_gen_documentation.WIDTH, '-')
-            )))
-            code.append(CPP_STD_UNORDERED_MAP_TO_PY_DICT_DEFN.format(
-                type_K=k, type_V=v,
-                convert_K_to_py=CPP_TYPE_TO_FUNCS[k].cpp_type_to_py_type,
-                convert_V_to_py=CPP_TYPE_TO_FUNCS[v].cpp_type_to_py_type,
-            ))
-            count_defn += 1
-            code.append(code_gen_documentation.comment_str('{}'.format(
-                ' Converts a Python dict of {{{type_K} : {type_V}, ...}} '.format(
-                    type_K=k, type_V=v,
-                ).center(code_gen_documentation.WIDTH, '-')
-            )))
-            code.append(code_gen_documentation.comment_str('{}'.format(
-                ' to a std::unordered_map<{type_K}, {type_V}> '.format(
-                    type_K=k, type_V=v,
-                ).center(code_gen_documentation.WIDTH, '-')
-            )))
-            code.append(CPP_PY_DICT_TO_STD_UNORDERED_MAP_DEFN.format(
-                type_K=k, type_V=v,
-                py_check_K=CPP_TYPE_TO_FUNCS[k].py_check,
-                py_check_V=CPP_TYPE_TO_FUNCS[v].py_check,
-                convert_K_from_py=CPP_TYPE_TO_FUNCS[k].py_type_to_cpp_type,
-                convert_V_from_py=CPP_TYPE_TO_FUNCS[v].py_type_to_cpp_type,
-            ))
-            count_defn += 1
+                    py_check_K=CPP_TYPE_TO_FUNCS[k].py_check,
+                    py_check_V=CPP_TYPE_TO_FUNCS[v].py_check,
+                    convert_K_from_py=CPP_TYPE_TO_FUNCS[k].py_type_to_cpp_type,
+                    convert_V_from_py=CPP_TYPE_TO_FUNCS[v].py_type_to_cpp_type,
+                ))
+                count_defn += 1
     return CodeCount(code, count_defn)
 
 
@@ -343,7 +349,7 @@ def declarations() -> CodeCount:
             code_count = unary_declarations()
             count_decl += code_count.count
             code_lines.extend(code_count.code)
-            code_count = dict_unordered_map_declarations()
+            code_count = dict_map_declarations()
             count_decl += code_count.count
             code_lines.extend(code_count.code)
             code_lines.append(code_gen_documentation.comment_str(' Declarations written: {}'.format(count_decl)))
@@ -366,7 +372,7 @@ def definitions() -> CodeCount:
             code_count = unary_definitions()
             count_defn += code_count.count
             code_lines.extend(code_count.code)
-            code_count = dict_unordered_map_definitions()
+            code_count = dict_map_definitions()
             count_defn += code_count.count
             code_lines.extend(code_count.code)
             code_lines.append(code_gen_documentation.comment_str(' Definitions written: {}'.format(count_defn)))
