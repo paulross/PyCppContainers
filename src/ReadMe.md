@@ -1,17 +1,17 @@
 # Source Code for Python Cpp Homogenous Containers
 
-In this `src/` directory are:
+In this `src/` directory are these subdirectories:
 
-- `cpp` Pure C++ code, no Python API is used.
-- `cpy` C/C++ code that `#inculde`s `Python.h`.
-- `ext` Python extensions in C/C++ using Python APIs by `#inculde`ing `Python.h`.
-- `py` Pure Python code.
+- `cpp/` Pure C++ code, no Python API is used.
+- `cpy/` C/C++ code that `#inculde`s `Python.h`.
+- `ext/` Python extensions in C/C++ using Python APIs by `#inculde`ing `Python.h`.
+- `py/` Pure Python code.
 
 ## `cpp/` Files of Note
 
-Code to get the Resident Set Size (RSS).
-
-C++ code that creates a test framework.
+- `get_rss.h` and `get_rss.cpp`: Code to get the Resident Set Size (RSS).
+- `save_stream_state.h`: Saves and restores the state of a stream. 
+- `TestFramework.h` and `TestFramework.cpp`: C++ code that creates a test framework.
 
 ## `cpy/` Files and Directories of Note
 
@@ -31,7 +31,7 @@ Namely:
 
 These are all very simple functions that wrap existing Python API functions or macros.
 
-`python_convert.h` contains the C++ code that converts all combinations of Python containers and objects, such as floats, to and from their C/C++ equivalents.
+`python_convert.h` contains the hand maintained C++ code that converts all combinations of Python containers and objects, such as floats, to and from their C/C++ equivalents.
 There are just six handwritten C++ template functions here.
 
 `python_object_convert.h` and `python_object_convert.cpp` contain the handwritten C++ code that converts Python objects, such as floats, to and from their C/C++ equivalents.
@@ -45,10 +45,10 @@ These are all very simple functions that wrap existing Python API functions or m
 
 ## `ext/` Files of Note
 
-Here is `cPyCppContainers.cpp` which provides examples of interfacing between C++ and Python with this code.
+`cPyCppContainers.cpp` provides examples of interfacing between C++ and Python with this code.
 This extension is used for the round trip performance tests. 
 
 ## `py/` Files of Note
 
-This contains the Python scripts that generate C++ code into the `cpy/` directory. 
+This contains the Python scripts that generates C++ code into the `cpy/` directory. 
 `code_gen.py` is the main script.
