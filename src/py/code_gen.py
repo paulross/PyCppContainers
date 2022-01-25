@@ -237,7 +237,7 @@ def unary_definitions() -> CodeCount:
     return CodeCount(code, count)
 
 
-def dict_declarations() -> CodeCount:
+def dict_unordered_map_declarations() -> CodeCount:
     """Returns the C++ code for the Python dictionary declarations."""
     code = []
     count_decl = 0
@@ -282,7 +282,7 @@ def dict_declarations() -> CodeCount:
     return CodeCount(code, count_decl)
 
 
-def dict_definitions() -> CodeCount:
+def dict_unordered_map_definitions() -> CodeCount:
     """Returns the C++ code for the Python dictionary definitions."""
     code = []
     count_defn = 0
@@ -343,7 +343,7 @@ def declarations() -> CodeCount:
             code_count = unary_declarations()
             count_decl += code_count.count
             code_lines.extend(code_count.code)
-            code_count = dict_declarations()
+            code_count = dict_unordered_map_declarations()
             count_decl += code_count.count
             code_lines.extend(code_count.code)
             code_lines.append(code_gen_documentation.comment_str(' Declarations written: {}'.format(count_decl)))
@@ -366,7 +366,7 @@ def definitions() -> CodeCount:
             code_count = unary_definitions()
             count_defn += code_count.count
             code_lines.extend(code_count.code)
-            code_count = dict_definitions()
+            code_count = dict_unordered_map_definitions()
             count_defn += code_count.count
             code_lines.extend(code_count.code)
             code_lines.append(code_gen_documentation.comment_str(' Definitions written: {}'.format(count_defn)))
