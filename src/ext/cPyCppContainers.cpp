@@ -335,10 +335,10 @@ new_frozenset_str(PyObject *Py_UNUSED(module), PyObject *arg) {
  * @param arg The Python dict. This is const.
  * @return A new Python dict of [K, V].
  */
-template<typename K, typename V>
+template<template<typename ...> class Map, typename K, typename V>
 static PyObject *
 new_dict(PyObject *arg) {
-    std::unordered_map<K, V> map;
+    Map<K, V> map;
     if (!py_dict_to_cpp_std_map_like(arg, map)) {
         return cpp_std_map_like_to_py_dict(map);
     }
@@ -352,8 +352,8 @@ new_dict(PyObject *arg) {
  * @return A new Python dict of [int, int].
  */
 static PyObject *
-new_dict_int_int(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_dict<long, long>(arg);
+new_dict_from_std_unordered_map_int_int(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::unordered_map, long, long>(arg);
 }
 
 /**
@@ -363,8 +363,8 @@ new_dict_int_int(PyObject *Py_UNUSED(module), PyObject *arg) {
  * @return A new Python dict of [float, float].
  */
 static PyObject *
-new_dict_float_float(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_dict<double, double>(arg);
+new_dict_from_std_unordered_map_float_float(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::unordered_map, double, double>(arg);
 }
 
 /**
@@ -374,18 +374,18 @@ new_dict_float_float(PyObject *Py_UNUSED(module), PyObject *arg) {
  * @return A new Python dict of [complex, complex].
  */
 static PyObject *
-new_dict_complex_complex(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_dict<std::complex<double>, std::complex<double>>(arg);
+new_dict_from_std_unordered_map_complex_complex(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::unordered_map, std::complex<double>, std::complex<double>>(arg);
 }
 
 static PyObject *
-new_dict_bytes_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_dict<std::vector<char>, std::vector<char>>(arg);
+new_dict_from_std_unordered_map_bytes_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::unordered_map, std::vector<char>, std::vector<char>>(arg);
 }
 
 static PyObject *
-new_dict_str_str(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_dict<std::string, std::string>(arg);
+new_dict_from_std_unordered_map_str_str(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::unordered_map, std::string, std::string>(arg);
 }
 
 
@@ -539,16 +539,16 @@ static PyMethodDef cPyCppContainersMethods[] = {
                 "Take a list of unsigned ints and return a new list with the same values."},
 #endif
         /* dicts */
-        {"new_dict_int_int", new_dict_int_int, METH_O,
-                "Take a dict of [int, int] and return a new dict with the same values."},
-        {"new_dict_float_float", new_dict_float_float, METH_O,
-                "Take a dict of [float, float] and return a new dict with the same values."},
-        {"new_dict_complex_complex", new_dict_complex_complex, METH_O,
-                "Take a dict of [complex, complex] and return a new dict with the same values."},
-        {"new_dict_bytes_bytes", new_dict_bytes_bytes, METH_O,
-                "Take a dict of [bytes, bytes] and return a new dict with the same values."},
-        {"new_dict_str_str", new_dict_str_str, METH_O,
-                "Take a dict of [str, str] and return a new dict with the same values."},
+        {"new_dict_from_std_unordered_map_int_int", new_dict_from_std_unordered_map_int_int, METH_O,
+                "Take a dict of [int, int] using std::unordered_map and return a new dict with the same values."},
+        {"new_dict_from_std_unordered_map_float_float", new_dict_from_std_unordered_map_float_float, METH_O,
+                "Take a dict of [float, float] using std::unordered_map and return a new dict with the same values."},
+        {"new_dict_from_std_unordered_map_complex_complex", new_dict_from_std_unordered_map_complex_complex, METH_O,
+                "Take a dict of [complex, complex] using std::unordered_map and return a new dict with the same values."},
+        {"new_dict_from_std_unordered_map_bytes_bytes", new_dict_from_std_unordered_map_bytes_bytes, METH_O,
+                "Take a dict of [bytes, bytes] using std::unordered_map and return a new dict with the same values."},
+        {"new_dict_from_std_unordered_map_str_str", new_dict_from_std_unordered_map_str_str, METH_O,
+                "Take a dict of [str, str] using std::unordered_map and return a new dict with the same values."},
                 // Debug
         {"new_dict_debug_int_int", new_dict_debug_int_int, METH_O,
                 "Debug a dict of [int, int]."},

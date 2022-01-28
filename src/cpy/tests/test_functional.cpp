@@ -57,8 +57,30 @@ void test_example_py_tuple_to_vector_double() {
 /**
  * Demonstration code to convert a std::unordered_map<long, std::string> to a Python dict.
  */
-void test_example_cpp_std_map_like_to_py_dict() {
+void test_example_cpp_std_unordered_map_to_py_dict() {
     std::unordered_map<long, std::vector<char>> cpp_map;
+    // Populate the map with some data.
+    for (long i = 0; i < 128; ++i) {
+        cpp_map[i] = std::vector<char>(4, ' ');
+    }
+    // Convert to a Python dict.
+    PyObject *op = Python_Cpp_Containers::cpp_std_map_like_to_py_dict(cpp_map);
+    assert(PyDict_Check(op));
+    if (! op) {
+        // Handle error.
+    } else {
+        // Do something with op
+        // ...
+        // Discard if necessary.
+        Py_DECREF(op);
+    }
+}
+
+/**
+ * Demonstration code to convert a std::map<long, std::string> to a Python dict.
+ */
+void test_example_cpp_std_map_to_py_dict() {
+    std::map<long, std::vector<char>> cpp_map;
     // Populate the map with some data.
     for (long i = 0; i < 128; ++i) {
         cpp_map[i] = std::vector<char>(4, ' ');
@@ -256,7 +278,8 @@ void test_functional_all(TestResultS &test_results) {
     // Test that the demonstration code works, no record of the result is kept.
     test_example_vector_to_py_tuple_double();
     test_example_py_tuple_to_vector_double();
-    test_example_cpp_std_map_like_to_py_dict();
+    test_example_cpp_std_unordered_map_to_py_dict();
+    test_example_cpp_std_map_to_py_dict();
     test_example_py_dict_to_cpp_std_map_like();
 
     // Functional tests that add to the test results.
