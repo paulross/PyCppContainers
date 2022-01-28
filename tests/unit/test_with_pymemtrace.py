@@ -122,7 +122,7 @@ def _test_new_dict_bytes():
             random_bytes[index] = (random_bytes[index] + 1) % 256
         print(f'Actual dict length: {len(original):16,d}')
         time_start = time.perf_counter()
-        cPyCppContainers.new_dict_bytes_bytes(original)
+        cPyCppContainers.new_dict_from_std_unordered_map_bytes_bytes(original)
         time_exec = time.perf_counter() - time_start
         results.append(time_exec)
         # del original
@@ -257,6 +257,6 @@ def test_new_dict_bytes_one_item():
     original = {b' ' * 1024: b' ' * 1024}
     with cPyMemTrace.Profile():
         for _r in range(10_000_000):
-            cPyCppContainers.new_dict_bytes_bytes(original)
+            cPyCppContainers.new_dict_from_std_unordered_map_bytes_bytes(original)
         # Tends to force an event in pymemtrace.
         gc.collect()

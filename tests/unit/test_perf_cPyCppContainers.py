@@ -408,7 +408,7 @@ def test_new_dict_int_int():
         timer = TimedResults()
         for _r in range(REPEAT):
             time_start = time.perf_counter()
-            cPyCppContainers.new_dict_int_int(original)
+            cPyCppContainers.new_dict_from_std_unordered_map_int_int(original)
             time_exec = time.perf_counter() - time_start
             timer.add(time_exec)
         results.append((size, timer))
@@ -435,7 +435,7 @@ def test_new_dict_float_float():
         # for _r in range(REPEAT):
         for _r in range(REPEAT):
             time_start = time.perf_counter()
-            cPyCppContainers.new_dict_float_float(original)
+            cPyCppContainers.new_dict_from_std_unordered_map_float_float(original)
             time_exec = time.perf_counter() - time_start
             timer.add(time_exec)
         results.append((size, timer))
@@ -462,7 +462,7 @@ def test_new_dict_complex_complex():
         # for _r in range(REPEAT):
         for _r in range(REPEAT):
             time_start = time.perf_counter()
-            cPyCppContainers.new_dict_complex_complex(original)
+            cPyCppContainers.new_dict_from_std_unordered_map_complex_complex(original)
             time_exec = time.perf_counter() - time_start
             timer.add(time_exec)
         results.append((size, timer))
@@ -496,7 +496,7 @@ def test_new_dict_bytes_bytes():
             timer = TimedResults()
             for _r in range(REPEAT):
                 time_start = time.perf_counter()
-                cPyCppContainers.new_dict_bytes_bytes(original)
+                cPyCppContainers.new_dict_from_std_unordered_map_bytes_bytes(original)
                 time_exec = time.perf_counter() - time_start
                 timer.add(time_exec)
             results.append((size, timer))
@@ -530,7 +530,7 @@ def test_new_dict_str_str():
             timer = TimedResults()
             for _r in range(REPEAT):
                 time_start = time.perf_counter()
-                cPyCppContainers.new_dict_str_str(original)
+                cPyCppContainers.new_dict_from_std_unordered_map_str_str(original)
                 time_exec = time.perf_counter() - time_start
                 timer.add(time_exec)
             results.append((size, timer))

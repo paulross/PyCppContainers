@@ -272,8 +272,8 @@ def test_new_list_str(given):
             {1: 45, 2: 123, },
     ),
 )
-def test_new_dict_int_int(given):
-    result = cPyCppContainers.new_dict_int_int(given)
+def test_new_dict_from_std_unordered_map_int_int(given):
+    result = cPyCppContainers.new_dict_from_std_unordered_map_int_int(given)
     assert result == given
     assert id(result) != id(given)
 
@@ -285,8 +285,8 @@ def test_new_dict_int_int(given):
             {1.0: 45.0, 2.0: 123.9, },
     ),
 )
-def test_new_dict_float_float(given):
-    result = cPyCppContainers.new_dict_float_float(given)
+def new_dict_from_std_unordered_map_float_float(given):
+    result = cPyCppContainers.new_dict_from_std_unordered_map_float_float(given)
     assert result == given
     assert id(result) != id(given)
 
@@ -298,8 +298,8 @@ def test_new_dict_float_float(given):
             {b'abc': b'123', b'xyz': b'8790', },
     ),
 )
-def test_new_dict_bytes_bytes(given):
-    result = cPyCppContainers.new_dict_bytes_bytes(given)
+def test_new_dict_from_std_unordered_map_bytes_bytes(given):
+    result = cPyCppContainers.new_dict_from_std_unordered_map_bytes_bytes(given)
     assert result == given
     assert id(result) != id(given)
 
@@ -311,8 +311,8 @@ def test_new_dict_bytes_bytes(given):
             {'abc': '123', 'xyz': '8790', },
     ),
 )
-def test_new_dict_str_str(given):
-    result = cPyCppContainers.new_dict_str_str(given)
+def test_new_dict_from_std_unordered_map_str_str(given):
+    result = cPyCppContainers.new_dict_from_std_unordered_map_str_str(given)
     assert result == given
     assert id(result) != id(given)
 
@@ -332,7 +332,7 @@ def test_new_dict_str_str(given):
             ),
     ),
 )
-def test_new_dict_float_float_raises(given, expected):
+def test_new_dict_from_std_unordered_map_float_float_raises(given, expected):
     with pytest.raises(ValueError) as err:
-        cPyCppContainers.new_dict_float_float(given)
+        cPyCppContainers.new_dict_from_std_unordered_map_float_float(given)
     assert err.value.args[0] == expected
