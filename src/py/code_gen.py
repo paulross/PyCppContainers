@@ -96,46 +96,90 @@ int
 """
 
 # ===== std::unordered_map and std::map <-> dict ====
-CPP_MAP_TYPES = ('unordered_map',)# 'map')
-# Declarations to go in header file
-CPP_MAP_TYPE_TO_PY_DICT_BASE_DECL = """template<typename K, typename V>
-PyObject *
-cpp_std_{cpp_map_type}_to_py_dict(const std::{cpp_map_type}<K, V> &map);"""
+CPP_MAP_TYPES = ('std::unordered_map', 'std::map')
 
+# ==== C++ to Python
+
+# Declarations to go in header file
+# Base declaration, C++ to Python, example:
+#     template<template<typename ...> class Map, typename K, typename V>
+#     PyObject *
+#     cpp_std_map_like_to_py_dict(const std::unordered_map<K, V> &map);
+CPP_MAP_TYPE_TO_PY_DICT_BASE_DECL = """template<template<typename ...> class Map, typename K, typename V>
+PyObject *
+cpp_std_map_like_to_py_dict(const Map<K, V> &map);"""
+
+# Completed declaration, C++ to Python, example:
+#     template<>
+#     PyObject *
+#     cpp_std_map_like_to_py_dict<std::unordered_map, long, long>(const std::unordered_map<long, long> &map);
 CPP_MAP_TYPE_TO_PY_DICT_DECL = """template <>
 PyObject *
-cpp_std_{cpp_map_type}_to_py_dict<{cpp_type_K}, {cpp_type_V}>(const std::{cpp_map_type}<{cpp_type_K}, {cpp_type_V}> &map);"""
-
-CPP_PY_DICT_TO_MAP_TYPE_BASE_DECL = """template<typename K, typename V>
-int 
-py_dict_to_cpp_std_{cpp_map_type}(PyObject *op, std::{cpp_map_type}<K, V> &map);"""
-
-CPP_PY_DICT_TO_MAP_TYPE_DECL = """template <>
-int
-py_dict_to_cpp_std_{cpp_map_type}<{cpp_type_K}, {cpp_type_V}>(PyObject* op, std::{cpp_map_type}<{cpp_type_K}, {cpp_type_V}> &map);"""
+cpp_std_map_like_to_py_dict<{cpp_map_type}, {cpp_type_K}, {cpp_type_V}>(const {cpp_map_type}<{cpp_type_K}, {cpp_type_V}> &map);"""
 
 # Definitions to go in implementation file
+# C++ to Python, example:
+#     template<>
+#     PyObject *
+#     cpp_std_map_like_to_py_dict<std::unordered_map, long, long>(const std::unordered_map<long, long> &map) {
+#         return generic_cpp_std_map_like_to_py_dict<
+#                 std::unordered_map,
+#                 long, long,
+#                 &cpp_long_to_py_long, &cpp_long_to_py_long
+#         >(map);
+#     }
 CPP_MAP_TYPE_TO_PY_DICT_DEFN = """template <>
 PyObject *
-cpp_std_{cpp_map_type}_to_py_dict<{type_K}, {type_V}>(const std::{cpp_map_type}<{type_K}, {type_V}> &map) {{
-    return generic_cpp_std_{cpp_map_type}_to_py_dict<
+cpp_std_map_like_to_py_dict<{cpp_map_type}, {type_K}, {type_V}>(const {cpp_map_type}<{type_K}, {type_V}> &map) {{
+    return generic_cpp_std_map_like_to_py_dict<
+        {cpp_map_type},
         {type_K}, {type_V},
         &{convert_K_to_py}, &{convert_V_to_py}
     >(map);
 }}
 """
 
+# ==== Python to C++
+
+# Base declaration, Python to C++, example:
+#     template<template<typename ...> class Map, typename K, typename V>
+#     int
+#     py_dict_to_cpp_std_map_like(PyObject *op, std::unordered_map<K, V> &map);
+CPP_PY_DICT_TO_MAP_TYPE_BASE_DECL = """template<template<typename ...> class Map, typename K, typename V>
+int 
+py_dict_to_cpp_std_map_like(PyObject *op, Map<K, V> &map);"""
+
+# Completed declaration, Python to C++, example:
+# template<>
+#     int
+#     py_dict_to_cpp_std_map_like<std::unordered_map, long, long>(PyObject *op, std::unordered_map<long, long> &map);
+CPP_PY_DICT_TO_MAP_TYPE_DECL = """template <>
+int
+py_dict_to_cpp_std_map_like<{cpp_map_type}, {cpp_type_K}, {cpp_type_V}>(PyObject* op, {cpp_map_type}<{cpp_type_K}, {cpp_type_V}> &map);"""
+
+# Definitions to go in implementation file
+# Python to C++, example:
+#     template<>
+#     int
+#     py_dict_to_cpp_std_map_like<std::unordered_map, long, long>(PyObject *op, std::unordered_map<long, long> &map) {
+#         return generic_py_dict_to_cpp_std_map_like<
+#                 std::unordered_map,
+#                 long, long,
+#                 &py_long_check, &py_long_check,
+#                 &py_long_to_cpp_long, &py_long_to_cpp_long
+#         >(op, map);
+#     }
 CPP_PY_DICT_TO_MAP_TYPE_DEFN = """template <>
 int
-py_dict_to_cpp_std_{cpp_map_type}<{type_K}, {type_V}>(PyObject* op, std::{cpp_map_type}<{type_K}, {type_V}> &map) {{
-    return generic_py_dict_to_cpp_std_{cpp_map_type}<
+py_dict_to_cpp_std_map_like<{cpp_map_type}, {type_K}, {type_V}>(PyObject* op, {cpp_map_type}<{type_K}, {type_V}> &map) {{
+    return generic_py_dict_to_cpp_std_map_like<
+        {cpp_map_type},
         {type_K}, {type_V},
         &{py_check_K}, &{py_check_V},
         &{convert_K_from_py}, &{convert_V_from_py}
     >(op, map);
 }}
 """
-
 
 # ==== END: String templates for C++ declarations and definitions. ====
 

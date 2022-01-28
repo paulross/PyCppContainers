@@ -18,10 +18,12 @@
 
 #include <Python.h>
 
+#include <array>
 #include <complex>
-#include <vector>
+#include <map>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 /// Conversion functions for individual Python objects.
 #include "python_object_convert.h"
@@ -29,6 +31,9 @@
 #include "python_container_convert.h"
 
 namespace std {
+    // We are adding to namespace std:: here.
+    // See https://stackoverflow.com/questions/16122912/is-it-ok-to-specialize-stdnumeric-limitst-for-user-defined-number-like-class
+
     /**
      * Provide a hash function for \c std::vector<char>.
      * This just creates a \c std::string_view over the raw data and uses \c std::hash on that.
@@ -85,6 +90,15 @@ namespace std {
                 combined = (size_t) -2;
             }
             return combined;
+        }
+    };
+    // Add a complex number implementation of less<T> for std::map
+    // See: https://stackoverflow.com/questions/26245189/using-stdcomplexdouble-as-a-stdmap-key
+    // With the addition of a const qualifier for bool operator().
+    template<typename T>
+    struct less<std::complex<T>> {
+        bool operator()(std::complex<T> const& a, std::complex<T> const& b) const {
+            return std::array<T,2>{a.real(),a.imag()} < std::array<T,2>{b.real(),b.imag()};
         }
     };
 }
@@ -581,8 +595,8 @@ namespace Python_Cpp_Containers {
      *
      *  template <>
      *  PyObject *
-     *  std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double, double> &map) {
-     *      return generic_cpp_std_unordered_map_to_py_dict<
+     *  cpp_std_map_like_to_py_dict<std::unordered_map, double, double>(const std::unordered_map<double, double> &map) {
+     *      return generic_cpp_std_map_like_to_py_dict<
      *            double, double,
      *            &cpp_double_to_py_float, &cpp_double_to_py_float
      *      >(map);
@@ -590,6 +604,7 @@ namespace Python_Cpp_Containers {
      *
      * \endcode
      *
+     * @tparam Map The container, either \c std::unordered_map or \c std::map.
      * @tparam K The C++ type of the key.
      * @tparam V The C++ type of the value.
      * @tparam Convert_K A function to convert a C++ type K to a \c PyObject*.
@@ -598,13 +613,14 @@ namespace Python_Cpp_Containers {
      * @return The Python dictionary. \c NULL on failure.
      */
     template<
+            template<typename ...> class Map,
             typename K,
             typename V,
             PyObject *(*Convert_K)(const K &),
             PyObject *(*Convert_V)(const V &)
     >
     PyObject *
-    generic_cpp_std_unordered_map_to_py_dict(const std::unordered_map<K, V> &map) {
+    generic_cpp_std_map_like_to_py_dict(const Map<K, V> &map) {
         PyObject *ret = PyDict_New();
         PyObject *py_k = NULL;
         PyObject *py_v = NULL;
@@ -660,8 +676,10 @@ namespace Python_Cpp_Containers {
 
     /**
      *
-     * This is a hand written generic function to convert a Python \c dict to a C++ \c std::unordered_map.
+     * This is a hand written generic function to convert a Python \c dict to a C++ \c std::unordered_map
+     * or \c std::map.
      *
+     * @tparam Map The container, either \c std::unordered_map or \c std::map.
      * @tparam K The C++ type of the key.
      * @tparam V The C++ type of the value.
      * @tparam Check_K A function to check that the type of a \c PyObject* is a C++ \c K.
@@ -675,6 +693,7 @@ namespace Python_Cpp_Containers {
      * @return 0 on success. Non-zero on failure.
      */
     template<
+            template<typename ...> class Map,
             typename K,
             typename V,
             int (*Check_K)(PyObject *),
@@ -682,8 +701,7 @@ namespace Python_Cpp_Containers {
             K (*Convert_K)(PyObject *),
             V (*Convert_V)(PyObject *)
     >
-    int generic_py_dict_to_cpp_std_unordered_map(PyObject *dict,
-                                                 std::unordered_map<K, V> &map) {
+    int generic_py_dict_to_cpp_std_map_like(PyObject *dict, Map<K, V> &map) {
         int ret = 0;
         PyObject *key = NULL;
         PyObject *val = NULL;

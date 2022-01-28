@@ -4,18 +4,17 @@ Python is well known for it's ability to handle *heterogeneous* data in containe
 But what if you need to convert to and from C++ containers such as ``std::vector<T>`` that require *homogeneous* data types?
 
 
-This C++ project is about converting all Python containers (`tuple`  ``list``, ``set``, ``frozenset``, ``dict``) containing
+This C++ project is about converting between C++ containers and Python's (`tuple`  ``list``, ``set``, ``frozenset``, ``dict``) containing
 homogeneous types (``bool``, ``int``, ``float``, ``complex``, ``bytes``, ``str``) to and from their C++ equivalents.
 
 For two-way conversion for this set of containers:
 
-| Python Container | C++ Equivalent    |
-|-----------------|-----------------------|
-| ``tuple``       | ``std::vector``       |
-| ``list``        | ``std::vector``       |
-| ``set``         | ``std::unordered_set`` |
-| ``frozenset``   | ``std::unordered_set`` |
-| ``dict``        | ``std::unordered_map`` |
+| Python Container       | C++ Equivalent                                        |
+|------------------------|-------------------------------------------------------|
+| ``tuple``              | ``std::vector``, ``std::list`` or `std::forward_list` |
+| ``list``               | ``std::vector``, ``std::list`` or `std::forward_list` |
+| ``set``, ``frozenset`` | ``std::unordered_set``                                |
+| ``dict``               | ``std::unordered_map`` or `std::map`                  |
 
 Containing these objects:
 

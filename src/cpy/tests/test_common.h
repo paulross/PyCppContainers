@@ -427,11 +427,11 @@ int test_unordered_set_string_to_py_set(TestResultS &test_results, size_t size, 
 int test_py_set_string_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len);
 
 // Functional tests of dict of bytes
-int test_cpp_std_unordered_map_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len);
-int test_py_dict_to_cpp_std_unordered_map_bytes(TestResultS &test_results, size_t size, size_t str_len);
+int test_cpp_std_map_like_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_dict_to_cpp_std_map_like_bytes(TestResultS &test_results, size_t size, size_t str_len);
 // Functional tests of dict of strings
-int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len);
-int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size_t size, size_t str_len);
+int test_cpp_std_map_like_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_dict_to_cpp_std_map_like_string(TestResultS &test_results, size_t size, size_t str_len);
 
 #pragma mark Generic test templates
 
@@ -780,7 +780,7 @@ template<
         K (*Convert_Py_Key)(PyObject *),
         V (*Convert_Py_Val)(PyObject *)
 >
-int test_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::string &type, size_t size) {
+int test_cpp_std_map_like_to_py_dict(TestResultS &test_results, const std::string &type, size_t size) {
     RSS_SNAPSHOT_WITH_TYPE(type);
     std::unordered_map<K, V> cpp_map;
     for (size_t i = 0; i < size; ++i) {
@@ -788,7 +788,7 @@ int test_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::
         cpp_map[static_cast<K>(i)] = static_cast<V>(i);
     }
     ExecClock exec_clock;
-    PyObject *op = Python_Cpp_Containers::cpp_std_unordered_map_to_py_dict(cpp_map);
+    PyObject *op = Python_Cpp_Containers::cpp_std_map_like_to_py_dict(cpp_map);
     double exec_time = exec_clock.seconds();
     int result = 0;
     if (! op) {
@@ -818,7 +818,7 @@ template<
         K (*Convert_Py_Key)(PyObject *),
         V (*Convert_Py_Val)(PyObject *)
 >
-int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::string &type, size_t size) {
+int test_py_dict_to_cpp_std_map_like(TestResultS &test_results, const std::string &type, size_t size) {
     RSS_SNAPSHOT_WITH_TYPE(type);
     PyObject *op = PyDict_New();
     PyObject *py_k = NULL;
@@ -873,7 +873,7 @@ int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::
         if (result == 0) {
             std::unordered_map<K, V> cpp_map;
             ExecClock exec_clock;
-            int err = Python_Cpp_Containers::py_dict_to_cpp_std_unordered_map(op, cpp_map);
+            int err = Python_Cpp_Containers::py_dict_to_cpp_std_map_like(op, cpp_map);
             exec_time = exec_clock.seconds();
             if (err != 0) {
                 result |= 1 << 2;

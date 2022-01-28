@@ -632,14 +632,14 @@ new_py_dict_string(size_t size, size_t str_len) {
     return op;
 }
 
-int test_cpp_std_unordered_map_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len) {
+int test_cpp_std_map_like_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     std::unordered_map<std::vector<char>, std::vector<char>> cpp_map;
     for (size_t i = 0; i < size; ++i) {
         cpp_map[unique_vector_char(str_len)] = std::vector<char>(str_len, ' ');
     }
     ExecClock exec_clock;
-    PyObject *op = Python_Cpp_Containers::cpp_std_unordered_map_to_py_dict(cpp_map);
+    PyObject *op = Python_Cpp_Containers::cpp_std_map_like_to_py_dict(cpp_map);
     double exec_time = exec_clock.seconds();
     int result = 0;
     if (! op) {
@@ -661,7 +661,7 @@ int test_cpp_std_unordered_map_to_py_dict_bytes(TestResultS &test_results, size_
     return result;
 }
 
-int test_py_dict_to_cpp_std_unordered_map_bytes(TestResultS &test_results, size_t size, size_t str_len) {
+int test_py_dict_to_cpp_std_map_like_bytes(TestResultS &test_results, size_t size, size_t str_len) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     PyObject *op = new_py_dict_bytes(size, str_len);
     int result = 0;
@@ -671,7 +671,7 @@ int test_py_dict_to_cpp_std_unordered_map_bytes(TestResultS &test_results, size_
     } else {
         std::unordered_map<std::vector<char>, std::vector<char>> cpp_map;
         ExecClock exec_clock;
-        int err = Python_Cpp_Containers::py_dict_to_cpp_std_unordered_map(op, cpp_map);
+        int err = Python_Cpp_Containers::py_dict_to_cpp_std_map_like(op, cpp_map);
         exec_time = exec_clock.seconds();
         if (err != 0) {
             result = 2;
@@ -688,14 +688,14 @@ int test_py_dict_to_cpp_std_unordered_map_bytes(TestResultS &test_results, size_
     return result;
 }
 
-int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len) {
+int test_cpp_std_map_like_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     std::unordered_map<std::string, std::string> cpp_map;
     for (size_t i = 0; i < size; ++i) {
         cpp_map[unique_string(str_len)] = std::string(str_len, ' ');
     }
     ExecClock exec_clock;
-    PyObject *op = Python_Cpp_Containers::cpp_std_unordered_map_to_py_dict(cpp_map);
+    PyObject *op = Python_Cpp_Containers::cpp_std_map_like_to_py_dict(cpp_map);
     double exec_time = exec_clock.seconds();
     int result = 0;
     if (! op) {
@@ -717,7 +717,7 @@ int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size
     return result;
 }
 
-int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size_t size, size_t str_len) {
+int test_py_dict_to_cpp_std_map_like_string(TestResultS &test_results, size_t size, size_t str_len) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     PyObject *op = new_py_dict_string(size, str_len);
     int result = 0;
@@ -727,7 +727,7 @@ int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size
     } else {
         std::unordered_map<std::string, std::string> cpp_map;
         ExecClock exec_clock;
-        int err = Python_Cpp_Containers::py_dict_to_cpp_std_unordered_map(op, cpp_map);
+        int err = Python_Cpp_Containers::py_dict_to_cpp_std_map_like(op, cpp_map);
         exec_time = exec_clock.seconds();
         if (err != 0) {
             result = 2;

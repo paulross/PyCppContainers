@@ -88,11 +88,11 @@ tuple_reverse(PyObject *Py_UNUSED(module), PyObject *arg) {
 static PyObject *
 dict_inc(PyObject *Py_UNUSED(module), PyObject *arg) {
     std::unordered_map<std::vector<char>, long> dict;
-    if (!py_dict_to_cpp_std_unordered_map(arg, dict)) {
+    if (!py_dict_to_cpp_std_map_like(arg, dict)) {
         for(auto &key_value: dict) {
             key_value.second += 1;
         }
-        return cpp_std_unordered_map_to_py_dict(dict);
+        return cpp_std_map_like_to_py_dict(dict);
     }
     return NULL;
 }
@@ -339,8 +339,8 @@ template<typename K, typename V>
 static PyObject *
 new_dict(PyObject *arg) {
     std::unordered_map<K, V> map;
-    if (!py_dict_to_cpp_std_unordered_map(arg, map)) {
-        return cpp_std_unordered_map_to_py_dict(map);
+    if (!py_dict_to_cpp_std_map_like(arg, map)) {
+        return cpp_std_map_like_to_py_dict(map);
     }
     return NULL;
 }

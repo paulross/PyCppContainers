@@ -395,838 +395,1813 @@ py_frozenset_to_cpp_std_unordered_set<std::string>(PyObject *op, std::unordered_
 
 //************* END: Unary collections <-> Python collections *************
 
-//******************* std::unordered_map <-> Python dict ******************
-//--------------- Converts a std::unordered_map<bool, bool> ---------------
+//**************** std::std::unordered_map <-> Python dict ****************
+//------------- Converts a std::std::unordered_map<bool, bool> ------------
 //--------------- to a Python dict of { bool : bool, ...}    --------------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<bool, bool>(const std::unordered_map<bool, bool> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, bool, bool>(const std::unordered_map<bool, bool> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         bool, bool,
         &cpp_bool_to_py_bool, &cpp_bool_to_py_bool
     >(map);
 }
 
 //-------------- Converts a Python dict of {bool : bool, ...} -------------
-//------------------ to a std::unordered_map<bool, bool> ------------------
+//---------------- to a std::std::unordered_map<bool, bool> ---------------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<bool, bool>(PyObject* op, std::unordered_map<bool, bool> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, bool, bool>(PyObject* op, std::unordered_map<bool, bool> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         bool, bool,
         &py_bool_check, &py_bool_check,
         &py_bool_to_cpp_bool, &py_bool_to_cpp_bool
     >(op, map);
 }
 
-//--------------- Converts a std::unordered_map<bool, long> ---------------
+//------------- Converts a std::std::unordered_map<bool, long> ------------
 //--------------- to a Python dict of { bool : long, ...}    --------------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<bool, long>(const std::unordered_map<bool, long> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, bool, long>(const std::unordered_map<bool, long> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         bool, long,
         &cpp_bool_to_py_bool, &cpp_long_to_py_long
     >(map);
 }
 
 //-------------- Converts a Python dict of {bool : long, ...} -------------
-//------------------ to a std::unordered_map<bool, long> ------------------
+//---------------- to a std::std::unordered_map<bool, long> ---------------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<bool, long>(PyObject* op, std::unordered_map<bool, long> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, bool, long>(PyObject* op, std::unordered_map<bool, long> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         bool, long,
         &py_bool_check, &py_long_check,
         &py_bool_to_cpp_bool, &py_long_to_cpp_long
     >(op, map);
 }
 
-//-------------- Converts a std::unordered_map<bool, double> --------------
+//------------ Converts a std::std::unordered_map<bool, double> -----------
 //-------------- to a Python dict of { bool : double, ...}    -------------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<bool, double>(const std::unordered_map<bool, double> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, bool, double>(const std::unordered_map<bool, double> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         bool, double,
         &cpp_bool_to_py_bool, &cpp_double_to_py_float
     >(map);
 }
 
 //------------- Converts a Python dict of {bool : double, ...} ------------
-//----------------- to a std::unordered_map<bool, double> -----------------
+//--------------- to a std::std::unordered_map<bool, double> --------------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<bool, double>(PyObject* op, std::unordered_map<bool, double> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, bool, double>(PyObject* op, std::unordered_map<bool, double> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         bool, double,
         &py_bool_check, &py_float_check,
         &py_bool_to_cpp_bool, &py_float_to_cpp_double
     >(op, map);
 }
 
-//------- Converts a std::unordered_map<bool, std::complex<double>> -------
+//----- Converts a std::std::unordered_map<bool, std::complex<double>> ----
 //------- to a Python dict of { bool : std::complex<double>, ...}    ------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<bool, std::complex<double>>(const std::unordered_map<bool, std::complex<double>> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, bool, std::complex<double>>(const std::unordered_map<bool, std::complex<double>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         bool, std::complex<double>,
         &cpp_bool_to_py_bool, &cpp_complex_to_py_complex
     >(map);
 }
 
 //------ Converts a Python dict of {bool : std::complex<double>, ...} -----
-//---------- to a std::unordered_map<bool, std::complex<double>> ----------
+//-------- to a std::std::unordered_map<bool, std::complex<double>> -------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<bool, std::complex<double>>(PyObject* op, std::unordered_map<bool, std::complex<double>> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, bool, std::complex<double>>(PyObject* op, std::unordered_map<bool, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         bool, std::complex<double>,
         &py_bool_check, &py_complex_check,
         &py_bool_to_cpp_bool, &py_complex_to_cpp_complex
     >(op, map);
 }
 
-//--------- Converts a std::unordered_map<bool, std::vector<char>> --------
+//------ Converts a std::std::unordered_map<bool, std::vector<char>> ------
 //-------- to a Python dict of { bool : std::vector<char>, ...}    --------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<bool, std::vector<char>>(const std::unordered_map<bool, std::vector<char>> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, bool, std::vector<char>>(const std::unordered_map<bool, std::vector<char>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         bool, std::vector<char>,
         &cpp_bool_to_py_bool, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
 //------- Converts a Python dict of {bool : std::vector<char>, ...} -------
-//------------ to a std::unordered_map<bool, std::vector<char>> -----------
+//--------- to a std::std::unordered_map<bool, std::vector<char>> ---------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<bool, std::vector<char>>(PyObject* op, std::unordered_map<bool, std::vector<char>> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, bool, std::vector<char>>(PyObject* op, std::unordered_map<bool, std::vector<char>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         bool, std::vector<char>,
         &py_bool_check, &py_bytes_check,
         &py_bool_to_cpp_bool, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
-//------------ Converts a std::unordered_map<bool, std::string> -----------
+//--------- Converts a std::std::unordered_map<bool, std::string> ---------
 //----------- to a Python dict of { bool : std::string, ...}    -----------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<bool, std::string>(const std::unordered_map<bool, std::string> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, bool, std::string>(const std::unordered_map<bool, std::string> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         bool, std::string,
         &cpp_bool_to_py_bool, &cpp_string_to_py_unicode
     >(map);
 }
 
 //---------- Converts a Python dict of {bool : std::string, ...} ----------
-//--------------- to a std::unordered_map<bool, std::string> --------------
+//------------ to a std::std::unordered_map<bool, std::string> ------------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<bool, std::string>(PyObject* op, std::unordered_map<bool, std::string> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, bool, std::string>(PyObject* op, std::unordered_map<bool, std::string> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         bool, std::string,
         &py_bool_check, &py_unicode_check,
         &py_bool_to_cpp_bool, &py_unicode_to_cpp_string
     >(op, map);
 }
 
-//--------------- Converts a std::unordered_map<long, bool> ---------------
+//------------- Converts a std::std::unordered_map<long, bool> ------------
 //--------------- to a Python dict of { long : bool, ...}    --------------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<long, bool>(const std::unordered_map<long, bool> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, long, bool>(const std::unordered_map<long, bool> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         long, bool,
         &cpp_long_to_py_long, &cpp_bool_to_py_bool
     >(map);
 }
 
 //-------------- Converts a Python dict of {long : bool, ...} -------------
-//------------------ to a std::unordered_map<long, bool> ------------------
+//---------------- to a std::std::unordered_map<long, bool> ---------------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<long, bool>(PyObject* op, std::unordered_map<long, bool> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, long, bool>(PyObject* op, std::unordered_map<long, bool> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         long, bool,
         &py_long_check, &py_bool_check,
         &py_long_to_cpp_long, &py_bool_to_cpp_bool
     >(op, map);
 }
 
-//--------------- Converts a std::unordered_map<long, long> ---------------
+//------------- Converts a std::std::unordered_map<long, long> ------------
 //--------------- to a Python dict of { long : long, ...}    --------------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<long, long>(const std::unordered_map<long, long> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, long, long>(const std::unordered_map<long, long> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         long, long,
         &cpp_long_to_py_long, &cpp_long_to_py_long
     >(map);
 }
 
 //-------------- Converts a Python dict of {long : long, ...} -------------
-//------------------ to a std::unordered_map<long, long> ------------------
+//---------------- to a std::std::unordered_map<long, long> ---------------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<long, long>(PyObject* op, std::unordered_map<long, long> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, long, long>(PyObject* op, std::unordered_map<long, long> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         long, long,
         &py_long_check, &py_long_check,
         &py_long_to_cpp_long, &py_long_to_cpp_long
     >(op, map);
 }
 
-//-------------- Converts a std::unordered_map<long, double> --------------
+//------------ Converts a std::std::unordered_map<long, double> -----------
 //-------------- to a Python dict of { long : double, ...}    -------------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<long, double>(const std::unordered_map<long, double> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, long, double>(const std::unordered_map<long, double> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         long, double,
         &cpp_long_to_py_long, &cpp_double_to_py_float
     >(map);
 }
 
 //------------- Converts a Python dict of {long : double, ...} ------------
-//----------------- to a std::unordered_map<long, double> -----------------
+//--------------- to a std::std::unordered_map<long, double> --------------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<long, double>(PyObject* op, std::unordered_map<long, double> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, long, double>(PyObject* op, std::unordered_map<long, double> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         long, double,
         &py_long_check, &py_float_check,
         &py_long_to_cpp_long, &py_float_to_cpp_double
     >(op, map);
 }
 
-//------- Converts a std::unordered_map<long, std::complex<double>> -------
+//----- Converts a std::std::unordered_map<long, std::complex<double>> ----
 //------- to a Python dict of { long : std::complex<double>, ...}    ------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<long, std::complex<double>>(const std::unordered_map<long, std::complex<double>> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, long, std::complex<double>>(const std::unordered_map<long, std::complex<double>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         long, std::complex<double>,
         &cpp_long_to_py_long, &cpp_complex_to_py_complex
     >(map);
 }
 
 //------ Converts a Python dict of {long : std::complex<double>, ...} -----
-//---------- to a std::unordered_map<long, std::complex<double>> ----------
+//-------- to a std::std::unordered_map<long, std::complex<double>> -------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<long, std::complex<double>>(PyObject* op, std::unordered_map<long, std::complex<double>> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, long, std::complex<double>>(PyObject* op, std::unordered_map<long, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         long, std::complex<double>,
         &py_long_check, &py_complex_check,
         &py_long_to_cpp_long, &py_complex_to_cpp_complex
     >(op, map);
 }
 
-//--------- Converts a std::unordered_map<long, std::vector<char>> --------
+//------ Converts a std::std::unordered_map<long, std::vector<char>> ------
 //-------- to a Python dict of { long : std::vector<char>, ...}    --------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<long, std::vector<char>>(const std::unordered_map<long, std::vector<char>> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, long, std::vector<char>>(const std::unordered_map<long, std::vector<char>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         long, std::vector<char>,
         &cpp_long_to_py_long, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
 //------- Converts a Python dict of {long : std::vector<char>, ...} -------
-//------------ to a std::unordered_map<long, std::vector<char>> -----------
+//--------- to a std::std::unordered_map<long, std::vector<char>> ---------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<long, std::vector<char>>(PyObject* op, std::unordered_map<long, std::vector<char>> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, long, std::vector<char>>(PyObject* op, std::unordered_map<long, std::vector<char>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         long, std::vector<char>,
         &py_long_check, &py_bytes_check,
         &py_long_to_cpp_long, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
-//------------ Converts a std::unordered_map<long, std::string> -----------
+//--------- Converts a std::std::unordered_map<long, std::string> ---------
 //----------- to a Python dict of { long : std::string, ...}    -----------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<long, std::string>(const std::unordered_map<long, std::string> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, long, std::string>(const std::unordered_map<long, std::string> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         long, std::string,
         &cpp_long_to_py_long, &cpp_string_to_py_unicode
     >(map);
 }
 
 //---------- Converts a Python dict of {long : std::string, ...} ----------
-//--------------- to a std::unordered_map<long, std::string> --------------
+//------------ to a std::std::unordered_map<long, std::string> ------------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<long, std::string>(PyObject* op, std::unordered_map<long, std::string> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, long, std::string>(PyObject* op, std::unordered_map<long, std::string> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         long, std::string,
         &py_long_check, &py_unicode_check,
         &py_long_to_cpp_long, &py_unicode_to_cpp_string
     >(op, map);
 }
 
-//-------------- Converts a std::unordered_map<double, bool> --------------
+//------------ Converts a std::std::unordered_map<double, bool> -----------
 //-------------- to a Python dict of { double : bool, ...}    -------------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<double, bool>(const std::unordered_map<double, bool> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, double, bool>(const std::unordered_map<double, bool> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         double, bool,
         &cpp_double_to_py_float, &cpp_bool_to_py_bool
     >(map);
 }
 
 //------------- Converts a Python dict of {double : bool, ...} ------------
-//----------------- to a std::unordered_map<double, bool> -----------------
+//--------------- to a std::std::unordered_map<double, bool> --------------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<double, bool>(PyObject* op, std::unordered_map<double, bool> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, double, bool>(PyObject* op, std::unordered_map<double, bool> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         double, bool,
         &py_float_check, &py_bool_check,
         &py_float_to_cpp_double, &py_bool_to_cpp_bool
     >(op, map);
 }
 
-//-------------- Converts a std::unordered_map<double, long> --------------
+//------------ Converts a std::std::unordered_map<double, long> -----------
 //-------------- to a Python dict of { double : long, ...}    -------------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<double, long>(const std::unordered_map<double, long> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, double, long>(const std::unordered_map<double, long> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         double, long,
         &cpp_double_to_py_float, &cpp_long_to_py_long
     >(map);
 }
 
 //------------- Converts a Python dict of {double : long, ...} ------------
-//----------------- to a std::unordered_map<double, long> -----------------
+//--------------- to a std::std::unordered_map<double, long> --------------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<double, long>(PyObject* op, std::unordered_map<double, long> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, double, long>(PyObject* op, std::unordered_map<double, long> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         double, long,
         &py_float_check, &py_long_check,
         &py_float_to_cpp_double, &py_long_to_cpp_long
     >(op, map);
 }
 
-//------------- Converts a std::unordered_map<double, double> -------------
+//----------- Converts a std::std::unordered_map<double, double> ----------
 //------------- to a Python dict of { double : double, ...}    ------------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<double, double>(const std::unordered_map<double, double> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, double, double>(const std::unordered_map<double, double> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         double, double,
         &cpp_double_to_py_float, &cpp_double_to_py_float
     >(map);
 }
 
 //------------ Converts a Python dict of {double : double, ...} -----------
-//---------------- to a std::unordered_map<double, double> ----------------
+//-------------- to a std::std::unordered_map<double, double> -------------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<double, double>(PyObject* op, std::unordered_map<double, double> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, double, double>(PyObject* op, std::unordered_map<double, double> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         double, double,
         &py_float_check, &py_float_check,
         &py_float_to_cpp_double, &py_float_to_cpp_double
     >(op, map);
 }
 
-//------ Converts a std::unordered_map<double, std::complex<double>> ------
+//---- Converts a std::std::unordered_map<double, std::complex<double>> ---
 //------ to a Python dict of { double : std::complex<double>, ...}    -----
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<double, std::complex<double>>(const std::unordered_map<double, std::complex<double>> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, double, std::complex<double>>(const std::unordered_map<double, std::complex<double>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         double, std::complex<double>,
         &cpp_double_to_py_float, &cpp_complex_to_py_complex
     >(map);
 }
 
 //----- Converts a Python dict of {double : std::complex<double>, ...} ----
-//--------- to a std::unordered_map<double, std::complex<double>> ---------
+//------- to a std::std::unordered_map<double, std::complex<double>> ------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<double, std::complex<double>>(PyObject* op, std::unordered_map<double, std::complex<double>> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, double, std::complex<double>>(PyObject* op, std::unordered_map<double, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         double, std::complex<double>,
         &py_float_check, &py_complex_check,
         &py_float_to_cpp_double, &py_complex_to_cpp_complex
     >(op, map);
 }
 
-//-------- Converts a std::unordered_map<double, std::vector<char>> -------
+//----- Converts a std::std::unordered_map<double, std::vector<char>> -----
 //------- to a Python dict of { double : std::vector<char>, ...}    -------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<double, std::vector<char>>(const std::unordered_map<double, std::vector<char>> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, double, std::vector<char>>(const std::unordered_map<double, std::vector<char>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         double, std::vector<char>,
         &cpp_double_to_py_float, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
 //------ Converts a Python dict of {double : std::vector<char>, ...} ------
-//----------- to a std::unordered_map<double, std::vector<char>> ----------
+//-------- to a std::std::unordered_map<double, std::vector<char>> --------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<double, std::vector<char>>(PyObject* op, std::unordered_map<double, std::vector<char>> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, double, std::vector<char>>(PyObject* op, std::unordered_map<double, std::vector<char>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         double, std::vector<char>,
         &py_float_check, &py_bytes_check,
         &py_float_to_cpp_double, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
-//----------- Converts a std::unordered_map<double, std::string> ----------
+//-------- Converts a std::std::unordered_map<double, std::string> --------
 //---------- to a Python dict of { double : std::string, ...}    ----------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<double, std::string>(const std::unordered_map<double, std::string> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, double, std::string>(const std::unordered_map<double, std::string> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         double, std::string,
         &cpp_double_to_py_float, &cpp_string_to_py_unicode
     >(map);
 }
 
 //--------- Converts a Python dict of {double : std::string, ...} ---------
-//-------------- to a std::unordered_map<double, std::string> -------------
+//----------- to a std::std::unordered_map<double, std::string> -----------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<double, std::string>(PyObject* op, std::unordered_map<double, std::string> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, double, std::string>(PyObject* op, std::unordered_map<double, std::string> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         double, std::string,
         &py_float_check, &py_unicode_check,
         &py_float_to_cpp_double, &py_unicode_to_cpp_string
     >(op, map);
 }
 
-//------- Converts a std::unordered_map<std::complex<double>, bool> -------
+//----- Converts a std::std::unordered_map<std::complex<double>, bool> ----
 //------- to a Python dict of { std::complex<double> : bool, ...}    ------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::complex<double>, bool>(const std::unordered_map<std::complex<double>, bool> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::complex<double>, bool>(const std::unordered_map<std::complex<double>, bool> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::complex<double>, bool,
         &cpp_complex_to_py_complex, &cpp_bool_to_py_bool
     >(map);
 }
 
 //------ Converts a Python dict of {std::complex<double> : bool, ...} -----
-//---------- to a std::unordered_map<std::complex<double>, bool> ----------
+//-------- to a std::std::unordered_map<std::complex<double>, bool> -------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::complex<double>, bool>(PyObject* op, std::unordered_map<std::complex<double>, bool> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::complex<double>, bool>(PyObject* op, std::unordered_map<std::complex<double>, bool> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::complex<double>, bool,
         &py_complex_check, &py_bool_check,
         &py_complex_to_cpp_complex, &py_bool_to_cpp_bool
     >(op, map);
 }
 
-//------- Converts a std::unordered_map<std::complex<double>, long> -------
+//----- Converts a std::std::unordered_map<std::complex<double>, long> ----
 //------- to a Python dict of { std::complex<double> : long, ...}    ------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::complex<double>, long>(const std::unordered_map<std::complex<double>, long> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::complex<double>, long>(const std::unordered_map<std::complex<double>, long> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::complex<double>, long,
         &cpp_complex_to_py_complex, &cpp_long_to_py_long
     >(map);
 }
 
 //------ Converts a Python dict of {std::complex<double> : long, ...} -----
-//---------- to a std::unordered_map<std::complex<double>, long> ----------
+//-------- to a std::std::unordered_map<std::complex<double>, long> -------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::complex<double>, long>(PyObject* op, std::unordered_map<std::complex<double>, long> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::complex<double>, long>(PyObject* op, std::unordered_map<std::complex<double>, long> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::complex<double>, long,
         &py_complex_check, &py_long_check,
         &py_complex_to_cpp_complex, &py_long_to_cpp_long
     >(op, map);
 }
 
-//------ Converts a std::unordered_map<std::complex<double>, double> ------
+//---- Converts a std::std::unordered_map<std::complex<double>, double> ---
 //------ to a Python dict of { std::complex<double> : double, ...}    -----
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::complex<double>, double>(const std::unordered_map<std::complex<double>, double> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::complex<double>, double>(const std::unordered_map<std::complex<double>, double> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::complex<double>, double,
         &cpp_complex_to_py_complex, &cpp_double_to_py_float
     >(map);
 }
 
 //----- Converts a Python dict of {std::complex<double> : double, ...} ----
-//--------- to a std::unordered_map<std::complex<double>, double> ---------
+//------- to a std::std::unordered_map<std::complex<double>, double> ------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::complex<double>, double>(PyObject* op, std::unordered_map<std::complex<double>, double> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::complex<double>, double>(PyObject* op, std::unordered_map<std::complex<double>, double> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::complex<double>, double,
         &py_complex_check, &py_float_check,
         &py_complex_to_cpp_complex, &py_float_to_cpp_double
     >(op, map);
 }
 
-// Converts a std::unordered_map<std::complex<double>, std::complex<double>> 
+// Converts a std::std::unordered_map<std::complex<double>, std::complex<double>> 
 // to a Python dict of { std::complex<double> : std::complex<double>, ...}    
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::complex<double>, std::complex<double>>(const std::unordered_map<std::complex<double>, std::complex<double>> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::complex<double>, std::complex<double>>(const std::unordered_map<std::complex<double>, std::complex<double>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::complex<double>, std::complex<double>,
         &cpp_complex_to_py_complex, &cpp_complex_to_py_complex
     >(map);
 }
 
 // Converts a Python dict of {std::complex<double> : std::complex<double>, ...} 
-//-- to a std::unordered_map<std::complex<double>, std::complex<double>> --
+// to a std::std::unordered_map<std::complex<double>, std::complex<double>> 
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::complex<double>, std::complex<double>>(PyObject* op, std::unordered_map<std::complex<double>, std::complex<double>> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::complex<double>, std::complex<double>>(PyObject* op, std::unordered_map<std::complex<double>, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::complex<double>, std::complex<double>,
         &py_complex_check, &py_complex_check,
         &py_complex_to_cpp_complex, &py_complex_to_cpp_complex
     >(op, map);
 }
 
-//- Converts a std::unordered_map<std::complex<double>, std::vector<char>> 
+// Converts a std::std::unordered_map<std::complex<double>, std::vector<char>> 
 // to a Python dict of { std::complex<double> : std::vector<char>, ...}    
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::complex<double>, std::vector<char>>(const std::unordered_map<std::complex<double>, std::vector<char>> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::complex<double>, std::vector<char>>(const std::unordered_map<std::complex<double>, std::vector<char>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::complex<double>, std::vector<char>,
         &cpp_complex_to_py_complex, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
 // Converts a Python dict of {std::complex<double> : std::vector<char>, ...} 
-//---- to a std::unordered_map<std::complex<double>, std::vector<char>> ---
+//- to a std::std::unordered_map<std::complex<double>, std::vector<char>> -
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::complex<double>, std::vector<char>>(PyObject* op, std::unordered_map<std::complex<double>, std::vector<char>> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::complex<double>, std::vector<char>>(PyObject* op, std::unordered_map<std::complex<double>, std::vector<char>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::complex<double>, std::vector<char>,
         &py_complex_check, &py_bytes_check,
         &py_complex_to_cpp_complex, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
-//---- Converts a std::unordered_map<std::complex<double>, std::string> ---
+//- Converts a std::std::unordered_map<std::complex<double>, std::string> -
 //--- to a Python dict of { std::complex<double> : std::string, ...}    ---
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::complex<double>, std::string>(const std::unordered_map<std::complex<double>, std::string> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::complex<double>, std::string>(const std::unordered_map<std::complex<double>, std::string> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::complex<double>, std::string,
         &cpp_complex_to_py_complex, &cpp_string_to_py_unicode
     >(map);
 }
 
 //-- Converts a Python dict of {std::complex<double> : std::string, ...} --
-//------- to a std::unordered_map<std::complex<double>, std::string> ------
+//---- to a std::std::unordered_map<std::complex<double>, std::string> ----
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::complex<double>, std::string>(PyObject* op, std::unordered_map<std::complex<double>, std::string> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::complex<double>, std::string>(PyObject* op, std::unordered_map<std::complex<double>, std::string> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::complex<double>, std::string,
         &py_complex_check, &py_unicode_check,
         &py_complex_to_cpp_complex, &py_unicode_to_cpp_string
     >(op, map);
 }
 
-//--------- Converts a std::unordered_map<std::vector<char>, bool> --------
+//------ Converts a std::std::unordered_map<std::vector<char>, bool> ------
 //-------- to a Python dict of { std::vector<char> : bool, ...}    --------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::vector<char>, bool>(const std::unordered_map<std::vector<char>, bool> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::vector<char>, bool>(const std::unordered_map<std::vector<char>, bool> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::vector<char>, bool,
         &cpp_vector_char_to_py_bytes, &cpp_bool_to_py_bool
     >(map);
 }
 
 //------- Converts a Python dict of {std::vector<char> : bool, ...} -------
-//------------ to a std::unordered_map<std::vector<char>, bool> -----------
+//--------- to a std::std::unordered_map<std::vector<char>, bool> ---------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::vector<char>, bool>(PyObject* op, std::unordered_map<std::vector<char>, bool> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::vector<char>, bool>(PyObject* op, std::unordered_map<std::vector<char>, bool> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::vector<char>, bool,
         &py_bytes_check, &py_bool_check,
         &py_bytes_to_cpp_vector_char, &py_bool_to_cpp_bool
     >(op, map);
 }
 
-//--------- Converts a std::unordered_map<std::vector<char>, long> --------
+//------ Converts a std::std::unordered_map<std::vector<char>, long> ------
 //-------- to a Python dict of { std::vector<char> : long, ...}    --------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::vector<char>, long>(const std::unordered_map<std::vector<char>, long> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::vector<char>, long>(const std::unordered_map<std::vector<char>, long> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::vector<char>, long,
         &cpp_vector_char_to_py_bytes, &cpp_long_to_py_long
     >(map);
 }
 
 //------- Converts a Python dict of {std::vector<char> : long, ...} -------
-//------------ to a std::unordered_map<std::vector<char>, long> -----------
+//--------- to a std::std::unordered_map<std::vector<char>, long> ---------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::vector<char>, long>(PyObject* op, std::unordered_map<std::vector<char>, long> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::vector<char>, long>(PyObject* op, std::unordered_map<std::vector<char>, long> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::vector<char>, long,
         &py_bytes_check, &py_long_check,
         &py_bytes_to_cpp_vector_char, &py_long_to_cpp_long
     >(op, map);
 }
 
-//-------- Converts a std::unordered_map<std::vector<char>, double> -------
+//----- Converts a std::std::unordered_map<std::vector<char>, double> -----
 //------- to a Python dict of { std::vector<char> : double, ...}    -------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::vector<char>, double>(const std::unordered_map<std::vector<char>, double> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::vector<char>, double>(const std::unordered_map<std::vector<char>, double> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::vector<char>, double,
         &cpp_vector_char_to_py_bytes, &cpp_double_to_py_float
     >(map);
 }
 
 //------ Converts a Python dict of {std::vector<char> : double, ...} ------
-//----------- to a std::unordered_map<std::vector<char>, double> ----------
+//-------- to a std::std::unordered_map<std::vector<char>, double> --------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::vector<char>, double>(PyObject* op, std::unordered_map<std::vector<char>, double> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::vector<char>, double>(PyObject* op, std::unordered_map<std::vector<char>, double> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::vector<char>, double,
         &py_bytes_check, &py_float_check,
         &py_bytes_to_cpp_vector_char, &py_float_to_cpp_double
     >(op, map);
 }
 
-//- Converts a std::unordered_map<std::vector<char>, std::complex<double>> 
+// Converts a std::std::unordered_map<std::vector<char>, std::complex<double>> 
 // to a Python dict of { std::vector<char> : std::complex<double>, ...}    
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::vector<char>, std::complex<double>>(const std::unordered_map<std::vector<char>, std::complex<double>> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::vector<char>, std::complex<double>>(const std::unordered_map<std::vector<char>, std::complex<double>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::vector<char>, std::complex<double>,
         &cpp_vector_char_to_py_bytes, &cpp_complex_to_py_complex
     >(map);
 }
 
 // Converts a Python dict of {std::vector<char> : std::complex<double>, ...} 
-//---- to a std::unordered_map<std::vector<char>, std::complex<double>> ---
+//- to a std::std::unordered_map<std::vector<char>, std::complex<double>> -
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::vector<char>, std::complex<double>>(PyObject* op, std::unordered_map<std::vector<char>, std::complex<double>> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::vector<char>, std::complex<double>>(PyObject* op, std::unordered_map<std::vector<char>, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::vector<char>, std::complex<double>,
         &py_bytes_check, &py_complex_check,
         &py_bytes_to_cpp_vector_char, &py_complex_to_cpp_complex
     >(op, map);
 }
 
-//-- Converts a std::unordered_map<std::vector<char>, std::vector<char>> --
+// Converts a std::std::unordered_map<std::vector<char>, std::vector<char>> 
 //-- to a Python dict of { std::vector<char> : std::vector<char>, ...}    -
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::vector<char>, std::vector<char>>(const std::unordered_map<std::vector<char>, std::vector<char>> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::vector<char>, std::vector<char>>(const std::unordered_map<std::vector<char>, std::vector<char>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::vector<char>, std::vector<char>,
         &cpp_vector_char_to_py_bytes, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
 //- Converts a Python dict of {std::vector<char> : std::vector<char>, ...} 
-//----- to a std::unordered_map<std::vector<char>, std::vector<char>> -----
+//--- to a std::std::unordered_map<std::vector<char>, std::vector<char>> --
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::vector<char>, std::vector<char>>(PyObject* op, std::unordered_map<std::vector<char>, std::vector<char>> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::vector<char>, std::vector<char>>(PyObject* op, std::unordered_map<std::vector<char>, std::vector<char>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::vector<char>, std::vector<char>,
         &py_bytes_check, &py_bytes_check,
         &py_bytes_to_cpp_vector_char, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
-//----- Converts a std::unordered_map<std::vector<char>, std::string> -----
+//--- Converts a std::std::unordered_map<std::vector<char>, std::string> --
 //----- to a Python dict of { std::vector<char> : std::string, ...}    ----
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::vector<char>, std::string>(const std::unordered_map<std::vector<char>, std::string> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::vector<char>, std::string>(const std::unordered_map<std::vector<char>, std::string> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::vector<char>, std::string,
         &cpp_vector_char_to_py_bytes, &cpp_string_to_py_unicode
     >(map);
 }
 
 //---- Converts a Python dict of {std::vector<char> : std::string, ...} ---
-//-------- to a std::unordered_map<std::vector<char>, std::string> --------
+//------ to a std::std::unordered_map<std::vector<char>, std::string> -----
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::vector<char>, std::string>(PyObject* op, std::unordered_map<std::vector<char>, std::string> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::vector<char>, std::string>(PyObject* op, std::unordered_map<std::vector<char>, std::string> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::vector<char>, std::string,
         &py_bytes_check, &py_unicode_check,
         &py_bytes_to_cpp_vector_char, &py_unicode_to_cpp_string
     >(op, map);
 }
 
-//------------ Converts a std::unordered_map<std::string, bool> -----------
+//--------- Converts a std::std::unordered_map<std::string, bool> ---------
 //----------- to a Python dict of { std::string : bool, ...}    -----------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::string, bool>(const std::unordered_map<std::string, bool> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::string, bool>(const std::unordered_map<std::string, bool> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::string, bool,
         &cpp_string_to_py_unicode, &cpp_bool_to_py_bool
     >(map);
 }
 
 //---------- Converts a Python dict of {std::string : bool, ...} ----------
-//--------------- to a std::unordered_map<std::string, bool> --------------
+//------------ to a std::std::unordered_map<std::string, bool> ------------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::string, bool>(PyObject* op, std::unordered_map<std::string, bool> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::string, bool>(PyObject* op, std::unordered_map<std::string, bool> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::string, bool,
         &py_unicode_check, &py_bool_check,
         &py_unicode_to_cpp_string, &py_bool_to_cpp_bool
     >(op, map);
 }
 
-//------------ Converts a std::unordered_map<std::string, long> -----------
+//--------- Converts a std::std::unordered_map<std::string, long> ---------
 //----------- to a Python dict of { std::string : long, ...}    -----------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::string, long>(const std::unordered_map<std::string, long> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::string, long>(const std::unordered_map<std::string, long> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::string, long,
         &cpp_string_to_py_unicode, &cpp_long_to_py_long
     >(map);
 }
 
 //---------- Converts a Python dict of {std::string : long, ...} ----------
-//--------------- to a std::unordered_map<std::string, long> --------------
+//------------ to a std::std::unordered_map<std::string, long> ------------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::string, long>(PyObject* op, std::unordered_map<std::string, long> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::string, long>(PyObject* op, std::unordered_map<std::string, long> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::string, long,
         &py_unicode_check, &py_long_check,
         &py_unicode_to_cpp_string, &py_long_to_cpp_long
     >(op, map);
 }
 
-//----------- Converts a std::unordered_map<std::string, double> ----------
+//-------- Converts a std::std::unordered_map<std::string, double> --------
 //---------- to a Python dict of { std::string : double, ...}    ----------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::string, double>(const std::unordered_map<std::string, double> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::string, double>(const std::unordered_map<std::string, double> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::string, double,
         &cpp_string_to_py_unicode, &cpp_double_to_py_float
     >(map);
 }
 
 //--------- Converts a Python dict of {std::string : double, ...} ---------
-//-------------- to a std::unordered_map<std::string, double> -------------
+//----------- to a std::std::unordered_map<std::string, double> -----------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::string, double>(PyObject* op, std::unordered_map<std::string, double> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::string, double>(PyObject* op, std::unordered_map<std::string, double> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::string, double,
         &py_unicode_check, &py_float_check,
         &py_unicode_to_cpp_string, &py_float_to_cpp_double
     >(op, map);
 }
 
-//---- Converts a std::unordered_map<std::string, std::complex<double>> ---
+//- Converts a std::std::unordered_map<std::string, std::complex<double>> -
 //--- to a Python dict of { std::string : std::complex<double>, ...}    ---
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::string, std::complex<double>>(const std::unordered_map<std::string, std::complex<double>> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::string, std::complex<double>>(const std::unordered_map<std::string, std::complex<double>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::string, std::complex<double>,
         &cpp_string_to_py_unicode, &cpp_complex_to_py_complex
     >(map);
 }
 
 //-- Converts a Python dict of {std::string : std::complex<double>, ...} --
-//------- to a std::unordered_map<std::string, std::complex<double>> ------
+//---- to a std::std::unordered_map<std::string, std::complex<double>> ----
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::string, std::complex<double>>(PyObject* op, std::unordered_map<std::string, std::complex<double>> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::string, std::complex<double>>(PyObject* op, std::unordered_map<std::string, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::string, std::complex<double>,
         &py_unicode_check, &py_complex_check,
         &py_unicode_to_cpp_string, &py_complex_to_cpp_complex
     >(op, map);
 }
 
-//----- Converts a std::unordered_map<std::string, std::vector<char>> -----
+//--- Converts a std::std::unordered_map<std::string, std::vector<char>> --
 //----- to a Python dict of { std::string : std::vector<char>, ...}    ----
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::string, std::vector<char>>(const std::unordered_map<std::string, std::vector<char>> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::string, std::vector<char>>(const std::unordered_map<std::string, std::vector<char>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::string, std::vector<char>,
         &cpp_string_to_py_unicode, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
 //---- Converts a Python dict of {std::string : std::vector<char>, ...} ---
-//-------- to a std::unordered_map<std::string, std::vector<char>> --------
+//------ to a std::std::unordered_map<std::string, std::vector<char>> -----
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::string, std::vector<char>>(PyObject* op, std::unordered_map<std::string, std::vector<char>> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::string, std::vector<char>>(PyObject* op, std::unordered_map<std::string, std::vector<char>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::string, std::vector<char>,
         &py_unicode_check, &py_bytes_check,
         &py_unicode_to_cpp_string, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
-//-------- Converts a std::unordered_map<std::string, std::string> --------
+//------ Converts a std::std::unordered_map<std::string, std::string> -----
 //-------- to a Python dict of { std::string : std::string, ...}    -------
 template <>
 PyObject *
-cpp_std_unordered_map_to_py_dict<std::string, std::string>(const std::unordered_map<std::string, std::string> &map) {
-    return generic_cpp_std_unordered_map_to_py_dict<
+cpp_std_map_like_to_py_dict<std::unordered_map, std::string, std::string>(const std::unordered_map<std::string, std::string> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::unordered_map,
         std::string, std::string,
         &cpp_string_to_py_unicode, &cpp_string_to_py_unicode
     >(map);
 }
 
 //------- Converts a Python dict of {std::string : std::string, ...} ------
-//----------- to a std::unordered_map<std::string, std::string> -----------
+//--------- to a std::std::unordered_map<std::string, std::string> --------
 template <>
 int
-py_dict_to_cpp_std_unordered_map<std::string, std::string>(PyObject* op, std::unordered_map<std::string, std::string> &map) {
-    return generic_py_dict_to_cpp_std_unordered_map<
+py_dict_to_cpp_std_map_like<std::unordered_map, std::string, std::string>(PyObject* op, std::unordered_map<std::string, std::string> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::unordered_map,
         std::string, std::string,
         &py_unicode_check, &py_unicode_check,
         &py_unicode_to_cpp_string, &py_unicode_to_cpp_string
     >(op, map);
 }
 
-//**************** END: std::unordered_map <-> Python dict ****************
+//************** END: std::std::unordered_map <-> Python dict *************
 
-// Definitions written: 120
+//********************* std::std::map <-> Python dict *********************
+//------------------ Converts a std::std::map<bool, bool> -----------------
+//--------------- to a Python dict of { bool : bool, ...}    --------------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, bool, bool>(const std::map<bool, bool> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        bool, bool,
+        &cpp_bool_to_py_bool, &cpp_bool_to_py_bool
+    >(map);
+}
+
+//-------------- Converts a Python dict of {bool : bool, ...} -------------
+//--------------------- to a std::std::map<bool, bool> --------------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, bool, bool>(PyObject* op, std::map<bool, bool> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        bool, bool,
+        &py_bool_check, &py_bool_check,
+        &py_bool_to_cpp_bool, &py_bool_to_cpp_bool
+    >(op, map);
+}
+
+//------------------ Converts a std::std::map<bool, long> -----------------
+//--------------- to a Python dict of { bool : long, ...}    --------------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, bool, long>(const std::map<bool, long> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        bool, long,
+        &cpp_bool_to_py_bool, &cpp_long_to_py_long
+    >(map);
+}
+
+//-------------- Converts a Python dict of {bool : long, ...} -------------
+//--------------------- to a std::std::map<bool, long> --------------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, bool, long>(PyObject* op, std::map<bool, long> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        bool, long,
+        &py_bool_check, &py_long_check,
+        &py_bool_to_cpp_bool, &py_long_to_cpp_long
+    >(op, map);
+}
+
+//----------------- Converts a std::std::map<bool, double> ----------------
+//-------------- to a Python dict of { bool : double, ...}    -------------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, bool, double>(const std::map<bool, double> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        bool, double,
+        &cpp_bool_to_py_bool, &cpp_double_to_py_float
+    >(map);
+}
+
+//------------- Converts a Python dict of {bool : double, ...} ------------
+//-------------------- to a std::std::map<bool, double> -------------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, bool, double>(PyObject* op, std::map<bool, double> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        bool, double,
+        &py_bool_check, &py_float_check,
+        &py_bool_to_cpp_bool, &py_float_to_cpp_double
+    >(op, map);
+}
+
+//---------- Converts a std::std::map<bool, std::complex<double>> ---------
+//------- to a Python dict of { bool : std::complex<double>, ...}    ------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, bool, std::complex<double>>(const std::map<bool, std::complex<double>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        bool, std::complex<double>,
+        &cpp_bool_to_py_bool, &cpp_complex_to_py_complex
+    >(map);
+}
+
+//------ Converts a Python dict of {bool : std::complex<double>, ...} -----
+//------------- to a std::std::map<bool, std::complex<double>> ------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, bool, std::complex<double>>(PyObject* op, std::map<bool, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        bool, std::complex<double>,
+        &py_bool_check, &py_complex_check,
+        &py_bool_to_cpp_bool, &py_complex_to_cpp_complex
+    >(op, map);
+}
+
+//----------- Converts a std::std::map<bool, std::vector<char>> -----------
+//-------- to a Python dict of { bool : std::vector<char>, ...}    --------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, bool, std::vector<char>>(const std::map<bool, std::vector<char>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        bool, std::vector<char>,
+        &cpp_bool_to_py_bool, &cpp_vector_char_to_py_bytes
+    >(map);
+}
+
+//------- Converts a Python dict of {bool : std::vector<char>, ...} -------
+//-------------- to a std::std::map<bool, std::vector<char>> --------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, bool, std::vector<char>>(PyObject* op, std::map<bool, std::vector<char>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        bool, std::vector<char>,
+        &py_bool_check, &py_bytes_check,
+        &py_bool_to_cpp_bool, &py_bytes_to_cpp_vector_char
+    >(op, map);
+}
+
+//-------------- Converts a std::std::map<bool, std::string> --------------
+//----------- to a Python dict of { bool : std::string, ...}    -----------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, bool, std::string>(const std::map<bool, std::string> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        bool, std::string,
+        &cpp_bool_to_py_bool, &cpp_string_to_py_unicode
+    >(map);
+}
+
+//---------- Converts a Python dict of {bool : std::string, ...} ----------
+//----------------- to a std::std::map<bool, std::string> -----------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, bool, std::string>(PyObject* op, std::map<bool, std::string> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        bool, std::string,
+        &py_bool_check, &py_unicode_check,
+        &py_bool_to_cpp_bool, &py_unicode_to_cpp_string
+    >(op, map);
+}
+
+//------------------ Converts a std::std::map<long, bool> -----------------
+//--------------- to a Python dict of { long : bool, ...}    --------------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, long, bool>(const std::map<long, bool> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        long, bool,
+        &cpp_long_to_py_long, &cpp_bool_to_py_bool
+    >(map);
+}
+
+//-------------- Converts a Python dict of {long : bool, ...} -------------
+//--------------------- to a std::std::map<long, bool> --------------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, long, bool>(PyObject* op, std::map<long, bool> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        long, bool,
+        &py_long_check, &py_bool_check,
+        &py_long_to_cpp_long, &py_bool_to_cpp_bool
+    >(op, map);
+}
+
+//------------------ Converts a std::std::map<long, long> -----------------
+//--------------- to a Python dict of { long : long, ...}    --------------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, long, long>(const std::map<long, long> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        long, long,
+        &cpp_long_to_py_long, &cpp_long_to_py_long
+    >(map);
+}
+
+//-------------- Converts a Python dict of {long : long, ...} -------------
+//--------------------- to a std::std::map<long, long> --------------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, long, long>(PyObject* op, std::map<long, long> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        long, long,
+        &py_long_check, &py_long_check,
+        &py_long_to_cpp_long, &py_long_to_cpp_long
+    >(op, map);
+}
+
+//----------------- Converts a std::std::map<long, double> ----------------
+//-------------- to a Python dict of { long : double, ...}    -------------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, long, double>(const std::map<long, double> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        long, double,
+        &cpp_long_to_py_long, &cpp_double_to_py_float
+    >(map);
+}
+
+//------------- Converts a Python dict of {long : double, ...} ------------
+//-------------------- to a std::std::map<long, double> -------------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, long, double>(PyObject* op, std::map<long, double> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        long, double,
+        &py_long_check, &py_float_check,
+        &py_long_to_cpp_long, &py_float_to_cpp_double
+    >(op, map);
+}
+
+//---------- Converts a std::std::map<long, std::complex<double>> ---------
+//------- to a Python dict of { long : std::complex<double>, ...}    ------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, long, std::complex<double>>(const std::map<long, std::complex<double>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        long, std::complex<double>,
+        &cpp_long_to_py_long, &cpp_complex_to_py_complex
+    >(map);
+}
+
+//------ Converts a Python dict of {long : std::complex<double>, ...} -----
+//------------- to a std::std::map<long, std::complex<double>> ------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, long, std::complex<double>>(PyObject* op, std::map<long, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        long, std::complex<double>,
+        &py_long_check, &py_complex_check,
+        &py_long_to_cpp_long, &py_complex_to_cpp_complex
+    >(op, map);
+}
+
+//----------- Converts a std::std::map<long, std::vector<char>> -----------
+//-------- to a Python dict of { long : std::vector<char>, ...}    --------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, long, std::vector<char>>(const std::map<long, std::vector<char>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        long, std::vector<char>,
+        &cpp_long_to_py_long, &cpp_vector_char_to_py_bytes
+    >(map);
+}
+
+//------- Converts a Python dict of {long : std::vector<char>, ...} -------
+//-------------- to a std::std::map<long, std::vector<char>> --------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, long, std::vector<char>>(PyObject* op, std::map<long, std::vector<char>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        long, std::vector<char>,
+        &py_long_check, &py_bytes_check,
+        &py_long_to_cpp_long, &py_bytes_to_cpp_vector_char
+    >(op, map);
+}
+
+//-------------- Converts a std::std::map<long, std::string> --------------
+//----------- to a Python dict of { long : std::string, ...}    -----------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, long, std::string>(const std::map<long, std::string> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        long, std::string,
+        &cpp_long_to_py_long, &cpp_string_to_py_unicode
+    >(map);
+}
+
+//---------- Converts a Python dict of {long : std::string, ...} ----------
+//----------------- to a std::std::map<long, std::string> -----------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, long, std::string>(PyObject* op, std::map<long, std::string> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        long, std::string,
+        &py_long_check, &py_unicode_check,
+        &py_long_to_cpp_long, &py_unicode_to_cpp_string
+    >(op, map);
+}
+
+//----------------- Converts a std::std::map<double, bool> ----------------
+//-------------- to a Python dict of { double : bool, ...}    -------------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, double, bool>(const std::map<double, bool> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        double, bool,
+        &cpp_double_to_py_float, &cpp_bool_to_py_bool
+    >(map);
+}
+
+//------------- Converts a Python dict of {double : bool, ...} ------------
+//-------------------- to a std::std::map<double, bool> -------------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, double, bool>(PyObject* op, std::map<double, bool> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        double, bool,
+        &py_float_check, &py_bool_check,
+        &py_float_to_cpp_double, &py_bool_to_cpp_bool
+    >(op, map);
+}
+
+//----------------- Converts a std::std::map<double, long> ----------------
+//-------------- to a Python dict of { double : long, ...}    -------------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, double, long>(const std::map<double, long> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        double, long,
+        &cpp_double_to_py_float, &cpp_long_to_py_long
+    >(map);
+}
+
+//------------- Converts a Python dict of {double : long, ...} ------------
+//-------------------- to a std::std::map<double, long> -------------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, double, long>(PyObject* op, std::map<double, long> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        double, long,
+        &py_float_check, &py_long_check,
+        &py_float_to_cpp_double, &py_long_to_cpp_long
+    >(op, map);
+}
+
+//---------------- Converts a std::std::map<double, double> ---------------
+//------------- to a Python dict of { double : double, ...}    ------------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, double, double>(const std::map<double, double> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        double, double,
+        &cpp_double_to_py_float, &cpp_double_to_py_float
+    >(map);
+}
+
+//------------ Converts a Python dict of {double : double, ...} -----------
+//------------------- to a std::std::map<double, double> ------------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, double, double>(PyObject* op, std::map<double, double> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        double, double,
+        &py_float_check, &py_float_check,
+        &py_float_to_cpp_double, &py_float_to_cpp_double
+    >(op, map);
+}
+
+//--------- Converts a std::std::map<double, std::complex<double>> --------
+//------ to a Python dict of { double : std::complex<double>, ...}    -----
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, double, std::complex<double>>(const std::map<double, std::complex<double>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        double, std::complex<double>,
+        &cpp_double_to_py_float, &cpp_complex_to_py_complex
+    >(map);
+}
+
+//----- Converts a Python dict of {double : std::complex<double>, ...} ----
+//------------ to a std::std::map<double, std::complex<double>> -----------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, double, std::complex<double>>(PyObject* op, std::map<double, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        double, std::complex<double>,
+        &py_float_check, &py_complex_check,
+        &py_float_to_cpp_double, &py_complex_to_cpp_complex
+    >(op, map);
+}
+
+//---------- Converts a std::std::map<double, std::vector<char>> ----------
+//------- to a Python dict of { double : std::vector<char>, ...}    -------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, double, std::vector<char>>(const std::map<double, std::vector<char>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        double, std::vector<char>,
+        &cpp_double_to_py_float, &cpp_vector_char_to_py_bytes
+    >(map);
+}
+
+//------ Converts a Python dict of {double : std::vector<char>, ...} ------
+//------------- to a std::std::map<double, std::vector<char>> -------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, double, std::vector<char>>(PyObject* op, std::map<double, std::vector<char>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        double, std::vector<char>,
+        &py_float_check, &py_bytes_check,
+        &py_float_to_cpp_double, &py_bytes_to_cpp_vector_char
+    >(op, map);
+}
+
+//------------- Converts a std::std::map<double, std::string> -------------
+//---------- to a Python dict of { double : std::string, ...}    ----------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, double, std::string>(const std::map<double, std::string> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        double, std::string,
+        &cpp_double_to_py_float, &cpp_string_to_py_unicode
+    >(map);
+}
+
+//--------- Converts a Python dict of {double : std::string, ...} ---------
+//---------------- to a std::std::map<double, std::string> ----------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, double, std::string>(PyObject* op, std::map<double, std::string> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        double, std::string,
+        &py_float_check, &py_unicode_check,
+        &py_float_to_cpp_double, &py_unicode_to_cpp_string
+    >(op, map);
+}
+
+//---------- Converts a std::std::map<std::complex<double>, bool> ---------
+//------- to a Python dict of { std::complex<double> : bool, ...}    ------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::complex<double>, bool>(const std::map<std::complex<double>, bool> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::complex<double>, bool,
+        &cpp_complex_to_py_complex, &cpp_bool_to_py_bool
+    >(map);
+}
+
+//------ Converts a Python dict of {std::complex<double> : bool, ...} -----
+//------------- to a std::std::map<std::complex<double>, bool> ------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::complex<double>, bool>(PyObject* op, std::map<std::complex<double>, bool> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::complex<double>, bool,
+        &py_complex_check, &py_bool_check,
+        &py_complex_to_cpp_complex, &py_bool_to_cpp_bool
+    >(op, map);
+}
+
+//---------- Converts a std::std::map<std::complex<double>, long> ---------
+//------- to a Python dict of { std::complex<double> : long, ...}    ------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::complex<double>, long>(const std::map<std::complex<double>, long> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::complex<double>, long,
+        &cpp_complex_to_py_complex, &cpp_long_to_py_long
+    >(map);
+}
+
+//------ Converts a Python dict of {std::complex<double> : long, ...} -----
+//------------- to a std::std::map<std::complex<double>, long> ------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::complex<double>, long>(PyObject* op, std::map<std::complex<double>, long> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::complex<double>, long,
+        &py_complex_check, &py_long_check,
+        &py_complex_to_cpp_complex, &py_long_to_cpp_long
+    >(op, map);
+}
+
+//--------- Converts a std::std::map<std::complex<double>, double> --------
+//------ to a Python dict of { std::complex<double> : double, ...}    -----
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::complex<double>, double>(const std::map<std::complex<double>, double> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::complex<double>, double,
+        &cpp_complex_to_py_complex, &cpp_double_to_py_float
+    >(map);
+}
+
+//----- Converts a Python dict of {std::complex<double> : double, ...} ----
+//------------ to a std::std::map<std::complex<double>, double> -----------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::complex<double>, double>(PyObject* op, std::map<std::complex<double>, double> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::complex<double>, double,
+        &py_complex_check, &py_float_check,
+        &py_complex_to_cpp_complex, &py_float_to_cpp_double
+    >(op, map);
+}
+
+//-- Converts a std::std::map<std::complex<double>, std::complex<double>> -
+// to a Python dict of { std::complex<double> : std::complex<double>, ...}    
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::complex<double>, std::complex<double>>(const std::map<std::complex<double>, std::complex<double>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::complex<double>, std::complex<double>,
+        &cpp_complex_to_py_complex, &cpp_complex_to_py_complex
+    >(map);
+}
+
+// Converts a Python dict of {std::complex<double> : std::complex<double>, ...} 
+//----- to a std::std::map<std::complex<double>, std::complex<double>> ----
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::complex<double>, std::complex<double>>(PyObject* op, std::map<std::complex<double>, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::complex<double>, std::complex<double>,
+        &py_complex_check, &py_complex_check,
+        &py_complex_to_cpp_complex, &py_complex_to_cpp_complex
+    >(op, map);
+}
+
+//--- Converts a std::std::map<std::complex<double>, std::vector<char>> ---
+// to a Python dict of { std::complex<double> : std::vector<char>, ...}    
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::complex<double>, std::vector<char>>(const std::map<std::complex<double>, std::vector<char>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::complex<double>, std::vector<char>,
+        &cpp_complex_to_py_complex, &cpp_vector_char_to_py_bytes
+    >(map);
+}
+
+// Converts a Python dict of {std::complex<double> : std::vector<char>, ...} 
+//------ to a std::std::map<std::complex<double>, std::vector<char>> ------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::complex<double>, std::vector<char>>(PyObject* op, std::map<std::complex<double>, std::vector<char>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::complex<double>, std::vector<char>,
+        &py_complex_check, &py_bytes_check,
+        &py_complex_to_cpp_complex, &py_bytes_to_cpp_vector_char
+    >(op, map);
+}
+
+//------ Converts a std::std::map<std::complex<double>, std::string> ------
+//--- to a Python dict of { std::complex<double> : std::string, ...}    ---
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::complex<double>, std::string>(const std::map<std::complex<double>, std::string> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::complex<double>, std::string,
+        &cpp_complex_to_py_complex, &cpp_string_to_py_unicode
+    >(map);
+}
+
+//-- Converts a Python dict of {std::complex<double> : std::string, ...} --
+//--------- to a std::std::map<std::complex<double>, std::string> ---------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::complex<double>, std::string>(PyObject* op, std::map<std::complex<double>, std::string> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::complex<double>, std::string,
+        &py_complex_check, &py_unicode_check,
+        &py_complex_to_cpp_complex, &py_unicode_to_cpp_string
+    >(op, map);
+}
+
+//----------- Converts a std::std::map<std::vector<char>, bool> -----------
+//-------- to a Python dict of { std::vector<char> : bool, ...}    --------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::vector<char>, bool>(const std::map<std::vector<char>, bool> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::vector<char>, bool,
+        &cpp_vector_char_to_py_bytes, &cpp_bool_to_py_bool
+    >(map);
+}
+
+//------- Converts a Python dict of {std::vector<char> : bool, ...} -------
+//-------------- to a std::std::map<std::vector<char>, bool> --------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::vector<char>, bool>(PyObject* op, std::map<std::vector<char>, bool> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::vector<char>, bool,
+        &py_bytes_check, &py_bool_check,
+        &py_bytes_to_cpp_vector_char, &py_bool_to_cpp_bool
+    >(op, map);
+}
+
+//----------- Converts a std::std::map<std::vector<char>, long> -----------
+//-------- to a Python dict of { std::vector<char> : long, ...}    --------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::vector<char>, long>(const std::map<std::vector<char>, long> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::vector<char>, long,
+        &cpp_vector_char_to_py_bytes, &cpp_long_to_py_long
+    >(map);
+}
+
+//------- Converts a Python dict of {std::vector<char> : long, ...} -------
+//-------------- to a std::std::map<std::vector<char>, long> --------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::vector<char>, long>(PyObject* op, std::map<std::vector<char>, long> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::vector<char>, long,
+        &py_bytes_check, &py_long_check,
+        &py_bytes_to_cpp_vector_char, &py_long_to_cpp_long
+    >(op, map);
+}
+
+//---------- Converts a std::std::map<std::vector<char>, double> ----------
+//------- to a Python dict of { std::vector<char> : double, ...}    -------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::vector<char>, double>(const std::map<std::vector<char>, double> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::vector<char>, double,
+        &cpp_vector_char_to_py_bytes, &cpp_double_to_py_float
+    >(map);
+}
+
+//------ Converts a Python dict of {std::vector<char> : double, ...} ------
+//------------- to a std::std::map<std::vector<char>, double> -------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::vector<char>, double>(PyObject* op, std::map<std::vector<char>, double> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::vector<char>, double,
+        &py_bytes_check, &py_float_check,
+        &py_bytes_to_cpp_vector_char, &py_float_to_cpp_double
+    >(op, map);
+}
+
+//--- Converts a std::std::map<std::vector<char>, std::complex<double>> ---
+// to a Python dict of { std::vector<char> : std::complex<double>, ...}    
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::vector<char>, std::complex<double>>(const std::map<std::vector<char>, std::complex<double>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::vector<char>, std::complex<double>,
+        &cpp_vector_char_to_py_bytes, &cpp_complex_to_py_complex
+    >(map);
+}
+
+// Converts a Python dict of {std::vector<char> : std::complex<double>, ...} 
+//------ to a std::std::map<std::vector<char>, std::complex<double>> ------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::vector<char>, std::complex<double>>(PyObject* op, std::map<std::vector<char>, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::vector<char>, std::complex<double>,
+        &py_bytes_check, &py_complex_check,
+        &py_bytes_to_cpp_vector_char, &py_complex_to_cpp_complex
+    >(op, map);
+}
+
+//----- Converts a std::std::map<std::vector<char>, std::vector<char>> ----
+//-- to a Python dict of { std::vector<char> : std::vector<char>, ...}    -
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::vector<char>, std::vector<char>>(const std::map<std::vector<char>, std::vector<char>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::vector<char>, std::vector<char>,
+        &cpp_vector_char_to_py_bytes, &cpp_vector_char_to_py_bytes
+    >(map);
+}
+
+//- Converts a Python dict of {std::vector<char> : std::vector<char>, ...} 
+//-------- to a std::std::map<std::vector<char>, std::vector<char>> -------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::vector<char>, std::vector<char>>(PyObject* op, std::map<std::vector<char>, std::vector<char>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::vector<char>, std::vector<char>,
+        &py_bytes_check, &py_bytes_check,
+        &py_bytes_to_cpp_vector_char, &py_bytes_to_cpp_vector_char
+    >(op, map);
+}
+
+//-------- Converts a std::std::map<std::vector<char>, std::string> -------
+//----- to a Python dict of { std::vector<char> : std::string, ...}    ----
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::vector<char>, std::string>(const std::map<std::vector<char>, std::string> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::vector<char>, std::string,
+        &cpp_vector_char_to_py_bytes, &cpp_string_to_py_unicode
+    >(map);
+}
+
+//---- Converts a Python dict of {std::vector<char> : std::string, ...} ---
+//----------- to a std::std::map<std::vector<char>, std::string> ----------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::vector<char>, std::string>(PyObject* op, std::map<std::vector<char>, std::string> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::vector<char>, std::string,
+        &py_bytes_check, &py_unicode_check,
+        &py_bytes_to_cpp_vector_char, &py_unicode_to_cpp_string
+    >(op, map);
+}
+
+//-------------- Converts a std::std::map<std::string, bool> --------------
+//----------- to a Python dict of { std::string : bool, ...}    -----------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::string, bool>(const std::map<std::string, bool> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::string, bool,
+        &cpp_string_to_py_unicode, &cpp_bool_to_py_bool
+    >(map);
+}
+
+//---------- Converts a Python dict of {std::string : bool, ...} ----------
+//----------------- to a std::std::map<std::string, bool> -----------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::string, bool>(PyObject* op, std::map<std::string, bool> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::string, bool,
+        &py_unicode_check, &py_bool_check,
+        &py_unicode_to_cpp_string, &py_bool_to_cpp_bool
+    >(op, map);
+}
+
+//-------------- Converts a std::std::map<std::string, long> --------------
+//----------- to a Python dict of { std::string : long, ...}    -----------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::string, long>(const std::map<std::string, long> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::string, long,
+        &cpp_string_to_py_unicode, &cpp_long_to_py_long
+    >(map);
+}
+
+//---------- Converts a Python dict of {std::string : long, ...} ----------
+//----------------- to a std::std::map<std::string, long> -----------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::string, long>(PyObject* op, std::map<std::string, long> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::string, long,
+        &py_unicode_check, &py_long_check,
+        &py_unicode_to_cpp_string, &py_long_to_cpp_long
+    >(op, map);
+}
+
+//------------- Converts a std::std::map<std::string, double> -------------
+//---------- to a Python dict of { std::string : double, ...}    ----------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::string, double>(const std::map<std::string, double> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::string, double,
+        &cpp_string_to_py_unicode, &cpp_double_to_py_float
+    >(map);
+}
+
+//--------- Converts a Python dict of {std::string : double, ...} ---------
+//---------------- to a std::std::map<std::string, double> ----------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::string, double>(PyObject* op, std::map<std::string, double> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::string, double,
+        &py_unicode_check, &py_float_check,
+        &py_unicode_to_cpp_string, &py_float_to_cpp_double
+    >(op, map);
+}
+
+//------ Converts a std::std::map<std::string, std::complex<double>> ------
+//--- to a Python dict of { std::string : std::complex<double>, ...}    ---
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::string, std::complex<double>>(const std::map<std::string, std::complex<double>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::string, std::complex<double>,
+        &cpp_string_to_py_unicode, &cpp_complex_to_py_complex
+    >(map);
+}
+
+//-- Converts a Python dict of {std::string : std::complex<double>, ...} --
+//--------- to a std::std::map<std::string, std::complex<double>> ---------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::string, std::complex<double>>(PyObject* op, std::map<std::string, std::complex<double>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::string, std::complex<double>,
+        &py_unicode_check, &py_complex_check,
+        &py_unicode_to_cpp_string, &py_complex_to_cpp_complex
+    >(op, map);
+}
+
+//-------- Converts a std::std::map<std::string, std::vector<char>> -------
+//----- to a Python dict of { std::string : std::vector<char>, ...}    ----
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::string, std::vector<char>>(const std::map<std::string, std::vector<char>> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::string, std::vector<char>,
+        &cpp_string_to_py_unicode, &cpp_vector_char_to_py_bytes
+    >(map);
+}
+
+//---- Converts a Python dict of {std::string : std::vector<char>, ...} ---
+//----------- to a std::std::map<std::string, std::vector<char>> ----------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::string, std::vector<char>>(PyObject* op, std::map<std::string, std::vector<char>> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::string, std::vector<char>,
+        &py_unicode_check, &py_bytes_check,
+        &py_unicode_to_cpp_string, &py_bytes_to_cpp_vector_char
+    >(op, map);
+}
+
+//----------- Converts a std::std::map<std::string, std::string> ----------
+//-------- to a Python dict of { std::string : std::string, ...}    -------
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::string, std::string>(const std::map<std::string, std::string> &map) {
+    return generic_cpp_std_map_like_to_py_dict<
+        std::map,
+        std::string, std::string,
+        &cpp_string_to_py_unicode, &cpp_string_to_py_unicode
+    >(map);
+}
+
+//------- Converts a Python dict of {std::string : std::string, ...} ------
+//-------------- to a std::std::map<std::string, std::string> -------------
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::string, std::string>(PyObject* op, std::map<std::string, std::string> &map) {
+    return generic_py_dict_to_cpp_std_map_like<
+        std::map,
+        std::string, std::string,
+        &py_unicode_check, &py_unicode_check,
+        &py_unicode_to_cpp_string, &py_unicode_to_cpp_string
+    >(op, map);
+}
+
+//******************* END: std::std::map <-> Python dict ******************
+
+// Definitions written: 192
 //#########################################################################
 //#### END: Auto-generated code - do not edit. Seriously, do NOT edit. ####
 //#########################################################################
