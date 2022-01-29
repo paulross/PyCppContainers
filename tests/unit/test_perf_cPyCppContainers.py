@@ -341,7 +341,8 @@ def test_new_set_bytes():
             original = set()
             for i in range(size):
                 # random.shuffle(random_bytes)
-                # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
+                # Shuffle is quite expensive. Try something simpler, chose a random value and
+                # increment it with roll over.
                 index = random.randint(0, byte_length - 1)
                 random_bytes[index] = (random_bytes[index] + 1) % 256
                 k = bytes(random_bytes[:byte_length])
@@ -375,7 +376,8 @@ def test_new_set_str():
             original = set()
             for i in range(size):
                 # random.shuffle(random_bytes)
-                # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
+                # Shuffle is quite expensive. Try something simpler, chose a random value and
+                # increment it with roll over.
                 index = random.randint(0, byte_length - 1)
                 random_bytes[index] = (random_bytes[index] + 1) % 127
                 k = bytes(random_bytes[:byte_length])
@@ -487,7 +489,8 @@ def test_new_dict_bytes_bytes():
             original = {}
             for i in range(size):
                 # random.shuffle(random_bytes)
-                # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
+                # Shuffle is quite expensive. Try something simpler, chose a random value and
+                # increment it with roll over.
                 index = random.randint(0, byte_length - 1)
                 random_bytes[index] = (random_bytes[index] + 1) % 256
                 k = bytes(random_bytes[:byte_length])
@@ -521,7 +524,8 @@ def test_new_dict_str_str():
             original = {}
             for i in range(size):
                 # random.shuffle(random_bytes)
-                # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
+                # Shuffle is quite expensive. Try something simpler, chose a random value and
+                # increment it with roll over.
                 index = random.randint(0, byte_length - 1)
                 random_bytes[index] = (random_bytes[index] + 1) % 128
                 k = bytes(random_bytes[:byte_length])
