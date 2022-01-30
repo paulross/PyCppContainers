@@ -57,7 +57,7 @@ namespace Python_Cpp_Containers {
 #endif
             }
         } else {
-            PyErr_Format(PyExc_ValueError, "Can not create Python container of size %ld", vec.size());
+            PyErr_Format(PyExc_ValueError, "Can not create Python container of size %ld", list_like.size());
             goto except;
         }
         assert(!PyErr_Occurred());
@@ -160,8 +160,9 @@ namespace Python_Cpp_Containers {
     }
 
     // Unary Python to C++
-    template<typename T,
+    template<
             template<typename ...> class ListLike,
+            typename T,
             int (*PyObject_Check)(PyObject *),
             T (*PyObject_Convert)(PyObject *),
             int(*PyUnaryContainer_Check)(PyObject *),
@@ -264,7 +265,7 @@ namespace Python_Cpp_Containers {
     template <>
     int
     py_list_to_cpp_list_like<long>(PyObject *op, std::vector<long> &container) {
-        return generic_py_list_to_cpp_list_like<long, &py_long_check, &py_long_to_cpp_long>(op, container);
+        return generic_py_list_to_cpp_std_vector<long, &py_long_check, &py_long_to_cpp_long>(op, container);
     }
 
     // Python to C++ std::list
@@ -280,7 +281,7 @@ namespace Python_Cpp_Containers {
     template <>
     int
     py_list_to_cpp_list_like<long>(PyObject *op, std::list<long> &container) {
-        return generic_py_list_to_cpp_list_like<long, &py_long_check, &py_long_to_cpp_long>(op, container);
+        return generic_py_list_to_cpp_std_list<long, &py_long_check, &py_long_to_cpp_long>(op, container);
     }
 
 
