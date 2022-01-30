@@ -7,18 +7,182 @@
 
 #include <Python.h>
 
+#include <list>
 #include <map>
 #include <unordered_map>
+#include <vector>
 
 //#include "python_convert.h"
 
 /// Conversion functions for individual Python objects.
 #include "python_object_convert.h"
 /// Functions to handle Python containers.
-//#include "python_container_convert.h"
+#include "python_container_convert.h"
 
 
 namespace Python_Cpp_Containers {
+
+    // ==== C++ to Python
+    template<
+            template<typename ...> class ListLike,
+            typename T,
+            PyObject *(*ConvertCppToPy)(const T &),
+            PyObject *(*PyUnaryContainer_New)(size_t),
+            int(*PyUnaryContainer_Set)(PyObject *, size_t, PyObject *)>
+    PyObject *
+    generic_cpp_std_list_like_to_py_list_like(const ListLike<T> &list_like) {
+        assert(!PyErr_Occurred());
+        PyObject *ret = PyUnaryContainer_New(list_like.size());
+        if (ret) {
+            size_t i = 0;
+            for (const auto &val : list_like) {
+                PyObject *op = (*ConvertCppToPy)(val);
+                if (!op) {
+                    // Failure, do not need to decref the contents as that will be done when decref'ing the container.
+                    // e.g. tupledealloc(): https://github.com/python/cpython/blob/main/Objects/tupleobject.c#L268
+                    PyErr_Format(PyExc_ValueError, "C++ value of can not be converted.");
+                    goto except;
+                }
+#ifndef NDEBUG
+                // Refcount may well be >> 1 for interned objects.
+                Py_ssize_t op_ob_refcnt = op->ob_refcnt;
+#endif
+                // PyUnaryContainer_Set usually wraps a void function, always succeeds returning non-zero.
+                if (PyUnaryContainer_Set(ret, i++, op)) { // Stolen reference.
+                    PyErr_Format(PyExc_RuntimeError, "Can not set unary value.");
+                    goto except;
+                }
+#ifndef NDEBUG
+                assert(op->ob_refcnt == op_ob_refcnt && "Reference count incremented instead of stolen.");
+#endif
+            }
+        } else {
+            PyErr_Format(PyExc_ValueError, "Can not create Python container of size %ld", vec.size());
+            goto except;
+        }
+        assert(!PyErr_Occurred());
+        assert(ret);
+        goto finally;
+    except:
+        Py_XDECREF(ret);
+        assert(PyErr_Occurred());
+        ret = NULL;
+    finally:
+        return ret;
+    }
+
+    // ---- Python Tuples
+    // Partial specialisations for std::vector to Python tuple
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
+    PyObject *
+    generic_cpp_std_vector_to_py_tuple(const std::vector<T> &container) {
+        return generic_cpp_std_list_like_to_py_list_like<std::vector, T, ConvertCppToPy, &py_tuple_new, &py_tuple_set>(container);
+    }
+    // Partial specialisations for std::list to Python tuple
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
+    PyObject *
+    generic_cpp_std_list_to_py_tuple(const std::list<T> &container) {
+        return generic_cpp_std_list_like_to_py_list_like<std::list, T, ConvertCppToPy, &py_tuple_new, &py_tuple_set>(container);
+    }
+
+    // Base declaration for std::vector -> tuple
+    template<typename T>
+    PyObject *
+    cpp_std_list_like_to_py_tuple(const std::vector<T> &container);
+
+    // Instantiations for vector -> tuple
+    // Declaration for vector -> tuple
+//    template <>
+//    PyObject *
+//    cpp_std_vector_to_py_tuple<long>(const std::vector<long> &container);
+
+    // Definition for std::vector -> tuple
+    template <>
+    PyObject *
+    cpp_std_list_like_to_py_tuple<long>(const std::vector<long> &container) {
+        return generic_cpp_std_vector_to_py_tuple<long, &cpp_long_to_py_long>(container);
+    }
+
+    // Base declaration for std::list -> tuple
+    template<typename T>
+    PyObject *
+    cpp_std_list_like_to_py_tuple(const std::list<T> &container);
+
+    // Definition for std::list -> tuple
+    template <>
+    PyObject *
+    cpp_std_list_like_to_py_tuple<long>(const std::list<long> &container) {
+        return generic_cpp_std_list_to_py_tuple<long, &cpp_long_to_py_long>(container);
+    }
+
+
+    // Python Lists
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
+    PyObject *
+    generic_cpp_std_vector_to_py_list(const std::vector<T> &container) {
+        return generic_cpp_std_list_like_to_py_list_like<std::vector, T, ConvertCppToPy, &py_list_new, &py_list_set>(container);
+    }
+
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
+    PyObject *
+    generic_cpp_std_list_to_py_list(const std::list<T> &container) {
+        return generic_cpp_std_list_like_to_py_list_like<std::list, T, ConvertCppToPy, &py_list_new, &py_list_set>(container);
+    }
+
+
+    // Python to C++
+    template<typename T,
+            template<typename ...> class ListLike,
+            int (*PyObject_Check)(PyObject *),
+            T (*PyObject_Convert)(PyObject *),
+            int(*PyUnaryContainer_Check)(PyObject *),
+            Py_ssize_t(*PyUnaryContainer_Size)(PyObject *),
+            PyObject *(*PyUnaryContainer_Get)(PyObject *, size_t)>
+    int generic_py_unary_to_cpp_list_like(PyObject *op, ListLike<T> &list_like) {
+        assert(!PyErr_Occurred());
+        int ret = 0;
+        list_like.clear();
+        Py_INCREF(op); // Borrow reference
+        if (!PyUnaryContainer_Check(op)) {
+            PyErr_Format(PyExc_ValueError, "Can not convert Python container of type %s", op->ob_type->tp_name);
+            ret = -1;
+            goto except;
+        }
+//        list_like.reserve(PyUnaryContainer_Size(op));
+        for (Py_ssize_t i = 0; i < PyUnaryContainer_Size(op); ++i) {
+            PyObject *value = PyUnaryContainer_Get(op, i);
+            if (!(*PyObject_Check)(value)) {
+                list_like.clear();
+                PyErr_Format(
+                        PyExc_ValueError,
+                        "Python value of type %s can not be converted",
+                        value->ob_type->tp_name
+                );
+                ret = -2;
+                goto except;
+            }
+            list_like.push_back((*PyObject_Convert)(value));
+            // Check !PyErr_Occurred() which could never happen as we check first.
+        }
+        assert(!PyErr_Occurred());
+        goto finally;
+    except:
+        assert(PyErr_Occurred());
+        list_like.clear();
+    finally:
+        Py_DECREF(op); // Return borrowed reference
+        return ret;
+    }
+
+
+
+
+
+
+
+
+
+
 
     // C++ to Python
     // was generic_cpp_std_unordered_map_to_py_dict

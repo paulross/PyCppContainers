@@ -9,6 +9,18 @@ homogeneous types (``bool``, ``int``, ``float``, ``complex``, ``bytes``, ``str``
 
 For two-way conversion for this set of containers:
 
+| C++ Container              | Python Equivalent |
+|----------------------------|-------------------|
+| `std::vector<T>`           | `list`            |
+| `std::vector<T>`           | `tuple`           |
+| `std::list<T>`             | `list`            |
+| `std::list<T>`             | `tuple`           |
+| `std::unordered_set<T>`    | `set`             |
+| `std::unordered_set<T>`    | `frozenset`       |
+| `std::unordered_map<K, V>` | `dict`            |
+| `std::map<K, V>` | `dict`            |
+
+
 | Python Container       | C++ Equivalent                                        |
 |------------------------|-------------------------------------------------------|
 | ``tuple``              | ``std::vector``, ``std::list`` or `std::forward_list` |
