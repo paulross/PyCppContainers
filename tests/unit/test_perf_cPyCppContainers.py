@@ -401,7 +401,7 @@ def test_new_set_str():
 
 
 @pytest.mark.slow
-def test_new_dict_int_int():
+def test_new_dict_unordered_map_int_int():
     results = []
     proc = psutil.Process()
     rss = proc.memory_info().rss
@@ -417,7 +417,7 @@ def test_new_dict_int_int():
     # pprint.pprint(results)
     print()
     rss_new = proc.memory_info().rss
-    print('test_new_dict_int_int()')
+    print('test_new_dict_unordered_map_int_int()')
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
     print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
     for s, t in results:
@@ -425,7 +425,7 @@ def test_new_dict_int_int():
 
 
 @pytest.mark.slow
-def test_new_dict_float_float():
+def test_new_dict_unordered_map_float_float():
     results = []
     proc = psutil.Process()
     rss = proc.memory_info().rss
@@ -444,7 +444,7 @@ def test_new_dict_float_float():
     # pprint.pprint(results)
     print()
     rss_new = proc.memory_info().rss
-    print('test_new_dict_float_float()')
+    print('test_new_dict_unordered_map_float_float()')
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
     print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
     for s, t in results:
@@ -452,7 +452,7 @@ def test_new_dict_float_float():
 
 
 @pytest.mark.slow
-def test_new_dict_complex_complex():
+def test_new_dict_unordered_map_complex_complex():
     results = []
     proc = psutil.Process()
     rss = proc.memory_info().rss
@@ -471,7 +471,7 @@ def test_new_dict_complex_complex():
     # pprint.pprint(results)
     print()
     rss_new = proc.memory_info().rss
-    print('test_new_dict_complex_complex()')
+    print('test_new_dict_unordered_map_complex_complex()')
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
     print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
     for s, t in results:
@@ -479,7 +479,7 @@ def test_new_dict_complex_complex():
 
 
 @pytest.mark.slow
-def test_new_dict_bytes_bytes():
+def test_new_dict_unordered_map_bytes_bytes():
     random_bytes = [random.randint(0, 255) for _i in range(max(SIZE_DOUBLING_BYTE_LENGTH))]
     proc = psutil.Process()
     for byte_length in SIZE_DOUBLING_HASHABLE_BYTE_LENGTH:
@@ -507,14 +507,14 @@ def test_new_dict_bytes_bytes():
         print()
         rss_new = proc.memory_info().rss
         print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
-        print(f'test_new_dict_bytes_bytes() Byte length {byte_length}')
+        print(f'test_new_dict_unordered_map_bytes_bytes() Byte length {byte_length}')
         print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
         for s, t in results:
             print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
 
 
 @pytest.mark.slow
-def test_new_dict_str_str():
+def test_new_dict_unordered_map_str_str():
     random_bytes = [random.randint(0, 127) for _i in range(max(SIZE_DOUBLING_BYTE_LENGTH))]
     proc = psutil.Process()
     for byte_length in SIZE_DOUBLING_HASHABLE_BYTE_LENGTH:
@@ -542,7 +542,155 @@ def test_new_dict_str_str():
         print()
         rss_new = proc.memory_info().rss
         print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
-        print(f'test_new_dict_str_str() String length {byte_length}')
+        print(f'test_new_dict_unordered_map_str_str() String length {byte_length}')
+        print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+        for s, t in results:
+            print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+
+
+@pytest.mark.slow
+def test_new_dict_map_int_int():
+    results = []
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    for size in SIZE_DOUBLING:
+        original = {i: i for i in range(size)}
+        timer = TimedResults()
+        for _r in range(REPEAT):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_dict_from_std_map_int_int(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+    # pprint.pprint(results)
+    print()
+    rss_new = proc.memory_info().rss
+    print('test_new_dict_map_int_int()')
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+
+
+@pytest.mark.slow
+def test_new_dict_map_float_float():
+    results = []
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    # for size in tuple(2 ** v for v in range(1, 16 + 1)):
+    # for size in tuple(2 ** v for v in range(10, 11 + 1)):
+    for size in SIZE_DOUBLING:
+        original = {float(i): float(i) for i in range(size)}
+        timer = TimedResults()
+        # for _r in range(REPEAT):
+        for _r in range(REPEAT):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_dict_from_std_map_float_float(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+    # pprint.pprint(results)
+    print()
+    rss_new = proc.memory_info().rss
+    print('test_new_dict_map_float_float()')
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+
+
+@pytest.mark.slow
+def test_new_dict_map_complex_complex():
+    results = []
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    # for size in tuple(2 ** v for v in range(1, 16 + 1)):
+    # for size in tuple(2 ** v for v in range(10, 11 + 1)):
+    for size in SIZE_DOUBLING:
+        original = {complex(float(i),  float(i)): complex(float(i),  float(i)) for i in range(size)}
+        timer = TimedResults()
+        # for _r in range(REPEAT):
+        for _r in range(REPEAT):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_dict_from_std_map_complex_complex(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+    # pprint.pprint(results)
+    print()
+    rss_new = proc.memory_info().rss
+    print('test_new_dict_map_complex_complex()')
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+
+
+@pytest.mark.slow
+def test_new_dict_map_bytes_bytes():
+    random_bytes = [random.randint(0, 255) for _i in range(max(SIZE_DOUBLING_BYTE_LENGTH))]
+    proc = psutil.Process()
+    for byte_length in SIZE_DOUBLING_HASHABLE_BYTE_LENGTH:
+        results = []
+        rss = proc.memory_info().rss
+        for size in SIZE_DOUBLING:
+            original = {}
+            for i in range(size):
+                # random.shuffle(random_bytes)
+                # Shuffle is quite expensive. Try something simpler, chose a random value and
+                # increment it with roll over.
+                index = random.randint(0, byte_length - 1)
+                random_bytes[index] = (random_bytes[index] + 1) % 256
+                k = bytes(random_bytes[:byte_length])
+                original[k] = b' ' * byte_length
+            # print(f'TRACE dict len {len(original)}')
+            timer = TimedResults()
+            for _r in range(REPEAT):
+                time_start = time.perf_counter()
+                cPyCppContainers.new_dict_from_std_map_bytes_bytes(original)
+                time_exec = time.perf_counter() - time_start
+                timer.add(time_exec)
+            results.append((size, timer))
+        # pprint.pprint(results)
+        print()
+        rss_new = proc.memory_info().rss
+        print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+        print(f'test_new_dict_map_bytes_bytes() Byte length {byte_length}')
+        print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+        for s, t in results:
+            print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+
+
+@pytest.mark.slow
+def test_new_dict_map_str_str():
+    random_bytes = [random.randint(0, 127) for _i in range(max(SIZE_DOUBLING_BYTE_LENGTH))]
+    proc = psutil.Process()
+    for byte_length in SIZE_DOUBLING_HASHABLE_BYTE_LENGTH:
+        results = []
+        rss = proc.memory_info().rss
+        for size in SIZE_DOUBLING:
+            original = {}
+            for i in range(size):
+                # random.shuffle(random_bytes)
+                # Shuffle is quite expensive. Try something simpler, chose a random value and
+                # increment it with roll over.
+                index = random.randint(0, byte_length - 1)
+                random_bytes[index] = (random_bytes[index] + 1) % 128
+                k = bytes(random_bytes[:byte_length])
+                original[k.decode('ascii')] = ' ' * byte_length
+            # print(f'TRACE dict len {len(original)}')
+            timer = TimedResults()
+            for _r in range(REPEAT):
+                time_start = time.perf_counter()
+                cPyCppContainers.new_dict_from_std_map_str_str(original)
+                time_exec = time.perf_counter() - time_start
+                timer.add(time_exec)
+            results.append((size, timer))
+        # pprint.pprint(results)
+        print()
+        rss_new = proc.memory_info().rss
+        print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+        print(f'test_new_dict_map_str_str() String length {byte_length}')
         print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
         for s, t in results:
             print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
