@@ -115,22 +115,51 @@ namespace Python_Cpp_Containers {
         return generic_cpp_std_list_to_py_tuple<long, &cpp_long_to_py_long>(container);
     }
 
-
-    // Python Lists
+    // ---- Python Lists
+    // Partial specialisations for std::vector to Python list
     template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
     generic_cpp_std_vector_to_py_list(const std::vector<T> &container) {
         return generic_cpp_std_list_like_to_py_list_like<std::vector, T, ConvertCppToPy, &py_list_new, &py_list_set>(container);
     }
-
+    // Partial specialisations for std::list to Python list
     template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
     generic_cpp_std_list_to_py_list(const std::list<T> &container) {
         return generic_cpp_std_list_like_to_py_list_like<std::list, T, ConvertCppToPy, &py_list_new, &py_list_set>(container);
     }
 
+    // Base declaration for std::vector -> list
+    template<typename T>
+    PyObject *
+    cpp_std_list_like_to_py_list(const std::vector<T> &container);
 
-    // Python to C++
+    // Instantiations for vector -> list
+    // Declaration for vector -> list
+//    template <>
+//    PyObject *
+//    cpp_std_vector_to_py_list<long>(const std::vector<long> &container);
+
+    // Definition for std::vector -> list
+    template <>
+    PyObject *
+    cpp_std_list_like_to_py_list<long>(const std::vector<long> &container) {
+        return generic_cpp_std_vector_to_py_list<long, &cpp_long_to_py_long>(container);
+    }
+
+    // Base declaration for std::list -> list
+    template<typename T>
+    PyObject *
+    cpp_std_list_like_to_py_list(const std::list<T> &container);
+
+    // Definition for std::list -> list
+    template <>
+    PyObject *
+    cpp_std_list_like_to_py_list<long>(const std::list<long> &container) {
+        return generic_cpp_std_list_to_py_list<long, &cpp_long_to_py_long>(container);
+    }
+
+    // Unary Python to C++
     template<typename T,
             template<typename ...> class ListLike,
             int (*PyObject_Check)(PyObject *),
@@ -148,6 +177,8 @@ namespace Python_Cpp_Containers {
             ret = -1;
             goto except;
         }
+        // We would like to reserve a length for vectors, we can't do that for std::list
+        // Ah could we do that in the specialisation?
 //        list_like.reserve(PyUnaryContainer_Size(op));
         for (Py_ssize_t i = 0; i < PyUnaryContainer_Size(op); ++i) {
             PyObject *value = PyUnaryContainer_Get(op, i);
@@ -174,16 +205,86 @@ namespace Python_Cpp_Containers {
         return ret;
     }
 
+    // Hand crafted partial specialisations
+    // Python tuple to std::vector
+    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
+    int generic_py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
+        // Specialisation to reserve vector capacity. not available for std::list
+        // We only do this if op is a tuple because py_tuple_len might error.
+        // generic_py_unary_to_cpp_list_like() will set an error if op is not a tuple.
+        if (py_tuple_check(op)) {
+            vec.reserve(py_tuple_len(op));
+        }
+        return generic_py_unary_to_cpp_list_like<
+                std::vector, T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get
+        >(op, vec);
+    }
+
+    // Python list to std::vector
+    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
+    int generic_py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
+        // Specialisation to reserve vector capacity. not available for std::list
+        // We only do this if op is a list because py_list_len might error.
+        // generic_py_unary_to_cpp_list_like() will set an error if op is not a tuple.
+        if (py_list_check(op)) {
+            vec.reserve(py_list_len(op));
+        }
+        return generic_py_unary_to_cpp_list_like<
+                std::vector, T, PyObject_Check, PyObject_Convert, &py_list_check, &py_list_len, &py_list_get
+        >(op, vec);
+    }
+
+    // Python tuple to std::list
+    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
+    int generic_py_tuple_to_cpp_std_list(PyObject *op, std::list<T> &vec) {
+        return generic_py_unary_to_cpp_list_like<
+                std::list, T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get
+        >(op, vec);
+    }
+
+    // Python list to std::list
+    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
+    int generic_py_list_to_cpp_std_list(PyObject *op, std::list<T> &vec) {
+        return generic_py_unary_to_cpp_list_like<
+                std::list, T, PyObject_Check, PyObject_Convert, &py_list_check, &py_list_len, &py_list_get
+        >(op, vec);
+    }
+
+    // Auto generated
+    // Python to C++ std::vector
+    // Base declaration
+    template<typename T>
+    int
+    py_list_to_cpp_list_like(PyObject *op, std::vector<T> &container);
+    // Instantiation declaration in .h file
+//    template <>
+//    int
+//    py_list_to_cpp_list_like<long>(PyObject *op, std::vector<long> &container);
+    // Instantiation declaration in .cpp file
+    template <>
+    int
+    py_list_to_cpp_list_like<long>(PyObject *op, std::vector<long> &container) {
+        return generic_py_list_to_cpp_list_like<long, &py_long_check, &py_long_to_cpp_long>(op, container);
+    }
+
+    // Python to C++ std::list
+    // Base declaration
+    template<typename T>
+    int
+    py_list_to_cpp_list_like(PyObject *op, std::list<T> &container);
+    // Instantiation declaration in .h file
+//    template <>
+//    int
+//    py_list_to_cpp_list_like<long>(PyObject *op, std::list<long> &container);
+    // Instantiation declaration in .cpp file
+    template <>
+    int
+    py_list_to_cpp_list_like<long>(PyObject *op, std::list<long> &container) {
+        return generic_py_list_to_cpp_list_like<long, &py_long_check, &py_long_to_cpp_long>(op, container);
+    }
 
 
-
-
-
-
-
-
-
-
+    // ======== Dictionaries
     // C++ to Python
     // was generic_cpp_std_unordered_map_to_py_dict
     template<
