@@ -464,10 +464,10 @@ namespace Python_Cpp_Containers {
      */
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_list_to_cpp_std_list_like(PyObject *op, std::vector<T> &container) {
-        // Reserve the vector, but only if it is a tuple. If not then ignore it as
+        // Reserve the vector, but only if it is a list. If not then ignore it as
         // py_unary_to_cpp_std_list_like() will error
-        if (py_tuple_check(op)) {
-            container.reserve(py_tuple_len(op));
+        if (py_list_check(op)) {
+            container.reserve(py_list_len(op));
         }
         return py_unary_to_cpp_std_list_like<
                 std::vector, T, PyObject_Check, PyObject_Convert, &py_list_check, &py_list_len, &py_list_get
