@@ -158,11 +158,11 @@ or ``std::list<T>`` for any type has this signature:
             int(*PyUnaryContainer_Check)(PyObject *),
             Py_ssize_t(*PyUnaryContainer_Size)(PyObject *),
             PyObject *(*PyUnaryContainer_Get)(PyObject *, size_t)>
-    int py_unary_to_cpp_std_list_like(PyObject *op, ListLike<T> &list_like) {
+    int even_more_generic_py_unary_to_cpp_std_list_like(PyObject *op, ListLike<T> &list_like) {
 
 This template has these parameters:
 
-.. list-table:: ``py_unary_to_cpp_std_list_like()`` template parameters.
+.. list-table:: ``even_more_generic_py_unary_to_cpp_std_list_like()`` template parameters.
    :widths: 20 50
    :header-rows: 1
 
@@ -220,11 +220,11 @@ These are thin wrappers around existing functions or macros in ``"Python.h"``.
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_list_to_cpp_std_list_like(PyObject *op, std::vector<T> &container) {
         // Reserve the vector, but only if it is a list. If not then ignore it as
-        // py_unary_to_cpp_std_list_like() will error
+        // even_more_generic_py_unary_to_cpp_std_list_like() will error
         if (py_list_check(op)) {
             container.reserve(py_list_len(op));
         }
-        return py_unary_to_cpp_std_list_like<
+        return even_more_generic_py_unary_to_cpp_std_list_like<
                 std::vector, T, PyObject_Check, PyObject_Convert, &py_list_check, &py_list_len, &py_list_get
         >(op, container);
     }
@@ -269,11 +269,13 @@ object types.
 Here is the function hierarchy for converting lists to C++ ``std::vector<T>``:
 
 .. code-block:: none
-                              py_unary_to_cpp_std_list_like      <--- Hand written
+
+                  very_generic_py_unary_to_cpp_std_list_like      <--- Hand written
                                            |
                             /--------------------------\
                             |                          |             Hand written partial
-            generic_py_list_to_cpp_std_list_like    tuples...    <-- specialisation
+            generic_py_list_to_cpp_std_list_like    tuples...    <-- specialisation for std::vector
+                            |                          |             and std::list
                             |                          |             (generally trivial).
                             |                          |
              py_list_to_cpp_std_list_like<T>          ...        <-- Generated
@@ -282,6 +284,7 @@ Here is the function hierarchy for converting lists to C++ ``std::vector<T>``:
             |                               |      |       |         Generated declaration
     py_list_to_cpp_std_list_like<double>   ...    ...     ...    <-- and implementation
                                                                      (one liners)
+
 
 Usage
 ------
