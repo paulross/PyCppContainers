@@ -6,36 +6,52 @@
 // 
 // Unary conversions
 // tuple:
-// tuple <-> std::vector<bool>
-// tuple <-> std::vector<long>
-// tuple <-> std::vector<double>
-// tuple <-> std::vector<std::complex<double>>
-// tuple <-> std::vector<std::vector<char>>
-// tuple <-> std::vector<std::string>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::vector<bool>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::vector<long>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::vector<double>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::vector<std::complex<double>>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::vector<std::vector<char>>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::vector<std::string>
+// 
+// tuple:
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::list<bool>
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::list<long>
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::list<double>
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::list<std::complex<double>>
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::list<std::vector<char>>
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::list<std::string>
 // 
 // list:
-// list <-> std::vector<bool>
-// list <-> std::vector<long>
-// list <-> std::vector<double>
-// list <-> std::vector<std::complex<double>>
-// list <-> std::vector<std::vector<char>>
-// list <-> std::vector<std::string>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::vector<bool>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::vector<long>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::vector<double>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::vector<std::complex<double>>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::vector<std::vector<char>>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::vector<std::string>
+// 
+// list:
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::list<bool>
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::list<long>
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::list<double>
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::list<std::complex<double>>
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::list<std::vector<char>>
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::list<std::string>
 // 
 // set:
-// set <-> std::unordered_set<bool>
-// set <-> std::unordered_set<long>
-// set <-> std::unordered_set<double>
-// set <-> std::unordered_set<std::complex<double>>
-// set <-> std::unordered_set<std::vector<char>>
-// set <-> std::unordered_set<std::string>
+// UnaryFunctions(python_container='set', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_set', decl_to_cpp='py_set_to_cpp_std_unordered_set') <-> std::unordered_set<bool>
+// UnaryFunctions(python_container='set', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_set', decl_to_cpp='py_set_to_cpp_std_unordered_set') <-> std::unordered_set<long>
+// UnaryFunctions(python_container='set', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_set', decl_to_cpp='py_set_to_cpp_std_unordered_set') <-> std::unordered_set<double>
+// UnaryFunctions(python_container='set', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_set', decl_to_cpp='py_set_to_cpp_std_unordered_set') <-> std::unordered_set<std::complex<double>>
+// UnaryFunctions(python_container='set', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_set', decl_to_cpp='py_set_to_cpp_std_unordered_set') <-> std::unordered_set<std::vector<char>>
+// UnaryFunctions(python_container='set', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_set', decl_to_cpp='py_set_to_cpp_std_unordered_set') <-> std::unordered_set<std::string>
 // 
 // frozenset:
-// frozenset <-> std::unordered_set<bool>
-// frozenset <-> std::unordered_set<long>
-// frozenset <-> std::unordered_set<double>
-// frozenset <-> std::unordered_set<std::complex<double>>
-// frozenset <-> std::unordered_set<std::vector<char>>
-// frozenset <-> std::unordered_set<std::string>
+// UnaryFunctions(python_container='frozenset', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_frozenset', decl_to_cpp='py_frozenset_to_cpp_std_unordered_set') <-> std::unordered_set<bool>
+// UnaryFunctions(python_container='frozenset', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_frozenset', decl_to_cpp='py_frozenset_to_cpp_std_unordered_set') <-> std::unordered_set<long>
+// UnaryFunctions(python_container='frozenset', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_frozenset', decl_to_cpp='py_frozenset_to_cpp_std_unordered_set') <-> std::unordered_set<double>
+// UnaryFunctions(python_container='frozenset', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_frozenset', decl_to_cpp='py_frozenset_to_cpp_std_unordered_set') <-> std::unordered_set<std::complex<double>>
+// UnaryFunctions(python_container='frozenset', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_frozenset', decl_to_cpp='py_frozenset_to_cpp_std_unordered_set') <-> std::unordered_set<std::vector<char>>
+// UnaryFunctions(python_container='frozenset', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_frozenset', decl_to_cpp='py_frozenset_to_cpp_std_unordered_set') <-> std::unordered_set<std::string>
 // 
 // 
 // Mapping conversions
@@ -94,7 +110,7 @@ namespace Python_Cpp_Containers {
  */
 template<typename T>
 PyObject *
-cpp_std_vector_to_py_tuple(const std::vector<T> &container);
+cpp_std_list_like_to_py_tuple(const std::vector<T> &container);
 
 // Instantiations
 /**
@@ -105,7 +121,7 @@ cpp_std_vector_to_py_tuple(const std::vector<T> &container);
  */
 template <>
 PyObject *
-cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container);
+cpp_std_list_like_to_py_tuple<bool>(const std::vector<bool> &container);
 
 /**
  * Instantiation for converting C++ std::vector<long> to a Python tuple of int.
@@ -115,7 +131,7 @@ cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container);
  */
 template <>
 PyObject *
-cpp_std_vector_to_py_tuple<long>(const std::vector<long> &container);
+cpp_std_list_like_to_py_tuple<long>(const std::vector<long> &container);
 
 /**
  * Instantiation for converting C++ std::vector<double> to a Python tuple of float.
@@ -125,7 +141,7 @@ cpp_std_vector_to_py_tuple<long>(const std::vector<long> &container);
  */
 template <>
 PyObject *
-cpp_std_vector_to_py_tuple<double>(const std::vector<double> &container);
+cpp_std_list_like_to_py_tuple<double>(const std::vector<double> &container);
 
 /**
  * Instantiation for converting C++ std::vector<std::complex<double>> to a Python tuple of complex.
@@ -135,7 +151,7 @@ cpp_std_vector_to_py_tuple<double>(const std::vector<double> &container);
  */
 template <>
 PyObject *
-cpp_std_vector_to_py_tuple<std::complex<double>>(const std::vector<std::complex<double>> &container);
+cpp_std_list_like_to_py_tuple<std::complex<double>>(const std::vector<std::complex<double>> &container);
 
 /**
  * Instantiation for converting C++ std::vector<std::vector<char>> to a Python tuple of bytes.
@@ -145,7 +161,7 @@ cpp_std_vector_to_py_tuple<std::complex<double>>(const std::vector<std::complex<
  */
 template <>
 PyObject *
-cpp_std_vector_to_py_tuple<std::vector<char>>(const std::vector<std::vector<char>> &container);
+cpp_std_list_like_to_py_tuple<std::vector<char>>(const std::vector<std::vector<char>> &container);
 
 /**
  * Instantiation for converting C++ std::vector<std::string> to a Python tuple of str.
@@ -155,7 +171,7 @@ cpp_std_vector_to_py_tuple<std::vector<char>>(const std::vector<std::vector<char
  */
 template <>
 PyObject *
-cpp_std_vector_to_py_tuple<std::string>(const std::vector<std::string> &container);
+cpp_std_list_like_to_py_tuple<std::string>(const std::vector<std::string> &container);
 
 //-------------------- END: std::vector -> Python tuple -------------------
 
@@ -171,7 +187,7 @@ cpp_std_vector_to_py_tuple<std::string>(const std::vector<std::string> &containe
  */
 template<typename T>
 int
-py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &container);
+py_tuple_to_cpp_list_like(PyObject *op, std::vector<T> &container);
 
 // Instantiations
 /**
@@ -183,7 +199,7 @@ py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &container);
  */
 template <>
 int
-py_tuple_to_cpp_std_vector<bool>(PyObject *op, std::vector<bool> &container);
+py_tuple_to_cpp_list_like<bool>(PyObject *op, std::vector<bool> &container);
 
 /**
  * Instantiation for converting a Python tuple of int to a C++ std::vector<long>.
@@ -194,7 +210,7 @@ py_tuple_to_cpp_std_vector<bool>(PyObject *op, std::vector<bool> &container);
  */
 template <>
 int
-py_tuple_to_cpp_std_vector<long>(PyObject *op, std::vector<long> &container);
+py_tuple_to_cpp_list_like<long>(PyObject *op, std::vector<long> &container);
 
 /**
  * Instantiation for converting a Python tuple of float to a C++ std::vector<double>.
@@ -205,7 +221,7 @@ py_tuple_to_cpp_std_vector<long>(PyObject *op, std::vector<long> &container);
  */
 template <>
 int
-py_tuple_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container);
+py_tuple_to_cpp_list_like<double>(PyObject *op, std::vector<double> &container);
 
 /**
  * Instantiation for converting a Python tuple of complex to a C++ std::vector<std::complex<double>>.
@@ -216,7 +232,7 @@ py_tuple_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container)
  */
 template <>
 int
-py_tuple_to_cpp_std_vector<std::complex<double>>(PyObject *op, std::vector<std::complex<double>> &container);
+py_tuple_to_cpp_list_like<std::complex<double>>(PyObject *op, std::vector<std::complex<double>> &container);
 
 /**
  * Instantiation for converting a Python tuple of bytes to a C++ std::vector<std::vector<char>>.
@@ -227,7 +243,7 @@ py_tuple_to_cpp_std_vector<std::complex<double>>(PyObject *op, std::vector<std::
  */
 template <>
 int
-py_tuple_to_cpp_std_vector<std::vector<char>>(PyObject *op, std::vector<std::vector<char>> &container);
+py_tuple_to_cpp_list_like<std::vector<char>>(PyObject *op, std::vector<std::vector<char>> &container);
 
 /**
  * Instantiation for converting a Python tuple of str to a C++ std::vector<std::string>.
@@ -238,9 +254,168 @@ py_tuple_to_cpp_std_vector<std::vector<char>>(PyObject *op, std::vector<std::vec
  */
 template <>
 int
-py_tuple_to_cpp_std_vector<std::string>(PyObject *op, std::vector<std::string> &container);
+py_tuple_to_cpp_list_like<std::string>(PyObject *op, std::vector<std::string> &container);
 
 //-------------------- END: Python tuple -> std::vector -------------------
+
+//----------------------- std::list -> Python tuple -----------------------
+// Base declaration
+/**
+ * Base declaration for converting C++ std::list to a Python tuple.
+ *
+ * @tparam T C++ type.
+ * @param container C++ input as a std::list<T>.
+ * @return A Python tuple containing type corresponding to the C++ type T.
+ */
+template<typename T>
+PyObject *
+cpp_std_list_like_to_py_tuple(const std::list<T> &container);
+
+// Instantiations
+/**
+ * Instantiation for converting C++ std::list<bool> to a Python tuple of bool.
+ *
+ * @param container C++ input as a std::list<bool>.
+ * @return A Python tuple containing bool objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_tuple<bool>(const std::list<bool> &container);
+
+/**
+ * Instantiation for converting C++ std::list<long> to a Python tuple of int.
+ *
+ * @param container C++ input as a std::list<long>.
+ * @return A Python tuple containing int objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_tuple<long>(const std::list<long> &container);
+
+/**
+ * Instantiation for converting C++ std::list<double> to a Python tuple of float.
+ *
+ * @param container C++ input as a std::list<double>.
+ * @return A Python tuple containing float objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_tuple<double>(const std::list<double> &container);
+
+/**
+ * Instantiation for converting C++ std::list<std::complex<double>> to a Python tuple of complex.
+ *
+ * @param container C++ input as a std::list<std::complex<double>>.
+ * @return A Python tuple containing complex objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_tuple<std::complex<double>>(const std::list<std::complex<double>> &container);
+
+/**
+ * Instantiation for converting C++ std::list<std::vector<char>> to a Python tuple of bytes.
+ *
+ * @param container C++ input as a std::list<std::vector<char>>.
+ * @return A Python tuple containing bytes objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_tuple<std::vector<char>>(const std::list<std::vector<char>> &container);
+
+/**
+ * Instantiation for converting C++ std::list<std::string> to a Python tuple of str.
+ *
+ * @param container C++ input as a std::list<std::string>.
+ * @return A Python tuple containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_tuple<std::string>(const std::list<std::string> &container);
+
+//--------------------- END: std::list -> Python tuple --------------------
+
+//----------------------- Python tuple -> std::list -----------------------
+// Base declaration
+/**
+ * Base declaration for converting a Python tuple to a C++ std::list.
+ *
+ * @tparam T C++ type.
+ * @param op The Python container to read from.
+ * @param container The C++ std::list to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template<typename T>
+int
+py_tuple_to_cpp_list_like(PyObject *op, std::list<T> &container);
+
+// Instantiations
+/**
+ * Instantiation for converting a Python tuple of bool to a C++ std::list<bool>.
+ *
+ * @param op Python input as a tuple of bool.
+ * @param container C++ output as a std::list<bool>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_tuple_to_cpp_list_like<bool>(PyObject *op, std::list<bool> &container);
+
+/**
+ * Instantiation for converting a Python tuple of int to a C++ std::list<long>.
+ *
+ * @param op Python input as a tuple of int.
+ * @param container C++ output as a std::list<long>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_tuple_to_cpp_list_like<long>(PyObject *op, std::list<long> &container);
+
+/**
+ * Instantiation for converting a Python tuple of float to a C++ std::list<double>.
+ *
+ * @param op Python input as a tuple of float.
+ * @param container C++ output as a std::list<double>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_tuple_to_cpp_list_like<double>(PyObject *op, std::list<double> &container);
+
+/**
+ * Instantiation for converting a Python tuple of complex to a C++ std::list<std::complex<double>>.
+ *
+ * @param op Python input as a tuple of complex.
+ * @param container C++ output as a std::list<std::complex<double>>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_tuple_to_cpp_list_like<std::complex<double>>(PyObject *op, std::list<std::complex<double>> &container);
+
+/**
+ * Instantiation for converting a Python tuple of bytes to a C++ std::list<std::vector<char>>.
+ *
+ * @param op Python input as a tuple of bytes.
+ * @param container C++ output as a std::list<std::vector<char>>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_tuple_to_cpp_list_like<std::vector<char>>(PyObject *op, std::list<std::vector<char>> &container);
+
+/**
+ * Instantiation for converting a Python tuple of str to a C++ std::list<std::string>.
+ *
+ * @param op Python input as a tuple of str.
+ * @param container C++ output as a std::list<std::string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_tuple_to_cpp_list_like<std::string>(PyObject *op, std::list<std::string> &container);
+
+//--------------------- END: Python tuple -> std::list --------------------
 
 //----------------------- std::vector -> Python list ----------------------
 // Base declaration
@@ -253,7 +428,7 @@ py_tuple_to_cpp_std_vector<std::string>(PyObject *op, std::vector<std::string> &
  */
 template<typename T>
 PyObject *
-cpp_std_vector_to_py_list(const std::vector<T> &container);
+cpp_std_list_like_to_py_list(const std::vector<T> &container);
 
 // Instantiations
 /**
@@ -264,7 +439,7 @@ cpp_std_vector_to_py_list(const std::vector<T> &container);
  */
 template <>
 PyObject *
-cpp_std_vector_to_py_list<bool>(const std::vector<bool> &container);
+cpp_std_list_like_to_py_list<bool>(const std::vector<bool> &container);
 
 /**
  * Instantiation for converting C++ std::vector<long> to a Python list of int.
@@ -274,7 +449,7 @@ cpp_std_vector_to_py_list<bool>(const std::vector<bool> &container);
  */
 template <>
 PyObject *
-cpp_std_vector_to_py_list<long>(const std::vector<long> &container);
+cpp_std_list_like_to_py_list<long>(const std::vector<long> &container);
 
 /**
  * Instantiation for converting C++ std::vector<double> to a Python list of float.
@@ -284,7 +459,7 @@ cpp_std_vector_to_py_list<long>(const std::vector<long> &container);
  */
 template <>
 PyObject *
-cpp_std_vector_to_py_list<double>(const std::vector<double> &container);
+cpp_std_list_like_to_py_list<double>(const std::vector<double> &container);
 
 /**
  * Instantiation for converting C++ std::vector<std::complex<double>> to a Python list of complex.
@@ -294,7 +469,7 @@ cpp_std_vector_to_py_list<double>(const std::vector<double> &container);
  */
 template <>
 PyObject *
-cpp_std_vector_to_py_list<std::complex<double>>(const std::vector<std::complex<double>> &container);
+cpp_std_list_like_to_py_list<std::complex<double>>(const std::vector<std::complex<double>> &container);
 
 /**
  * Instantiation for converting C++ std::vector<std::vector<char>> to a Python list of bytes.
@@ -304,7 +479,7 @@ cpp_std_vector_to_py_list<std::complex<double>>(const std::vector<std::complex<d
  */
 template <>
 PyObject *
-cpp_std_vector_to_py_list<std::vector<char>>(const std::vector<std::vector<char>> &container);
+cpp_std_list_like_to_py_list<std::vector<char>>(const std::vector<std::vector<char>> &container);
 
 /**
  * Instantiation for converting C++ std::vector<std::string> to a Python list of str.
@@ -314,7 +489,7 @@ cpp_std_vector_to_py_list<std::vector<char>>(const std::vector<std::vector<char>
  */
 template <>
 PyObject *
-cpp_std_vector_to_py_list<std::string>(const std::vector<std::string> &container);
+cpp_std_list_like_to_py_list<std::string>(const std::vector<std::string> &container);
 
 //-------------------- END: std::vector -> Python list --------------------
 
@@ -330,7 +505,7 @@ cpp_std_vector_to_py_list<std::string>(const std::vector<std::string> &container
  */
 template<typename T>
 int
-py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &container);
+py_list_to_cpp_list_like(PyObject *op, std::vector<T> &container);
 
 // Instantiations
 /**
@@ -342,7 +517,7 @@ py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &container);
  */
 template <>
 int
-py_list_to_cpp_std_vector<bool>(PyObject *op, std::vector<bool> &container);
+py_list_to_cpp_list_like<bool>(PyObject *op, std::vector<bool> &container);
 
 /**
  * Instantiation for converting a Python list of int to a C++ std::vector<long>.
@@ -353,7 +528,7 @@ py_list_to_cpp_std_vector<bool>(PyObject *op, std::vector<bool> &container);
  */
 template <>
 int
-py_list_to_cpp_std_vector<long>(PyObject *op, std::vector<long> &container);
+py_list_to_cpp_list_like<long>(PyObject *op, std::vector<long> &container);
 
 /**
  * Instantiation for converting a Python list of float to a C++ std::vector<double>.
@@ -364,7 +539,7 @@ py_list_to_cpp_std_vector<long>(PyObject *op, std::vector<long> &container);
  */
 template <>
 int
-py_list_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container);
+py_list_to_cpp_list_like<double>(PyObject *op, std::vector<double> &container);
 
 /**
  * Instantiation for converting a Python list of complex to a C++ std::vector<std::complex<double>>.
@@ -375,7 +550,7 @@ py_list_to_cpp_std_vector<double>(PyObject *op, std::vector<double> &container);
  */
 template <>
 int
-py_list_to_cpp_std_vector<std::complex<double>>(PyObject *op, std::vector<std::complex<double>> &container);
+py_list_to_cpp_list_like<std::complex<double>>(PyObject *op, std::vector<std::complex<double>> &container);
 
 /**
  * Instantiation for converting a Python list of bytes to a C++ std::vector<std::vector<char>>.
@@ -386,7 +561,7 @@ py_list_to_cpp_std_vector<std::complex<double>>(PyObject *op, std::vector<std::c
  */
 template <>
 int
-py_list_to_cpp_std_vector<std::vector<char>>(PyObject *op, std::vector<std::vector<char>> &container);
+py_list_to_cpp_list_like<std::vector<char>>(PyObject *op, std::vector<std::vector<char>> &container);
 
 /**
  * Instantiation for converting a Python list of str to a C++ std::vector<std::string>.
@@ -397,9 +572,168 @@ py_list_to_cpp_std_vector<std::vector<char>>(PyObject *op, std::vector<std::vect
  */
 template <>
 int
-py_list_to_cpp_std_vector<std::string>(PyObject *op, std::vector<std::string> &container);
+py_list_to_cpp_list_like<std::string>(PyObject *op, std::vector<std::string> &container);
 
 //-------------------- END: Python list -> std::vector --------------------
+
+//------------------------ std::list -> Python list -----------------------
+// Base declaration
+/**
+ * Base declaration for converting C++ std::list to a Python list.
+ *
+ * @tparam T C++ type.
+ * @param container C++ input as a std::list<T>.
+ * @return A Python list containing type corresponding to the C++ type T.
+ */
+template<typename T>
+PyObject *
+cpp_std_list_like_to_py_list(const std::list<T> &container);
+
+// Instantiations
+/**
+ * Instantiation for converting C++ std::list<bool> to a Python list of bool.
+ *
+ * @param container C++ input as a std::list<bool>.
+ * @return A Python list containing bool objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_list<bool>(const std::list<bool> &container);
+
+/**
+ * Instantiation for converting C++ std::list<long> to a Python list of int.
+ *
+ * @param container C++ input as a std::list<long>.
+ * @return A Python list containing int objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_list<long>(const std::list<long> &container);
+
+/**
+ * Instantiation for converting C++ std::list<double> to a Python list of float.
+ *
+ * @param container C++ input as a std::list<double>.
+ * @return A Python list containing float objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_list<double>(const std::list<double> &container);
+
+/**
+ * Instantiation for converting C++ std::list<std::complex<double>> to a Python list of complex.
+ *
+ * @param container C++ input as a std::list<std::complex<double>>.
+ * @return A Python list containing complex objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_list<std::complex<double>>(const std::list<std::complex<double>> &container);
+
+/**
+ * Instantiation for converting C++ std::list<std::vector<char>> to a Python list of bytes.
+ *
+ * @param container C++ input as a std::list<std::vector<char>>.
+ * @return A Python list containing bytes objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_list<std::vector<char>>(const std::list<std::vector<char>> &container);
+
+/**
+ * Instantiation for converting C++ std::list<std::string> to a Python list of str.
+ *
+ * @param container C++ input as a std::list<std::string>.
+ * @return A Python list containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_list<std::string>(const std::list<std::string> &container);
+
+//--------------------- END: std::list -> Python list ---------------------
+
+//------------------------ Python list -> std::list -----------------------
+// Base declaration
+/**
+ * Base declaration for converting a Python list to a C++ std::list.
+ *
+ * @tparam T C++ type.
+ * @param op The Python container to read from.
+ * @param container The C++ std::list to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template<typename T>
+int
+py_list_to_cpp_list_like(PyObject *op, std::list<T> &container);
+
+// Instantiations
+/**
+ * Instantiation for converting a Python list of bool to a C++ std::list<bool>.
+ *
+ * @param op Python input as a list of bool.
+ * @param container C++ output as a std::list<bool>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_list_to_cpp_list_like<bool>(PyObject *op, std::list<bool> &container);
+
+/**
+ * Instantiation for converting a Python list of int to a C++ std::list<long>.
+ *
+ * @param op Python input as a list of int.
+ * @param container C++ output as a std::list<long>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_list_to_cpp_list_like<long>(PyObject *op, std::list<long> &container);
+
+/**
+ * Instantiation for converting a Python list of float to a C++ std::list<double>.
+ *
+ * @param op Python input as a list of float.
+ * @param container C++ output as a std::list<double>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_list_to_cpp_list_like<double>(PyObject *op, std::list<double> &container);
+
+/**
+ * Instantiation for converting a Python list of complex to a C++ std::list<std::complex<double>>.
+ *
+ * @param op Python input as a list of complex.
+ * @param container C++ output as a std::list<std::complex<double>>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_list_to_cpp_list_like<std::complex<double>>(PyObject *op, std::list<std::complex<double>> &container);
+
+/**
+ * Instantiation for converting a Python list of bytes to a C++ std::list<std::vector<char>>.
+ *
+ * @param op Python input as a list of bytes.
+ * @param container C++ output as a std::list<std::vector<char>>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_list_to_cpp_list_like<std::vector<char>>(PyObject *op, std::list<std::vector<char>> &container);
+
+/**
+ * Instantiation for converting a Python list of str to a C++ std::list<std::string>.
+ *
+ * @param op Python input as a list of str.
+ * @param container C++ output as a std::list<std::string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_list_to_cpp_list_like<std::string>(PyObject *op, std::list<std::string> &container);
+
+//--------------------- END: Python list -> std::list ---------------------
 
 //-------------------- std::unordered_set -> Python set -------------------
 // Base declaration
@@ -2309,7 +2643,7 @@ py_dict_to_cpp_std_map_like<std::map, std::string, std::string>(PyObject* op, st
 
 //******************* END: std::std::map <-> Python dict ******************
 
-// Declarations written: 196
+// Declarations written: 220
 //#########################################################################
 //#### END: Auto-generated code - do not edit. Seriously, do NOT edit. ####
 //#########################################################################

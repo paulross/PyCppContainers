@@ -35,12 +35,12 @@ list_x2(PyObject *Py_UNUSED(module), PyObject *arg) {
     // py_list_to_cpp_std_vector() will return non-zero if the Python
     // argument can not be converted to a std::vector<double>
     // and a Python exception will be set.
-    if (!py_list_to_cpp_std_vector(arg, vec)) {
+    if (!py_list_to_cpp_list_like(arg, vec)) {
         // Double the values in pure C++ code.
         vector_double_x2(vec);
         // cpp_std_vector_to_py_list() returns NULL on failure
         // and a Python exception will be set.
-        return cpp_std_vector_to_py_list(vec);
+        return cpp_std_list_like_to_py_list(vec);
     }
     return NULL;
 }
@@ -72,8 +72,8 @@ reverse_vector(const std::vector<T> &input){
 static PyObject *
 tuple_reverse(PyObject *Py_UNUSED(module), PyObject *arg) {
     std::vector<std::vector<char>> vec;
-    if (!py_tuple_to_cpp_std_vector(arg, vec)) {
-        return cpp_std_vector_to_py_tuple(reverse_vector(vec));
+    if (!py_tuple_to_cpp_list_like(arg, vec)) {
+        return cpp_std_list_like_to_py_tuple(reverse_vector(vec));
     }
     return NULL;
 }
@@ -107,8 +107,8 @@ template<typename T>
 static PyObject *
 new_list(PyObject *arg) {
     std::vector<T> vec;
-    if (!py_list_to_cpp_std_vector(arg, vec)) {
-        return cpp_std_vector_to_py_list(vec);
+    if (!py_list_to_cpp_list_like(arg, vec)) {
+        return cpp_std_list_like_to_py_list(vec);
     }
     return NULL;
 }

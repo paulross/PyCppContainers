@@ -31,10 +31,12 @@ class TypeConversionFunctions(typing.NamedTuple):
 class UnaryFunctions(typing.NamedTuple):
     """
     PoD Class to contain the names of three C/C++ functions:
+    - Python container type. Example 'list'.
     - C++ container type. Example 'std::vector'.
-    - Function declaration to convert to a Python type. Example 'cpp_std_vector_to_py_tuple'.
-    - Function declaration to convert to a C++ type. Example 'py_tuple_to_cpp_std_vector'.
+    - Function declaration to convert to a Python type. Example 'cpp_std_list_like_to_py_tuple'.
+    - Function declaration to convert to a C++ type. Example 'py_tuple_to_cpp_std_list_like'.
     """
+    python_container: str
     cpp_container: str
     decl_to_py: str
     decl_to_cpp: str

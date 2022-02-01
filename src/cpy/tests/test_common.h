@@ -443,7 +443,7 @@ int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, 
         cpp_vector.push_back(static_cast<T>(i));
     }
     ExecClock exec_clock;
-    PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
+    PyObject *op = Python_Cpp_Containers::cpp_std_list_like_to_py_tuple(cpp_vector);
     double exec_time = exec_clock.seconds();
     int result = 0;
     if (! op) {
@@ -481,7 +481,7 @@ int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, 
         if (result == 0) {
             std::vector<T> cpp_vector;
             ExecClock exec_clock;
-            int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+            int err = Python_Cpp_Containers::py_tuple_to_cpp_list_like(op, cpp_vector);
             exec_time = exec_clock.seconds();
             if (err != 0) {
                 result = 3;
@@ -509,9 +509,9 @@ int test_vector_to_py_tuple_round_trip(TestResultS &test_results, const std::str
     int result = 0;
     double exec_time = -1.0;
     ExecClock exec_clock;
-    PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
+    PyObject *op = Python_Cpp_Containers::cpp_std_list_like_to_py_tuple(cpp_vector);
     if (op) {
-        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector_result);
+        int err = Python_Cpp_Containers::py_tuple_to_cpp_list_like(op, cpp_vector_result);
         exec_time = exec_clock.seconds();
         if (err) {
             result |= 1;
@@ -548,12 +548,12 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
         if (result == 0) {
             std::vector<T> cpp_vector;
             ExecClock exec_clock;
-            err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+            err = Python_Cpp_Containers::py_tuple_to_cpp_list_like(op, cpp_vector);
             if (err != 0) {
                 result |= 1 << 2;
             } else {
                 //  int PyObject_RichCompareBool(PyObject *o1, PyObject *o2, int opid) Py_EQ -1 error 0 false 1 true
-                PyObject *op_new = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
+                PyObject *op_new = Python_Cpp_Containers::cpp_std_list_like_to_py_tuple(cpp_vector);
                 if (op_new) {
                     exec_time = exec_clock.seconds();
                     if (PyObject_RichCompareBool(op, op_new, Py_EQ) != 1) {
@@ -580,7 +580,7 @@ int test_vector_to_py_list(TestResultS &test_results, const std::string &type, s
         cpp_vector.push_back(static_cast<T>(i));
     }
     ExecClock exec_clock;
-    PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_list(cpp_vector);
+    PyObject *op = Python_Cpp_Containers::cpp_std_list_like_to_py_list(cpp_vector);
     double exec_time = exec_clock.seconds();
     int result = 0;
     if (! op) {
@@ -618,7 +618,7 @@ int test_py_list_to_vector(TestResultS &test_results, const std::string &type, s
         if (result == 0) {
             std::vector<T> cpp_vector;
             ExecClock exec_clock;
-            int err = Python_Cpp_Containers::py_list_to_cpp_std_vector(op, cpp_vector);
+            int err = Python_Cpp_Containers::py_list_to_cpp_list_like(op, cpp_vector);
             exec_time = exec_clock.seconds();
             if (err != 0) {
                 result = 3;
@@ -646,9 +646,9 @@ int test_vector_to_py_list_round_trip(TestResultS &test_results, const std::stri
     int result = 0;
     double exec_time = -1.0;
     ExecClock exec_clock;
-    PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_list(cpp_vector);
+    PyObject *op = Python_Cpp_Containers::cpp_std_list_like_to_py_list(cpp_vector);
     if (op) {
-        int err = Python_Cpp_Containers::py_list_to_cpp_std_vector(op, cpp_vector_result);
+        int err = Python_Cpp_Containers::py_list_to_cpp_list_like(op, cpp_vector_result);
         exec_time = exec_clock.seconds();
         if (err) {
             result |= 1;
@@ -685,12 +685,12 @@ int test_py_list_to_vector_round_trip(TestResultS &test_results, const std::stri
         if (result == 0) {
             std::vector<T> cpp_vector;
             ExecClock exec_clock;
-            err = Python_Cpp_Containers::py_list_to_cpp_std_vector(op, cpp_vector);
+            err = Python_Cpp_Containers::py_list_to_cpp_list_like(op, cpp_vector);
             if (err != 0) {
                 result |= 1 << 2;
             } else {
                 //  int PyObject_RichCompareBool(PyObject *o1, PyObject *o2, int opid) Py_EQ -1 error 0 false 1 true
-                PyObject *op_new = Python_Cpp_Containers::cpp_std_vector_to_py_list(cpp_vector);
+                PyObject *op_new = Python_Cpp_Containers::cpp_std_list_like_to_py_list(cpp_vector);
                 if (op_new) {
                     exec_time = exec_clock.seconds();
                     if (PyObject_RichCompareBool(op, op_new, Py_EQ) != 1) {

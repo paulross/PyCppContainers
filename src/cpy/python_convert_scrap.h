@@ -72,6 +72,7 @@ namespace Python_Cpp_Containers {
     }
 
     // ---- Python Tuples
+    // Handcrafted.
     // Partial specialisations for std::vector to Python tuple
     template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
@@ -85,6 +86,7 @@ namespace Python_Cpp_Containers {
         return generic_cpp_std_list_like_to_py_list_like<std::list, T, ConvertCppToPy, &py_tuple_new, &py_tuple_set>(container);
     }
 
+    // Generated
     // Base declaration for std::vector -> tuple
     template<typename T>
     PyObject *
@@ -116,6 +118,7 @@ namespace Python_Cpp_Containers {
     }
 
     // ---- Python Lists
+    // Handcrafted
     // Partial specialisations for std::vector to Python list
     template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
@@ -129,6 +132,7 @@ namespace Python_Cpp_Containers {
         return generic_cpp_std_list_like_to_py_list_like<std::list, T, ConvertCppToPy, &py_list_new, &py_list_set>(container);
     }
 
+    // Generated
     // Base declaration for std::vector -> list
     template<typename T>
     PyObject *
@@ -206,7 +210,7 @@ namespace Python_Cpp_Containers {
         return ret;
     }
 
-    // Hand crafted partial specialisations
+    // Handcrafted partial specialisations
     // Python tuple to std::vector
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
@@ -221,6 +225,7 @@ namespace Python_Cpp_Containers {
         >(op, vec);
     }
 
+    // Handcrafted partial specialisations
     // Python list to std::vector
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
@@ -235,6 +240,7 @@ namespace Python_Cpp_Containers {
         >(op, vec);
     }
 
+    // Handcrafted partial specialisations
     // Python tuple to std::list
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_tuple_to_cpp_std_list(PyObject *op, std::list<T> &vec) {
@@ -243,6 +249,7 @@ namespace Python_Cpp_Containers {
         >(op, vec);
     }
 
+    // Handcrafted partial specialisations
     // Python list to std::list
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_list_to_cpp_std_list(PyObject *op, std::list<T> &vec) {

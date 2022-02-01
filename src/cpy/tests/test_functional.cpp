@@ -15,7 +15,7 @@ void test_example_vector_to_py_tuple_double() {
     for (size_t i = 0; i < 1024; ++i) {
         cpp_vector.push_back(static_cast<double>(i));
     }
-    PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_vector);
+    PyObject *op = Python_Cpp_Containers::cpp_std_list_like_to_py_tuple(cpp_vector);
     if (! op) {
         // Handle error condition.
     } else {
@@ -44,7 +44,7 @@ void test_example_py_tuple_to_vector_double() {
             }
         }
         std::vector<double> cpp_vector;
-        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_vector(op, cpp_vector);
+        int err = Python_Cpp_Containers::py_tuple_to_cpp_list_like(op, cpp_vector);
         if (err != 0) {
             // Handle error
         } else {

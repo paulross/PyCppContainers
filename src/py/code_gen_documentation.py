@@ -260,7 +260,7 @@ def cpp_comment_section(str_list: typing.List[str], title: str, sep: str):
     str_list.append('')
 
 
-def documentation(unary_collections: typing.Dict[str, code_gen_common.UnaryFunctions],
+def documentation(unary_collections: typing.Tuple[code_gen_common.UnaryFunctions, ...],
                   cpp_type_to_funcs: typing.Dict[str, code_gen_common.CppTypeFunctions]) -> typing.List[str]:
     """General documentation."""
     ret = [
@@ -269,11 +269,11 @@ def documentation(unary_collections: typing.Dict[str, code_gen_common.UnaryFunct
         ' Unary conversions',
     ]
     for py_container in unary_collections:
-        ret.append(' {}:'.format(py_container))
+        ret.append(' {}:'.format(py_container.python_container))
         for typ in cpp_type_to_funcs:
             ret.append(' {} <-> {}<{}>'.format(
                 py_container,
-                unary_collections[py_container].cpp_container,
+                py_container.cpp_container,
                 typ,
             ))
         ret.append(' ')
