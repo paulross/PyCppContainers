@@ -48,6 +48,7 @@ namespace std {
             return ret;
         }
     };
+
     /**
      * Provide a hash function for \c std::complex<double>.
      * This mimics the Python hash of complex, see \c complex_hash() typically at
@@ -93,13 +94,14 @@ namespace std {
             return combined;
         }
     };
+
     // Add a complex number implementation of less<T> for std::map
     // See: https://stackoverflow.com/questions/26245189/using-stdcomplexdouble-as-a-stdmap-key
     // With the addition of a const qualifier for bool operator().
     template<typename T>
     struct less<std::complex<T>> {
-        bool operator()(std::complex<T> const& a, std::complex<T> const& b) const {
-            return std::array<T,2>{a.real(),a.imag()} < std::array<T,2>{b.real(),b.imag()};
+        bool operator()(std::complex<T> const &a, std::complex<T> const &b) const {
+            return std::array<T, 2>{a.real(), a.imag()} < std::array<T, 2>{b.real(), b.imag()};
         }
     };
 }
@@ -118,6 +120,7 @@ namespace Python_Cpp_Containers {
 #pragma mark == Generic Container Conversion Code
 
 #pragma mark -- Generic Tuple/List Container Conversion Code
+
     /**
      * This is a hand written generic function to convert a C++ \c std::vector to a Python \c tuple or \c list.
      * The template is instantiated with a C++ type and a conversion function to create a Python object from that type.
@@ -170,7 +173,7 @@ namespace Python_Cpp_Containers {
         PyObject *ret = PyUnaryContainer_New(list_like.size());
         if (ret) {
             size_t i = 0;
-            for (const auto &val : list_like) {
+            for (const auto &val: list_like) {
                 PyObject *op = (*ConvertCppToPy)(val);
                 if (!op) {
                     // Failure, do not need to decref the contents as that will be done when decref'ing the container.
@@ -198,11 +201,11 @@ namespace Python_Cpp_Containers {
         assert(!PyErr_Occurred());
         assert(ret);
         goto finally;
-    except:
+        except:
         Py_XDECREF(ret);
         assert(PyErr_Occurred());
         ret = NULL;
-    finally:
+        finally:
         return ret;
     }
 
@@ -283,10 +286,10 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-    except:
+        except:
         assert(PyErr_Occurred());
         list_like.clear();
-    finally:
+        finally:
         Py_DECREF(op); // Return borrowed reference
         return ret;
     }
@@ -397,6 +400,7 @@ namespace Python_Cpp_Containers {
                 std::vector, T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get
         >(op, container);
     }
+
     /**
      * Partial specialisation of the template to convert from a Python \c tuple to a C++ \c std::list<T>.
      *
@@ -432,6 +436,7 @@ namespace Python_Cpp_Containers {
     generic_cpp_std_list_like_to_py_list(const std::vector<T> &container) {
         return cpp_std_list_like_to_py_unary<std::vector, T, ConvertCppToPy, &py_list_new, &py_list_set>(container);
     }
+
     /**
      * Partial specialisation of the template to convert from a C++ \c std::list<T> to a Python \c list.
      *
@@ -543,11 +548,11 @@ namespace Python_Cpp_Containers {
         assert(!PyErr_Occurred());
         assert(ret);
         goto finally;
-    except:
+        except:
         Py_XDECREF(ret);
         assert(PyErr_Occurred());
         ret = NULL;
-    finally:
+        finally:
         return ret;
     }
 
@@ -647,10 +652,10 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-    except:
+        except:
         set.clear();
         assert(PyErr_Occurred());
-    finally:
+        finally:
         Py_DECREF(op); // Borrowed reference
         Py_XDECREF(py_item);
         Py_XDECREF(py_iter);
@@ -773,11 +778,11 @@ namespace Python_Cpp_Containers {
         }
         assert(!PyErr_Occurred());
         goto finally;
-    except:
+        except:
         assert(PyErr_Occurred());
         Py_XDECREF(py_k);
         Py_XDECREF(py_v);
-    finally:
+        finally:
         return ret;
     }
 
@@ -844,10 +849,10 @@ namespace Python_Cpp_Containers {
         assert(map.size() == static_cast<size_t>(PyDict_Size(dict)));
         assert(!PyErr_Occurred());
         goto finally;
-    except:
+        except:
         map.clear();
         assert(PyErr_Occurred());
-    finally:
+        finally:
         Py_DECREF(dict); // Borrowed reference
         return ret;
     }

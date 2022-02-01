@@ -46,8 +46,10 @@ CPP_TYPE_TO_FUNCS = {
 UNARY_COLLECTIONS = (
     code_gen_common.UnaryFunctions('tuple', 'std::vector', 'cpp_std_list_like_to_py_tuple',
                                    'py_tuple_to_cpp_std_list_like'),
-    code_gen_common.UnaryFunctions('tuple', 'std::list', 'cpp_std_list_like_to_py_tuple', 'py_tuple_to_cpp_std_list_like'),
-    code_gen_common.UnaryFunctions('list', 'std::vector', 'cpp_std_list_like_to_py_list', 'py_list_to_cpp_std_list_like'),
+    code_gen_common.UnaryFunctions('tuple', 'std::list', 'cpp_std_list_like_to_py_tuple',
+                                   'py_tuple_to_cpp_std_list_like'),
+    code_gen_common.UnaryFunctions('list', 'std::vector', 'cpp_std_list_like_to_py_list',
+                                   'py_list_to_cpp_std_list_like'),
     code_gen_common.UnaryFunctions('list', 'std::list', 'cpp_std_list_like_to_py_list', 'py_list_to_cpp_std_list_like'),
     code_gen_common.UnaryFunctions('set', 'std::unordered_set', 'cpp_std_unordered_set_to_py_set',
                                    'py_set_to_cpp_std_unordered_set'),
@@ -225,7 +227,7 @@ py_dict_to_cpp_std_map_like<{cpp_map_type}, {type_K}, {type_V}>(PyObject* op, {c
 
 # ==== END: String templates for C++ declarations and definitions. ====
 
-def defn_name_from_decl_name(name: str,  cpp_container: str) -> str:
+def defn_name_from_decl_name(name: str, cpp_container: str) -> str:
     """Returns the definition name given the declaration name by the convention that it is preceded with 'generic_'.
     These 'generic_*' functions are handwritten templates in python_convert.h
     """
