@@ -165,7 +165,7 @@ namespace Python_Cpp_Containers {
             PyObject *(*PyUnaryContainer_New)(size_t),
             int(*PyUnaryContainer_Set)(PyObject *, size_t, PyObject *)>
     PyObject *
-    generic_cpp_std_list_like_to_py_list_like(const ListLike<T> &list_like) {
+    cpp_std_list_like_to_py_unary(const ListLike<T> &list_like) {
         assert(!PyErr_Occurred());
         PyObject *ret = PyUnaryContainer_New(list_like.size());
         if (ret) {
@@ -253,7 +253,7 @@ namespace Python_Cpp_Containers {
             int(*PyUnaryContainer_Check)(PyObject *),
             Py_ssize_t(*PyUnaryContainer_Size)(PyObject *),
             PyObject *(*PyUnaryContainer_Get)(PyObject *, size_t)>
-    int generic_py_unary_to_cpp_list_like(PyObject *op, ListLike<T> &list_like) {
+    int py_unary_to_cpp_std_list_like(PyObject *op, ListLike<T> &list_like) {
         assert(!PyErr_Occurred());
         int ret = 0;
         list_like.clear();
@@ -293,10 +293,12 @@ namespace Python_Cpp_Containers {
 
 #pragma mark -- Specific Tuple Container Conversion Code
 
+    // ---- Python Tuples
+    // Handcrafted.
     /**
      * Partial specialisation of the template to convert from a C++ \c std::vector<T> to a Python \c tuple.
      *
-     * Example specialisation for C++ \c long:
+     * Example complete specialisation for C++ \c long using this:
      *
      * \code
      *
@@ -323,23 +325,54 @@ namespace Python_Cpp_Containers {
      *
      * @tparam T C++ type of the objects in the container.
      * @tparam ConvertCppToPy Pointer to a conversion function to convert a C++ type \c T to an equivalent Python type.
-     * @param vec The C++ \c std::vector<T> as input.
+     * @param container The C++ \c std::vector<T> as input.
      * @return A new Python tuple with the contents of the input or NULL on failure in which case a \c PyErr... will be
      * set.
      */
-    // ---- Python Tuples
-    // Handcrafted.
-    // Partial specialisations for std::vector to Python tuple
     template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
-    generic_cpp_std_vector_to_py_tuple(const std::vector<T> &container) {
-        return generic_cpp_std_list_like_to_py_list_like<std::vector, T, ConvertCppToPy, &py_tuple_new, &py_tuple_set>(container);
+    generic_cpp_std_list_like_to_py_tuple(const std::vector<T> &container) {
+        return cpp_std_list_like_to_py_unary<std::vector, T, ConvertCppToPy, &py_tuple_new, &py_tuple_set>(container);
     }
     // Partial specialisations for std::list to Python tuple
+    /**
+     * Partial specialisation of the template to convert from a C++ \c std::list<T> to a Python \c tuple.
+     *
+     * Example complete specialisation for C++ \c long using this:
+     *
+     * \code
+     *
+     *      template <>
+     *      PyObject *
+     *      cpp_std_vector_to_py_tuple<long>(const std::list<long> &container) {
+     *          return generic_cpp_std_vector_to_py_tuple<long, &cpp_long_to_py_long>(container);
+     *      }
+     *
+     * \endcode
+     *
+     * Then this can be used thus:
+     *
+     * \code
+     *
+     *      std::list<long> cpp_list;
+     *      // Populate cpp_list...
+     *      //
+     *      // Convert to a Python tuple of int.
+     *      PyObject *op = Python_Cpp_Containers::cpp_std_vector_to_py_tuple(cpp_list);
+     *      // If op == NULL then a Python error will be set.
+     *
+     * \endcode
+     *
+     * @tparam T C++ type of the objects in the container.
+     * @tparam ConvertCppToPy Pointer to a conversion function to convert a C++ type \c T to an equivalent Python type.
+     * @param container The C++ \c std::list<T> as input.
+     * @return A new Python tuple with the contents of the input or NULL on failure in which case a \c PyErr... will be
+     * set.
+     */
     template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
-    generic_cpp_std_list_to_py_tuple(const std::list<T> &container) {
-        return generic_cpp_std_list_like_to_py_list_like<std::list, T, ConvertCppToPy, &py_tuple_new, &py_tuple_set>(container);
+    generic_cpp_std_list_like_to_py_tuple(const std::list<T> &container) {
+        return cpp_std_list_like_to_py_unary<std::list, T, ConvertCppToPy, &py_tuple_new, &py_tuple_set>(container);
     }
 
     /**
@@ -354,36 +387,38 @@ namespace Python_Cpp_Containers {
      * @return Zero on success, non-zero on failure.
      */
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
-    int generic_py_tuple_to_cpp_list_like(PyObject *op, std::vector<T> &vec) {
-        return generic_py_unary_to_cpp_list_like<
+    int generic_py_tuple_to_cpp_std_list_like(PyObject *op, std::vector<T> &container) {
+        // Reserve the vector, but only if it is a tuple. If not then ignore it as
+        // py_unary_to_cpp_std_list_like() will error
+        if (py_tuple_check(op)) {
+            container.reserve(py_tuple_len(op));
+        }
+        return py_unary_to_cpp_std_list_like<
                 std::vector, T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get
-        >(op, vec);
+        >(op, container);
     }
-
+    /**
+     * Partial specialisation of the template to convert from a Python \c tuple to a C++ \c std::list<T>.
+     *
+     * @tparam T C++ type of the objects in the container.
+     * @tparam PyObject_Check Pointer to a function that checks the types of the objects in the tuple can be
+     * converted to a C++ type \c T.
+     * @tparam PyObject_Convert Pointer to a function that converts a Python object to a C++ type \c T.
+     * @param op The Python \c tuple as input.
+     * @param vec The C++ \c std::list<T> as output. This will be empty on failure.
+     * @return Zero on success, non-zero on failure.
+     */
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
-    int generic_py_tuple_to_cpp_list_like(PyObject *op, std::list<T> &vec) {
-        return generic_py_unary_to_cpp_list_like<
+    int generic_py_tuple_to_cpp_std_list_like(PyObject *op, std::list<T> &container) {
+        return py_unary_to_cpp_std_list_like<
                 std::list, T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get
-        >(op, vec);
+        >(op, container);
     }
 
 #pragma mark -- Specific List Container Conversion Code
 
     // ---- Python Lists
     // Handcrafted
-    // Partial specialisations for std::vector to Python list
-    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
-    PyObject *
-    generic_cpp_std_vector_to_py_list(const std::vector<T> &container) {
-        return generic_cpp_std_list_like_to_py_list_like<std::vector, T, ConvertCppToPy, &py_list_new, &py_list_set>(container);
-    }
-    // Partial specialisations for std::list to Python list
-    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
-    PyObject *
-    generic_cpp_std_list_to_py_list(const std::list<T> &container) {
-        return generic_cpp_std_list_like_to_py_list_like<std::list, T, ConvertCppToPy, &py_list_new, &py_list_set>(container);
-    }
-
     /**
      * Partial specialisation of the template to convert from a C++ \c std::vector<T> to a Python \c list.
      *
@@ -392,26 +427,24 @@ namespace Python_Cpp_Containers {
      * @param vec The C++ \c std::vector<T> as input.
      * @return A new Python list with the contents of the input.
      */
-
-    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
-    int generic_py_list_to_cpp_list_like(PyObject *op, std::vector<T> &vec) {
-        return generic_py_unary_to_cpp_list_like<
-                std::vector, T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get
-        >(op, vec);
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
+    PyObject *
+    generic_cpp_std_list_like_to_py_list(const std::vector<T> &container) {
+        return cpp_std_list_like_to_py_unary<std::vector, T, ConvertCppToPy, &py_list_new, &py_list_set>(container);
     }
-
-    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
-    int generic_py_list_to_cpp_list_like(PyObject *op, std::list<T> &vec) {
-        return generic_py_unary_to_cpp_list_like<
-                std::list, T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get
-        >(op, vec);
+    /**
+     * Partial specialisation of the template to convert from a C++ \c std::list<T> to a Python \c list.
+     *
+     * @tparam T C++ type of the objects in the container.
+     * @tparam ConvertCppToPy Pointer to a conversion function to convert a C++ type \c T to an equivalent Python type.
+     * @param vec The C++ \c std::list<T> as input.
+     * @return A new Python list with the contents of the input.
+     */
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
+    PyObject *
+    generic_cpp_std_list_like_to_py_list(const std::list<T> &container) {
+        return cpp_std_list_like_to_py_unary<std::list, T, ConvertCppToPy, &py_list_new, &py_list_set>(container);
     }
-
-//    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
-//    PyObject *
-//    generic_cpp_std_vector_to_py_list(const std::vector<T> &vec) {
-//        return generic_cpp_std_vector_to_py_unary<T, ConvertCppToPy, &py_list_new, &py_list_set>(vec);
-//    }
 
     /**
      * Partial specialisation of the template to convert from a Python \c list to a C++ \c std::vector<T>.
@@ -424,12 +457,35 @@ namespace Python_Cpp_Containers {
      * @param vec The C++ \c std::vector<T> as output. This will be empty on failure.
      * @return Zero on success, non-zero on failure.
      */
-//    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
-//    int generic_py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
-//        return generic_py_unary_to_cpp_std_vector<
-//                T, PyObject_Check, PyObject_Convert, &py_list_check, &py_list_len, &py_list_get
-//        >(op, vec);
-//    }
+    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
+    int generic_py_list_to_cpp_std_list_like(PyObject *op, std::vector<T> &container) {
+        // Reserve the vector, but only if it is a tuple. If not then ignore it as
+        // py_unary_to_cpp_std_list_like() will error
+        if (py_tuple_check(op)) {
+            container.reserve(py_tuple_len(op));
+        }
+        return py_unary_to_cpp_std_list_like<
+                std::vector, T, PyObject_Check, PyObject_Convert, &py_list_check, &py_list_len, &py_list_get
+        >(op, container);
+    }
+
+    /**
+     * Partial specialisation of the template to convert from a Python \c list to a C++ \c std::list<T>.
+     *
+     * @tparam T C++ type of the objects in the container.
+     * @tparam PyObject_Check Pointer to a function that checks the types of the objects in the list can be
+     * converted to a C++ type \c T.
+     * @tparam PyObject_Convert Pointer to a function that converts a Python object to a C++ type \c T.
+     * @param op The Python list as input.
+     * @param vec The C++ \c std::list<T> as output. This will be empty on failure.
+     * @return Zero on success, non-zero on failure.
+     */
+    template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
+    int generic_py_list_to_cpp_std_list_like(PyObject *op, std::list<T> &container) {
+        return py_unary_to_cpp_std_list_like<
+                std::list, T, PyObject_Check, PyObject_Convert, &py_list_check, &py_list_len, &py_list_get
+        >(op, container);
+    }
 
 #pragma mark -- Generic Set/Frozen set Container Conversion Code
 

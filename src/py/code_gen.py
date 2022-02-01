@@ -45,10 +45,10 @@ CPP_TYPE_TO_FUNCS = {
 #: These refer to hand written template functions.
 UNARY_COLLECTIONS = (
     code_gen_common.UnaryFunctions('tuple', 'std::vector', 'cpp_std_list_like_to_py_tuple',
-                                   'py_tuple_to_cpp_list_like'),
-    code_gen_common.UnaryFunctions('tuple', 'std::list', 'cpp_std_list_like_to_py_tuple', 'py_tuple_to_cpp_list_like'),
-    code_gen_common.UnaryFunctions('list', 'std::vector', 'cpp_std_list_like_to_py_list', 'py_list_to_cpp_list_like'),
-    code_gen_common.UnaryFunctions('list', 'std::list', 'cpp_std_list_like_to_py_list', 'py_list_to_cpp_list_like'),
+                                   'py_tuple_to_cpp_std_list_like'),
+    code_gen_common.UnaryFunctions('tuple', 'std::list', 'cpp_std_list_like_to_py_tuple', 'py_tuple_to_cpp_std_list_like'),
+    code_gen_common.UnaryFunctions('list', 'std::vector', 'cpp_std_list_like_to_py_list', 'py_list_to_cpp_std_list_like'),
+    code_gen_common.UnaryFunctions('list', 'std::list', 'cpp_std_list_like_to_py_list', 'py_list_to_cpp_std_list_like'),
     code_gen_common.UnaryFunctions('set', 'std::unordered_set', 'cpp_std_unordered_set_to_py_set',
                                    'py_set_to_cpp_std_unordered_set'),
     code_gen_common.UnaryFunctions('frozenset', 'std::unordered_set', 'cpp_std_unordered_set_to_py_frozenset',
@@ -105,7 +105,7 @@ PyObject *
 #     // Base declaration
 #     template<typename T>
 #     int
-#     py_list_to_cpp_list_like(PyObject *op, std::vector<T> &container);
+#     py_list_to_cpp_std_list_like(PyObject *op, std::vector<T> &container);
 PY_TO_CPP_UNARY_FUNCTION_BASE_DECL = """template<typename T>
 int
 {fn}(PyObject *op, {cpp_container}<T> &container);"""
@@ -116,7 +116,7 @@ int
 #     // Instantiation declaration in .h file
 #    template <>
 #    int
-#    py_list_to_cpp_list_like<long>(PyObject *op, std::vector<long> &container);
+#    py_list_to_cpp_std_list_like<long>(PyObject *op, std::vector<long> &container);
 PY_TO_CPP_UNARY_FUNCTION_DECL = """template <>
 int
 {fn}<{cpp_type}>(PyObject *op, {cpp_container}<{cpp_type}> &container);"""
@@ -126,7 +126,7 @@ int
 # Example:
 #     template <>
 #     int
-#     py_list_to_cpp_list_like<long>(PyObject *op, std::vector<long> &container) {
+#     py_list_to_cpp_std_list_like<long>(PyObject *op, std::vector<long> &container) {
 #         return generic_py_list_to_cpp_std_vector<long, &py_long_check, &py_long_to_cpp_long>(op, container);
 #     }
 PY_TO_CPP_UNARY_FUNCTION_DEFN = """template <>
@@ -225,35 +225,13 @@ py_dict_to_cpp_std_map_like<{cpp_map_type}, {type_K}, {type_V}>(PyObject* op, {c
 
 # ==== END: String templates for C++ declarations and definitions. ====
 
-# Example:
-#     // Definition for std::vector -> tuple
-#     template <>
-#     PyObject *
-#     cpp_std_list_like_to_py_tuple<long>(const std::vector<long> &container) {
-#         return generic_cpp_std_vector_to_py_tuple<long, &cpp_long_to_py_long>(container);
-#     }
-#
-#     return generic_cpp_std_vector_to_py_tuple<bool, &cpp_bool_to_py_bool>(container);
-# //    return generic_cpp_std_list_like_to_py_tuple<bool, &cpp_bool_to_py_bool>(container);
-#
-# name generic_cpp_std_vector_to_py_tuple
-# was generic_cpp_std_list_like_to_py_tuple
-# now generic_cpp_std_vector_to_py_tuple
-#
-# template <>
-# PyObject *
-# cpp_std_list_like_to_py_tuple<bool>(const std::vector<bool> &container) {
-#     // FIXME:
-#     return generic_cpp_std_vector_to_py_tuple<bool, &cpp_bool_to_py_bool>(container);
-# //    return generic_cpp_std_list_like_to_py_tuple<bool, &cpp_bool_to_py_bool>(container);
-# }
-
 def defn_name_from_decl_name(name: str,  cpp_container: str) -> str:
     """Returns the definition name given the declaration name by the convention that it is preceded with 'generic_'.
     These 'generic_*' functions are handwritten templates in python_convert.h
     """
-    container_name = cpp_container.replace('::', '_')
-    return 'generic_{}'.format(name.replace('std_list_like', container_name))
+    # container_name = cpp_container.replace('::', '_')
+    # return 'generic_{}'.format(name.replace('std_list_like', container_name))
+    return 'generic_{}'.format(name)
 
 
 class CodeCount(typing.NamedTuple):

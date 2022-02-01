@@ -301,7 +301,7 @@ int test_py_tuple_to_vector_multiple(TestResultS &test_results, const std::strin
             TestResult test_result(title.str());
             for (size_t r = 0; r < repeat; ++r) {
                 ExecClock exec_clock;
-                int err = Python_Cpp_Containers::py_list_to_cpp_list_like(op, cpp_vector);
+                int err = Python_Cpp_Containers::py_list_to_cpp_std_list_like(op, cpp_vector);
                 exec_time = exec_clock.seconds();
                 if (err != 0) {
                     result |= 1 << 2;
@@ -376,7 +376,7 @@ test_py_tuple_bytes_to_vector_vector_char_multiple(TestResultS &test_results, si
     for (size_t i = 0; i < repeat; ++i) {
         std::vector<std::vector<char>> cpp_vector;
         ExecClock exec_clock;
-        int err = Python_Cpp_Containers::py_tuple_to_cpp_list_like(op, cpp_vector);
+        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_list_like(op, cpp_vector);
         double exec_time = exec_clock.seconds();
         if (err) {
             result = -1;
@@ -444,7 +444,7 @@ test_py_tuple_str_to_vector_string_multiple(TestResultS &test_results, size_t si
     for (size_t i = 0; i < repeat; ++i) {
         std::vector<std::string> cpp_vector;
         ExecClock exec_clock;
-        int err = Python_Cpp_Containers::py_tuple_to_cpp_list_like(op, cpp_vector);
+        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_list_like(op, cpp_vector);
         double exec_time = exec_clock.seconds();
         if (err) {
             result = -1;
@@ -524,7 +524,7 @@ int test_py_list_to_vector_multiple(TestResultS &test_results, const std::string
             TestResult test_result(title.str());
             for (size_t r = 0; r < repeat; ++r) {
                 ExecClock exec_clock;
-                int err = Python_Cpp_Containers::py_list_to_cpp_list_like(op, cpp_vector);
+                int err = Python_Cpp_Containers::py_list_to_cpp_std_list_like(op, cpp_vector);
                 exec_time = exec_clock.seconds();
                 if (err != 0) {
                     result |= 1 << 2;
@@ -598,7 +598,7 @@ test_py_list_bytes_to_vector_vector_char_multiple(TestResultS &test_results, siz
     for (size_t i = 0; i < repeat; ++i) {
         std::vector<std::vector<char>> cpp_vector;
         ExecClock exec_clock;
-        int err = Python_Cpp_Containers::py_list_to_cpp_list_like(op, cpp_vector);
+        int err = Python_Cpp_Containers::py_list_to_cpp_std_list_like(op, cpp_vector);
         double exec_time = exec_clock.seconds();
         if (err) {
             result = -1;
@@ -666,7 +666,7 @@ test_py_list_str_to_vector_string_multiple(TestResultS &test_results, size_t siz
     for (size_t i = 0; i < repeat; ++i) {
         std::vector<std::string> cpp_vector;
         ExecClock exec_clock;
-        int err = Python_Cpp_Containers::py_list_to_cpp_list_like(op, cpp_vector);
+        int err = Python_Cpp_Containers::py_list_to_cpp_std_list_like(op, cpp_vector);
         double exec_time = exec_clock.seconds();
         if (err) {
             result = -1;

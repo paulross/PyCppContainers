@@ -44,7 +44,7 @@ void test_example_py_tuple_to_vector_double() {
             }
         }
         std::vector<double> cpp_vector;
-        int err = Python_Cpp_Containers::py_tuple_to_cpp_list_like(op, cpp_vector);
+        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_list_like(op, cpp_vector);
         if (err != 0) {
             // Handle error
         } else {

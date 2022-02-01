@@ -172,7 +172,7 @@ namespace Python_Cpp_Containers {
             int(*PyUnaryContainer_Check)(PyObject *),
             Py_ssize_t(*PyUnaryContainer_Size)(PyObject *),
             PyObject *(*PyUnaryContainer_Get)(PyObject *, size_t)>
-    int generic_py_unary_to_cpp_list_like(PyObject *op, ListLike<T> &list_like) {
+    int generic_py_unary_to_cpp_std_list_like(PyObject *op, ListLike<T> &list_like) {
         assert(!PyErr_Occurred());
         int ret = 0;
         list_like.clear();
@@ -216,11 +216,11 @@ namespace Python_Cpp_Containers {
     int generic_py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
         // Specialisation to reserve vector capacity. not available for std::list
         // We only do this if op is a tuple because py_tuple_len might error.
-        // generic_py_unary_to_cpp_list_like() will set an error if op is not a tuple.
+        // generic_py_unary_to_cpp_std_list_like() will set an error if op is not a tuple.
         if (py_tuple_check(op)) {
             vec.reserve(py_tuple_len(op));
         }
-        return generic_py_unary_to_cpp_list_like<
+        return generic_py_unary_to_cpp_std_list_like<
                 std::vector, T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get
         >(op, vec);
     }
@@ -231,11 +231,11 @@ namespace Python_Cpp_Containers {
     int generic_py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &vec) {
         // Specialisation to reserve vector capacity. not available for std::list
         // We only do this if op is a list because py_list_len might error.
-        // generic_py_unary_to_cpp_list_like() will set an error if op is not a tuple.
+        // generic_py_unary_to_cpp_std_list_like() will set an error if op is not a tuple.
         if (py_list_check(op)) {
             vec.reserve(py_list_len(op));
         }
-        return generic_py_unary_to_cpp_list_like<
+        return generic_py_unary_to_cpp_std_list_like<
                 std::vector, T, PyObject_Check, PyObject_Convert, &py_list_check, &py_list_len, &py_list_get
         >(op, vec);
     }
@@ -244,7 +244,7 @@ namespace Python_Cpp_Containers {
     // Python tuple to std::list
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_tuple_to_cpp_std_list(PyObject *op, std::list<T> &vec) {
-        return generic_py_unary_to_cpp_list_like<
+        return generic_py_unary_to_cpp_std_list_like<
                 std::list, T, PyObject_Check, PyObject_Convert, &py_tuple_check, &py_tuple_len, &py_tuple_get
         >(op, vec);
     }
@@ -253,7 +253,7 @@ namespace Python_Cpp_Containers {
     // Python list to std::list
     template<typename T, int (*PyObject_Check)(PyObject *), T (*PyObject_Convert)(PyObject *)>
     int generic_py_list_to_cpp_std_list(PyObject *op, std::list<T> &vec) {
-        return generic_py_unary_to_cpp_list_like<
+        return generic_py_unary_to_cpp_std_list_like<
                 std::list, T, PyObject_Check, PyObject_Convert, &py_list_check, &py_list_len, &py_list_get
         >(op, vec);
     }
@@ -263,15 +263,15 @@ namespace Python_Cpp_Containers {
     // Base declaration
     template<typename T>
     int
-    py_list_to_cpp_list_like(PyObject *op, std::vector<T> &container);
+    py_list_to_cpp_std_list_like(PyObject *op, std::vector<T> &container);
     // Instantiation declaration in .h file
 //    template <>
 //    int
-//    py_list_to_cpp_list_like<long>(PyObject *op, std::vector<long> &container);
+//    py_list_to_cpp_std_list_like<long>(PyObject *op, std::vector<long> &container);
     // Instantiation declaration in .cpp file
     template <>
     int
-    py_list_to_cpp_list_like<long>(PyObject *op, std::vector<long> &container) {
+    py_list_to_cpp_std_list_like<long>(PyObject *op, std::vector<long> &container) {
         return generic_py_list_to_cpp_std_vector<long, &py_long_check, &py_long_to_cpp_long>(op, container);
     }
 
@@ -279,15 +279,15 @@ namespace Python_Cpp_Containers {
     // Base declaration
     template<typename T>
     int
-    py_list_to_cpp_list_like(PyObject *op, std::list<T> &container);
+    py_list_to_cpp_std_list_like(PyObject *op, std::list<T> &container);
     // Instantiation declaration in .h file
 //    template <>
 //    int
-//    py_list_to_cpp_list_like<long>(PyObject *op, std::list<long> &container);
+//    py_list_to_cpp_std_list_like<long>(PyObject *op, std::list<long> &container);
     // Instantiation declaration in .cpp file
     template <>
     int
-    py_list_to_cpp_list_like<long>(PyObject *op, std::list<long> &container) {
+    py_list_to_cpp_std_list_like<long>(PyObject *op, std::list<long> &container) {
         return generic_py_list_to_cpp_std_list<long, &py_long_check, &py_long_to_cpp_long>(op, container);
     }
 

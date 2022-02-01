@@ -6,36 +6,36 @@
 // 
 // Unary conversions
 // tuple:
-// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::vector<bool>
-// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::vector<long>
-// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::vector<double>
-// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::vector<std::complex<double>>
-// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::vector<std::vector<char>>
-// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::vector<std::string>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::vector<bool>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::vector<long>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::vector<double>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::vector<std::complex<double>>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::vector<std::vector<char>>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::vector<std::string>
 // 
 // tuple:
-// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::list<bool>
-// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::list<long>
-// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::list<double>
-// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::list<std::complex<double>>
-// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::list<std::vector<char>>
-// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_list_like') <-> std::list<std::string>
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::list<bool>
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::list<long>
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::list<double>
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::list<std::complex<double>>
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::list<std::vector<char>>
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::list<std::string>
 // 
 // list:
-// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::vector<bool>
-// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::vector<long>
-// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::vector<double>
-// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::vector<std::complex<double>>
-// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::vector<std::vector<char>>
-// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::vector<std::string>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::vector<bool>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::vector<long>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::vector<double>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::vector<std::complex<double>>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::vector<std::vector<char>>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::vector<std::string>
 // 
 // list:
-// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::list<bool>
-// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::list<long>
-// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::list<double>
-// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::list<std::complex<double>>
-// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::list<std::vector<char>>
-// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_list_like') <-> std::list<std::string>
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::list<bool>
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::list<long>
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::list<double>
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::list<std::complex<double>>
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::list<std::vector<char>>
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::list<std::string>
 // 
 // set:
 // UnaryFunctions(python_container='set', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_set', decl_to_cpp='py_set_to_cpp_std_unordered_set') <-> std::unordered_set<bool>
@@ -101,37 +101,37 @@ namespace Python_Cpp_Containers {
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<bool>(const std::vector<bool> &container) {
-    return generic_cpp_std_vector_to_py_tuple<bool, &cpp_bool_to_py_bool>(container);
+    return generic_cpp_std_list_like_to_py_tuple<bool, &cpp_bool_to_py_bool>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<long>(const std::vector<long> &container) {
-    return generic_cpp_std_vector_to_py_tuple<long, &cpp_long_to_py_long>(container);
+    return generic_cpp_std_list_like_to_py_tuple<long, &cpp_long_to_py_long>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<double>(const std::vector<double> &container) {
-    return generic_cpp_std_vector_to_py_tuple<double, &cpp_double_to_py_float>(container);
+    return generic_cpp_std_list_like_to_py_tuple<double, &cpp_double_to_py_float>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::complex<double>>(const std::vector<std::complex<double>> &container) {
-    return generic_cpp_std_vector_to_py_tuple<std::complex<double>, &cpp_complex_to_py_complex>(container);
+    return generic_cpp_std_list_like_to_py_tuple<std::complex<double>, &cpp_complex_to_py_complex>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::vector<char>>(const std::vector<std::vector<char>> &container) {
-    return generic_cpp_std_vector_to_py_tuple<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
+    return generic_cpp_std_list_like_to_py_tuple<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::string>(const std::vector<std::string> &container) {
-    return generic_cpp_std_vector_to_py_tuple<std::string, &cpp_string_to_py_unicode>(container);
+    return generic_cpp_std_list_like_to_py_tuple<std::string, &cpp_string_to_py_unicode>(container);
 }
 
 //-------------------- END: std::vector -> Python tuple -------------------
@@ -139,38 +139,38 @@ cpp_std_list_like_to_py_tuple<std::string>(const std::vector<std::string> &conta
 //---------------------- Python tuple -> std::vector ----------------------
 template <>
 int
-py_tuple_to_cpp_list_like<bool>(PyObject *op, std::vector<bool> &container) {
-    return generic_py_tuple_to_cpp_list_like<bool, &py_bool_check, &py_bool_to_cpp_bool>(op, container);
+py_tuple_to_cpp_std_list_like<bool>(PyObject *op, std::vector<bool> &container) {
+    return generic_py_tuple_to_cpp_std_list_like<bool, &py_bool_check, &py_bool_to_cpp_bool>(op, container);
 }
 
 template <>
 int
-py_tuple_to_cpp_list_like<long>(PyObject *op, std::vector<long> &container) {
-    return generic_py_tuple_to_cpp_list_like<long, &py_long_check, &py_long_to_cpp_long>(op, container);
+py_tuple_to_cpp_std_list_like<long>(PyObject *op, std::vector<long> &container) {
+    return generic_py_tuple_to_cpp_std_list_like<long, &py_long_check, &py_long_to_cpp_long>(op, container);
 }
 
 template <>
 int
-py_tuple_to_cpp_list_like<double>(PyObject *op, std::vector<double> &container) {
-    return generic_py_tuple_to_cpp_list_like<double, &py_float_check, &py_float_to_cpp_double>(op, container);
+py_tuple_to_cpp_std_list_like<double>(PyObject *op, std::vector<double> &container) {
+    return generic_py_tuple_to_cpp_std_list_like<double, &py_float_check, &py_float_to_cpp_double>(op, container);
 }
 
 template <>
 int
-py_tuple_to_cpp_list_like<std::complex<double>>(PyObject *op, std::vector<std::complex<double>> &container) {
-    return generic_py_tuple_to_cpp_list_like<std::complex<double>, &py_complex_check, &py_complex_to_cpp_complex>(op, container);
+py_tuple_to_cpp_std_list_like<std::complex<double>>(PyObject *op, std::vector<std::complex<double>> &container) {
+    return generic_py_tuple_to_cpp_std_list_like<std::complex<double>, &py_complex_check, &py_complex_to_cpp_complex>(op, container);
 }
 
 template <>
 int
-py_tuple_to_cpp_list_like<std::vector<char>>(PyObject *op, std::vector<std::vector<char>> &container) {
-    return generic_py_tuple_to_cpp_list_like<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
+py_tuple_to_cpp_std_list_like<std::vector<char>>(PyObject *op, std::vector<std::vector<char>> &container) {
+    return generic_py_tuple_to_cpp_std_list_like<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
 }
 
 template <>
 int
-py_tuple_to_cpp_list_like<std::string>(PyObject *op, std::vector<std::string> &container) {
-    return generic_py_tuple_to_cpp_list_like<std::string, &py_unicode_check, &py_unicode_to_cpp_string>(op, container);
+py_tuple_to_cpp_std_list_like<std::string>(PyObject *op, std::vector<std::string> &container) {
+    return generic_py_tuple_to_cpp_std_list_like<std::string, &py_unicode_check, &py_unicode_to_cpp_string>(op, container);
 }
 
 //-------------------- END: Python tuple -> std::vector -------------------
@@ -179,37 +179,37 @@ py_tuple_to_cpp_list_like<std::string>(PyObject *op, std::vector<std::string> &c
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<bool>(const std::list<bool> &container) {
-    return generic_cpp_std_list_to_py_tuple<bool, &cpp_bool_to_py_bool>(container);
+    return generic_cpp_std_list_like_to_py_tuple<bool, &cpp_bool_to_py_bool>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<long>(const std::list<long> &container) {
-    return generic_cpp_std_list_to_py_tuple<long, &cpp_long_to_py_long>(container);
+    return generic_cpp_std_list_like_to_py_tuple<long, &cpp_long_to_py_long>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<double>(const std::list<double> &container) {
-    return generic_cpp_std_list_to_py_tuple<double, &cpp_double_to_py_float>(container);
+    return generic_cpp_std_list_like_to_py_tuple<double, &cpp_double_to_py_float>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::complex<double>>(const std::list<std::complex<double>> &container) {
-    return generic_cpp_std_list_to_py_tuple<std::complex<double>, &cpp_complex_to_py_complex>(container);
+    return generic_cpp_std_list_like_to_py_tuple<std::complex<double>, &cpp_complex_to_py_complex>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::vector<char>>(const std::list<std::vector<char>> &container) {
-    return generic_cpp_std_list_to_py_tuple<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
+    return generic_cpp_std_list_like_to_py_tuple<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::string>(const std::list<std::string> &container) {
-    return generic_cpp_std_list_to_py_tuple<std::string, &cpp_string_to_py_unicode>(container);
+    return generic_cpp_std_list_like_to_py_tuple<std::string, &cpp_string_to_py_unicode>(container);
 }
 
 //--------------------- END: std::list -> Python tuple --------------------
@@ -217,38 +217,38 @@ cpp_std_list_like_to_py_tuple<std::string>(const std::list<std::string> &contain
 //----------------------- Python tuple -> std::list -----------------------
 template <>
 int
-py_tuple_to_cpp_list_like<bool>(PyObject *op, std::list<bool> &container) {
-    return generic_py_tuple_to_cpp_list_like<bool, &py_bool_check, &py_bool_to_cpp_bool>(op, container);
+py_tuple_to_cpp_std_list_like<bool>(PyObject *op, std::list<bool> &container) {
+    return generic_py_tuple_to_cpp_std_list_like<bool, &py_bool_check, &py_bool_to_cpp_bool>(op, container);
 }
 
 template <>
 int
-py_tuple_to_cpp_list_like<long>(PyObject *op, std::list<long> &container) {
-    return generic_py_tuple_to_cpp_list_like<long, &py_long_check, &py_long_to_cpp_long>(op, container);
+py_tuple_to_cpp_std_list_like<long>(PyObject *op, std::list<long> &container) {
+    return generic_py_tuple_to_cpp_std_list_like<long, &py_long_check, &py_long_to_cpp_long>(op, container);
 }
 
 template <>
 int
-py_tuple_to_cpp_list_like<double>(PyObject *op, std::list<double> &container) {
-    return generic_py_tuple_to_cpp_list_like<double, &py_float_check, &py_float_to_cpp_double>(op, container);
+py_tuple_to_cpp_std_list_like<double>(PyObject *op, std::list<double> &container) {
+    return generic_py_tuple_to_cpp_std_list_like<double, &py_float_check, &py_float_to_cpp_double>(op, container);
 }
 
 template <>
 int
-py_tuple_to_cpp_list_like<std::complex<double>>(PyObject *op, std::list<std::complex<double>> &container) {
-    return generic_py_tuple_to_cpp_list_like<std::complex<double>, &py_complex_check, &py_complex_to_cpp_complex>(op, container);
+py_tuple_to_cpp_std_list_like<std::complex<double>>(PyObject *op, std::list<std::complex<double>> &container) {
+    return generic_py_tuple_to_cpp_std_list_like<std::complex<double>, &py_complex_check, &py_complex_to_cpp_complex>(op, container);
 }
 
 template <>
 int
-py_tuple_to_cpp_list_like<std::vector<char>>(PyObject *op, std::list<std::vector<char>> &container) {
-    return generic_py_tuple_to_cpp_list_like<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
+py_tuple_to_cpp_std_list_like<std::vector<char>>(PyObject *op, std::list<std::vector<char>> &container) {
+    return generic_py_tuple_to_cpp_std_list_like<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
 }
 
 template <>
 int
-py_tuple_to_cpp_list_like<std::string>(PyObject *op, std::list<std::string> &container) {
-    return generic_py_tuple_to_cpp_list_like<std::string, &py_unicode_check, &py_unicode_to_cpp_string>(op, container);
+py_tuple_to_cpp_std_list_like<std::string>(PyObject *op, std::list<std::string> &container) {
+    return generic_py_tuple_to_cpp_std_list_like<std::string, &py_unicode_check, &py_unicode_to_cpp_string>(op, container);
 }
 
 //--------------------- END: Python tuple -> std::list --------------------
@@ -257,37 +257,37 @@ py_tuple_to_cpp_list_like<std::string>(PyObject *op, std::list<std::string> &con
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<bool>(const std::vector<bool> &container) {
-    return generic_cpp_std_vector_to_py_list<bool, &cpp_bool_to_py_bool>(container);
+    return generic_cpp_std_list_like_to_py_list<bool, &cpp_bool_to_py_bool>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<long>(const std::vector<long> &container) {
-    return generic_cpp_std_vector_to_py_list<long, &cpp_long_to_py_long>(container);
+    return generic_cpp_std_list_like_to_py_list<long, &cpp_long_to_py_long>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<double>(const std::vector<double> &container) {
-    return generic_cpp_std_vector_to_py_list<double, &cpp_double_to_py_float>(container);
+    return generic_cpp_std_list_like_to_py_list<double, &cpp_double_to_py_float>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::complex<double>>(const std::vector<std::complex<double>> &container) {
-    return generic_cpp_std_vector_to_py_list<std::complex<double>, &cpp_complex_to_py_complex>(container);
+    return generic_cpp_std_list_like_to_py_list<std::complex<double>, &cpp_complex_to_py_complex>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::vector<char>>(const std::vector<std::vector<char>> &container) {
-    return generic_cpp_std_vector_to_py_list<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
+    return generic_cpp_std_list_like_to_py_list<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::string>(const std::vector<std::string> &container) {
-    return generic_cpp_std_vector_to_py_list<std::string, &cpp_string_to_py_unicode>(container);
+    return generic_cpp_std_list_like_to_py_list<std::string, &cpp_string_to_py_unicode>(container);
 }
 
 //-------------------- END: std::vector -> Python list --------------------
@@ -295,38 +295,38 @@ cpp_std_list_like_to_py_list<std::string>(const std::vector<std::string> &contai
 //----------------------- Python list -> std::vector ----------------------
 template <>
 int
-py_list_to_cpp_list_like<bool>(PyObject *op, std::vector<bool> &container) {
-    return generic_py_list_to_cpp_list_like<bool, &py_bool_check, &py_bool_to_cpp_bool>(op, container);
+py_list_to_cpp_std_list_like<bool>(PyObject *op, std::vector<bool> &container) {
+    return generic_py_list_to_cpp_std_list_like<bool, &py_bool_check, &py_bool_to_cpp_bool>(op, container);
 }
 
 template <>
 int
-py_list_to_cpp_list_like<long>(PyObject *op, std::vector<long> &container) {
-    return generic_py_list_to_cpp_list_like<long, &py_long_check, &py_long_to_cpp_long>(op, container);
+py_list_to_cpp_std_list_like<long>(PyObject *op, std::vector<long> &container) {
+    return generic_py_list_to_cpp_std_list_like<long, &py_long_check, &py_long_to_cpp_long>(op, container);
 }
 
 template <>
 int
-py_list_to_cpp_list_like<double>(PyObject *op, std::vector<double> &container) {
-    return generic_py_list_to_cpp_list_like<double, &py_float_check, &py_float_to_cpp_double>(op, container);
+py_list_to_cpp_std_list_like<double>(PyObject *op, std::vector<double> &container) {
+    return generic_py_list_to_cpp_std_list_like<double, &py_float_check, &py_float_to_cpp_double>(op, container);
 }
 
 template <>
 int
-py_list_to_cpp_list_like<std::complex<double>>(PyObject *op, std::vector<std::complex<double>> &container) {
-    return generic_py_list_to_cpp_list_like<std::complex<double>, &py_complex_check, &py_complex_to_cpp_complex>(op, container);
+py_list_to_cpp_std_list_like<std::complex<double>>(PyObject *op, std::vector<std::complex<double>> &container) {
+    return generic_py_list_to_cpp_std_list_like<std::complex<double>, &py_complex_check, &py_complex_to_cpp_complex>(op, container);
 }
 
 template <>
 int
-py_list_to_cpp_list_like<std::vector<char>>(PyObject *op, std::vector<std::vector<char>> &container) {
-    return generic_py_list_to_cpp_list_like<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
+py_list_to_cpp_std_list_like<std::vector<char>>(PyObject *op, std::vector<std::vector<char>> &container) {
+    return generic_py_list_to_cpp_std_list_like<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
 }
 
 template <>
 int
-py_list_to_cpp_list_like<std::string>(PyObject *op, std::vector<std::string> &container) {
-    return generic_py_list_to_cpp_list_like<std::string, &py_unicode_check, &py_unicode_to_cpp_string>(op, container);
+py_list_to_cpp_std_list_like<std::string>(PyObject *op, std::vector<std::string> &container) {
+    return generic_py_list_to_cpp_std_list_like<std::string, &py_unicode_check, &py_unicode_to_cpp_string>(op, container);
 }
 
 //-------------------- END: Python list -> std::vector --------------------
@@ -335,37 +335,37 @@ py_list_to_cpp_list_like<std::string>(PyObject *op, std::vector<std::string> &co
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<bool>(const std::list<bool> &container) {
-    return generic_cpp_std_list_to_py_list<bool, &cpp_bool_to_py_bool>(container);
+    return generic_cpp_std_list_like_to_py_list<bool, &cpp_bool_to_py_bool>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<long>(const std::list<long> &container) {
-    return generic_cpp_std_list_to_py_list<long, &cpp_long_to_py_long>(container);
+    return generic_cpp_std_list_like_to_py_list<long, &cpp_long_to_py_long>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<double>(const std::list<double> &container) {
-    return generic_cpp_std_list_to_py_list<double, &cpp_double_to_py_float>(container);
+    return generic_cpp_std_list_like_to_py_list<double, &cpp_double_to_py_float>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::complex<double>>(const std::list<std::complex<double>> &container) {
-    return generic_cpp_std_list_to_py_list<std::complex<double>, &cpp_complex_to_py_complex>(container);
+    return generic_cpp_std_list_like_to_py_list<std::complex<double>, &cpp_complex_to_py_complex>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::vector<char>>(const std::list<std::vector<char>> &container) {
-    return generic_cpp_std_list_to_py_list<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
+    return generic_cpp_std_list_like_to_py_list<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::string>(const std::list<std::string> &container) {
-    return generic_cpp_std_list_to_py_list<std::string, &cpp_string_to_py_unicode>(container);
+    return generic_cpp_std_list_like_to_py_list<std::string, &cpp_string_to_py_unicode>(container);
 }
 
 //--------------------- END: std::list -> Python list ---------------------
@@ -373,38 +373,38 @@ cpp_std_list_like_to_py_list<std::string>(const std::list<std::string> &containe
 //------------------------ Python list -> std::list -----------------------
 template <>
 int
-py_list_to_cpp_list_like<bool>(PyObject *op, std::list<bool> &container) {
-    return generic_py_list_to_cpp_list_like<bool, &py_bool_check, &py_bool_to_cpp_bool>(op, container);
+py_list_to_cpp_std_list_like<bool>(PyObject *op, std::list<bool> &container) {
+    return generic_py_list_to_cpp_std_list_like<bool, &py_bool_check, &py_bool_to_cpp_bool>(op, container);
 }
 
 template <>
 int
-py_list_to_cpp_list_like<long>(PyObject *op, std::list<long> &container) {
-    return generic_py_list_to_cpp_list_like<long, &py_long_check, &py_long_to_cpp_long>(op, container);
+py_list_to_cpp_std_list_like<long>(PyObject *op, std::list<long> &container) {
+    return generic_py_list_to_cpp_std_list_like<long, &py_long_check, &py_long_to_cpp_long>(op, container);
 }
 
 template <>
 int
-py_list_to_cpp_list_like<double>(PyObject *op, std::list<double> &container) {
-    return generic_py_list_to_cpp_list_like<double, &py_float_check, &py_float_to_cpp_double>(op, container);
+py_list_to_cpp_std_list_like<double>(PyObject *op, std::list<double> &container) {
+    return generic_py_list_to_cpp_std_list_like<double, &py_float_check, &py_float_to_cpp_double>(op, container);
 }
 
 template <>
 int
-py_list_to_cpp_list_like<std::complex<double>>(PyObject *op, std::list<std::complex<double>> &container) {
-    return generic_py_list_to_cpp_list_like<std::complex<double>, &py_complex_check, &py_complex_to_cpp_complex>(op, container);
+py_list_to_cpp_std_list_like<std::complex<double>>(PyObject *op, std::list<std::complex<double>> &container) {
+    return generic_py_list_to_cpp_std_list_like<std::complex<double>, &py_complex_check, &py_complex_to_cpp_complex>(op, container);
 }
 
 template <>
 int
-py_list_to_cpp_list_like<std::vector<char>>(PyObject *op, std::list<std::vector<char>> &container) {
-    return generic_py_list_to_cpp_list_like<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
+py_list_to_cpp_std_list_like<std::vector<char>>(PyObject *op, std::list<std::vector<char>> &container) {
+    return generic_py_list_to_cpp_std_list_like<std::vector<char>, &py_bytes_check, &py_bytes_to_cpp_vector_char>(op, container);
 }
 
 template <>
 int
-py_list_to_cpp_list_like<std::string>(PyObject *op, std::list<std::string> &container) {
-    return generic_py_list_to_cpp_list_like<std::string, &py_unicode_check, &py_unicode_to_cpp_string>(op, container);
+py_list_to_cpp_std_list_like<std::string>(PyObject *op, std::list<std::string> &container) {
+    return generic_py_list_to_cpp_std_list_like<std::string, &py_unicode_check, &py_unicode_to_cpp_string>(op, container);
 }
 
 //--------------------- END: Python list -> std::list ---------------------
