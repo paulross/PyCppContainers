@@ -135,9 +135,10 @@ compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObjec
 template <>
 int
 compare_dict<
-        std::vector<char>, std::vector<char>
+        std::unordered_map, std::vector<char>, std::vector<char>
 >(const std::unordered_map<std::vector<char>, std::vector<char>> &cpp_map, PyObject *op) {
     return compare_dict<
+            std::unordered_map,
             std::vector<char>,
             std::vector<char>,
             &Python_Cpp_Containers::cpp_vector_char_to_py_bytes,
@@ -150,9 +151,42 @@ compare_dict<
 template <>
 int
 compare_dict<
-        std::string, std::string
+        std::unordered_map, std::string, std::string
 >(const std::unordered_map<std::string, std::string> &cpp_map, PyObject *op) {
     return compare_dict<
+            std::unordered_map,
+            std::string,
+            std::string,
+            &Python_Cpp_Containers::cpp_string_to_py_unicode,
+            &Python_Cpp_Containers::cpp_string_to_py_unicode,
+            &Python_Cpp_Containers::py_unicode_to_cpp_string,
+            &Python_Cpp_Containers::py_unicode_to_cpp_string
+            >(cpp_map, op);
+}
+
+template <>
+int
+compare_dict<
+        std::map, std::vector<char>, std::vector<char>
+>(const std::map<std::vector<char>, std::vector<char>> &cpp_map, PyObject *op) {
+    return compare_dict<
+            std::map,
+            std::vector<char>,
+            std::vector<char>,
+            &Python_Cpp_Containers::cpp_vector_char_to_py_bytes,
+            &Python_Cpp_Containers::cpp_vector_char_to_py_bytes,
+            &Python_Cpp_Containers::py_bytes_to_cpp_vector_char,
+            &Python_Cpp_Containers::py_bytes_to_cpp_vector_char
+            >(cpp_map, op);
+}
+
+template <>
+int
+compare_dict<
+        std::map, std::string, std::string
+>(const std::map<std::string, std::string> &cpp_map, PyObject *op) {
+    return compare_dict<
+            std::map,
             std::string,
             std::string,
             &Python_Cpp_Containers::cpp_string_to_py_unicode,
@@ -632,9 +666,12 @@ new_py_dict_string(size_t size, size_t str_len) {
     return op;
 }
 
-int test_cpp_std_map_like_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len) {
+template<
+    template<typename ...> class MapLike
+>
+int test_cpp_std_map_like_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len, const std::string &container_type) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
-    std::unordered_map<std::vector<char>, std::vector<char>> cpp_map;
+    MapLike<std::vector<char>, std::vector<char>> cpp_map;
     for (size_t i = 0; i < size; ++i) {
         cpp_map[unique_vector_char(str_len)] = std::vector<char>(str_len, ' ');
     }
@@ -656,20 +693,42 @@ int test_cpp_std_map_like_to_py_dict_bytes(TestResultS &test_results, size_t siz
         assert(op->ob_refcnt == 1);
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    REPORT_TEST_OUTPUT_WITH_CONTAINER_TYPE_STRING_LENGTH;
     RSS_SNAPSHOT_REPORT;
     return result;
 }
 
-int test_py_dict_to_cpp_std_map_like_bytes(TestResultS &test_results, size_t size, size_t str_len) {
+int test_cpp_std_unordered_map_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = test_cpp_std_map_like_to_py_dict_bytes<std::unordered_map>(test_results, size, str_len,
+                                                                            "std::unordered_map");
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+
+int test_cpp_std_map_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = test_cpp_std_map_like_to_py_dict_bytes<std::map>(test_results, size, str_len,
+                                                                            "std::map");
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+
+template<
+        template<typename ...> class MapLike
+>
+int test_py_dict_to_cpp_std_map_like_bytes(TestResultS &test_results, size_t size, size_t str_len,
+                                           const std::string &container_type) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     PyObject *op = new_py_dict_bytes(size, str_len);
     int result = 0;
     double exec_time = -1.0;
-    if (! op) {
+    if (!op) {
         result = 1;
     } else {
-        std::unordered_map<std::vector<char>, std::vector<char>> cpp_map;
+        MapLike<std::vector<char>, std::vector<char>> cpp_map;
         ExecClock exec_clock;
         int err = Python_Cpp_Containers::py_dict_to_cpp_std_map_like(op, cpp_map);
         exec_time = exec_clock.seconds();
@@ -677,20 +736,40 @@ int test_py_dict_to_cpp_std_map_like_bytes(TestResultS &test_results, size_t siz
             result = 2;
         } else {
             // Compare dict
-            if(compare_dict(cpp_map, op)) {
+            if (compare_dict(cpp_map, op)) {
                 result = 3;
             }
         }
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    REPORT_TEST_OUTPUT_WITH_CONTAINER_TYPE_STRING_LENGTH;
     RSS_SNAPSHOT_REPORT;
     return result;
 }
 
-int test_cpp_std_map_like_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len) {
+int test_py_dict_to_cpp_std_unordered_map_bytes(TestResultS &test_results, size_t size, size_t str_len) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
-    std::unordered_map<std::string, std::string> cpp_map;
+    int result = test_py_dict_to_cpp_std_map_like_bytes<std::unordered_map>(test_results, size, str_len,
+                                                                            "std::unordered_map");
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+int test_py_dict_to_cpp_std_map_bytes(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = test_py_dict_to_cpp_std_map_like_bytes<std::map>(test_results, size, str_len,
+                                                                  "std::map");
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+template<
+        template<typename ...> class MapLike
+>
+int test_cpp_std_map_like_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len,
+                                            const std::string &container_type) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    MapLike<std::string, std::string> cpp_map;
     for (size_t i = 0; i < size; ++i) {
         cpp_map[unique_string(str_len)] = std::string(str_len, ' ');
     }
@@ -698,26 +777,45 @@ int test_cpp_std_map_like_to_py_dict_string(TestResultS &test_results, size_t si
     PyObject *op = Python_Cpp_Containers::cpp_std_map_like_to_py_dict(cpp_map);
     double exec_time = exec_clock.seconds();
     int result = 0;
-    if (! op) {
+    if (!op) {
         result = 1;
     } else {
-        assert(op->ob_refcnt ==  1);
-        if (! PyDict_Check(op)) {
+        assert(op->ob_refcnt == 1);
+        if (!PyDict_Check(op)) {
             result = 2;
         } else {
-            if(compare_dict(cpp_map, op)) {
+            if (compare_dict(cpp_map, op)) {
                 result = 3;
             }
         }
         assert(op->ob_refcnt == 1);
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    REPORT_TEST_OUTPUT_WITH_CONTAINER_TYPE_STRING_LENGTH;
     RSS_SNAPSHOT_REPORT;
     return result;
 }
 
-int test_py_dict_to_cpp_std_map_like_string(TestResultS &test_results, size_t size, size_t str_len) {
+int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = test_cpp_std_map_like_to_py_dict_string<std::unordered_map>(test_results, size, str_len,
+                                                                             "std::unordered_map");
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+int test_cpp_std_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = test_cpp_std_map_like_to_py_dict_string<std::map>(test_results, size, str_len, "std::map");
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+template<
+        template<typename ...> class MapLike
+>
+int test_py_dict_to_cpp_std_map_like_string(TestResultS &test_results, size_t size, size_t str_len,
+                                            const std::string &container_type) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     PyObject *op = new_py_dict_string(size, str_len);
     int result = 0;
@@ -725,7 +823,7 @@ int test_py_dict_to_cpp_std_map_like_string(TestResultS &test_results, size_t si
     if (! op) {
         result = 1;
     } else {
-        std::unordered_map<std::string, std::string> cpp_map;
+        MapLike<std::string, std::string> cpp_map;
         ExecClock exec_clock;
         int err = Python_Cpp_Containers::py_dict_to_cpp_std_map_like(op, cpp_map);
         exec_time = exec_clock.seconds();
@@ -739,7 +837,21 @@ int test_py_dict_to_cpp_std_map_like_string(TestResultS &test_results, size_t si
         }
         Py_DECREF(op);
     }
-    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    REPORT_TEST_OUTPUT_WITH_CONTAINER_TYPE_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = test_py_dict_to_cpp_std_map_like_string<std::unordered_map>(test_results, size, str_len, "std::unordered_map");
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+int test_py_dict_to_cpp_std_map_string(TestResultS &test_results, size_t size, size_t str_len) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = test_py_dict_to_cpp_std_map_like_string<std::map>(test_results, size, str_len, "std::map");
     RSS_SNAPSHOT_REPORT;
     return result;
 }

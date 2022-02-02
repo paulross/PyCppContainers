@@ -101,7 +101,7 @@ void test_example_cpp_std_map_to_py_dict() {
 /**
  * Demonstration code to convert a Python dict[int, bytes] to a std::unordered_map<long, std::string>.
  */
-void test_example_py_dict_to_cpp_std_map_like() {
+void test_example_py_dict_to_cpp_std_unordered_map() {
     PyObject *op = PyDict_New();
     // Populate dict with [int, bytes]
     // ...
@@ -125,14 +125,13 @@ void test_functional_tuple(TestResultS &test_results) {
     test_vector_to_py_tuple<std::complex<double>, &Python_Cpp_Containers::py_complex_to_cpp_complex>(test_results,
                                                                                                      "std::complex<double>",
                                                                                                      1024);
-    test_py_tuple_to_vector<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool, &Python_Cpp_Containers::py_bool_to_cpp_bool>(
+    test_py_tuple_to_vector<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool>(
             test_results, "<bool>", 1024);
-    test_py_tuple_to_vector<long, &Python_Cpp_Containers::cpp_long_to_py_long, &Python_Cpp_Containers::py_long_to_cpp_long>(
+    test_py_tuple_to_vector<long, &Python_Cpp_Containers::cpp_long_to_py_long>(
             test_results, "<long>", 1024);
-    test_py_tuple_to_vector<double, &Python_Cpp_Containers::cpp_double_to_py_float, &Python_Cpp_Containers::py_float_to_cpp_double>(
+    test_py_tuple_to_vector<double, &Python_Cpp_Containers::cpp_double_to_py_float>(
             test_results, "<double>", 1024);
-    test_py_tuple_to_vector<std::complex<double>, &Python_Cpp_Containers::cpp_complex_to_py_complex,
-            &Python_Cpp_Containers::py_complex_to_cpp_complex>(
+    test_py_tuple_to_vector<std::complex<double>, &Python_Cpp_Containers::cpp_complex_to_py_complex>(
             test_results, "std::complex<double>", 1024);
     test_vector_to_py_tuple_round_trip<bool>(test_results, "<bool>", 1024);
     test_vector_to_py_tuple_round_trip<long>(test_results, "<long>", 1024);
@@ -216,9 +215,9 @@ void test_functional_set(TestResultS &test_results) {
     test_py_set_string_to_unordered_set(test_results, 1024, 32);
 }
 
-void test_functional_dict(TestResultS &test_results) {
+void test_functional_dict_with_std_unordred_map(TestResultS &test_results) {
     // Dicts
-    test_cpp_std_map_like_to_py_dict<
+    test_cpp_std_unordered_map_to_py_dict<
             long,
             long,
             &Python_Cpp_Containers::cpp_long_to_py_long,
@@ -226,7 +225,7 @@ void test_functional_dict(TestResultS &test_results) {
             &Python_Cpp_Containers::py_long_to_cpp_long,
             &Python_Cpp_Containers::py_long_to_cpp_long
     >(test_results, "<long>", 258);
-    test_py_dict_to_cpp_std_map_like<
+    test_py_dict_to_cpp_std_unordered_map<
             long,
             long,
             &Python_Cpp_Containers::cpp_long_to_py_long,
@@ -234,7 +233,7 @@ void test_functional_dict(TestResultS &test_results) {
             &Python_Cpp_Containers::py_long_to_cpp_long,
             &Python_Cpp_Containers::py_long_to_cpp_long
     >(test_results, "<long>", 1024);
-    test_cpp_std_map_like_to_py_dict<
+    test_cpp_std_unordered_map_to_py_dict<
             double,
             double,
             &Python_Cpp_Containers::cpp_double_to_py_float,
@@ -242,7 +241,7 @@ void test_functional_dict(TestResultS &test_results) {
             &Python_Cpp_Containers::py_float_to_cpp_double,
             &Python_Cpp_Containers::py_float_to_cpp_double
     >(test_results, "<double>", 1024);
-    test_py_dict_to_cpp_std_map_like<
+    test_py_dict_to_cpp_std_unordered_map<
             double,
             double,
             &Python_Cpp_Containers::cpp_double_to_py_float,
@@ -250,7 +249,7 @@ void test_functional_dict(TestResultS &test_results) {
             &Python_Cpp_Containers::py_float_to_cpp_double,
             &Python_Cpp_Containers::py_float_to_cpp_double
     >(test_results, "<double>", 1024);
-    test_cpp_std_map_like_to_py_dict<
+    test_cpp_std_unordered_map_to_py_dict<
             std::complex<double>,
             std::complex<double>,
             &Python_Cpp_Containers::cpp_complex_to_py_complex,
@@ -258,7 +257,7 @@ void test_functional_dict(TestResultS &test_results) {
             &Python_Cpp_Containers::py_complex_to_cpp_complex,
             &Python_Cpp_Containers::py_complex_to_cpp_complex
     >(test_results, "<std::complex<double>>", 1024);
-    test_py_dict_to_cpp_std_map_like<
+    test_py_dict_to_cpp_std_unordered_map<
             std::complex<double>,
             std::complex<double>,
             &Python_Cpp_Containers::cpp_complex_to_py_complex,
@@ -266,10 +265,66 @@ void test_functional_dict(TestResultS &test_results) {
             &Python_Cpp_Containers::py_complex_to_cpp_complex,
             &Python_Cpp_Containers::py_complex_to_cpp_complex
     >(test_results, "<std::complex<double>>", 1024);
-    test_cpp_std_map_like_to_py_dict_bytes(test_results, 1024, 32);
-    test_py_dict_to_cpp_std_map_like_bytes(test_results, 1024, 32);
-    test_cpp_std_map_like_to_py_dict_string(test_results, 1024, 32);
-    test_py_dict_to_cpp_std_map_like_string(test_results, 1024, 32);
+    test_cpp_std_unordered_map_to_py_dict_bytes(test_results, 1024, 32);
+    test_py_dict_to_cpp_std_unordered_map_bytes(test_results, 1024, 32);
+    test_cpp_std_unordered_map_to_py_dict_string(test_results, 1024, 32);
+    test_py_dict_to_cpp_std_unordered_map_string(test_results, 1024, 32);
+}
+
+void test_functional_dict_with_std_map(TestResultS &test_results) {
+    // Dicts
+    test_cpp_std_map_to_py_dict<
+            long,
+            long,
+            &Python_Cpp_Containers::cpp_long_to_py_long,
+            &Python_Cpp_Containers::cpp_long_to_py_long,
+            &Python_Cpp_Containers::py_long_to_cpp_long,
+            &Python_Cpp_Containers::py_long_to_cpp_long
+    >(test_results, "<long>", 258);
+    test_py_dict_to_cpp_std_map<
+            long,
+            long,
+            &Python_Cpp_Containers::cpp_long_to_py_long,
+            &Python_Cpp_Containers::cpp_long_to_py_long,
+            &Python_Cpp_Containers::py_long_to_cpp_long,
+            &Python_Cpp_Containers::py_long_to_cpp_long
+    >(test_results, "<long>", 1024);
+    test_cpp_std_map_to_py_dict<
+            double,
+            double,
+            &Python_Cpp_Containers::cpp_double_to_py_float,
+            &Python_Cpp_Containers::cpp_double_to_py_float,
+            &Python_Cpp_Containers::py_float_to_cpp_double,
+            &Python_Cpp_Containers::py_float_to_cpp_double
+    >(test_results, "<double>", 1024);
+    test_py_dict_to_cpp_std_map<
+            double,
+            double,
+            &Python_Cpp_Containers::cpp_double_to_py_float,
+            &Python_Cpp_Containers::cpp_double_to_py_float,
+            &Python_Cpp_Containers::py_float_to_cpp_double,
+            &Python_Cpp_Containers::py_float_to_cpp_double
+    >(test_results, "<double>", 1024);
+    test_cpp_std_map_to_py_dict<
+            std::complex<double>,
+            std::complex<double>,
+            &Python_Cpp_Containers::cpp_complex_to_py_complex,
+            &Python_Cpp_Containers::cpp_complex_to_py_complex,
+            &Python_Cpp_Containers::py_complex_to_cpp_complex,
+            &Python_Cpp_Containers::py_complex_to_cpp_complex
+    >(test_results, "<std::complex<double>>", 1024);
+    test_py_dict_to_cpp_std_map<
+            std::complex<double>,
+            std::complex<double>,
+            &Python_Cpp_Containers::cpp_complex_to_py_complex,
+            &Python_Cpp_Containers::cpp_complex_to_py_complex,
+            &Python_Cpp_Containers::py_complex_to_cpp_complex,
+            &Python_Cpp_Containers::py_complex_to_cpp_complex
+    >(test_results, "<std::complex<double>>", 1024);
+    test_cpp_std_map_to_py_dict_bytes(test_results, 1024, 32);
+    test_py_dict_to_cpp_std_map_bytes(test_results, 1024, 32);
+    test_cpp_std_map_to_py_dict_string(test_results, 1024, 32);
+    test_py_dict_to_cpp_std_map_string(test_results, 1024, 32);
 }
 
 void test_functional_all(TestResultS &test_results) {
@@ -280,13 +335,14 @@ void test_functional_all(TestResultS &test_results) {
     test_example_py_tuple_to_vector_double();
     test_example_cpp_std_unordered_map_to_py_dict();
     test_example_cpp_std_map_to_py_dict();
-    test_example_py_dict_to_cpp_std_map_like();
+    test_example_py_dict_to_cpp_std_unordered_map();
 
     // Functional tests that add to the test results.
     test_functional_tuple(test_results);
     test_functional_list(test_results);
     test_functional_set(test_results);
-    test_functional_dict(test_results);
+    test_functional_dict_with_std_unordred_map(test_results);
+    test_functional_dict_with_std_map(test_results);
 
     std::cout << "==== " << rss_overall << std::endl;
     std::cout << __FUNCTION__ << " FINISH" << std::endl;

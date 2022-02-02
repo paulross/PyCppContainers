@@ -55,6 +55,20 @@
         } \
         test_results.push_back(TestResult(title.str(), result, exec_time, 1, size)); \
     } while (0)
+
+#define REPORT_TEST_OUTPUT_WITH_CONTAINER_TYPE_STRING_LENGTH \
+    do {                              \
+        std::ostringstream title; \
+        title << __FUNCTION__  << container_type << "<" << "std::string[" << str_len << "]>" << ">" << "():" << "[" << size << "]"; \
+        if (result) { \
+            std::cout << "    FAIL: " << title.str() << " " << result << std::endl; \
+            PyErr_Print(); \
+            PyErr_Clear(); \
+        } else { \
+            std::cout << "      OK: " << title.str() << " " << result << std::endl; \
+        } \
+        test_results.push_back(TestResult(title.str(), result, exec_time, 1, size)); \
+    } while (0)
 #else
 #define REPORT_TEST_OUTPUT \
     do {                   \
@@ -73,7 +87,14 @@
 #define REPORT_TEST_OUTPUT_WITH_STRING_LENGTH \
     do {                              \
         std::ostringstream title; \
-        title << __FUNCTION__  << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]"; \
+        title << __FUNCTION__  << "std::string[" << str_len << "]>" << "():" << "[" << size << "]"; \
+        test_results.push_back(TestResult(title.str(), result, exec_time, 1, size)); \
+    } while (0)
+
+#define REPORT_TEST_OUTPUT_WITH_CONTAINER_TYPE_STRING_LENGTH \
+    do {                              \
+        std::ostringstream title; \
+        title << __FUNCTION__  << container_type << "<" << "std::string[" << str_len << "]>" << ">" << "():" << "[" << size << "]"; \
         test_results.push_back(TestResult(title.str(), result, exec_time, 1, size)); \
     } while (0)
 #endif
@@ -90,10 +111,16 @@
         rss_title << __FUNCTION__ << type; \
         RSSSnapshot rss(rss_title.str());
 
+#define RSS_SNAPSHOT_WITH_CONTAINER_TYPE_AND_TYPE(container_type, type) \
+        std::ostringstream rss_title; \
+        rss_title << __FUNCTION__ << container_type << "<" << type << ">"; \
+        RSSSnapshot rss(rss_title.str());
+
 #define RSS_SNAPSHOT_REPORT std::cout << rss << std::endl;
 #else
 #define RSS_SNAPSHOT_WITHOUT_TYPE
 #define RSS_SNAPSHOT_WITH_TYPE(type)
+#define RSS_SNAPSHOT_WITH_CONTAINER_TYPE_AND_TYPE(container_type, type)
 #define RSS_SNAPSHOT_REPORT
 #endif // RSS_SNAPSHOT
 
@@ -323,7 +350,9 @@ int
 compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObject *op);
 
 /**
- * Compare a Python dict with a C++ std::unordered_map.
+ * Compare a Python dict with a C++ std::unordered_map or std::map.
+ *
+ * @tparam MapLike The C++ type of the container.
  * @tparam K The C++ type of the keys.
  * @tparam V The C++ type of the values.
  * @tparam Convert_K Pointer to function to convert a C++ type K to a PyObject.
@@ -335,6 +364,7 @@ compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObjec
  * @return 0 if the same, non-zero if different.
  */
 template<
+        template<typename ...> class MapLike,
         typename K,
         typename V,
         PyObject *(*Convert_K)(const K &),
@@ -342,7 +372,7 @@ template<
         K (*Convert_Py_Key)(PyObject *),
         V (*Convert_Py_Val)(PyObject *)
 >
-int compare_dict(std::unordered_map<K, V> const &cpp_map, PyObject *op) {
+int compare_dict(MapLike<K, V> const &cpp_map, PyObject *op) {
     assert(op);
     int result = 0;
     if (!PyDict_Check(op)) {
@@ -386,22 +416,34 @@ int compare_dict(std::unordered_map<K, V> const &cpp_map, PyObject *op) {
 }
 
 // Base declaration
-template<typename K, typename V>
+template<template<typename ...> class MapLike, typename K, typename V>
 int
-compare_dict(const std::unordered_map<K, V> &cpp_map, PyObject *op);
+compare_dict(const MapLike<K, V> &cpp_map, PyObject *op);
 
 // Instatiations
 template <>
 int
 compare_dict<
-        std::vector<char>, std::vector<char>
+        std::unordered_map, std::vector<char>, std::vector<char>
         >(const std::unordered_map<std::vector<char>, std::vector<char>> &cpp_map, PyObject *op);
 
 template <>
 int
 compare_dict<
-        std::string, std::string
+        std::unordered_map, std::string, std::string
         >(const std::unordered_map<std::string, std::string> &cpp_map, PyObject *op);
+
+template <>
+int
+compare_dict<
+        std::map, std::vector<char>, std::vector<char>
+        >(const std::map<std::vector<char>, std::vector<char>> &cpp_map, PyObject *op);
+
+template <>
+int
+compare_dict<
+        std::map, std::string, std::string
+        >(const std::map<std::string, std::string> &cpp_map, PyObject *op);
 
 #pragma mark Tests of containers of strings.
 
@@ -426,15 +468,32 @@ int test_py_set_bytes_to_unordered_set(TestResultS &test_results, size_t size, s
 int test_unordered_set_string_to_py_set(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_set_string_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len);
 
-// Functional tests of dict of bytes
-int test_cpp_std_map_like_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len);
-int test_py_dict_to_cpp_std_map_like_bytes(TestResultS &test_results, size_t size, size_t str_len);
-// Functional tests of dict of strings
-int test_cpp_std_map_like_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len);
-int test_py_dict_to_cpp_std_map_like_string(TestResultS &test_results, size_t size, size_t str_len);
+// Functional tests of dict of bytes to and from std::unordered_map
+int test_cpp_std_unordered_map_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_dict_to_cpp_std_unordered_map_bytes(TestResultS &test_results, size_t size, size_t str_len);
+// Functional tests of dict of strings to and from std::unordered_map
+int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size_t size, size_t str_len);
+
+// Functional tests of dict of bytes to and from std::map
+int test_cpp_std_map_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_dict_to_cpp_std_map_bytes(TestResultS &test_results, size_t size, size_t str_len);
+// Functional tests of dict of strings to and from std::map
+int test_cpp_std_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_dict_to_cpp_std_map_string(TestResultS &test_results, size_t size, size_t str_len);
 
 #pragma mark Generic test templates
 
+/**
+ * Tests a C++ \c std::vector to a Python \c tuple.
+ *
+ * @tparam T Type of the vector objects.
+ * @tparam ConvertPyToCpp Function to convert a Python object to a C++ \c <T>
+ * @param test_results The test results to update.
+ * @param type Type of \c <T>
+ * @param size Size of the \c std::vector to create.
+ * @return 0 on success. Non-zero on failure.
+ */
 template<typename T, T (*ConvertPyToCpp)(PyObject *)>
 int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, size_t size) {
     RSS_SNAPSHOT_WITH_TYPE(type);
@@ -463,7 +522,17 @@ int test_vector_to_py_tuple(TestResultS &test_results, const std::string &type, 
     return result;
 }
 
-template<typename T, PyObject *(*ConvertCppToPy)(const T &), T (*ConvertPyToCpp)(PyObject *)>
+/**
+ * Tests a C++ \c std::vector to a Python \c tuple.
+ *
+ * @tparam T Type of the vector objects.
+ * @tparam ConvertCppToPy Function to convert a C++ \c <T> to a Python object.
+ * @param test_results The test results to update.
+ * @param type Type of \c <T>
+ * @param size Size of the \c std::vector to create.
+ * @return 0 on success. Non-zero on failure.
+ */
+template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
 int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, size_t size) {
     RSS_SNAPSHOT_WITH_TYPE(type);
     PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
@@ -498,6 +567,16 @@ int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, 
     return result;
 }
 
+/**
+ * Tests a C++ \c std::vector to a Python \c tuple and back to a C++ \c std::vector.
+ *
+ * @tparam T Type of the vector objects.
+ * @tparam ConvertCppToPy Function to convert a C++ \c <T> to a Python object.
+ * @param test_results The test results to update.
+ * @param type Type of \c <T>
+ * @param size Size of the \c std::vector to create.
+ * @return 0 on success. Non-zero on failure.
+ */
 template<typename T>
 int test_vector_to_py_tuple_round_trip(TestResultS &test_results, const std::string &type, size_t size) {
     RSS_SNAPSHOT_WITH_TYPE(type);
@@ -773,6 +852,7 @@ int test_py_set_to_unordered_set(TestResultS &test_results, const std::string &t
 }
 
 template<
+        template<typename ...> class MapLike,
         typename K,
         typename V,
         PyObject *(*Convert_K)(const K &),
@@ -782,7 +862,7 @@ template<
 >
 int test_cpp_std_map_like_to_py_dict(TestResultS &test_results, const std::string &type, size_t size) {
     RSS_SNAPSHOT_WITH_TYPE(type);
-    std::unordered_map<K, V> cpp_map;
+    MapLike<K, V> cpp_map;
     for (size_t i = 0; i < size; ++i) {
 //        cpp_map[1000 + static_cast<K>(i)] = 2000 + static_cast<V>(i);
         cpp_map[static_cast<K>(i)] = static_cast<V>(i);
@@ -800,7 +880,7 @@ int test_cpp_std_map_like_to_py_dict(TestResultS &test_results, const std::strin
             if ((unsigned long) PyDict_Size(op) != cpp_map.size()) {
                 result |= 1 << 2;
             } else {
-                result |= compare_dict<K, V, Convert_K, Convert_V,  Convert_Py_Key, Convert_Py_Val>(cpp_map, op);
+                result |= compare_dict<MapLike, K, V, Convert_K, Convert_V,  Convert_Py_Key, Convert_Py_Val>(cpp_map, op);
             }
         }
         Py_DECREF(op);
@@ -811,6 +891,39 @@ int test_cpp_std_map_like_to_py_dict(TestResultS &test_results, const std::strin
 }
 
 template<
+        typename K,
+        typename V,
+        PyObject *(*Convert_K)(const K &),
+        PyObject *(*Convert_V)(const V &),
+        K (*Convert_Py_Key)(PyObject *),
+        V (*Convert_Py_Val)(PyObject *)
+>
+int test_cpp_std_unordered_map_to_py_dict(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
+    int result = test_cpp_std_map_like_to_py_dict<std::unordered_map, K, V, Convert_K, Convert_V, Convert_Py_Key, Convert_Py_Val>(
+            test_results, type, size);
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+template<
+        typename K,
+        typename V,
+        PyObject *(*Convert_K)(const K &),
+        PyObject *(*Convert_V)(const V &),
+        K (*Convert_Py_Key)(PyObject *),
+        V (*Convert_Py_Val)(PyObject *)
+>
+int test_cpp_std_map_to_py_dict(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
+    int result = test_cpp_std_map_like_to_py_dict<std::map, K, V, Convert_K, Convert_V, Convert_Py_Key, Convert_Py_Val>(
+            test_results, type, size);
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+template<
+        template<typename ...> class MapLike,
         typename K,
         typename V,
         PyObject *(*Convert_K)(const K &),
@@ -836,8 +949,6 @@ int test_py_dict_to_cpp_std_map_like(TestResultS &test_results, const std::strin
                 result |= 1 << 1;
                 break;
             }
-            // Refcount may well be >> 1 for interned objects.
-            Py_ssize_t py_k_ob_refcnt = py_k->ob_refcnt;
             py_v = (*Convert_V)(static_cast<V>(i));
             if (! py_v) {
                 // Failure, do not need to decref the contents as that will be done when decref'ing the container.
@@ -846,44 +957,61 @@ int test_py_dict_to_cpp_std_map_like(TestResultS &test_results, const std::strin
                 result |= 1 << 2;
                 break;
             }
-            // Refcount may well be >> 1 for interned objects.
-            Py_ssize_t py_v_ob_refcnt = py_v->ob_refcnt;
             if (PyDict_SetItem(op, py_k, py_v)) {
                 // Failure, do not need to decref the contents as that will be done when decref'ing the container.
                 PyErr_Format(PyExc_ValueError, "Can not set an item in the Python dict.");
                 result |= 1 << 3;
                 break;
             }
-            // Oh this is nasty.
-            // PyDict_SetItem() increfs the key and the value rather than stealing a reference.
-            // insertdict(): https://github.com/python/cpython/blob/main/Objects/dictobject.c#L1074
-//            assert(py_k->ob_refcnt == py_k_ob_refcnt + 1 && "PyDict_SetItem failed to increment key refcount.");
             Py_DECREF(py_k);
-//            assert(py_k->ob_refcnt == py_k_ob_refcnt);
-//            assert(py_v->ob_refcnt == py_v_ob_refcnt + 1 && "PyDict_SetItem failed to increment value refcount.");
             Py_DECREF(py_v);
-//            assert(py_v->ob_refcnt == py_v_ob_refcnt);
-
-//            // TODO: This is a memory leak.
-//            int err = PyDict_SetItem(op, Convert_K(static_cast<K>(i)), Convert_V(static_cast<V>(i)));
-//            if (err != 0) {
-//                result |= 1 << 1;
-//            }
         }
         if (result == 0) {
-            std::unordered_map<K, V> cpp_map;
+            MapLike<K, V> cpp_map;
             ExecClock exec_clock;
             int err = Python_Cpp_Containers::py_dict_to_cpp_std_map_like(op, cpp_map);
             exec_time = exec_clock.seconds();
             if (err != 0) {
                 result |= 1 << 2;
             } else {
-                result |= compare_dict<K, V, Convert_K, Convert_V, Convert_Py_Key, Convert_Py_Val>(cpp_map, op);
+                result |= compare_dict<MapLike, K, V, Convert_K, Convert_V, Convert_Py_Key, Convert_Py_Val>(cpp_map, op);
             }
         }
         Py_DECREF(op);
     }
     REPORT_TEST_OUTPUT_WITH_TYPE;
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+template<
+        typename K,
+        typename V,
+        PyObject *(*Convert_K)(const K &),
+        PyObject *(*Convert_V)(const V &),
+        K (*Convert_Py_Key)(PyObject *),
+        V (*Convert_Py_Val)(PyObject *)
+>
+int test_py_dict_to_cpp_std_unordered_map(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
+    int result = test_py_dict_to_cpp_std_map_like<std::unordered_map, K, V, Convert_K, Convert_V, Convert_Py_Key, Convert_Py_Val>(
+            test_results, type, size);
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+template<
+        typename K,
+        typename V,
+        PyObject *(*Convert_K)(const K &),
+        PyObject *(*Convert_V)(const V &),
+        K (*Convert_Py_Key)(PyObject *),
+        V (*Convert_Py_Val)(PyObject *)
+>
+int test_py_dict_to_cpp_std_map(TestResultS &test_results, const std::string &type, size_t size) {
+    RSS_SNAPSHOT_WITH_TYPE(type);
+    int result = test_py_dict_to_cpp_std_map_like<std::map, K, V, Convert_K, Convert_V, Convert_Py_Key, Convert_Py_Val>(
+            test_results, type, size);
     RSS_SNAPSHOT_REPORT;
     return result;
 }
