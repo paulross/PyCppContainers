@@ -277,10 +277,10 @@ std::vector<size_t> SubTestCount::test_failures() const {
 
 static size_t str_count = 0;
 /**
- * Creates a unique string.
+ * Creates a unique \c std::string. This starts as "0", "1" ...
  *
  * @param width If > 0 the string will be at least this width.
- * @return The unique string.
+ * @return The unique \c std::string.
  */
 std::string unique_string(int width) {
     std::ostringstream os;
@@ -294,10 +294,10 @@ std::string unique_string(int width) {
 }
 
 /**
- * Creates a unique string.
+ * Creates a unique \c std::vector<char>.
  *
  * @param width If > 0 the string will be at least this width.
- * @return The unique string.
+ * @return The unique \c std::vector<char>.
  */
 std::vector<char> unique_vector_char(int width) {
     std::string tmp = unique_string(width);
@@ -305,10 +305,17 @@ std::vector<char> unique_vector_char(int width) {
     return ret;
 }
 
+/**
+ * Returns the number of unique strings created.
+ * @return Number of unique strings created.
+ */
 size_t count_of_unique_string() {
     return str_count;
 }
 
+/**
+ * Reset the string counter.
+ */
 void reset_count_of_unique_string() {
     str_count = 0;
 }

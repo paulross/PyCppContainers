@@ -11,6 +11,7 @@
 #include "cpp/get_rss.h"
 #include "cpp/TestFramework.h"
 
+/// If non-zero then report the result of every test. This is very verbose.
 #define REPORT_OK_OR_FAIL 0
 
 #if REPORT_OK_OR_FAIL
@@ -87,7 +88,7 @@
 #define REPORT_TEST_OUTPUT_WITH_STRING_LENGTH \
     do {                              \
         std::ostringstream title; \
-        title << __FUNCTION__  << "std::string[" << str_len << "]>" << "():" << "[" << size << "]"; \
+        title << __FUNCTION__  << " std::string[" << str_len << "]>" << "():" << "[" << size << "]"; \
         test_results.push_back(TestResult(title.str(), result, exec_time, 1, size)); \
     } while (0)
 
@@ -99,23 +100,40 @@
     } while (0)
 #endif
 
-// Some macros to do RSS snapshots.
+/// Enable the macros that do RSS snapshots.
 #define RSS_SNAPSHOT
 //#undef RSS_SNAPSHOT
 
 #ifdef RSS_SNAPSHOT
+
+/**
+ * Take a snapshot of the current RSS value. The snapshot title is the function name.
+ */
 #define RSS_SNAPSHOT_WITHOUT_TYPE RSSSnapshot rss(__FUNCTION__);
 
+/**
+ * Take a snapshot of the current RSS value.
+ * The snapshot title is the function name followed immediately by the type.
+ * For example if the function is "foo" and the type is "<long>" the title will be "foo<long>".
+ */
 #define RSS_SNAPSHOT_WITH_TYPE(type) \
         std::ostringstream rss_title; \
         rss_title << __FUNCTION__ << type; \
         RSSSnapshot rss(rss_title.str());
 
+/**
+ * Take a snapshot of the current RSS value.
+ * The snapshot title is the function name followed by the container and type.
+ * For example if the function is "foo", the container is "vector" and the type is "long" the title will be "foo vector<long>".
+ */
 #define RSS_SNAPSHOT_WITH_CONTAINER_TYPE_AND_TYPE(container_type, type) \
         std::ostringstream rss_title; \
-        rss_title << __FUNCTION__ << container_type << "<" << type << ">"; \
+        rss_title << __FUNCTION__ << " " << container_type << "<" << type << ">"; \
         RSSSnapshot rss(rss_title.str());
 
+/**
+ * Report the RSS usage to \c stdout.
+ */
 #define RSS_SNAPSHOT_REPORT std::cout << rss << std::endl;
 #else
 #define RSS_SNAPSHOT_WITHOUT_TYPE
@@ -127,18 +145,18 @@
 #pragma mark Comparison templates
 
 /**
- * Compares a Python tuple or list with a C++ std::vector.
+ * Compares a Python tuple or list with a C++ \c std::vector.
  *
- * @tparam T C++ Type of objects in the vector.
- * @tparam Convert_T_To_Py Pointer to function to convert a C++ type T to a PyObject.
- * @tparam Convert_Py_To_T Pointer to function to convert a PyObject* to a C++ type T.
- * @tparam PyUnaryContainer_Check A function that takes a PyObject* and returns 1 if it is of a suitable container,
- * 0 otherwise.
+ * @tparam T C++ type of objects in the vector.
+ * @tparam Convert_T_To_Py Pointer to function to convert a C++ type \c T to a \c PyObject*.
+ * @tparam Convert_Py_To_T Pointer to function to convert a \c PyObject* to a C++ type \c T.
+ * @tparam PyUnaryContainer_Check A function that takes a \c PyObject* and returns 1 if it is of a suitable container,
+ *  0 otherwise.
  * @tparam PyUnaryContainer_Size A function that returns the length of the Python container.
- * @tparam PyUnaryContainer_GetA function that gets a PyObject* from the Python container at a given index as a
- * size_t.
- * @param cpp_vector The C++ vector.
- * @param op The Python tuple or list.
+ * @tparam PyUnaryContainer_GetA function that gets a \c PyObject* from the Python container at a given index as a
+ *  \c size_t.
+ * @param cpp_vector The C++ \c std::vector.
+ * @param op The Python \c tuple or \c list.
  * @return 0 if identical, non-zero if not.
  */
 template<
@@ -181,13 +199,13 @@ int compare_tuple_or_list(std::vector<T> const &cpp_vector, PyObject *op) {
 }
 
 /**
- * Compares a Python tuple with a C++ std::vector.
+ * Specialisation of \c compare_tuple_or_list that compares a Python tuple with a C++ \c std::vector.
  *
- * @tparam T C++ Type of objects in the vector.
- * @tparam Convert_T_To_Py Pointer to function to convert a C++ type T to a PyObject.
- * @tparam Convert_Py_To_T Pointer to function to convert a PyObject* to a C++ type T.
+ * @tparam T C++ type of objects in the vector.
+ * @tparam Convert_T_To_Py Pointer to function to convert a C++ type \c T to a \c PyObject*.
+ * @tparam Convert_Py_To_T Pointer to function to convert a \c PyObject* to a C++ type \c T.
  * @param cpp_vector The C++ vector.
- * @param op The Python tuple.
+ * @param op The Python \c tuple.
  * @return 0 if identical, non-zero if not.
  */
 template<
@@ -202,7 +220,7 @@ int compare_tuple(std::vector<T> const &cpp_vector, PyObject *op) {
         >(cpp_vector, op);
 }
 
-// Base tamplate
+// Base template
 template<typename T>
 int
 compare_tuple(const std::vector<T> &cpp_vector, PyObject *op);
@@ -233,13 +251,13 @@ int
 compare_tuple<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op);
 
 /**
- * Compares a Python list with a C++ std::vector.
+ * Specialisation of \c compare_tuple_or_list that compares a Python \c list with a C++ \c std::vector.
  *
- * @tparam T C++ Type of objects in the vector.
- * @tparam Convert_T_To_Py Pointer to function to convert a C++ type T to a PyObject.
- * @tparam Convert_Py_To_T Pointer to function to convert a PyObject* to a C++ type T.
- * @param cpp_vector The C++ vector.
- * @param op The Python list.
+ * @tparam T C++ type of objects in the vector.
+ * @tparam Convert_T_To_Py Pointer to function to convert a C++ type \c T to a \c PyObject*.
+ * @tparam Convert_Py_To_T Pointer to function to convert a \c PyObject* to a C++ type \c T.
+ * @param cpp_vector The C++ \c std::vector.
+ * @param op The Python \c list.
  * @return 0 if identical, non-zero if not.
  */
 template<
@@ -259,7 +277,7 @@ template<typename T>
 int
 compare_list(const std::vector<T> &cpp_vector, PyObject *op);
 
-// Instatiations
+// Instantiations, implementations are in test_common.cpp
 template <>
 int
 compare_list<bool>(const std::vector<bool> &cpp_vector, PyObject *op);
@@ -285,13 +303,13 @@ int
 compare_list<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op);
 
 /**
- * Compares a Python set or frozenset with a C++ std::unordered_set.
+ * Compares a Python \c set or \c frozenset with a C++ \c std::unordered_set.
  *
- * @tparam T C++ Type of objects in the set.
- * @tparam Convert_T_To_Py Pointer to function to convert a C++ type T to a PyObject.
- * @tparam Convert_Py_To_T Pointer to function to convert a PyObject* to a C++ type T.
- * @param cpp_set The C++ set.
- * @param op The Python set.
+ * @tparam T C++ type of objects in the set.
+ * @tparam Convert_T_To_Py Pointer to function to convert a C++ type \c T to a \c PyObject*.
+ * @tparam Convert_Py_To_T Pointer to function to convert a \c PyObject* to a C++ type \c T.
+ * @param cpp_set The C++ \c std::unordered_set.
+ * @param op The Python \c set.
  * @return 0 if identical, non-zero if not.
  */
 template<
@@ -340,7 +358,7 @@ template<typename T>
 int
 compare_set(const std::unordered_set<T> &cpp_set, PyObject *op);
 
-// Instatiations
+// Instantiations, implementations are in test_common.cpp
 template <>
 int
 compare_set<std::vector<char>>(const std::unordered_set<std::vector<char>> &cpp_set, PyObject *op);
@@ -350,17 +368,17 @@ int
 compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObject *op);
 
 /**
- * Compare a Python dict with a C++ std::unordered_map or std::map.
+ * Compare a Python \c dict with a C++ \c std::unordered_map or \c std::map.
  *
  * @tparam MapLike The C++ type of the container.
  * @tparam K The C++ type of the keys.
  * @tparam V The C++ type of the values.
- * @tparam Convert_K Pointer to function to convert a C++ type K to a PyObject.
- * @tparam Convert_V Pointer to function to convert a C++ type V to a PyObject.
- * @tparam Convert_Py_Key Pointer to function to convert a PyObject key to a C++ type K.
- * @tparam Convert_Py_Val Pointer to function to convert a PyObject value to a C++ type K.
- * @param cpp_map The C++ std::unordered_map.
- * @param op The Python dict.
+ * @tparam Convert_K Pointer to function to convert a C++ type \c K to a \c PyObject*.
+ * @tparam Convert_V Pointer to function to convert a C++ type \c V to a PyObject*.
+ * @tparam Convert_Py_Key Pointer to function to convert a \c PyObject* key to a C++ type \c K.
+ * @tparam Convert_Py_Val Pointer to function to convert a \c PyObject* value to a C++ type \c V.
+ * @param cpp_map The C++ \c std::unordered_map or \c std::map.
+ * @param op The Python \c dict.
  * @return 0 if the same, non-zero if different.
  */
 template<
@@ -420,7 +438,7 @@ template<template<typename ...> class MapLike, typename K, typename V>
 int
 compare_dict(const MapLike<K, V> &cpp_map, PyObject *op);
 
-// Instatiations
+// Instantiations, implementations are in test_common.cpp
 template <>
 int
 compare_dict<
@@ -571,7 +589,6 @@ int test_py_tuple_to_vector(TestResultS &test_results, const std::string &type, 
  * Tests a C++ \c std::vector to a Python \c tuple and back to a C++ \c std::vector.
  *
  * @tparam T Type of the vector objects.
- * @tparam ConvertCppToPy Function to convert a C++ \c <T> to a Python object.
  * @param test_results The test results to update.
  * @param type Type of \c <T>
  * @param size Size of the \c std::vector to create.
@@ -608,7 +625,17 @@ int test_vector_to_py_tuple_round_trip(TestResultS &test_results, const std::str
     return result;
 }
 
-template<typename T, PyObject *(*Convert)(const T &)>
+/**
+ * Tests a Python \c tuple to a C++ \c std::vector and back to a Python \c tuple.
+ *
+ * @tparam T Type of the vector objects.
+ * @tparam ConvertCppToPy Function to convert a C++ \c <T> to a Python object.
+ * @param test_results The test results to update.
+ * @param type Type of \c <T>
+ * @param size Size of the \c std::vector to create.
+ * @return 0 on success. Non-zero on failure.
+ */
+template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
 int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::string &type, size_t size) {
     RSS_SNAPSHOT_WITH_TYPE(type);
     PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
@@ -619,7 +646,7 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
         result |= 1;
     } else {
         for (size_t i = 0; i < size; ++i) {
-            err = Python_Cpp_Containers::py_tuple_set(op, i, Convert(static_cast<T>(i)));
+            err = Python_Cpp_Containers::py_tuple_set(op, i, ConvertCppToPy(static_cast<T>(i)));
             if (err != 0) {
                 result |= 1 << 1;
             }
@@ -651,7 +678,16 @@ int test_py_tuple_to_vector_round_trip(TestResultS &test_results, const std::str
     return result;
 }
 
-template<typename T, T (*ConvertPyToCpp)(PyObject *)>
+/**
+ * Tests a Python \c vector to a C++ \c std::vector.
+ *
+ * @tparam T Type of the vector objects.
+ * @param test_results The test results to update.
+ * @param type Type of \c <T>
+ * @param size Size of the \c std::vector to create.
+ * @return 0 on success. Non-zero on failure.
+ */
+template<typename T>
 int test_vector_to_py_list(TestResultS &test_results, const std::string &type, size_t size) {
     RSS_SNAPSHOT_WITH_TYPE(type);
     std::vector<T> cpp_vector;
@@ -745,7 +781,7 @@ int test_vector_to_py_list_round_trip(TestResultS &test_results, const std::stri
     return result;
 }
 
-template<typename T, PyObject *(*Convert)(const T &)>
+template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
 int test_py_list_to_vector_round_trip(TestResultS &test_results, const std::string &type, size_t size) {
     RSS_SNAPSHOT_WITH_TYPE(type);
     PyObject *op = Python_Cpp_Containers::py_list_new(size);
@@ -756,7 +792,7 @@ int test_py_list_to_vector_round_trip(TestResultS &test_results, const std::stri
         result |= 1;
     } else {
         for (size_t i = 0; i < size; ++i) {
-            err = Python_Cpp_Containers::py_list_set(op, i, Convert(static_cast<T>(i)));
+            err = Python_Cpp_Containers::py_list_set(op, i, ConvertCppToPy(static_cast<T>(i)));
             if (err != 0) {
                 result |= 1 << 1;
             }
@@ -788,7 +824,7 @@ int test_py_list_to_vector_round_trip(TestResultS &test_results, const std::stri
     return result;
 }
 
-template<typename T, T (*ConvertPyToCpp)(PyObject *), PyObject *(*Convert_Py)(const T &)>
+template<typename T, T (*ConvertPyToCpp)(PyObject *), PyObject *(*ConvertCppToPy)(const T &)>
 int test_unordered_set_to_py_set(TestResultS &test_results, const std::string &type, size_t size) {
     RSS_SNAPSHOT_WITH_TYPE(type);
     std::unordered_set<T> cpp_container;
@@ -805,7 +841,7 @@ int test_unordered_set_to_py_set(TestResultS &test_results, const std::string &t
         if (! Python_Cpp_Containers::py_set_check(op)) {
             result |= 1 << 1;
         } else {
-            if (compare_set<T, Convert_Py, ConvertPyToCpp>(cpp_container, op)) {
+            if (compare_set<T, ConvertCppToPy, ConvertPyToCpp>(cpp_container, op)) {
                 result |= 1 << 2;
             }
         }

@@ -103,10 +103,10 @@ dict_inc(PyObject *Py_UNUSED(module), PyObject *arg) {
  * @param arg The Python list. This is const.
  * @return A new Python list of T.
  */
-template<typename T>
+template<template<typename ...> class List, typename T>
 static PyObject *
 new_list(PyObject *arg) {
-    std::vector<T> vec;
+    List<T> vec;
     if (!py_list_to_cpp_std_list_like(arg, vec)) {
         return cpp_std_list_like_to_py_list(vec);
     }
@@ -120,41 +120,64 @@ new_list(PyObject *arg) {
  * @return A new Python list of bool.
  */
 static PyObject *
-new_list_bool(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_list<bool>(arg);
-}
-
-/**
- * Create a new list of floats by copying into a vector and back.
- *
- * @param arg The Python list. This is const.
- * @return A new Python list of float.
- */
-static PyObject *
-new_list_float(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_list<double>(arg);
+new_list_vector_bool(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::vector, bool>(arg);
 }
 
 static PyObject *
-new_list_int(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_list<long>(arg);
+new_list_vector_float(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::vector, double>(arg);
 }
 
 static PyObject *
-new_list_complex(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_list<std::complex<double>>(arg);
+new_list_vector_int(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::vector, long>(arg);
 }
 
 static PyObject *
-new_list_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_list<std::vector<char>>(arg);
+new_list_vector_complex(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::vector, std::complex<double>>(arg);
 }
 
 static PyObject *
-new_list_str(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_list<std::string>(arg);
+new_list_vector_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::vector, std::vector<char>>(arg);
 }
 
+static PyObject *
+new_list_vector_str(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::vector, std::string>(arg);
+}
+
+static PyObject *
+new_list_list_bool(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::list, bool>(arg);
+}
+
+static PyObject *
+new_list_list_float(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::list, double>(arg);
+}
+
+static PyObject *
+new_list_list_int(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::list, long>(arg);
+}
+
+static PyObject *
+new_list_list_complex(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::list, std::complex<double>>(arg);
+}
+
+static PyObject *
+new_list_list_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::list, std::vector<char>>(arg);
+}
+
+static PyObject *
+new_list_list_str(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::list, std::string>(arg);
+}
 
 #if 0
 /*
@@ -506,18 +529,30 @@ static PyMethodDef cPyCppContainersMethods[] = {
                 "Take a Python dict[bytes, int] and return a new dict with the values incremented by 1."},
         /* Copying functions. */
         /* Lists. */
-        {"new_list_float", new_list_float, METH_O,
-                "Take a list of floats and return a new list with the same values."},
-        {"new_list_bool", new_list_bool, METH_O,
-                "Take a list of booleans and return a new list with the same values."},
-        {"new_list_int", new_list_int, METH_O,
-                "Take a list of ints and return a new list with the same values."},
-        {"new_list_complex", new_list_complex, METH_O,
-                "Take a list of complex numbers and return a new list with the same values."},
-        {"new_list_bytes", new_list_bytes, METH_O,
-                "Take a list of bytes and return a new list with the same values."},
-        {"new_list_str", new_list_str, METH_O,
-                "Take a list of str and return a new list with the same values."},
+        {"new_list_vector_float", new_list_vector_float, METH_O,
+                "Take a list of floats and return a new list with the same values via a std::vector."},
+        {"new_list_vector_bool", new_list_vector_bool, METH_O,
+                "Take a list of booleans and return a new list with the same values via a std::vector."},
+        {"new_list_vector_int", new_list_vector_int, METH_O,
+                "Take a list of ints and return a new list with the same values via a std::vector."},
+        {"new_list_vector_complex", new_list_vector_complex, METH_O,
+                "Take a list of complex numbers and return a new list with the same values via a std::vector."},
+        {"new_list_vector_bytes", new_list_vector_bytes, METH_O,
+                "Take a list of bytes and return a new list with the same values via a std::vector."},
+        {"new_list_vector_str", new_list_vector_str, METH_O,
+                "Take a list of str and return a new list with the same values via a std::vector."},
+        {"new_list_list_float", new_list_list_float, METH_O,
+                "Take a list of floats and return a new list with the same values via a std::list."},
+        {"new_list_list_bool", new_list_list_bool, METH_O,
+                "Take a list of booleans and return a new list with the same values via a std::list."},
+        {"new_list_list_int", new_list_list_int, METH_O,
+                "Take a list of ints and return a new list with the same values via a std::list."},
+        {"new_list_list_complex", new_list_list_complex, METH_O,
+                "Take a list of complex numbers and return a new list with the same values via a std::list."},
+        {"new_list_list_bytes", new_list_list_bytes, METH_O,
+                "Take a list of bytes and return a new list with the same values via a std::list."},
+        {"new_list_list_str", new_list_list_str, METH_O,
+                "Take a list of str and return a new list with the same values via a std::list."},
         /* Sets. */
         {"new_set_int", new_set_int, METH_O,
                 "Take a set of ints and return a new set with the same values."},

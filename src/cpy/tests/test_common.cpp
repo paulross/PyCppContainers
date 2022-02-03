@@ -5,6 +5,7 @@
 
 #pragma mark Comparison template specialisations.
 
+// Specific instantiations of templates.
 template <>
 int
 compare_tuple<bool>(const std::vector<bool> &cpp_vector, PyObject *op) {
@@ -196,6 +197,14 @@ compare_dict<
             >(cpp_map, op);
 }
 
+/**
+ * Tests converting a C++ \c std::vector<std::vector<char>> to a Python \c tuple.
+ *
+ * @param test_results The test results to update.
+ * @param size Size of the \c std::vector to create.
+ * @param str_len Length of each entry in the \c std::vector.
+ * @return 0 on success, non-zero on failure.
+ */
 int test_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     std::vector<std::vector<char>> cpp_vector;
@@ -222,6 +231,14 @@ int test_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t size, 
     return result;
 }
 
+/**
+ * Tests converting a Python \c tuple of \c bytes to a C++ \c std::vector<std::vector<char>>.
+ *
+ * @param test_results The test results to update.
+ * @param size Size of the \c std::vector to create.
+ * @param str_len Length of each entry in the \c std::vector.
+ * @return 0 on success, non-zero on failure.
+ */
 int test_py_tuple_bytes_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     PyObject *op = new_py_tuple_bytes(size, str_len);
@@ -248,6 +265,14 @@ int test_py_tuple_bytes_to_vector(TestResultS &test_results, size_t size, size_t
     return result;
 }
 
+/**
+ * Tests converting a C++ \c std::vector<std::string> to a Python \c tuple.
+ *
+ * @param test_results The test results to update.
+ * @param size Size of the \c std::vector to create.
+ * @param str_len Length of each entry in the \c std::vector.
+ * @return 0 on success, non-zero on failure.
+ */
 int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     assert(!PyErr_Occurred());
@@ -276,6 +301,14 @@ int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_
     return result;
 }
 
+/**
+ * Tests converting a Python \c tuple of \c str to a C++ \c std::vector<std::string>.
+ *
+ * @param test_results The test results to update.
+ * @param size Size of the \c std::vector to create.
+ * @param str_len Length of each entry in the \c std::vector.
+ * @return 0 on success, non-zero on failure.
+ */
 int test_py_tuple_str_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     assert(!PyErr_Occurred());
@@ -304,6 +337,14 @@ int test_py_tuple_str_to_vector(TestResultS &test_results, size_t size, size_t s
     return result;
 }
 
+/**
+ * Tests converting a C++ \c std::vector<std::vector<char>> to a Python \c list.
+ *
+ * @param test_results The test results to update.
+ * @param size Size of the \c std::vector to create.
+ * @param str_len Length of each entry in the \c std::vector.
+ * @return 0 on success, non-zero on failure.
+ */
 int test_vector_vector_char_to_py_list(TestResultS &test_results, size_t size, size_t str_len) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     std::vector<std::vector<char>> cpp_vector;
@@ -330,6 +371,14 @@ int test_vector_vector_char_to_py_list(TestResultS &test_results, size_t size, s
     return result;
 }
 
+/**
+ * Tests converting a Python \c list to a C++ \c std::vector<std::vector<char>>.
+ *
+ * @param test_results The test results to update.
+ * @param size Size of the \c std::vector to create.
+ * @param str_len Length of each entry in the \c std::vector.
+ * @return 0 on success, non-zero on failure.
+ */
 int test_py_list_bytes_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     PyObject *op = new_py_list_bytes(size, str_len);
@@ -356,6 +405,14 @@ int test_py_list_bytes_to_vector(TestResultS &test_results, size_t size, size_t 
     return result;
 }
 
+/**
+ * Tests converting a C++ \c std::vector<std::string> to a Python \c list.
+ *
+ * @param test_results The test results to update.
+ * @param size Size of the \c std::vector to create.
+ * @param str_len Length of each entry in the \c std::vector.
+ * @return 0 on success, non-zero on failure.
+ */
 int test_vector_string_to_py_list(TestResultS &test_results, size_t size, size_t str_len) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     assert(!PyErr_Occurred());
@@ -384,6 +441,14 @@ int test_vector_string_to_py_list(TestResultS &test_results, size_t size, size_t
     return result;
 }
 
+/**
+ * Tests converting a Python \c list to a C++ \c std::vector<std::string>.
+ *
+ * @param test_results The test results to update.
+ * @param size Size of the \c std::vector to create.
+ * @param str_len Length of each entry in the \c std::vector.
+ * @return 0 on success, non-zero on failure.
+ */
 int test_py_list_str_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     assert(!PyErr_Occurred());
@@ -512,7 +577,13 @@ int test_py_set_string_to_unordered_set(TestResultS &test_results, size_t size, 
     return result;
 }
 
-// Create a new tuple of bytes
+/**
+ * Create a new Python \c tuple of \c bytes.
+ *
+ * @param size Length of the \c tuple.
+ * @param str_len Length of each \c bytes object. Each byte is just ' '.
+ * @return New reference to a \c tuple or \c NULL on failure.
+ */
 PyObject *
 new_py_tuple_bytes(size_t size, size_t str_len) {
     PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
@@ -529,7 +600,13 @@ new_py_tuple_bytes(size_t size, size_t str_len) {
     return op;
 }
 
-// Create a new tuple of string
+/**
+ * Create a new Python \c tuple of \c str.
+ *
+ * @param size Length of the \c tuple.
+ * @param str_len Length of each \c str object. Each byte is just ' '.
+ * @return New reference to a \c tuple or \c NULL on failure.
+ */
 PyObject *
 new_py_tuple_string(size_t size, size_t str_len) {
     PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
@@ -546,7 +623,13 @@ new_py_tuple_string(size_t size, size_t str_len) {
     return op;
 }
 
-// Create a new list of bytes
+/**
+ * Create a new Python \c list of \c bytes.
+ *
+ * @param size Length of the \c list.
+ * @param str_len Length of each \c bytes object. Each byte is just ' '.
+ * @return New reference to a \c list or \c NULL on failure.
+ */
 PyObject *
 new_py_list_bytes(size_t size, size_t str_len) {
     PyObject *op = Python_Cpp_Containers::py_list_new(size);
@@ -563,7 +646,13 @@ new_py_list_bytes(size_t size, size_t str_len) {
     return op;
 }
 
-// Create a new list of bytes
+/**
+ * Create a new Python \c list of \c str.
+ *
+ * @param size Length of the \c list.
+ * @param str_len Length of each \c str object. Each byte is just ' '.
+ * @return New reference to a \c list or \c NULL on failure.
+ */
 PyObject *
 new_py_list_string(size_t size, size_t str_len) {
     PyObject *op = Python_Cpp_Containers::py_list_new(size);
@@ -580,7 +669,13 @@ new_py_list_string(size_t size, size_t str_len) {
     return op;
 }
 
-// Create a new set of bytes
+/**
+ * Create a new Python \c set of \c bytes.
+ *
+ * @param size Length of the \c set.
+ * @param str_len Length of each \c bytes object. Each object will be unique.
+ * @return New reference to a \c set or \c NULL on failure.
+ */
 PyObject *
 new_py_set_bytes(size_t size, size_t str_len) {
     PyObject *op = PySet_New(NULL);
@@ -597,7 +692,13 @@ new_py_set_bytes(size_t size, size_t str_len) {
     return op;
 }
 
-// Create a new Python set of std::string
+/**
+ * Create a new Python \c set of \c str.
+ *
+ * @param size Length of the \c set.
+ * @param str_len Length of each \c str object. Each object will be unique.
+ * @return New reference to a \c set or \c NULL on failure.
+ */
 PyObject *
 new_py_set_string(size_t size, size_t str_len) {
     PyObject *op = PySet_New(NULL);
@@ -614,7 +715,13 @@ new_py_set_string(size_t size, size_t str_len) {
     return op;
 }
 
-// Create a new dict of unique bytes
+/**
+ * Create a new Python \c dict of \c bytes for both the key and the value.
+ *
+ * @param size Length of the \c dict.
+ * @param str_len Length of each \c bytes object to be the key and value. Each key and value will be unique.
+ * @return New reference to a \c dict or \c NULL on failure.
+ */
 PyObject *
 new_py_dict_bytes(size_t size, size_t str_len) {
     PyObject *op = PyDict_New();
@@ -640,7 +747,13 @@ new_py_dict_bytes(size_t size, size_t str_len) {
     return op;
 }
 
-// Create a new dict of unique std::string
+/**
+ * Create a new Python \c dict of \c str for both the key and the value.
+ *
+ * @param size Length of the \c dict.
+ * @param str_len Length of each \c str object to be the key and value. Each key and value will be unique.
+ * @return New reference to a \c dict or \c NULL on failure.
+ */
 PyObject *
 new_py_dict_string(size_t size, size_t str_len) {
     PyObject *op = PyDict_New();

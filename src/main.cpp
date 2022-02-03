@@ -3,6 +3,8 @@
 
 #include <Python.h>
 
+#include <cpp/save_stream_state.h>
+
 #include "cpy/tests/test_functional.h"
 #include "cpy/tests/test_performance.h"
 #include "cpy/tests/test_memory.h"
@@ -75,7 +77,12 @@ int main() {
     Py_FinalizeEx();
 
     std::cout << "====" << rss_overall << std::endl;
-    std::cout << "Total execution time: " << exec_clock.seconds() << " (s)" << std::endl;
+    {
+        StreamFormatState stream_state(std::cout);
+        std::cout << std::setprecision(3) << std::fixed;
+        std::cout << "Total execution time: " << std::setw(12) << exec_clock.seconds() << " (s)" << std::endl;
+    }
+    std::cout << "Count of unique strings created: " << count_of_unique_string() << std::endl;
     std::cout << "Bye, bye!" << std::endl;
     return 0;
 }

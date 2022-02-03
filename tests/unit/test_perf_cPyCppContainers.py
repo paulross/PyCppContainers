@@ -93,7 +93,7 @@ BYTES_LISTS = {
 
 
 @pytest.mark.slow
-def test_new_list_bool():
+def test_new_list_vector_bool():
     results = []
     proc = psutil.Process()
     rss = proc.memory_info().rss
@@ -102,13 +102,13 @@ def test_new_list_bool():
         timer = TimedResults()
         for _r in range(REPEAT):
             time_start = time.perf_counter()
-            cPyCppContainers.new_list_bool(original)
+            cPyCppContainers.new_list_vector_bool(original)
             time_exec = time.perf_counter() - time_start
             timer.add(time_exec)
         results.append((size, timer))
     # pprint.pprint(results)
     print()
-    print('test_new_list_bool():')
+    print('test_new_list_vector_bool():')
     rss_new = proc.memory_info().rss
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
     print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
@@ -117,7 +117,7 @@ def test_new_list_bool():
 
 
 @pytest.mark.slow
-def test_new_list_int():
+def test_new_list_vector_int():
     results = []
     proc = psutil.Process()
     rss = proc.memory_info().rss
@@ -126,14 +126,14 @@ def test_new_list_int():
         timer = TimedResults()
         for _r in range(REPEAT):
             time_start = time.perf_counter()
-            cPyCppContainers.new_list_int(original)
+            cPyCppContainers.new_list_vector_int(original)
             time_exec = time.perf_counter() - time_start
             timer.add(time_exec)
         results.append((size, timer))
     # pprint.pprint(results)
     print()
     rss_new = proc.memory_info().rss
-    print('test_new_list_int():')
+    print('test_new_list_vector_int():')
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
     print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
     for s, t in results:
@@ -141,7 +141,7 @@ def test_new_list_int():
 
 
 @pytest.mark.slow
-def test_new_list_float():
+def test_new_list_vector_float():
     results = []
     proc = psutil.Process()
     rss = proc.memory_info().rss
@@ -151,7 +151,7 @@ def test_new_list_float():
         timer = TimedResults()
         for _r in range(REPEAT):
             time_start = time.perf_counter()
-            cPyCppContainers.new_list_float(original)
+            cPyCppContainers.new_list_vector_float(original)
             time_exec = time.perf_counter() - time_start
             timer.add(time_exec)
         results.append((size, timer))
@@ -160,7 +160,7 @@ def test_new_list_float():
     # pprint.pprint(results)
     print()
     rss_new = proc.memory_info().rss
-    print('test_new_list_float()')
+    print('test_new_list_vector_float()')
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
     print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
     for s, t in results:
@@ -168,7 +168,7 @@ def test_new_list_float():
 
 
 @pytest.mark.slow
-def test_new_list_complex():
+def test_new_list_vector_complex():
     results = []
     proc = psutil.Process()
     rss = proc.memory_info().rss
@@ -178,7 +178,7 @@ def test_new_list_complex():
         timer = TimedResults()
         for _r in range(REPEAT):
             time_start = time.perf_counter()
-            cPyCppContainers.new_list_complex(original)
+            cPyCppContainers.new_list_vector_complex(original)
             time_exec = time.perf_counter() - time_start
             timer.add(time_exec)
         results.append((size, timer))
@@ -187,7 +187,7 @@ def test_new_list_complex():
     # pprint.pprint(results)
     print()
     rss_new = proc.memory_info().rss
-    print('test_new_list_complex()')
+    print('test_new_list_vector_complex()')
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
     print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
     for s, t in results:
@@ -195,7 +195,7 @@ def test_new_list_complex():
 
 
 @pytest.mark.slow
-def test_new_list_bytes():
+def test_new_list_vector_bytes():
     proc = psutil.Process()
     rss = proc.memory_info().rss
     for byte_length in SIZE_DOUBLING_BYTE_LENGTH:
@@ -209,14 +209,14 @@ def test_new_list_bytes():
             timer = TimedResults()
             for _r in range(REPEAT):
                 time_start = time.perf_counter()
-                cPyCppContainers.new_list_bytes(original)
+                cPyCppContainers.new_list_vector_bytes(original)
                 time_exec = time.perf_counter() - time_start
                 timer.add(time_exec)
             results.append((size, timer))
         print()
         rss_new = proc.memory_info().rss
         print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
-        print(f'test_new_list_bytes() Byte length {byte_length}')
+        print(f'test_new_list_vector_bytes() Byte length {byte_length}')
         print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
         for s, t in results:
             print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
@@ -225,7 +225,7 @@ def test_new_list_bytes():
 
 
 @pytest.mark.slow
-def test_new_list_str():
+def test_new_list_vector_str():
     proc = psutil.Process()
     rss = proc.memory_info().rss
     for byte_length in SIZE_DOUBLING_BYTE_LENGTH:
@@ -239,14 +239,176 @@ def test_new_list_str():
             timer = TimedResults()
             for _r in range(REPEAT):
                 time_start = time.perf_counter()
-                cPyCppContainers.new_list_str(original)
+                cPyCppContainers.new_list_vector_str(original)
                 time_exec = time.perf_counter() - time_start
                 timer.add(time_exec)
             results.append((size, timer))
         print()
         rss_new = proc.memory_info().rss
         print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
-        print(f'test_new_list_str() String length {byte_length}')
+        print(f'test_new_list_vector_str() String length {byte_length}')
+        print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+        for s, t in results:
+            print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+    rss_new = proc.memory_info().rss
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+
+
+@pytest.mark.slow
+def test_new_list_list_bool():
+    results = []
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    for size in SIZE_DOUBLING:
+        original = [True, False, ] * (size // 2)
+        timer = TimedResults()
+        for _r in range(REPEAT):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_list_list_bool(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+    # pprint.pprint(results)
+    print()
+    print('test_new_list_list_bool():')
+    rss_new = proc.memory_info().rss
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+
+
+@pytest.mark.slow
+def test_new_list_list_int():
+    results = []
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    for size in SIZE_DOUBLING:
+        original = list(range(size))
+        timer = TimedResults()
+        for _r in range(REPEAT):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_list_list_int(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+    # pprint.pprint(results)
+    print()
+    rss_new = proc.memory_info().rss
+    print('test_new_list_list_int():')
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+
+
+@pytest.mark.slow
+def test_new_list_list_float():
+    results = []
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    for size in SIZE_DOUBLING:
+        rss_here = proc.memory_info().rss
+        original = [float(v) for v in range(size)]
+        timer = TimedResults()
+        for _r in range(REPEAT):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_list_list_float(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+        rss_now = proc.memory_info().rss
+        # print(f'RSS HERE was {rss_here:,d} now {rss_now:,d} rate {(rss_now - rss_here) / (REPEAT * size)}')
+    # pprint.pprint(results)
+    print()
+    rss_new = proc.memory_info().rss
+    print('test_new_list_list_float()')
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+
+
+@pytest.mark.slow
+def test_new_list_list_complex():
+    results = []
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    for size in SIZE_DOUBLING:
+        rss_here = proc.memory_info().rss
+        original = [complex(v, v) for v in range(size)]
+        timer = TimedResults()
+        for _r in range(REPEAT):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_list_list_complex(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+        rss_now = proc.memory_info().rss
+        # print(f'RSS HERE was {rss_here:,d} now {rss_now:,d} rate {(rss_now - rss_here) / (REPEAT * size)}')
+    # pprint.pprint(results)
+    print()
+    rss_new = proc.memory_info().rss
+    print('test_new_list_list_complex()')
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+
+
+@pytest.mark.slow
+def test_new_list_list_bytes():
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    for byte_length in SIZE_DOUBLING_BYTE_LENGTH:
+        results = []
+        # 1Gb limit is 2**30
+        max_size = 2 ** 24 // byte_length
+        for size in SIZE_DOUBLING:
+            # original = [BYTES_LISTS[byte_length] for _i in range(size)]
+            original_bytes = b' ' * byte_length
+            original = [original_bytes for _i in range(size)]
+            timer = TimedResults()
+            for _r in range(REPEAT):
+                time_start = time.perf_counter()
+                cPyCppContainers.new_list_list_bytes(original)
+                time_exec = time.perf_counter() - time_start
+                timer.add(time_exec)
+            results.append((size, timer))
+        print()
+        rss_new = proc.memory_info().rss
+        print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+        print(f'test_new_list_list_bytes() Byte length {byte_length}')
+        print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+        for s, t in results:
+            print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+    rss_new = proc.memory_info().rss
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+
+
+@pytest.mark.slow
+def test_new_list_list_str():
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    for byte_length in SIZE_DOUBLING_BYTE_LENGTH:
+        results = []
+        # 1Gb limit is 2**30
+        max_size = 2 ** 24 // byte_length
+        for size in SIZE_DOUBLING:
+            # original = [BYTES_LISTS[byte_length] for _i in range(size)]
+            original_str = ' ' * byte_length
+            original = [original_str for _i in range(size)]
+            timer = TimedResults()
+            for _r in range(REPEAT):
+                time_start = time.perf_counter()
+                cPyCppContainers.new_list_list_str(original)
+                time_exec = time.perf_counter() - time_start
+                timer.add(time_exec)
+            results.append((size, timer))
+        print()
+        rss_new = proc.memory_info().rss
+        print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:,d}')
+        print(f'test_new_list_list_str() String length {byte_length}')
         print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
         for s, t in results:
             print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')

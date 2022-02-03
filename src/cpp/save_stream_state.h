@@ -14,7 +14,16 @@
 /**
  * A class that saves the formatting state of a stream and restores it on destruction.
  *
- * The state that is saved is the .flags() and the .fill() character.
+ * Usage:
+ *
+ * \code
+ *  {
+ *      StreamFormatState stream_state(os); // Stream state captured.
+ *      // ...
+ *  } // Stream state restored.
+ * \endcode
+ *
+ * The state that is saved is the \c .flags() and the \c .fill() character.
  */
 class StreamFormatState {
 public:

@@ -257,7 +257,7 @@ int test_list_like_to_py_tuple_multiple(TestResultS &test_results, const std::st
         cpp_vector.push_back(T(i));
     }
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<" << type << ">" << "[" << size << "]";
+    title << __FUNCTION__ << "-" << container_type << type << "[" << size << "]";
     TestResult test_result(title.str());
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
@@ -319,7 +319,7 @@ int test_py_tuple_to_list_like_multiple(TestResultS &test_results, const std::st
         if (result == 0) {
             ListLike<T> cpp_vector;
             std::ostringstream title;
-            title << __FUNCTION__ << container_type << "<" << type << ">" << "[" << size << "]";
+            title << __FUNCTION__ << "-" << container_type << type << "[" << size << "]";
             TestResult test_result(title.str());
             for (size_t r = 0; r < repeat; ++r) {
                 ExecClock exec_clock;
@@ -386,7 +386,7 @@ test_list_like_vector_char_to_py_tuple_multiple(TestResultS &test_results, size_
         cpp_vector.push_back(std::vector<char>(str_len, ' '));
     }
     std::ostringstream title;
-    title << __FUNCTION__ << "<" << container_type << "<char>" << ">" << "[" << str_len << "]>" << "():" << "[" << size
+    title << __FUNCTION__ << "-" << container_type << "<char>" << "[" << str_len << "]>" << "():" << "[" << size
           << "]";
     TestResult test_result(title.str());
     for (size_t i = 0; i < repeat; ++i) {
@@ -446,7 +446,7 @@ test_py_tuple_bytes_to_list_like_vector_char_multiple(TestResultS &test_results,
                                                    size_t repeat, const std::string &container_type) {
     int result = 0;
     std::ostringstream title;
-    title << __FUNCTION__ << "<" << container_type << "<char>" << ">" << "[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "-" << container_type << "<char>" << "[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     PyObject * op = new_py_tuple_bytes(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
@@ -514,7 +514,7 @@ int test_list_like_string_to_py_tuple_multiple(TestResultS &test_results, size_t
         cpp_vector.push_back(std::string(str_len, ' '));
     }
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<" << "<std::string>" << ">" << "[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "-" << container_type << "<std::string>" << "[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
@@ -569,7 +569,7 @@ test_py_tuple_str_to_list_like_string_multiple(TestResultS &test_results, size_t
                                                const std::string &container_type) {
     int result = 0;
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<" << "<std::string>" << ">" << "[" << str_len << "]>" << "():" << "["
+    title << __FUNCTION__ << "-" << container_type << "<std::string>" << "[" << str_len << "]>" << "():" << "["
           << size << "]";
     TestResult test_result(title.str());
     PyObject * op = new_py_tuple_string(size, str_len);
@@ -639,7 +639,7 @@ int test_list_like_to_py_list_multiple(TestResultS &test_results, const std::str
         cpp_vector.push_back(T(i));
     }
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<" << type << ">" << "[" << size << "]";
+    title << __FUNCTION__ << "-" << container_type << type << "[" << size << "]";
     TestResult test_result(title.str());
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
@@ -702,7 +702,7 @@ int test_py_list_to_list_like_multiple(TestResultS &test_results, const std::str
         if (result == 0) {
             ListLike<T> cpp_vector;
             std::ostringstream title;
-            title << __FUNCTION__ << container_type << "<" << type << ">" << "[" << size << "]";
+            title << __FUNCTION__ << "-" << container_type << type << "[" << size << "]";
             TestResult test_result(title.str());
             for (size_t r = 0; r < repeat; ++r) {
                 ExecClock exec_clock;
@@ -769,7 +769,7 @@ test_list_like_vector_char_to_py_list_multiple(TestResultS &test_results, size_t
         cpp_vector.push_back(std::vector<char>(str_len, ' '));
     }
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<" << "<char>" << ">" << "[" << str_len << "]>" << "():" << "[" << size
+    title << __FUNCTION__ << "-" << container_type << "<char>" << "[" << str_len << "]>" << "():" << "[" << size
           << "]";
     TestResult test_result(title.str());
     for (size_t i = 0; i < repeat; ++i) {
@@ -827,7 +827,7 @@ test_py_list_bytes_to_list_like_vector_char_multiple(TestResultS &test_results, 
                                                   size_t repeat, const std::string &container_type) {
     int result = 0;
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<" << "std::vector<char>" << ">" << "[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "-" << container_type << "<" << "std::vector<char>" << ">" << "[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     PyObject * op = new_py_list_bytes(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
@@ -896,7 +896,7 @@ int test_list_like_string_to_py_list_multiple(TestResultS &test_results, size_t 
         cpp_vector.push_back(std::string(str_len, ' '));
     }
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<" << "<std::string>" << ">" << "[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "-" << container_type << "<std::string>" << "[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
@@ -953,7 +953,7 @@ test_py_list_str_to_list_like_string_multiple(TestResultS &test_results, size_t 
                                               const std::string &container_type) {
     int result = 0;
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<" << "<std::string>" << ">" << "[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "-" << container_type << "<std::string>" << "[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     PyObject * op = new_py_list_string(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
@@ -1250,7 +1250,7 @@ int test_cpp_std_map_like_to_py_dict_multiple(TestResultS &test_results, const s
         cpp_map[static_cast<K>(i)] = static_cast<V>(i);
     }
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<" << type << ">" << "[" << size << "]";
+    title << __FUNCTION__ << "-" << container_type << type << "[" << size << "]";
     TestResult test_result(title.str());
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
@@ -1316,7 +1316,7 @@ int test_py_dict_to_cpp_std_map_like_multiple(TestResultS &test_results, const s
     PyObject * py_k = NULL;
     PyObject * py_v = NULL;
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<" << type << ">" << "[" << size << "]";
+    title << __FUNCTION__ << "-" << container_type << type << "[" << size << "]";
     TestResult test_result(title.str());
     int result = 0;
     double exec_time = -1.0;
@@ -1456,7 +1456,7 @@ int test_cpp_std_map_like_to_py_dict_vector_char_multiple(TestResultS &test_resu
         cpp_map[unique_vector_char(str_len)] = std::vector<char>(str_len, ' ');
     }
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<" << "std::vector<char>" << ">" << "[" << str_len << "]>" << "():"
+    title << __FUNCTION__ << "-" << container_type << "<" << "std::vector<char>" << ">" << "[" << str_len << "]>" << "():"
           << "[" << size << "]";
     TestResult test_result(title.str());
     for (size_t i = 0; i < repeat; ++i) {
@@ -1524,7 +1524,7 @@ int test_py_dict_to_cpp_std_map_like_vector_char_multiple(TestResultS &test_resu
                                                           size_t repeat, const std::string &container_type) {
     int result = 0;
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<std::vector<char>>[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "-" << container_type << "<std::vector<char>>[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     PyObject * op = new_py_dict_bytes(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
@@ -1594,7 +1594,7 @@ int test_cpp_std_map_like_to_py_dict_string_multiple(TestResultS &test_results, 
         cpp_map[unique_string(str_len)] = std::string(str_len, ' ');
     }
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<std::string>[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "-" << container_type << "<std::string>[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
@@ -1656,7 +1656,7 @@ int test_py_dict_to_cpp_std_map_like_string_multiple(TestResultS &test_results, 
                                                      size_t repeat, const std::string &container_type) {
     int result = 0;
     std::ostringstream title;
-    title << __FUNCTION__ << container_type << "<std::string>[" << str_len << "]>" << "():" << "[" << size << "]";
+    title << __FUNCTION__ << "-" << container_type << "<std::string>[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     PyObject * op = new_py_dict_string(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {

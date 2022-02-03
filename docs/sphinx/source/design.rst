@@ -54,7 +54,7 @@ For example here are the three functions for Python lists:
 
     PyObject *py_list_new(size_t len);
 
-    Py_ssize_t py_list_len(PyObject *op);
+    Py_ssize_t py_list_len(PyObject *list_p);
 
     int py_list_set(PyObject *list_p, size_t pos, PyObject *op);
 
@@ -75,17 +75,21 @@ Conversion Templates
 Python Lists and Tuples
 -----------------------
 
-Conversion From a ``std::vector<T>`` to a Python List or Tuple
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+There are several levels of specialisation here as we want to support
+
+Conversion From a ``std::vector<T>`` or a ``std::list<T>`` to a Python List or Tuple
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
-    template<typename T,
-            PyObject *(*Convert)(const T &),
-            PyObject *(*PyUnary_New)(size_t),
-            int(*PyUnary_Set)(PyObject *, size_t, PyObject *)>
+    template<
+            template<typename ...> class ListLike,
+            typename T,
+            PyObject *(*ConvertCppToPy)(const T &),
+            PyObject *(*PyUnaryContainer_New)(size_t),
+            int(*PyUnaryContainer_Set)(PyObject *, size_t, PyObject *)>
     PyObject *
-    generic_cpp_std_vector_to_py_unary(const std::vector<T> &vec);
+    very_generic_cpp_std_list_like_to_py_unary(const ListLike<T> &list_like) {
 
 
 .. list-table:: Convert a ``std::vector`` to a Python Tuple or List.
@@ -94,39 +98,51 @@ Conversion From a ``std::vector<T>`` to a Python List or Tuple
 
    * - Type
      - Description
+   * - ``ListLike``
+     - The C++ container, for example a ``std::vector`` or a ``std::list``.
    * - ``typename T``
-     - The C++ type of the object.
+     - The C++ type of each object in the container.
    * - ``PyObject *(*Convert)(const T &)``
-     - A pointer to a function that takes a type ``T`` and returns a new Python object.
+     - A pointer to a function that takes a type ``T`` and returns a new Python ``PyObject*``.
    * - ``PyObject *(*PyUnary_New)(size_t)``
      - A pointer to a function that returns a new Python container of the given length.
    * - ``int(*PyUnary_Set)(PyObject *, size_t, PyObject *)>``
      - Sets a Python object in the Python container at the given position.
 
-This template is then partially specified for both tuples and lists of type ``T``:
+This template is then partially specified four ways for both tuples and lists from ``std::vector<T>`` and ``std::list<T>``:
 
 .. code-block:: cpp
 
-    template<typename T, PyObject *(*Convert)(const T &)>
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
-    generic_cpp_std_vector_to_py_tuple(const std::vector<T> &vec) {
-        return generic_cpp_std_vector_to_py_unary<T,
-                                                  Convert,
-                                                  &py_tuple_new,
-                                                  &py_tuple_set>(vec);
+    generic_cpp_std_list_like_to_py_tuple(const std::vector<T> &container) {
+        return very_generic_cpp_std_list_like_to_py_unary<std::vector, T, ConvertCppToPy, &py_tuple_new, &py_tuple_set>(
+                container);
     }
 
-    template<typename T, PyObject *(*Convert)(const T &)>
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
     PyObject *
-    generic_cpp_std_vector_to_py_list(const std::vector<T> &vec) {
-        return generic_cpp_std_vector_to_py_unary<T,
-                                                  Convert,
-                                                  &py_list_new,
-                                                  &py_list_set>(vec);
+    generic_cpp_std_list_like_to_py_tuple(const std::list<T> &container) {
+        return very_generic_cpp_std_list_like_to_py_unary<std::list, T, ConvertCppToPy, &py_tuple_new, &py_tuple_set>(
+                container);
+    }
+
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
+    PyObject *
+    generic_cpp_std_list_like_to_py_list(const std::vector<T> &container) {
+        return very_generic_cpp_std_list_like_to_py_unary<std::vector, T, ConvertCppToPy, &py_list_new, &py_list_set>(
+                container);
+    }
+
+    template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
+    PyObject *
+    generic_cpp_std_list_like_to_py_list(const std::list<T> &container) {
+        return very_generic_cpp_std_list_like_to_py_unary<std::list, T, ConvertCppToPy, &py_list_new, &py_list_set>(
+                container);
     }
 
 
-Then these are specialised by auto-generated in ``auto_py_convert_internal.h`` code for the types ``bool``, ``long``, ``double`` and ``sts::string``.
+Then these are specialised by auto-generated in ``auto_py_convert_internal.h`` code for the types ``bool``, ``long``, ``double``, ``std::vector<char>`` and ``std::string``.
 Their declarations are:
 
 .. code-block:: cpp
@@ -134,24 +150,28 @@ Their declarations are:
     // Base declaration
     template<typename T>
     PyObject *
-    cpp_std_vector_to_py_tuple(const std::vector<T> &container);
+    cpp_std_list_like_to_py_tuple(const std::vector<T> &container);
 
     // Instantiations
     template <>
     PyObject *
-    cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container);
+    cpp_std_list_like_to_py_tuple<bool>(const std::vector<bool> &container);
 
     template <>
     PyObject *
-    cpp_std_vector_to_py_tuple<long>(const std::vector<long> &container);
+    cpp_std_list_like_to_py_tuple<long>(const std::vector<long> &container);
 
     template <>
     PyObject *
-    cpp_std_vector_to_py_tuple<double>(const std::vector<double> &container);
+    cpp_std_list_like_to_py_tuple<double>(const std::vector<double> &container);
 
     template <>
     PyObject *
-    cpp_std_vector_to_py_tuple<std::string>(const std::vector<std::string> &container);
+    cpp_std_list_like_to_py_tuple<std::vector<char>>(const std::vector<std::string> &container);
+
+    template <>
+    PyObject *
+    cpp_std_list_like_to_py_tuple<std::string>(const std::vector<std::string> &container);
 
 Their declarations are auto-generated in ``auto_py_convert_internal.cpp``:
 
@@ -159,27 +179,69 @@ Their declarations are auto-generated in ``auto_py_convert_internal.cpp``:
 
     template <>
     PyObject *
-    cpp_std_vector_to_py_tuple<bool>(const std::vector<bool> &container) {
-        return generic_cpp_std_vector_to_py_tuple<bool, &cpp_bool_to_py_bool>(container);
+    cpp_std_list_like_to_py_tuple<bool>(const std::vector<bool> &container) {
+        return generic_cpp_std_list_like_to_py_tuple<bool, &cpp_bool_to_py_bool>(container);
     }
 
     template <>
     PyObject *
-    cpp_std_vector_to_py_tuple<long>(const std::vector<long> &container) {
-        return generic_cpp_std_vector_to_py_tuple<long, &cpp_long_to_py_long>(container);
+    cpp_std_list_like_to_py_tuple<long>(const std::vector<long> &container) {
+        return generic_cpp_std_list_like_to_py_tuple<long, &cpp_long_to_py_long>(container);
     }
 
     template <>
     PyObject *
-    cpp_std_vector_to_py_tuple<double>(const std::vector<double> &container) {
-        return generic_cpp_std_vector_to_py_tuple<double, &cpp_double_to_py_float>(container);
+    cpp_std_list_like_to_py_tuple<double>(const std::vector<double> &container) {
+        return generic_cpp_std_list_like_to_py_tuple<double, &cpp_double_to_py_float>(container);
     }
 
     template <>
     PyObject *
-    cpp_std_vector_to_py_tuple<std::string>(const std::vector<std::string> &container) {
-        return generic_cpp_std_vector_to_py_tuple<std::string, &cpp_string_to_py_bytes>(container);
+    cpp_std_list_like_to_py_tuple<std::complex<double>>(const std::vector<std::complex<double>> &container) {
+        return generic_cpp_std_list_like_to_py_tuple<std::complex<double>, &cpp_complex_to_py_complex>(container);
     }
+
+    template <>
+    PyObject *
+    cpp_std_list_like_to_py_tuple<std::vector<char>>(const std::vector<std::vector<char>> &container) {
+        return generic_cpp_std_list_like_to_py_tuple<std::vector<char>, &cpp_vector_char_to_py_bytes>(container);
+    }
+
+    template <>
+    PyObject *
+    cpp_std_list_like_to_py_tuple<std::string>(const std::vector<std::string> &container) {
+        return generic_cpp_std_list_like_to_py_tuple<std::string, &cpp_string_to_py_unicode>(container);
+    }
+
+That is for ``std::vector``, for ``std::list`` the declarations and definitions are very similar in ``auto_py_convert_internal.h``:
+
+
+.. code-block:: cpp
+
+    // Base declaration
+    template<typename T>
+    PyObject *
+    cpp_std_list_like_to_py_tuple(const std::list<T> &container);
+
+    // Instantiations
+    template <>
+    PyObject *
+    cpp_std_list_like_to_py_tuple<bool>(const std::list<bool> &container);
+
+    // And so on...
+
+And their declarations are auto-generated in ``auto_py_convert_internal.cpp``:
+
+.. code-block:: cpp
+
+    template <>
+    PyObject *
+    cpp_std_list_like_to_py_tuple<bool>(const std::list<bool> &container) {
+        return generic_cpp_std_list_like_to_py_tuple<bool, &cpp_bool_to_py_bool>(container);
+    }
+
+    // And so on...
+
 
 Conversion From a Python List or Tuple to a ``std::vector<T>``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

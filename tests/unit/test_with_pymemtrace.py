@@ -12,7 +12,7 @@ from pymemtrace import cPyMemTrace
 import cPyCppContainers
 
 
-def _test_new_list_bytes():
+def _test_new_list_vector_bytes():
     proc = psutil.Process()
     rss = proc.memory_info().rss
     # 1Gb
@@ -25,7 +25,7 @@ def _test_new_list_bytes():
     for _r in range(10):
         original = [byte_entry[:] for _i in range(vector_length)]
         time_start = time.perf_counter()
-        cPyCppContainers.new_list_bytes(original)
+        cPyCppContainers.new_list_vector_bytes(original)
         time_exec = time.perf_counter() - time_start
         results.append(time_exec)
         # del original
@@ -37,11 +37,11 @@ def _test_new_list_bytes():
 
 
 @pytest.mark.pymemtrace
-def test_new_list_bytes():
+def test_new_list_vector_bytes():
     proc = psutil.Process()
     rss = proc.memory_info().rss
     with cPyMemTrace.Profile():
-        _test_new_list_bytes()
+        _test_new_list_vector_bytes()
     gc.collect()
     # for i in range(4):
     #     time.sleep(1.0)
@@ -148,43 +148,43 @@ def test_new_dict_bytes():
 
 # Test for single item container leaks.
 @pytest.mark.pymemtrace
-def test_new_list_bytes_one_item():
+def test_new_list_vector_vector_bytes_one_item():
     """Tests converting a list with a single 1024 byte item 10m times to look for memory leaks in list creation.
 
     Example pymemtrace log::
 
               Event        dEvent  Clock        What     File                                                                            #line Function                                  RSS         dRSS
-        NEXT: 0            +0      0.807417     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33898496     33898496
-        NEXT: 1            +1      0.807427     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33931264        32768
-        PREV: 396898       +396897 1.469587     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33931264            0
-        NEXT: 396899       +396898 1.469631     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33964032        32768
-        PREV: 562738       +165839 1.749167     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33964032            0
-        NEXT: 562739       +165840 1.749218     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33996800        32768
-        PREV: 563166       +427    1.749971     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       33996800            0
-        NEXT: 563167       +428    1.750000     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34029568        32768
-        PREV: 563398       +231    1.750459     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34029568            0
-        NEXT: 563399       +232    1.750484     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34062336        32768
-        PREV: 912896       +349497 2.331721     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34062336            0
-        NEXT: 912897       +349498 2.331773     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34095104        32768
-        PREV: 912898       +1      2.331792     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34095104            0
-        NEXT: 912899       +2      2.331825     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34160640        65536
-        PREV: 913728       +829    2.333386     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34160640            0
-        NEXT: 913729       +830    2.333407     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_bytes                       34193408        32768
+        NEXT: 0            +0      0.807417     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_vector_bytes                       33898496     33898496
+        NEXT: 1            +1      0.807427     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_vector_bytes                       33931264        32768
+        PREV: 396898       +396897 1.469587     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_vector_bytes                       33931264            0
+        NEXT: 396899       +396898 1.469631     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_bytes                       33964032        32768
+        PREV: 562738       +165839 1.749167     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_bytes                       33964032            0
+        NEXT: 562739       +165840 1.749218     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_bytes                       33996800        32768
+        PREV: 563166       +427    1.749971     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_bytes                       33996800            0
+        NEXT: 563167       +428    1.750000     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_bytes                       34029568        32768
+        PREV: 563398       +231    1.750459     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_bytes                       34029568            0
+        NEXT: 563399       +232    1.750484     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_bytes                       34062336        32768
+        PREV: 912896       +349497 2.331721     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_bytes                       34062336            0
+        NEXT: 912897       +349498 2.331773     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_bytes                       34095104        32768
+        PREV: 912898       +1      2.331792     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_bytes                       34095104            0
+        NEXT: 912899       +2      2.331825     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_bytes                       34160640        65536
+        PREV: 913728       +829    2.333386     C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_bytes                       34160640            0
+        NEXT: 913729       +830    2.333407     C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py#  59 new_list_vector_bytes                       34193408        32768
 
     So no apparent leaks.
 
     Mac Book Pro::
 
               Event        dEvent  Clock        What     File                                                                            #line Function                                  RSS         dRSS
-        NEXT: 0            +0      1.313118     C_CALL   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 185 new_list_bytes                       29655040     29655040
-        NEXT: 1            +1      1.313215     C_RETURN /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 185 new_list_bytes                       29663232         8192
+        NEXT: 0            +0      1.313118     C_CALL   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 185 new_list_vector_bytes                       29655040     29655040
+        NEXT: 1            +1      1.313215     C_RETURN /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 185 new_list_vector_bytes                       29663232         8192
         PREV: 20000000     +19999999 54.401765    C_CALL   /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 186 collect                              29663232            0
         NEXT: 20000001     +20000000 54.412929    C_RETURN /Users/engun/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 186 collect                              29667328         4096
     """
     original = [b' ' * 1024]
     with cPyMemTrace.Profile():
         for _r in range(10_000_000):
-            cPyCppContainers.new_list_bytes(original)
+            cPyCppContainers.new_list_vector_bytes(original)
         # Tends to force an event in pymemtrace.
         gc.collect()
 

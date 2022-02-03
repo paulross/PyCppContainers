@@ -18,19 +18,11 @@ For two-way conversion for this set of containers:
 | `std::unordered_set<T>`    | `set`             |
 | `std::unordered_set<T>`    | `frozenset`       |
 | `std::unordered_map<K, V>` | `dict`            |
-| `std::map<K, V>` | `dict`            |
-
-
-| Python Container       | C++ Equivalent                                        |
-|------------------------|-------------------------------------------------------|
-| ``tuple``              | ``std::vector``, ``std::list`` or `std::forward_list` |
-| ``list``               | ``std::vector``, ``std::list`` or `std::forward_list` |
-| ``set``, ``frozenset`` | ``std::unordered_set``                                |
-| ``dict``               | ``std::unordered_map`` or `std::map`                  |
+| `std::map<K, V>`           | `dict`            |
 
 Containing these objects:
 
-| Python Object Type  | C++ Equivalent      |
+| Python Object Type  | C++ Equivalent           |
 |---------------------|--------------------------|
 | ``True``, ``False`` | ``bool``                 |
 | ``int``             | ``long``                 |
@@ -39,16 +31,17 @@ Containing these objects:
 | ``bytes``           | ``std::vector<char>``    |
 | ``str``             | ``std::string``          |
 
-These combinations would normally need 120 specific conversion
+These combinations would normally need 216 specific conversion
 functions.
 
 This project reduces that to just **six** hand maintained functions.
-The 120 actual conversion functions are then created automatically
+The 216 actual conversion functions are then created automatically
 using a mixture of templates, partial specialisation and code generation.
-
 This approach means that new types and containers can be added with ease.
 
 ## Using This Library
+
+### C++ To Python
 
 Suppose that you have a Python list of floats that needs to be passed to a C++ function that expects `std::vector<double>`.
 Then that C++ function modifies that vector and you need the result as a new Python list of floats.
@@ -56,18 +49,61 @@ With this library your code will be as simple as this:
 
 ```c++
 static PyObject *
-new_list_float(PyObject *arg) {
+your_function_name(void) {
+    std::vector<double> container = some_cpp_function_that_creates_a_vector();
+    // Convert the vector back to a new Python list of float
+    // with a generic function.
+    return cpp_std_vector_to_py_list(container);
+}
+```
+
+Some other variations, firstly create a Python `tuple` rather than a `list`:
+
+```c++
+static PyObject *
+your_function_name(void) {
+    std::vector<double> container = some_cpp_function_that_creates_a_vector();
+    return cpp_std_vector_to_py_tuple(container);
+}
+```
+
+Or work with a `std::list` rather than a `std::vector`:
+
+```c++
+static PyObject *
+your_function_name(void) {
+    std::list<double> container = some_cpp_function_that_creates_a_list();
+    return cpp_std_vector_to_py_list(container);
+}
+```
+
+Or work with a `std::vector<std::string>>`:
+
+```c++
+static PyObject *
+your_function_name(void) {
+    std::vector<std::string> container = some_cpp_function_that_creates_a_vector();
+    return cpp_std_vector_to_py_list(container);
+}
+```
+
+Note `cpp_std_vector_to_py_list(container)` will select the correct type conversion or will give
+a compile time error if there is a type mismatch.
+
+### Python to C++
+
+```c++
+static PyObject *
+your_function_name(PyObject *arg) {
     // Declare the specific vector type
     std::vector<double> vec;
     // Call the generic function to convert a list to a std::vector.
     // This returns non-zero if it can not convert arg to a
     // std::vector<double> 
     if (!py_list_to_cpp_std_vector(arg, vec)) {
-        // Send the vector to the C++ library which will modify it.
+        // Send the std::vector<double> to the C++ library.
         // ...
-        // Convert the vector back to a new Python list of float
-        // with a generic function.
-        return cpp_std_vector_to_py_list(vec);
+        Py_RETURN_NONE;
     }
     return NULL;
 }
@@ -88,13 +124,12 @@ python code_gen.py
 Which should give you something like:
 
 ```shell
-
 venv/bin/python src/py/code_gen.py
 Target directory "src/cpy"
 Writing declarations to "src/cpy/auto_py_convert_internal.h"
-Wrote 1526 lines of code with 122 declarations.
-Writing definitions to  "src/cpy/auto_py_convert_internal.cpp"
-Wrote 1237 lines of code with 120 definitions.
+Wrote 2654 lines of code with 220 declarations.
+Writing definitions to "src/cpy/auto_py_convert_internal.cpp"
+Wrote 2384 lines of code with 216 definitions.
 
 Process finished with exit code 0
 ```

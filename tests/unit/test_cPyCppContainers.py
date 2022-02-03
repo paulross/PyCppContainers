@@ -159,8 +159,8 @@ def test_dict_inc_raises(given, expected):
             [1.0, 2.0],
     ),
 )
-def test_new_list_float(given):
-    result = cPyCppContainers.new_list_float(given)
+def test_new_list_vector_float(given):
+    result = cPyCppContainers.new_list_vector_float(given)
     assert result == given
     assert id(result) != id(given)
     # floats are not interned
@@ -175,8 +175,8 @@ def test_new_list_float(given):
             [1.0 + 4.0j, 2.0 + 8.0j],
     ),
 )
-def test_new_list_complex(given):
-    result = cPyCppContainers.new_list_complex(given)
+def test_new_list_vector_complex(given):
+    result = cPyCppContainers.new_list_vector_complex(given)
     assert result == given
     assert id(result) != id(given)
     # complex numbers are not interned
@@ -184,7 +184,7 @@ def test_new_list_complex(given):
     assert all(all_ids_different)
 
 
-# Because of the nature of the code in cPyCppContainers.cpp this test covers all new_list_* functions.
+# Because of the nature of the code in cPyCppContainers.cpp this test covers all new_list_vector_* functions.
 @pytest.mark.parametrize(
     'given, expected',
     (
@@ -199,9 +199,9 @@ def test_new_list_complex(given):
             ),
     ),
 )
-def test_new_list_float_raises(given, expected):
+def test_new_list_vector_float_raises(given, expected):
     with pytest.raises(ValueError) as err:
-        cPyCppContainers.new_list_float(given)
+        cPyCppContainers.new_list_vector_float(given)
     assert err.value.args[0] == expected
 
 
@@ -212,8 +212,8 @@ def test_new_list_float_raises(given, expected):
             [True, False, True],
     ),
 )
-def test_new_list_bool(given):
-    result = cPyCppContainers.new_list_bool(given)
+def test_new_list_vector_bool(given):
+    result = cPyCppContainers.new_list_vector_bool(given)
     assert result == given
     assert id(result) != id(given)
     # NOTE: Can not check individual IDs are different because of interning.
@@ -226,8 +226,8 @@ def test_new_list_bool(given):
             [1, 3, 5, 7, 46823],
     ),
 )
-def test_new_list_int(given):
-    result = cPyCppContainers.new_list_int(given)
+def test_new_list_vector_int(given):
+    result = cPyCppContainers.new_list_vector_int(given)
     assert result == given
     assert id(result) != id(given)
     # NOTE: Can not check individual IDs are different because of interning.
@@ -240,8 +240,8 @@ def test_new_list_int(given):
             [b'abc', b'xyz'],
     ),
 )
-def test_new_list_bytes(given):
-    result = cPyCppContainers.new_list_bytes(given)
+def test_new_list_vector_bytes(given):
+    result = cPyCppContainers.new_list_vector_bytes(given)
     assert result == given
     assert id(result) != id(given)
     # bytes are not interned
@@ -256,8 +256,121 @@ def test_new_list_bytes(given):
             ['abc', 'xyz'],
     ),
 )
-def test_new_list_str(given):
-    result = cPyCppContainers.new_list_str(given)
+def test_new_list_vector_str(given):
+    result = cPyCppContainers.new_list_vector_str(given)
+    assert result == given
+    assert id(result) != id(given)
+    # these strings should not be interned
+    all_ids_different = [id(a) != id(b) for a, b in zip(given, result)]
+    assert all(all_ids_different)
+
+
+@pytest.mark.parametrize(
+    'given',
+    (
+            [],
+            [1.0, 2.0],
+    ),
+)
+def test_new_list_list_float(given):
+    result = cPyCppContainers.new_list_list_float(given)
+    assert result == given
+    assert id(result) != id(given)
+    # floats are not interned
+    all_ids_different = [id(a) != id(b) for a, b in zip(given, result)]
+    assert all(all_ids_different)
+
+
+@pytest.mark.parametrize(
+    'given',
+    (
+            [],
+            [1.0 + 4.0j, 2.0 + 8.0j],
+    ),
+)
+def test_new_list_list_complex(given):
+    result = cPyCppContainers.new_list_list_complex(given)
+    assert result == given
+    assert id(result) != id(given)
+    # complex numbers are not interned
+    all_ids_different = [id(a) != id(b) for a, b in zip(given, result)]
+    assert all(all_ids_different)
+
+
+# Because of the nature of the code in cPyCppContainers.cpp this test covers all new_list_list_* functions.
+@pytest.mark.parametrize(
+    'given, expected',
+    (
+            (
+                    (1.0, 2.0), 'Can not convert Python container of type tuple',
+            ),
+            (
+                    [1.0, 2], 'Python value of type int can not be converted',
+            ),
+            (
+                    [1.0, '2'], 'Python value of type str can not be converted',
+            ),
+    ),
+)
+def test_new_list_list_float_raises(given, expected):
+    with pytest.raises(ValueError) as err:
+        cPyCppContainers.new_list_list_float(given)
+    assert err.value.args[0] == expected
+
+
+@pytest.mark.parametrize(
+    'given',
+    (
+            [],
+            [True, False, True],
+    ),
+)
+def test_new_list_list_bool(given):
+    result = cPyCppContainers.new_list_list_bool(given)
+    assert result == given
+    assert id(result) != id(given)
+    # NOTE: Can not check individual IDs are different because of interning.
+
+
+@pytest.mark.parametrize(
+    'given',
+    (
+            [],
+            [1, 3, 5, 7, 46823],
+    ),
+)
+def test_new_list_list_int(given):
+    result = cPyCppContainers.new_list_list_int(given)
+    assert result == given
+    assert id(result) != id(given)
+    # NOTE: Can not check individual IDs are different because of interning.
+
+
+@pytest.mark.parametrize(
+    'given',
+    (
+            [],
+            [b'abc', b'xyz'],
+    ),
+)
+def test_new_list_list_bytes(given):
+    result = cPyCppContainers.new_list_list_bytes(given)
+    assert result == given
+    assert id(result) != id(given)
+    # bytes are not interned
+    all_ids_different = [id(a) != id(b) for a, b in zip(given, result)]
+    assert all(all_ids_different)
+
+
+@pytest.mark.parametrize(
+    'given',
+    (
+            [],
+            ['abc', 'xyz'],
+    ),
+)
+def test_new_list_list_str(given):
+    result = cPyCppContainers.new_list_list_str(given)
     assert result == given
     assert id(result) != id(given)
     # these strings should not be interned

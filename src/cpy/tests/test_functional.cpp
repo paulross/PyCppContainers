@@ -155,15 +155,10 @@ void test_functional_tuple(TestResultS &test_results) {
 
 void test_functional_list(TestResultS &test_results) {
     // Lists
-    test_vector_to_py_list<bool, &Python_Cpp_Containers::py_bool_to_cpp_bool>(test_results, "<bool>",
-                                                                              1024);
-    test_vector_to_py_list<long, &Python_Cpp_Containers::py_long_to_cpp_long>(test_results, "<long>",
-                                                                              1024);
-    test_vector_to_py_list<double, &Python_Cpp_Containers::py_float_to_cpp_double>(test_results,
-                                                                                   "<double>", 1024);
-    test_vector_to_py_list<std::complex<double>, &Python_Cpp_Containers::py_complex_to_cpp_complex>(test_results,
-                                                                                                    "std::complex<double>",
-                                                                                                    1024);
+    test_vector_to_py_list<bool>(test_results, "<bool>", 1024);
+    test_vector_to_py_list<long>(test_results, "<long>", 1024);
+    test_vector_to_py_list<double>(test_results, "<double>", 1024);
+    test_vector_to_py_list<std::complex<double>>(test_results, "std::complex<double>", 1024);
     test_py_list_to_vector<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool, &Python_Cpp_Containers::py_bool_to_cpp_bool>(
             test_results, "<bool>", 1024);
     test_py_list_to_vector<long, &Python_Cpp_Containers::cpp_long_to_py_long, &Python_Cpp_Containers::py_long_to_cpp_long>(
@@ -177,15 +172,15 @@ void test_functional_list(TestResultS &test_results) {
     test_vector_to_py_list_round_trip<double>(test_results, "<double>", 1024);
     test_vector_to_py_list_round_trip<std::complex<double>>(test_results, "std::complex<double>", 1024);
     test_py_list_to_vector_round_trip<bool, &Python_Cpp_Containers::cpp_bool_to_py_bool>(test_results,
-                                                                                             "<bool>", 1024);
+                                                                                         "<bool>", 1024);
     test_py_list_to_vector_round_trip<long, &Python_Cpp_Containers::cpp_long_to_py_long>(test_results,
-                                                                                             "<long>", 1024);
+                                                                                         "<long>", 1024);
     test_py_list_to_vector_round_trip<double, &Python_Cpp_Containers::cpp_double_to_py_float>(
-                test_results,
-                "<double>", 1024);
+            test_results,
+            "<double>", 1024);
     test_py_list_to_vector_round_trip<std::complex<double>, &Python_Cpp_Containers::cpp_complex_to_py_complex>(
-                test_results,
-                "std::complex<double>", 1024);
+            test_results,
+            "std::complex<double>", 1024);
     test_vector_vector_char_to_py_list(test_results, 1024, 32);
     test_py_list_bytes_to_vector(test_results, 1024, 32);
     test_vector_string_to_py_list(test_results, 1024, 32);

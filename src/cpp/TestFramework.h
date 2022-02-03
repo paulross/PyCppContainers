@@ -25,7 +25,8 @@ private:
     std::chrono::time_point<std::chrono::high_resolution_clock> _start;
 };
 
-/** TestResult is a class that retains correctness and performance information
+/**
+ * TestResult is a class that retains correctness and performance information
  * of a particular test.
  *
  * Terminology:
@@ -48,7 +49,8 @@ private:
  *
  * test_complexity() does the same as test_multiple() but over a range of values
  * of N so that some sense of the time complexity can be gained.
-
+ *
+ * \code
  void test_something(TestResultS &results) {
     ExecClock clk;
     // Do something count number of times here, set failure to 0 | 1.
@@ -95,7 +97,7 @@ private:
 
     std::cout << results;
  }
- *
+ * \endcode
  */
 class TestResult {
 public:
@@ -113,10 +115,7 @@ public:
     /// Setters:
     void setFailed(size_t scale=1) { _results[scale].failed = 1; }
     // Add a new result
-    void execTimeAdd(int failed,
-                     double execTime,
-                     size_t test_count,
-                     size_t scale=1);
+    void execTimeAdd(int failed, double execTime, size_t test_count, size_t scale=1);
     /// Getters
     std::string name() const { return _name; }
     // Getting failure flag
