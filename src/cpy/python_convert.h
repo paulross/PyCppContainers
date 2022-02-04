@@ -266,11 +266,12 @@ namespace Python_Cpp_Containers {
             ret = -1;
             goto except;
         }
-        // We would like to reserve a length for vectors, we can't do that for std::list
-        // Ah could we do that in the specialisation?
-//        list_like.reserve(PyUnaryContainer_Size(op));
         for (Py_ssize_t i = 0; i < PyUnaryContainer_Size(op); ++i) {
             PyObject *value = PyUnaryContainer_Get(op, i);
+            if (!value) {
+                ret = -2;
+                goto except;
+            }
             if (!(*PyObject_Check)(value)) {
                 list_like.clear();
                 PyErr_Format(
@@ -278,7 +279,7 @@ namespace Python_Cpp_Containers {
                         "Python value of type %s can not be converted",
                         value->ob_type->tp_name
                 );
-                ret = -2;
+                ret = -3;
                 goto except;
             }
             list_like.push_back((*PyObject_Convert)(value));

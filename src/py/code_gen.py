@@ -57,8 +57,16 @@ UNARY_COLLECTIONS = (
                                    'py_frozenset_to_cpp_std_unordered_set'),
 )
 
-#: Not really needed as the hand written file, python_convert.h does this.
-REQUIRED_INCLUDES = []
+#: List of any other files to include in python_convert.h such as for user defined types.
+REQUIRED_INCLUDES = [
+    # Example: '"foo.h"'
+]
+
+#: Any types, such as user defined types that need to be excluded from specific C++ containers.
+# TODO: Use this
+CPP_TYPES_TO_EXCLUDE_BY_CPP_CONTAINER = {
+    # Example: 'std::unordered_map' : 'MyClass',
+}
 
 # ==== String templates for C++ declarations and definitions. ====
 

@@ -32,8 +32,8 @@ Reasons for failure can be:
 
 In the error case a ``PyErr_...`` will be set.
 
-Python ``tuple`` to ``std::vector``
----------------------------------------------
+Python ``tuple`` to ``std::vector`` or ``std::list``
+-----------------------------------------------------------
 
 API
 ^^^^
@@ -42,7 +42,11 @@ API
 
     template<typename T>
     int
-    py_tuple_to_cpp_std_vector(PyObject *op, std::vector<T> &container);
+    py_tuple_to_cpp_std_list_like(PyObject *op, std::vector<T> &container);
+
+    template<typename T>
+    int
+    py_tuple_to_cpp_std_list_like(PyObject *op, std::list<T> &container);
 
 Arguments
 ^^^^^^^^^^^^^^
@@ -55,7 +59,7 @@ Arguments
      - Argument ``container``
      - Return value
    * - A Python ``tuple`` containing values convertable to type ``<T>``.
-     - The ``std::vector`` to write to.
+     - The ``std::vector`` or ``std::list`` to write to.
      - 0 on success, non-zero on failure in which case the container will be empty.
        The causes of failure can be; ``op`` is not a tuple or a member of the ``op`` can not be converted to type ``<T>``.
 
@@ -68,14 +72,14 @@ Process a tuple of Python ``float``:
 
     void tuple_float_to_cpp(PyObject *arg) {
         std::vector<double> vec;
-        if (! py_tuple_to_cpp_std_vector(arg, vec)) {
+        if (! py_tuple_to_cpp_std_list_like(arg, vec)) {
             // Handle error...
         }
         // Use vec...
     }
 
-Python ``list`` to ``std::vector``
----------------------------------------------
+Python ``list`` to ``std::vector`` or ``std::list``
+--------------------------------------------------------------
 
 API
 ^^^^
@@ -84,7 +88,11 @@ API
 
     template<typename T>
     int
-    py_list_to_cpp_std_vector(PyObject *op, std::vector<T> &container);
+    py_list_to_cpp_std_list_like(PyObject *op, std::vector<T> &container);
+
+    template<typename T>
+    int
+    py_list_to_cpp_std_list_like(PyObject *op, std::list<T> &container);
 
 Arguments
 ^^^^^^^^^^^^^^
@@ -97,7 +105,7 @@ Arguments
      - Argument ``container``
      - Return value
    * - A Python ``list`` containing values convertable to type ``<T>``.
-     - The ``std::vector`` to write to.
+     - The ``std::vector`` or ``std::list`` to write to.
      - 0 on success, non-zero on failure in which case the container will be empty.
        The causes of failure can be; ``op`` is not a list or a member of the ``op`` can not be converted to type ``<T>``.
 
@@ -109,8 +117,8 @@ Process a list of Python ``float``:
 .. code-block:: cpp
 
     void list_float_to_cpp(PyObject *arg) {
-        std::vector<double> vec;
-        if (! py_list_to_cpp_std_vector(arg, vec)) {
+        std::list<double> list;
+        if (! py_list_to_cpp_std_list_like(arg, list)) {
             // Handle error...
         }
         // Use vec...
@@ -198,8 +206,8 @@ Process a frozenset of Python ``float``:
         // Use frozenset...
     }
 
-Python ``dict`` to ``std::unordered_map``
----------------------------------------------
+Python ``dict`` to ``std::unordered_map`` or ``std::map``
+--------------------------------------------------------------------------
 
 API
 ^^^^
@@ -208,7 +216,11 @@ API
 
     template<typename K, typename V>
     int
-    py_dict_to_cpp_std_unordered_map(PyObject *op, std::unordered_map<K, V> &container);
+    py_dict_to_cpp_std_map_like(PyObject *op, std::unordered_map<K, V> &container);
+
+    template<typename K, typename V>
+    int
+    py_dict_to_cpp_std_map_like(PyObject *op, std::map<K, V> &container);
 
 Arguments
 ^^^^^^^^^^^^^^
@@ -221,7 +233,7 @@ Arguments
      - Argument ``container``
      - Return value
    * - A Python ``dict`` containing keys convertable to type ``<K>`` and values convertable to type ``<V>``.
-     - The ``std::unordered_map`` to write to.
+     - The ``std::unordered_map`` or ``std::map`` to write to.
      - 0 on success, non-zero on failure.
 
 Example
@@ -233,7 +245,7 @@ Process a dict of Python ``[int, float]``:
 
     void dict_int_float_to_cpp(PyObject *arg) {
         std::unordered_map<long, double> map;
-        if (! py_dict_to_cpp_std_unordered_map(arg, map)) {
+        if (! py_dict_to_cpp_std_map_like(arg, map)) {
             // Handle error...
         }
         // Use map...
@@ -259,6 +271,8 @@ In the failure case a ``PyErr_...`` will be set.
 
 C++ ``std::vector`` to Python ``tuple``
 ---------------------------------------------
+
+.. TODO:
 
 API
 ^^^^
