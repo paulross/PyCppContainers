@@ -39,32 +39,32 @@ set ylabel "Time (µs)"
 set terminal svg size 1400,700           # choose the file format
 set output "images/roundtrip_set_bytes_time.svg"   # choose the output device
 
-plot "dat/roundtrip_set_bytes_16.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
+plot "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "Set [bytes] <-> C++ <std::vector<char>> Length 16" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_set_bytes_128.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
+    "dat/roundtrip_set_bytes_Byte_length_128.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "Set [bytes] <-> C++ <std::vector<char>> Length 128" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_set_bytes_1024.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
+    "dat/roundtrip_set_bytes_Byte_length_1024.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "Set [bytes] <-> C++ <std::vector<char>> Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_set_bytes_16.dat" using 1:(rate_100_000($1) * 1e6) t sprintf("Guide: %.2f µs + 0.1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_set_bytes_16.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_set_bytes_16.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_set_bytes_16.dat" using 1:(rate_100_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 100m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_set_bytes_16.dat" using 1:(rate_1_000_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 1000m objects/s", latency*1e6) with lines lw 2 dashtype 5
+    "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(rate_100_000($1) * 1e6) t sprintf("Guide: %.2f µs + 0.1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(rate_100_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 100m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(rate_1_000_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 1000m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
 set terminal png size 1400,700           # choose the file format
 set output "images/roundtrip_set_bytes_time.png"   # choose the output device
 
-plot "dat/roundtrip_set_bytes_16.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
+plot "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "Set [bytes] <-> C++ <std::vector<char>> Length 16" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_set_bytes_128.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
+    "dat/roundtrip_set_bytes_Byte_length_128.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "Set [bytes] <-> C++ <std::vector<char>> Length 128" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_set_bytes_1024.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
+    "dat/roundtrip_set_bytes_Byte_length_1024.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "Set [bytes] <-> C++ <std::vector<char>> Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_set_bytes_16.dat" using 1:(rate_100_000($1) * 1e6) t sprintf("Guide: %.2f µs + 0.1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_set_bytes_16.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_set_bytes_16.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_set_bytes_16.dat" using 1:(rate_100_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 100m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_set_bytes_16.dat" using 1:(rate_1_000_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 1000m objects/s", latency*1e6) with lines lw 2 dashtype 5
+    "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(rate_100_000($1) * 1e6) t sprintf("Guide: %.2f µs + 0.1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(rate_100_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 100m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
+    "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(rate_1_000_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 1000m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
 # Rate plots
 set ylabel "Time per Item (µs)"
@@ -73,27 +73,27 @@ set yrange [:10]
 set terminal svg size 1400,700           # choose the file format
 set output "images/roundtrip_set_bytes_rate.svg"   # choose the output device
 
-plot "dat/roundtrip_set_bytes_16.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
+plot "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
         t "Set [bytes] <-> C++ <std::vector<char>> Length 16" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_set_bytes_16.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [bytes] <-> C++ <std::vector<char>> Length 16" with lines, \
-    "dat/roundtrip_set_bytes_128.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
+    "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [bytes] <-> C++ <std::vector<char>> Length 16" with lines, \
+    "dat/roundtrip_set_bytes_Byte_length_128.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
         t "Set [bytes] <-> C++ <std::vector<char>> Length 128" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_set_bytes_128.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [bytes] <-> C++ <std::vector<char>> Length 128" with lines, \
-    "dat/roundtrip_set_bytes_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
+    "dat/roundtrip_set_bytes_Byte_length_128.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [bytes] <-> C++ <std::vector<char>> Length 128" with lines, \
+    "dat/roundtrip_set_bytes_Byte_length_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
         t "Set [bytes] <-> C++ <std::vector<char>> Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_set_bytes_1024.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [bytes] <-> C++ <std::vector<char>> Length 1024" with lines
+    "dat/roundtrip_set_bytes_Byte_length_1024.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [bytes] <-> C++ <std::vector<char>> Length 1024" with lines
 
 set terminal png size 1400,700           # choose the file format
 set output "images/roundtrip_set_bytes_rate.png"   # choose the output device
 
-plot "dat/roundtrip_set_bytes_16.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
+plot "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
         t "Set [bytes] <-> C++ <std::vector<char>> Length 16" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_set_bytes_16.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [bytes] <-> C++ <std::vector<char>> Length 16" with lines, \
-    "dat/roundtrip_set_bytes_128.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
+    "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [bytes] <-> C++ <std::vector<char>> Length 16" with lines, \
+    "dat/roundtrip_set_bytes_Byte_length_128.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
         t "Set [bytes] <-> C++ <std::vector<char>> Length 128" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_set_bytes_128.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [bytes] <-> C++ <std::vector<char>> Length 128" with lines, \
-    "dat/roundtrip_set_bytes_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
+    "dat/roundtrip_set_bytes_Byte_length_128.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [bytes] <-> C++ <std::vector<char>> Length 128" with lines, \
+    "dat/roundtrip_set_bytes_Byte_length_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
         t "Set [bytes] <-> C++ <std::vector<char>> Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_set_bytes_1024.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [bytes] <-> C++ <std::vector<char>> Length 1024" with lines
+    "dat/roundtrip_set_bytes_Byte_length_1024.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [bytes] <-> C++ <std::vector<char>> Length 1024" with lines
 
 reset
