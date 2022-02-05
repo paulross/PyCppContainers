@@ -82,7 +82,12 @@ C++ ``std::vector``:
     :height: 300px
     :align: center
 
-Here is the *round trip* performance of a Python list of ``bool``, ``int``, ``float`` and ``complex`` numbers via a
+These are typically *round trip* converted at:
+
+* 0.01 µs per object for booleans, say 100m objects a second.
+* 0.025 µs per object for ``int``, ``float`` and ``complex``, say 40m objects a second.
+
+And the *round trip* performance of a Python list of ``bool``, ``int``, ``float`` and ``complex`` numbers via a
 C++ ``std::list``:
 
 .. image:: ../plots/images/roundtrip_list_list_bool_int_float_complex_rate.png
@@ -91,8 +96,7 @@ C++ ``std::list``:
 
 These are typically *round trip* converted at:
 
-* 0.01 µs per object for booleans, say 100m objects a second.
-* 0.025 µs per object for ``int``, ``float`` and ``complex``, say 40m objects a second.
+* 0.1 µs per object for booleans, say 100m objects a second. This is about 10x the cost of using a ``std::vector``.
 
 
 Python List of ``bytes``
