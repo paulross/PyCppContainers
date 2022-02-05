@@ -14,7 +14,7 @@ import os.path
 import re
 
 RE_FILENAME = re.compile(r'^(.+)\[[0-9]+\]$')
-SOURCE_FILE_NAME = 'PythonCppHomogeneousContainers.txt'
+SOURCE_FILE_NAME = 'cpp_test_results.txt'
 TARGET_DIRECTORY = os.path.join(os.path.dirname(__file__), 'dat')
 
 
@@ -71,6 +71,7 @@ def main():
         else:
             print(f'Ignored {len(dat_file_lines[k]):4d} data lines for "{dat_filename}"')
     print(f'Wrote {file_count} files.')
+    return 0
 
 
 if __name__ == '__main__':
