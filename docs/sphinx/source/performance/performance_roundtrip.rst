@@ -75,9 +75,17 @@ Python Lists
 Python List of ``bool``, ``int``, ``float`` and ``complex``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here is the *round trip* performance of a Python list of ``bool``, ``int``, ``float`` and ``complex`` numbers:
+Here is the *round trip* performance of a Python list of ``bool``, ``int``, ``float`` and ``complex`` numbers via a
+C++ ``std::vector``:
 
-.. image:: ../plots/images/roundtrip_list_ints_floats_and_bools_rate.png
+.. image:: ../plots/images/roundtrip_list_vector_bool_int_float_complex_rate.png
+    :height: 300px
+    :align: center
+
+Here is the *round trip* performance of a Python list of ``bool``, ``int``, ``float`` and ``complex`` numbers via a
+C++ ``std::list``:
+
+.. image:: ../plots/images/roundtrip_list_list_bool_int_float_complex_rate.png
     :height: 300px
     :align: center
 
@@ -91,9 +99,15 @@ Python List of ``bytes``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-And a Python list of ``bytes`` for different lengths; 2, 16, 128 and 1024 bytes long:
+And a Python list of ``bytes`` for different lengths; 2, 16, 128 and 1024 bytes long via a C++ ``std::vector``:
 
-.. image:: ../plots/images/roundtrip_list_bytes_rate.png
+.. image:: ../plots/images/roundtrip_list_vector_bytes_rate.png
+    :height: 300px
+    :align: center
+
+And a Python list of ``bytes`` for different lengths; 2, 16, 128 and 1024 bytes long via a C++ ``std::list``:
+
+.. image:: ../plots/images/roundtrip_list_list_bytes_rate.png
     :height: 300px
     :align: center
 
@@ -111,9 +125,15 @@ bytes[1024]     0.4 to 2.0              0.5 to 2.5                  500 to 2500
 Python List of ``str``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-And a Python list of ``str`` for different lengths; 2, 16, 128 and 1024 bytes long:
+And a Python list of ``str`` for different lengths; 2, 16, 128 and 1024 via a C++ ``std::vector``:
 
-.. image:: ../plots/images/roundtrip_list_str_rate.png
+.. image:: ../plots/images/roundtrip_list_vector_str_rate.png
+    :height: 300px
+    :align: center
+
+And via a C++ ``std::list``:
+
+.. image:: ../plots/images/roundtrip_list_list_str_rate.png
     :height: 300px
     :align: center
 
@@ -235,7 +255,13 @@ Python Dict of ``int``, ``float`` and ``complex``
 Here is the round trip time for a Python dict to and from a C++ ``std::unordered_map<long, long>``.
 This plots the *round trip* cost *per key/value pair* against dict size.
 
-.. image:: ../plots/images/roundtrip_dict_ints_and_floats_rate.png
+.. image:: ../plots/images/roundtrip_dict_unordered_map_ints_floats_complex_rate.png
+    :height: 300px
+    :align: center
+
+And for conversion via a C++ ``std::map``:
+
+.. image:: ../plots/images/roundtrip_dict_map_ints_floats_complex_rate.png
     :height: 300px
     :align: center
 
@@ -258,7 +284,13 @@ Here is the *round trip* time for a Python dict [bytes, bytes] to and from a C++
 ``std::unordered_map<std::vector<char>, std::vector<char>>`` for different lengths; 16, 128 and 1024 bytes long.
 The key and the value are the same length.
 
-.. image:: ../plots/images/roundtrip_dict_bytes_bytes_rate.png
+.. image:: ../plots/images/roundtrip_dict_unordered_map_bytes_bytes_Byte_length_rate.png
+    :height: 300px
+    :align: center
+
+And via a C++ ``std::map``:
+
+.. image:: ../plots/images/roundtrip_dict_map_bytes_bytes_Byte_length_rate.png
     :height: 300px
     :align: center
 
@@ -279,7 +311,13 @@ Here is the *round trip* time for a Python dict [str, str] to and from a C++
 ``std::unordered_map<std::string, std::string>`` for different lengths; 16, 128 and 1024 bytes long.
 The key and the value are the same length.
 
-.. image:: ../plots/images/roundtrip_dict_str_str_rate.png
+.. image:: ../plots/images/roundtrip_dict_unordered_map_str_str_String_length_rate.png
+    :height: 300px
+    :align: center
+
+And via a C++ ``std::map``:
+
+.. image:: ../plots/images/roundtrip_dict_map_str_str_String_length_rate.png
     :height: 300px
     :align: center
 
