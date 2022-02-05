@@ -22,9 +22,8 @@ Size            Count              Min             Mean           Median        
 ...
 """
 import os.path
-import re
 
-RE_FILENAME = re.compile(r'^(.+)\[[0-9]+\]$')
+
 SOURCE_FILE_NAME = 'python_test_results.txt'
 TARGET_DIRECTORY = os.path.join(os.path.dirname(__file__), 'dat')
 
@@ -32,64 +31,60 @@ TARGET_DIRECTORY = os.path.join(os.path.dirname(__file__), 'dat')
 def main():
     # dat_file_lines = {}
     # filename_to_cpp_strings = {}
-    file_count = 0
     all_test_results = {}
     with open(SOURCE_FILE_NAME) as file:
         lines = file.readlines()
         current_block = []
         test_name = ''
-        for line_index, line in enumerate(lines):
-            if line.startswith('Size            Count              Min'):
-                # Add existing test
-                if test_name and current_block:
-                    if test_name in all_test_results:
-                        raise ValueError(f'Test name "{test_name}" already seen.')
-                    # current_block has header data from the next test so walk back until we hit a row of numbers.
-                    end_row_index = len(current_block)
-                    while end_row_index:
-                        try:
-                            int(current_block[end_row_index - 1].split()[0])
-                        except (IndexError, ValueError):
-                            end_row_index -= 1
-                        else:
-                            break
-                    all_test_results[test_name] = current_block[:end_row_index]
-                    test_name = ''
-                    current_block = []
-                # Walk back to find either a blank line or a line that is 'PASSED'
-                raw_filename = line.split()[-1]
+        line_index = 0
+        while line_index < len(lines):
+            if lines[line_index].startswith('Size            Count              Min'):
+                # Walk back to find test name
                 start_line = line_index
                 while start_line:
-                    if not test_name:
-                        # Look for test name, examples:
-                        # tests/unit/test_perf_cPyCppContainers.py::test_new_list_vector_complex
-                        # test_new_list_vector_complex()
-                        # test_new_list_vector_bytes() Byte length 2
-                        if lines[start_line].startswith('tests/unit'):
-                            test_name = lines[start_line].split('::')[1].strip()
-                        else:
-                            split_lines =lines[start_line].split('()')
-                            if len(split_lines) == 2:
-                                if split_lines[1] == '':
-                                    test_name = split_lines[0].strip()
-                                else:
-                                    # Example:
-                                    # ''.join('test_new_list_vector_bytes() Byte length 2'.split('()')).replace(' ', '_')
-                                    # 'test_new_list_vector_bytes_Byte_length_2'
-                                    test_name = ''.join(split_lines).replace(' ', '_').strip()
+                    # Look for test name, examples:
+                    # tests/unit/test_perf_cPyCppContainers.py::test_new_list_vector_complex
+                    # test_new_list_vector_complex()
+                    # test_new_list_vector_bytes() Byte length 2
+                    if not test_name and lines[start_line].startswith('tests/unit'):
+                        test_name = lines[start_line].split('::')[1].strip()
+                    else:
+                        split_lines =lines[start_line].split('()')
+                        if len(split_lines) == 2:
+                            if split_lines[1] == '':
+                                test_name = split_lines[0].strip()
+                            else:
+                                # Example:
+                                # ''.join('test_new_list_vector_bytes() Byte length 2'.split('()')).replace(' ', '_')
+                                # 'test_new_list_vector_bytes_Byte_length_2'
+                                test_name = ''.join(split_lines).replace(' ', '_').strip()
                     if lines[start_line].strip() in ('', 'PASSED') or lines[start_line].startswith('tests/unit'):
                         break
                     start_line -= 1
                 current_block = [f'# {lines[i]}' for i in range(start_line + 1, line_index + 1)]
+                current_block.insert(
+                    3,
+                    '#$1             $2                  $3              $4              $5              $6                  $7          $8          $9\n'
+                )
+                start_line = line_index
+                # Walk forward to find a blank line or 'PASSED'
+                while line_index < len(lines):
+                    if len(lines[line_index].strip()) == 0 or lines[line_index].startswith('PASSED'):
+                        current_block.extend(lines[start_line:line_index])
+                        if test_name in all_test_results:
+                            raise ValueError(f'Test name "{test_name}" already seen.')
+                        all_test_results[test_name] = current_block[:]
+                        test_name = ''
+                        current_block = []
+                        break
+                    line_index += 1
             else:
-                current_block.append(line)
-    assert 0, 'Need to fix the walk back of current_block and make it walk forward instead.'
-    if test_name and current_block:
-        if test_name in all_test_results:
-            raise ValueError(f'Test name "{test_name}" already seen.')
-        all_test_results[test_name] = current_block[:]
-
-    print(f'Wrote {file_count} files.')
+                line_index += 1
+    for k in all_test_results:
+        file_name = f'roundtrip_{k}.dat'.replace('_test_new_', '_')
+        with open(os.path.join(TARGET_DIRECTORY, file_name), 'w') as file:
+            file.writelines(all_test_results[k])
+    print(f'Wrote {len(all_test_results)} files.')
     return 0
 
 
