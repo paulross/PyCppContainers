@@ -1,16 +1,16 @@
 #set logscale x
 set grid
-set title "Memory usage of creating a 0.5m dict of 1k bytes and round-tripping it through C++ 10 times."
+set title "Memory usage of creating a 0.5m dict of 1k bytes and round-tripping it through a C++ std::unordered_map 10 times."
 set xlabel "Time (s)"
 
 #set logscale y
 set ylabel "RSS (Mb)"
-# set yrange [8:35]
+set yrange [0:5e3]
 # set ytics 8,35,3
 
 # set logscale y2
 set y2label "dRSS (Mb)"
-# set y2range [1:1e9]
+set y2range [-2.5e3:2.5e3]
 set y2tics
 
 set pointsize 1

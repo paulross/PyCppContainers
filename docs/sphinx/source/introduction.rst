@@ -315,7 +315,7 @@ Using the concrete function is as simple as this:
 
     // Now convert back.
     // Again this will be a compile time error if the C++ type is not supported.
-    PyObject *new_op  = cpp_std_vector_to_py_list(cpp_vector);
+    PyObject *new_op  = cpp_std_list_like_to_py_list(cpp_vector);
     // new_op is a Python list of floats.
     // new_op will be null on failure and a Python exception will have been set.
 
@@ -333,7 +333,7 @@ The generic function signature looks like this:
             PyObject *(*PyUnaryContainer_New)(size_t),
             int(*PyUnaryContainer_Set)(PyObject *, size_t, PyObject *)>
     PyObject *
-    generic_cpp_std_vector_to_py_unary(const std::vector<T> &vec);
+    generic_cpp_std_list_like_to_py_unary(const std::vector<T> &vec);
 
 Alternatives
 --------------------

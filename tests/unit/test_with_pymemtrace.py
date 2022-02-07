@@ -98,7 +98,7 @@ def test_new_set_bytes():
     print(f'test_new_set_bytes(): RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
 
 
-def _test_new_dict_bytes():
+def _test_new_dict_unordered_map_bytes():
     proc = psutil.Process()
     rss = proc.memory_info().rss
     # 1Gb
@@ -107,7 +107,7 @@ def _test_new_dict_bytes():
     # total_bytes = 2**20 * 2**4
     # byte_length = 1024
     dict_length = total_bytes // byte_length // 2
-    print(f'_test_new_dict_bytes(): Total bytes: {total_bytes:16,d} byte length: {byte_length:16,d} dict length: {dict_length:16,d}')
+    print(f'_test_new_dict_unordered_map_bytes(): Total bytes: {total_bytes:16,d} byte length: {byte_length:16,d} dict length: {dict_length:16,d}')
     random_bytes = [random.randint(0, 255) for _i in range(byte_length)]
     byte_entry = b' ' * byte_length
     results = []
@@ -130,20 +130,66 @@ def _test_new_dict_bytes():
     print('\n'.join(f'{v:8.3f}' for v in results))
     print(f'Mean: {sum(results) / len(results):8.3f}')
     rss_new = proc.memory_info().rss
-    print(f'_test_new_dict_bytes(): Total bytes {total_bytes:16,d} RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
+    print(f'_test_new_dict_unordered_map_bytes(): Total bytes {total_bytes:16,d} RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
 
 
 @pytest.mark.pymemtrace
-def test_new_dict_bytes():
+def test_new_dict_unordered_map_bytes():
     proc = psutil.Process()
     rss = proc.memory_info().rss
     with cPyMemTrace.Profile(4096 * 16):
-        _test_new_dict_bytes()
+        _test_new_dict_unordered_map_bytes()
     gc.collect()
     # for i in range(4):
     #     time.sleep(1.0)
     rss_new = proc.memory_info().rss
-    print(f'test_new_dict_bytes(): RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
+    print(f'test_new_dict_unordered_map_bytes(): RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
+
+
+def _test_new_dict_map_str():
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    # 1Gb
+    total_bytes = 2**20 * 2**10
+    byte_length = 1024
+    # total_bytes = 2**20 * 2**4
+    # byte_length = 1024
+    dict_length = total_bytes // byte_length // 2
+    print(f'_test_new_dict_map_str(): Total bytes: {total_bytes:16,d} byte length: {byte_length:16,d} dict length: {dict_length:16,d}')
+    random_bytes = [random.randint(0, 127) for _i in range(byte_length)]
+    # byte_entry = b' ' * byte_length
+    results = []
+    for _r in range(10):
+        original = {}
+        for i in range(dict_length):
+            k = bytes(random_bytes).decode('ascii')
+            original[k] = ' ' * byte_length
+            # random.shuffle(random_bytes)
+            # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
+            index = random.randint(0, byte_length - 1)
+            random_bytes[index] = (random_bytes[index] + 1) % 128
+        print(f'Actual dict length: {len(original):16,d}')
+        time_start = time.perf_counter()
+        cPyCppContainers.new_dict_from_std_map_str_str(original)
+        time_exec = time.perf_counter() - time_start
+        results.append(time_exec)
+        # del original
+    print()
+    print('\n'.join(f'{v:8.3f}' for v in results))
+    print(f'Mean: {sum(results) / len(results):8.3f}')
+    rss_new = proc.memory_info().rss
+    print(f'_test_new_dict_map_str(): Total bytes {total_bytes:16,d} RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
+
+
+@pytest.mark.pymemtrace
+def test_new_dict_map_str():
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    with cPyMemTrace.Profile(4096 * 16):
+        _test_new_dict_map_str()
+    gc.collect()
+    rss_new = proc.memory_info().rss
+    print(f'test_new_dict_map_str(): RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
 
 
 # Test for single item container leaks.
@@ -222,7 +268,7 @@ def test_new_set_bytes_one_item():
 
 
 @pytest.mark.pymemtrace
-def test_new_dict_bytes_one_item():
+def test_new_dict_unordered_map_bytes_one_item():
     """Tests converting a dict with a single 1024 byte item 1m times to look for memory leaks in dict creation.
 
     Example pymemtrace log::

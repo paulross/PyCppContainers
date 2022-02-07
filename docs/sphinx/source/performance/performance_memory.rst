@@ -112,12 +112,12 @@ In theory the maximum RSS use should be:
 
 This would be a total of 3102Mb.
 
-Python Dictionary of bytes
+Python Dictionary of ``bytes`` or ``str``
 ------------------------------------------------
 
 A similar test was made of a gigabyte sized Python dict of bytes.
 Each key and value were 1024 bytes long and the dictionary was 0.5m long.
-The Python dict was round-tripped to a C++ ``std::unordered_map<std::string, std::string>`` and back to a new Python dict.
+The Python dict was round-tripped to a C++ ``std::unordered_map<std::vector<char>, std::vector<char>>`` and back to a new Python dict.
 
 The code looks like this:
 
@@ -147,7 +147,7 @@ The following is a plot of RSS and change of RSS over time:
 
 In the dictionary case constructing the original dict takes around 1500Mb.
 So on entry to ``new_dict_bytes_bytes`` the RSS is typically 1700Mb.
-Constructing the ``std::unordered_map<std::string, std::string>`` and a new Python dict takes an extra 2500Mb taking the total memory to around 4200MB.
+Constructing the ``std::unordered_map<std::vector<char>, std::vector<char>>`` and a new Python dict takes an extra 2500Mb taking the total memory to around 4200MB.
 On exit from ``new_dict_bytes_bytes`` the RSS decreases in two stages, destroying the
 ``std::unordered_map<std::string, std::string>`` frees 2000Mb then freeing the original gives back another 2000Mb.
 This brings the total RSS back down to 200Mb.
@@ -156,12 +156,18 @@ In theory the maximum RSS use should be:
 
 - Basic Python, say 30Mb
 - The original Python dict, 1024Mb.
-- The C++ ``std::unordered_map<std::string, std::string>``, 1024Mb.
+- The C++ ``std::unordered_map<std::vector<char>, std::vector<char>>``, 1024Mb.
 - The new Python dict, 1024Mb.
 
 This would be a total of 3102Mb.
 The fact that we are seeing around 4200Mb,  35% more, is probably due to over-allocation either any or all of the Python
-dict or bytes allocators or the C++ ``std::unordered_map<T>`` or ``std::string`` allocators.
+dict or bytes allocators or the C++ ``std::unordered_map<T>`` or ``std::vector<char>`` allocators.
+
+Similar results are obtained for a Python dict was round-tripped to a C++ ``std::map<std::string, std::string>`` and back to a new Python dict.
+
+.. image:: ../plots/images/pymemtrace_dict_bytes.png
+    :height: 300px
+    :align: center
 
 All these graphs show that there are no memory leaks.
 

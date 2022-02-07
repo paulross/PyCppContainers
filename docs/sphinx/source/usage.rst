@@ -75,8 +75,8 @@ The two conversion functions are not defined for ``unsigned int``.
     static PyObject *
     new_list_unsigned_int(PyObject *Py_UNUSED(module), PyObject *arg) {
         std::vector<unsigned int> vec;
-        if (!py_list_to_cpp_std_vector(arg, vec)) {
-            return cpp_std_vector_to_py_list(vec);
+        if (!py_list_to_cpp_std_list_like(arg, vec)) {
+            return cpp_std_list_like_to_py_list(vec);
         }
         return NULL;
     }
@@ -86,9 +86,9 @@ A C++ tool chain will complain with a linker error such as:
 .. code-block:: none
 
     Undefined symbols for architecture x86_64:
-      "_object* Python_Cpp_Containers::cpp_std_vector_to_py_list<unsigned int>(std::__1::vector<unsigned int, std::__1::allocator<unsigned int> > const&)", referenced from:
+      "_object* Python_Cpp_Containers::cpp_std_list_like_to_py_list<unsigned int>(std::__1::vector<unsigned int, std::__1::allocator<unsigned int> > const&)", referenced from:
           new_list_unsigned_int(_object*, _object*) in cPyCppContainers.cpp.o
-      "int Python_Cpp_Containers::py_list_to_cpp_std_vector<unsigned int>(_object*, std::__1::vector<unsigned int, std::__1::allocator<unsigned int> >&)", referenced from:
+      "int Python_Cpp_Containers::py_list_to_cpp_std_list_like<unsigned int>(_object*, std::__1::vector<unsigned int, std::__1::allocator<unsigned int> >&)", referenced from:
           new_list_unsigned_int(_object*, _object*) in cPyCppContainers.cpp.o
     ld: symbol(s) not found for architecture x86_64
 
@@ -99,7 +99,7 @@ If you are building a Python extension this will, most likely, build but importi
     >>> import cPyCppContainers
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
-    ImportError: dlopen(cPyCppContainers.cpython-39-darwin.so, 2): Symbol not found: __ZN21Python_Cpp_Containers25cpp_std_vector_to_py_listIjEEP7_objectRKNSt3__16vectorIT_NS3_9allocatorIS5_EEEE
+    ImportError: dlopen(cPyCppContainers.cpython-39-darwin.so, 2): Symbol not found: __ZN21Python_Cpp_Containers25cpp_std_list_like_to_py_listIjEEP7_objectRKNSt3__16vectorIT_NS3_9allocatorIS5_EEEE
       Referenced from: cPyCppContainers.cpython-39-darwin.so
       Expected in: flat namespace
      in cPyCppContainers.cpython-39-darwin.so
@@ -162,24 +162,24 @@ And here is the code that takes a Python list of floats, then calls the C++ func
     static PyObject *
     list_x2(PyObject *Py_UNUSED(module), PyObject *arg) {
         std::vector<double> vec;
-        // py_list_to_cpp_std_vector() will return non-zero if the Python
+        // py_list_to_cpp_std_list_like() will return non-zero if the Python
         // argument can not be converted to a std::vector<double>
         // and a Python exception will be set.
-        if (!py_list_to_cpp_std_vector(arg, vec)) {
+        if (!py_list_to_cpp_std_list_like(arg, vec)) {
             // Double the values in pure C++ code.
             vector_double_x2(vec);
-            // cpp_std_vector_to_py_list() returns NULL on failure
+            // cpp_std_list_like_to_py_list() returns NULL on failure
             // and a Python exception will be set.
-            return cpp_std_vector_to_py_list(vec);
+            return cpp_std_list_like_to_py_list(vec);
         }
         return NULL;
     }
 
 The vital piece of code is the declaration ``std::vector<double> vec;`` and that means:
 
-* If a ``py_list_to_cpp_std_vector()`` implementation does not exist for ``double`` there will be a compile time error.
-* Giving ``py_list_to_cpp_std_vector()`` anything other than a list of floats will create a Python runtime error.
-* If ``cpp_std_vector_to_py_list()`` fails for any reason there will be a Python runtime error.
+* If a ``py_list_to_cpp_std_list_like()`` implementation does not exist for ``double`` there will be a compile time error.
+* Giving ``py_list_to_cpp_std_list_like()`` anything other than a list of floats will create a Python runtime error.
+* If ``cpp_std_list_like_to_py_list()`` fails for any reason there will be a Python runtime error.
 
 Using the Extension
 ^^^^^^^^^^^^^^^^^^^^^^^^^^

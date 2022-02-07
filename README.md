@@ -7,7 +7,7 @@ But what if you need to convert to and from C++ containers such as ``std::vector
 This C++ project is about converting between C++ containers and Python's (`tuple`  ``list``, ``set``, ``frozenset``, ``dict``) containing
 homogeneous types (``bool``, ``int``, ``float``, ``complex``, ``bytes``, ``str``) to and from their C++ equivalents.
 
-For two-way conversion for this set of containers:
+Two-way conversion for this set of containers:
 
 | C++ Container              | Python Equivalent |
 |----------------------------|-------------------|
@@ -43,6 +43,8 @@ This approach means that new types and containers can be added with ease.
 
 ### C++ To Python
 
+TODO:
+
 Suppose that you have a Python list of floats that needs to be passed to a C++ function that expects `std::vector<double>`.
 Then that C++ function modifies that vector and you need the result as a new Python list of floats.
 With this library your code will be as simple as this:
@@ -53,7 +55,7 @@ your_function_name(void) {
     std::vector<double> container = some_cpp_function_that_creates_a_vector();
     // Convert the vector back to a new Python list of float
     // with a generic function.
-    return cpp_std_vector_to_py_list(container);
+    return cpp_std_list_like_to_py_list(container);
 }
 ```
 
@@ -63,7 +65,7 @@ Some other variations, firstly create a Python `tuple` rather than a `list`:
 static PyObject *
 your_function_name(void) {
     std::vector<double> container = some_cpp_function_that_creates_a_vector();
-    return cpp_std_vector_to_py_tuple(container);
+    return cpp_std_list_like_to_py_tuple(container);
 }
 ```
 
@@ -73,7 +75,7 @@ Or work with a `std::list` rather than a `std::vector`:
 static PyObject *
 your_function_name(void) {
     std::list<double> container = some_cpp_function_that_creates_a_list();
-    return cpp_std_vector_to_py_list(container);
+    return cpp_std_list_like_to_py_list(container);
 }
 ```
 
@@ -83,11 +85,11 @@ Or work with a `std::vector<std::string>>`:
 static PyObject *
 your_function_name(void) {
     std::vector<std::string> container = some_cpp_function_that_creates_a_vector();
-    return cpp_std_vector_to_py_list(container);
+    return cpp_std_list_like_to_py_list(container);
 }
 ```
 
-Note `cpp_std_vector_to_py_list(container)` will select the correct type conversion or will give
+Note `cpp_std_list_like_to_py_list(container)` will select the correct type conversion or will give
 a compile time error if there is a type mismatch.
 
 ### Python to C++
@@ -100,7 +102,7 @@ your_function_name(PyObject *arg) {
     // Call the generic function to convert a list to a std::vector.
     // This returns non-zero if it can not convert arg to a
     // std::vector<double> 
-    if (!py_list_to_cpp_std_vector(arg, vec)) {
+    if (!py_list_to_cpp_std_list_like(arg, vec)) {
         // Send the std::vector<double> to the C++ library.
         // ...
         Py_RETURN_NONE;
@@ -173,7 +175,7 @@ And to use it:
 import cPyCppContainer
 ```
 
-There are a number of functions there that exploit the C++ library.
+There are a number of functions there that exploit this C++ library.
 For example this C function create a C++ ``std::vector<double>`` from a Python list of
 floats then creates a new Python list of floats from that C++ container ('round-tripping').
 
@@ -181,8 +183,8 @@ floats then creates a new Python list of floats from that C++ container ('round-
 static PyObject *
 new_list_float(PyObject *arg) {
     std::vector<double> vec;
-    if (!py_list_to_cpp_std_vector(arg, vec)) {
-        return cpp_std_vector_to_py_list(vec);
+    if (!py_list_to_cpp_std_list_like(arg, vec)) {
+        return cpp_std_list_like_to_py_list(vec);
     }
     return NULL;
 }

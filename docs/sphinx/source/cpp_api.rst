@@ -269,19 +269,23 @@ Reasons for failure can be:
 
 In the failure case a ``PyErr_...`` will be set.
 
-C++ ``std::vector`` to Python ``tuple``
----------------------------------------------
-
-.. TODO:
+C++ ``std::vector`` or ``std::list`` to Python ``tuple``
+------------------------------------------------------------------------------
 
 API
 ^^^^
+
+To convert to a Python ``tuple``:
 
 .. code-block:: cpp
 
     template<typename T>
     PyObject *
-    cpp_std_vector_to_py_tuple(const std::vector<T> &container);
+    cpp_std_list_like_to_py_tuple(const std::vector<T> &container);
+
+    template<typename T>
+    PyObject *
+    cpp_std_list_like_to_py_tuple(const std::list<T> &container);
 
 Arguments
 ^^^^^^^^^^^^^^
@@ -292,7 +296,7 @@ Arguments
 
    * - Argument ``container``
      - Return value
-   * - A ``std::vector`` of type ``<T>`` convertable to an appropriate Python type.
+   * - A ``std::vector`` or ``std::list`` of type ``<T>`` convertable to an appropriate Python type.
      - The new Python container, ``NULL`` on failure in which case a ``PyErr`` will be set.
 
 Example
@@ -306,21 +310,29 @@ Create a tuple of Python ``float``:
         std::vector<double> vec;
         // Populate vec
         // ...
-        return cpp_std_vector_to_py_tuple(vec);
+        return cpp_std_list_like_to_py_tuple(vec);
     }
 
 
-C++ ``std::vector`` to Python ``list``
----------------------------------------------
+C++ ``std::vector`` or ``std::list`` to Python ``list``
+----------------------------------------------------------------
 
 API
 ^^^^
 
 .. code-block:: cpp
 
+To convert to a Python ``list``:
+
+.. code-block:: cpp
+
     template<typename T>
     PyObject *
-    cpp_std_vector_to_py_list(const std::vector<T> &container);
+    cpp_std_list_like_to_py_list(const std::vector<T> &container);
+
+    template<typename T>
+    PyObject *
+    cpp_std_list_like_to_py_list(const std::list<T> &container);
 
 Arguments
 ^^^^^^^^^^^^^^
@@ -331,7 +343,7 @@ Arguments
 
    * - Argument ``container``
      - Return value
-   * - A ``std::vector`` of type ``<T>`` convertable to an appropriate Python type.
+   * - A ``std::vector`` or ``std::list`` of type ``<T>`` convertable to an appropriate Python type.
      - The new Python container, ``NULL`` on failure in which case a ``PyErr`` will be set.
 
 Example
@@ -345,7 +357,7 @@ Create a list of Python ``float``:
         std::vector<double> vec;
         // Populate vec
         // ...
-        return cpp_std_vector_to_py_list(vec);
+        return cpp_std_list_like_to_py_list(vec);
     }
 
 C++ ``std::unordered_set`` to Python ``set``
@@ -424,8 +436,8 @@ Create a frozenset of Python ``float``:
         return cpp_std_unordered_set_to_py_frozenset(set);
     }
 
-C++ ``std::unordered_map`` to a Python ``dict``
------------------------------------------------------
+C++ ``std::unordered_map`` or ``std::map`` to a Python ``dict``
+-----------------------------------------------------------------------
 
 API
 ^^^^
@@ -434,7 +446,11 @@ API
 
     template<typename K, typename V>
     PyObject *
-    cpp_std_unordered_map_to_py_dict(const std::unordered_map<K, V> &container);
+    cpp_std_map_like_to_py_dict(const std::unordered_map<K, V> &container);
+
+    template<typename K, typename V>
+    PyObject *
+    cpp_std_map_like_to_py_dict(const std::map<K, V> &container);
 
 Arguments
 ^^^^^^^^^^^^^^
@@ -445,7 +461,7 @@ Arguments
 
    * - Argument ``container``
      - Return value
-   * - A ``std::unordered_map`` of type ``<K, V>`` convertable to appropriate Python types.
+   * - A ``std::unordered_map`` or ``std::map`` of type ``<K, V>`` convertable to appropriate Python types.
      - The new Python container, ``NULL`` on failure in which case a ``PyErr`` will be set.
 
 Example
@@ -459,5 +475,5 @@ Create a dict of Python ``[int, float]``:
         std::unordered_map<long, double> map;
         // Populate map
         // ...
-        return cpp_std_unordered_map_to_py_dict(map);
+        return cpp_std_map_like_to_py_dict(map);
     }
