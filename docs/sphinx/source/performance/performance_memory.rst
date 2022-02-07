@@ -74,7 +74,7 @@ For comparison here is the time/memory plot of round-tripping a list of Python `
     :height: 300px
     :align: center
 
-
+The memory usage is not significantly different but using a ``std::list`` takes about twice as long.
 
 
 Python Set of bytes
@@ -177,9 +177,11 @@ dict or bytes allocators or the C++ ``std::unordered_map<T>`` or ``std::vector<c
 
 Similar results are obtained for a Python dict was round-tripped to a C++ ``std::map<std::string, std::string>`` and back to a new Python dict.
 
-.. image:: ../plots/images/pymemtrace_dict_bytes.png
+.. image:: ../plots/images/pymemtrace_dict_str.png
     :height: 300px
     :align: center
+
+This is broadly similar to the results for ``std::unordered_map<std::vector<char>, std::vector<char>>``.
 
 All these graphs show that there are no memory leaks.
 
