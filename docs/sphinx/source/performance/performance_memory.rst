@@ -65,6 +65,18 @@ The maximum RSS should reflect that at some point the following are held in memo
 This would be a total of 3102Mb.
 However we are seeing a maximum RSS of only around 2200Mb.
 
+Python List of floats
+------------------------------------------------
+
+For comparison here is the time/memory plot of round-tripping a list of Python ``float`` as a C++ ``std::vector`` or ``std::list``:
+
+.. image:: ../plots/images/pymemtrace_list_float.png
+    :height: 300px
+    :align: center
+
+
+
+
 Python Set of bytes
 ------------------------------------------------
 
