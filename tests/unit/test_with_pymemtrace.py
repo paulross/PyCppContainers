@@ -12,6 +12,48 @@ from pymemtrace import cPyMemTrace
 import cPyCppContainers
 
 
+def _test_new_list_bool(test_function):
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    vector_length = 10 * 1024**2
+    print(f'Total bytes: {vector_length * 8:16,d} vector length: {vector_length:16,d}')
+    results = []
+    for _r in range(10):
+        original = [True for _i in range(vector_length)]
+        time_start = time.perf_counter()
+        test_function(original)
+        time_exec = time.perf_counter() - time_start
+        results.append(time_exec)
+        # del original
+    print()
+    print('\n'.join(f'{v:8.3f}' for v in results))
+    print(f'Mean: {sum(results) / len(results):8.3f}')
+    rss_new = proc.memory_info().rss
+    print(f'Total bytes RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
+
+
+@pytest.mark.pymemtrace
+def test_new_list_bool_with_vector():
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    with cPyMemTrace.Profile():
+        _test_new_list_bool(cPyCppContainers.new_list_vector_bool)
+    gc.collect()
+    rss_new = proc.memory_info().rss
+    print(f'RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
+
+
+@pytest.mark.pymemtrace
+def test_new_list_bool_with_list():
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    with cPyMemTrace.Profile():
+        _test_new_list_bool(cPyCppContainers.new_list_list_bool)
+    gc.collect()
+    rss_new = proc.memory_info().rss
+    print(f'RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
+
+
 def _test_new_list_double(test_function):
     proc = psutil.Process()
     rss = proc.memory_info().rss
