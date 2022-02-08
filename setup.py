@@ -24,10 +24,8 @@ if DEBUG:
 else:
     extra_compile_args += ["-DNDEBUG", "-O3"]
 
-PACKAGE_NAME = 'cPyCppContainers'
-
 setup(
-    name=PACKAGE_NAME,
+    name='PythonCppContainers',
     version='0.3.0',
     author='Paul Ross',
     author_email='apaulross@gmail.com',
@@ -50,9 +48,22 @@ setup(
     license='GNU General Public License v2 (GPLv2)',
     ext_modules=[
         Extension(
-            f"{PACKAGE_NAME}",
+            'cPyCppContainers',
             sources=[
                 'src/ext/cPyCppContainers.cpp',
+                'src/cpy/auto_py_convert_internal.cpp',
+                'src/cpy/python_container_convert.cpp',
+                'src/cpy/python_object_convert.cpp',
+            ],
+            include_dirs=[
+                'src',
+            ],
+            extra_compile_args=extra_compile_args,
+        ),
+        Extension(
+            'cUserDefined',
+            sources=[
+                'src/ext/cUserDefined.cpp',
                 'src/cpy/auto_py_convert_internal.cpp',
                 'src/cpy/python_container_convert.cpp',
                 'src/cpy/python_object_convert.cpp',

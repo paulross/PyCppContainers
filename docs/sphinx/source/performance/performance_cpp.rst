@@ -439,8 +439,8 @@ Converting Individual Objects
 
 * ``bool``, ``int``, ``float``, ``complex`` from C++ to Python is around two to three times faster than from Python to C++.
 * Converting ``bytes`` from C++ to Python is the same as from Python to C++. This is memory bound at around 50 Gb/s.
-* With ``str`` then Python to C++ is about twice as fast as C++ to Python.
-    With the former performance is twice as fast as ``bytes``, for the latter it is broadly similar to ``bytes`` conversion.
+* With ``str`` then Python to C++ is about twice as fast as C++ to Python. With the former performance is twice as fast
+  as ``bytes``, for the latter it is broadly similar to ``bytes`` conversion.
 
 Converting Containers of Objects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -448,5 +448,5 @@ Converting Containers of Objects
 * The performance of Python ``lists`` and ``tuple`` is the same.
 * For Python ``list`` containers converting C++ to Python may be 2x faster in some cases compared to Python to C++.
 * For Python ``list`` containing ``bytes`` and ``str`` objects are converted at a rate of 2 to 5 Gib/s, with some latency.
-* Python ``set`` <-> C++ ``std::unordered_set`` and Python ``dict`` <-> C++ ``std::unordered_map`` conversion is typically
-    x3 to x10 times slower than for lists and tuples.
+* Python ``set`` <-> C++ ``std::unordered_set`` and Python ``dict`` <-> C++ ``std::unordered_map`` conversion is
+  typically x3 to x10 times slower than for lists and tuples.
