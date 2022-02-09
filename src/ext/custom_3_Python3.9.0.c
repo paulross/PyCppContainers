@@ -1,7 +1,10 @@
 //
-// Created by Paul Ross on 08/02/2022.
+// Created by Paul Ross on 18/06/2021.
 //
+// Reference document, source:
 // https://docs.python.org/3/extending/newtypes_tutorial.html#adding-data-and-methods-to-the-basic-example
+// This is merely here to be diff'd against cUserDefined.cpp
+#if 0
 #define PY_SSIZE_T_CLEAN
 
 #include <Python.h>
@@ -43,11 +46,7 @@ Custom_new(PyTypeObject *type, PyObject *Py_UNUSED(args), PyObject *Py_UNUSED(kw
 
 static int
 Custom_init(CustomObject *self, PyObject *args, PyObject *kwds) {
-    static char *kwlist[] = {
-            const_cast<char *>("first"),
-            const_cast<char *>("last"),
-            const_cast<char *>("number"),
-            NULL};
+    static char *kwlist[] = {"first", "last", "number", NULL};
     PyObject *first = NULL, *last = NULL, *tmp;
 
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "|UUi", kwlist,
@@ -148,7 +147,7 @@ static PyMethodDef Custom_methods[] = {
 
 static PyTypeObject CustomType = {
         PyVarObject_HEAD_INIT(NULL, 0)
-        .tp_name = "cUserDefined.Custom",
+        .tp_name = "custom3.Custom",
         .tp_doc = "Custom objects",
         .tp_basicsize = sizeof(CustomObject),
         .tp_itemsize = 0,
@@ -161,110 +160,20 @@ static PyTypeObject CustomType = {
         .tp_getset = Custom_getsetters,
 };
 
-// NOTE: added
-// NOTE: Now add to this module
-#include "cUserDefined.h"
-#include "cpy/python_object_convert.h"
-
-int py_custom_object_check(PyObject *op) {
-    if (Py_TYPE(op) != &CustomType) {
-        return 0;
-    }
-    CustomObject *p = (CustomObject *) op;
-    if (!Python_Cpp_Containers::py_unicode_check(p->first)) {
-        return 0;
-    }
-    if (!Python_Cpp_Containers::py_unicode_check(p->last)) {
-        return 0;
-    }
-    return 1;
-}
-
-CppCustomObject py_custom_object_to_cpp_custom_object(PyObject *op) {
-    if (!py_custom_object_check(op)) {
-        // TODO: throw
-    }
-    CustomObject *p = (CustomObject *) op;
-    return CppCustomObject(
-            Python_Cpp_Containers::py_unicode_to_cpp_string(p->first),
-            Python_Cpp_Containers::py_unicode_to_cpp_string(p->last),
-            p->number
-    );
-}
-
-PyObject *
-cpp_custom_object_to_py_custom_object(const CppCustomObject &obj) {
-    CustomObject *op = (CustomObject *) Custom_new(&CustomType, NULL, NULL);
-    op->first = Python_Cpp_Containers::cpp_string_to_py_unicode(obj.first());
-    op->last = Python_Cpp_Containers::cpp_string_to_py_unicode(obj.last());
-    op->number = obj.number();
-    return (PyObject *) op;
-}
-
-namespace Python_Cpp_Containers {
-
-    // Specialised implementations
-    template<>
-    PyObject *
-    cpp_std_list_like_to_py_list<CppCustomObject>(const std::vector<CppCustomObject> &container) {
-        return generic_cpp_std_list_like_to_py_list<
-                CppCustomObject, &cpp_custom_object_to_py_custom_object
-        >(container);
-    }
-
-    template<>
-    int
-    py_list_to_cpp_std_list_like<CppCustomObject>(PyObject *op, std::vector<CppCustomObject> &container) {
-        return generic_py_list_to_cpp_std_list_like<
-                CppCustomObject, &py_custom_object_check, &py_custom_object_to_cpp_custom_object
-        >(op, container);
-    }
-
-} // namespace Python_Cpp_Containers
-
-static PyObject *
-reverse_names(PyObject *Py_UNUSED(module), PyObject *arg) {
-    std::vector<CppCustomObject> input;
-    if (! Python_Cpp_Containers::py_list_to_cpp_std_list_like(arg, input)) {
-        std::vector<CppCustomObject> output;
-        for (const auto &object: input) {
-            output.emplace_back(CppCustomObject(object.last(), object.first(), object.number()));
-        }
-        return Python_Cpp_Containers::cpp_std_list_like_to_py_list(output);
-    }
-    return NULL;
-}
-
-
-// Module functions
-static PyMethodDef cUserDefinedMethods[] = {
-        {"reverse_names", reverse_names, METH_O,
-            "Take a list of cUserDefined.Custom objects"
-            " and return a new list with the name reversed."},
-        {NULL, NULL, 0, NULL}        /* Sentinel */
-};
-
-// NOTE: modified by adding module methods.
-static struct PyModuleDef cUserDefinedmodule = {
+static PyModuleDef custommodule = {
         PyModuleDef_HEAD_INIT,
-        "cUserDefined",
-        "Example extension module that defines a custom object and converts to and from their C++ equivalents.",
-        -1,
-        cUserDefinedMethods,
-        NULL,
-        NULL,
-        NULL,
-        NULL
+        .m_name = "custom3",
+        .m_doc = "Example module that creates an extension type.",
+        .m_size = -1,
 };
 
-// NOTE: modified by name.
 PyMODINIT_FUNC
-PyInit_cUserDefined(void) {
+PyInit_custom3(void) {
     PyObject *m;
     if (PyType_Ready(&CustomType) < 0)
         return NULL;
 
-    m = PyModule_Create(&cUserDefinedmodule);
+    m = PyModule_Create(&custommodule);
     if (m == NULL)
         return NULL;
 
@@ -277,3 +186,4 @@ PyInit_cUserDefined(void) {
 
     return m;
 }
+#endif

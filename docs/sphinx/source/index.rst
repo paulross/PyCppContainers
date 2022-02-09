@@ -6,7 +6,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Python/C++ Container's documentation
+Python/C++ Container's Documentation
 ============================================================
 
 .. toctree::
@@ -16,6 +16,7 @@ Python/C++ Container's documentation
    introduction
    usage
    cpp_api
+   user_defined_types
    design
    performance
 
