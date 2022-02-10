@@ -6,13 +6,22 @@
 #define PYTHONCPPHOMOGENEOUSCONTAINERS_CUSERDEFINED_H
 
 #include <string>
+#include <utility>
 
 class CppCustomObject {
 public:
+    CppCustomObject() {};
     CppCustomObject(
-            const std::string &first,
-            const std::string &last,
-            long number) : m_first(first), m_last(last), m_number(number) {}
+            std::string first,
+            std::string last,
+            long number) : m_first(std::move(first)), m_last(std::move(last)), m_number(number) {}
+
+//    CppCustomObject(const CppCustomObject&) = default;
+//    CppCustomObject(CppCustomObject&&) = default;
+//    CppCustomObject& operator=(const CppCustomObject&) = default;
+//    CppCustomObject& operator=(CppCustomObject&&) = default;
+//    virtual ~CppCustomObject() = default;
+
     // Accessors
     const std::string &first() const { return m_first; }
     const std::string &last() const { return m_last; }
@@ -46,6 +55,16 @@ namespace Python_Cpp_Containers {
     template<>
     int
     py_list_to_cpp_std_list_like<CppCustomObject>(PyObject *op, std::vector<CppCustomObject> &container);
+
+    // Add dict support
+    // Specialised declarations
+    template<>
+    PyObject *
+    cpp_std_map_like_to_py_dict<std::map, long, CppCustomObject>(const std::map<long, CppCustomObject> &map);
+
+    template <>
+    int
+    py_dict_to_cpp_std_map_like<std::map, long, CppCustomObject>(PyObject* op, std::map<long, CppCustomObject> &map);
 
 } // namespace Python_Cpp_Containers
 

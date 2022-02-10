@@ -4,11 +4,22 @@
 .. User defined types
 
 ********************************
-Adding User Defined Types
+User Defined Types
 ********************************
 
+This code also supports conversion of containers of user defined types between Python and C++.
 
-In CPython:
+
+User Defined Types in a C Extension
+============================================
+
+This is based on `the example in the Python documentation <https://docs.python.org/3/extending/newtypes_tutorial.html#adding-data-and-methods-to-the-basic-example>`_
+This is varied slightly ffor the example in that:
+
+- The extension code is in the file ``cUserDefined.cpp``.
+- The module name is ``cUserDefined`` (rather than the ``custom`` module in the original example).
+
+In this example a ``CustomObject`` class is created:
 
 .. code-block:: c
 
@@ -20,26 +31,20 @@ In CPython:
     } CustomObject;
 
 
-Based on `the example in the Python documentation <https://docs.python.org/3/extending/newtypes_tutorial.html#adding-data-and-methods-to-the-basic-example>`_
-
-This also has a method ``name()`` that combines the first and last names:
+This also has a method ``name()`` that combines the first and last names.
 
 .. code-block::
 
     >>> import cUserDefined
-    >>> custom_object = cUserDefined.Custom('First', 'Last', 21)
+    >>> custom_object = cUserDefined.Custom('François', 'Truffaut', 21468)
     >>> custom_object.name()
-    'First Last'
+    'François Truffaut'
 
 
+The C++ Equivalent in the File ``cUserDefined.h``
+---------------------------------------------------
 
-Stuff
-============================================================
-
-
-The File ``cUserDefined.h``
----------------------------------------
-
+This would look something like this:
 
 .. code-block:: cpp
 
@@ -48,9 +53,9 @@ The File ``cUserDefined.h``
     class CppCustomObject {
     public:
         CppCustomObject(
-                const std::string &first,
-                const std::string &last,
-                long number) : m_first(first), m_last(last), m_number(number) {}
+            const std::string &first,
+            const std::string &last,
+            long number) : m_first(first), m_last(last), m_number(number) {}
         // Accessors
         const std::string &first() const { return m_first; }
         const std::string &last() const { return m_last; }
@@ -63,25 +68,11 @@ The File ``cUserDefined.h``
     };
 
 
-.. code-block:: cpp
+Adding Conversion Code in ``cUserDefined.cpp``
+---------------------------------------------------
 
-    #include "cpy/python_convert.h"
-
-    namespace Python_Cpp_Containers {
-
-        // Specialised declarations
-        // C++ to Python
-        template<>
-        PyObject *
-        cpp_std_list_like_to_py_list<CppCustomObject>(const std::vector<CppCustomObject> &container);
-
-        // Python to C++
-        template<>
-        int
-        py_list_to_cpp_std_list_like<CppCustomObject>(PyObject *op, std::vector<CppCustomObject> &container);
-
-    } // namespace Python_Cpp_Containers
-
+In the extension add the verification and conversion code between the Python ``CustomObject`` and the C++ ``CppCustomObject``.
+First verify the Python type and its contents:
 
 .. code-block:: cpp
 
@@ -101,12 +92,13 @@ The File ``cUserDefined.h``
         return 1;
     }
 
+The code to convert from a Python ``CustomObject`` to a C++ ``CppCustomObject``:
+
 .. code-block:: cpp
 
     CppCustomObject py_custom_object_to_cpp_custom_object(PyObject *op) {
-        if (!py_custom_object_check(op)) {
-            // TODO: throw
-        }
+        // Check type, could throw here.
+        assert(py_custom_object_check(op));
         CustomObject *p = (CustomObject *) op;
         return CppCustomObject(
                 Python_Cpp_Containers::py_unicode_to_cpp_string(p->first),
@@ -115,16 +107,50 @@ The File ``cUserDefined.h``
         );
     }
 
+The code to convert from a C++ ``CppCustomObject`` to a Python ``CustomObject``:
+
 .. code-block:: cpp
 
     PyObject *
     cpp_custom_object_to_py_custom_object(const CppCustomObject &obj) {
         CustomObject *op = (CustomObject *) Custom_new(&CustomType, NULL, NULL);
-        op->first = Python_Cpp_Containers::cpp_string_to_py_unicode(obj.first());
-        op->last = Python_Cpp_Containers::cpp_string_to_py_unicode(obj.last());
-        op->number = obj.number();
+        if (op) {
+            op->first = Python_Cpp_Containers::cpp_string_to_py_unicode(obj.first());
+            op->last = Python_Cpp_Containers::cpp_string_to_py_unicode(obj.last());
+            op->number = obj.number();
+        }
         return (PyObject *) op;
     }
+
+In the file, ``cUserDefined.h``, include this project's header file and then in this project's namespace declare
+the specialisations to convert to and from lists of these objects:
+
+.. code-block:: cpp
+
+    #include "cpy/python_convert.h"
+
+    namespace Python_Cpp_Containers {
+
+        // Specialised declarations
+        // C++ to Python
+        template<>
+        PyObject *
+        cpp_std_list_like_to_py_list<CppCustomObject>(
+            const std::vector<CppCustomObject> &container
+        );
+
+        // Python to C++
+        template<>
+        int
+        py_list_to_cpp_std_list_like<CppCustomObject>(
+            PyObject *op, std::vector<CppCustomObject> &container
+        );
+
+    } // namespace Python_Cpp_Containers
+
+
+In the file, ``cUserDefined.cpp`` implement the specialisations, these are just one-liners.
+Firstly from  C++ to Python:
 
 .. code-block:: cpp
 
@@ -139,6 +165,8 @@ The File ``cUserDefined.h``
         }
     } // namespace Python_Cpp_Containers
 
+Then from Python to C++:
+
 .. code-block:: cpp
 
     namespace Python_Cpp_Containers {
@@ -152,80 +180,173 @@ The File ``cUserDefined.h``
 
     } // namespace Python_Cpp_Containers
 
+Now you have all the code needed to convert lists of these objects between C++ and Python.
+
+Using the Conversion Functions
+------------------------------------------
+
+Here is a fairly trivial example that takes a list of Python ``CustomObject`` and creates a list of C++
+``CppCustomObject`` with the first name and last name reversed.
+Then it converts that list C++ ``CppCustomObject`` back to a new list of of Python ``CustomObject``.
+
+In ``cUserDefined.cpp``:
+
 .. code-block:: cpp
 
     static PyObject *
-    reverse_names(PyObject *Py_UNUSED(module), PyObject *arg) {
+    reverse_list_names(PyObject *Py_UNUSED(module), PyObject *arg) {
         std::vector<CppCustomObject> input;
+        // Convert to a C++ vector
         if (! Python_Cpp_Containers::py_list_to_cpp_std_list_like(arg, input)) {
+            // Create a new C++ vector with names reversed.
             std::vector<CppCustomObject> output;
             for (const auto &object: input) {
-                output.emplace_back(CppCustomObject(object.last(), object.first(), object.number()));
+                // Note reversing names.
+                output.emplace_back(
+                    CppCustomObject(object.last(), object.first(), object.number())
+                );
             }
+            // Convert to a new Python list.
             return Python_Cpp_Containers::cpp_std_list_like_to_py_list(output);
         }
         return NULL;
     }
 
+Add this function to the module, in ``cUserDefined.cpp``:
+
 .. code-block:: cpp
 
     // Module functions
     static PyMethodDef cUserDefinedMethods[] = {
-            {"reverse_names", reverse_names, METH_O,
+            {"reverse_list_names", reverse_list_names, METH_O,
                 "Take a list of cUserDefined.Custom objects"
                 " and return a new list with the name reversed."},
             {NULL, NULL, 0, NULL}        /* Sentinel */
     };
 
+Build the module and try it out:
 
 .. code-block::
 
     >>> import cUserDefined
-    >>> list_of_names = [cUserDefined.Custom('First', 'Last', 21), cUserDefined.Custom('One', 'Two', 2487)]
+    >>> list_of_names = [cUserDefined.Custom('First', 'Last', 21), cUserDefined.Custom('François', 'Truffaut', 21468)]
     >>> list_of_names
-    [<cUserDefined.Custom object at 0x10169c720>, <cUserDefined.Custom object at 0x10169c6f0>]
+    [<cUserDefined.Custom object at 0x103d43450>, <cUserDefined.Custom object at 0x103f520f0>]
     >>> [v.name() for v in list_of_names]
-    ['First Last', 'One Two']
+    ['First Last', 'François Truffaut']
 
-Now reverse the names using C++:
-
-.. code-block::
-
-    >>> result = cUserDefined.reverse_names(list_of_names)
-
-The objects returned are new objects (compare with above):
+Now reverse the names using C++, the objects returned are new objects (compare with above):
 
 .. code-block::
 
+    >>> result = cUserDefined.reverse_list_names(list_of_names)
     >>> result
-    [<cUserDefined.Custom object at 0x1018ab4e0>, <cUserDefined.Custom object at 0x1018ab810>]
+    [<cUserDefined.Custom object at 0x103d43720>, <cUserDefined.Custom object at 0x103f52e40>]
 
-And their names are reversed:
+And the names are reversed:
 
 .. code-block::
 
     >>> [v.name() for v in result]
-    ['Last First', 'Two One']
+    ['Last First', 'Truffaut François']
+
+Supporting ``dict[int, cUserDefined.Custom]``
+---------------------------------------------------
+
+.. code-block:: cpp
+
+    namespace Python_Cpp_Containers {
+        // Specialised declarations
+        // C++ to Python
+        template<>
+        PyObject *
+        cpp_std_map_like_to_py_dict<std::map, long, CppCustomObject>(
+            const std::map<long, CppCustomObject> &map
+        );
+
+        // Python to C++
+        template <>
+        int
+        py_dict_to_cpp_std_map_like<std::map, long, CppCustomObject>(
+            PyObject* op, std::map<long, CppCustomObject> &map
+        );
+    } // namespace Python_Cpp_Containers
 
 
+.. code-block:: cpp
 
-FIXME:
+    namespace Python_Cpp_Containers {
+        // Specialised definitions
+        // C++ to Python
+        template<>
+        PyObject *
+        cpp_std_map_like_to_py_dict<std::map, long, CppCustomObject>(
+            const std::map<long, CppCustomObject> &map
+        ) {
+            return generic_cpp_std_map_like_to_py_dict<
+                    std::map, long, CppCustomObject,
+                    &cpp_long_to_py_long,
+                    &cpp_custom_object_to_py_custom_object
+                >(map);
+        }
+
+        // Python to C++
+        template <>
+        int
+        py_dict_to_cpp_std_map_like<std::map, long, CppCustomObject>(
+            PyObject* op, std::map<long, CppCustomObject> &map
+        ) {
+            return generic_py_dict_to_cpp_std_map_like<
+                    std::map,
+                    long, CppCustomObject,
+                    &py_long_check, &py_custom_object_check,
+                    &py_long_to_cpp_long,
+                    &py_custom_object_to_cpp_custom_object
+            >(op, map);
+        }
+
+    } // namespace Python_Cpp_Containers
+
+
+.. code-block:: cpp
+
+    static PyObject *
+    reverse_dict_names(PyObject *Py_UNUSED(module), PyObject *arg) {
+        std::map<long, CppCustomObject> input;
+        if (! Python_Cpp_Containers::py_dict_to_cpp_std_map_like(arg, input)) {
+            std::map<long, CppCustomObject> output;
+            for (const auto &iter: input) {
+                output.emplace(
+                    std::make_pair(
+                        iter.first,
+                        CppCustomObject(
+                            iter.second.last(), iter.second.first(), iter.second.number()
+                        )
+                    )
+                );
+            }
+            return Python_Cpp_Containers::cpp_std_map_like_to_py_dict(output);
+        }
+        return NULL;
+    }
+
 
 .. code-block::
 
-    >>> c = cUserDefined.Custom('Fred', 'Gürzenichstraße', 895)
-    >>> c.Name()
-    Traceback (most recent call last):
-      File "<stdin>", line 1, in <module>
-    AttributeError: 'cUserDefined.Custom' object has no attribute 'Name'
-    >>> c.name()
-    'Fred Gürzenichstraße'
-    >>> l = [c]
-    >>> m = cUserDefined.reverse_names(l)
-    UnicodeDecodeError: 'utf-8' codec can't decode byte 0xfc in position 1: invalid start byte
+    >>> import cUserDefined
+    >>> d = {0 : cUserDefined.Custom('First', 'Last', 17953), 1: cUserDefined.Custom('François', 'Truffaut', 21468),}
+    >>> d
+    {0: <cUserDefined.Custom object at 0x10e0ec6f0>, 1: <cUserDefined.Custom object at 0x10e0ec450>}
 
-    The above exception was the direct cause of the following exception:
 
-    Traceback (most recent call last):
-      File "<stdin>", line 1, in <module>
-    SystemError: <built-in function reverse_names> returned a result with an error set
+.. code-block::
+
+    >>> e = cUserDefined.reverse_dict_names(d)
+    >>> e
+    {0: <cUserDefined.Custom object at 0x10e2fb4e0>, 1: <cUserDefined.Custom object at 0x10e2fb1b0>}
+
+
+.. code-block::
+
+    >>> {k: v.name() for k, v in e.items()}
+    {0: 'Last First', 1: 'Truffaut François'}

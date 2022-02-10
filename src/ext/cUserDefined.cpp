@@ -195,9 +195,11 @@ CppCustomObject py_custom_object_to_cpp_custom_object(PyObject *op) {
 PyObject *
 cpp_custom_object_to_py_custom_object(const CppCustomObject &obj) {
     CustomObject *op = (CustomObject *) Custom_new(&CustomType, NULL, NULL);
-    op->first = Python_Cpp_Containers::cpp_string_to_py_unicode(obj.first());
-    op->last = Python_Cpp_Containers::cpp_string_to_py_unicode(obj.last());
-    op->number = obj.number();
+    if (op) {
+        op->first = Python_Cpp_Containers::cpp_string_to_py_unicode(obj.first());
+        op->last = Python_Cpp_Containers::cpp_string_to_py_unicode(obj.last());
+        op->number = obj.number();
+    }
     return (PyObject *) op;
 }
 
@@ -220,10 +222,32 @@ namespace Python_Cpp_Containers {
         >(op, container);
     }
 
+    // Add dict support
+    // Specialised declarations
+    template<>
+    PyObject *
+    cpp_std_map_like_to_py_dict<std::map, long, CppCustomObject>(const std::map<long, CppCustomObject> &map) {
+        return generic_cpp_std_map_like_to_py_dict<
+                std::map, long, CppCustomObject,
+                &cpp_long_to_py_long, &cpp_custom_object_to_py_custom_object
+            >(map);
+    }
+
+    template <>
+    int
+    py_dict_to_cpp_std_map_like<std::map, long, CppCustomObject>(PyObject* op, std::map<long, CppCustomObject> &map) {
+        return generic_py_dict_to_cpp_std_map_like<
+                std::map,
+                long, CppCustomObject,
+                &py_long_check, &py_custom_object_check,
+                &py_long_to_cpp_long, &py_custom_object_to_cpp_custom_object
+        >(op, map);
+    }
+
 } // namespace Python_Cpp_Containers
 
 static PyObject *
-reverse_names(PyObject *Py_UNUSED(module), PyObject *arg) {
+reverse_list_names(PyObject *Py_UNUSED(module), PyObject *arg) {
     std::vector<CppCustomObject> input;
     if (! Python_Cpp_Containers::py_list_to_cpp_std_list_like(arg, input)) {
         std::vector<CppCustomObject> output;
@@ -236,11 +260,38 @@ reverse_names(PyObject *Py_UNUSED(module), PyObject *arg) {
 }
 
 
+static PyObject *
+reverse_dict_names(PyObject *Py_UNUSED(module), PyObject *arg) {
+    std::map<long, CppCustomObject> input;
+    if (! Python_Cpp_Containers::py_dict_to_cpp_std_map_like(arg, input)) {
+        std::map<long, CppCustomObject> output;
+        // TODO:
+        for (const auto &iter: input) {
+            output.emplace(
+                std::make_pair(
+                    iter.first,
+                    CppCustomObject(
+                            iter.second.last(),
+                            iter.second.first(),
+                            iter.second.number()
+                    )
+                )
+            );
+        }
+        return Python_Cpp_Containers::cpp_std_map_like_to_py_dict(output);
+    }
+    return NULL;
+}
+
+
 // Module functions
 static PyMethodDef cUserDefinedMethods[] = {
-        {"reverse_names", reverse_names, METH_O,
+        {"reverse_list_names", reverse_list_names, METH_O,
             "Take a list of cUserDefined.Custom objects"
             " and return a new list with the name reversed."},
+        {"reverse_dict_names", reverse_dict_names, METH_O,
+            "Take a dict of [int, cUserDefined.Custom] objects"
+            " and return a new dict with the name reversed."},
         {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 

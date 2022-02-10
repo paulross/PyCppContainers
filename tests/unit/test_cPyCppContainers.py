@@ -4,6 +4,35 @@ import cPyCppContainers
 
 
 @pytest.mark.parametrize(
+    'given',
+    (
+        'abc',
+        # Examples from http://www.i18nguy.com/unicode-example.html
+        # 'Михаил Горбачёв',  # Mikhail Gorbachev
+        'François Truffaut',
+        'Mika Häkkinen',
+        'Céline Dion',
+        'Johann Strauß',
+    ),
+)
+def test_new_str(given):
+    result = cPyCppContainers.new_str(given)
+    assert result == given
+
+
+@pytest.mark.xfail
+@pytest.mark.parametrize(
+    'given',
+    (
+        'Михаил Горбачёв',  # Mikhail Gorbachev
+    ),
+)
+def test_new_str_fail(given):
+    result = cPyCppContainers.new_str(given)
+    assert result == given
+
+
+@pytest.mark.parametrize(
     'given, expected',
     (
             (
