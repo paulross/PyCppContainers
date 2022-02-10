@@ -10,6 +10,25 @@
 
 using namespace Python_Cpp_Containers;
 
+static PyObject *
+new_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
+    if (py_bytes_check(arg)) {
+        std::vector<char> vec = py_bytes_to_cpp_vector_char(arg);
+        return cpp_vector_char_to_py_bytes(vec);
+    }
+    return NULL;
+}
+
+
+static PyObject *
+new_str(PyObject *Py_UNUSED(module), PyObject *arg) {
+    if (py_unicode_check(arg)) {
+        std::string vec = py_unicode_to_cpp_string(arg);
+        return cpp_string_to_py_unicode(vec);
+    }
+    return NULL;
+}
+
 /**
  * Double the values of a vector in-place.
  *
@@ -521,6 +540,10 @@ finally:
  * The Python Extension methods.
  */
 static PyMethodDef cPyCppContainersMethods[] = {
+        {"new_bytes", new_bytes, METH_O,
+                "Take a bytes and return a new str object."},
+        {"new_str", new_str, METH_O,
+                "Take a str and return a new str object."},
         {"list_x2", list_x2, METH_O,
                 "Take a list of floats and return a new list with the values doubled."},
         {"tuple_reverse", tuple_reverse, METH_O,

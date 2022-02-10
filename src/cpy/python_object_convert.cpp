@@ -94,7 +94,7 @@ namespace Python_Cpp_Containers {
     }
     // str to/from string
     PyObject *cpp_string_to_py_unicode(const std::string &s) {
-        return PyUnicode_FromStringAndSize(s.c_str(), s.size());
+        return PyUnicode_FromKindAndData(PyUnicode_1BYTE_KIND, s.c_str(), s.size());
     }
     std::string py_unicode_to_cpp_string(PyObject *op) {
         assert(op);
