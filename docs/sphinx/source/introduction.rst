@@ -85,18 +85,18 @@ This project supports two way conversion of this set of containers:
    :widths: 50 50
    :header-rows: 1
 
-   * - Python
-     - C++ Equivalent
-   * - ``tuple``
-     - ``std::vector``
-   * - ``list``
-     - ``std::vector``
-   * - ``set``
-     - ``std::unordered_set``
-   * - ``frozenset``
-     - ``std::unordered_set``
-   * - ``dict``
-     - ``std::unordered_map``
+   * - C++ Container
+     - Python Equivalent
+   * - ``std::vector``
+     - ``tuple`` or ``list``
+   * - ``std::list``
+     - ``tuple`` or ``list``
+   * - ``std::unordered_set``
+     - ``set`` or ``frozenset``
+   * - ``std::unordered_map``
+     - ``dict``
+   * - ``std::map``
+     - ``dict``
 
 Which contain any of this set of types:
 
@@ -104,35 +104,35 @@ Which contain any of this set of types:
    :widths: 30 30
    :header-rows: 1
 
-   * - Python
-     - C++ Equivalent
-   * - ``True``, ``False``
-     - ``bool``
-   * - ``int``
-     - ``long``
-   * - ``float``
-     - ``double``
-   * - ``complex``
-     - ``std::complex<double>``
-   * - ``bytes``
-     - ``std::vector<char>``
-   * - ``str``
-     - ``std::string``
+   * - C++ Type
+     - Python Equivalent
+   * - ``bool``
+     - ``True``, ``False``
+   * - ``long``
+     - ``int``
+   * - ``double``
+     - ``float``
+   * - ``std::complex<double>``
+     - ``complex``
+   * - ``std::vector<char>``
+     - ``bytes``
+   * - ``std::string``
+     - ``str``
 
 The number of possible conversion functions is worse than the cartesian product of the types and containers as in the case of a
 dict the types can appear as either a key or a value.
 
-The tables above would normally require 120 conversion functions to be written, tested and documented [#]_ .
+The tables above would normally require 216 conversion functions to be written, tested and documented [#]_ .
 
 This project simplifies this by using a mix of C++ templates and code generators to reduce this number to just
-**six** hand written templates for all 120 cases.
+**six** hand written templates for all 216 cases.
 
 * Two C++ templates for Python ``tuple`` / ``list`` two way conversions for all types.
 * Two C++ templates for Python ``set`` / ``frozenset`` two way conversions for all types.
 * Two C++ templates for Python ``dict`` two way conversions for all type combinations.
 
 These templates are fairly simple, comprehensible and, for simplicity, code generation is done with a Python script is used
-to create the final, instantiated, 120 functions.
+to create the final, instantiated, 216 functions.
 
 Hand Written Functions
 =============================
@@ -347,7 +347,8 @@ The `Buffer protocol <https://docs.python.org/3/c-api/buffer.html>`_
 Python's `multiprocessing.shared_memory <https://docs.python.org/3/library/multiprocessing.shared_memory.html#module-multiprocessing.shared_memory>`_
 
 .. rubric:: Footnotes
-.. [#] There are four unary containers (``tuple``, ``list``, ``set``, ``frozenset``) and six types
+.. [#] TODO: The calculation of 216.
+    There are four unary containers (``tuple``, ``list``, ``set``, ``frozenset``) and six types
     (``bool``, ``int``, ``float``, ``complex``, ``bytes``, ``str``).
     Each container/type combination requires two functions to give two way conversion from Python to C++ and back.
     Thus 4 (containers) * 6 (types) * 2 (way conversion) = 48 required functions.

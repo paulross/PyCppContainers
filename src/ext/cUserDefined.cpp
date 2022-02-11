@@ -265,7 +265,6 @@ reverse_dict_names(PyObject *Py_UNUSED(module), PyObject *arg) {
     std::map<long, CppCustomObject> input;
     if (! Python_Cpp_Containers::py_dict_to_cpp_std_map_like(arg, input)) {
         std::map<long, CppCustomObject> output;
-        // TODO:
         for (const auto &iter: input) {
             output.emplace(
                 std::make_pair(

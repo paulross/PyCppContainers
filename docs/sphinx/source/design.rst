@@ -12,10 +12,14 @@ This library uses C++ templates but not in a particularly complex way.
 There are six essential C++ templates and a Python script is used to to auto-generate the partial template
 specialisations and their instantiations.
 
-``python_object_convert.h`` and ``python_object_convert.cpp``
------------------------------------------------------------------
+As described in the previous chapter new types can be added pretty easily, alternatively the code generator can be
+manipulated to do this.
 
-This is a hand written file that contains implementations of functions to convert Python types to their C++ equivalent.
+Source Files ``python_object_convert.h`` and ``python_object_convert.cpp``
+-----------------------------------------------------------------------------------
+
+These are hand written files that contains implementations of functions to convert Python types to and from their
+C++ equivalent.
 There are three functions to each type:
 
 * Convert a C++ value to a new Python object.

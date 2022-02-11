@@ -22,14 +22,14 @@ Two-way conversion for this set of containers:
 
 Containing these objects:
 
-| Python Object Type  | C++ Equivalent           |
-|---------------------|--------------------------|
-| ``True``, ``False`` | ``bool``                 |
-| ``int``             | ``long``                 |
-| ``float``           | ``double``               |
-| ``complex``         | ``std::complex<double>`` |
-| ``bytes``           | ``std::vector<char>``    |
-| ``str``             | ``std::string``          |
+| C++ Type                 | Python Equivalent  |
+|--------------------------|---------------------|
+| ``bool``                 | ``True``, ``False`` |
+| ``long``                 | ``int``             |
+| ``double``               | ``float``           |
+| ``std::complex<double>`` | ``complex``         |
+| ``std::vector<char>``    | ``bytes``           |
+| ``std::string``          | ``str``             |
 
 These combinations would normally need 216 specific conversion
 functions.

@@ -29,12 +29,11 @@ Which should give you something like:
     venv/bin/python src/py/code_gen.py
     Target directory "src/cpy"
     Writing declarations to "src/cpy/auto_py_convert_internal.h"
-    Wrote 1526 lines of code with 122 declarations.
+    Wrote 2654 lines of code with 220 declarations.
     Writing definitions to  "src/cpy/auto_py_convert_internal.cpp"
-    Wrote 1237 lines of code with 120 definitions.
-    
-    Process finished with exit code 0
+    Wrote 2384 lines of code with 216 definitions.
 
+    Process finished with exit code 0
 
 Build Configuration
 --------------------------

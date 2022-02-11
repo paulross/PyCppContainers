@@ -26,6 +26,7 @@ public:
     const std::string &first() const { return m_first; }
     const std::string &last() const { return m_last; }
     long number() const { return m_number; }
+    std::string name() { return m_first + " " + m_last; }
     // Other methods here...
 private:
     std::string m_first;
