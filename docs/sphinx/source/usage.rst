@@ -6,7 +6,7 @@
 .. _PythonCppContainers.Usage:
 
 ***************************************
-Using this Library in Your C++ Code
+Using this C++ Library
 ***************************************
 
 The Basics

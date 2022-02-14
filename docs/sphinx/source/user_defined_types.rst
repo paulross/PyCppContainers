@@ -13,7 +13,6 @@ User Defined Types
    :backlinks: none
 
 This shows how to support conversion of containers of user defined types between Python and C++.
-This is probably best done by example.
 
 There are several steps:
 
@@ -24,6 +23,8 @@ There are several steps:
 * For each container conversion declare the template specialisation and definition.
   These will be one-liner calls to this project's generic functions.
 
+This is probably best done by example.
+
 User Defined Types in a C Extension
 ============================================
 
@@ -32,7 +33,7 @@ This example will demonstrate supporting the conversion of ``std::vector`` s of 
 The C++ Class Declared in the File ``cUserDefined.h``
 ----------------------------------------------------------
 
-Here is the user defined C++ class:
+Here is an example of a user defined C++ class that contains a firs name, second name and a number.:
 
 .. code-block:: cpp
 
@@ -196,7 +197,6 @@ From Python to C++
         py_list_to_cpp_std_list_like<CppCustomObject>(
             PyObject *op, std::vector<CppCustomObject> &container
         );
-
     } // namespace Python_Cpp_Containers
 
 Template Specialisation Definitions in ``cUserDefined.cpp``
@@ -243,7 +243,7 @@ From Python to C++
 
 Now you have all the code needed to convert sequences of these objects between C++ and Python.
 
-Using the Conversion Functions in C++
+Using the C++ Conversion Functions
 ------------------------------------------
 
 From C++ to Python
@@ -424,6 +424,10 @@ From Python to C++
         }
     } // namespace Python_Cpp_Containers
 
+
+Example Code
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Here is an example of using both of them in a similar way to above by creating a new dict with the names reversed in C++.
 
 In ``cUserDefined.cpp``:
@@ -498,3 +502,11 @@ User Defined Types From Pure Python Types
 .. todo::
 
     Add in version 0.4.0
+
+
+Interoperation with ``numpy`` ND Arrays.
+============================================
+
+.. todo::
+
+    Add the existing example code in version 0.4.0.

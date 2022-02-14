@@ -51,13 +51,13 @@ vector_double_x2(std::vector<double> &vec) {
 static PyObject *
 list_x2(PyObject *Py_UNUSED(module), PyObject *arg) {
     std::vector<double> vec;
-    // py_list_to_cpp_std_vector() will return non-zero if the Python
+    // py_list_to_cpp_std_list_like() will return non-zero if the Python
     // argument can not be converted to a std::vector<double>
     // and a Python exception will be set.
     if (!py_list_to_cpp_std_list_like(arg, vec)) {
         // Double the values in pure C++ code.
         vector_double_x2(vec);
-        // cpp_std_vector_to_py_list() returns NULL on failure
+        // cpp_std_list_like_to_py_list() returns NULL on failure
         // and a Python exception will be set.
         return cpp_std_list_like_to_py_list(vec);
     }
@@ -223,8 +223,8 @@ ImportError: dlopen(/Users/engun/CLionProjects/PythonCppHomogeneousContainers/cP
 static PyObject *
 new_list_unsigned_int(PyObject *Py_UNUSED(module), PyObject *arg) {
     std::vector<unsigned int> vec;
-    if (!py_list_to_cpp_std_vector(arg, vec)) {
-        return cpp_std_vector_to_py_list(vec);
+    if (!py_list_to_cpp_std_list_like(arg, vec)) {
+        return cpp_std_list_like_to_py_list(vec);
     }
     return NULL;
 }
