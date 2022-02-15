@@ -277,7 +277,7 @@ TODO:
 * 0.25 µs per object for a complex number, say 4m objects a second.
 
 This is identical to the values for the set but includes the conversion time for both key and value.
-The hashing, insertion and potential re-hashing dominate teh performance.
+The hashing, insertion and potential re-hashing dominate the performance.
 
 Python Dict of ``bytes``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

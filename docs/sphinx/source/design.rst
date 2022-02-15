@@ -611,4 +611,6 @@ The definitions are auto-generated in ``auto_py_convert_internal.cpp``, here sho
 Code Generation
 -------------------
 
-.. TODO:
+.. todo::
+
+    Add in version 0.4.0

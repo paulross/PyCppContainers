@@ -33,7 +33,7 @@ This example will demonstrate supporting the conversion of ``std::vector`` s of 
 The C++ Class Declared in the File ``cUserDefined.h``
 ----------------------------------------------------------
 
-Here is an example of a user defined C++ class that contains a firs name, second name and a number.:
+Here is an example of a user defined C++ class that contains a first name, second name and a number.:
 
 .. code-block:: cpp
 
@@ -62,7 +62,7 @@ The Python Equivalent in the File ``cUserDefined.cpp``
 -------------------------------------------------------
 
 This is based on `the example in the Python documentation <https://docs.python.org/3/extending/newtypes_tutorial.html#adding-data-and-methods-to-the-basic-example>`_
-This is varied slightly for the example in that:
+That is varied slightly for this example:
 
 - The module name is ``cUserDefined`` (rather than ``custom`` in the original example).
 - The code for the C extension is in ``cUserDefined.cpp``.

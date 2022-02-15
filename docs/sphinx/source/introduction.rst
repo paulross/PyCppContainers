@@ -66,7 +66,7 @@ And the inverse, ``read_from_vector`` creating a new Python list from a C++ ``st
     }
 
 
-There is no error handling here and all errors are runtime errors.
+There is no error handling here, all errors would be runtime errors.
 
 However if you need to support other object types, say lists of ``int``, ``str``, ``bytes`` then each one needs a pair of hand written functions.
 It gets worse when you want to support other containers such as (``tuple``, ``list``, ``set``, ``frozenset``, ``dict``).
@@ -237,6 +237,7 @@ There is a similar partial specialisation for ``tuple``.
 Converting a Python ``tuple`` or ``list`` to a C++ ``std::vector<T>`` or ``std::list<T>``
 --------------------------------------------------------------------------------------------------
 
+The reverse is converting Python to C++.
 This generic function that converts unary Python indexed containers (``tuple`` and ``list``) to a C++ ``std::vector<T>``
 or ``std::list<T>`` for any type has this signature:
 
@@ -310,12 +311,6 @@ This is hand written code but it is trivial by wrapping a single function call.
 
 In the particular case of a ``std::vector`` we can use ``.reserve()`` as an optimisations to avoid excessive re-allocations.
 
-.. note::
-
-    The use of the function pointers to ``py_list_check``, ``py_list_len`` and ``py_list_get`` that are defined in this
-    project namespace.
-    These are thin wrappers around existing functions or macros in ``"Python.h"``.
-
 .. code-block:: cpp
 
     template<
@@ -343,6 +338,12 @@ In the particular case of a ``std::vector`` we can use ``.reserve()`` as an opti
             &py_list_get
         >(op, container);
     }
+
+.. note::
+
+    The use of the function pointers to ``py_list_check``, ``py_list_len`` and ``py_list_get`` that are defined in this
+    project namespace.
+    These are thin wrappers around existing functions or macros in ``"Python.h"``.
 
 There is a similar partial specialisation for ``tuple``.
 
@@ -373,7 +374,7 @@ And a concrete declaration for each C++ target type ``T`` in *auto_py_convert_in
     PyObject *
     cpp_std_list_like_to_py_list<double>(const std::vector<double> &container);
 
-And the concrete definition is in *auto_py_convert_internal.cpp*:
+And the concrete definition is in *auto_py_convert_internal.cpp*, this simply calls the generic function:
 
 .. code-block:: cpp
 
@@ -410,7 +411,7 @@ This is the function hierarchy for the code that converts C++ ``std::vector<T>``
 Python to C++
 ----------------------------
 
-For example, to convert a Python ``list`` of ``float`` to a C++ ``std::vector<double>`` the following are created:
+For example, to convert a Python ``list`` of ``float`` to a C++ ``std::vector<double>`` the following are generated:
 
 A base declaration in *auto_py_convert_internal.h*:
 
