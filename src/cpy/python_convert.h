@@ -31,6 +31,8 @@
 /// Functions to handle Python containers.
 #include "python_container_convert.h"
 
+#define PYTHON_CPP_CONTAINERS_VERSION "0.3.1"
+
 namespace std {
     // We are adding to namespace std:: here.
     // See https://stackoverflow.com/questions/16122912/is-it-ok-to-specialize-stdnumeric-limitst-for-user-defined-number-like-class

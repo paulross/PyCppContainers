@@ -1,6 +1,10 @@
 # History
 
 
+## Version 0.3.1
+
+- First release.
+
 ## Version 0.3.0
 
 - Migrate to CLion

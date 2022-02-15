@@ -3,6 +3,10 @@ import pytest
 import cPyCppContainers
 
 
+def test_version():
+    assert 'PYTHON_CPP_CONTAINERS_VERSION' in dir(cPyCppContainers)
+
+
 @pytest.mark.parametrize(
     'given',
     (

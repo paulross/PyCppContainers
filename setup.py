@@ -26,7 +26,7 @@ else:
 
 setup(
     name='PythonCppContainers',
-    version='0.3.0',
+    version='0.3.1',
     author='Paul Ross',
     author_email='apaulross@gmail.com',
     maintainer='Paul Ross',

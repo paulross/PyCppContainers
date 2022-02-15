@@ -657,8 +657,18 @@ PyInit_cPyCppContainers(void) {
     PyObject *m;
 
     m = PyModule_Create(&cPyCppContainersmodule);
-    if (m == NULL)
+    if (m == NULL) {
         return NULL;
+    }
+    if (
+        PyModule_AddStringConstant(
+                m,
+                "PYTHON_CPP_CONTAINERS_VERSION",
+                PYTHON_CPP_CONTAINERS_VERSION
+        )
+    ) {
+        return NULL;
+    }
 
     return m;
 }
