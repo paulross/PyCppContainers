@@ -3,6 +3,10 @@ project(PythonCppHomogeneousContainers)
 
 set(CMAKE_CXX_STANDARD 14)
 
+# To deal with:
+# ld: warning: ignoring file /usr/local/Frameworks/Python.framework/Versions/3.11/lib/libpython3.11.dylib, building for macOS-arm64 but attempting to link with file built for macOS-x86_64
+set(CMAKE_OSX_ARCHITECTURES "x86_64")
+
 add_compile_options(
         "-Wall"
         "-Wextra"
@@ -26,17 +30,39 @@ include_directories(
         src
 )
 
-FIND_PACKAGE(PythonLibs 3.9 REQUIRED)
-IF(PYTHONLIBS_FOUND)
-    message(status "    Python libraries: ${PYTHON_LIBRARIES}")
-    message(status " Python include dirs: ${PYTHON_INCLUDE_DIRS}")
-    message(status "      Python version: ${PYTHONLIBS_VERSION_STRING}")
-    message(status "      Python library: ${PYTHON_LIBRARY}")
-    message(status "  Python include dir: ${PYTHON_INCLUDE_DIR}")
-    INCLUDE_DIRECTORIES("${PYTHON_INCLUDE_DIRS}")
-ELSE()
+FIND_PACKAGE (Python3 3.9 EXACT REQUIRED COMPONENTS Interpreter Development)
+#FIND_PACKAGE(PythonLibs 3.11 EXACT REQUIRED)
+#SET(PythonLibs_DIR "/Library/Frameworks/Python.framework/Versions/3.8")
+#FIND_PACKAGE(PythonLibs 3.8 REQUIRED PATHS ("/Library/Frameworks/Python.framework/Versions/3.8"))
+#FindPythonLibs()
+IF (Python3_FOUND)
+    INCLUDE_DIRECTORIES("${Python3_INCLUDE_DIRS}")
+    get_filename_component(PYTHON_LINK_DIRECTORY ${PYTHON_LIBRARY} DIRECTORY)
+    # See: https://cmake.org/cmake/help/latest/module/FindPython3.html#module:FindPython3
+    message("Python3_VERSION:           ${Python3_VERSION}")
+    message("Python3_EXECUTABLE:        ${Python3_EXECUTABLE}")
+    message("Python3_INTERPRETER_ID:    ${Python3_INTERPRETER_ID}")
+    message("Python3_INCLUDE_DIRS:      ${Python3_INCLUDE_DIRS}")
+    message("Python3_STDLIB:            ${Python3_STDLIB}")
+    message("Python3_STDARCH:           ${Python3_STDARCH}")
+    message("Python3_LINK_OPTIONS:      ${Python3_LINK_OPTIONS}")
+    message("Python3_LIBRARIES:         ${Python3_LIBRARIES}")
+ELSE ()
     MESSAGE(FATAL_ERROR "Unable to find Python libraries.")
-ENDIF()
+ENDIF ()
+
+
+#FIND_PACKAGE(PythonLibs 3.9 REQUIRED)
+#IF(PYTHONLIBS_FOUND)
+#    message(status "    Python libraries: ${PYTHON_LIBRARIES}")
+#    message(status " Python include dirs: ${PYTHON_INCLUDE_DIRS}")
+#    message(status "      Python version: ${PYTHONLIBS_VERSION_STRING}")
+#    message(status "      Python library: ${PYTHON_LIBRARY}")
+#    message(status "  Python include dir: ${PYTHON_INCLUDE_DIR}")
+#    INCLUDE_DIRECTORIES("${PYTHON_INCLUDE_DIRS}")
+#ELSE()
+#    MESSAGE(FATAL_ERROR "Unable to find Python libraries.")
+#ENDIF()
 
 add_executable(
         PythonCppHomogeneousContainers
@@ -69,8 +95,10 @@ add_executable(
         src/ext/cUserDefined.cpp
         src/ext/cUserDefined.h)
 
-target_link_libraries(PythonCppHomogeneousContainers ${PYTHON_LIBRARIES})
 
+link_directories(${PYTHON_LINK_LIBRARY})
+
+target_link_libraries(${PROJECT_NAME} ${PYTHON_LIBRARY})
 
 MESSAGE(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
 MESSAGE(STATUS "Library Type: " ${LIB_TYPE})
