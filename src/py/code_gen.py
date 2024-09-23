@@ -25,8 +25,10 @@ logger = logging.getLogger(__file__)
 #: The namespace that all the C++ code lives within.
 CPP_NAMESPACE = 'Python_Cpp_Containers'
 
+PROJECT_VERSION = '0.3.2'
+
 #: This is the map of type conversion functions between Python and C/C++ that we are going to need.
-#: These refer to hand written functions.
+#: These refer to handwritten functions.
 #: for k, v in itertools.product(CPP_TYPE_TO_FUNCS.keys(), repeat=2):
 CPP_TYPE_TO_FUNCS = {
     'bool': code_gen_common.CppTypeFunctions('cpp_bool_to_py_bool', 'py_bool_check', 'py_bool_to_cpp_bool', 'bool'),
@@ -463,6 +465,11 @@ def declarations() -> CodeCount:
     count_decl = 0
     with code_gen_documentation.cpp_comment_section(code_lines, 'Declaration file', '='):
         with code_gen_documentation.get_codegen_please_no_edit_warning_context(code_lines):
+            # Version information
+            code_lines.append('//')
+            code_lines.append(f'// Version: {PROJECT_VERSION}')
+            code_lines.append('//')
+
             code_lines.extend(code_gen_documentation.documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
             code_lines.append('#include <Python.h>')
             code_lines.append('')
@@ -491,6 +498,11 @@ def definitions() -> CodeCount:
     count_defn = 0
     with code_gen_documentation.cpp_comment_section(code_lines, 'Definition file', '='):
         with code_gen_documentation.get_codegen_please_no_edit_warning_context(code_lines):
+            # Version information
+            code_lines.append('//')
+            code_lines.append(f'// Version: {PROJECT_VERSION}')
+            code_lines.append('//')
+
             code_lines.extend(code_gen_documentation.documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
             code_lines.append('#include "python_convert.h"')
             code_lines.append('')
@@ -514,6 +526,7 @@ AUTO_FILE_NAME = 'auto_py_convert_internal'
 def write_files() -> None:
     """Writes all C++ files."""
     dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, 'cpy'))
+    print(f'Version: {PROJECT_VERSION}')
     print('Target directory "{}"'.format(dir_path))
     file_path = os.path.join(dir_path, '{}.h'.format(AUTO_FILE_NAME))
     print('Writing declarations to "{}"'.format(file_path))
