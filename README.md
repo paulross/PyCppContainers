@@ -172,7 +172,7 @@ $ python setup.py develop
 And to use it:
 
 ```python
-import cPyCppContainer
+import cPyCppContainers
 ```
 
 There are a number of functions there that exploit this C++ library.
@@ -201,6 +201,8 @@ cPyCppContainers.new_list_float([1.0, 2.0])
 If the Python list contains non-floats an exception will be raised:
 
 ```python
+import cPyCppContainers
+
 cPyCppContainers.new_list_float([1.0, 2])
 Traceback (most recent call last):
 File "<stdin>", line 1, in <module>
@@ -228,7 +230,3 @@ $ pytest -vs --runslow --pymemtrace tests/
 ```
 
 This can take around 30 minutes to complete.
-
-# Credits
-
-Many thanks to my employer [Paige](https://www.paige.ai) for letting me opensource this project.
