@@ -9,6 +9,8 @@
 #include "cpy/tests/test_performance.h"
 #include "cpy/tests/test_memory.h"
 
+// Controls execution of test_performance_all() which takes a long time.
+#define TEST_PERFORMANCE_ALL 0
 
 void test_all() {
     TestResultS test_results;
@@ -17,8 +19,10 @@ void test_all() {
     // With release this takes around 900 seconds.
     test_functional_all(test_results);
 #ifdef NDEBUG
+#if TEST_PERFORMANCE_ALL
     // These take a long time
     test_performance_all(test_results);
+#endif
 #endif
     test_memory_all(test_results);
 

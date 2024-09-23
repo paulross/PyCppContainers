@@ -711,6 +711,7 @@ new_py_set_string(size_t size, size_t str_len) {
                 op = NULL;
             }
         }
+        assert((size_t)PySet_Size(op) == size);
     }
     return op;
 }

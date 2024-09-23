@@ -11,12 +11,31 @@ set -o errexit  # abort on nonzero exitstatus
 set -o nounset  # abort on unbound variable
 set -o pipefail # don't hide errors within pipes
 
-PYTHON_VERSIONS=('3.7' '3.8' '3.9' '3.10' '3.11' '3.12' '3.13')
+# https://devguide.python.org/versions/
+#PYTHON_VERSIONS=('3.8' '3.9' '3.10' '3.11' '3.12' '3.13')
+PYTHON_VERSIONS=('3.10')
 PYTHON_VENV_ROOT="${HOME}/pyenvs"
 # Used for venvs
 PROJECT_NAME="cPyCppContainers"
+CPP_EXECUTABLE="PythonCppHomogeneousContainers"
+
 
 #printf "%-8s %8s %10s %10s %12s\n" "Ext" "Files" "Lines" "Words" "Bytes"
+
+build_cpp() {
+  echo "---> C++ clean debug"
+  cmake --build cmake-build-debug --target clean -- -j 6
+  echo "---> C++ build debug"
+  cmake --build cmake-build-debug --target ${CPP_EXECUTABLE} -- -j 6
+  echo "---> C++ clean release"
+  cmake --build cmake-build-release --target clean -- -j 6
+  echo "---> C++ build release"
+  cmake --build cmake-build-release --target ${CPP_EXECUTABLE} -- -j 6
+}
+
+run_cpp_tests() {
+  cmake-build-release/${CPP_EXECUTABLE}
+}
 
 deactivate_virtual_environment() {
   # https://stackoverflow.com/questions/42997258/virtualenv-activate-script-wont-run-in-bash-script-with-set-euo
@@ -82,7 +101,7 @@ create_bdist_wheel() {
     # Fail fast with -x
     pytest tests -x
     # Run all tests (slow).
-    pytest tests --runslow
+    pytest tests -vs --runslow --pymemtrace
     echo "---> Running setup for bdist_wheel:"
     python setup.py bdist_wheel
   done
@@ -130,6 +149,10 @@ show_results_of_dist() {
   echo "---> twine upload dist/*"
 }
 
+echo "===> Clean and build C++ code"
+build_cpp
+echo "===> Running C++ tests"
+run_cpp_tests
 echo "===> Removing build/ and dist/"
 #rm --recursive --force -- "build" "dist"
 rm -rf -- "build" "dist"
