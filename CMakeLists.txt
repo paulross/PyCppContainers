@@ -50,14 +50,14 @@ include_directories(
 
 #SET(Python3_DIR "/Library/Frameworks/Python.framework/Versions/3.8")
 
-FIND_PACKAGE (Python3 3.7 EXACT REQUIRED COMPONENTS Interpreter Development)# PATHS ("/Library/Frameworks/Python.framework/Versions/3.8"))
+FIND_PACKAGE (Python3 3.9 EXACT REQUIRED COMPONENTS Interpreter Development)# PATHS ("/Library/Frameworks/Python.framework/Versions/3.8"))
 #FIND_PACKAGE(PythonLibs 3.11 EXACT REQUIRED)
 #SET(PythonLibs_DIR "/Library/Frameworks/Python.framework/Versions/3.8")
 #FIND_PACKAGE(PythonLibs 3.8 REQUIRED PATHS ("/Library/Frameworks/Python.framework/Versions/3.8"))
 #FindPythonLibs()
 IF (Python3_FOUND)
     INCLUDE_DIRECTORIES("${Python3_INCLUDE_DIRS}")
-    message("Python3_LOBRARY:           ${PYTHON_LIBRARY}")
+#    message("Python3_LOBRARY:           ${PYTHON_LIBRARY}")
 #    get_filename_component(PYTHON_LINK_DIRECTORY ${PYTHON_LIBRARY} DIRECTORY)
     # See: https://cmake.org/cmake/help/latest/module/FindPython3.html#module:FindPython3
     message("Python3_VERSION:           ${Python3_VERSION}")
