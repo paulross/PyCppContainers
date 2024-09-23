@@ -69,6 +69,13 @@ int main() {
     ExecClock exec_clock;
     Py_Initialize();
 
+    std::cout << "Python version: " << PY_VERSION << std::endl;
+//    std::cout << "Python version: " << PY_MAJOR_VERSION;
+//    std::cout << "." << PY_MINOR_VERSION;
+//    std::cout << "." << PY_MICRO_VERSION;
+//    std::cout << " (0x" << std::hex << PY_VERSION_HEX << std::dec << ")";
+//    std::cout << std::endl;
+
     RSSSnapshot rss_overall("main.cpp");
 
 //    explore_hash_reserve();
