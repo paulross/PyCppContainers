@@ -168,7 +168,6 @@ std::ostream &operator<<(std::ostream &os, const TestResult &result) {
             os << std::setw(14) << "N/A";
         }
         os << " " << result.name();
-        os << std::endl;
     }
     return os;
 }
@@ -222,8 +221,8 @@ void TestResultS::dump_header(std::ostream &os) const {
 }
 
 void TestResultS::dump_tests(std::ostream &os) const {
-    for (auto &result : _results) {
-        os << result;
+    for (const auto &result : _results) {
+        os << result << std::endl;
     }
 }
 
@@ -233,7 +232,7 @@ void TestResultS::dump_tail(std::ostream &os) const {
     unsigned int count_fail = 0;
     unsigned int count_pass = 0;
 
-    for (auto &result : _results) {
+    for (const auto &result : _results) {
         if (result.failed()) {
             count_fail += result.numTests();
         } else {
@@ -244,6 +243,16 @@ void TestResultS::dump_tail(std::ostream &os) const {
     os << " Passed=" << count_pass << "/" << count_pass + count_fail;
     os << " Failed=" << count_fail << "/" << count_pass + count_fail;
     os << std::endl;
+    if (count_fail > 0) {
+        os << "Failed tests [" << count_fail << "]:" << std::endl;
+        for (const auto &result : _results) {
+            if (result.failed()) {
+                os << result << std::endl;
+            }
+        }
+    } else {
+        os << "All tests pass." << std::endl;
+    }
 }
 
 std::ostream &operator<<(std::ostream &os, const TestResultS &results) {

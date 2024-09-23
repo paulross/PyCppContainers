@@ -1,5 +1,8 @@
 # History
 
+## Version 0.3.2
+
+- Support Python versions 3.8 to 3.13.
 
 ## Version 0.3.1
 

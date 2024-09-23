@@ -26,7 +26,7 @@ else:
 
 setup(
     name='PythonCppContainers',
-    version='0.3.1',
+    version='0.3.2',
     author='Paul Ross',
     author_email='apaulross@gmail.com',
     maintainer='Paul Ross',
@@ -34,6 +34,7 @@ setup(
     description='Python and C++ Container interoperability.',
     long_description="""TODO.""",
     platforms=['Mac OSX', 'POSIX', ],
+    # https://pypi.org/classifiers/
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
@@ -42,7 +43,14 @@ setup(
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: POSIX :: Linux',
         'Programming Language :: C++',
+        # https://devguide.python.org/versions/
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
         'Topic :: Programming',
     ],
     license='GNU General Public License v2 (GPLv2)',
@@ -57,6 +65,9 @@ setup(
             ],
             include_dirs=[
                 'src',
+                'src/cpp',
+                'src/cpy',
+                'src/ext',
             ],
             extra_compile_args=extra_compile_args,
         ),

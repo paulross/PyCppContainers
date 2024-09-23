@@ -31,7 +31,7 @@
 /// Functions to handle Python containers.
 #include "python_container_convert.h"
 
-#define PYTHON_CPP_CONTAINERS_VERSION "0.3.1"
+#define PYTHON_CPP_CONTAINERS_VERSION "0.3.2"
 
 namespace std {
     // We are adding to namespace std:: here.

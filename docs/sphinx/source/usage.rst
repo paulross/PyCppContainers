@@ -391,9 +391,11 @@ To build the HTML and PDF documentation from the project directory:
 .. code-block:: shell
 
     $ cd docs/sphinx
+    $ make clean
     $ make html latexpdf
+    $ cp build/latex/PythonCppContainers.pdf ..
     $ open build/html/index.html
-    $ open build/latex/PythonCppContainers.pdf
+    $ open ../PythonCppContainers.pdf
 
 Doxygen
 -----------------------
@@ -405,3 +407,11 @@ To build the HTML Doxygen documentation from the project directory:
     $ cd docs
     $ doxygen PythonCppContainers.dox
     $ open doxygen/html/index.html
+
+The Doxygen PDF:
+
+.. code-block:: shell
+
+    $ cd docs/doxygen/latex
+    $ make pdf
+    $ cp refman.pdf ../../PythonCppContainers_Doxygen.pdf
