@@ -142,6 +142,25 @@
 #define RSS_SNAPSHOT_REPORT
 #endif // RSS_SNAPSHOT
 
+const int PY_ERR_ON_ENTRY_RETURN_CODE = -1;
+const int PY_ERR_ON_EXIT_RETURN_CODE = -2;
+
+#define TEST_FOR_PY_ERR_ON_ENTRY                \
+    do {                                        \
+        if (PyErr_Occurred()) {                 \
+            PyErr_Print();                      \
+            return PY_ERR_ON_ENTRY_RETURN_CODE; \
+        }                                       \
+    } while(0)
+
+#define TEST_FOR_PY_ERR_ON_EXIT                 \
+    do {                                        \
+        if (PyErr_Occurred()) {                 \
+            PyErr_Print();                      \
+            return PY_ERR_ON_EXIT_RETURN_CODE;  \
+        }                                       \
+    } while(0)
+
 #pragma mark Comparison templates
 
 /**
@@ -169,6 +188,7 @@ template<
 >
 int compare_tuple_or_list(std::vector<T> const &cpp_vector, PyObject *op) {
     assert(op);
+    TEST_FOR_PY_ERR_ON_ENTRY;
     int result = 0;
     if (!PyUnaryContainer_Check(op)) {
         result = 1;
@@ -195,6 +215,7 @@ int compare_tuple_or_list(std::vector<T> const &cpp_vector, PyObject *op) {
             }
         }
     }
+    TEST_FOR_PY_ERR_ON_EXIT;
     return result;
 }
 
@@ -214,10 +235,13 @@ template<
         T (*Convert_Py_To_T)(PyObject *)
 >
 int compare_tuple(std::vector<T> const &cpp_vector, PyObject *op) {
-    return compare_tuple_or_list<
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    int ret = compare_tuple_or_list<
             T, Convert_T_To_Py, Convert_Py_To_T,
             &Python_Cpp_Containers::py_tuple_check, &Python_Cpp_Containers::py_tuple_len, &Python_Cpp_Containers::py_tuple_get
         >(cpp_vector, op);
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return ret;
 }
 
 // Base template
@@ -266,10 +290,13 @@ template<
         T (*Convert_Py_To_T)(PyObject *)
 >
 int compare_list(std::vector<T> const &cpp_vector, PyObject *op) {
-    return compare_tuple_or_list<
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    int ret = compare_tuple_or_list<
             T, Convert_T_To_Py, Convert_Py_To_T,
             &Python_Cpp_Containers::py_list_check, &Python_Cpp_Containers::py_list_len, &Python_Cpp_Containers::py_list_get
     >(cpp_vector, op);
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return ret;
 }
 
 // Base declaration
@@ -318,6 +345,7 @@ template<
         T (*Convert_Py_To_T)(PyObject *)
 >
 int compare_set(const std::unordered_set<T> &cpp_set, PyObject *op) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
     assert(op);
     int result = 0;
     if (!PySet_Check(op) && !PyFrozenSet_Check(op)) {
@@ -350,6 +378,7 @@ int compare_set(const std::unordered_set<T> &cpp_set, PyObject *op) {
             Py_DECREF(py_set_iter);
         }
     }
+    TEST_FOR_PY_ERR_ON_EXIT;
     return result;
 }
 
@@ -391,6 +420,7 @@ template<
         V (*Convert_Py_Val)(PyObject *)
 >
 int compare_dict(MapLike<K, V> const &cpp_map, PyObject *op) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
     assert(op);
     int result = 0;
     if (!PyDict_Check(op)) {
@@ -430,6 +460,7 @@ int compare_dict(MapLike<K, V> const &cpp_map, PyObject *op) {
             }
         }
     }
+    TEST_FOR_PY_ERR_ON_EXIT;
     return result;
 }
 

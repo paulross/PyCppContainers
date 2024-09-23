@@ -1,6 +1,10 @@
 /**
  * Performance tests of one way conversions timed in C++.
  * Created by Paul Ross on 22/05/2021.
+ *
+ * Note: TEST_FOR_PY_ERR_ON_ENTRY and TEST_FOR_PY_ERR_ON_EXIT are not used due to the design of these tests
+ * (mainly the int return value is ignored).
+ * Those macros are used in functional and memory tests.
 */
 
 #include <Python.h>

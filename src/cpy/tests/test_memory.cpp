@@ -16,6 +16,7 @@
 #include "test_common.h"
 
 int test_memory_py_tuple(TestResultS &test_results, const std::string &type, size_t size) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
     RSS_SNAPSHOT_WITH_TYPE(type);
     assert(!PyErr_Occurred());
     int result = 0;
@@ -55,11 +56,12 @@ finally:
     Py_XDECREF(p_tuple);
     REPORT_TEST_OUTPUT;
     RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
     return result;
 }
 
 int test_memory_py_dict(TestResultS &test_results, const std::string &type, size_t size) {
-    assert(!PyErr_Occurred());
+    TEST_FOR_PY_ERR_ON_ENTRY;
     RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     double exec_time = -1.0;
@@ -107,6 +109,7 @@ finally:
     Py_XDECREF(p_container);
     REPORT_TEST_OUTPUT;
     RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
     return result;
 }
 
@@ -115,6 +118,7 @@ finally:
 // min/max are inclusive.
 int test_memory_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
                                           size_t size_min, size_t size_max) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
@@ -123,6 +127,7 @@ int test_memory_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t
         }
     }
     RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
     return result;
 }
 
@@ -131,6 +136,7 @@ int test_memory_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t
 // min/max are inclusive.
 int test_memory_py_tuple_vector_char_to_vector(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
                                         size_t size_min, size_t size_max) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
@@ -139,6 +145,7 @@ int test_memory_py_tuple_vector_char_to_vector(TestResultS &test_results, size_t
         }
     }
     RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
     return result;
 }
 
