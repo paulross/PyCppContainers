@@ -12,7 +12,7 @@
 // Controls execution of test_performance_all() which takes a long time.
 #define TEST_PERFORMANCE_ALL 0
 
-void test_all() {
+int test_all() {
     TestResultS test_results;
 
     // With debug this take around 130 seconds.
@@ -27,6 +27,8 @@ void test_all() {
     test_memory_all(test_results);
 
     std::cout << test_results << std::endl;
+
+    return test_results.failed();
 }
 
 void explore_hash_reserve() {
@@ -71,7 +73,7 @@ int main() {
 
 //    explore_hash_reserve();
 
-    test_all();
+    int return_value = test_all();
 
 //    TestResultS test_results;
 //    test_functional_all(test_results);
@@ -87,6 +89,6 @@ int main() {
         std::cout << "Total execution time: " << std::setw(12) << exec_clock.seconds() << " (s)" << std::endl;
     }
     std::cout << "Count of unique strings created: " << count_of_unique_string() << std::endl;
-    std::cout << "Bye, bye!" << std::endl;
-    return 0;
+    std::cout << "Bye, bye! Returning " << return_value << std::endl;
+    return return_value;
 }
