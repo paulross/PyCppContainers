@@ -50,7 +50,7 @@ include_directories(
 
 #SET(Python3_DIR "/Library/Frameworks/Python.framework/Versions/3.9")
 
-FIND_PACKAGE (Python3 3.9 EXACT REQUIRED COMPONENTS Interpreter Development)# PATH_SUFFIXES "/Library/Frameworks/Python.framework/Versions")
+FIND_PACKAGE (Python3 3.12 EXACT REQUIRED COMPONENTS Interpreter Development)# PATH_SUFFIXES "/Library/Frameworks/Python.framework/Versions")
 #FIND_PACKAGE(PythonLibs 3.11 EXACT REQUIRED)
 #SET(PythonLibs_DIR "/Library/Frameworks/Python.framework/Versions/3.8")
 #FIND_PACKAGE(PythonLibs 3.8 REQUIRED PATHS ("/Library/Frameworks/Python.framework/Versions/3.8"))

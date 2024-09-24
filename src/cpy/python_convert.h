@@ -536,15 +536,16 @@ namespace Python_Cpp_Containers {
                 // Refcount may well be >> 1 for interned objects.
                 Py_ssize_t op_ob_refcnt = op->ob_refcnt;
 #endif
-                // NOTE: PySet_Add does NOT increment the key refcount so steals it like list/tuple and unlike dict.
+                // NOTE: PySet_Add DOES increment the key refcount like dict so we need to decref.
                 // See set_add_entry(): https://github.com/python/cpython/blob/main/Objects/setobject.c#L103
-                if (PySet_Add(ret, op)) { // Stolen reference.
+                if (PySet_Add(ret, op)) { // Increments reference.
                     PyErr_Format(PyExc_RuntimeError, "Can not set value into the set.");
                     goto except;
                 }
 #ifndef NDEBUG
-                assert(op->ob_refcnt == op_ob_refcnt + 1 && "PySet_SetItem failed to increment value refcount.");
+                assert(op->ob_refcnt == op_ob_refcnt + 1 && "PySet_Add failed to increment value refcount.");
 #endif
+                // This is required, without it we have a memory leak.
                 Py_DECREF(op);
 #ifndef NDEBUG
                 assert(op->ob_refcnt == op_ob_refcnt && "Reference count incremented instead of stolen.");

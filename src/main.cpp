@@ -87,6 +87,13 @@ int main() {
 //    test_memory_all(test_results);
 //    std::cout << test_results << std::endl;
 
+#if 0
+    char c;
+    std::cout << "Pausing to check memory, press enter to continue: ";
+//    std::cin >> c;
+    std::cin.ignore();
+#endif
+
     Py_FinalizeEx();
 
     std::cout << "====" << rss_overall << std::endl;

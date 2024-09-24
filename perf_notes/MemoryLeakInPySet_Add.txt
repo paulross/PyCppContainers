@@ -1,0 +1,88 @@
+Before:
+
+/Users/engun/CLionProjects/PythonCppHomogeneousContainers/cmake-build-release/PythonCppHomogeneousContainers
+Hello, World!
+Python version: 3.11.1
+test_memory_all START
+test_memory_all(): with repeat count: 5
+RSS(Mb): was:      6.312 now:   4115.453 diff:  +4109.141 Peak was:      6.312 now:   8147.348 diff:  +8141.035 test_unordered_set_bytes_to_py_set
+RSS(Mb): was:      6.305 now:     19.289 diff:    +12.984 Peak was:      6.305 now:   8147.348 diff:  +8141.043 test_memory_vector_vector_char_to_py_set_special
+====RSS(Mb): was:      6.297 now:     19.293 diff:    +12.996 Peak was:      6.297 now:   8147.348 diff:  +8141.051 ==== test_memory.cpp
+test_memory_all FINISH
+Number of tests: 1
+REGEX_HEAD: "HEAD:\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)"
+REGEX_TEST: "TEST:\s+(\d+)\s+(\d+)\s+(\d+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+(\d+)\s+([0-9+-.]+)\s+(\S+)"
+REGEX_TAIL: "TAIL:\s+(.+)"
+HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+TEST:    0    4096       1     7.580423299             N/A             N/A             N/A         1           0.1 test_unordered_set_bytes_to_py_set std::string[1048576]>():[4096]
+TAIL: Passed=1/1 Failed=0/1
+All tests pass.
+
+Pausing to check memory, press enter to continue: 
+====RSS(Mb): was:      6.289 now:     17.195 diff:    +10.906 Peak was:      6.289 now:   8147.348 diff:  +8141.059 main.cpp
+Total execution time:       53.469 (s)
+Count of unique strings created: 4096
+Bye, bye! Returning 0
+
+Process finished with exit code 0
+
+Remove Py_DECREF(op); from generic_cpp_std_unordered_set_to_py_set_or_frozenset():
+
+At main() pause this has 4.03 GB
+
+/Users/engun/CLionProjects/PythonCppHomogeneousContainers/cmake-build-release/PythonCppHomogeneousContainers
+Hello, World!
+Python version: 3.11.1
+test_memory_all START
+test_memory_all(): with repeat count: 5
+RSS(Mb): was:      6.281 now:   8136.949 diff:  +8130.668 Peak was:      6.281 now:   8182.629 diff:  +8176.348 test_unordered_set_bytes_to_py_set
+RSS(Mb): was:      6.273 now:   4087.918 diff:  +4081.645 Peak was:      6.273 now:   8182.629 diff:  +8176.355 test_memory_vector_vector_char_to_py_set_special
+====RSS(Mb): was:      6.266 now:   4087.922 diff:  +4081.656 Peak was:      6.266 now:   8182.629 diff:  +8176.363 ==== test_memory.cpp
+test_memory_all FINISH
+Number of tests: 1
+REGEX_HEAD: "HEAD:\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)"
+REGEX_TEST: "TEST:\s+(\d+)\s+(\d+)\s+(\d+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+(\d+)\s+([0-9+-.]+)\s+(\S+)"
+REGEX_TAIL: "TAIL:\s+(.+)"
+HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+TEST:    0    4096       1     6.527527133             N/A             N/A             N/A         1           0.2 test_unordered_set_bytes_to_py_set std::string[1048576]>():[4096]
+TAIL: Passed=1/1 Failed=0/1
+All tests pass.
+
+Pausing to check memory, press enter to continue: 
+====RSS(Mb): was:      6.258 now:   3838.172 diff:  +3831.914 Peak was:      6.258 now:   8182.629 diff:  +8176.371 main.cpp
+Total execution time:       70.769 (s)
+Count of unique strings created: 4096
+Bye, bye! Returning 0
+
+Process finished with exit code 0
+
+Now with Python3.12:
+Again at main() pause this has 4.03 GB.
+
+/Users/engun/CLionProjects/PythonCppHomogeneousContainers/cmake-build-release/PythonCppHomogeneousContainers
+Hello, World!
+Python version: 3.12.1
+test_memory_all START
+test_memory_all(): with repeat count: 5
+RSS(Mb): was:      6.270 now:   8169.539 diff:  +8163.270 Peak was:      6.270 now:   8177.297 diff:  +8171.027 test_unordered_set_bytes_to_py_set
+RSS(Mb): was:      6.266 now:   4088.562 diff:  +4082.297 Peak was:      6.266 now:   8177.297 diff:  +8171.031 test_memory_vector_vector_char_to_py_set_special
+====RSS(Mb): was:      6.258 now:   4088.566 diff:  +4082.309 Peak was:      6.258 now:   8177.297 diff:  +8171.039 ==== test_memory.cpp
+test_memory_all FINISH
+Number of tests: 1
+REGEX_HEAD: "HEAD:\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)"
+REGEX_TEST: "TEST:\s+(\d+)\s+(\d+)\s+(\d+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+(\d+)\s+([0-9+-.]+)\s+(\S+)"
+REGEX_TAIL: "TAIL:\s+(.+)"
+HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+TEST:    0    4096       1    10.068030301             N/A             N/A             N/A         1           0.1 test_unordered_set_bytes_to_py_set std::string[1048576]>():[4096]
+TAIL: Passed=1/1 Failed=0/1
+All tests pass.
+
+Pausing to check memory, press enter to continue: 
+====RSS(Mb): was:      6.246 now:   4085.332 diff:  +4079.086 Peak was:      6.246 now:   8177.297 diff:  +8171.051 main.cpp
+Total execution time:       91.345 (s)
+Count of unique strings created: 4096
+Bye, bye! Returning 0
+
+Process finished with exit code 0
+
+So that Py_DECREF is vital for sets, just like dicts. Unlike tuples and lists.

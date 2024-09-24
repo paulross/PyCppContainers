@@ -113,7 +113,7 @@ finally:
     return result;
 }
 
-// Similar to test_perf_vector_vector_char_to_py_tuple()
+// Similar to test_perf_vector_vector_char_to_py_tuple_multiple()
 // This is a long running test.
 // min/max are inclusive.
 int test_memory_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
@@ -130,6 +130,42 @@ int test_memory_vector_vector_char_to_py_tuple(TestResultS &test_results, size_t
     TEST_FOR_PY_ERR_ON_EXIT;
     return result;
 }
+
+// Similar to test_perf_unordered_set_to_py_set_multiple()
+// This is a long running test.
+// min/max are inclusive.
+int test_memory_vector_vector_char_to_py_set(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
+                                             size_t size_min, size_t size_max) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
+        for (size_t size = size_min; size <= size_max; size *= 2) {
+            result |= test_unordered_set_bytes_to_py_set(test_results, size, str_len);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return result;
+}
+
+/**
+ * Special test for memory leaks from set conversion.
+ * Set of 1024 strings of 1Mb length
+ *
+ * @param test_results
+ * @return
+ */
+int test_memory_vector_vector_char_to_py_set_special(TestResultS &test_results) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    result |= test_unordered_set_bytes_to_py_set(test_results, 1024 * 4, 1 << 20);
+    RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return result;
+}
+
 
 // Similar to test_perf_py_tuple_vector_char_to_vector()
 // This is a long running test.
@@ -155,6 +191,7 @@ void test_memory_all(TestResultS &test_results) {
     RSSSnapshot rss_overall("==== test_memory.cpp");
     int repeat_count = 5;
     std::cout << "test_memory_all(): with repeat count: " << repeat_count << std::endl;
+#if 1
     {
         for (int i = 0; i < repeat_count; ++i) {
             // Running this on its own give the following memory profile, values in MB and the delta:
@@ -190,6 +227,13 @@ void test_memory_all(TestResultS &test_results) {
             test_memory_vector_vector_char_to_py_tuple(test_results, 8, 2048, 512, 1 << 16);
         }
     }
+    {
+        for (int i = 0; i < repeat_count; ++i) {
+            test_memory_vector_vector_char_to_py_set(test_results, 8, 2048, 512, 1 << 16);
+        }
+    }
+#endif
+    test_memory_vector_vector_char_to_py_set_special(test_results);
     std::cout << "====" << rss_overall << std::endl;
     std::cout << __FUNCTION__ << " FINISH" << std::endl;
 }
