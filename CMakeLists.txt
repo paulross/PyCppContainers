@@ -48,9 +48,9 @@ include_directories(
         src
 )
 
-#SET(Python3_DIR "/Library/Frameworks/Python.framework/Versions/3.8")
+#SET(Python3_DIR "/Library/Frameworks/Python.framework/Versions/3.9")
 
-FIND_PACKAGE (Python3 3.9 EXACT REQUIRED COMPONENTS Interpreter Development)# PATHS ("/Library/Frameworks/Python.framework/Versions/3.8"))
+FIND_PACKAGE (Python3 3.9 EXACT REQUIRED COMPONENTS Interpreter Development)# PATH_SUFFIXES "/Library/Frameworks/Python.framework/Versions")
 #FIND_PACKAGE(PythonLibs 3.11 EXACT REQUIRED)
 #SET(PythonLibs_DIR "/Library/Frameworks/Python.framework/Versions/3.8")
 #FIND_PACKAGE(PythonLibs 3.8 REQUIRED PATHS ("/Library/Frameworks/Python.framework/Versions/3.8"))
@@ -116,6 +116,36 @@ add_executable(
         src/ext/cUserDefined.cpp
         src/ext/cUserDefined.h)
 
+#SET(CMAKE_BUILD_RPATH "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9")
+#MESSAGE("CMAKE_BUILD_RPATH:" ${CMAKE_BUILD_RPATH})
+#MESSAGE("BUILD_RPATH:" ${BUILD_RPATH})
+#
+#SET(BUILD_WITH_INSTALL_RPATH TRUE)
+#SET(CMAKE_INSTALL_RPATH "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9")
+#MESSAGE("CMAKE_INSTALL_RPATH:" ${CMAKE_INSTALL_RPATH})
+#MESSAGE("INSTALL_RPATH:" ${INSTALL_RPATH})
+#
+## From: https://stackoverflow.com/questions/17703510/dyld-library-not-loaded-reason-image-not-found
+#set_target_properties(${PROJECT_NAME} PROPERTIES
+#        # # for FRAMEWORK begin
+#        # FRAMEWORK TRUE
+#        # FRAMEWORK_VERSION C
+#        # MACOSX_FRAMEWORK_IDENTIFIER com.cmake.targetname
+#        # MACOSX_FRAMEWORK_INFO_PLIST ./Info.plist
+#        # PUBLIC_HEADER targetname.h
+#        # # for FRAMEWORK end
+#        IPHONEOS_DEPLOYMENT_TARGET "8.0"
+#        DYLIB_INSTALL_NAME_BASE "@rpath" # this is the key point
+#        XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer"
+#        DEVELOPMENT_TEAM "${DEVELOPMENT_TEAM}"
+#)
+
+#set(CMAKE_MACOSX_RPATH OFF)
+##add_library(${Python3_LIBRARIES} SHARED)
+#add_library(${PROJECT_NAME} SHARED)
+
+#SET(Python3_INTERPRETER_ID "Python3")
+#message("Python3_INTERPRETER_ID:    ${Python3_INTERPRETER_ID}")
 
 #link_directories(${PYTHON_LINK_LIBRARY})
 link_directories(${Python3_LIBRARIES})

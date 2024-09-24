@@ -13,7 +13,7 @@ set -o pipefail # don't hide errors within pipes
 
 # https://devguide.python.org/versions/
 #PYTHON_VERSIONS=('3.8' '3.9' '3.10' '3.11' '3.12' '3.13')
-PYTHON_VERSIONS=('3.8')
+PYTHON_VERSIONS=('3.10' '3.11' '3.12' '3.13')
 PYTHON_VENV_ROOT="${HOME}/pyenvs"
 # Used for venvs
 PROJECT_NAME="cPyCppContainers"
@@ -34,6 +34,9 @@ build_cpp() {
 }
 
 run_cpp_tests() {
+  echo "---> C++ debug tests"
+  cmake-build-debug/${CPP_EXECUTABLE}
+  echo "---> C++ release tests"
   cmake-build-release/${CPP_EXECUTABLE}
 }
 

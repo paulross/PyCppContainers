@@ -14,15 +14,34 @@ DEBUG = False
 DEBUG_LEVEL = 0
 
 # Our level of C++
-LANGUAGE_STANDARD = "c++11"
+LANGUAGE_STANDARD = "c++14"
 
 # Common flags for both release and debug builds.
 extra_compile_args = sysconfig.get_config_var('CFLAGS').split()
-extra_compile_args += ["-std=%s" % LANGUAGE_STANDARD, "-Wall", "-Wextra"]
+# Aligned with CMakeLists.txt
+extra_compile_args += [
+    "-std=%s" % LANGUAGE_STANDARD,
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic",
+    "-Werror",
+    "-Wfatal-errors",
+    "-Wno-unused-variable", # Temporary
+    "-Wno-unused-parameter", # Temporary
+    "-fexceptions",
+    # To allow designated initialisers.
+    "-Wno-c99-extensions",
+]
+
 if DEBUG:
     extra_compile_args += ["-g3", "-O0", "-DDEBUG=%s" % DEBUG_LEVEL, "-UNDEBUG"]
 else:
     extra_compile_args += ["-DNDEBUG", "-O3"]
+
+def read_file(rel_file_path: str) -> str:
+    """Returns the text of a file at the relative path tpo this file."""
+    with open(os.path.join(os.path.dirname(__file__), rel_file_path)) as f:
+        return f.read()
 
 setup(
     name='PythonCppContainers',
@@ -32,7 +51,8 @@ setup(
     maintainer='Paul Ross',
     maintainer_email='apaulross@gmail.com',
     description='Python and C++ Container interoperability.',
-    long_description="""TODO.""",
+    long_description=read_file('README.md'),
+    long_description_content_type='text/markdown',
     platforms=['Mac OSX', 'POSIX', ],
     # https://pypi.org/classifiers/
     classifiers=[
