@@ -15,6 +15,8 @@
 // UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::vector<std::complex<double>>
 // UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::vector<std::vector<char>>
 // UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::vector<std::string>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::vector<std::u16string>
+// UnaryFunctions(python_container='tuple', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::vector<std::u32string>
 // 
 // tuple:
 // UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::list<bool>
@@ -23,6 +25,8 @@
 // UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::list<std::complex<double>>
 // UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::list<std::vector<char>>
 // UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::list<std::string>
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::list<std::u16string>
+// UnaryFunctions(python_container='tuple', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_tuple', decl_to_cpp='py_tuple_to_cpp_std_list_like') <-> std::list<std::u32string>
 // 
 // list:
 // UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::vector<bool>
@@ -31,6 +35,8 @@
 // UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::vector<std::complex<double>>
 // UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::vector<std::vector<char>>
 // UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::vector<std::string>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::vector<std::u16string>
+// UnaryFunctions(python_container='list', cpp_container='std::vector', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::vector<std::u32string>
 // 
 // list:
 // UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::list<bool>
@@ -39,6 +45,8 @@
 // UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::list<std::complex<double>>
 // UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::list<std::vector<char>>
 // UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::list<std::string>
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::list<std::u16string>
+// UnaryFunctions(python_container='list', cpp_container='std::list', decl_to_py='cpp_std_list_like_to_py_list', decl_to_cpp='py_list_to_cpp_std_list_like') <-> std::list<std::u32string>
 // 
 // set:
 // UnaryFunctions(python_container='set', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_set', decl_to_cpp='py_set_to_cpp_std_unordered_set') <-> std::unordered_set<bool>
@@ -47,6 +55,8 @@
 // UnaryFunctions(python_container='set', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_set', decl_to_cpp='py_set_to_cpp_std_unordered_set') <-> std::unordered_set<std::complex<double>>
 // UnaryFunctions(python_container='set', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_set', decl_to_cpp='py_set_to_cpp_std_unordered_set') <-> std::unordered_set<std::vector<char>>
 // UnaryFunctions(python_container='set', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_set', decl_to_cpp='py_set_to_cpp_std_unordered_set') <-> std::unordered_set<std::string>
+// UnaryFunctions(python_container='set', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_set', decl_to_cpp='py_set_to_cpp_std_unordered_set') <-> std::unordered_set<std::u16string>
+// UnaryFunctions(python_container='set', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_set', decl_to_cpp='py_set_to_cpp_std_unordered_set') <-> std::unordered_set<std::u32string>
 // 
 // frozenset:
 // UnaryFunctions(python_container='frozenset', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_frozenset', decl_to_cpp='py_frozenset_to_cpp_std_unordered_set') <-> std::unordered_set<bool>
@@ -55,6 +65,8 @@
 // UnaryFunctions(python_container='frozenset', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_frozenset', decl_to_cpp='py_frozenset_to_cpp_std_unordered_set') <-> std::unordered_set<std::complex<double>>
 // UnaryFunctions(python_container='frozenset', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_frozenset', decl_to_cpp='py_frozenset_to_cpp_std_unordered_set') <-> std::unordered_set<std::vector<char>>
 // UnaryFunctions(python_container='frozenset', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_frozenset', decl_to_cpp='py_frozenset_to_cpp_std_unordered_set') <-> std::unordered_set<std::string>
+// UnaryFunctions(python_container='frozenset', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_frozenset', decl_to_cpp='py_frozenset_to_cpp_std_unordered_set') <-> std::unordered_set<std::u16string>
+// UnaryFunctions(python_container='frozenset', cpp_container='std::unordered_set', decl_to_py='cpp_std_unordered_set_to_py_frozenset', decl_to_cpp='py_frozenset_to_cpp_std_unordered_set') <-> std::unordered_set<std::u32string>
 // 
 // 
 // Mapping conversions
@@ -64,36 +76,64 @@
 // dict <-> std::unordered_map<bool, std::complex<double>>
 // dict <-> std::unordered_map<bool, std::vector<char>>
 // dict <-> std::unordered_map<bool, std::string>
+// dict <-> std::unordered_map<bool, std::u16string>
+// dict <-> std::unordered_map<bool, std::u32string>
 // dict <-> std::unordered_map<long, bool>
 // dict <-> std::unordered_map<long, long>
 // dict <-> std::unordered_map<long, double>
 // dict <-> std::unordered_map<long, std::complex<double>>
 // dict <-> std::unordered_map<long, std::vector<char>>
 // dict <-> std::unordered_map<long, std::string>
+// dict <-> std::unordered_map<long, std::u16string>
+// dict <-> std::unordered_map<long, std::u32string>
 // dict <-> std::unordered_map<double, bool>
 // dict <-> std::unordered_map<double, long>
 // dict <-> std::unordered_map<double, double>
 // dict <-> std::unordered_map<double, std::complex<double>>
 // dict <-> std::unordered_map<double, std::vector<char>>
 // dict <-> std::unordered_map<double, std::string>
+// dict <-> std::unordered_map<double, std::u16string>
+// dict <-> std::unordered_map<double, std::u32string>
 // dict <-> std::unordered_map<std::complex<double>, bool>
 // dict <-> std::unordered_map<std::complex<double>, long>
 // dict <-> std::unordered_map<std::complex<double>, double>
 // dict <-> std::unordered_map<std::complex<double>, std::complex<double>>
 // dict <-> std::unordered_map<std::complex<double>, std::vector<char>>
 // dict <-> std::unordered_map<std::complex<double>, std::string>
+// dict <-> std::unordered_map<std::complex<double>, std::u16string>
+// dict <-> std::unordered_map<std::complex<double>, std::u32string>
 // dict <-> std::unordered_map<std::vector<char>, bool>
 // dict <-> std::unordered_map<std::vector<char>, long>
 // dict <-> std::unordered_map<std::vector<char>, double>
 // dict <-> std::unordered_map<std::vector<char>, std::complex<double>>
 // dict <-> std::unordered_map<std::vector<char>, std::vector<char>>
 // dict <-> std::unordered_map<std::vector<char>, std::string>
+// dict <-> std::unordered_map<std::vector<char>, std::u16string>
+// dict <-> std::unordered_map<std::vector<char>, std::u32string>
 // dict <-> std::unordered_map<std::string, bool>
 // dict <-> std::unordered_map<std::string, long>
 // dict <-> std::unordered_map<std::string, double>
 // dict <-> std::unordered_map<std::string, std::complex<double>>
 // dict <-> std::unordered_map<std::string, std::vector<char>>
 // dict <-> std::unordered_map<std::string, std::string>
+// dict <-> std::unordered_map<std::string, std::u16string>
+// dict <-> std::unordered_map<std::string, std::u32string>
+// dict <-> std::unordered_map<std::u16string, bool>
+// dict <-> std::unordered_map<std::u16string, long>
+// dict <-> std::unordered_map<std::u16string, double>
+// dict <-> std::unordered_map<std::u16string, std::complex<double>>
+// dict <-> std::unordered_map<std::u16string, std::vector<char>>
+// dict <-> std::unordered_map<std::u16string, std::string>
+// dict <-> std::unordered_map<std::u16string, std::u16string>
+// dict <-> std::unordered_map<std::u16string, std::u32string>
+// dict <-> std::unordered_map<std::u32string, bool>
+// dict <-> std::unordered_map<std::u32string, long>
+// dict <-> std::unordered_map<std::u32string, double>
+// dict <-> std::unordered_map<std::u32string, std::complex<double>>
+// dict <-> std::unordered_map<std::u32string, std::vector<char>>
+// dict <-> std::unordered_map<std::u32string, std::string>
+// dict <-> std::unordered_map<std::u32string, std::u16string>
+// dict <-> std::unordered_map<std::u32string, std::u32string>
 // 
 #include <Python.h>
 
@@ -175,6 +215,26 @@ cpp_std_list_like_to_py_tuple<std::vector<char>>(const std::vector<std::vector<c
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::string>(const std::vector<std::string> &container);
+
+/**
+ * Instantiation for converting C++ std::vector<std::u16string> to a Python tuple of str.
+ *
+ * @param container C++ input as a std::vector<std::u16string>.
+ * @return A Python tuple containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_tuple<std::u16string>(const std::vector<std::u16string> &container);
+
+/**
+ * Instantiation for converting C++ std::vector<std::u32string> to a Python tuple of str.
+ *
+ * @param container C++ input as a std::vector<std::u32string>.
+ * @return A Python tuple containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_tuple<std::u32string>(const std::vector<std::u32string> &container);
 
 //-------------------- END: std::vector -> Python tuple -------------------
 
@@ -259,6 +319,28 @@ template <>
 int
 py_tuple_to_cpp_std_list_like<std::string>(PyObject *op, std::vector<std::string> &container);
 
+/**
+ * Instantiation for converting a Python tuple of str to a C++ std::vector<std::u16string>.
+ *
+ * @param op Python input as a tuple of str.
+ * @param container C++ output as a std::vector<std::u16string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_tuple_to_cpp_std_list_like<std::u16string>(PyObject *op, std::vector<std::u16string> &container);
+
+/**
+ * Instantiation for converting a Python tuple of str to a C++ std::vector<std::u32string>.
+ *
+ * @param op Python input as a tuple of str.
+ * @param container C++ output as a std::vector<std::u32string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_tuple_to_cpp_std_list_like<std::u32string>(PyObject *op, std::vector<std::u32string> &container);
+
 //-------------------- END: Python tuple -> std::vector -------------------
 
 //----------------------- std::list -> Python tuple -----------------------
@@ -334,6 +416,26 @@ cpp_std_list_like_to_py_tuple<std::vector<char>>(const std::list<std::vector<cha
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::string>(const std::list<std::string> &container);
+
+/**
+ * Instantiation for converting C++ std::list<std::u16string> to a Python tuple of str.
+ *
+ * @param container C++ input as a std::list<std::u16string>.
+ * @return A Python tuple containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_tuple<std::u16string>(const std::list<std::u16string> &container);
+
+/**
+ * Instantiation for converting C++ std::list<std::u32string> to a Python tuple of str.
+ *
+ * @param container C++ input as a std::list<std::u32string>.
+ * @return A Python tuple containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_tuple<std::u32string>(const std::list<std::u32string> &container);
 
 //--------------------- END: std::list -> Python tuple --------------------
 
@@ -418,6 +520,28 @@ template <>
 int
 py_tuple_to_cpp_std_list_like<std::string>(PyObject *op, std::list<std::string> &container);
 
+/**
+ * Instantiation for converting a Python tuple of str to a C++ std::list<std::u16string>.
+ *
+ * @param op Python input as a tuple of str.
+ * @param container C++ output as a std::list<std::u16string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_tuple_to_cpp_std_list_like<std::u16string>(PyObject *op, std::list<std::u16string> &container);
+
+/**
+ * Instantiation for converting a Python tuple of str to a C++ std::list<std::u32string>.
+ *
+ * @param op Python input as a tuple of str.
+ * @param container C++ output as a std::list<std::u32string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_tuple_to_cpp_std_list_like<std::u32string>(PyObject *op, std::list<std::u32string> &container);
+
 //--------------------- END: Python tuple -> std::list --------------------
 
 //----------------------- std::vector -> Python list ----------------------
@@ -493,6 +617,26 @@ cpp_std_list_like_to_py_list<std::vector<char>>(const std::vector<std::vector<ch
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::string>(const std::vector<std::string> &container);
+
+/**
+ * Instantiation for converting C++ std::vector<std::u16string> to a Python list of str.
+ *
+ * @param container C++ input as a std::vector<std::u16string>.
+ * @return A Python list containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_list<std::u16string>(const std::vector<std::u16string> &container);
+
+/**
+ * Instantiation for converting C++ std::vector<std::u32string> to a Python list of str.
+ *
+ * @param container C++ input as a std::vector<std::u32string>.
+ * @return A Python list containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_list<std::u32string>(const std::vector<std::u32string> &container);
 
 //-------------------- END: std::vector -> Python list --------------------
 
@@ -577,6 +721,28 @@ template <>
 int
 py_list_to_cpp_std_list_like<std::string>(PyObject *op, std::vector<std::string> &container);
 
+/**
+ * Instantiation for converting a Python list of str to a C++ std::vector<std::u16string>.
+ *
+ * @param op Python input as a list of str.
+ * @param container C++ output as a std::vector<std::u16string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_list_to_cpp_std_list_like<std::u16string>(PyObject *op, std::vector<std::u16string> &container);
+
+/**
+ * Instantiation for converting a Python list of str to a C++ std::vector<std::u32string>.
+ *
+ * @param op Python input as a list of str.
+ * @param container C++ output as a std::vector<std::u32string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_list_to_cpp_std_list_like<std::u32string>(PyObject *op, std::vector<std::u32string> &container);
+
 //-------------------- END: Python list -> std::vector --------------------
 
 //------------------------ std::list -> Python list -----------------------
@@ -652,6 +818,26 @@ cpp_std_list_like_to_py_list<std::vector<char>>(const std::list<std::vector<char
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::string>(const std::list<std::string> &container);
+
+/**
+ * Instantiation for converting C++ std::list<std::u16string> to a Python list of str.
+ *
+ * @param container C++ input as a std::list<std::u16string>.
+ * @return A Python list containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_list<std::u16string>(const std::list<std::u16string> &container);
+
+/**
+ * Instantiation for converting C++ std::list<std::u32string> to a Python list of str.
+ *
+ * @param container C++ input as a std::list<std::u32string>.
+ * @return A Python list containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_list_like_to_py_list<std::u32string>(const std::list<std::u32string> &container);
 
 //--------------------- END: std::list -> Python list ---------------------
 
@@ -736,6 +922,28 @@ template <>
 int
 py_list_to_cpp_std_list_like<std::string>(PyObject *op, std::list<std::string> &container);
 
+/**
+ * Instantiation for converting a Python list of str to a C++ std::list<std::u16string>.
+ *
+ * @param op Python input as a list of str.
+ * @param container C++ output as a std::list<std::u16string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_list_to_cpp_std_list_like<std::u16string>(PyObject *op, std::list<std::u16string> &container);
+
+/**
+ * Instantiation for converting a Python list of str to a C++ std::list<std::u32string>.
+ *
+ * @param op Python input as a list of str.
+ * @param container C++ output as a std::list<std::u32string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_list_to_cpp_std_list_like<std::u32string>(PyObject *op, std::list<std::u32string> &container);
+
 //--------------------- END: Python list -> std::list ---------------------
 
 //-------------------- std::unordered_set -> Python set -------------------
@@ -811,6 +1019,26 @@ cpp_std_unordered_set_to_py_set<std::vector<char>>(const std::unordered_set<std:
 template <>
 PyObject *
 cpp_std_unordered_set_to_py_set<std::string>(const std::unordered_set<std::string> &container);
+
+/**
+ * Instantiation for converting C++ std::unordered_set<std::u16string> to a Python set of str.
+ *
+ * @param container C++ input as a std::unordered_set<std::u16string>.
+ * @return A Python set containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_set<std::u16string>(const std::unordered_set<std::u16string> &container);
+
+/**
+ * Instantiation for converting C++ std::unordered_set<std::u32string> to a Python set of str.
+ *
+ * @param container C++ input as a std::unordered_set<std::u32string>.
+ * @return A Python set containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_set<std::u32string>(const std::unordered_set<std::u32string> &container);
 
 //----------------- END: std::unordered_set -> Python set -----------------
 
@@ -895,6 +1123,28 @@ template <>
 int
 py_set_to_cpp_std_unordered_set<std::string>(PyObject *op, std::unordered_set<std::string> &container);
 
+/**
+ * Instantiation for converting a Python set of str to a C++ std::unordered_set<std::u16string>.
+ *
+ * @param op Python input as a set of str.
+ * @param container C++ output as a std::unordered_set<std::u16string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_set_to_cpp_std_unordered_set<std::u16string>(PyObject *op, std::unordered_set<std::u16string> &container);
+
+/**
+ * Instantiation for converting a Python set of str to a C++ std::unordered_set<std::u32string>.
+ *
+ * @param op Python input as a set of str.
+ * @param container C++ output as a std::unordered_set<std::u32string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_set_to_cpp_std_unordered_set<std::u32string>(PyObject *op, std::unordered_set<std::u32string> &container);
+
 //----------------- END: Python set -> std::unordered_set -----------------
 
 //----------------- std::unordered_set -> Python frozenset ----------------
@@ -970,6 +1220,26 @@ cpp_std_unordered_set_to_py_frozenset<std::vector<char>>(const std::unordered_se
 template <>
 PyObject *
 cpp_std_unordered_set_to_py_frozenset<std::string>(const std::unordered_set<std::string> &container);
+
+/**
+ * Instantiation for converting C++ std::unordered_set<std::u16string> to a Python frozenset of str.
+ *
+ * @param container C++ input as a std::unordered_set<std::u16string>.
+ * @return A Python frozenset containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_frozenset<std::u16string>(const std::unordered_set<std::u16string> &container);
+
+/**
+ * Instantiation for converting C++ std::unordered_set<std::u32string> to a Python frozenset of str.
+ *
+ * @param container C++ input as a std::unordered_set<std::u32string>.
+ * @return A Python frozenset containing str objects.
+ */
+template <>
+PyObject *
+cpp_std_unordered_set_to_py_frozenset<std::u32string>(const std::unordered_set<std::u32string> &container);
 
 //-------------- END: std::unordered_set -> Python frozenset --------------
 
@@ -1054,6 +1324,28 @@ template <>
 int
 py_frozenset_to_cpp_std_unordered_set<std::string>(PyObject *op, std::unordered_set<std::string> &container);
 
+/**
+ * Instantiation for converting a Python frozenset of str to a C++ std::unordered_set<std::u16string>.
+ *
+ * @param op Python input as a frozenset of str.
+ * @param container C++ output as a std::unordered_set<std::u16string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_frozenset_to_cpp_std_unordered_set<std::u16string>(PyObject *op, std::unordered_set<std::u16string> &container);
+
+/**
+ * Instantiation for converting a Python frozenset of str to a C++ std::unordered_set<std::u32string>.
+ *
+ * @param op Python input as a frozenset of str.
+ * @param container C++ output as a std::unordered_set<std::u32string>.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_frozenset_to_cpp_std_unordered_set<std::u32string>(PyObject *op, std::unordered_set<std::u32string> &container);
+
 //-------------- END: Python frozenset -> std::unordered_set --------------
 
 //************* END: Unary collections <-> Python collections *************
@@ -1135,6 +1427,26 @@ PyObject *
 cpp_std_map_like_to_py_dict<std::unordered_map, bool, std::string>(const std::unordered_map<bool, std::string> &map);
 
 /**
+ * Instantiation for converting a C++ std::unordered_map<bool, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<bool, std::u16string>.
+ * @return A Python dictionary of {bool : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, bool, std::u16string>(const std::unordered_map<bool, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<bool, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<bool, std::u32string>.
+ * @return A Python dictionary of {bool : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, bool, std::u32string>(const std::unordered_map<bool, std::u32string> &map);
+
+/**
  * Instantiation for converting a C++ std::unordered_map<long, bool> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<long, bool>.
@@ -1193,6 +1505,26 @@ cpp_std_map_like_to_py_dict<std::unordered_map, long, std::vector<char>>(const s
 template <>
 PyObject *
 cpp_std_map_like_to_py_dict<std::unordered_map, long, std::string>(const std::unordered_map<long, std::string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<long, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<long, std::u16string>.
+ * @return A Python dictionary of {int : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, long, std::u16string>(const std::unordered_map<long, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<long, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<long, std::u32string>.
+ * @return A Python dictionary of {int : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, long, std::u32string>(const std::unordered_map<long, std::u32string> &map);
 
 /**
  * Instantiation for converting a C++ std::unordered_map<double, bool> to a Python dictionary.
@@ -1255,6 +1587,26 @@ PyObject *
 cpp_std_map_like_to_py_dict<std::unordered_map, double, std::string>(const std::unordered_map<double, std::string> &map);
 
 /**
+ * Instantiation for converting a C++ std::unordered_map<double, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<double, std::u16string>.
+ * @return A Python dictionary of {float : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, double, std::u16string>(const std::unordered_map<double, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<double, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<double, std::u32string>.
+ * @return A Python dictionary of {float : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, double, std::u32string>(const std::unordered_map<double, std::u32string> &map);
+
+/**
  * Instantiation for converting a C++ std::unordered_map<std::complex<double>, bool> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<std::complex<double>, bool>.
@@ -1313,6 +1665,26 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::complex<double>, std::vecto
 template <>
 PyObject *
 cpp_std_map_like_to_py_dict<std::unordered_map, std::complex<double>, std::string>(const std::unordered_map<std::complex<double>, std::string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::complex<double>, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::complex<double>, std::u16string>.
+ * @return A Python dictionary of {complex : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::complex<double>, std::u16string>(const std::unordered_map<std::complex<double>, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::complex<double>, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::complex<double>, std::u32string>.
+ * @return A Python dictionary of {complex : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::complex<double>, std::u32string>(const std::unordered_map<std::complex<double>, std::u32string> &map);
 
 /**
  * Instantiation for converting a C++ std::unordered_map<std::vector<char>, bool> to a Python dictionary.
@@ -1375,6 +1747,26 @@ PyObject *
 cpp_std_map_like_to_py_dict<std::unordered_map, std::vector<char>, std::string>(const std::unordered_map<std::vector<char>, std::string> &map);
 
 /**
+ * Instantiation for converting a C++ std::unordered_map<std::vector<char>, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::vector<char>, std::u16string>.
+ * @return A Python dictionary of {bytes : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::vector<char>, std::u16string>(const std::unordered_map<std::vector<char>, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::vector<char>, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::vector<char>, std::u32string>.
+ * @return A Python dictionary of {bytes : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::vector<char>, std::u32string>(const std::unordered_map<std::vector<char>, std::u32string> &map);
+
+/**
  * Instantiation for converting a C++ std::unordered_map<std::string, bool> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<std::string, bool>.
@@ -1433,6 +1825,186 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::string, std::vector<char>>(
 template <>
 PyObject *
 cpp_std_map_like_to_py_dict<std::unordered_map, std::string, std::string>(const std::unordered_map<std::string, std::string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::string, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::string, std::u16string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::string, std::u16string>(const std::unordered_map<std::string, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::string, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::string, std::u32string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::string, std::u32string>(const std::unordered_map<std::string, std::u32string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, bool> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, bool>.
+ * @return A Python dictionary of {str : bool, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, bool>(const std::unordered_map<std::u16string, bool> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, long> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, long>.
+ * @return A Python dictionary of {str : int, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, long>(const std::unordered_map<std::u16string, long> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, double> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, double>.
+ * @return A Python dictionary of {str : float, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, double>(const std::unordered_map<std::u16string, double> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, std::complex<double>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, std::complex<double>>.
+ * @return A Python dictionary of {str : complex, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, std::complex<double>>(const std::unordered_map<std::u16string, std::complex<double>> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, std::vector<char>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, std::vector<char>>.
+ * @return A Python dictionary of {str : bytes, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, std::vector<char>>(const std::unordered_map<std::u16string, std::vector<char>> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, std::string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, std::string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, std::string>(const std::unordered_map<std::u16string, std::string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, std::u16string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, std::u16string>(const std::unordered_map<std::u16string, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, std::u32string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, std::u32string>(const std::unordered_map<std::u16string, std::u32string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, bool> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, bool>.
+ * @return A Python dictionary of {str : bool, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, bool>(const std::unordered_map<std::u32string, bool> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, long> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, long>.
+ * @return A Python dictionary of {str : int, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, long>(const std::unordered_map<std::u32string, long> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, double> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, double>.
+ * @return A Python dictionary of {str : float, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, double>(const std::unordered_map<std::u32string, double> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, std::complex<double>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, std::complex<double>>.
+ * @return A Python dictionary of {str : complex, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, std::complex<double>>(const std::unordered_map<std::u32string, std::complex<double>> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, std::vector<char>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, std::vector<char>>.
+ * @return A Python dictionary of {str : bytes, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, std::vector<char>>(const std::unordered_map<std::u32string, std::vector<char>> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, std::string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, std::string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, std::string>(const std::unordered_map<std::u32string, std::string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, std::u16string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, std::u16string>(const std::unordered_map<std::u32string, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, std::u32string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, std::u32string>(const std::unordered_map<std::u32string, std::u32string> &map);
 
 //-------------- END: std::std::unordered_map -> Python dict --------------
 
@@ -1519,6 +2091,28 @@ int
 py_dict_to_cpp_std_map_like<std::unordered_map, bool, std::string>(PyObject* op, std::unordered_map<bool, std::string> &map);
 
 /**
+ * Instantiation for converting a Python dictionary {bool : str, ...} to a C++ std::unordered_map<bool, std::u16string>.
+ *
+ * @param op A Python dictionary of {bool : str, ...} as the input.
+ * @param map The C++ std::unordered_map<bool, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, bool, std::u16string>(PyObject* op, std::unordered_map<bool, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {bool : str, ...} to a C++ std::unordered_map<bool, std::u32string>.
+ *
+ * @param op A Python dictionary of {bool : str, ...} as the input.
+ * @param map The C++ std::unordered_map<bool, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, bool, std::u32string>(PyObject* op, std::unordered_map<bool, std::u32string> &map);
+
+/**
  * Instantiation for converting a Python dictionary {int : bool, ...} to a C++ std::unordered_map<long, bool>.
  *
  * @param op A Python dictionary of {int : bool, ...} as the input.
@@ -1583,6 +2177,28 @@ py_dict_to_cpp_std_map_like<std::unordered_map, long, std::vector<char>>(PyObjec
 template <>
 int
 py_dict_to_cpp_std_map_like<std::unordered_map, long, std::string>(PyObject* op, std::unordered_map<long, std::string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {int : str, ...} to a C++ std::unordered_map<long, std::u16string>.
+ *
+ * @param op A Python dictionary of {int : str, ...} as the input.
+ * @param map The C++ std::unordered_map<long, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, long, std::u16string>(PyObject* op, std::unordered_map<long, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {int : str, ...} to a C++ std::unordered_map<long, std::u32string>.
+ *
+ * @param op A Python dictionary of {int : str, ...} as the input.
+ * @param map The C++ std::unordered_map<long, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, long, std::u32string>(PyObject* op, std::unordered_map<long, std::u32string> &map);
 
 /**
  * Instantiation for converting a Python dictionary {float : bool, ...} to a C++ std::unordered_map<double, bool>.
@@ -1651,6 +2267,28 @@ int
 py_dict_to_cpp_std_map_like<std::unordered_map, double, std::string>(PyObject* op, std::unordered_map<double, std::string> &map);
 
 /**
+ * Instantiation for converting a Python dictionary {float : str, ...} to a C++ std::unordered_map<double, std::u16string>.
+ *
+ * @param op A Python dictionary of {float : str, ...} as the input.
+ * @param map The C++ std::unordered_map<double, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, double, std::u16string>(PyObject* op, std::unordered_map<double, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {float : str, ...} to a C++ std::unordered_map<double, std::u32string>.
+ *
+ * @param op A Python dictionary of {float : str, ...} as the input.
+ * @param map The C++ std::unordered_map<double, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, double, std::u32string>(PyObject* op, std::unordered_map<double, std::u32string> &map);
+
+/**
  * Instantiation for converting a Python dictionary {complex : bool, ...} to a C++ std::unordered_map<std::complex<double>, bool>.
  *
  * @param op A Python dictionary of {complex : bool, ...} as the input.
@@ -1715,6 +2353,28 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::complex<double>, std::vecto
 template <>
 int
 py_dict_to_cpp_std_map_like<std::unordered_map, std::complex<double>, std::string>(PyObject* op, std::unordered_map<std::complex<double>, std::string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {complex : str, ...} to a C++ std::unordered_map<std::complex<double>, std::u16string>.
+ *
+ * @param op A Python dictionary of {complex : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::complex<double>, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::complex<double>, std::u16string>(PyObject* op, std::unordered_map<std::complex<double>, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {complex : str, ...} to a C++ std::unordered_map<std::complex<double>, std::u32string>.
+ *
+ * @param op A Python dictionary of {complex : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::complex<double>, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::complex<double>, std::u32string>(PyObject* op, std::unordered_map<std::complex<double>, std::u32string> &map);
 
 /**
  * Instantiation for converting a Python dictionary {bytes : bool, ...} to a C++ std::unordered_map<std::vector<char>, bool>.
@@ -1783,6 +2443,28 @@ int
 py_dict_to_cpp_std_map_like<std::unordered_map, std::vector<char>, std::string>(PyObject* op, std::unordered_map<std::vector<char>, std::string> &map);
 
 /**
+ * Instantiation for converting a Python dictionary {bytes : str, ...} to a C++ std::unordered_map<std::vector<char>, std::u16string>.
+ *
+ * @param op A Python dictionary of {bytes : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::vector<char>, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::vector<char>, std::u16string>(PyObject* op, std::unordered_map<std::vector<char>, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {bytes : str, ...} to a C++ std::unordered_map<std::vector<char>, std::u32string>.
+ *
+ * @param op A Python dictionary of {bytes : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::vector<char>, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::vector<char>, std::u32string>(PyObject* op, std::unordered_map<std::vector<char>, std::u32string> &map);
+
+/**
  * Instantiation for converting a Python dictionary {str : bool, ...} to a C++ std::unordered_map<std::string, bool>.
  *
  * @param op A Python dictionary of {str : bool, ...} as the input.
@@ -1847,6 +2529,204 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::string, std::vector<char>>(
 template <>
 int
 py_dict_to_cpp_std_map_like<std::unordered_map, std::string, std::string>(PyObject* op, std::unordered_map<std::string, std::string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::string, std::u16string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::string, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::string, std::u16string>(PyObject* op, std::unordered_map<std::string, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::string, std::u32string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::string, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::string, std::u32string>(PyObject* op, std::unordered_map<std::string, std::u32string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : bool, ...} to a C++ std::unordered_map<std::u16string, bool>.
+ *
+ * @param op A Python dictionary of {str : bool, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, bool> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, bool>(PyObject* op, std::unordered_map<std::u16string, bool> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : int, ...} to a C++ std::unordered_map<std::u16string, long>.
+ *
+ * @param op A Python dictionary of {str : int, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, long> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, long>(PyObject* op, std::unordered_map<std::u16string, long> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : float, ...} to a C++ std::unordered_map<std::u16string, double>.
+ *
+ * @param op A Python dictionary of {str : float, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, double> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, double>(PyObject* op, std::unordered_map<std::u16string, double> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : complex, ...} to a C++ std::unordered_map<std::u16string, std::complex<double>>.
+ *
+ * @param op A Python dictionary of {str : complex, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, std::complex<double>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, std::complex<double>>(PyObject* op, std::unordered_map<std::u16string, std::complex<double>> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : bytes, ...} to a C++ std::unordered_map<std::u16string, std::vector<char>>.
+ *
+ * @param op A Python dictionary of {str : bytes, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, std::vector<char>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, std::vector<char>>(PyObject* op, std::unordered_map<std::u16string, std::vector<char>> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::u16string, std::string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, std::string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, std::string>(PyObject* op, std::unordered_map<std::u16string, std::string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::u16string, std::u16string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, std::u16string>(PyObject* op, std::unordered_map<std::u16string, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::u16string, std::u32string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, std::u32string>(PyObject* op, std::unordered_map<std::u16string, std::u32string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : bool, ...} to a C++ std::unordered_map<std::u32string, bool>.
+ *
+ * @param op A Python dictionary of {str : bool, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, bool> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, bool>(PyObject* op, std::unordered_map<std::u32string, bool> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : int, ...} to a C++ std::unordered_map<std::u32string, long>.
+ *
+ * @param op A Python dictionary of {str : int, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, long> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, long>(PyObject* op, std::unordered_map<std::u32string, long> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : float, ...} to a C++ std::unordered_map<std::u32string, double>.
+ *
+ * @param op A Python dictionary of {str : float, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, double> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, double>(PyObject* op, std::unordered_map<std::u32string, double> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : complex, ...} to a C++ std::unordered_map<std::u32string, std::complex<double>>.
+ *
+ * @param op A Python dictionary of {str : complex, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, std::complex<double>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, std::complex<double>>(PyObject* op, std::unordered_map<std::u32string, std::complex<double>> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : bytes, ...} to a C++ std::unordered_map<std::u32string, std::vector<char>>.
+ *
+ * @param op A Python dictionary of {str : bytes, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, std::vector<char>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, std::vector<char>>(PyObject* op, std::unordered_map<std::u32string, std::vector<char>> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::u32string, std::string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, std::string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, std::string>(PyObject* op, std::unordered_map<std::u32string, std::string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::u32string, std::u16string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, std::u16string>(PyObject* op, std::unordered_map<std::u32string, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::u32string, std::u32string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, std::u32string>(PyObject* op, std::unordered_map<std::u32string, std::u32string> &map);
 
 //----------------- END: Python dict -> std::unordered_map ----------------
 
@@ -1929,6 +2809,26 @@ PyObject *
 cpp_std_map_like_to_py_dict<std::map, bool, std::string>(const std::map<bool, std::string> &map);
 
 /**
+ * Instantiation for converting a C++ std::unordered_map<bool, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<bool, std::u16string>.
+ * @return A Python dictionary of {bool : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, bool, std::u16string>(const std::map<bool, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<bool, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<bool, std::u32string>.
+ * @return A Python dictionary of {bool : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, bool, std::u32string>(const std::map<bool, std::u32string> &map);
+
+/**
  * Instantiation for converting a C++ std::unordered_map<long, bool> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<long, bool>.
@@ -1987,6 +2887,26 @@ cpp_std_map_like_to_py_dict<std::map, long, std::vector<char>>(const std::map<lo
 template <>
 PyObject *
 cpp_std_map_like_to_py_dict<std::map, long, std::string>(const std::map<long, std::string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<long, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<long, std::u16string>.
+ * @return A Python dictionary of {int : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, long, std::u16string>(const std::map<long, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<long, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<long, std::u32string>.
+ * @return A Python dictionary of {int : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, long, std::u32string>(const std::map<long, std::u32string> &map);
 
 /**
  * Instantiation for converting a C++ std::unordered_map<double, bool> to a Python dictionary.
@@ -2049,6 +2969,26 @@ PyObject *
 cpp_std_map_like_to_py_dict<std::map, double, std::string>(const std::map<double, std::string> &map);
 
 /**
+ * Instantiation for converting a C++ std::unordered_map<double, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<double, std::u16string>.
+ * @return A Python dictionary of {float : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, double, std::u16string>(const std::map<double, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<double, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<double, std::u32string>.
+ * @return A Python dictionary of {float : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, double, std::u32string>(const std::map<double, std::u32string> &map);
+
+/**
  * Instantiation for converting a C++ std::unordered_map<std::complex<double>, bool> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<std::complex<double>, bool>.
@@ -2107,6 +3047,26 @@ cpp_std_map_like_to_py_dict<std::map, std::complex<double>, std::vector<char>>(c
 template <>
 PyObject *
 cpp_std_map_like_to_py_dict<std::map, std::complex<double>, std::string>(const std::map<std::complex<double>, std::string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::complex<double>, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::complex<double>, std::u16string>.
+ * @return A Python dictionary of {complex : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::complex<double>, std::u16string>(const std::map<std::complex<double>, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::complex<double>, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::complex<double>, std::u32string>.
+ * @return A Python dictionary of {complex : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::complex<double>, std::u32string>(const std::map<std::complex<double>, std::u32string> &map);
 
 /**
  * Instantiation for converting a C++ std::unordered_map<std::vector<char>, bool> to a Python dictionary.
@@ -2169,6 +3129,26 @@ PyObject *
 cpp_std_map_like_to_py_dict<std::map, std::vector<char>, std::string>(const std::map<std::vector<char>, std::string> &map);
 
 /**
+ * Instantiation for converting a C++ std::unordered_map<std::vector<char>, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::vector<char>, std::u16string>.
+ * @return A Python dictionary of {bytes : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::vector<char>, std::u16string>(const std::map<std::vector<char>, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::vector<char>, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::vector<char>, std::u32string>.
+ * @return A Python dictionary of {bytes : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::vector<char>, std::u32string>(const std::map<std::vector<char>, std::u32string> &map);
+
+/**
  * Instantiation for converting a C++ std::unordered_map<std::string, bool> to a Python dictionary.
  *
  * @param map Input C++ std::unordered_map<std::string, bool>.
@@ -2227,6 +3207,186 @@ cpp_std_map_like_to_py_dict<std::map, std::string, std::vector<char>>(const std:
 template <>
 PyObject *
 cpp_std_map_like_to_py_dict<std::map, std::string, std::string>(const std::map<std::string, std::string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::string, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::string, std::u16string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::string, std::u16string>(const std::map<std::string, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::string, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::string, std::u32string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::string, std::u32string>(const std::map<std::string, std::u32string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, bool> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, bool>.
+ * @return A Python dictionary of {str : bool, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u16string, bool>(const std::map<std::u16string, bool> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, long> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, long>.
+ * @return A Python dictionary of {str : int, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u16string, long>(const std::map<std::u16string, long> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, double> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, double>.
+ * @return A Python dictionary of {str : float, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u16string, double>(const std::map<std::u16string, double> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, std::complex<double>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, std::complex<double>>.
+ * @return A Python dictionary of {str : complex, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u16string, std::complex<double>>(const std::map<std::u16string, std::complex<double>> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, std::vector<char>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, std::vector<char>>.
+ * @return A Python dictionary of {str : bytes, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u16string, std::vector<char>>(const std::map<std::u16string, std::vector<char>> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, std::string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, std::string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u16string, std::string>(const std::map<std::u16string, std::string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, std::u16string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u16string, std::u16string>(const std::map<std::u16string, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u16string, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u16string, std::u32string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u16string, std::u32string>(const std::map<std::u16string, std::u32string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, bool> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, bool>.
+ * @return A Python dictionary of {str : bool, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u32string, bool>(const std::map<std::u32string, bool> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, long> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, long>.
+ * @return A Python dictionary of {str : int, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u32string, long>(const std::map<std::u32string, long> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, double> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, double>.
+ * @return A Python dictionary of {str : float, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u32string, double>(const std::map<std::u32string, double> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, std::complex<double>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, std::complex<double>>.
+ * @return A Python dictionary of {str : complex, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u32string, std::complex<double>>(const std::map<std::u32string, std::complex<double>> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, std::vector<char>> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, std::vector<char>>.
+ * @return A Python dictionary of {str : bytes, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u32string, std::vector<char>>(const std::map<std::u32string, std::vector<char>> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, std::string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, std::string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u32string, std::string>(const std::map<std::u32string, std::string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, std::u16string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, std::u16string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u32string, std::u16string>(const std::map<std::u32string, std::u16string> &map);
+
+/**
+ * Instantiation for converting a C++ std::unordered_map<std::u32string, std::u32string> to a Python dictionary.
+ *
+ * @param map Input C++ std::unordered_map<std::u32string, std::u32string>.
+ * @return A Python dictionary of {str : str, ...}.
+ */
+template <>
+PyObject *
+cpp_std_map_like_to_py_dict<std::map, std::u32string, std::u32string>(const std::map<std::u32string, std::u32string> &map);
 
 //------------------- END: std::std::map -> Python dict -------------------
 
@@ -2313,6 +3473,28 @@ int
 py_dict_to_cpp_std_map_like<std::map, bool, std::string>(PyObject* op, std::map<bool, std::string> &map);
 
 /**
+ * Instantiation for converting a Python dictionary {bool : str, ...} to a C++ std::unordered_map<bool, std::u16string>.
+ *
+ * @param op A Python dictionary of {bool : str, ...} as the input.
+ * @param map The C++ std::unordered_map<bool, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, bool, std::u16string>(PyObject* op, std::map<bool, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {bool : str, ...} to a C++ std::unordered_map<bool, std::u32string>.
+ *
+ * @param op A Python dictionary of {bool : str, ...} as the input.
+ * @param map The C++ std::unordered_map<bool, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, bool, std::u32string>(PyObject* op, std::map<bool, std::u32string> &map);
+
+/**
  * Instantiation for converting a Python dictionary {int : bool, ...} to a C++ std::unordered_map<long, bool>.
  *
  * @param op A Python dictionary of {int : bool, ...} as the input.
@@ -2377,6 +3559,28 @@ py_dict_to_cpp_std_map_like<std::map, long, std::vector<char>>(PyObject* op, std
 template <>
 int
 py_dict_to_cpp_std_map_like<std::map, long, std::string>(PyObject* op, std::map<long, std::string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {int : str, ...} to a C++ std::unordered_map<long, std::u16string>.
+ *
+ * @param op A Python dictionary of {int : str, ...} as the input.
+ * @param map The C++ std::unordered_map<long, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, long, std::u16string>(PyObject* op, std::map<long, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {int : str, ...} to a C++ std::unordered_map<long, std::u32string>.
+ *
+ * @param op A Python dictionary of {int : str, ...} as the input.
+ * @param map The C++ std::unordered_map<long, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, long, std::u32string>(PyObject* op, std::map<long, std::u32string> &map);
 
 /**
  * Instantiation for converting a Python dictionary {float : bool, ...} to a C++ std::unordered_map<double, bool>.
@@ -2445,6 +3649,28 @@ int
 py_dict_to_cpp_std_map_like<std::map, double, std::string>(PyObject* op, std::map<double, std::string> &map);
 
 /**
+ * Instantiation for converting a Python dictionary {float : str, ...} to a C++ std::unordered_map<double, std::u16string>.
+ *
+ * @param op A Python dictionary of {float : str, ...} as the input.
+ * @param map The C++ std::unordered_map<double, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, double, std::u16string>(PyObject* op, std::map<double, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {float : str, ...} to a C++ std::unordered_map<double, std::u32string>.
+ *
+ * @param op A Python dictionary of {float : str, ...} as the input.
+ * @param map The C++ std::unordered_map<double, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, double, std::u32string>(PyObject* op, std::map<double, std::u32string> &map);
+
+/**
  * Instantiation for converting a Python dictionary {complex : bool, ...} to a C++ std::unordered_map<std::complex<double>, bool>.
  *
  * @param op A Python dictionary of {complex : bool, ...} as the input.
@@ -2509,6 +3735,28 @@ py_dict_to_cpp_std_map_like<std::map, std::complex<double>, std::vector<char>>(P
 template <>
 int
 py_dict_to_cpp_std_map_like<std::map, std::complex<double>, std::string>(PyObject* op, std::map<std::complex<double>, std::string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {complex : str, ...} to a C++ std::unordered_map<std::complex<double>, std::u16string>.
+ *
+ * @param op A Python dictionary of {complex : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::complex<double>, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::complex<double>, std::u16string>(PyObject* op, std::map<std::complex<double>, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {complex : str, ...} to a C++ std::unordered_map<std::complex<double>, std::u32string>.
+ *
+ * @param op A Python dictionary of {complex : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::complex<double>, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::complex<double>, std::u32string>(PyObject* op, std::map<std::complex<double>, std::u32string> &map);
 
 /**
  * Instantiation for converting a Python dictionary {bytes : bool, ...} to a C++ std::unordered_map<std::vector<char>, bool>.
@@ -2577,6 +3825,28 @@ int
 py_dict_to_cpp_std_map_like<std::map, std::vector<char>, std::string>(PyObject* op, std::map<std::vector<char>, std::string> &map);
 
 /**
+ * Instantiation for converting a Python dictionary {bytes : str, ...} to a C++ std::unordered_map<std::vector<char>, std::u16string>.
+ *
+ * @param op A Python dictionary of {bytes : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::vector<char>, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::vector<char>, std::u16string>(PyObject* op, std::map<std::vector<char>, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {bytes : str, ...} to a C++ std::unordered_map<std::vector<char>, std::u32string>.
+ *
+ * @param op A Python dictionary of {bytes : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::vector<char>, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::vector<char>, std::u32string>(PyObject* op, std::map<std::vector<char>, std::u32string> &map);
+
+/**
  * Instantiation for converting a Python dictionary {str : bool, ...} to a C++ std::unordered_map<std::string, bool>.
  *
  * @param op A Python dictionary of {str : bool, ...} as the input.
@@ -2642,11 +3912,209 @@ template <>
 int
 py_dict_to_cpp_std_map_like<std::map, std::string, std::string>(PyObject* op, std::map<std::string, std::string> &map);
 
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::string, std::u16string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::string, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::string, std::u16string>(PyObject* op, std::map<std::string, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::string, std::u32string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::string, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::string, std::u32string>(PyObject* op, std::map<std::string, std::u32string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : bool, ...} to a C++ std::unordered_map<std::u16string, bool>.
+ *
+ * @param op A Python dictionary of {str : bool, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, bool> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u16string, bool>(PyObject* op, std::map<std::u16string, bool> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : int, ...} to a C++ std::unordered_map<std::u16string, long>.
+ *
+ * @param op A Python dictionary of {str : int, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, long> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u16string, long>(PyObject* op, std::map<std::u16string, long> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : float, ...} to a C++ std::unordered_map<std::u16string, double>.
+ *
+ * @param op A Python dictionary of {str : float, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, double> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u16string, double>(PyObject* op, std::map<std::u16string, double> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : complex, ...} to a C++ std::unordered_map<std::u16string, std::complex<double>>.
+ *
+ * @param op A Python dictionary of {str : complex, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, std::complex<double>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u16string, std::complex<double>>(PyObject* op, std::map<std::u16string, std::complex<double>> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : bytes, ...} to a C++ std::unordered_map<std::u16string, std::vector<char>>.
+ *
+ * @param op A Python dictionary of {str : bytes, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, std::vector<char>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u16string, std::vector<char>>(PyObject* op, std::map<std::u16string, std::vector<char>> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::u16string, std::string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, std::string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u16string, std::string>(PyObject* op, std::map<std::u16string, std::string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::u16string, std::u16string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u16string, std::u16string>(PyObject* op, std::map<std::u16string, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::u16string, std::u32string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u16string, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u16string, std::u32string>(PyObject* op, std::map<std::u16string, std::u32string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : bool, ...} to a C++ std::unordered_map<std::u32string, bool>.
+ *
+ * @param op A Python dictionary of {str : bool, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, bool> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u32string, bool>(PyObject* op, std::map<std::u32string, bool> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : int, ...} to a C++ std::unordered_map<std::u32string, long>.
+ *
+ * @param op A Python dictionary of {str : int, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, long> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u32string, long>(PyObject* op, std::map<std::u32string, long> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : float, ...} to a C++ std::unordered_map<std::u32string, double>.
+ *
+ * @param op A Python dictionary of {str : float, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, double> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u32string, double>(PyObject* op, std::map<std::u32string, double> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : complex, ...} to a C++ std::unordered_map<std::u32string, std::complex<double>>.
+ *
+ * @param op A Python dictionary of {str : complex, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, std::complex<double>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u32string, std::complex<double>>(PyObject* op, std::map<std::u32string, std::complex<double>> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : bytes, ...} to a C++ std::unordered_map<std::u32string, std::vector<char>>.
+ *
+ * @param op A Python dictionary of {str : bytes, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, std::vector<char>> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u32string, std::vector<char>>(PyObject* op, std::map<std::u32string, std::vector<char>> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::u32string, std::string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, std::string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u32string, std::string>(PyObject* op, std::map<std::u32string, std::string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::u32string, std::u16string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, std::u16string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u32string, std::u16string>(PyObject* op, std::map<std::u32string, std::u16string> &map);
+
+/**
+ * Instantiation for converting a Python dictionary {str : str, ...} to a C++ std::unordered_map<std::u32string, std::u32string>.
+ *
+ * @param op A Python dictionary of {str : str, ...} as the input.
+ * @param map The C++ std::unordered_map<std::u32string, std::u32string> to write to.
+ * @return 0 on success, non-zero on failure.
+ */
+template <>
+int
+py_dict_to_cpp_std_map_like<std::map, std::u32string, std::u32string>(PyObject* op, std::map<std::u32string, std::u32string> &map);
+
 //----------------- END: Python dict -> std::unordered_map ----------------
 
 //******************* END: std::std::map <-> Python dict ******************
 
-// Declarations written: 220
+// Declarations written: 356
 //#########################################################################
 //#### END: Auto-generated code - do not edit. Seriously, do NOT edit. ####
 //#########################################################################

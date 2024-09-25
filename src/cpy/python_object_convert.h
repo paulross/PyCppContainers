@@ -210,13 +210,21 @@ namespace Python_Cpp_Containers {
 
     // Python str (unicode) to/from string
     /**
+     * Return non-zero if the given value is a Python \c str type with \c PyUnicode_1BYTE_KIND entries.
+     *
+     * @param op The Python object to check to be a \c str type with \c PyUnicode_1BYTE_KIND entries.
+     * @return Zero if not a Python \c str, non-zero if a Python \c str.
+     */
+    int py_unicode8_check(PyObject *op);
+
+    /**
      * Converts a C++ \c std::string to a Python \c str.
      * This always succeeds.
      *
      * @param b Value to convert.
      * @return Value equivalent in Python.
      */
-    PyObject *cpp_string_to_py_unicode(const std::string &s);
+    PyObject *cpp_string8_to_py_unicode8(const std::string &s);
 
     /**
      * Converts a Python \c str to a C++ \c std::string.
@@ -227,15 +235,63 @@ namespace Python_Cpp_Containers {
      * @param op Python value to convert.
      * @return The C++ \c std::str.
      */
-    std::string py_unicode_to_cpp_string(PyObject *op);
+    std::string py_unicode8_to_cpp_string8(PyObject *op);
 
     /**
-     * Return non-zero if the given value is a Python \c str type.
+     * Return non-zero if the given value is a Python \c str type with 16 bit Unicode.
      *
-     * @param op The Python object to check to be a \c str type.
+     * @param op The Python object to check to be a \c str type with 16 bit unicode.
      * @return Zero if not a Python \c str, non-zero if a Python \c str.
      */
-    int py_unicode_check(PyObject *op);
+    int py_unicode16_check(PyObject *op);
+
+    /**
+     * Converts a C++ \c std::string to a Python \c str with \c PyUnicode_2BYTE_KIND entries.
+     * This always succeeds.
+     *
+     * @param b Value to convert.
+     * @return Value equivalent in Python.
+     */
+    PyObject *cpp_string16_to_py_unicode16(const std::u16string &s);
+
+    /**
+     * Converts a Python \c str to a C++ \c std::u16string.
+     * This asserts that the given value is a Python \c str with \c PyUnicode_2BYTE_KIND entries.
+     * If asserts are enabled then this asserts that the argument is a Python \c str objects.
+     * If asserts are not enabled then this is undefined.
+     *
+     * @param op Python value to convert.
+     * @return The C++ \c std::str.
+     */
+    std::u16string py_unicode16_to_cpp_string16(PyObject *op);
+
+    /**
+     * Return non-zero if the given value is a Python \c str type with 32 bit Unicode.
+     *
+     * @param op The Python object to check to be a \c str type with 32 bit unicode.
+     * @return Zero if not a Python \c str, non-zero if a Python \c str.
+     */
+    int py_unicode32_check(PyObject *op);
+
+    /**
+     * Converts a C++ \c std::string to a Python \c str with \c PyUnicode_2BYTE_KIND entries.
+     * This always succeeds.
+     *
+     * @param b Value to convert.
+     * @return Value equivalent in Python.
+     */
+    PyObject *cpp_string32_to_py_unicode32(const std::u32string &s);
+
+    /**
+     * Converts a Python \c str to a C++ \c std::u32string.
+     * This asserts that the given value is a Python \c str with \c PyUnicode_2BYTE_KIND entries.
+     * If asserts are enabled then this asserts that the argument is a Python \c str objects.
+     * If asserts are not enabled then this is undefined.
+     *
+     * @param op Python value to convert.
+     * @return The C++ \c std::str.
+     */
+    std::u32string py_unicode32_to_cpp_string32(PyObject *op);
 
 } // namespace Python_Cpp_Containers
 #endif //PYTHONCPPHOMOGENEOUSCONTAINERS_PYTHON_OBJECT_CONVERT_H

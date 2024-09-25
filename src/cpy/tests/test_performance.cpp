@@ -222,7 +222,7 @@ int test_cpp_string_to_py_str_multiple(TestResultS &test_results, size_t string_
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
         for (size_t j = 0; j < size; ++j) {
-            PyObject * op = Python_Cpp_Containers::cpp_string_to_py_unicode(str);
+            PyObject * op = Python_Cpp_Containers::cpp_string8_to_py_unicode8(str);
             Py_DECREF(op);
         }
         double exec_time = exec_clock.seconds();
@@ -237,11 +237,11 @@ int test_py_str_to_cpp_string_multiple(TestResultS &test_results, size_t string_
     title << __FUNCTION__ << "_" << string_size << "[" << size << "]";
     TestResult test_result(title.str());
     std::string str(string_size, ' ');
-    PyObject * op = Python_Cpp_Containers::cpp_string_to_py_unicode(str);
+    PyObject * op = Python_Cpp_Containers::cpp_string8_to_py_unicode8(str);
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
         for (size_t j = 0; j < size; ++j) {
-            volatile auto temp = Python_Cpp_Containers::py_unicode_to_cpp_string(op);
+            volatile auto temp = Python_Cpp_Containers::py_unicode8_to_cpp_string8(op);
         }
         double exec_time = exec_clock.seconds();
         test_result.execTimeAdd(0, exec_time, 1, size);

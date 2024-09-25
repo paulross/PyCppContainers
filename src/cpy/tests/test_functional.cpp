@@ -140,7 +140,7 @@ void test_functional_tuple_setitem(TestResultS &test_results) {
     if (container) {
         result |= Py_REFCNT(container) != 1;
         std::string cpp_str = unique_string(size);
-        PyObject *py_str = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str);
+        PyObject *py_str = Python_Cpp_Containers::cpp_string8_to_py_unicode8(cpp_str);
         // Check reference count of py_str.
         result |= Py_REFCNT(py_str) != 1;
 
@@ -188,7 +188,7 @@ void test_functional_list_setitem(TestResultS &test_results) {
     if (container) {
         result |= Py_REFCNT(container) != 1;
         std::string cpp_str = unique_string(size);
-        PyObject *py_str = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str);
+        PyObject *py_str = Python_Cpp_Containers::cpp_string8_to_py_unicode8(cpp_str);
         // Check reference count of py_str.
         result |= Py_REFCNT(py_str) != 1;
 
@@ -236,7 +236,7 @@ void test_functional_set_add(TestResultS &test_results) {
     if (container) {
         result |= Py_REFCNT(container) != 1;
         std::string cpp_str = unique_string(size);
-        PyObject *py_str = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str);
+        PyObject *py_str = Python_Cpp_Containers::cpp_string8_to_py_unicode8(cpp_str);
         // Check reference count of py_str.
         result |= Py_REFCNT(py_str) != 1;
 
@@ -288,7 +288,7 @@ void test_functional_set_add_from_iterable(TestResultS &test_results) {
     // Create a list to pass to the set. No error checking.
     PyObject *list = PyList_New(1);
     std::string cpp_str = unique_string(size);
-    PyObject *py_str = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str);
+    PyObject *py_str = Python_Cpp_Containers::cpp_string8_to_py_unicode8(cpp_str);
     result |= Py_REFCNT(py_str) != 1;
 
     PyList_SetItem(list, 0, py_str);
@@ -329,7 +329,7 @@ void test_functional_frozenset_add(TestResultS &test_results) {
     if (container) {
         result |= Py_REFCNT(container) != 1;
         std::string cpp_str = unique_string(size);
-        PyObject *py_str = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str);
+        PyObject *py_str = Python_Cpp_Containers::cpp_string8_to_py_unicode8(cpp_str);
         // Check reference count of py_str.
         result |= Py_REFCNT(py_str) != 1;
 
@@ -381,7 +381,7 @@ void test_functional_frozenset_add_from_iterable(TestResultS &test_results) {
     // Create a list to pass to the set. No error checking.
     PyObject *list = PyList_New(1);
     std::string cpp_str = unique_string(size);
-    PyObject *py_str = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str);
+    PyObject *py_str = Python_Cpp_Containers::cpp_string8_to_py_unicode8(cpp_str);
     result |= Py_REFCNT(py_str) != 1;
 
     PyList_SetItem(list, 0, py_str);
@@ -423,10 +423,10 @@ void test_functional_dict_setitem(TestResultS &test_results) {
         result |= Py_REFCNT(container) != 1;
         std::string cpp_str_key = unique_string(size);
         std::string cpp_str_val  = unique_string(size);
-        PyObject *py_str_key = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str_key);
+        PyObject *py_str_key = Python_Cpp_Containers::cpp_string8_to_py_unicode8(cpp_str_key);
         // Check reference count of py_str_key.
         result |= Py_REFCNT(py_str_key) != 1;
-        PyObject *py_str_val = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str_val);
+        PyObject *py_str_val = Python_Cpp_Containers::cpp_string8_to_py_unicode8(cpp_str_val);
         // Check reference count of py_str_key.
         result |= Py_REFCNT(py_str_val) != 1;
 
@@ -487,10 +487,10 @@ void test_functional_dict_copy(TestResultS &test_results) {
         result |= Py_REFCNT(container) != 1;
         std::string cpp_str_key = unique_string(size);
         std::string cpp_str_val  = unique_string(size);
-        PyObject *py_str_key = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str_key);
+        PyObject *py_str_key = Python_Cpp_Containers::cpp_string8_to_py_unicode8(cpp_str_key);
         // Check reference count of py_str_key.
         result |= Py_REFCNT(py_str_key) != 1;
-        PyObject *py_str_val = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str_val);
+        PyObject *py_str_val = Python_Cpp_Containers::cpp_string8_to_py_unicode8(cpp_str_val);
         // Check reference count of py_str_key.
         result |= Py_REFCNT(py_str_val) != 1;
 

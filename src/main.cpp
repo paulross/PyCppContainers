@@ -6,7 +6,7 @@
 #include <cpp/save_stream_state.h>
 
 // Controls execution of test_performance_all() which takes a long time.
-#define TEST_PERFORMANCE_ALL 1
+#define TEST_PERFORMANCE_ALL 0
 // Controls execution of test_memory_all().
 #define TEST_MEMORY_ALL 1
 

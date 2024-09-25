@@ -92,18 +92,54 @@ namespace Python_Cpp_Containers {
         // TODO: Delete?
         return PyByteArray_Check(op);
     }
-    // str to/from string
-    PyObject *cpp_string_to_py_unicode(const std::string &s) {
+
+#pragma mark # str to/from string
+#pragma mark # 8 bit strings.
+    int py_unicode8_check(PyObject *op) {
+        return PyUnicode_Check(op) && PyUnicode_KIND(op) == PyUnicode_1BYTE_KIND;
+    }
+
+    PyObject *cpp_string8_to_py_unicode8(const std::string &s) {
         return PyUnicode_FromKindAndData(PyUnicode_1BYTE_KIND, s.c_str(), s.size());
     }
-    std::string py_unicode_to_cpp_string(PyObject *op) {
+
+    std::string py_unicode8_to_cpp_string8(PyObject *op) {
         assert(op);
-        assert(py_unicode_check(op));
+        assert(py_unicode8_check(op));
         std::string ret((const char *)PyUnicode_1BYTE_DATA(op), PyUnicode_GET_LENGTH(op));
         return ret;
     }
-    int py_unicode_check(PyObject *op) {
-        return PyUnicode_Check(op);
+
+#pragma mark # 16 bit strings.
+    int py_unicode16_check(PyObject *op) {
+        return PyUnicode_Check(op) && PyUnicode_KIND(op) == PyUnicode_1BYTE_KIND;
+    }
+
+    PyObject *cpp_string16_to_py_unicode16(const std::u16string &s) {
+        return PyUnicode_FromKindAndData(PyUnicode_2BYTE_KIND, s.c_str(), s.size());
+    }
+
+    std::u16string py_unicode16_to_cpp_string16(PyObject *op) {
+        assert(op);
+        assert(py_unicode16_check(op));
+        std::u16string ret((const char16_t *)PyUnicode_2BYTE_DATA(op), PyUnicode_GET_LENGTH(op));
+        return ret;
+    }
+
+#pragma mark # 32 bit strings.
+    int py_unicode32_check(PyObject *op) {
+        return PyUnicode_Check(op) && PyUnicode_KIND(op) == PyUnicode_4BYTE_KIND;
+    }
+
+    PyObject *cpp_string32_to_py_unicode32(const std::u32string &s) {
+        return PyUnicode_FromKindAndData(PyUnicode_4BYTE_KIND, s.c_str(), s.size());
+    }
+
+    std::u32string py_unicode32_to_cpp_string32(PyObject *op) {
+        assert(op);
+        assert(py_unicode32_check(op));
+        std::u32string ret((const char32_t *)PyUnicode_4BYTE_DATA(op), PyUnicode_GET_LENGTH(op));
+        return ret;
     }
 
 } // namespace Python_Cpp_Containers
