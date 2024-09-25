@@ -7,6 +7,8 @@
 #include "cpy/python_convert.h"
 #include "test_functional.h"
 
+#pragma mark # MARK: Demonstration code, does not contribute to the test results.
+
 /**
  * Demonstration code for converting a `std::vector<double>` to a Python tuple.
  */
@@ -117,7 +119,430 @@ void test_example_py_dict_to_cpp_std_unordered_map() {
     Py_DECREF(op);
 }
 
-// TODO: Test reference count when inserting into Python containers.
+#pragma mark # MARK: Test reference count when inserting into Python containers.
+
+/**
+ * Tests the reference count changes when inserting into a tuple with PyTuple_SetItem()
+ *
+ * @param test_results
+ */
+void test_functional_tuple_setitem(TestResultS &test_results) {
+    int result = 0; // 0 is success.
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_ENTRY_RETURN_CODE;
+    }
+    ExecClock exec_clock;
+    double exec_time = -1.0;
+    ssize_t size = 1 << 20;
+    PyObject *container = PyTuple_New(1);
+    if (container) {
+        result |= Py_REFCNT(container) != 1;
+        std::string cpp_str = unique_string(size);
+        PyObject *py_str = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str);
+        // Check reference count of py_str.
+        result |= Py_REFCNT(py_str) != 1;
+
+        if (PyTuple_SetItem(container, 0, py_str)) {
+            result = 10;
+        } else {
+            // Should be a 'stolen' reference so no increase.
+            result |= Py_REFCNT(py_str) != 1;
+        }
+
+        Py_DECREF(container);
+        // Could do a fairly risky:
+        // result |= Py_REFCNT(py_str) != 0;
+        // And:
+        // result |= Py_REFCNT(tuple) != 0;
+        // But the memory might have been reused.
+        exec_time = exec_clock.seconds();
+    } else {
+        result = 9;
+    }
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_EXIT_RETURN_CODE;
+    }
+    REPORT_TEST_OUTPUT;
+}
+
+/**
+ * Tests the reference count changes when inserting into a list with PyList_SetItem()
+ *
+ * @param test_results
+ */
+void test_functional_list_setitem(TestResultS &test_results) {
+    int result = 0; // 0 is success.
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_ENTRY_RETURN_CODE;
+    }
+    ExecClock exec_clock;
+    double exec_time = -1.0;
+    ssize_t size = 1 << 20;
+    PyObject *container = PyList_New(1);
+    if (container) {
+        result |= Py_REFCNT(container) != 1;
+        std::string cpp_str = unique_string(size);
+        PyObject *py_str = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str);
+        // Check reference count of py_str.
+        result |= Py_REFCNT(py_str) != 1;
+
+        if (PyList_SetItem(container, 0, py_str)) {
+            result = 10;
+        } else {
+            // Should be a 'stolen' reference so no increase.
+            result |= Py_REFCNT(py_str) != 1;
+        }
+
+        Py_DECREF(container);
+        // Could do a fairly risky:
+        // result |= Py_REFCNT(py_str) != 0;
+        // And:
+        // result |= Py_REFCNT(tuple) != 0;
+        // But the memory might have been reused.
+        exec_time = exec_clock.seconds();
+    } else {
+        result = 9;
+    }
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_EXIT_RETURN_CODE;
+    }
+    REPORT_TEST_OUTPUT;
+}
+
+/**
+ * Tests the reference count changes when inserting into a set with PySet_Add()
+ *
+ * @param test_results
+ */
+void test_functional_set_add(TestResultS &test_results) {
+    int result = 0; // 0 is success.
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_ENTRY_RETURN_CODE;
+    }
+    ExecClock exec_clock;
+    double exec_time = -1.0;
+    ssize_t size = 1 << 20;
+    PyObject *container = PySet_New(NULL);
+    if (container) {
+        result |= Py_REFCNT(container) != 1;
+        std::string cpp_str = unique_string(size);
+        PyObject *py_str = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str);
+        // Check reference count of py_str.
+        result |= Py_REFCNT(py_str) != 1;
+
+        if (PySet_Add(container, py_str)) {
+            result = 10;
+        } else {
+            // Sets are like dicts, they increment the reference rather than 'stealing' it.
+            result |= Py_REFCNT(py_str) != 2;
+        }
+        // So we have to decrement the reference count.
+        Py_DECREF(py_str);
+        result |= Py_REFCNT(py_str) != 1;
+
+        Py_DECREF(container);
+
+        // Could do a fairly risky:
+        // result |= Py_REFCNT(py_str) != 0;
+        // And:
+        // result |= Py_REFCNT(tuple) != 0;
+        // But the memory might have been reused.
+        exec_time = exec_clock.seconds();
+    } else {
+        result = 9;
+    }
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_EXIT_RETURN_CODE;
+    }
+    REPORT_TEST_OUTPUT;
+}
+
+/**
+ * Tests the reference count changes when inserting into a set with PySet_New(iterable)
+ * No error checking.
+ *
+ * @param test_results
+ */
+void test_functional_set_add_from_iterable(TestResultS &test_results) {
+    int result = 0; // 0 is success.
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_ENTRY_RETURN_CODE;
+    }
+    ExecClock exec_clock;
+    double exec_time = -1.0;
+    ssize_t size = 1 << 20;
+    // Create a list to pass to the set. No error checking.
+    PyObject *list = PyList_New(1);
+    std::string cpp_str = unique_string(size);
+    PyObject *py_str = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str);
+    result |= Py_REFCNT(py_str) != 1;
+
+    PyList_SetItem(list, 0, py_str);
+    result |= Py_REFCNT(py_str) != 1;
+
+    PyObject *container = PySet_New(list);
+    result |= Py_REFCNT(py_str) != 2;
+
+    Py_XDECREF(container);
+    result |= Py_REFCNT(py_str) != 1;
+    Py_XDECREF(list);
+    result |= Py_REFCNT(py_str) != 0;
+
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_EXIT_RETURN_CODE;
+    }
+    REPORT_TEST_OUTPUT;
+}
+
+/**
+ * Tests the reference count changes when inserting into a frozenset with PySet_Add()
+ *
+ * @param test_results
+ */
+void test_functional_frozenset_add(TestResultS &test_results) {
+    int result = 0; // 0 is success.
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_ENTRY_RETURN_CODE;
+    }
+    ExecClock exec_clock;
+    double exec_time = -1.0;
+    ssize_t size = 1 << 20;
+    PyObject *container = PyFrozenSet_New(NULL);
+    if (container) {
+        result |= Py_REFCNT(container) != 1;
+        std::string cpp_str = unique_string(size);
+        PyObject *py_str = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str);
+        // Check reference count of py_str.
+        result |= Py_REFCNT(py_str) != 1;
+
+        if (PySet_Add(container, py_str)) {
+            result = 10;
+        } else {
+            // Sets are like dicts, they increment the reference rather than 'stealing' it.
+            result |= Py_REFCNT(py_str) != 2;
+        }
+        // So we have to decrement the reference count.
+        Py_DECREF(py_str);
+        result |= Py_REFCNT(py_str) != 1;
+
+        Py_DECREF(container);
+
+        // Could do a fairly risky:
+        // result |= Py_REFCNT(py_str) != 0;
+        // And:
+        // result |= Py_REFCNT(tuple) != 0;
+        // But the memory might have been reused.
+        exec_time = exec_clock.seconds();
+    } else {
+        result = 9;
+    }
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_EXIT_RETURN_CODE;
+    }
+    REPORT_TEST_OUTPUT;
+}
+
+/**
+ * Tests the reference count changes when inserting into a frozenset with PySet_Add()
+ * No error checking.
+ *
+ * @param test_results
+ */
+void test_functional_frozenset_add_from_iterable(TestResultS &test_results) {
+    int result = 0; // 0 is success.
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_ENTRY_RETURN_CODE;
+    }
+    ExecClock exec_clock;
+    double exec_time = -1.0;
+    ssize_t size = 1 << 20;
+    // Create a list to pass to the set. No error checking.
+    PyObject *list = PyList_New(1);
+    std::string cpp_str = unique_string(size);
+    PyObject *py_str = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str);
+    result |= Py_REFCNT(py_str) != 1;
+
+    PyList_SetItem(list, 0, py_str);
+    result |= Py_REFCNT(py_str) != 1;
+
+    PyObject *container = PyFrozenSet_New(list);
+    result |= Py_REFCNT(py_str) != 2;
+
+    Py_XDECREF(container);
+    result |= Py_REFCNT(py_str) != 1;
+    Py_XDECREF(list);
+    result |= Py_REFCNT(py_str) != 0;
+
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_EXIT_RETURN_CODE;
+    }
+    REPORT_TEST_OUTPUT;
+}
+
+/**
+ * Tests the reference count changes when inserting into a dict with PyDict_SetItem()
+ *
+ * @param test_results
+ */
+void test_functional_dict_setitem(TestResultS &test_results) {
+    int result = 0; // 0 is success.
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_ENTRY_RETURN_CODE;
+    }
+    ExecClock exec_clock;
+    double exec_time = -1.0;
+    ssize_t size = 1 << 20;
+    PyObject *container = PyDict_New();
+    if (container) {
+        result |= Py_REFCNT(container) != 1;
+        std::string cpp_str_key = unique_string(size);
+        std::string cpp_str_val  = unique_string(size);
+        PyObject *py_str_key = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str_key);
+        // Check reference count of py_str_key.
+        result |= Py_REFCNT(py_str_key) != 1;
+        PyObject *py_str_val = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str_val);
+        // Check reference count of py_str_key.
+        result |= Py_REFCNT(py_str_val) != 1;
+
+        if (PyDict_SetItem(container, py_str_key, py_str_val)) {
+            result = 10;
+        } else {
+            // Sets are like dicts, they increment the reference rather than 'stealing' it.
+            result |= Py_REFCNT(py_str_key) != 2;
+            result |= Py_REFCNT(py_str_val) != 2;
+        }
+        // Try this in the debugger and you will see that py_str_key and py_str_key have a reference count of 1.
+        // Thus they are dangling.
+        // Py_DECREF(container);
+
+        // So we have to decrement the reference count.
+        Py_DECREF(py_str_key);
+        result |= Py_REFCNT(py_str_key) != 1;
+        Py_DECREF(py_str_val);
+        result |= Py_REFCNT(py_str_val) != 1;
+
+        Py_DECREF(container);
+
+        // Could do a fairly risky:
+        // result |= Py_REFCNT(py_str_key) != 0;
+        // result |= Py_REFCNT(py_str_val) != 0;
+        // And:
+        // result |= Py_REFCNT(container) != 0;
+        // But the memory might have been reused.
+        exec_time = exec_clock.seconds();
+    } else {
+        result = 9;
+    }
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_EXIT_RETURN_CODE;
+    }
+    REPORT_TEST_OUTPUT;
+}
+
+/**
+ * Tests the reference count changes when using PyDict_Copy()
+ *
+ * @param test_results
+ */
+void test_functional_dict_copy(TestResultS &test_results) {
+    int result = 0; // 0 is success.
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_ENTRY_RETURN_CODE;
+    }
+    ExecClock exec_clock;
+    double exec_time = -1.0;
+    ssize_t size = 1 << 20;
+    PyObject *container = PyDict_New();
+    if (container) {
+        result |= Py_REFCNT(container) != 1;
+        std::string cpp_str_key = unique_string(size);
+        std::string cpp_str_val  = unique_string(size);
+        PyObject *py_str_key = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str_key);
+        // Check reference count of py_str_key.
+        result |= Py_REFCNT(py_str_key) != 1;
+        PyObject *py_str_val = Python_Cpp_Containers::cpp_string_to_py_unicode(cpp_str_val);
+        // Check reference count of py_str_key.
+        result |= Py_REFCNT(py_str_val) != 1;
+
+        if (PyDict_SetItem(container, py_str_key, py_str_val)) {
+            result = 10;
+        } else {
+            // Sets are like dicts, they increment the reference rather than 'stealing' it.
+            result |= Py_REFCNT(py_str_key) != 2;
+            result |= Py_REFCNT(py_str_val) != 2;
+        }
+
+        // Now make a copy, this will incref the keys and values.
+        PyObject *container_copy = PyDict_Copy(container);
+        assert(container_copy);
+
+        // Now should have three refcounts.
+        result |= Py_REFCNT(py_str_key) != 3;
+        result |= Py_REFCNT(py_str_val) != 3;
+
+        // So we have to decrement the reference count of the originals, leaving two refcounts:
+        // container and container_copy.
+        Py_DECREF(py_str_key);
+        result |= Py_REFCNT(py_str_key) != 2;
+        Py_DECREF(py_str_val);
+        result |= Py_REFCNT(py_str_val) != 2;
+
+        Py_DECREF(container_copy);
+
+        result |= Py_REFCNT(py_str_key) != 1;
+        result |= Py_REFCNT(py_str_val) != 1;
+
+        Py_DECREF(container);
+
+        // Could do a fairly risky:
+        // result |= Py_REFCNT(py_str_key) != 0;
+        // result |= Py_REFCNT(py_str_val) != 0;
+        // And:
+        // result |= Py_REFCNT(container) != 0;
+        // But the memory might have been reused.
+        exec_time = exec_clock.seconds();
+    } else {
+        result = 9;
+    }
+    if (PyErr_Occurred()) {
+        // Clear the error
+        PyErr_Print();
+        result = PY_ERR_ON_EXIT_RETURN_CODE;
+    }
+    REPORT_TEST_OUTPUT;
+}
+
+#pragma mark # MARK: Functional tests.
 
 void test_functional_tuple(TestResultS &test_results) {
     // Tuples.
@@ -324,6 +749,8 @@ void test_functional_dict_with_std_map(TestResultS &test_results) {
     test_py_dict_to_cpp_std_map_string(test_results, 1024, 32);
 }
 
+#pragma mark # MARK: Invoke all tests.
+
 void test_functional_all(TestResultS &test_results) {
     std::cout << __FUNCTION__ << " START" << std::endl;
     RSSSnapshot rss_overall("==== test_functional.cpp");
@@ -333,6 +760,16 @@ void test_functional_all(TestResultS &test_results) {
     test_example_cpp_std_unordered_map_to_py_dict();
     test_example_cpp_std_map_to_py_dict();
     test_example_py_dict_to_cpp_std_unordered_map();
+
+    // Basic reference count checks for this Python version.
+    test_functional_tuple_setitem(test_results);
+    test_functional_list_setitem(test_results);
+    test_functional_set_add(test_results);
+    test_functional_set_add_from_iterable(test_results);
+    test_functional_frozenset_add(test_results);
+    test_functional_frozenset_add_from_iterable(test_results);
+    test_functional_dict_setitem(test_results);
+    test_functional_dict_copy(test_results);
 
     // Functional tests that add to the test results.
     test_functional_tuple(test_results);

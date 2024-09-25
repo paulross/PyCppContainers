@@ -232,6 +232,11 @@ void test_memory_all(TestResultS &test_results) {
             test_memory_vector_vector_char_to_py_set(test_results, 8, 2048, 512, 1 << 16);
         }
     }
+    {
+        for (int i = 0; i < repeat_count; ++i) {
+            test_memory_py_tuple_vector_char_to_vector(test_results, 8, 2048, 512, 1 << 16);
+        }
+    }
 #endif
     test_memory_vector_vector_char_to_py_set_special(test_results);
     std::cout << "====" << rss_overall << std::endl;

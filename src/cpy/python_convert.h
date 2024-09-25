@@ -536,14 +536,25 @@ namespace Python_Cpp_Containers {
                 // Refcount may well be >> 1 for interned objects.
                 Py_ssize_t op_ob_refcnt = op->ob_refcnt;
 #endif
-                // NOTE: PySet_Add DOES increment the key refcount like dict so we need to decref.
-                // See set_add_entry(): https://github.com/python/cpython/blob/main/Objects/setobject.c#L103
+                // NOTE: PySet_Add DOES NOT "steal" the reference like a list or tuple but DOES increment the value
+                // refcount like dict so we need to decref.
+                // See set_add_entry(): https://github.com/python/cpython/blob/main/Objects/setobject.c although
+                // this is quite complex code and the lack of a decref is rather obscure.
+                // For evidence see the technical note in this project: perf_notes/MemoryLeakInPySet_Add.txt
+                // Also the tests:
+                // - test_functional_set_add()
+                // - test_functional_set_add_from_iterable()
+                // - test_functional_frozenset_add()
+                // - test_functional_frozenset_add_from_iterable()
                 if (PySet_Add(ret, op)) { // Increments reference.
                     PyErr_Format(PyExc_RuntimeError, "Can not set value into the set.");
                     goto except;
                 }
+// This test is unreliable with Python 3.12 and above with interned integers.
+#if 0
 #ifndef NDEBUG
                 assert(op->ob_refcnt == op_ob_refcnt + 1 && "PySet_Add failed to increment value refcount.");
+#endif
 #endif
                 // This is required, without it we have a memory leak.
                 Py_DECREF(op);
@@ -779,6 +790,12 @@ namespace Python_Cpp_Containers {
                 // interned values, if a context switch happens in PyDict_SetItem (is that possible?)
                 // another thread may increment/decrement the interned values reference count unknown to us.
                 // It is a mystery why this happens with dicts but not other containers.
+                //
+                // NOTE this happens with sets and frozensets, see in this file:
+                // generic_cpp_std_unordered_set_to_py_set_or_frozenset()
+                //
+                // See also the tests:
+                // - test_functional_dict_setitem()
                 Py_DECREF(py_k);
                 Py_DECREF(py_v);
             }

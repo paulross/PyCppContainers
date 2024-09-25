@@ -5,12 +5,18 @@
 
 #include <cpp/save_stream_state.h>
 
-#include "cpy/tests/test_functional.h"
-#include "cpy/tests/test_performance.h"
-#include "cpy/tests/test_memory.h"
-
 // Controls execution of test_performance_all() which takes a long time.
-#define TEST_PERFORMANCE_ALL 0
+#define TEST_PERFORMANCE_ALL 1
+// Controls execution of test_memory_all().
+#define TEST_MEMORY_ALL 1
+
+#include "cpy/tests/test_functional.h"
+#if TEST_PERFORMANCE_ALL
+#include "cpy/tests/test_performance.h"
+#endif
+#if TEST_MEMORY_ALL
+#include "cpy/tests/test_memory.h"
+#endif
 
 int test_all() {
     TestResultS test_results;
@@ -24,7 +30,9 @@ int test_all() {
     test_performance_all(test_results);
 #endif
 #endif
+#if TEST_MEMORY_ALL
     test_memory_all(test_results);
+#endif
 
     std::cout << test_results << std::endl;
 
