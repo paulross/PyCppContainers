@@ -21,7 +21,8 @@ their C++ equivalent.
 A Problematic Example
 ========================
 
-Suppose that you have a Python list of floats and need to pass it to a C++ library that expects a ``std::vector<double>``.
+Suppose that you have a Python list of floats and need to pass it to a C++ library that expects a
+``std::vector<double>``.
 If the result of that call modifies the C++ vector, or creates a new one, you need to return a Python list of floats
 from the result.
 
@@ -68,7 +69,8 @@ And the inverse, ``read_from_vector`` creating a new Python list from a C++ ``st
 
 There is no error handling here, all errors would be runtime errors.
 
-However if you need to support other object types, say lists of ``int``, ``str``, ``bytes`` then each one needs a pair of hand written functions.
+However if you need to support other object types, say lists of ``int``, ``str``, ``bytes`` then each one needs a pair
+of hand written functions.
 It gets worse when you want to support other containers such as (``tuple``, ``list``, ``set``, ``frozenset``, ``dict``).
 Then you have to write individual conversion functions for all the combinations of object types *and* containers.
 This is tedious and error prone.
@@ -82,12 +84,12 @@ It also converts many runtime errors to compile time errors.
 
 This project supports two way conversion of this set of containers:
 
-.. list-table:: Supported Containers.
+.. list-table:: **Supported Containers.**
    :widths: 50 50
    :header-rows: 1
 
-   * - C++ Container
-     - Python Equivalent
+   * - **C++ Container**
+     - **Python Equivalent**
    * - ``std::vector``
      - Either a ``tuple`` or ``list``
    * - ``std::list``
@@ -101,39 +103,56 @@ This project supports two way conversion of this set of containers:
 
 Which contain any of this set of types:
 
-.. list-table:: Supported Object types.
-   :widths: 30 30
+.. list-table:: **Supported Object types.**
+   :widths: 15 10 40
    :header-rows: 1
 
-   * - C++ Type
-     - Python Equivalent
+   * - **C++ Type**
+     - **Python Type**
+     - **Notes**
    * - ``bool``
      - ``True``, ``False``
+     -
    * - ``long``
      - ``int``
+     -
    * - ``double``
      - ``float``
+     -
    * - ``std::complex<double>``
      - ``complex``
+     -
    * - ``std::vector<char>``
      - ``bytes``
+     -
    * - ``std::string``
      - ``str``
+     - Specifically a ``PyUnicode_1BYTE_KIND`` [#f1]_.
+       See the `Python Unicode documentation <https://docs.python.org/3/c-api/unicode.html>`_
+   * - ``std::u16string``
+     - ``str``
+     - Specifically a ``PyUnicode_2BYTE_KIND``.
+       See the `Python Unicode documentation <https://docs.python.org/3/c-api/unicode.html>`_
+   * - ``std::u32string``
+     - ``str``
+     - Specifically a ``PyUnicode_4BYTE_KIND``.
+       See the `Python Unicode documentation <https://docs.python.org/3/c-api/unicode.html>`_
 
-The number of possible conversion functions is worse than the cartesian product of the types and containers as in the case of a
-dict the types can appear as either a key or a value.
+The number of possible conversion functions is worse than the cartesian product of the types and containers as in the
+case of a dict the types can appear as either a key or a value.
 
-Supporting all these conversions would normally require 216 conversion functions to be written, tested and documented [#]_ .
+Supporting all these conversions would normally require 352 conversion functions to be written, tested and documented
+[#f2]_ .
 
 This project simplifies this by using a mix of C++ templates and code generators to reduce this number to just
-**six** hand written templates for all 216 cases.
+**six** hand written templates for all 352 cases.
 
 * Two C++ templates for Python ``tuple`` / ``list`` to and from ``std::list`` or ``std::vector`` for all types.
 * Two C++ templates for Python ``set`` / ``frozenset`` to and from ``std::unordered_set`` for all types.
 * Two C++ templates for Python ``dict`` to and from ``std::map`` or ``std::unordered_map`` for all type combinations.
 
 These six handwritten templates are fairly simple and comprehensible.
-Then, for simplicity, a Python script is used to create the final, instantiated, 216 functions.
+Then, for simplicity, a Python script is used to create the final, instantiated, 352 functions.
 
 Hand Written Functions
 =============================
@@ -498,13 +517,17 @@ Using the concrete function is as simple as this:
 
 
 .. rubric:: Footnotes
-.. [#] There are six unary container pairings (``tuple`` <-> ``std::list``, ``tuple`` <-> ``std::vector``,
+
+.. [#f1] We are currently targeting C++14 so we use ``std::string`` which is defined as ``std::basic_string<char>``.
+    C++20 allows a stricter, and more desirable, definition ``std::basic_string<char8_t>`` that we could use here.
+    See `C++ reference for std::string <https://en.cppreference.com/w/cpp/string>`_
+.. [#f2] There are six unary container pairings (``tuple`` <-> ``std::list``, ``tuple`` <-> ``std::vector``,
     ``list`` <-> ``std::list``, ``list`` <-> ``std::vector``,
-    ``set`` <-> ``std::unordered_set``, ``frozenset`` <-> ``std::unordered_set``) with six types
-    (``bool``, ``int``, ``float``, ``complex``, ``bytes``, ``str``).
+    ``set`` <-> ``std::unordered_set``, ``frozenset`` <-> ``std::unordered_set``) with eight types
+    (``bool``, ``int``, ``float``, ``complex``, ``bytes``, ``str[1]``, ``str[2]``, ``str[4]``).
     Each container/type combination requires two functions to give two way conversion from Python to C++ and back.
-    Thus 6 (container pairings) * 6 (types) * 2 (way conversion) = 72 required functions.
+    Thus 6 (container pairings) * 8 (types) * 2 (way conversion) = 96 required functions.
     For ``dict`` there are two container pairings (``dict`` <-> ``std::map``, ``dict`` <-> ``std::unordered_map``)
-    with the six types either of which can be the key or the value so 36 possible variations.
-    Thus 2 (container pairings) * 36 (type pairs) * 2 (way conversion) = 144 required functions.
-    Thus is a total of 72 + 144 = 216 functions.
+    with the eight types either of which can be the key or the value so 64 (8**2) possible variations.
+    Thus 2 (container pairings) * 64 (type pairs) * 2 (way conversion) = 256 required functions.
+    Thus is a total of 96 + 256 = 352 functions.
