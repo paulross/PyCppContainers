@@ -411,7 +411,7 @@ int test_py_tuple_str16_to_vector(TestResultS &test_results, size_t size, size_t
     TEST_FOR_PY_ERR_ON_ENTRY;
     RSS_SNAPSHOT_WITHOUT_TYPE;
     assert(!PyErr_Occurred());
-    PyObject *op = new_py_tuple_string(size, str_len);
+    PyObject *op = new_py_tuple_string16(size, str_len);
     int result = 0;
     double exec_time = -1.0;
     if (! op) {
@@ -451,7 +451,7 @@ int test_vector_u32string_to_py_tuple(TestResultS &test_results, size_t size, si
     std::vector<std::u32string> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
 //        cpp_vector.push_back(unique_vector_char(str_len));
-        cpp_vector.push_back(std::u32string(str_len, ' '));
+        cpp_vector.push_back(std::u32string(str_len, U'1'));
     }
     ExecClock exec_clock;
     PyObject *op = Python_Cpp_Containers::cpp_std_list_like_to_py_tuple(cpp_vector);
@@ -485,7 +485,7 @@ int test_py_tuple_str32_to_vector(TestResultS &test_results, size_t size, size_t
     TEST_FOR_PY_ERR_ON_ENTRY;
     RSS_SNAPSHOT_WITHOUT_TYPE;
     assert(!PyErr_Occurred());
-    PyObject *op = new_py_tuple_string(size, str_len);
+    PyObject *op = new_py_tuple_string32(size, str_len);
     int result = 0;
     double exec_time = -1.0;
     if (! op) {
@@ -807,6 +807,65 @@ new_py_tuple_string(size_t size, size_t str_len) {
             std::string str(str_len, ' ');
             int err = Python_Cpp_Containers::py_tuple_set(op, i, Python_Cpp_Containers::cpp_string_to_py_unicode8(str));
             if (err) {
+                PyErr_Format(PyExc_SystemError,
+                             "Python_Cpp_Containers::py_tuple_set() failed returning %d.", err
+                );
+                Py_DECREF(op);
+                op = NULL;
+            }
+        }
+    }
+    assert(! PyErr_Occurred());
+    return op;
+}
+
+/**
+ * Create a new Python \c tuple of \c 16 bit unicode str.
+ *
+ * @param size Length of the \c tuple.
+ * @param str_len Length of each \c str object. Each character is just u' '.
+ * @return New reference to a \c tuple or \c NULL on failure.
+ */
+PyObject *
+new_py_tuple_string16(size_t size, size_t str_len) {
+    assert(! PyErr_Occurred());
+    PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
+    if (op) {
+        for (size_t i = 0; i < size; ++i) {
+            std::u16string str(str_len, u' ');
+            int err = Python_Cpp_Containers::py_tuple_set(op, i, Python_Cpp_Containers::cpp_u16string_to_py_unicode16(str));
+            if (err) {
+                PyErr_Format(PyExc_SystemError,
+                             "Python_Cpp_Containers::py_tuple_set() failed returning %d.", err
+                );
+                Py_DECREF(op);
+                op = NULL;
+            }
+        }
+    }
+    assert(! PyErr_Occurred());
+    return op;
+}
+
+/**
+ * Create a new Python \c tuple of \c 32 bit unicode str.
+ *
+ * @param size Length of the \c tuple.
+ * @param str_len Length of each \c str object. Each character is just U' '.
+ * @return New reference to a \c tuple or \c NULL on failure.
+ */
+PyObject *
+new_py_tuple_string32(size_t size, size_t str_len) {
+    assert(! PyErr_Occurred());
+    PyObject *op = Python_Cpp_Containers::py_tuple_new(size);
+    if (op) {
+        for (size_t i = 0; i < size; ++i) {
+            std::u32string str(str_len, U' ');
+            int err = Python_Cpp_Containers::py_tuple_set(op, i, Python_Cpp_Containers::cpp_u32string_to_py_unicode32(str));
+            if (err) {
+                PyErr_Format(PyExc_SystemError,
+                             "Python_Cpp_Containers::py_tuple_set() failed returning %d.", err
+                );
                 Py_DECREF(op);
                 op = NULL;
             }

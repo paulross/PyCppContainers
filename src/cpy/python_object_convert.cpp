@@ -112,11 +112,35 @@ namespace Python_Cpp_Containers {
 
 #pragma mark # 16 bit strings.
     int py_unicode16_check(PyObject *op) {
-        return PyUnicode_Check(op) && PyUnicode_KIND(op) == PyUnicode_1BYTE_KIND;
+        return PyUnicode_Check(op) && PyUnicode_KIND(op) == PyUnicode_2BYTE_KIND;
     }
 
+    /**
+     * Create a Python 16 bit unicode object from a C++ std::u16string.
+     * NOTE: We can't use PyUnicode_FromKindAndData(PyUnicode_2BYTE_KIND, (Py_UCS2 *)s.c_str(), s.size())
+     * since that function may produce a PyUnicode_1BYTE_KIND if the character values permit.
+     * Instead we use PyUnicode_New(s.size(), maxchar = 65535) to compel a 2 byte word size and then copy each
+     * character individually.
+     * See: https://docs.python.org/3/c-api/unicode.html#c.PyUnicode_New
+     *
+     * @param s The C++ string.
+     * @return The Python string.
+     */
     PyObject *cpp_u16string_to_py_unicode16(const std::u16string &s) {
-        return PyUnicode_FromKindAndData(PyUnicode_2BYTE_KIND, s.c_str(), s.size());
+        assert(! PyErr_Occurred());
+        PyObject *ret = PyUnicode_New(s.size(), 65535);
+        assert(py_unicode16_check(ret));
+        for (std::basic_string<char16_t>::size_type i = 0; i < s.size(); ++i) {
+            int result = PyUnicode_WriteChar(ret, i, s[i]);
+            if (result) {
+                PyErr_Format(PyExc_SystemError,
+                             "PyUnicode_WriteChar() failed to write at [%ld] returning %d.", i, result
+                );
+                return NULL;
+            }
+        }
+        assert(py_unicode16_check(ret));
+        return ret;
     }
 
     std::u16string py_unicode16_to_cpp_u16string(PyObject *op) {
@@ -128,11 +152,36 @@ namespace Python_Cpp_Containers {
 
 #pragma mark # 32 bit strings.
     int py_unicode32_check(PyObject *op) {
-        return PyUnicode_Check(op) && PyUnicode_KIND(op) == PyUnicode_4BYTE_KIND;
+        int unicode_kind = PyUnicode_KIND(op);
+        return PyUnicode_Check(op) && unicode_kind == PyUnicode_4BYTE_KIND;
     }
 
+    /**
+     * Create a Python 32 bit unicode object from a C++ std::u32string.
+     * NOTE: We can't use PyUnicode_FromKindAndData(PyUnicode_4BYTE_KIND, (Py_UCS4 *)s.c_str(), s.size())
+     * since that function may produce a PyUnicode_1BYTE_KIND or PyUnicode_2BYTE_KIND if the character values permit.
+     * Instead we use PyUnicode_New(s.size(), maxchar = 1114111) to compel a 4 byte word size and then copy each
+     * character individually.
+     * See: https://docs.python.org/3/c-api/unicode.html#c.PyUnicode_New
+     *
+     * @param s The C++ string.
+     * @return The Python string.
+     */
     PyObject *cpp_u32string_to_py_unicode32(const std::u32string &s) {
-        return PyUnicode_FromKindAndData(PyUnicode_4BYTE_KIND, s.c_str(), s.size());
+        assert(! PyErr_Occurred());
+        PyObject *ret = PyUnicode_New(s.size(), 1114111);
+        assert(py_unicode32_check(ret));
+        for (std::basic_string<char32_t>::size_type i = 0; i < s.size(); ++i) {
+            int result = PyUnicode_WriteChar(ret, i, s[i]);
+            if (result) {
+                PyErr_Format(PyExc_SystemError,
+                             "PyUnicode_WriteChar() failed to write at [%ld] returning %d.", i, result
+                );
+                return NULL;
+            }
+        }
+        assert(py_unicode32_check(ret));
+        return ret;
     }
 
     std::u32string py_unicode32_to_cpp_u32string(PyObject *op) {

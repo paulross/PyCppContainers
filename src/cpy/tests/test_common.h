@@ -1104,6 +1104,10 @@ new_py_tuple_bytes(size_t size, size_t str_len);
 PyObject *
 new_py_tuple_string(size_t size, size_t str_len);
 PyObject *
+new_py_tuple_string16(size_t size, size_t str_len);
+PyObject *
+new_py_tuple_string32(size_t size, size_t str_len);
+PyObject *
 new_py_list_bytes(size_t size, size_t str_len);
 PyObject *
 new_py_list_string(size_t size, size_t str_len);
