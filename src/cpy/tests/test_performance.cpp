@@ -913,6 +913,52 @@ int test_list_like_string_to_py_list_multiple(TestResultS &test_results, size_t 
     return 0;
 }
 
+template<
+    template<typename ...> class ListLike
+>
+int test_list_like_u16string_to_py_list_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat,
+                                                 const std::string &container_type) {
+    ListLike<std::u16string> cpp_vector;
+    for (size_t i = 0; i < size; ++i) {
+        cpp_vector.push_back(std::u16string(str_len, u' '));
+    }
+    std::ostringstream title;
+    title << __FUNCTION__ << "-" << container_type << "<std::u16string>" << "[" << str_len << "]>" << "():" << "[" << size << "]";
+    TestResult test_result(title.str());
+    for (size_t i = 0; i < repeat; ++i) {
+        ExecClock exec_clock;
+        PyObject * op = Python_Cpp_Containers::cpp_std_list_like_to_py_list(cpp_vector);
+        double exec_time = exec_clock.seconds();
+        Py_DECREF(op);
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    test_results.push_back(test_result);
+    return 0;
+}
+
+template<
+    template<typename ...> class ListLike
+>
+int test_list_like_u32string_to_py_list_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat,
+                                                 const std::string &container_type) {
+    ListLike<std::u32string> cpp_vector;
+    for (size_t i = 0; i < size; ++i) {
+        cpp_vector.push_back(std::u32string(str_len, u' '));
+    }
+    std::ostringstream title;
+    title << __FUNCTION__ << "-" << container_type << "<std::u32string>" << "[" << str_len << "]>" << "():" << "[" << size << "]";
+    TestResult test_result(title.str());
+    for (size_t i = 0; i < repeat; ++i) {
+        ExecClock exec_clock;
+        PyObject * op = Python_Cpp_Containers::cpp_std_list_like_to_py_list(cpp_vector);
+        double exec_time = exec_clock.seconds();
+        Py_DECREF(op);
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    test_results.push_back(test_result);
+    return 0;
+}
+
 int test_vector_string_to_py_list_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
     return test_list_like_string_to_py_list_multiple<std::vector>(test_results, size, str_len, repeat, "std::vector");
 }
@@ -949,6 +995,78 @@ int test_perf_list_string_to_py_list_multiple(TestResultS &test_results, size_t 
     return result;
 }
 
+int test_vector_u16string_to_py_list_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    return test_list_like_u16string_to_py_list_multiple<std::vector>(test_results, size, str_len, repeat, "std::vector");
+}
+
+int test_list_u16string_to_py_list_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    return test_list_like_u16string_to_py_list_multiple<std::list>(test_results, size, str_len, repeat, "std::list");
+}
+
+int test_perf_vector_u16string_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
+         str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_vector_u16string_to_py_list_multiple(test_results, size, str_len, repeat);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+int test_perf_list_u16string_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
+         str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_list_u16string_to_py_list_multiple(test_results, size, str_len, repeat);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+int test_vector_u32string_to_py_list_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    return test_list_like_u32string_to_py_list_multiple<std::vector>(test_results, size, str_len, repeat, "std::vector");
+}
+
+int test_list_u32string_to_py_list_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    return test_list_like_u32string_to_py_list_multiple<std::list>(test_results, size, str_len, repeat, "std::list");
+}
+
+int test_perf_vector_u32string_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
+         str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_vector_u32string_to_py_list_multiple(test_results, size, str_len, repeat);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+int test_perf_list_u32string_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
+         str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_list_u32string_to_py_list_multiple(test_results, size, str_len, repeat);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
 template<
     template<typename ...> class ListLike
 >
@@ -962,6 +1080,60 @@ test_py_list_str_to_list_like_string_multiple(TestResultS &test_results, size_t 
     PyObject * op = new_py_list_string(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
         ListLike<std::string> cpp_vector;
+        ExecClock exec_clock;
+        int err = Python_Cpp_Containers::py_list_to_cpp_std_list_like(op, cpp_vector);
+        double exec_time = exec_clock.seconds();
+        if (err) {
+            result = -1;
+            break;
+        }
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    Py_DECREF(op);
+    test_results.push_back(test_result);
+    return result;
+}
+
+template<
+    template<typename ...> class ListLike
+>
+int
+test_py_list_str16_to_list_like_u16string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat,
+                                                   const std::string &container_type) {
+    int result = 0;
+    std::ostringstream title;
+    title << __FUNCTION__ << "-" << container_type << "<std::u16string>" << "[" << str_len << "]>" << "():" << "[" << size << "]";
+    TestResult test_result(title.str());
+    PyObject * op = new_py_list_string16(size, str_len);
+    for (size_t i = 0; i < repeat; ++i) {
+        ListLike<std::u16string> cpp_vector;
+        ExecClock exec_clock;
+        int err = Python_Cpp_Containers::py_list_to_cpp_std_list_like(op, cpp_vector);
+        double exec_time = exec_clock.seconds();
+        if (err) {
+            result = -1;
+            break;
+        }
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    Py_DECREF(op);
+    test_results.push_back(test_result);
+    return result;
+}
+
+template<
+    template<typename ...> class ListLike
+>
+int
+test_py_list_str32_to_list_like_u32string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat,
+                                                   const std::string &container_type) {
+    int result = 0;
+    std::ostringstream title;
+    title << __FUNCTION__ << "-" << container_type << "<std::u32string>" << "[" << str_len << "]>" << "():" << "[" << size << "]";
+    TestResult test_result(title.str());
+    PyObject * op = new_py_list_string32(size, str_len);
+    for (size_t i = 0; i < repeat; ++i) {
+        ListLike<std::u32string> cpp_vector;
         ExecClock exec_clock;
         int err = Python_Cpp_Containers::py_list_to_cpp_std_list_like(op, cpp_vector);
         double exec_time = exec_clock.seconds();
@@ -1008,6 +1180,82 @@ int test_perf_py_list_to_list_string_multiple(TestResultS &test_results, size_t 
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_py_list_str_to_list_string_multiple(test_results, size, str_len, repeat);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+int
+test_py_list_str16_to_vector_u16string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    return test_py_list_str16_to_list_like_u16string_multiple<std::vector>(test_results, size, str_len, repeat, "std::vector");
+}
+
+int
+test_py_list_str16_to_list_u16string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    return test_py_list_str16_to_list_like_u16string_multiple<std::list>(test_results, size, str_len, repeat, "std::list");
+}
+
+int test_perf_py_list_to_vector_u16string_multiple(TestResultS &test_results, size_t repeat) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
+         str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_py_list_str16_to_vector_u16string_multiple(test_results, size, str_len, repeat);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+int test_perf_py_list_to_list_u16string_multiple(TestResultS &test_results, size_t repeat) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
+         str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_py_list_str16_to_list_u16string_multiple(test_results, size, str_len, repeat);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+int
+test_py_list_str32_to_vector_u32string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    return test_py_list_str32_to_list_like_u32string_multiple<std::vector>(test_results, size, str_len, repeat, "std::vector");
+}
+
+int
+test_py_list_str32_to_list_u32string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    return test_py_list_str32_to_list_like_u32string_multiple<std::list>(test_results, size, str_len, repeat, "std::list");
+}
+
+int test_perf_py_list_to_vector_u32string_multiple(TestResultS &test_results, size_t repeat) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
+         str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_py_list_str32_to_vector_u32string_multiple(test_results, size, str_len, repeat);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+int test_perf_py_list_to_list_u32string_multiple(TestResultS &test_results, size_t repeat) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
+         str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_py_list_str32_to_list_u32string_multiple(test_results, size, str_len, repeat);
         }
     }
     RSS_SNAPSHOT_REPORT;
@@ -1718,19 +1966,19 @@ int test_perf_py_dict_to_cpp_std_map_string_multiple(TestResultS &test_results, 
     return result;
 }
 
-#define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
-// Control container testing
-#define TEST_PERFORMANCE_TUPLES
+//#define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
+//// Control container testing
+//#define TEST_PERFORMANCE_TUPLES
 #define TEST_PERFORMANCE_LISTS
-#define TEST_PERFORMANCE_SETS
-#define TEST_PERFORMANCE_DICTS
-
-// Control object testing
-#define TEST_PERFORMANCE_OBJECT_BOOL
-#define TEST_PERFORMANCE_OBJECT_LONG
-#define TEST_PERFORMANCE_OBJECT_DOUBLE
-#define TEST_PERFORMANCE_OBJECT_COMPLEX
-#define TEST_PERFORMANCE_OBJECT_BYTES
+//#define TEST_PERFORMANCE_SETS
+//#define TEST_PERFORMANCE_DICTS
+//
+//// Control object testing
+//#define TEST_PERFORMANCE_OBJECT_BOOL
+//#define TEST_PERFORMANCE_OBJECT_LONG
+//#define TEST_PERFORMANCE_OBJECT_DOUBLE
+//#define TEST_PERFORMANCE_OBJECT_COMPLEX
+//#define TEST_PERFORMANCE_OBJECT_BYTES
 #define TEST_PERFORMANCE_OBJECT_STRING
 
 void test_performance_all(TestResultS &test_results) {
@@ -1973,11 +2221,20 @@ void test_performance_all(TestResultS &test_results) {
     test_perf_py_list_to_list_vector_char_multiple(test_results, TEST_REPEAT);
 #endif //TEST_PERFORMANCE_OBJECT_BYTES
 #ifdef TEST_PERFORMANCE_OBJECT_STRING
-    // Test list of strings Python <-> C++
+    // Test list/vector of strings C++ -> Python
     test_perf_vector_string_to_py_list_multiple(test_results, TEST_REPEAT);
     test_perf_list_string_to_py_list_multiple(test_results, TEST_REPEAT);
+    test_perf_vector_u16string_to_py_list_multiple(test_results, TEST_REPEAT);
+    test_perf_list_u16string_to_py_list_multiple(test_results, TEST_REPEAT);
+    test_perf_vector_u32string_to_py_list_multiple(test_results, TEST_REPEAT);
+    test_perf_list_u32string_to_py_list_multiple(test_results, TEST_REPEAT);
+    // Test list/vector of strings Python -> C++
     test_perf_py_list_to_vector_string_multiple(test_results, TEST_REPEAT);
     test_perf_py_list_to_list_string_multiple(test_results, TEST_REPEAT);
+    test_perf_py_list_to_vector_u16string_multiple(test_results, TEST_REPEAT);
+    test_perf_py_list_to_list_u16string_multiple(test_results, TEST_REPEAT);
+    test_perf_py_list_to_vector_u32string_multiple(test_results, TEST_REPEAT);
+    test_perf_py_list_to_list_u32string_multiple(test_results, TEST_REPEAT);
 #endif // TEST_PERFORMANCE_OBJECT_STRING
 #endif // TEST_PERFORMANCE_LISTS
 #ifdef TEST_PERFORMANCE_SETS
