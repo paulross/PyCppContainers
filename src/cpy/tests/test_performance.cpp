@@ -2223,17 +2223,17 @@ void test_performance_all(TestResultS &test_results) {
 #ifdef TEST_PERFORMANCE_OBJECT_STRING
     // Test list/vector of strings C++ -> Python
     test_perf_vector_string_to_py_list_multiple(test_results, TEST_REPEAT);
-    test_perf_list_string_to_py_list_multiple(test_results, TEST_REPEAT);
     test_perf_vector_u16string_to_py_list_multiple(test_results, TEST_REPEAT);
-    test_perf_list_u16string_to_py_list_multiple(test_results, TEST_REPEAT);
     test_perf_vector_u32string_to_py_list_multiple(test_results, TEST_REPEAT);
+    test_perf_list_string_to_py_list_multiple(test_results, TEST_REPEAT);
+    test_perf_list_u16string_to_py_list_multiple(test_results, TEST_REPEAT);
     test_perf_list_u32string_to_py_list_multiple(test_results, TEST_REPEAT);
     // Test list/vector of strings Python -> C++
     test_perf_py_list_to_vector_string_multiple(test_results, TEST_REPEAT);
-    test_perf_py_list_to_list_string_multiple(test_results, TEST_REPEAT);
     test_perf_py_list_to_vector_u16string_multiple(test_results, TEST_REPEAT);
-    test_perf_py_list_to_list_u16string_multiple(test_results, TEST_REPEAT);
     test_perf_py_list_to_vector_u32string_multiple(test_results, TEST_REPEAT);
+    test_perf_py_list_to_list_string_multiple(test_results, TEST_REPEAT);
+    test_perf_py_list_to_list_u16string_multiple(test_results, TEST_REPEAT);
     test_perf_py_list_to_list_u32string_multiple(test_results, TEST_REPEAT);
 #endif // TEST_PERFORMANCE_OBJECT_STRING
 #endif // TEST_PERFORMANCE_LISTS
