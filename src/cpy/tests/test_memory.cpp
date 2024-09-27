@@ -185,6 +185,101 @@ int test_memory_py_tuple_vector_char_to_vector(TestResultS &test_results, size_t
     return result;
 }
 
+/** Tests the memory usage when converting a C++ vector of std::string to a Python to a tuple of 8 bit strings. */
+int test_memory_test_vector_string_to_py_tuple(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
+                                               size_t size_min, size_t size_max) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
+        for (size_t size = size_min; size <= size_max; size *= 2) {
+            result |= test_vector_string_to_py_tuple(test_results, size, str_len);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return result;
+}
+
+/** Tests the memory usage when converting a Python tuple of 8 bit strings to a C++ vector of std::string. */
+int test_memory_py_tuple_unicode8_to_vector(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
+                                            size_t size_min, size_t size_max) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
+        for (size_t size = size_min; size <= size_max; size *= 2) {
+            result |= test_py_tuple_str_to_vector(test_results, size, str_len);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return result;
+}
+
+/** Tests the memory usage when converting a C++ vector of std::u16string to a Python to a tuple of 16 bit strings. */
+int test_memory_vector_u16string_to_py_tuple(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
+                                             size_t size_min, size_t size_max) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
+        for (size_t size = size_min; size <= size_max; size *= 2) {
+            result |= test_vector_u16string_to_py_tuple(test_results, size, str_len);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return result;
+}
+
+/** Tests the memory usage when converting a Python tuple of 16 bit strings to a C++ vector of std::u16string. */
+int test_memory_py_tuple_str16_to_vector(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
+                                         size_t size_min, size_t size_max) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
+        for (size_t size = size_min; size <= size_max; size *= 2) {
+            result |= test_py_tuple_str16_to_vector(test_results, size, str_len);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return result;
+}
+
+/** Tests the memory usage when converting a C++ vector of std::u16string to a Python to a tuple of 16 bit strings. */
+int test_memory_vector_u32string_to_py_tuple(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
+                                             size_t size_min, size_t size_max) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
+        for (size_t size = size_min; size <= size_max; size *= 2) {
+            result |= test_vector_u32string_to_py_tuple(test_results, size, str_len);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return result;
+}
+
+/** Tests the memory usage when converting a Python tuple of 16 bit strings to a C++ vector of std::u16string. */
+int test_memory_py_tuple_str32_to_vector(TestResultS &test_results, size_t str_len_min, size_t str_len_max,
+                                         size_t size_min, size_t size_max) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = str_len_min; str_len <= str_len_max; str_len *= 2) {
+        for (size_t size = size_min; size <= size_max; size *= 2) {
+            result |= test_py_tuple_str32_to_vector(test_results, size, str_len);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return result;
+}
 
 void test_memory_all(TestResultS &test_results) {
     std::cout << __FUNCTION__ << " START" << std::endl;
@@ -235,6 +330,36 @@ void test_memory_all(TestResultS &test_results) {
     {
         for (int i = 0; i < repeat_count; ++i) {
             test_memory_py_tuple_vector_char_to_vector(test_results, 8, 2048, 512, 1 << 16);
+        }
+    }
+    {
+        for (int i = 0; i < repeat_count; ++i) {
+            test_memory_test_vector_string_to_py_tuple(test_results, 8, 2048, 512, 1 << 16);
+        }
+    }
+    {
+        for (int i = 0; i < repeat_count; ++i) {
+            test_memory_py_tuple_unicode8_to_vector(test_results, 8, 2048, 512, 1 << 16);
+        }
+    }
+    {
+        for (int i = 0; i < repeat_count; ++i) {
+            test_memory_vector_u16string_to_py_tuple(test_results, 8, 2048, 512, 1 << 16);
+        }
+    }
+    {
+        for (int i = 0; i < repeat_count; ++i) {
+            test_memory_py_tuple_str16_to_vector(test_results, 8, 2048, 512, 1 << 16);
+        }
+    }
+    {
+        for (int i = 0; i < repeat_count; ++i) {
+            test_memory_vector_u32string_to_py_tuple(test_results, 8, 2048, 512, 1 << 16);
+        }
+    }
+    {
+        for (int i = 0; i < repeat_count; ++i) {
+            test_memory_py_tuple_str32_to_vector(test_results, 8, 2048, 512, 1 << 16);
         }
     }
 #endif
