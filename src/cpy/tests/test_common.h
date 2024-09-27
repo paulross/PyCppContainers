@@ -1112,6 +1112,10 @@ new_py_list_bytes(size_t size, size_t str_len);
 PyObject *
 new_py_list_string(size_t size, size_t str_len);
 PyObject *
+new_py_list_string16(size_t size, size_t str_len);
+PyObject *
+new_py_list_string32(size_t size, size_t str_len);
+PyObject *
 new_py_set_bytes(size_t size, size_t str_len);
 PyObject *
 new_py_set_string(size_t size, size_t str_len);
