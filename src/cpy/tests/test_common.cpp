@@ -782,12 +782,19 @@ new_py_tuple_bytes(size_t size, size_t str_len) {
             std::vector<char> str(str_len, ' ');
             int err = Python_Cpp_Containers::py_tuple_set(op, i, Python_Cpp_Containers::cpp_vector_char_to_py_bytes(str));
             if (err) {
+                PyErr_Format(PyExc_SystemError,
+                             "Python_Cpp_Containers::py_tuple_set() failed returning %d.", err
+                );
                 Py_DECREF(op);
                 op = NULL;
             }
         }
     }
-    assert(! PyErr_Occurred());
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
     return op;
 }
 
@@ -815,7 +822,11 @@ new_py_tuple_string(size_t size, size_t str_len) {
             }
         }
     }
-    assert(! PyErr_Occurred());
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
     return op;
 }
 
@@ -843,7 +854,11 @@ new_py_tuple_string16(size_t size, size_t str_len) {
             }
         }
     }
-    assert(! PyErr_Occurred());
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
     return op;
 }
 
@@ -871,7 +886,11 @@ new_py_tuple_string32(size_t size, size_t str_len) {
             }
         }
     }
-    assert(! PyErr_Occurred());
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
     return op;
 }
 
@@ -891,12 +910,19 @@ new_py_list_bytes(size_t size, size_t str_len) {
             std::vector<char> str(str_len, ' ');
             int err = Python_Cpp_Containers::py_list_set(op, i, Python_Cpp_Containers::cpp_vector_char_to_py_bytes(str));
             if (err) {
+                PyErr_Format(PyExc_SystemError,
+                             "Python_Cpp_Containers::py_list_set() failed returning %d.", err
+                );
                 Py_DECREF(op);
                 op = NULL;
             }
         }
     }
-    assert(! PyErr_Occurred());
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
     return op;
 }
 
@@ -916,12 +942,87 @@ new_py_list_string(size_t size, size_t str_len) {
             std::string str(str_len, ' ');
             int err = Python_Cpp_Containers::py_list_set(op, i, Python_Cpp_Containers::cpp_string_to_py_unicode8(str));
             if (err) {
+                PyErr_Format(PyExc_SystemError,
+                             "Python_Cpp_Containers::py_list_set() failed returning %d.", err
+                );
                 Py_DECREF(op);
                 op = NULL;
             }
         }
     }
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
+    return op;
+}
+
+/**
+ * Create a new Python \c list of \c str with 16 bit characters.
+ *
+ * @param size Length of the \c list.
+ * @param str_len Length of each \c str object. Each character is just u' '.
+ * @return New reference to a \c list or \c NULL on failure.
+ */
+PyObject *
+new_py_list_string16(size_t size, size_t str_len) {
     assert(! PyErr_Occurred());
+    PyObject *op = Python_Cpp_Containers::py_list_new(size);
+    if (op) {
+        for (size_t i = 0; i < size; ++i) {
+            std::u16string str(str_len, u' ');
+            int err = Python_Cpp_Containers::py_list_set(
+                    op, i, Python_Cpp_Containers::cpp_u16string_to_py_unicode16(str)
+            );
+            if (err) {
+                PyErr_Format(PyExc_SystemError,
+                             "Python_Cpp_Containers::py_list_set() failed returning %d.", err
+                );
+                Py_DECREF(op);
+                op = NULL;
+            }
+        }
+    }
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
+    return op;
+}
+
+/**
+ * Create a new Python \c list of \c str with 32 bit characters.
+ *
+ * @param size Length of the \c list.
+ * @param str_len Length of each \c str object. Each character is just U' '.
+ * @return New reference to a \c list or \c NULL on failure.
+ */
+PyObject *
+new_py_list_string32(size_t size, size_t str_len) {
+    assert(! PyErr_Occurred());
+    PyObject *op = Python_Cpp_Containers::py_list_new(size);
+    if (op) {
+        for (size_t i = 0; i < size; ++i) {
+            std::u32string str(str_len, U' ');
+            int err = Python_Cpp_Containers::py_list_set(
+                    op, i, Python_Cpp_Containers::cpp_u32string_to_py_unicode32(str)
+            );
+            if (err) {
+                PyErr_Format(PyExc_SystemError,
+                             "Python_Cpp_Containers::py_list_set() failed returning %d.", err
+                );
+                Py_DECREF(op);
+                op = NULL;
+            }
+        }
+    }
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
     return op;
 }
 
@@ -941,12 +1042,17 @@ new_py_set_bytes(size_t size, size_t str_len) {
             std::vector<char> str = unique_vector_char(str_len);
             int err = PySet_Add(op, Python_Cpp_Containers::cpp_vector_char_to_py_bytes(str));
             if (err) {
+                PyErr_Format(PyExc_SystemError, "PySet_Add failed returning %d.", err);
                 Py_DECREF(op);
                 op = NULL;
             }
         }
     }
-    assert(! PyErr_Occurred());
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
     return op;
 }
 
@@ -966,13 +1072,18 @@ new_py_set_string(size_t size, size_t str_len) {
             std::string str = unique_string(str_len);
             int err = PySet_Add(op, Python_Cpp_Containers::cpp_string_to_py_unicode8(str));
             if (err) {
+                PyErr_Format(PyExc_SystemError, "PySet_Add failed returning %d.", err);
                 Py_DECREF(op);
                 op = NULL;
             }
         }
         assert((size_t)PySet_Size(op) == size);
     }
-    assert(! PyErr_Occurred());
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
     return op;
 }
 
@@ -1006,7 +1117,11 @@ new_py_dict_bytes(size_t size, size_t str_len) {
             Py_DECREF(py_val);
         }
     }
-    assert(! PyErr_Occurred());
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
     return op;
 }
 
@@ -1040,7 +1155,11 @@ new_py_dict_string(size_t size, size_t str_len) {
             Py_DECREF(py_val);
         }
     }
-    assert(! PyErr_Occurred());
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
     return op;
 }
 
