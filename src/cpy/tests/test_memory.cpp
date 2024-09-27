@@ -15,7 +15,7 @@
 #include "cpy/python_convert.h"
 #include "test_common.h"
 
-int test_memory_py_tuple(TestResultS &test_results, const std::string &type, size_t size) {
+int test_memory_py_tuple_float(TestResultS &test_results, const std::string &type, size_t size) {
     TEST_FOR_PY_ERR_ON_ENTRY;
     RSS_SNAPSHOT_WITH_TYPE(type);
     assert(!PyErr_Occurred());
@@ -204,7 +204,7 @@ void test_memory_all(TestResultS &test_results) {
             //
             // Python floats are 24 bytes so 24MB allocated/deallocated.
             // Repeating this 1000 times gives the identical memory profile.
-            test_memory_py_tuple(test_results, "<double>", 1 << 20);
+            test_memory_py_tuple_float(test_results, "<double>", 1 << 20);
         }
     }
     {
