@@ -56,8 +56,26 @@ int
 compare_tuple<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op) {
     return compare_tuple<
             std::string,
-            &Python_Cpp_Containers::cpp_string8_to_py_unicode8,
-            &Python_Cpp_Containers::py_unicode8_to_cpp_string8>(cpp_vector, op);
+            &Python_Cpp_Containers::cpp_string_to_py_unicode8,
+            &Python_Cpp_Containers::py_unicode8_to_cpp_string>(cpp_vector, op);
+}
+
+template <>
+int
+compare_tuple<std::u16string>(const std::vector<std::u16string> &cpp_vector, PyObject *op) {
+    return compare_tuple<
+            std::u16string,
+            &Python_Cpp_Containers::cpp_u16string_to_py_unicode16,
+            &Python_Cpp_Containers::py_unicode16_to_cpp_u16string>(cpp_vector, op);
+}
+
+template <>
+int
+compare_tuple<std::u32string>(const std::vector<std::u32string> &cpp_vector, PyObject *op) {
+    return compare_tuple<
+            std::u32string,
+            &Python_Cpp_Containers::cpp_u32string_to_py_unicode32   ,
+            &Python_Cpp_Containers::py_unicode32_to_cpp_u32string>(cpp_vector, op);
 }
 
 template <>
@@ -111,8 +129,8 @@ int
 compare_list<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op) {
     return compare_list<
             std::string,
-            &Python_Cpp_Containers::cpp_string8_to_py_unicode8,
-            &Python_Cpp_Containers::py_unicode8_to_cpp_string8>(cpp_vector, op);
+            &Python_Cpp_Containers::cpp_string_to_py_unicode8,
+            &Python_Cpp_Containers::py_unicode8_to_cpp_string>(cpp_vector, op);
 }
 
 template <>
@@ -129,8 +147,8 @@ int
 compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObject *op) {
     return compare_set<
             std::string,
-            &Python_Cpp_Containers::cpp_string8_to_py_unicode8,
-            &Python_Cpp_Containers::py_unicode8_to_cpp_string8>(cpp_set, op);
+            &Python_Cpp_Containers::cpp_string_to_py_unicode8,
+            &Python_Cpp_Containers::py_unicode8_to_cpp_string>(cpp_set, op);
 }
 
 template <>
@@ -158,10 +176,10 @@ compare_dict<
             std::unordered_map,
             std::string,
             std::string,
-            &Python_Cpp_Containers::cpp_string8_to_py_unicode8,
-            &Python_Cpp_Containers::cpp_string8_to_py_unicode8,
-            &Python_Cpp_Containers::py_unicode8_to_cpp_string8,
-            &Python_Cpp_Containers::py_unicode8_to_cpp_string8
+            &Python_Cpp_Containers::cpp_string_to_py_unicode8,
+            &Python_Cpp_Containers::cpp_string_to_py_unicode8,
+            &Python_Cpp_Containers::py_unicode8_to_cpp_string,
+            &Python_Cpp_Containers::py_unicode8_to_cpp_string
             >(cpp_map, op);
 }
 
@@ -190,10 +208,10 @@ compare_dict<
             std::map,
             std::string,
             std::string,
-            &Python_Cpp_Containers::cpp_string8_to_py_unicode8,
-            &Python_Cpp_Containers::cpp_string8_to_py_unicode8,
-            &Python_Cpp_Containers::py_unicode8_to_cpp_string8,
-            &Python_Cpp_Containers::py_unicode8_to_cpp_string8
+            &Python_Cpp_Containers::cpp_string_to_py_unicode8,
+            &Python_Cpp_Containers::cpp_string_to_py_unicode8,
+            &Python_Cpp_Containers::py_unicode8_to_cpp_string,
+            &Python_Cpp_Containers::py_unicode8_to_cpp_string
             >(cpp_map, op);
 }
 
@@ -302,7 +320,6 @@ int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_
     }
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
     RSS_SNAPSHOT_REPORT;
-//    assert(!PyErr_Occurred());
     TEST_FOR_PY_ERR_ON_EXIT;
     return result;
 }
@@ -341,6 +358,154 @@ int test_py_tuple_str_to_vector(TestResultS &test_results, size_t size, size_t s
     REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
     RSS_SNAPSHOT_REPORT;
 //    assert(!PyErr_Occurred());
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return result;
+}
+
+/**
+ * Tests converting a C++ \c std::vector<std::string> to a Python \c tuple.
+ *
+ * @param test_results The test results to update.
+ * @param size Size of the \c std::vector to create.
+ * @param str_len Length of each entry in the \c std::vector.
+ * @return 0 on success, non-zero on failure.
+ */
+int test_vector_u16string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    assert(!PyErr_Occurred());
+    std::vector<std::u16string> cpp_vector;
+    for (size_t i = 0; i < size; ++i) {
+//        cpp_vector.push_back(unique_vector_char(str_len));
+        cpp_vector.push_back(std::u16string(str_len, ' '));
+    }
+    ExecClock exec_clock;
+    PyObject *op = Python_Cpp_Containers::cpp_std_list_like_to_py_tuple(cpp_vector);
+    double exec_time = exec_clock.seconds();
+    int result = 0;
+    if (! op) {
+        result |= 1;
+    } else {
+        assert(op->ob_refcnt ==  1);
+        if (compare_tuple(cpp_vector, op)) {
+            result = 2;
+        }
+        assert(op->ob_refcnt == 1);
+        Py_DECREF(op);
+    }
+    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return result;
+}
+
+/**
+ * Tests converting a Python \c tuple of \c str to a C++ \c std::vector<std::string>.
+ *
+ * @param test_results The test results to update.
+ * @param size Size of the \c std::vector to create.
+ * @param str_len Length of each entry in the \c std::vector.
+ * @return 0 on success, non-zero on failure.
+ */
+int test_py_tuple_str16_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    assert(!PyErr_Occurred());
+    PyObject *op = new_py_tuple_string(size, str_len);
+    int result = 0;
+    double exec_time = -1.0;
+    if (! op) {
+        result = 1;
+    } else {
+        std::vector<std::u16string> cpp_vector;
+        ExecClock exec_clock;
+        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_list_like(op, cpp_vector);
+        exec_time = exec_clock.seconds();
+        if (err != 0) {
+            result = 2;
+        } else {
+            if (compare_tuple(cpp_vector, op)) {
+                result = 3;
+            }
+        }
+        Py_DECREF(op);
+    }
+    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return result;
+}
+
+/**
+ * Tests converting a C++ \c std::vector<std::u32string> to a Python \c tuple.
+ *
+ * @param test_results The test results to update.
+ * @param size Size of the \c std::vector to create.
+ * @param str_len Length of each entry in the \c std::vector.
+ * @return 0 on success, non-zero on failure.
+ */
+int test_vector_u32string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    assert(!PyErr_Occurred());
+    std::vector<std::u32string> cpp_vector;
+    for (size_t i = 0; i < size; ++i) {
+//        cpp_vector.push_back(unique_vector_char(str_len));
+        cpp_vector.push_back(std::u32string(str_len, ' '));
+    }
+    ExecClock exec_clock;
+    PyObject *op = Python_Cpp_Containers::cpp_std_list_like_to_py_tuple(cpp_vector);
+    double exec_time = exec_clock.seconds();
+    int result = 0;
+    if (! op) {
+        result |= 1;
+    } else {
+        assert(op->ob_refcnt ==  1);
+        if (compare_tuple(cpp_vector, op)) {
+            result = 2;
+        }
+        assert(op->ob_refcnt == 1);
+        Py_DECREF(op);
+    }
+    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
+    TEST_FOR_PY_ERR_ON_EXIT;
+    return result;
+}
+
+/**
+ * Tests converting a Python \c tuple of \c str to a C++ \c std::vector<std::u32string>.
+ *
+ * @param test_results The test results to update.
+ * @param size Size of the \c std::vector to create.
+ * @param str_len Length of each entry in the \c std::vector.
+ * @return 0 on success, non-zero on failure.
+ */
+int test_py_tuple_str32_to_vector(TestResultS &test_results, size_t size, size_t str_len) {
+    TEST_FOR_PY_ERR_ON_ENTRY;
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    assert(!PyErr_Occurred());
+    PyObject *op = new_py_tuple_string(size, str_len);
+    int result = 0;
+    double exec_time = -1.0;
+    if (! op) {
+        result = 1;
+    } else {
+        std::vector<std::u32string> cpp_vector;
+        ExecClock exec_clock;
+        int err = Python_Cpp_Containers::py_tuple_to_cpp_std_list_like(op, cpp_vector);
+        exec_time = exec_clock.seconds();
+        if (err != 0) {
+            result = 2;
+        } else {
+            if (compare_tuple(cpp_vector, op)) {
+                result = 3;
+            }
+        }
+        Py_DECREF(op);
+    }
+    REPORT_TEST_OUTPUT_WITH_STRING_LENGTH;
+    RSS_SNAPSHOT_REPORT;
     TEST_FOR_PY_ERR_ON_EXIT;
     return result;
 }
@@ -640,7 +805,7 @@ new_py_tuple_string(size_t size, size_t str_len) {
     if (op) {
         for (size_t i = 0; i < size; ++i) {
             std::string str(str_len, ' ');
-            int err = Python_Cpp_Containers::py_tuple_set(op, i, Python_Cpp_Containers::cpp_string8_to_py_unicode8(str));
+            int err = Python_Cpp_Containers::py_tuple_set(op, i, Python_Cpp_Containers::cpp_string_to_py_unicode8(str));
             if (err) {
                 Py_DECREF(op);
                 op = NULL;
@@ -690,7 +855,7 @@ new_py_list_string(size_t size, size_t str_len) {
     if (op) {
         for (size_t i = 0; i < size; ++i) {
             std::string str(str_len, ' ');
-            int err = Python_Cpp_Containers::py_list_set(op, i, Python_Cpp_Containers::cpp_string8_to_py_unicode8(str));
+            int err = Python_Cpp_Containers::py_list_set(op, i, Python_Cpp_Containers::cpp_string_to_py_unicode8(str));
             if (err) {
                 Py_DECREF(op);
                 op = NULL;
@@ -740,7 +905,7 @@ new_py_set_string(size_t size, size_t str_len) {
     if (op) {
         for (size_t i = 0; i < size; ++i) {
             std::string str = unique_string(str_len);
-            int err = PySet_Add(op, Python_Cpp_Containers::cpp_string8_to_py_unicode8(str));
+            int err = PySet_Add(op, Python_Cpp_Containers::cpp_string_to_py_unicode8(str));
             if (err) {
                 Py_DECREF(op);
                 op = NULL;
@@ -800,9 +965,9 @@ new_py_dict_string(size_t size, size_t str_len) {
     if (op) {
         for (size_t i = 0; i < size; ++i) {
             std::string key = unique_string(str_len);
-            PyObject *py_key = Python_Cpp_Containers::cpp_string8_to_py_unicode8(key);
+            PyObject *py_key = Python_Cpp_Containers::cpp_string_to_py_unicode8(key);
             std::string val = unique_string(str_len);
-            PyObject *py_val = Python_Cpp_Containers::cpp_string8_to_py_unicode8(val);
+            PyObject *py_val = Python_Cpp_Containers::cpp_string_to_py_unicode8(val);
             if (PyDict_SetItem(op, py_key, py_val)) {
                 PyErr_Format(PyExc_ValueError, "Can not set an item in the Python dict.");
                 Py_DECREF(op);

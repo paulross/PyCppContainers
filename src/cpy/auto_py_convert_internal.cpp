@@ -174,19 +174,19 @@ cpp_std_list_like_to_py_tuple<std::vector<char>>(const std::vector<std::vector<c
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::string>(const std::vector<std::string> &container) {
-    return generic_cpp_std_list_like_to_py_tuple<std::string, &cpp_string8_to_py_unicode8>(container);
+    return generic_cpp_std_list_like_to_py_tuple<std::string, &cpp_string_to_py_unicode8>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::u16string>(const std::vector<std::u16string> &container) {
-    return generic_cpp_std_list_like_to_py_tuple<std::u16string, &cpp_string16_to_py_unicode16>(container);
+    return generic_cpp_std_list_like_to_py_tuple<std::u16string, &cpp_u16string_to_py_unicode16>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::u32string>(const std::vector<std::u32string> &container) {
-    return generic_cpp_std_list_like_to_py_tuple<std::u32string, &cpp_string32_to_py_unicode32>(container);
+    return generic_cpp_std_list_like_to_py_tuple<std::u32string, &cpp_u32string_to_py_unicode32>(container);
 }
 
 //-------------------- END: std::vector -> Python tuple -------------------
@@ -225,19 +225,19 @@ py_tuple_to_cpp_std_list_like<std::vector<char>>(PyObject *op, std::vector<std::
 template <>
 int
 py_tuple_to_cpp_std_list_like<std::string>(PyObject *op, std::vector<std::string> &container) {
-    return generic_py_tuple_to_cpp_std_list_like<std::string, &py_unicode8_check, &py_unicode8_to_cpp_string8>(op, container);
+    return generic_py_tuple_to_cpp_std_list_like<std::string, &py_unicode8_check, &py_unicode8_to_cpp_string>(op, container);
 }
 
 template <>
 int
 py_tuple_to_cpp_std_list_like<std::u16string>(PyObject *op, std::vector<std::u16string> &container) {
-    return generic_py_tuple_to_cpp_std_list_like<std::u16string, &py_unicode16_check, &py_unicode16_to_cpp_string16>(op, container);
+    return generic_py_tuple_to_cpp_std_list_like<std::u16string, &py_unicode16_check, &py_unicode16_to_cpp_u16string>(op, container);
 }
 
 template <>
 int
 py_tuple_to_cpp_std_list_like<std::u32string>(PyObject *op, std::vector<std::u32string> &container) {
-    return generic_py_tuple_to_cpp_std_list_like<std::u32string, &py_unicode32_check, &py_unicode32_to_cpp_string32>(op, container);
+    return generic_py_tuple_to_cpp_std_list_like<std::u32string, &py_unicode32_check, &py_unicode32_to_cpp_u32string>(op, container);
 }
 
 //-------------------- END: Python tuple -> std::vector -------------------
@@ -276,19 +276,19 @@ cpp_std_list_like_to_py_tuple<std::vector<char>>(const std::list<std::vector<cha
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::string>(const std::list<std::string> &container) {
-    return generic_cpp_std_list_like_to_py_tuple<std::string, &cpp_string8_to_py_unicode8>(container);
+    return generic_cpp_std_list_like_to_py_tuple<std::string, &cpp_string_to_py_unicode8>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::u16string>(const std::list<std::u16string> &container) {
-    return generic_cpp_std_list_like_to_py_tuple<std::u16string, &cpp_string16_to_py_unicode16>(container);
+    return generic_cpp_std_list_like_to_py_tuple<std::u16string, &cpp_u16string_to_py_unicode16>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_tuple<std::u32string>(const std::list<std::u32string> &container) {
-    return generic_cpp_std_list_like_to_py_tuple<std::u32string, &cpp_string32_to_py_unicode32>(container);
+    return generic_cpp_std_list_like_to_py_tuple<std::u32string, &cpp_u32string_to_py_unicode32>(container);
 }
 
 //--------------------- END: std::list -> Python tuple --------------------
@@ -327,19 +327,19 @@ py_tuple_to_cpp_std_list_like<std::vector<char>>(PyObject *op, std::list<std::ve
 template <>
 int
 py_tuple_to_cpp_std_list_like<std::string>(PyObject *op, std::list<std::string> &container) {
-    return generic_py_tuple_to_cpp_std_list_like<std::string, &py_unicode8_check, &py_unicode8_to_cpp_string8>(op, container);
+    return generic_py_tuple_to_cpp_std_list_like<std::string, &py_unicode8_check, &py_unicode8_to_cpp_string>(op, container);
 }
 
 template <>
 int
 py_tuple_to_cpp_std_list_like<std::u16string>(PyObject *op, std::list<std::u16string> &container) {
-    return generic_py_tuple_to_cpp_std_list_like<std::u16string, &py_unicode16_check, &py_unicode16_to_cpp_string16>(op, container);
+    return generic_py_tuple_to_cpp_std_list_like<std::u16string, &py_unicode16_check, &py_unicode16_to_cpp_u16string>(op, container);
 }
 
 template <>
 int
 py_tuple_to_cpp_std_list_like<std::u32string>(PyObject *op, std::list<std::u32string> &container) {
-    return generic_py_tuple_to_cpp_std_list_like<std::u32string, &py_unicode32_check, &py_unicode32_to_cpp_string32>(op, container);
+    return generic_py_tuple_to_cpp_std_list_like<std::u32string, &py_unicode32_check, &py_unicode32_to_cpp_u32string>(op, container);
 }
 
 //--------------------- END: Python tuple -> std::list --------------------
@@ -378,19 +378,19 @@ cpp_std_list_like_to_py_list<std::vector<char>>(const std::vector<std::vector<ch
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::string>(const std::vector<std::string> &container) {
-    return generic_cpp_std_list_like_to_py_list<std::string, &cpp_string8_to_py_unicode8>(container);
+    return generic_cpp_std_list_like_to_py_list<std::string, &cpp_string_to_py_unicode8>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::u16string>(const std::vector<std::u16string> &container) {
-    return generic_cpp_std_list_like_to_py_list<std::u16string, &cpp_string16_to_py_unicode16>(container);
+    return generic_cpp_std_list_like_to_py_list<std::u16string, &cpp_u16string_to_py_unicode16>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::u32string>(const std::vector<std::u32string> &container) {
-    return generic_cpp_std_list_like_to_py_list<std::u32string, &cpp_string32_to_py_unicode32>(container);
+    return generic_cpp_std_list_like_to_py_list<std::u32string, &cpp_u32string_to_py_unicode32>(container);
 }
 
 //-------------------- END: std::vector -> Python list --------------------
@@ -429,19 +429,19 @@ py_list_to_cpp_std_list_like<std::vector<char>>(PyObject *op, std::vector<std::v
 template <>
 int
 py_list_to_cpp_std_list_like<std::string>(PyObject *op, std::vector<std::string> &container) {
-    return generic_py_list_to_cpp_std_list_like<std::string, &py_unicode8_check, &py_unicode8_to_cpp_string8>(op, container);
+    return generic_py_list_to_cpp_std_list_like<std::string, &py_unicode8_check, &py_unicode8_to_cpp_string>(op, container);
 }
 
 template <>
 int
 py_list_to_cpp_std_list_like<std::u16string>(PyObject *op, std::vector<std::u16string> &container) {
-    return generic_py_list_to_cpp_std_list_like<std::u16string, &py_unicode16_check, &py_unicode16_to_cpp_string16>(op, container);
+    return generic_py_list_to_cpp_std_list_like<std::u16string, &py_unicode16_check, &py_unicode16_to_cpp_u16string>(op, container);
 }
 
 template <>
 int
 py_list_to_cpp_std_list_like<std::u32string>(PyObject *op, std::vector<std::u32string> &container) {
-    return generic_py_list_to_cpp_std_list_like<std::u32string, &py_unicode32_check, &py_unicode32_to_cpp_string32>(op, container);
+    return generic_py_list_to_cpp_std_list_like<std::u32string, &py_unicode32_check, &py_unicode32_to_cpp_u32string>(op, container);
 }
 
 //-------------------- END: Python list -> std::vector --------------------
@@ -480,19 +480,19 @@ cpp_std_list_like_to_py_list<std::vector<char>>(const std::list<std::vector<char
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::string>(const std::list<std::string> &container) {
-    return generic_cpp_std_list_like_to_py_list<std::string, &cpp_string8_to_py_unicode8>(container);
+    return generic_cpp_std_list_like_to_py_list<std::string, &cpp_string_to_py_unicode8>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::u16string>(const std::list<std::u16string> &container) {
-    return generic_cpp_std_list_like_to_py_list<std::u16string, &cpp_string16_to_py_unicode16>(container);
+    return generic_cpp_std_list_like_to_py_list<std::u16string, &cpp_u16string_to_py_unicode16>(container);
 }
 
 template <>
 PyObject *
 cpp_std_list_like_to_py_list<std::u32string>(const std::list<std::u32string> &container) {
-    return generic_cpp_std_list_like_to_py_list<std::u32string, &cpp_string32_to_py_unicode32>(container);
+    return generic_cpp_std_list_like_to_py_list<std::u32string, &cpp_u32string_to_py_unicode32>(container);
 }
 
 //--------------------- END: std::list -> Python list ---------------------
@@ -531,19 +531,19 @@ py_list_to_cpp_std_list_like<std::vector<char>>(PyObject *op, std::list<std::vec
 template <>
 int
 py_list_to_cpp_std_list_like<std::string>(PyObject *op, std::list<std::string> &container) {
-    return generic_py_list_to_cpp_std_list_like<std::string, &py_unicode8_check, &py_unicode8_to_cpp_string8>(op, container);
+    return generic_py_list_to_cpp_std_list_like<std::string, &py_unicode8_check, &py_unicode8_to_cpp_string>(op, container);
 }
 
 template <>
 int
 py_list_to_cpp_std_list_like<std::u16string>(PyObject *op, std::list<std::u16string> &container) {
-    return generic_py_list_to_cpp_std_list_like<std::u16string, &py_unicode16_check, &py_unicode16_to_cpp_string16>(op, container);
+    return generic_py_list_to_cpp_std_list_like<std::u16string, &py_unicode16_check, &py_unicode16_to_cpp_u16string>(op, container);
 }
 
 template <>
 int
 py_list_to_cpp_std_list_like<std::u32string>(PyObject *op, std::list<std::u32string> &container) {
-    return generic_py_list_to_cpp_std_list_like<std::u32string, &py_unicode32_check, &py_unicode32_to_cpp_string32>(op, container);
+    return generic_py_list_to_cpp_std_list_like<std::u32string, &py_unicode32_check, &py_unicode32_to_cpp_u32string>(op, container);
 }
 
 //--------------------- END: Python list -> std::list ---------------------
@@ -582,19 +582,19 @@ cpp_std_unordered_set_to_py_set<std::vector<char>>(const std::unordered_set<std:
 template <>
 PyObject *
 cpp_std_unordered_set_to_py_set<std::string>(const std::unordered_set<std::string> &container) {
-    return generic_cpp_std_unordered_set_to_py_set<std::string, &cpp_string8_to_py_unicode8>(container);
+    return generic_cpp_std_unordered_set_to_py_set<std::string, &cpp_string_to_py_unicode8>(container);
 }
 
 template <>
 PyObject *
 cpp_std_unordered_set_to_py_set<std::u16string>(const std::unordered_set<std::u16string> &container) {
-    return generic_cpp_std_unordered_set_to_py_set<std::u16string, &cpp_string16_to_py_unicode16>(container);
+    return generic_cpp_std_unordered_set_to_py_set<std::u16string, &cpp_u16string_to_py_unicode16>(container);
 }
 
 template <>
 PyObject *
 cpp_std_unordered_set_to_py_set<std::u32string>(const std::unordered_set<std::u32string> &container) {
-    return generic_cpp_std_unordered_set_to_py_set<std::u32string, &cpp_string32_to_py_unicode32>(container);
+    return generic_cpp_std_unordered_set_to_py_set<std::u32string, &cpp_u32string_to_py_unicode32>(container);
 }
 
 //----------------- END: std::unordered_set -> Python set -----------------
@@ -633,19 +633,19 @@ py_set_to_cpp_std_unordered_set<std::vector<char>>(PyObject *op, std::unordered_
 template <>
 int
 py_set_to_cpp_std_unordered_set<std::string>(PyObject *op, std::unordered_set<std::string> &container) {
-    return generic_py_set_to_cpp_std_unordered_set<std::string, &py_unicode8_check, &py_unicode8_to_cpp_string8>(op, container);
+    return generic_py_set_to_cpp_std_unordered_set<std::string, &py_unicode8_check, &py_unicode8_to_cpp_string>(op, container);
 }
 
 template <>
 int
 py_set_to_cpp_std_unordered_set<std::u16string>(PyObject *op, std::unordered_set<std::u16string> &container) {
-    return generic_py_set_to_cpp_std_unordered_set<std::u16string, &py_unicode16_check, &py_unicode16_to_cpp_string16>(op, container);
+    return generic_py_set_to_cpp_std_unordered_set<std::u16string, &py_unicode16_check, &py_unicode16_to_cpp_u16string>(op, container);
 }
 
 template <>
 int
 py_set_to_cpp_std_unordered_set<std::u32string>(PyObject *op, std::unordered_set<std::u32string> &container) {
-    return generic_py_set_to_cpp_std_unordered_set<std::u32string, &py_unicode32_check, &py_unicode32_to_cpp_string32>(op, container);
+    return generic_py_set_to_cpp_std_unordered_set<std::u32string, &py_unicode32_check, &py_unicode32_to_cpp_u32string>(op, container);
 }
 
 //----------------- END: Python set -> std::unordered_set -----------------
@@ -684,19 +684,19 @@ cpp_std_unordered_set_to_py_frozenset<std::vector<char>>(const std::unordered_se
 template <>
 PyObject *
 cpp_std_unordered_set_to_py_frozenset<std::string>(const std::unordered_set<std::string> &container) {
-    return generic_cpp_std_unordered_set_to_py_frozenset<std::string, &cpp_string8_to_py_unicode8>(container);
+    return generic_cpp_std_unordered_set_to_py_frozenset<std::string, &cpp_string_to_py_unicode8>(container);
 }
 
 template <>
 PyObject *
 cpp_std_unordered_set_to_py_frozenset<std::u16string>(const std::unordered_set<std::u16string> &container) {
-    return generic_cpp_std_unordered_set_to_py_frozenset<std::u16string, &cpp_string16_to_py_unicode16>(container);
+    return generic_cpp_std_unordered_set_to_py_frozenset<std::u16string, &cpp_u16string_to_py_unicode16>(container);
 }
 
 template <>
 PyObject *
 cpp_std_unordered_set_to_py_frozenset<std::u32string>(const std::unordered_set<std::u32string> &container) {
-    return generic_cpp_std_unordered_set_to_py_frozenset<std::u32string, &cpp_string32_to_py_unicode32>(container);
+    return generic_cpp_std_unordered_set_to_py_frozenset<std::u32string, &cpp_u32string_to_py_unicode32>(container);
 }
 
 //-------------- END: std::unordered_set -> Python frozenset --------------
@@ -735,19 +735,19 @@ py_frozenset_to_cpp_std_unordered_set<std::vector<char>>(PyObject *op, std::unor
 template <>
 int
 py_frozenset_to_cpp_std_unordered_set<std::string>(PyObject *op, std::unordered_set<std::string> &container) {
-    return generic_py_frozenset_to_cpp_std_unordered_set<std::string, &py_unicode8_check, &py_unicode8_to_cpp_string8>(op, container);
+    return generic_py_frozenset_to_cpp_std_unordered_set<std::string, &py_unicode8_check, &py_unicode8_to_cpp_string>(op, container);
 }
 
 template <>
 int
 py_frozenset_to_cpp_std_unordered_set<std::u16string>(PyObject *op, std::unordered_set<std::u16string> &container) {
-    return generic_py_frozenset_to_cpp_std_unordered_set<std::u16string, &py_unicode16_check, &py_unicode16_to_cpp_string16>(op, container);
+    return generic_py_frozenset_to_cpp_std_unordered_set<std::u16string, &py_unicode16_check, &py_unicode16_to_cpp_u16string>(op, container);
 }
 
 template <>
 int
 py_frozenset_to_cpp_std_unordered_set<std::u32string>(PyObject *op, std::unordered_set<std::u32string> &container) {
-    return generic_py_frozenset_to_cpp_std_unordered_set<std::u32string, &py_unicode32_check, &py_unicode32_to_cpp_string32>(op, container);
+    return generic_py_frozenset_to_cpp_std_unordered_set<std::u32string, &py_unicode32_check, &py_unicode32_to_cpp_u32string>(op, container);
 }
 
 //-------------- END: Python frozenset -> std::unordered_set --------------
@@ -888,7 +888,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, bool, std::string>(const std::un
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         bool, std::string,
-        &cpp_bool_to_py_bool, &cpp_string8_to_py_unicode8
+        &cpp_bool_to_py_bool, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -901,7 +901,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, bool, std::string>(PyObject* op,
         std::unordered_map,
         bool, std::string,
         &py_bool_check, &py_unicode8_check,
-        &py_bool_to_cpp_bool, &py_unicode8_to_cpp_string8
+        &py_bool_to_cpp_bool, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -913,7 +913,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, bool, std::u16string>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         bool, std::u16string,
-        &cpp_bool_to_py_bool, &cpp_string16_to_py_unicode16
+        &cpp_bool_to_py_bool, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -926,7 +926,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, bool, std::u16string>(PyObject* 
         std::unordered_map,
         bool, std::u16string,
         &py_bool_check, &py_unicode16_check,
-        &py_bool_to_cpp_bool, &py_unicode16_to_cpp_string16
+        &py_bool_to_cpp_bool, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -938,7 +938,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, bool, std::u32string>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         bool, std::u32string,
-        &cpp_bool_to_py_bool, &cpp_string32_to_py_unicode32
+        &cpp_bool_to_py_bool, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -951,7 +951,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, bool, std::u32string>(PyObject* 
         std::unordered_map,
         bool, std::u32string,
         &py_bool_check, &py_unicode32_check,
-        &py_bool_to_cpp_bool, &py_unicode32_to_cpp_string32
+        &py_bool_to_cpp_bool, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -1088,7 +1088,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, long, std::string>(const std::un
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         long, std::string,
-        &cpp_long_to_py_long, &cpp_string8_to_py_unicode8
+        &cpp_long_to_py_long, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -1101,7 +1101,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, long, std::string>(PyObject* op,
         std::unordered_map,
         long, std::string,
         &py_long_check, &py_unicode8_check,
-        &py_long_to_cpp_long, &py_unicode8_to_cpp_string8
+        &py_long_to_cpp_long, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -1113,7 +1113,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, long, std::u16string>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         long, std::u16string,
-        &cpp_long_to_py_long, &cpp_string16_to_py_unicode16
+        &cpp_long_to_py_long, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -1126,7 +1126,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, long, std::u16string>(PyObject* 
         std::unordered_map,
         long, std::u16string,
         &py_long_check, &py_unicode16_check,
-        &py_long_to_cpp_long, &py_unicode16_to_cpp_string16
+        &py_long_to_cpp_long, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -1138,7 +1138,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, long, std::u32string>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         long, std::u32string,
-        &cpp_long_to_py_long, &cpp_string32_to_py_unicode32
+        &cpp_long_to_py_long, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -1151,7 +1151,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, long, std::u32string>(PyObject* 
         std::unordered_map,
         long, std::u32string,
         &py_long_check, &py_unicode32_check,
-        &py_long_to_cpp_long, &py_unicode32_to_cpp_string32
+        &py_long_to_cpp_long, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -1288,7 +1288,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, double, std::string>(const std::
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         double, std::string,
-        &cpp_double_to_py_float, &cpp_string8_to_py_unicode8
+        &cpp_double_to_py_float, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -1301,7 +1301,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, double, std::string>(PyObject* o
         std::unordered_map,
         double, std::string,
         &py_float_check, &py_unicode8_check,
-        &py_float_to_cpp_double, &py_unicode8_to_cpp_string8
+        &py_float_to_cpp_double, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -1313,7 +1313,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, double, std::u16string>(const st
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         double, std::u16string,
-        &cpp_double_to_py_float, &cpp_string16_to_py_unicode16
+        &cpp_double_to_py_float, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -1326,7 +1326,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, double, std::u16string>(PyObject
         std::unordered_map,
         double, std::u16string,
         &py_float_check, &py_unicode16_check,
-        &py_float_to_cpp_double, &py_unicode16_to_cpp_string16
+        &py_float_to_cpp_double, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -1338,7 +1338,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, double, std::u32string>(const st
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         double, std::u32string,
-        &cpp_double_to_py_float, &cpp_string32_to_py_unicode32
+        &cpp_double_to_py_float, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -1351,7 +1351,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, double, std::u32string>(PyObject
         std::unordered_map,
         double, std::u32string,
         &py_float_check, &py_unicode32_check,
-        &py_float_to_cpp_double, &py_unicode32_to_cpp_string32
+        &py_float_to_cpp_double, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -1488,7 +1488,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::complex<double>, std::strin
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::complex<double>, std::string,
-        &cpp_complex_to_py_complex, &cpp_string8_to_py_unicode8
+        &cpp_complex_to_py_complex, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -1501,7 +1501,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::complex<double>, std::strin
         std::unordered_map,
         std::complex<double>, std::string,
         &py_complex_check, &py_unicode8_check,
-        &py_complex_to_cpp_complex, &py_unicode8_to_cpp_string8
+        &py_complex_to_cpp_complex, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -1513,7 +1513,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::complex<double>, std::u16st
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::complex<double>, std::u16string,
-        &cpp_complex_to_py_complex, &cpp_string16_to_py_unicode16
+        &cpp_complex_to_py_complex, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -1526,7 +1526,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::complex<double>, std::u16st
         std::unordered_map,
         std::complex<double>, std::u16string,
         &py_complex_check, &py_unicode16_check,
-        &py_complex_to_cpp_complex, &py_unicode16_to_cpp_string16
+        &py_complex_to_cpp_complex, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -1538,7 +1538,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::complex<double>, std::u32st
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::complex<double>, std::u32string,
-        &cpp_complex_to_py_complex, &cpp_string32_to_py_unicode32
+        &cpp_complex_to_py_complex, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -1551,7 +1551,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::complex<double>, std::u32st
         std::unordered_map,
         std::complex<double>, std::u32string,
         &py_complex_check, &py_unicode32_check,
-        &py_complex_to_cpp_complex, &py_unicode32_to_cpp_string32
+        &py_complex_to_cpp_complex, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -1688,7 +1688,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::vector<char>, std::string>(
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::vector<char>, std::string,
-        &cpp_vector_char_to_py_bytes, &cpp_string8_to_py_unicode8
+        &cpp_vector_char_to_py_bytes, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -1701,7 +1701,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::vector<char>, std::string>(
         std::unordered_map,
         std::vector<char>, std::string,
         &py_bytes_check, &py_unicode8_check,
-        &py_bytes_to_cpp_vector_char, &py_unicode8_to_cpp_string8
+        &py_bytes_to_cpp_vector_char, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -1713,7 +1713,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::vector<char>, std::u16strin
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::vector<char>, std::u16string,
-        &cpp_vector_char_to_py_bytes, &cpp_string16_to_py_unicode16
+        &cpp_vector_char_to_py_bytes, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -1726,7 +1726,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::vector<char>, std::u16strin
         std::unordered_map,
         std::vector<char>, std::u16string,
         &py_bytes_check, &py_unicode16_check,
-        &py_bytes_to_cpp_vector_char, &py_unicode16_to_cpp_string16
+        &py_bytes_to_cpp_vector_char, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -1738,7 +1738,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::vector<char>, std::u32strin
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::vector<char>, std::u32string,
-        &cpp_vector_char_to_py_bytes, &cpp_string32_to_py_unicode32
+        &cpp_vector_char_to_py_bytes, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -1751,7 +1751,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::vector<char>, std::u32strin
         std::unordered_map,
         std::vector<char>, std::u32string,
         &py_bytes_check, &py_unicode32_check,
-        &py_bytes_to_cpp_vector_char, &py_unicode32_to_cpp_string32
+        &py_bytes_to_cpp_vector_char, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -1763,7 +1763,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::string, bool>(const std::un
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::string, bool,
-        &cpp_string8_to_py_unicode8, &cpp_bool_to_py_bool
+        &cpp_string_to_py_unicode8, &cpp_bool_to_py_bool
     >(map);
 }
 
@@ -1776,7 +1776,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::string, bool>(PyObject* op,
         std::unordered_map,
         std::string, bool,
         &py_unicode8_check, &py_bool_check,
-        &py_unicode8_to_cpp_string8, &py_bool_to_cpp_bool
+        &py_unicode8_to_cpp_string, &py_bool_to_cpp_bool
     >(op, map);
 }
 
@@ -1788,7 +1788,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::string, long>(const std::un
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::string, long,
-        &cpp_string8_to_py_unicode8, &cpp_long_to_py_long
+        &cpp_string_to_py_unicode8, &cpp_long_to_py_long
     >(map);
 }
 
@@ -1801,7 +1801,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::string, long>(PyObject* op,
         std::unordered_map,
         std::string, long,
         &py_unicode8_check, &py_long_check,
-        &py_unicode8_to_cpp_string8, &py_long_to_cpp_long
+        &py_unicode8_to_cpp_string, &py_long_to_cpp_long
     >(op, map);
 }
 
@@ -1813,7 +1813,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::string, double>(const std::
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::string, double,
-        &cpp_string8_to_py_unicode8, &cpp_double_to_py_float
+        &cpp_string_to_py_unicode8, &cpp_double_to_py_float
     >(map);
 }
 
@@ -1826,7 +1826,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::string, double>(PyObject* o
         std::unordered_map,
         std::string, double,
         &py_unicode8_check, &py_float_check,
-        &py_unicode8_to_cpp_string8, &py_float_to_cpp_double
+        &py_unicode8_to_cpp_string, &py_float_to_cpp_double
     >(op, map);
 }
 
@@ -1838,7 +1838,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::string, std::complex<double
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::string, std::complex<double>,
-        &cpp_string8_to_py_unicode8, &cpp_complex_to_py_complex
+        &cpp_string_to_py_unicode8, &cpp_complex_to_py_complex
     >(map);
 }
 
@@ -1851,7 +1851,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::string, std::complex<double
         std::unordered_map,
         std::string, std::complex<double>,
         &py_unicode8_check, &py_complex_check,
-        &py_unicode8_to_cpp_string8, &py_complex_to_cpp_complex
+        &py_unicode8_to_cpp_string, &py_complex_to_cpp_complex
     >(op, map);
 }
 
@@ -1863,7 +1863,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::string, std::vector<char>>(
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::string, std::vector<char>,
-        &cpp_string8_to_py_unicode8, &cpp_vector_char_to_py_bytes
+        &cpp_string_to_py_unicode8, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
@@ -1876,7 +1876,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::string, std::vector<char>>(
         std::unordered_map,
         std::string, std::vector<char>,
         &py_unicode8_check, &py_bytes_check,
-        &py_unicode8_to_cpp_string8, &py_bytes_to_cpp_vector_char
+        &py_unicode8_to_cpp_string, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
@@ -1888,7 +1888,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::string, std::string>(const 
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::string, std::string,
-        &cpp_string8_to_py_unicode8, &cpp_string8_to_py_unicode8
+        &cpp_string_to_py_unicode8, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -1901,7 +1901,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::string, std::string>(PyObje
         std::unordered_map,
         std::string, std::string,
         &py_unicode8_check, &py_unicode8_check,
-        &py_unicode8_to_cpp_string8, &py_unicode8_to_cpp_string8
+        &py_unicode8_to_cpp_string, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -1913,7 +1913,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::string, std::u16string>(con
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::string, std::u16string,
-        &cpp_string8_to_py_unicode8, &cpp_string16_to_py_unicode16
+        &cpp_string_to_py_unicode8, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -1926,7 +1926,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::string, std::u16string>(PyO
         std::unordered_map,
         std::string, std::u16string,
         &py_unicode8_check, &py_unicode16_check,
-        &py_unicode8_to_cpp_string8, &py_unicode16_to_cpp_string16
+        &py_unicode8_to_cpp_string, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -1938,7 +1938,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::string, std::u32string>(con
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::string, std::u32string,
-        &cpp_string8_to_py_unicode8, &cpp_string32_to_py_unicode32
+        &cpp_string_to_py_unicode8, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -1951,7 +1951,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::string, std::u32string>(PyO
         std::unordered_map,
         std::string, std::u32string,
         &py_unicode8_check, &py_unicode32_check,
-        &py_unicode8_to_cpp_string8, &py_unicode32_to_cpp_string32
+        &py_unicode8_to_cpp_string, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -1963,7 +1963,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, bool>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u16string, bool,
-        &cpp_string16_to_py_unicode16, &cpp_bool_to_py_bool
+        &cpp_u16string_to_py_unicode16, &cpp_bool_to_py_bool
     >(map);
 }
 
@@ -1976,7 +1976,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, bool>(PyObject* 
         std::unordered_map,
         std::u16string, bool,
         &py_unicode16_check, &py_bool_check,
-        &py_unicode16_to_cpp_string16, &py_bool_to_cpp_bool
+        &py_unicode16_to_cpp_u16string, &py_bool_to_cpp_bool
     >(op, map);
 }
 
@@ -1988,7 +1988,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, long>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u16string, long,
-        &cpp_string16_to_py_unicode16, &cpp_long_to_py_long
+        &cpp_u16string_to_py_unicode16, &cpp_long_to_py_long
     >(map);
 }
 
@@ -2001,7 +2001,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, long>(PyObject* 
         std::unordered_map,
         std::u16string, long,
         &py_unicode16_check, &py_long_check,
-        &py_unicode16_to_cpp_string16, &py_long_to_cpp_long
+        &py_unicode16_to_cpp_u16string, &py_long_to_cpp_long
     >(op, map);
 }
 
@@ -2013,7 +2013,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, double>(const st
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u16string, double,
-        &cpp_string16_to_py_unicode16, &cpp_double_to_py_float
+        &cpp_u16string_to_py_unicode16, &cpp_double_to_py_float
     >(map);
 }
 
@@ -2026,7 +2026,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, double>(PyObject
         std::unordered_map,
         std::u16string, double,
         &py_unicode16_check, &py_float_check,
-        &py_unicode16_to_cpp_string16, &py_float_to_cpp_double
+        &py_unicode16_to_cpp_u16string, &py_float_to_cpp_double
     >(op, map);
 }
 
@@ -2038,7 +2038,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, std::complex<dou
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u16string, std::complex<double>,
-        &cpp_string16_to_py_unicode16, &cpp_complex_to_py_complex
+        &cpp_u16string_to_py_unicode16, &cpp_complex_to_py_complex
     >(map);
 }
 
@@ -2051,7 +2051,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, std::complex<dou
         std::unordered_map,
         std::u16string, std::complex<double>,
         &py_unicode16_check, &py_complex_check,
-        &py_unicode16_to_cpp_string16, &py_complex_to_cpp_complex
+        &py_unicode16_to_cpp_u16string, &py_complex_to_cpp_complex
     >(op, map);
 }
 
@@ -2063,7 +2063,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, std::vector<char
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u16string, std::vector<char>,
-        &cpp_string16_to_py_unicode16, &cpp_vector_char_to_py_bytes
+        &cpp_u16string_to_py_unicode16, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
@@ -2076,7 +2076,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, std::vector<char
         std::unordered_map,
         std::u16string, std::vector<char>,
         &py_unicode16_check, &py_bytes_check,
-        &py_unicode16_to_cpp_string16, &py_bytes_to_cpp_vector_char
+        &py_unicode16_to_cpp_u16string, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
@@ -2088,7 +2088,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, std::string>(con
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u16string, std::string,
-        &cpp_string16_to_py_unicode16, &cpp_string8_to_py_unicode8
+        &cpp_u16string_to_py_unicode16, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -2101,7 +2101,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, std::string>(PyO
         std::unordered_map,
         std::u16string, std::string,
         &py_unicode16_check, &py_unicode8_check,
-        &py_unicode16_to_cpp_string16, &py_unicode8_to_cpp_string8
+        &py_unicode16_to_cpp_u16string, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -2113,7 +2113,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, std::u16string>(
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u16string, std::u16string,
-        &cpp_string16_to_py_unicode16, &cpp_string16_to_py_unicode16
+        &cpp_u16string_to_py_unicode16, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -2126,7 +2126,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, std::u16string>(
         std::unordered_map,
         std::u16string, std::u16string,
         &py_unicode16_check, &py_unicode16_check,
-        &py_unicode16_to_cpp_string16, &py_unicode16_to_cpp_string16
+        &py_unicode16_to_cpp_u16string, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -2138,7 +2138,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u16string, std::u32string>(
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u16string, std::u32string,
-        &cpp_string16_to_py_unicode16, &cpp_string32_to_py_unicode32
+        &cpp_u16string_to_py_unicode16, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -2151,7 +2151,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u16string, std::u32string>(
         std::unordered_map,
         std::u16string, std::u32string,
         &py_unicode16_check, &py_unicode32_check,
-        &py_unicode16_to_cpp_string16, &py_unicode32_to_cpp_string32
+        &py_unicode16_to_cpp_u16string, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -2163,7 +2163,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, bool>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u32string, bool,
-        &cpp_string32_to_py_unicode32, &cpp_bool_to_py_bool
+        &cpp_u32string_to_py_unicode32, &cpp_bool_to_py_bool
     >(map);
 }
 
@@ -2176,7 +2176,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, bool>(PyObject* 
         std::unordered_map,
         std::u32string, bool,
         &py_unicode32_check, &py_bool_check,
-        &py_unicode32_to_cpp_string32, &py_bool_to_cpp_bool
+        &py_unicode32_to_cpp_u32string, &py_bool_to_cpp_bool
     >(op, map);
 }
 
@@ -2188,7 +2188,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, long>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u32string, long,
-        &cpp_string32_to_py_unicode32, &cpp_long_to_py_long
+        &cpp_u32string_to_py_unicode32, &cpp_long_to_py_long
     >(map);
 }
 
@@ -2201,7 +2201,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, long>(PyObject* 
         std::unordered_map,
         std::u32string, long,
         &py_unicode32_check, &py_long_check,
-        &py_unicode32_to_cpp_string32, &py_long_to_cpp_long
+        &py_unicode32_to_cpp_u32string, &py_long_to_cpp_long
     >(op, map);
 }
 
@@ -2213,7 +2213,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, double>(const st
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u32string, double,
-        &cpp_string32_to_py_unicode32, &cpp_double_to_py_float
+        &cpp_u32string_to_py_unicode32, &cpp_double_to_py_float
     >(map);
 }
 
@@ -2226,7 +2226,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, double>(PyObject
         std::unordered_map,
         std::u32string, double,
         &py_unicode32_check, &py_float_check,
-        &py_unicode32_to_cpp_string32, &py_float_to_cpp_double
+        &py_unicode32_to_cpp_u32string, &py_float_to_cpp_double
     >(op, map);
 }
 
@@ -2238,7 +2238,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, std::complex<dou
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u32string, std::complex<double>,
-        &cpp_string32_to_py_unicode32, &cpp_complex_to_py_complex
+        &cpp_u32string_to_py_unicode32, &cpp_complex_to_py_complex
     >(map);
 }
 
@@ -2251,7 +2251,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, std::complex<dou
         std::unordered_map,
         std::u32string, std::complex<double>,
         &py_unicode32_check, &py_complex_check,
-        &py_unicode32_to_cpp_string32, &py_complex_to_cpp_complex
+        &py_unicode32_to_cpp_u32string, &py_complex_to_cpp_complex
     >(op, map);
 }
 
@@ -2263,7 +2263,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, std::vector<char
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u32string, std::vector<char>,
-        &cpp_string32_to_py_unicode32, &cpp_vector_char_to_py_bytes
+        &cpp_u32string_to_py_unicode32, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
@@ -2276,7 +2276,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, std::vector<char
         std::unordered_map,
         std::u32string, std::vector<char>,
         &py_unicode32_check, &py_bytes_check,
-        &py_unicode32_to_cpp_string32, &py_bytes_to_cpp_vector_char
+        &py_unicode32_to_cpp_u32string, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
@@ -2288,7 +2288,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, std::string>(con
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u32string, std::string,
-        &cpp_string32_to_py_unicode32, &cpp_string8_to_py_unicode8
+        &cpp_u32string_to_py_unicode32, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -2301,7 +2301,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, std::string>(PyO
         std::unordered_map,
         std::u32string, std::string,
         &py_unicode32_check, &py_unicode8_check,
-        &py_unicode32_to_cpp_string32, &py_unicode8_to_cpp_string8
+        &py_unicode32_to_cpp_u32string, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -2313,7 +2313,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, std::u16string>(
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u32string, std::u16string,
-        &cpp_string32_to_py_unicode32, &cpp_string16_to_py_unicode16
+        &cpp_u32string_to_py_unicode32, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -2326,7 +2326,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, std::u16string>(
         std::unordered_map,
         std::u32string, std::u16string,
         &py_unicode32_check, &py_unicode16_check,
-        &py_unicode32_to_cpp_string32, &py_unicode16_to_cpp_string16
+        &py_unicode32_to_cpp_u32string, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -2338,7 +2338,7 @@ cpp_std_map_like_to_py_dict<std::unordered_map, std::u32string, std::u32string>(
     return generic_cpp_std_map_like_to_py_dict<
         std::unordered_map,
         std::u32string, std::u32string,
-        &cpp_string32_to_py_unicode32, &cpp_string32_to_py_unicode32
+        &cpp_u32string_to_py_unicode32, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -2351,7 +2351,7 @@ py_dict_to_cpp_std_map_like<std::unordered_map, std::u32string, std::u32string>(
         std::unordered_map,
         std::u32string, std::u32string,
         &py_unicode32_check, &py_unicode32_check,
-        &py_unicode32_to_cpp_string32, &py_unicode32_to_cpp_string32
+        &py_unicode32_to_cpp_u32string, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -2491,7 +2491,7 @@ cpp_std_map_like_to_py_dict<std::map, bool, std::string>(const std::map<bool, st
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         bool, std::string,
-        &cpp_bool_to_py_bool, &cpp_string8_to_py_unicode8
+        &cpp_bool_to_py_bool, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -2504,7 +2504,7 @@ py_dict_to_cpp_std_map_like<std::map, bool, std::string>(PyObject* op, std::map<
         std::map,
         bool, std::string,
         &py_bool_check, &py_unicode8_check,
-        &py_bool_to_cpp_bool, &py_unicode8_to_cpp_string8
+        &py_bool_to_cpp_bool, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -2516,7 +2516,7 @@ cpp_std_map_like_to_py_dict<std::map, bool, std::u16string>(const std::map<bool,
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         bool, std::u16string,
-        &cpp_bool_to_py_bool, &cpp_string16_to_py_unicode16
+        &cpp_bool_to_py_bool, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -2529,7 +2529,7 @@ py_dict_to_cpp_std_map_like<std::map, bool, std::u16string>(PyObject* op, std::m
         std::map,
         bool, std::u16string,
         &py_bool_check, &py_unicode16_check,
-        &py_bool_to_cpp_bool, &py_unicode16_to_cpp_string16
+        &py_bool_to_cpp_bool, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -2541,7 +2541,7 @@ cpp_std_map_like_to_py_dict<std::map, bool, std::u32string>(const std::map<bool,
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         bool, std::u32string,
-        &cpp_bool_to_py_bool, &cpp_string32_to_py_unicode32
+        &cpp_bool_to_py_bool, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -2554,7 +2554,7 @@ py_dict_to_cpp_std_map_like<std::map, bool, std::u32string>(PyObject* op, std::m
         std::map,
         bool, std::u32string,
         &py_bool_check, &py_unicode32_check,
-        &py_bool_to_cpp_bool, &py_unicode32_to_cpp_string32
+        &py_bool_to_cpp_bool, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -2691,7 +2691,7 @@ cpp_std_map_like_to_py_dict<std::map, long, std::string>(const std::map<long, st
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         long, std::string,
-        &cpp_long_to_py_long, &cpp_string8_to_py_unicode8
+        &cpp_long_to_py_long, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -2704,7 +2704,7 @@ py_dict_to_cpp_std_map_like<std::map, long, std::string>(PyObject* op, std::map<
         std::map,
         long, std::string,
         &py_long_check, &py_unicode8_check,
-        &py_long_to_cpp_long, &py_unicode8_to_cpp_string8
+        &py_long_to_cpp_long, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -2716,7 +2716,7 @@ cpp_std_map_like_to_py_dict<std::map, long, std::u16string>(const std::map<long,
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         long, std::u16string,
-        &cpp_long_to_py_long, &cpp_string16_to_py_unicode16
+        &cpp_long_to_py_long, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -2729,7 +2729,7 @@ py_dict_to_cpp_std_map_like<std::map, long, std::u16string>(PyObject* op, std::m
         std::map,
         long, std::u16string,
         &py_long_check, &py_unicode16_check,
-        &py_long_to_cpp_long, &py_unicode16_to_cpp_string16
+        &py_long_to_cpp_long, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -2741,7 +2741,7 @@ cpp_std_map_like_to_py_dict<std::map, long, std::u32string>(const std::map<long,
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         long, std::u32string,
-        &cpp_long_to_py_long, &cpp_string32_to_py_unicode32
+        &cpp_long_to_py_long, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -2754,7 +2754,7 @@ py_dict_to_cpp_std_map_like<std::map, long, std::u32string>(PyObject* op, std::m
         std::map,
         long, std::u32string,
         &py_long_check, &py_unicode32_check,
-        &py_long_to_cpp_long, &py_unicode32_to_cpp_string32
+        &py_long_to_cpp_long, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -2891,7 +2891,7 @@ cpp_std_map_like_to_py_dict<std::map, double, std::string>(const std::map<double
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         double, std::string,
-        &cpp_double_to_py_float, &cpp_string8_to_py_unicode8
+        &cpp_double_to_py_float, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -2904,7 +2904,7 @@ py_dict_to_cpp_std_map_like<std::map, double, std::string>(PyObject* op, std::ma
         std::map,
         double, std::string,
         &py_float_check, &py_unicode8_check,
-        &py_float_to_cpp_double, &py_unicode8_to_cpp_string8
+        &py_float_to_cpp_double, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -2916,7 +2916,7 @@ cpp_std_map_like_to_py_dict<std::map, double, std::u16string>(const std::map<dou
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         double, std::u16string,
-        &cpp_double_to_py_float, &cpp_string16_to_py_unicode16
+        &cpp_double_to_py_float, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -2929,7 +2929,7 @@ py_dict_to_cpp_std_map_like<std::map, double, std::u16string>(PyObject* op, std:
         std::map,
         double, std::u16string,
         &py_float_check, &py_unicode16_check,
-        &py_float_to_cpp_double, &py_unicode16_to_cpp_string16
+        &py_float_to_cpp_double, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -2941,7 +2941,7 @@ cpp_std_map_like_to_py_dict<std::map, double, std::u32string>(const std::map<dou
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         double, std::u32string,
-        &cpp_double_to_py_float, &cpp_string32_to_py_unicode32
+        &cpp_double_to_py_float, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -2954,7 +2954,7 @@ py_dict_to_cpp_std_map_like<std::map, double, std::u32string>(PyObject* op, std:
         std::map,
         double, std::u32string,
         &py_float_check, &py_unicode32_check,
-        &py_float_to_cpp_double, &py_unicode32_to_cpp_string32
+        &py_float_to_cpp_double, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -3091,7 +3091,7 @@ cpp_std_map_like_to_py_dict<std::map, std::complex<double>, std::string>(const s
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::complex<double>, std::string,
-        &cpp_complex_to_py_complex, &cpp_string8_to_py_unicode8
+        &cpp_complex_to_py_complex, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -3104,7 +3104,7 @@ py_dict_to_cpp_std_map_like<std::map, std::complex<double>, std::string>(PyObjec
         std::map,
         std::complex<double>, std::string,
         &py_complex_check, &py_unicode8_check,
-        &py_complex_to_cpp_complex, &py_unicode8_to_cpp_string8
+        &py_complex_to_cpp_complex, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -3116,7 +3116,7 @@ cpp_std_map_like_to_py_dict<std::map, std::complex<double>, std::u16string>(cons
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::complex<double>, std::u16string,
-        &cpp_complex_to_py_complex, &cpp_string16_to_py_unicode16
+        &cpp_complex_to_py_complex, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -3129,7 +3129,7 @@ py_dict_to_cpp_std_map_like<std::map, std::complex<double>, std::u16string>(PyOb
         std::map,
         std::complex<double>, std::u16string,
         &py_complex_check, &py_unicode16_check,
-        &py_complex_to_cpp_complex, &py_unicode16_to_cpp_string16
+        &py_complex_to_cpp_complex, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -3141,7 +3141,7 @@ cpp_std_map_like_to_py_dict<std::map, std::complex<double>, std::u32string>(cons
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::complex<double>, std::u32string,
-        &cpp_complex_to_py_complex, &cpp_string32_to_py_unicode32
+        &cpp_complex_to_py_complex, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -3154,7 +3154,7 @@ py_dict_to_cpp_std_map_like<std::map, std::complex<double>, std::u32string>(PyOb
         std::map,
         std::complex<double>, std::u32string,
         &py_complex_check, &py_unicode32_check,
-        &py_complex_to_cpp_complex, &py_unicode32_to_cpp_string32
+        &py_complex_to_cpp_complex, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -3291,7 +3291,7 @@ cpp_std_map_like_to_py_dict<std::map, std::vector<char>, std::string>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::vector<char>, std::string,
-        &cpp_vector_char_to_py_bytes, &cpp_string8_to_py_unicode8
+        &cpp_vector_char_to_py_bytes, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -3304,7 +3304,7 @@ py_dict_to_cpp_std_map_like<std::map, std::vector<char>, std::string>(PyObject* 
         std::map,
         std::vector<char>, std::string,
         &py_bytes_check, &py_unicode8_check,
-        &py_bytes_to_cpp_vector_char, &py_unicode8_to_cpp_string8
+        &py_bytes_to_cpp_vector_char, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -3316,7 +3316,7 @@ cpp_std_map_like_to_py_dict<std::map, std::vector<char>, std::u16string>(const s
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::vector<char>, std::u16string,
-        &cpp_vector_char_to_py_bytes, &cpp_string16_to_py_unicode16
+        &cpp_vector_char_to_py_bytes, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -3329,7 +3329,7 @@ py_dict_to_cpp_std_map_like<std::map, std::vector<char>, std::u16string>(PyObjec
         std::map,
         std::vector<char>, std::u16string,
         &py_bytes_check, &py_unicode16_check,
-        &py_bytes_to_cpp_vector_char, &py_unicode16_to_cpp_string16
+        &py_bytes_to_cpp_vector_char, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -3341,7 +3341,7 @@ cpp_std_map_like_to_py_dict<std::map, std::vector<char>, std::u32string>(const s
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::vector<char>, std::u32string,
-        &cpp_vector_char_to_py_bytes, &cpp_string32_to_py_unicode32
+        &cpp_vector_char_to_py_bytes, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -3354,7 +3354,7 @@ py_dict_to_cpp_std_map_like<std::map, std::vector<char>, std::u32string>(PyObjec
         std::map,
         std::vector<char>, std::u32string,
         &py_bytes_check, &py_unicode32_check,
-        &py_bytes_to_cpp_vector_char, &py_unicode32_to_cpp_string32
+        &py_bytes_to_cpp_vector_char, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -3366,7 +3366,7 @@ cpp_std_map_like_to_py_dict<std::map, std::string, bool>(const std::map<std::str
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::string, bool,
-        &cpp_string8_to_py_unicode8, &cpp_bool_to_py_bool
+        &cpp_string_to_py_unicode8, &cpp_bool_to_py_bool
     >(map);
 }
 
@@ -3379,7 +3379,7 @@ py_dict_to_cpp_std_map_like<std::map, std::string, bool>(PyObject* op, std::map<
         std::map,
         std::string, bool,
         &py_unicode8_check, &py_bool_check,
-        &py_unicode8_to_cpp_string8, &py_bool_to_cpp_bool
+        &py_unicode8_to_cpp_string, &py_bool_to_cpp_bool
     >(op, map);
 }
 
@@ -3391,7 +3391,7 @@ cpp_std_map_like_to_py_dict<std::map, std::string, long>(const std::map<std::str
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::string, long,
-        &cpp_string8_to_py_unicode8, &cpp_long_to_py_long
+        &cpp_string_to_py_unicode8, &cpp_long_to_py_long
     >(map);
 }
 
@@ -3404,7 +3404,7 @@ py_dict_to_cpp_std_map_like<std::map, std::string, long>(PyObject* op, std::map<
         std::map,
         std::string, long,
         &py_unicode8_check, &py_long_check,
-        &py_unicode8_to_cpp_string8, &py_long_to_cpp_long
+        &py_unicode8_to_cpp_string, &py_long_to_cpp_long
     >(op, map);
 }
 
@@ -3416,7 +3416,7 @@ cpp_std_map_like_to_py_dict<std::map, std::string, double>(const std::map<std::s
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::string, double,
-        &cpp_string8_to_py_unicode8, &cpp_double_to_py_float
+        &cpp_string_to_py_unicode8, &cpp_double_to_py_float
     >(map);
 }
 
@@ -3429,7 +3429,7 @@ py_dict_to_cpp_std_map_like<std::map, std::string, double>(PyObject* op, std::ma
         std::map,
         std::string, double,
         &py_unicode8_check, &py_float_check,
-        &py_unicode8_to_cpp_string8, &py_float_to_cpp_double
+        &py_unicode8_to_cpp_string, &py_float_to_cpp_double
     >(op, map);
 }
 
@@ -3441,7 +3441,7 @@ cpp_std_map_like_to_py_dict<std::map, std::string, std::complex<double>>(const s
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::string, std::complex<double>,
-        &cpp_string8_to_py_unicode8, &cpp_complex_to_py_complex
+        &cpp_string_to_py_unicode8, &cpp_complex_to_py_complex
     >(map);
 }
 
@@ -3454,7 +3454,7 @@ py_dict_to_cpp_std_map_like<std::map, std::string, std::complex<double>>(PyObjec
         std::map,
         std::string, std::complex<double>,
         &py_unicode8_check, &py_complex_check,
-        &py_unicode8_to_cpp_string8, &py_complex_to_cpp_complex
+        &py_unicode8_to_cpp_string, &py_complex_to_cpp_complex
     >(op, map);
 }
 
@@ -3466,7 +3466,7 @@ cpp_std_map_like_to_py_dict<std::map, std::string, std::vector<char>>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::string, std::vector<char>,
-        &cpp_string8_to_py_unicode8, &cpp_vector_char_to_py_bytes
+        &cpp_string_to_py_unicode8, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
@@ -3479,7 +3479,7 @@ py_dict_to_cpp_std_map_like<std::map, std::string, std::vector<char>>(PyObject* 
         std::map,
         std::string, std::vector<char>,
         &py_unicode8_check, &py_bytes_check,
-        &py_unicode8_to_cpp_string8, &py_bytes_to_cpp_vector_char
+        &py_unicode8_to_cpp_string, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
@@ -3491,7 +3491,7 @@ cpp_std_map_like_to_py_dict<std::map, std::string, std::string>(const std::map<s
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::string, std::string,
-        &cpp_string8_to_py_unicode8, &cpp_string8_to_py_unicode8
+        &cpp_string_to_py_unicode8, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -3504,7 +3504,7 @@ py_dict_to_cpp_std_map_like<std::map, std::string, std::string>(PyObject* op, st
         std::map,
         std::string, std::string,
         &py_unicode8_check, &py_unicode8_check,
-        &py_unicode8_to_cpp_string8, &py_unicode8_to_cpp_string8
+        &py_unicode8_to_cpp_string, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -3516,7 +3516,7 @@ cpp_std_map_like_to_py_dict<std::map, std::string, std::u16string>(const std::ma
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::string, std::u16string,
-        &cpp_string8_to_py_unicode8, &cpp_string16_to_py_unicode16
+        &cpp_string_to_py_unicode8, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -3529,7 +3529,7 @@ py_dict_to_cpp_std_map_like<std::map, std::string, std::u16string>(PyObject* op,
         std::map,
         std::string, std::u16string,
         &py_unicode8_check, &py_unicode16_check,
-        &py_unicode8_to_cpp_string8, &py_unicode16_to_cpp_string16
+        &py_unicode8_to_cpp_string, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -3541,7 +3541,7 @@ cpp_std_map_like_to_py_dict<std::map, std::string, std::u32string>(const std::ma
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::string, std::u32string,
-        &cpp_string8_to_py_unicode8, &cpp_string32_to_py_unicode32
+        &cpp_string_to_py_unicode8, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -3554,7 +3554,7 @@ py_dict_to_cpp_std_map_like<std::map, std::string, std::u32string>(PyObject* op,
         std::map,
         std::string, std::u32string,
         &py_unicode8_check, &py_unicode32_check,
-        &py_unicode8_to_cpp_string8, &py_unicode32_to_cpp_string32
+        &py_unicode8_to_cpp_string, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -3566,7 +3566,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u16string, bool>(const std::map<std::
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u16string, bool,
-        &cpp_string16_to_py_unicode16, &cpp_bool_to_py_bool
+        &cpp_u16string_to_py_unicode16, &cpp_bool_to_py_bool
     >(map);
 }
 
@@ -3579,7 +3579,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u16string, bool>(PyObject* op, std::m
         std::map,
         std::u16string, bool,
         &py_unicode16_check, &py_bool_check,
-        &py_unicode16_to_cpp_string16, &py_bool_to_cpp_bool
+        &py_unicode16_to_cpp_u16string, &py_bool_to_cpp_bool
     >(op, map);
 }
 
@@ -3591,7 +3591,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u16string, long>(const std::map<std::
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u16string, long,
-        &cpp_string16_to_py_unicode16, &cpp_long_to_py_long
+        &cpp_u16string_to_py_unicode16, &cpp_long_to_py_long
     >(map);
 }
 
@@ -3604,7 +3604,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u16string, long>(PyObject* op, std::m
         std::map,
         std::u16string, long,
         &py_unicode16_check, &py_long_check,
-        &py_unicode16_to_cpp_string16, &py_long_to_cpp_long
+        &py_unicode16_to_cpp_u16string, &py_long_to_cpp_long
     >(op, map);
 }
 
@@ -3616,7 +3616,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u16string, double>(const std::map<std
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u16string, double,
-        &cpp_string16_to_py_unicode16, &cpp_double_to_py_float
+        &cpp_u16string_to_py_unicode16, &cpp_double_to_py_float
     >(map);
 }
 
@@ -3629,7 +3629,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u16string, double>(PyObject* op, std:
         std::map,
         std::u16string, double,
         &py_unicode16_check, &py_float_check,
-        &py_unicode16_to_cpp_string16, &py_float_to_cpp_double
+        &py_unicode16_to_cpp_u16string, &py_float_to_cpp_double
     >(op, map);
 }
 
@@ -3641,7 +3641,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u16string, std::complex<double>>(cons
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u16string, std::complex<double>,
-        &cpp_string16_to_py_unicode16, &cpp_complex_to_py_complex
+        &cpp_u16string_to_py_unicode16, &cpp_complex_to_py_complex
     >(map);
 }
 
@@ -3654,7 +3654,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u16string, std::complex<double>>(PyOb
         std::map,
         std::u16string, std::complex<double>,
         &py_unicode16_check, &py_complex_check,
-        &py_unicode16_to_cpp_string16, &py_complex_to_cpp_complex
+        &py_unicode16_to_cpp_u16string, &py_complex_to_cpp_complex
     >(op, map);
 }
 
@@ -3666,7 +3666,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u16string, std::vector<char>>(const s
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u16string, std::vector<char>,
-        &cpp_string16_to_py_unicode16, &cpp_vector_char_to_py_bytes
+        &cpp_u16string_to_py_unicode16, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
@@ -3679,7 +3679,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u16string, std::vector<char>>(PyObjec
         std::map,
         std::u16string, std::vector<char>,
         &py_unicode16_check, &py_bytes_check,
-        &py_unicode16_to_cpp_string16, &py_bytes_to_cpp_vector_char
+        &py_unicode16_to_cpp_u16string, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
@@ -3691,7 +3691,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u16string, std::string>(const std::ma
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u16string, std::string,
-        &cpp_string16_to_py_unicode16, &cpp_string8_to_py_unicode8
+        &cpp_u16string_to_py_unicode16, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -3704,7 +3704,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u16string, std::string>(PyObject* op,
         std::map,
         std::u16string, std::string,
         &py_unicode16_check, &py_unicode8_check,
-        &py_unicode16_to_cpp_string16, &py_unicode8_to_cpp_string8
+        &py_unicode16_to_cpp_u16string, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -3716,7 +3716,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u16string, std::u16string>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u16string, std::u16string,
-        &cpp_string16_to_py_unicode16, &cpp_string16_to_py_unicode16
+        &cpp_u16string_to_py_unicode16, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -3729,7 +3729,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u16string, std::u16string>(PyObject* 
         std::map,
         std::u16string, std::u16string,
         &py_unicode16_check, &py_unicode16_check,
-        &py_unicode16_to_cpp_string16, &py_unicode16_to_cpp_string16
+        &py_unicode16_to_cpp_u16string, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -3741,7 +3741,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u16string, std::u32string>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u16string, std::u32string,
-        &cpp_string16_to_py_unicode16, &cpp_string32_to_py_unicode32
+        &cpp_u16string_to_py_unicode16, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -3754,7 +3754,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u16string, std::u32string>(PyObject* 
         std::map,
         std::u16string, std::u32string,
         &py_unicode16_check, &py_unicode32_check,
-        &py_unicode16_to_cpp_string16, &py_unicode32_to_cpp_string32
+        &py_unicode16_to_cpp_u16string, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 
@@ -3766,7 +3766,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u32string, bool>(const std::map<std::
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u32string, bool,
-        &cpp_string32_to_py_unicode32, &cpp_bool_to_py_bool
+        &cpp_u32string_to_py_unicode32, &cpp_bool_to_py_bool
     >(map);
 }
 
@@ -3779,7 +3779,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u32string, bool>(PyObject* op, std::m
         std::map,
         std::u32string, bool,
         &py_unicode32_check, &py_bool_check,
-        &py_unicode32_to_cpp_string32, &py_bool_to_cpp_bool
+        &py_unicode32_to_cpp_u32string, &py_bool_to_cpp_bool
     >(op, map);
 }
 
@@ -3791,7 +3791,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u32string, long>(const std::map<std::
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u32string, long,
-        &cpp_string32_to_py_unicode32, &cpp_long_to_py_long
+        &cpp_u32string_to_py_unicode32, &cpp_long_to_py_long
     >(map);
 }
 
@@ -3804,7 +3804,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u32string, long>(PyObject* op, std::m
         std::map,
         std::u32string, long,
         &py_unicode32_check, &py_long_check,
-        &py_unicode32_to_cpp_string32, &py_long_to_cpp_long
+        &py_unicode32_to_cpp_u32string, &py_long_to_cpp_long
     >(op, map);
 }
 
@@ -3816,7 +3816,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u32string, double>(const std::map<std
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u32string, double,
-        &cpp_string32_to_py_unicode32, &cpp_double_to_py_float
+        &cpp_u32string_to_py_unicode32, &cpp_double_to_py_float
     >(map);
 }
 
@@ -3829,7 +3829,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u32string, double>(PyObject* op, std:
         std::map,
         std::u32string, double,
         &py_unicode32_check, &py_float_check,
-        &py_unicode32_to_cpp_string32, &py_float_to_cpp_double
+        &py_unicode32_to_cpp_u32string, &py_float_to_cpp_double
     >(op, map);
 }
 
@@ -3841,7 +3841,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u32string, std::complex<double>>(cons
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u32string, std::complex<double>,
-        &cpp_string32_to_py_unicode32, &cpp_complex_to_py_complex
+        &cpp_u32string_to_py_unicode32, &cpp_complex_to_py_complex
     >(map);
 }
 
@@ -3854,7 +3854,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u32string, std::complex<double>>(PyOb
         std::map,
         std::u32string, std::complex<double>,
         &py_unicode32_check, &py_complex_check,
-        &py_unicode32_to_cpp_string32, &py_complex_to_cpp_complex
+        &py_unicode32_to_cpp_u32string, &py_complex_to_cpp_complex
     >(op, map);
 }
 
@@ -3866,7 +3866,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u32string, std::vector<char>>(const s
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u32string, std::vector<char>,
-        &cpp_string32_to_py_unicode32, &cpp_vector_char_to_py_bytes
+        &cpp_u32string_to_py_unicode32, &cpp_vector_char_to_py_bytes
     >(map);
 }
 
@@ -3879,7 +3879,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u32string, std::vector<char>>(PyObjec
         std::map,
         std::u32string, std::vector<char>,
         &py_unicode32_check, &py_bytes_check,
-        &py_unicode32_to_cpp_string32, &py_bytes_to_cpp_vector_char
+        &py_unicode32_to_cpp_u32string, &py_bytes_to_cpp_vector_char
     >(op, map);
 }
 
@@ -3891,7 +3891,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u32string, std::string>(const std::ma
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u32string, std::string,
-        &cpp_string32_to_py_unicode32, &cpp_string8_to_py_unicode8
+        &cpp_u32string_to_py_unicode32, &cpp_string_to_py_unicode8
     >(map);
 }
 
@@ -3904,7 +3904,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u32string, std::string>(PyObject* op,
         std::map,
         std::u32string, std::string,
         &py_unicode32_check, &py_unicode8_check,
-        &py_unicode32_to_cpp_string32, &py_unicode8_to_cpp_string8
+        &py_unicode32_to_cpp_u32string, &py_unicode8_to_cpp_string
     >(op, map);
 }
 
@@ -3916,7 +3916,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u32string, std::u16string>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u32string, std::u16string,
-        &cpp_string32_to_py_unicode32, &cpp_string16_to_py_unicode16
+        &cpp_u32string_to_py_unicode32, &cpp_u16string_to_py_unicode16
     >(map);
 }
 
@@ -3929,7 +3929,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u32string, std::u16string>(PyObject* 
         std::map,
         std::u32string, std::u16string,
         &py_unicode32_check, &py_unicode16_check,
-        &py_unicode32_to_cpp_string32, &py_unicode16_to_cpp_string16
+        &py_unicode32_to_cpp_u32string, &py_unicode16_to_cpp_u16string
     >(op, map);
 }
 
@@ -3941,7 +3941,7 @@ cpp_std_map_like_to_py_dict<std::map, std::u32string, std::u32string>(const std:
     return generic_cpp_std_map_like_to_py_dict<
         std::map,
         std::u32string, std::u32string,
-        &cpp_string32_to_py_unicode32, &cpp_string32_to_py_unicode32
+        &cpp_u32string_to_py_unicode32, &cpp_u32string_to_py_unicode32
     >(map);
 }
 
@@ -3954,7 +3954,7 @@ py_dict_to_cpp_std_map_like<std::map, std::u32string, std::u32string>(PyObject* 
         std::map,
         std::u32string, std::u32string,
         &py_unicode32_check, &py_unicode32_check,
-        &py_unicode32_to_cpp_string32, &py_unicode32_to_cpp_string32
+        &py_unicode32_to_cpp_u32string, &py_unicode32_to_cpp_u32string
     >(op, map);
 }
 

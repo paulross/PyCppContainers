@@ -23,8 +23,8 @@ new_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
 static PyObject *
 new_str(PyObject *Py_UNUSED(module), PyObject *arg) {
     if (py_unicode8_check(arg)) {
-        std::string vec = py_unicode8_to_cpp_string8(arg);
-        return cpp_string8_to_py_unicode8(vec);
+        std::string vec = py_unicode8_to_cpp_string(arg);
+        return cpp_string_to_py_unicode8(vec);
     }
     return NULL;
 }

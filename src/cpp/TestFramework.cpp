@@ -285,6 +285,7 @@ std::vector<size_t> SubTestCount::test_failures() const {
 }
 
 static size_t str_count = 0;
+
 /**
  * Creates a unique \c std::string. This starts as "0", "1" ...
  *
@@ -300,6 +301,36 @@ std::string unique_string(int width) {
     }
     ++str_count;
     return os.str();
+}
+
+/**
+ * Creates a unique \c std::u16string. This starts as "0", "1" ...
+ *
+ * @param width If > 0 the string will be at least this width.
+ * @return The unique \c std::u16string.
+ */
+std::u16string unique_u16string(int width) {
+    std::string temp = unique_string(width);
+    std::u16string ret;
+    for (auto c: temp) {
+        ret.push_back(c);
+    }
+    return ret;
+}
+
+/**
+ * Creates a unique \c std::u32string. This starts as "0", "1" ...
+ *
+ * @param width If > 0 the string will be at least this width.
+ * @return The unique \c std::u32string.
+ */
+std::u32string unique_u32string(int width) {
+    std::string temp = unique_string(width);
+    std::u32string ret;
+    for (auto c: temp) {
+        ret.push_back(c);
+    }
+    return ret;
 }
 
 /**

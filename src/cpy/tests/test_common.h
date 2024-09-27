@@ -274,6 +274,14 @@ template <>
 int
 compare_tuple<std::string>(const std::vector<std::string> &cpp_vector, PyObject *op);
 
+template <>
+int
+compare_tuple<std::u16string>(const std::vector<std::u16string> &cpp_vector, PyObject *op);
+
+template <>
+int
+compare_tuple<std::u32string>(const std::vector<std::u32string> &cpp_vector, PyObject *op);
+
 /**
  * Specialisation of \c compare_tuple_or_list that compares a Python \c list with a C++ \c std::vector.
  *
@@ -502,6 +510,12 @@ int test_py_tuple_bytes_to_vector(TestResultS &test_results, size_t size, size_t
 // Functional test of tuples of strings
 int test_vector_string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_tuple_str_to_vector(TestResultS &test_results, size_t size, size_t str_len);
+// Functional test of tuples of 16 bit strings
+int test_vector_u16string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_tuple_str16_to_vector(TestResultS &test_results, size_t size, size_t str_len);
+// Functional test of tuples of 32 bit strings
+int test_vector_u32string_to_py_tuple(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_tuple_str32_to_vector(TestResultS &test_results, size_t size, size_t str_len);
 
 // Functional test of list of vector<char>
 int test_vector_vector_char_to_py_list(TestResultS &test_results, size_t size, size_t str_len);

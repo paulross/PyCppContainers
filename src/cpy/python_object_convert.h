@@ -224,7 +224,7 @@ namespace Python_Cpp_Containers {
      * @param b Value to convert.
      * @return Value equivalent in Python.
      */
-    PyObject *cpp_string8_to_py_unicode8(const std::string &s);
+    PyObject *cpp_string_to_py_unicode8(const std::string &s);
 
     /**
      * Converts a Python \c str to a C++ \c std::string.
@@ -235,7 +235,7 @@ namespace Python_Cpp_Containers {
      * @param op Python value to convert.
      * @return The C++ \c std::str.
      */
-    std::string py_unicode8_to_cpp_string8(PyObject *op);
+    std::string py_unicode8_to_cpp_string(PyObject *op);
 
     /**
      * Return non-zero if the given value is a Python \c str type with 16 bit Unicode.
@@ -252,7 +252,7 @@ namespace Python_Cpp_Containers {
      * @param b Value to convert.
      * @return Value equivalent in Python.
      */
-    PyObject *cpp_string16_to_py_unicode16(const std::u16string &s);
+    PyObject *cpp_u16string_to_py_unicode16(const std::u16string &s);
 
     /**
      * Converts a Python \c str to a C++ \c std::u16string.
@@ -263,7 +263,7 @@ namespace Python_Cpp_Containers {
      * @param op Python value to convert.
      * @return The C++ \c std::str.
      */
-    std::u16string py_unicode16_to_cpp_string16(PyObject *op);
+    std::u16string py_unicode16_to_cpp_u16string(PyObject *op);
 
     /**
      * Return non-zero if the given value is a Python \c str type with 32 bit Unicode.
@@ -280,7 +280,7 @@ namespace Python_Cpp_Containers {
      * @param b Value to convert.
      * @return Value equivalent in Python.
      */
-    PyObject *cpp_string32_to_py_unicode32(const std::u32string &s);
+    PyObject *cpp_u32string_to_py_unicode32(const std::u32string &s);
 
     /**
      * Converts a Python \c str to a C++ \c std::u32string.
@@ -291,7 +291,7 @@ namespace Python_Cpp_Containers {
      * @param op Python value to convert.
      * @return The C++ \c std::str.
      */
-    std::u32string py_unicode32_to_cpp_string32(PyObject *op);
+    std::u32string py_unicode32_to_cpp_u32string(PyObject *op);
 
 } // namespace Python_Cpp_Containers
 #endif //PYTHONCPPHOMOGENEOUSCONTAINERS_PYTHON_OBJECT_CONVERT_H

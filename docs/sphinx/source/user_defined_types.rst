@@ -134,8 +134,8 @@ The code to convert from a C++ ``CppCustomObject`` to a Python ``CustomObject``:
     cpp_custom_object_to_py_custom_object(const CppCustomObject &obj) {
         CustomObject *op = (CustomObject *) Custom_new(&CustomType, NULL, NULL);
         if (op) {
-            op->first = Python_Cpp_Containers::cpp_string_to_py_unicode(obj.first());
-            op->last = Python_Cpp_Containers::cpp_string_to_py_unicode(obj.last());
+            op->first = Python_Cpp_Containers::cpp_string_to_py_unicode8(obj.first());
+            op->last = Python_Cpp_Containers::cpp_string_to_py_unicode8(obj.last());
             op->number = obj.number();
         }
         return (PyObject *) op;

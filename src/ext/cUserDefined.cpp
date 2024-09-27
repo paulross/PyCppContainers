@@ -186,8 +186,8 @@ CppCustomObject py_custom_object_to_cpp_custom_object(PyObject *op) {
     }
     CustomObject *p = (CustomObject *) op;
     return CppCustomObject(
-            Python_Cpp_Containers::py_unicode8_to_cpp_string8(p->first),
-            Python_Cpp_Containers::py_unicode8_to_cpp_string8(p->last),
+            Python_Cpp_Containers::py_unicode8_to_cpp_string(p->first),
+            Python_Cpp_Containers::py_unicode8_to_cpp_string(p->last),
             p->number
     );
 }
@@ -196,8 +196,8 @@ PyObject *
 cpp_custom_object_to_py_custom_object(const CppCustomObject &obj) {
     CustomObject *op = (CustomObject *) Custom_new(&CustomType, NULL, NULL);
     if (op) {
-        op->first = Python_Cpp_Containers::cpp_string8_to_py_unicode8(obj.first());
-        op->last = Python_Cpp_Containers::cpp_string8_to_py_unicode8(obj.last());
+        op->first = Python_Cpp_Containers::cpp_string_to_py_unicode8(obj.first());
+        op->last = Python_Cpp_Containers::cpp_string_to_py_unicode8(obj.last());
         op->number = obj.number();
     }
     return (PyObject *) op;

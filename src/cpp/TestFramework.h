@@ -192,6 +192,8 @@ protected:
 };
 
 std::string unique_string(int width=0);
+std::u16string unique_u16string(int width=0);
+std::u32string unique_u32string(int width=0);
 std::vector<char> unique_vector_char(int width);
 size_t count_of_unique_string();
 void reset_count_of_unique_string();
