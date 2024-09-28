@@ -18,12 +18,11 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Python/C++ Containers'
-copyright = '2021, Paul Ross'
-author = 'Paul Ross'
+copyright = '2021-2024 Paul Ross <apaulross@gmail.com> All rights reserved.'
+author = 'Paul Ross <apaulross@gmail.com>'
 
 # The full version, including alpha/beta/rc tags
 release = '0.3.2'
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -51,7 +50,8 @@ exclude_patterns = []
 # html_theme = 'default'
 # html_theme = 'alabaster'
 # html_theme = 'traditional'
-html_theme = 'sphinxdoc'
+# html_theme = 'sphinxdoc'
+html_theme = 'classic'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -62,7 +62,7 @@ html_static_path = ['_static']
 latex_documents = [
     (
         'index',
-        'PythonCppContainers.tex',
+        'PyCppContainers.tex',
         'Python and C++ Containers',
         'Paul Ross',
         'manual',
@@ -70,4 +70,4 @@ latex_documents = [
 ]
 
 todo_include_todos = True
-
+todo_link_only = True

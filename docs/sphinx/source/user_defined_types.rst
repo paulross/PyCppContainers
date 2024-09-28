@@ -501,12 +501,12 @@ User Defined Types From Pure Python Types
 
 .. todo::
 
-    Add in version 0.4.0
+    User Defined Types From Pure Python Types: Add in version 0.4.0
 
 
-Interoperation with ``numpy`` ND Arrays.
+Interoperation with ``numpy`` ND Arrays
 ============================================
 
 .. todo::
 
-    Add the existing example code in version 0.4.0.
+    Interoperation with ``numpy`` ND Arrays: Add the existing example code in version 0.4.0.
