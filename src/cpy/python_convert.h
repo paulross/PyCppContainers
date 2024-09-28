@@ -262,9 +262,13 @@ namespace Python_Cpp_Containers {
         assert(!PyErr_Occurred());
         int ret = 0;
         list_like.clear();
-        Py_INCREF(op); // Borrow reference
+        Py_INCREF(op); // Increment borrowed reference
         if (!PyUnaryContainer_Check(op)) {
-            PyErr_Format(PyExc_ValueError, "Can not convert Python container of type %s", op->ob_type->tp_name);
+            PyErr_Format(
+                PyExc_ValueError,
+                "Can not convert Python container of type %s",
+                op->ob_type->tp_name
+            );
             ret = -1;
             goto except;
         }
@@ -293,7 +297,7 @@ namespace Python_Cpp_Containers {
         assert(PyErr_Occurred());
         list_like.clear();
         finally:
-        Py_DECREF(op); // Return borrowed reference
+        Py_DECREF(op); // Decrement borrowed reference
         return ret;
     }
 
