@@ -9,7 +9,21 @@ But what if you need to convert to and from C++ containers such as ``std::vector
 This C++ project is about converting between C++ containers and Python's (`tuple`  ``list``, ``set``, ``frozenset``, ``dict``) containing
 homogeneous types (``bool``, ``int``, ``float``, ``complex``, ``bytes``, ``str``) to and from their C++ equivalents.
 
-Two-way conversion for this set of containers:
+These type objects are supported:
+
+| C++ Type                 | Python Equivalent    |
+|--------------------------|----------------------|
+| ``bool``                 | ``True``, ``False``  |
+| ``long``                 | ``int``              |
+| ``double``               | ``float``            |
+| ``std::complex<double>`` | ``complex``          |
+| ``std::vector<char>``    | ``bytes``            |
+| ``std::string``          | ``str``              |
+| ``std::u16string``       | ``str``              |
+| ``std::u32string``       | ``str``              |
+
+
+With two-way conversion for this set of containers:
 
 | C++ Container              | Python Equivalent |
 |----------------------------|-------------------|
@@ -22,22 +36,11 @@ Two-way conversion for this set of containers:
 | `std::unordered_map<K, V>` | `dict`            |
 | `std::map<K, V>`           | `dict`            |
 
-Containing these objects:
-
-| C++ Type                 | Python Equivalent  |
-|--------------------------|---------------------|
-| ``bool``                 | ``True``, ``False`` |
-| ``long``                 | ``int``             |
-| ``double``               | ``float``           |
-| ``std::complex<double>`` | ``complex``         |
-| ``std::vector<char>``    | ``bytes``           |
-| ``std::string``          | ``str``             |
-
-These combinations would normally need 216 specific conversion
+These combinations would normally need 352 specific conversion
 functions.
 
 This project reduces that to just **six** hand maintained functions.
-The 216 actual conversion functions are then created automatically
+The 352 actual conversion functions are then created automatically
 using a mixture of templates, partial specialisation and code generation.
 This approach means that new types and containers can be added with ease.
 
@@ -52,51 +55,61 @@ Then that C++ function modifies that vector and you need the result as a new Pyt
 With this library your code will be as simple as this:
 
 ```c++
+#include "python_convert.h"
+
 static PyObject *
 your_function_name(void) {
     std::vector<double> container = some_cpp_function_that_creates_a_vector();
     // Convert the vector back to a new Python list of float
     // with a generic function.
-    return cpp_std_list_like_to_py_list(container);
+    return Python_Cpp_Containers::cpp_std_list_like_to_py_list(container);
 }
 ```
 
 Some other variations, firstly create a Python `tuple` rather than a `list`:
 
 ```c++
+#include "python_convert.h"
+
 static PyObject *
 your_function_name(void) {
     std::vector<double> container = some_cpp_function_that_creates_a_vector();
-    return cpp_std_list_like_to_py_tuple(container);
+    return Python_Cpp_Containers::cpp_std_list_like_to_py_tuple(container);
 }
 ```
 
 Or work with a `std::list` rather than a `std::vector`:
 
 ```c++
+#include "python_convert.h"
+
 static PyObject *
 your_function_name(void) {
     std::list<double> container = some_cpp_function_that_creates_a_list();
-    return cpp_std_list_like_to_py_list(container);
+    return Python_Cpp_Containers::cpp_std_list_like_to_py_list(container);
 }
 ```
 
 Or work with a `std::vector<std::string>>`:
 
 ```c++
+#include "python_convert.h"
+
 static PyObject *
 your_function_name(void) {
     std::vector<std::string> container = some_cpp_function_that_creates_a_vector();
-    return cpp_std_list_like_to_py_list(container);
+    return Python_Cpp_Containers::cpp_std_list_like_to_py_list(container);
 }
 ```
 
-Note `cpp_std_list_like_to_py_list(container)` will select the correct type conversion or will give
-a compile time error if there is a type mismatch.
+Note `Python_Cpp_Containers::cpp_std_list_like_to_py_list(container)` will select the correct type conversion or will
+give a compile time error if there is a type mismatch.
 
 ### Python to C++
 
 ```c++
+#include "python_convert.h"
+
 static PyObject *
 your_function_name(PyObject *arg) {
     // Declare the specific vector type
@@ -104,7 +117,7 @@ your_function_name(PyObject *arg) {
     // Call the generic function to convert a list to a std::vector.
     // This returns non-zero if it can not convert arg to a
     // std::vector<double> 
-    if (!py_list_to_cpp_std_list_like(arg, vec)) {
+    if (! Python_Cpp_Containers::py_list_to_cpp_std_list_like(arg, vec)) {
         // Send the std::vector<double> to the C++ library.
         // ...
         Py_RETURN_NONE;
@@ -119,21 +132,20 @@ your_function_name(PyObject *arg) {
 
 If necessary run the code generator:
 
-
 ```shell
 cd src/py
 python code_gen.py
 ```
-
 Which should give you something like:
 
 ```shell
 venv/bin/python src/py/code_gen.py
+Version: 0.4.0
 Target directory "src/cpy"
 Writing declarations to "src/cpy/auto_py_convert_internal.h"
-Wrote 2654 lines of code with 220 declarations.
-Writing definitions to "src/cpy/auto_py_convert_internal.cpp"
-Wrote 2384 lines of code with 216 definitions.
+Wrote 4125 lines of code with 356 declarations.
+Writing definitions to  "src/cpy/auto_py_convert_internal.cpp"
+Wrote 3971 lines of code with 352 definitions.
 
 Process finished with exit code 0
 ```

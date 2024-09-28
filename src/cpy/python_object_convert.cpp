@@ -123,10 +123,12 @@ namespace Python_Cpp_Containers {
 
     /**
      * Create a Python 16 bit unicode object from a C++ std::u16string.
+     *
      * NOTE: We can't use <tt>PyUnicode_FromKindAndData(PyUnicode_2BYTE_KIND, (Py_UCS2 *)s.c_str(), s.size())</tt>
-     * since that function may produce a PyUnicode_1BYTE_KIND if the character values permit.
-     * Instead we use PyUnicode_New(s.size(), maxchar = 65535) to compel a 2 byte word size and then copy each
+     * since that function may produce a \c PyUnicode_1BYTE_KIND if the character values permit.
+     * Instead we use <tt>PyUnicode_New(s.size(), maxchar = 65535)</tt> to compel a 2 byte word size and then copy each
      * character individually.
+     *
      * See: https://docs.python.org/3/c-api/unicode.html#c.PyUnicode_New
      *
      * @param s The C++ string.
@@ -167,10 +169,13 @@ namespace Python_Cpp_Containers {
 
     /**
      * Create a Python 32 bit unicode object from a C++ std::u32string.
-     * NOTE: We can't use PyUnicode_FromKindAndData(PyUnicode_4BYTE_KIND, (Py_UCS4 *)s.c_str(), s.size())
-     * since that function may produce a PyUnicode_1BYTE_KIND or PyUnicode_2BYTE_KIND if the character values permit.
-     * Instead we use PyUnicode_New(s.size(), maxchar = 1114111) to compel a 4 byte word size and then copy each
-     * character individually.
+     *
+     * NOTE: We can't use <tt>PyUnicode_FromKindAndData(PyUnicode_4BYTE_KIND, (Py_UCS4 *)s.c_str(), s.size())</tt>
+     * since that function may produce a \c PyUnicode_1BYTE_KIND or \c PyUnicode_2BYTE_KIND if the character values
+     * permit.
+     * Instead we use <tt>PyUnicode_New(s.size(), maxchar = 1114111)</tt> to compel a 4 byte word size and then copy
+     * each character individually.
+     *
      * See: https://docs.python.org/3/c-api/unicode.html#c.PyUnicode_New
      *
      * @param s The C++ string.
