@@ -12,41 +12,24 @@ Using this C++ Library
 The Basics
 ============================================
 
-Code Generation
-----------------------
-
-If necessary run the code generator:
+Get the Project from ``git``
+--------------------------------
 
 .. code-block:: shell
 
-    cd src/py
-    python code_gen.py
-
-Which should give you something like:
-
-.. code-block:: none
-
-    venv/bin/python src/py/code_gen.py
-    Target directory "src/cpy"
-    Writing declarations to "src/cpy/auto_py_convert_internal.h"
-    Wrote 2654 lines of code with 220 declarations.
-    Writing definitions to  "src/cpy/auto_py_convert_internal.cpp"
-    Wrote 2384 lines of code with 216 definitions.
-
-    Process finished with exit code 0
+    $ git pull https://github.com/paulross/PyCppContainers.git
 
 Build Configuration
 --------------------------
 
 You need to compile the following C++ files by adding them to your makefile or CMakeLists.txt:
-
+This project has a ``CMakeLists.txt`` as an example.
 
 .. code-block:: none
 
     src/cpy/auto_py_convert_internal.cpp
     src/cpy/python_container_convert.cpp
     src/cpy/python_object_convert.cpp
-
 
 Source Inclusion
 --------------------------
@@ -59,8 +42,7 @@ Then in your C++ code include:
 
     #include "python_convert.h"
 
-Which gives you access to the whole API in the namespace ``Python_Cpp_Containers``.
-
+Which gives you access to the whole :ref:`PythonCppContainers.Cpp_API`_ in the namespace ``Python_Cpp_Containers``.
 
 Errors
 -------------------

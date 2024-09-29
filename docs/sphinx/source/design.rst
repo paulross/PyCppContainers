@@ -609,8 +609,25 @@ The definitions are auto-generated in ``auto_py_convert_internal.cpp``, here sho
     }
 
 Code Generation
--------------------
+----------------------
 
-.. todo::
+If necessary run the code generator:
 
-    Code Generation: Add in version 0.4.0
+.. code-block:: shell
+
+    cd src/py
+    python code_gen.py
+
+Which should give you something like:
+
+.. code-block:: shell
+
+    venv/bin/python src/py/code_gen.py
+    Version: 0.4.0
+    Target directory "src/cpy"
+    Writing declarations to "src/cpy/auto_py_convert_internal.h"
+    Wrote 4125 lines of code with 356 declarations.
+    Writing definitions to  "src/cpy/auto_py_convert_internal.cpp"
+    Wrote 3971 lines of code with 352 definitions.
+
+    Process finished with exit code 0
