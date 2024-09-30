@@ -32,9 +32,9 @@ def _test_new_list_bool(test_function):
         time_exec = time.perf_counter() - time_start
         results.append(time_exec)
         # del original
-    print()
-    print('\n'.join(f'{v:8.3f}' for v in results))
-    print(f'Mean: {sum(results) / len(results):8.3f}')
+    # print()
+    # print('\n'.join(f'{v:8.3f}' for v in results))
+    print(f'Time: Min: {min(results):8.3f} Mean: {sum(results) / len(results):8.3f} Max: {max(results):8.3f}')
     rss_new = proc.memory_info().rss
     print(f'Total bytes RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
 
@@ -74,9 +74,9 @@ def _test_new_list_double(test_function):
         time_exec = time.perf_counter() - time_start
         results.append(time_exec)
         # del original
-    print()
-    print('\n'.join(f'{v:8.3f}' for v in results))
-    print(f'Mean: {sum(results) / len(results):8.3f}')
+    # print()
+    # print('\n'.join(f'{v:8.3f}' for v in results))
+    print(f'Time: Min: {min(results):8.3f} Mean: {sum(results) / len(results):8.3f} Max: {max(results):8.3f}')
     rss_new = proc.memory_info().rss
     print(f'Total bytes RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
 
@@ -120,9 +120,9 @@ def _test_new_list_vector_bytes():
         time_exec = time.perf_counter() - time_start
         results.append(time_exec)
         # del original
-    print()
-    print('\n'.join(f'{v:8.3f}' for v in results))
-    print(f'Mean: {sum(results) / len(results):8.3f}')
+    # print()
+    # print('\n'.join(f'{v:8.3f}' for v in results))
+    print(f'Time: Min: {min(results):8.3f} Mean: {sum(results) / len(results):8.3f} Max: {max(results):8.3f}')
     rss_new = proc.memory_info().rss
     print(f'Total bytes {total_bytes:16,d} RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
 
@@ -168,9 +168,9 @@ def _test_new_set_bytes():
         time_exec = time.perf_counter() - time_start
         results.append(time_exec)
         # del original
-    print()
-    print('\n'.join(f'{v:8.3f}' for v in results))
-    print(f'Mean: {sum(results) / len(results):8.3f}')
+    # print()
+    # print('\n'.join(f'{v:8.3f}' for v in results))
+    print(f'Time: Min: {min(results):8.3f} Mean: {sum(results) / len(results):8.3f} Max: {max(results):8.3f}')
     rss_new = proc.memory_info().rss
     print(f'_test_new_set_bytes(): Total bytes {total_bytes:16,d} RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
 
@@ -217,9 +217,9 @@ def _test_new_dict_unordered_map_bytes():
         time_exec = time.perf_counter() - time_start
         results.append(time_exec)
         # del original
-    print()
-    print('\n'.join(f'{v:8.3f}' for v in results))
-    print(f'Mean: {sum(results) / len(results):8.3f}')
+    # print()
+    # print('\n'.join(f'{v:8.3f}' for v in results))
+    print(f'Time: Min: {min(results):8.3f} Mean: {sum(results) / len(results):8.3f} Max: {max(results):8.3f}')
     rss_new = proc.memory_info().rss
     print(f'_test_new_dict_unordered_map_bytes(): Total bytes {total_bytes:16,d} RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
 
@@ -265,9 +265,9 @@ def _test_new_dict_map_str():
         time_exec = time.perf_counter() - time_start
         results.append(time_exec)
         # del original
-    print()
-    print('\n'.join(f'{v:8.3f}' for v in results))
-    print(f'Mean: {sum(results) / len(results):8.3f}')
+    # print()
+    # print('\n'.join(f'{v:8.3f}' for v in results))
+    print(f'Time: Min: {min(results):8.3f} Mean: {sum(results) / len(results):8.3f} Max: {max(results):8.3f}')
     rss_new = proc.memory_info().rss
     print(f'_test_new_dict_map_str(): Total bytes {total_bytes:16,d} RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
 
