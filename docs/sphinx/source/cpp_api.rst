@@ -1,9 +1,7 @@
 .. moduleauthor:: Paul Ross <apaulross@gmail.com>
 .. sectionauthor:: Paul Ross <apaulross@gmail.com>
 
-.. PythonCppContainers C++ API
-
-.. _PythonCppContainers.Cpp_API:
+.. _PyCppContainers_CppAPI:
 
 ****************************
 C++ API

@@ -42,7 +42,7 @@ Then in your C++ code include:
 
     #include "python_convert.h"
 
-Which gives you access to the whole :ref:`PythonCppContainers.Cpp_API`_ in the namespace ``Python_Cpp_Containers``.
+Which gives you access to the whole :ref:`PyCppContainers_CppAPI` in the namespace ``Python_Cpp_Containers``.
 
 Errors
 -------------------
@@ -174,6 +174,7 @@ Once the extension is built you can use it thus:
     [2.0, 4.0, 8.0]
 
 You can verify that the returned list is a new one rather than modifying the input in-place:
+
 .. code-block:: python
 
     >>> a = [1.0, 2.0, 4.0]
@@ -347,10 +348,16 @@ This takes two or three seconds.
 Extra Tests
 ^^^^^^^^^^^^^^^^^^^
 
+TODO: Make this section more prominent.
+
 There are a couple of options that can be added:
 
-* ``--runslow`` will run slow tests including performance test. Use the ``-s`` option to obtain the performance output.
-* ``--pymemtrace`` will run memory tracing tests. This requires `pymemtrace <https://pypi.org/project/pymemtrace/>`_ to be installed.
+* ``--runslow`` will run slow tests including performance test.
+  Use the ``-s`` option to obtain the performance output.
+* ``--pymemtrace`` will run memory tracing tests.
+  This requires `pymemtrace <https://pypi.org/project/pymemtrace/>`_ to be installed.
+  This uses `cPyMemTrace.Profile() <https://pymemtrace.readthedocs.io/en/latest/examples/c_py_mem_trace.html>`_
+  to trace the memory usage when long running tests are executed.
 
 For the full set of tests use:
 

@@ -15,6 +15,7 @@ Python/C++ Container's Documentation
 
    introduction
    usage
+   build_test
    cpp_api
    user_defined_types
    design
