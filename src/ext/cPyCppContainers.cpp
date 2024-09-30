@@ -471,7 +471,7 @@ new_dict_from_std_unordered_map_int_str(PyObject *Py_UNUSED(module), PyObject *a
 
 static PyObject *
 new_dict_from_std_unordered_map_int_str16(PyObject *Py_UNUSED(module), PyObject *arg) {
-    return new_dict<std::unordered_map, long, std::string>(arg);
+    return new_dict<std::unordered_map, long, std::u16string>(arg);
 }
 
 static PyObject *

@@ -803,7 +803,7 @@ def test_new_dict_unordered_map_int_str():
         print()
         rss_new = proc.memory_info().rss
         print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:+,d}')
-        print(f'test_new_dict_unordered_map_str_str() String length {byte_length}')
+        print(f'test_new_dict_unordered_map_int_str() String length {byte_length}')
         print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
         for s, t in results:
             print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
@@ -831,7 +831,7 @@ def test_new_dict_unordered_map_int_str16():
         print()
         rss_new = proc.memory_info().rss
         print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:+,d}')
-        print(f'test_new_dict_unordered_map_str_str() String length {byte_length}')
+        print(f'test_new_dict_unordered_map_int_str16() String length {byte_length}')
         print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
         for s, t in results:
             print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
@@ -859,7 +859,7 @@ def test_new_dict_unordered_map_int_str32():
         print()
         rss_new = proc.memory_info().rss
         print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:+,d}')
-        print(f'test_new_dict_unordered_map_str_str() String length {byte_length}')
+        print(f'test_new_dict_unordered_map_int_str32() String length {byte_length}')
         print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
         for s, t in results:
             print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
