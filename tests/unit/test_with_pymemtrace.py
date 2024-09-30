@@ -1,3 +1,10 @@
+"""
+This is a fairly exhaustive set of tests that take a long time to run.
+The tests always pass as they are print the memory usage to stdout rather than functional tests.
+
+Run this with:
+$ caffeinate pytest -vs --pymemtrace tests/unit/test_with_pymemtrace.py
+"""
 import gc
 import pprint
 import random

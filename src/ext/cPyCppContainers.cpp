@@ -169,6 +169,16 @@ new_list_vector_str(PyObject *Py_UNUSED(module), PyObject *arg) {
 }
 
 static PyObject *
+new_list_vector_str16(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::vector, std::u16string>(arg);
+}
+
+static PyObject *
+new_list_vector_str32(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::vector, std::u32string>(arg);
+}
+
+static PyObject *
 new_list_list_bool(PyObject *Py_UNUSED(module), PyObject *arg) {
     return new_list<std::list, bool>(arg);
 }
@@ -196,6 +206,16 @@ new_list_list_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
 static PyObject *
 new_list_list_str(PyObject *Py_UNUSED(module), PyObject *arg) {
     return new_list<std::list, std::string>(arg);
+}
+
+static PyObject *
+new_list_list_str16(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::list, std::u16string>(arg);
+}
+
+static PyObject *
+new_list_list_str32(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_list<std::list, std::u32string>(arg);
 }
 
 #if 0
@@ -290,7 +310,7 @@ new_set_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
 }
 
 /**
- * Create a new set of [str] by copying into a std::unordered_set and back.
+ * Create a new set of str by copying into a \c std::unordered_set and back.
  *
  * @param arg The Python set. This is const.
  * @return A new Python set of [str].
@@ -301,7 +321,29 @@ new_set_str(PyObject *Py_UNUSED(module), PyObject *arg) {
 }
 
 /**
- * Create a new frozenset of [K] by copying into a std::unordered_set and back.
+ * Create a new set of str with 16 bit characters by copying into a \c std::unordered_set and back.
+ *
+ * @param arg The Python set. This is const.
+ * @return A new Python set of str16.
+ */
+static PyObject *
+new_set_str16(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_set<std::u16string>(arg);
+}
+
+/**
+ * Create a new set of str with 32 bit characters by copying into a \c std::unordered_set and back.
+ *
+ * @param arg The Python set. This is const.
+ * @return A new Python set of str32.
+ */
+static PyObject *
+new_set_str32(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_set<std::u32string>(arg);
+}
+
+/**
+ * Create a new frozenset of [K] by copying into a \c std::unordered_set and back.
  *
  * @param arg The Python set. This is const.
  * @return A new Python frozenset of [K].
@@ -413,6 +455,31 @@ new_dict_from_std_unordered_map_str_str(PyObject *Py_UNUSED(module), PyObject *a
 }
 
 static PyObject *
+new_dict_from_std_unordered_map_str16_str16(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::unordered_map, std::u16string, std::u16string>(arg);
+}
+
+static PyObject *
+new_dict_from_std_unordered_map_str32_str32(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::unordered_map, std::u32string, std::u32string>(arg);
+}
+
+static PyObject *
+new_dict_from_std_unordered_map_int_str(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::unordered_map, long, std::string>(arg);
+}
+
+static PyObject *
+new_dict_from_std_unordered_map_int_str16(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::unordered_map, long, std::string>(arg);
+}
+
+static PyObject *
+new_dict_from_std_unordered_map_int_str32(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::unordered_map, long, std::u32string>(arg);
+}
+
+static PyObject *
 new_dict_from_std_map_int_int(PyObject *Py_UNUSED(module), PyObject *arg) {
     return new_dict<std::map, long, long>(arg);
 }
@@ -437,6 +504,30 @@ new_dict_from_std_map_str_str(PyObject *Py_UNUSED(module), PyObject *arg) {
     return new_dict<std::map, std::string, std::string>(arg);
 }
 
+static PyObject *
+new_dict_from_std_map_str16_str16(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::map, std::u16string, std::u16string>(arg);
+}
+
+static PyObject *
+new_dict_from_std_map_str32_str32(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::map, std::u32string, std::u32string>(arg);
+}
+
+static PyObject *
+new_dict_from_std_map_int_str(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::map, long, std::string>(arg);
+}
+
+static PyObject *
+new_dict_from_std_map_int_str16(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::map, long, std::u16string>(arg);
+}
+
+static PyObject *
+new_dict_from_std_map_int_str32(PyObject *Py_UNUSED(module), PyObject *arg) {
+    return new_dict<std::map, long, std::u32string>(arg);
+}
 
 /**
  * Create a new dict of [K, V]] by copying into a std::unordered_map.
@@ -536,12 +627,16 @@ finally:
     return ret;
 }
 
+
+#define SINGLE_ARGUMENT_METHOD(name, doc) { #name, name, METH_O, doc }
+
 /**
  * The Python Extension methods.
  */
 static PyMethodDef cPyCppContainersMethods[] = {
-        {"new_bytes", new_bytes, METH_O,
-                "Take a bytes and return a new str object."},
+        SINGLE_ARGUMENT_METHOD(new_bytes, "Take a bytes and return a new str object."),
+//        {"new_bytes", new_bytes, METH_O,
+//                "Take a bytes and return a new str object."},
         {"new_str", new_str, METH_O,
                 "Take a str and return a new str object."},
         {"list_x2", list_x2, METH_O,
@@ -564,6 +659,10 @@ static PyMethodDef cPyCppContainersMethods[] = {
                 "Take a list of bytes and return a new list with the same values via a std::vector."},
         {"new_list_vector_str", new_list_vector_str, METH_O,
                 "Take a list of str and return a new list with the same values via a std::vector."},
+        {"new_list_vector_str16", new_list_vector_str16, METH_O,
+                "Take a list of str (16 bit characters) and return a new list with the same values via a std::vector."},
+        {"new_list_vector_str32", new_list_vector_str32, METH_O,
+                "Take a list of str (32 bit characters) and return a new list with the same values via a std::vector."},
         {"new_list_list_float", new_list_list_float, METH_O,
                 "Take a list of floats and return a new list with the same values via a std::list."},
         {"new_list_list_bool", new_list_list_bool, METH_O,
@@ -576,6 +675,10 @@ static PyMethodDef cPyCppContainersMethods[] = {
                 "Take a list of bytes and return a new list with the same values via a std::list."},
         {"new_list_list_str", new_list_list_str, METH_O,
                 "Take a list of str and return a new list with the same values via a std::list."},
+        {"new_list_list_str16", new_list_list_str16, METH_O,
+                "Take a list of str with 16 bit characters and return a new list with the same values via a std::list."},
+        {"new_list_list_str32", new_list_list_str32, METH_O,
+                "Take a list of str with 16 bit characters and return a new list with the same values via a std::list."},
         /* Sets. */
         {"new_set_int", new_set_int, METH_O,
                 "Take a set of ints and return a new set with the same values."},
@@ -587,6 +690,10 @@ static PyMethodDef cPyCppContainersMethods[] = {
                 "Take a set of bytes and return a new set with the same values."},
         {"new_set_str", new_set_str, METH_O,
                 "Take a set of str and return a new set with the same values."},
+        {"new_set_str16", new_set_str16, METH_O,
+                "Take a set of str with 16 bit characters and return a new set with the same values."},
+        {"new_set_str32", new_set_str32, METH_O,
+                "Take a set of str with 32 bit characters and return a new set with the same values."},
         /* Frozen Sets. */
         {"new_frozenset_int", new_frozenset_int, METH_O,
                 "Take a frozenset of ints and return a new frozenset with the same values."},
@@ -615,6 +722,16 @@ static PyMethodDef cPyCppContainersMethods[] = {
                 "Take a dict of [bytes, bytes] using std::unordered_map and return a new dict with the same values."},
         {"new_dict_from_std_unordered_map_str_str", new_dict_from_std_unordered_map_str_str, METH_O,
                 "Take a dict of [str, str] using std::unordered_map and return a new dict with the same values."},
+        {"new_dict_from_std_unordered_map_str16_str16", new_dict_from_std_unordered_map_str16_str16, METH_O,
+                "Take a dict of [str16, str16] using std::unordered_map and return a new dict with the same values."},
+        {"new_dict_from_std_unordered_map_str32_str32", new_dict_from_std_unordered_map_str32_str32, METH_O,
+                "Take a dict of [str32, str32] using std::unordered_map and return a new dict with the same values."},
+        {"new_dict_from_std_unordered_map_int_str", new_dict_from_std_unordered_map_int_str, METH_O,
+                "Take a dict of [int, str] using std::unordered_map and return a new dict with the same values."},
+        {"new_dict_from_std_unordered_map_int_str16", new_dict_from_std_unordered_map_int_str16, METH_O,
+                "Take a dict of [int, str16] using std::unordered_map and return a new dict with the same values."},
+        {"new_dict_from_std_unordered_map_int_str32", new_dict_from_std_unordered_map_int_str32, METH_O,
+                "Take a dict of [int, str32] using std::unordered_map and return a new dict with the same values."},
         /* std::map */
         {"new_dict_from_std_map_int_int", new_dict_from_std_map_int_int, METH_O,
                 "Take a dict of [int, int] using std::map and return a new dict with the same values."},
@@ -626,6 +743,16 @@ static PyMethodDef cPyCppContainersMethods[] = {
                 "Take a dict of [bytes, bytes] using std::map and return a new dict with the same values."},
         {"new_dict_from_std_map_str_str", new_dict_from_std_map_str_str, METH_O,
                 "Take a dict of [str, str] using std::map and return a new dict with the same values."},
+        {"new_dict_from_std_map_str16_str16", new_dict_from_std_map_str16_str16, METH_O,
+                "Take a dict of [str16, str16] using std::map and return a new dict with the same values."},
+        {"new_dict_from_std_map_str32_str32", new_dict_from_std_map_str32_str32, METH_O,
+                "Take a dict of [str32, str32] using std::map and return a new dict with the same values."},
+        {"new_dict_from_std_map_int_str", new_dict_from_std_map_int_str, METH_O,
+                "Take a dict of [int, str] using std::map and return a new dict with the same values."},
+        {"new_dict_from_std_map_int_str16", new_dict_from_std_map_int_str16, METH_O,
+                "Take a dict of [int, str16] using std::map and return a new dict with the same values."},
+        {"new_dict_from_std_map_int_str32", new_dict_from_std_map_int_str32, METH_O,
+                "Take a dict of [int, str32] using std::map and return a new dict with the same values."},
         // Debug
         {"new_dict_debug_int_int", new_dict_debug_int_int, METH_O,
                 "Debug a dict of [int, int]."},
