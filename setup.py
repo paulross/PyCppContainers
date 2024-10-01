@@ -44,7 +44,7 @@ def read_file(rel_file_path: str) -> str:
         return f.read()
 
 setup(
-    name='PythonCppContainers',
+    name='PyCppContainers',
     version='0.3.2',
     author='Paul Ross',
     author_email='apaulross@gmail.com',

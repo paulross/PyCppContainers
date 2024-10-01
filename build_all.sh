@@ -17,7 +17,7 @@ PYTHON_VERSIONS=('3.8' '3.9' '3.10' '3.11' '3.12' '3.13')
 PYTHON_VENV_ROOT="${HOME}/pyenvs"
 # Used for venvs
 PROJECT_NAME="cPyCppContainers"
-CPP_EXECUTABLE="PythonCppHomogeneousContainers"
+CPP_EXECUTABLE="PyCppContainers"
 
 
 #printf "%-8s %8s %10s %10s %12s\n" "Ext" "Files" "Lines" "Words" "Bytes"

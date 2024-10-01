@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
-project(PythonCppHomogeneousContainers)
+project(PyCppContainers)
 
 function(dump_cmake_variables)
     message(STATUS "==== dump_cmake_variables()")
@@ -86,7 +86,7 @@ ENDIF ()
 #ENDIF()
 
 add_executable(
-        PythonCppHomogeneousContainers
+        PyCppContainers
         src/main.cpp
 
         src/cpp/get_rss.cpp
