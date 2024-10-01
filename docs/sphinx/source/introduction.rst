@@ -21,6 +21,72 @@ This project is about converting Python containers such as ``list``, ``tuple``, 
 containing homogeneous types such as ``bool``, ``int``, ``float``, ``complex``, ``bytes``, ``str`` or user defined
 types to and from their C++ equivalent.
 
+Here is a general example of the use of this library where Python data needs to ba passed to a C++ library and those
+results need to be presented in Python:
+
+.. code-block:: text
+
+          Python        |    This Library (C++/Python)  |   C++ Library
+    ------------------- . ----------------------------- . ---------------
+            |           .                               .
+     Get Python data    .                               .
+            |           .                               .
+            \---------------------->\                   .
+                        .           |                   .
+                        .  Convert Python data to C++   .
+                        .           |                   .
+                        .           \-------------------------->\
+                        .                               .       |
+                        .                               . Process C++ data
+                        .                               .       |
+                        .           /<--------------------------/
+                        .           |                   .
+                        .  Convert C++ data to Python   .
+                        .           |                   .
+            /<---------------------/                    .
+            |           .                               .
+    Process Python data .                               .
+            |           .                               .
+
+A similar example is where data is being created from a C++ application and needs to be represented in Python:
+
+.. code-block:: text
+
+          Python        |    This Library (C++/Python)  |   C++ Library
+    ------------------- . ----------------------------- . ---------------
+                        .                               .  C++ data feed
+                        .                               .       |
+                        .           /<--------------------------/
+                        .           |                   .
+                        .  Convert C++ data to Python   .
+                        .           |                   .
+            /<---------------------/                    .
+            |           .                               .
+    Python data feed    .                               .
+            |           .                               .
+
+And an alternative example is where data is being created from a Python application and needs to be represented in C++:
+
+.. code-block:: text
+
+          Python        |    This Library (C++/Python)  |   C++ Library
+    ------------------- . ----------------------------- . ---------------
+            |           .                               .
+    Python data feed    .                               .
+            |           .                               .
+            \---------------------->\                   .
+                        .           |                   .
+                        .  Convert Python data to C++   .
+                        .           |                   .
+                        .           \-------------------------->\
+                        .                               .       |
+                        .                               . Process C++ data feed
+
+
+
+
+
+
 A Problematic Example
 ========================
 

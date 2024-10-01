@@ -1120,6 +1120,10 @@ new_py_set_bytes(size_t size, size_t str_len);
 PyObject *
 new_py_set_string(size_t size, size_t str_len);
 PyObject *
+new_py_set_u16string(size_t size, size_t str_len);
+PyObject *
+new_py_set_u32string(size_t size, size_t str_len);
+PyObject *
 new_py_dict_bytes(size_t size, size_t str_len);
 PyObject *
 new_py_dict_string(size_t size, size_t str_len);

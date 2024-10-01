@@ -1088,6 +1088,68 @@ new_py_set_string(size_t size, size_t str_len) {
 }
 
 /**
+ * Create a new Python \c set of \c str 16 bit.
+ *
+ * @param size Length of the \c set.
+ * @param str_len Length of each \c str object. Each object will be unique.
+ * @return New reference to a \c set or \c NULL on failure.
+ */
+PyObject *
+new_py_set_u16string(size_t size, size_t str_len) {
+    assert(! PyErr_Occurred());
+    PyObject *op = PySet_New(NULL);
+    if (op) {
+        for (size_t i = 0; i < size; ++i) {
+            std::u16string str = unique_u16string(str_len);
+            int err = PySet_Add(op, Python_Cpp_Containers::cpp_u16string_to_py_unicode16(str));
+            if (err) {
+                PyErr_Format(PyExc_SystemError, "PySet_Add failed returning %d.", err);
+                Py_DECREF(op);
+                op = NULL;
+            }
+        }
+        assert((size_t)PySet_Size(op) == size);
+    }
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
+    return op;
+}
+
+/**
+ * Create a new Python \c set of \c str 32 bit.
+ *
+ * @param size Length of the \c set.
+ * @param str_len Length of each \c str object. Each object will be unique.
+ * @return New reference to a \c set or \c NULL on failure.
+ */
+PyObject *
+new_py_set_u32string(size_t size, size_t str_len) {
+    assert(! PyErr_Occurred());
+    PyObject *op = PySet_New(NULL);
+    if (op) {
+        for (size_t i = 0; i < size; ++i) {
+            std::u32string str = unique_u32string(str_len);
+            int err = PySet_Add(op, Python_Cpp_Containers::cpp_u32string_to_py_unicode32(str));
+            if (err) {
+                PyErr_Format(PyExc_SystemError, "PySet_Add failed returning %d.", err);
+                Py_DECREF(op);
+                op = NULL;
+            }
+        }
+        assert((size_t)PySet_Size(op) == size);
+    }
+    if (op) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
+    return op;
+}
+
+/**
  * Create a new Python \c dict of \c bytes for both the key and the value.
  *
  * @param size Length of the \c dict.

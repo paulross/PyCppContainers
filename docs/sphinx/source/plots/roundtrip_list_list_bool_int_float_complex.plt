@@ -66,7 +66,7 @@ plot "dat/roundtrip_list_list_bool.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e
 
 # Rate plots
 set ylabel "Time per Item (µs)"
-set yrange [0.001:1]
+# set yrange [0.001:1]
 
 set terminal svg size 800,600           # choose the file format
 set output "images/roundtrip_list_list_bool_int_float_complex_rate.svg"   # choose the output device

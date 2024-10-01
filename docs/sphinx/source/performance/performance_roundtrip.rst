@@ -79,7 +79,7 @@ Here is the *round trip* performance of a Python list of ``bool``, ``int``, ``fl
 C++ ``std::vector``:
 
 .. image:: ../plots/images/roundtrip_list_vector_bool_int_float_complex_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 These are typically *round trip* converted at:
@@ -91,7 +91,7 @@ And the *round trip* performance of a Python list of ``bool``, ``int``, ``float`
 C++ ``std::list``:
 
 .. image:: ../plots/images/roundtrip_list_list_bool_int_float_complex_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 These are typically *round trip* converted at:
@@ -106,13 +106,13 @@ Python List of ``bytes``
 And a Python list of ``bytes`` for different lengths; 2, 16, 128 and 1024 bytes long via a C++ ``std::vector``:
 
 .. image:: ../plots/images/roundtrip_list_vector_bytes_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 And a Python list of ``bytes`` for different lengths; 2, 16, 128 and 1024 bytes long via a C++ ``std::list``:
 
 .. image:: ../plots/images/roundtrip_list_list_bytes_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 Given the size of each object this *round trip* time for lists can be summarised as:
@@ -132,13 +132,13 @@ Python List of ``str``
 And a Python list of ``str`` for different lengths; 2, 16, 128 and 1024 via a C++ ``std::vector``:
 
 .. image:: ../plots/images/roundtrip_list_vector_str_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 And via a C++ ``std::list``:
 
 .. image:: ../plots/images/roundtrip_list_list_str_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 Given the size of each object this *round trip* time for lists can be summarised as:
@@ -164,7 +164,7 @@ Python Set of ``int``, ``float`` and ``complex``
 Here is the *round trip* performance of a Python set of ``int``, ``float`` and ``complex`` numbers:
 
 .. image:: ../plots/images/roundtrip_set_ints_and_floats_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 These are typically *round trip* converted at (for sets < 100,000 long):
@@ -190,7 +190,7 @@ Python Set of ``bytes``
 And a Python set of bytes for different lengths; 16, 128 and 1024 bytes long:
 
 .. image:: ../plots/images/roundtrip_set_bytes_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 Here is the time per object compared with a list:
@@ -223,7 +223,7 @@ TODO:
 And a Python set of ``str`` for different lengths; 16, 128 and 1024 bytes long:
 
 .. image:: ../plots/images/roundtrip_set_str_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 This is near identical with bytes with small strings having a slight edge.
@@ -260,13 +260,13 @@ Here is the round trip time for a Python dict to and from a C++ ``std::unordered
 This plots the *round trip* cost *per key/value pair* against dict size.
 
 .. image:: ../plots/images/roundtrip_dict_unordered_map_ints_floats_complex_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 And for conversion via a C++ ``std::map``:
 
 .. image:: ../plots/images/roundtrip_dict_map_ints_floats_complex_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 These are typically *round trip* converted at:
@@ -289,13 +289,13 @@ Here is the *round trip* time for a Python dict [bytes, bytes] to and from a C++
 The key and the value are the same length.
 
 .. image:: ../plots/images/roundtrip_dict_unordered_map_bytes_bytes_Byte_length_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 And via a C++ ``std::map``:
 
 .. image:: ../plots/images/roundtrip_dict_map_bytes_bytes_Byte_length_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 This *round trip* time for both keys and values for dicts can be summarised as:
@@ -316,13 +316,13 @@ Here is the *round trip* time for a Python dict [str, str] to and from a C++
 The key and the value are the same length.
 
 .. image:: ../plots/images/roundtrip_dict_unordered_map_str_str_String_length_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 And via a C++ ``std::map``:
 
 .. image:: ../plots/images/roundtrip_dict_map_str_str_String_length_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 This *round trip* time for both keys and values for dicts can be summarised as:

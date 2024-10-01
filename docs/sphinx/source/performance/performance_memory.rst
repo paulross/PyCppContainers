@@ -29,21 +29,29 @@ The code to do this for a ``list`` is something like:
 
 `pymemtrace <https://pypi.org/project/pymemtrace/>`_ produces a log file of memory usage such as (not the actual data that created the plot below):
 
+.. raw:: latex
+
+    \begin{landscape}
+
 .. code-block:: text
 
-          Event        dEvent  Clock        What     File                   #line Function                                  RSS         dRSS
-    NEXT: 0            +0      1.267233     CALL     test_with_pymemtrace.py#  15 _test_new_list_bytes                 29384704     29384704
-    PREV: 83           +83     1.267558     CALL     test_with_pymemtrace.py#  26 <listcomp>                           29384704            0
-    NEXT: 84           +84     1.268744     RETURN   test_with_pymemtrace.py#  26 <listcomp>                           29544448       159744
-    PREV: 87           +3      1.268755     C_CALL   test_with_pymemtrace.py#  28 new_list_bytes                       29544448            0
-    NEXT: 88           +4      2.523796     C_RETURN test_with_pymemtrace.py#  28 new_list_bytes                     1175990272   1146445824
-    NEXT: 89           +1      2.647460     C_CALL   test_with_pymemtrace.py#  29 perf_counter                         34713600  -1141276672
-    PREV: 93           +4      2.647496     CALL     test_with_pymemtrace.py#  26 <listcomp>                           34713600            0
-    NEXT: 94           +5      2.648859     RETURN   test_with_pymemtrace.py#  26 <listcomp>                           34844672       131072
-    NEXT: 95           +1      2.648920     C_CALL   test_with_pymemtrace.py#  27 perf_counter                         34775040       -69632
-    PREV: 97           +2      2.648929     C_CALL   test_with_pymemtrace.py#  28 new_list_bytes                       34775040            0
-    NEXT: 98           +3      3.906950     C_RETURN test_with_pymemtrace.py#  28 new_list_bytes                     1176018944   1141243904
-    NEXT: 99           +1      4.041886     C_CALL   test_with_pymemtrace.py#  29 perf_counter                         34713600  -1141305344
+          Event  dEvent  Clock        What     File                   #line Function                     RSS         dRSS
+    NEXT: 0      +0      1.267233     CALL     test_with_pymemtrace.py#  15 _test_new_list_bytes    29384704     29384704
+    PREV: 83     +83     1.267558     CALL     test_with_pymemtrace.py#  26 <listcomp>              29384704            0
+    NEXT: 84     +84     1.268744     RETURN   test_with_pymemtrace.py#  26 <listcomp>              29544448       159744
+    PREV: 87     +3      1.268755     C_CALL   test_with_pymemtrace.py#  28 new_list_bytes          29544448            0
+    NEXT: 88     +4      2.523796     C_RETURN test_with_pymemtrace.py#  28 new_list_bytes        1175990272   1146445824
+    NEXT: 89     +1      2.647460     C_CALL   test_with_pymemtrace.py#  29 perf_counter            34713600  -1141276672
+    PREV: 93     +4      2.647496     CALL     test_with_pymemtrace.py#  26 <listcomp>              34713600            0
+    NEXT: 94     +5      2.648859     RETURN   test_with_pymemtrace.py#  26 <listcomp>              34844672       131072
+    NEXT: 95     +1      2.648920     C_CALL   test_with_pymemtrace.py#  27 perf_counter            34775040       -69632
+    PREV: 97     +2      2.648929     C_CALL   test_with_pymemtrace.py#  28 new_list_bytes          34775040            0
+    NEXT: 98     +3      3.906950     C_RETURN test_with_pymemtrace.py#  28 new_list_bytes        1176018944   1141243904
+    NEXT: 99     +1      4.041886     C_CALL   test_with_pymemtrace.py#  29 perf_counter            34713600  -1141305344
+
+.. raw:: latex
+
+    \end{landscape}
 
 Python List of bytes
 ------------------------------------------------
@@ -51,7 +59,7 @@ Python List of bytes
 The following is a plot of RSS and change of RSS over time:
 
 .. image:: ../plots/images/pymemtrace_list_bytes.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 This result is rather surprising.
@@ -71,7 +79,7 @@ Python List of floats
 For comparison here is the time/memory plot of round-tripping a list of Python ``float`` as a C++ ``std::vector`` or ``std::list``:
 
 .. image:: ../plots/images/pymemtrace_list_float.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 The memory usage is not significantly different but using a ``std::list`` takes about twice as long.
@@ -107,7 +115,7 @@ The code looks like this:
 The following is a plot of RSS and change of RSS over time:
 
 .. image:: ../plots/images/pymemtrace_set_bytes.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 In the set case constructing the original set takes around 1500Mb.
@@ -154,7 +162,7 @@ The code looks like this:
 The following is a plot of RSS and change of RSS over time:
 
 .. image:: ../plots/images/pymemtrace_dict_bytes.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 In the dictionary case constructing the original dict takes around 1500Mb.
@@ -178,7 +186,7 @@ dict or bytes allocators or the C++ ``std::unordered_map<T>`` or ``std::vector<c
 Similar results are obtained for a Python dict was round-tripped to a C++ ``std::map<std::string, std::string>`` and back to a new Python dict.
 
 .. image:: ../plots/images/pymemtrace_dict_str.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 This is broadly similar to the results for ``std::unordered_map<std::vector<char>, std::vector<char>>``.
@@ -206,7 +214,7 @@ For example here is the code for a list:
 The following is a plot of RSS and change of RSS over time for list, set, dict:
 
 .. image:: ../plots/images/pymemtrace_list_set_dict_bytes_one_item.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 This graph shows that there are no memory leaks on container construction.

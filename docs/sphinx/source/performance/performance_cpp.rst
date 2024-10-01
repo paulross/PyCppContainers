@@ -205,7 +205,7 @@ For example here is the total time to convert a list of ``bool``, ``int``, ``flo
 C++ for various list lengths:
 
 .. image:: ../plots/images/cpp_py_list_bool_int_float_vector_bool_long_double_time.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 This time plot is not that informative apart from showing linear behaviour.
@@ -223,7 +223,7 @@ Here is the same data plotted as a *rate of conversion* of a list of ``bool``, `
 Python values to C++ for various list lengths:
 
 .. image:: ../plots/images/cpp_py_list_bool_int_float_vector_bool_long_double_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 These rate plots are used for the rest of this section.
@@ -240,7 +240,7 @@ The rate plot is shown above, it shows that:
 And the reverse converting a list of ``bool``, ``int``, ``float`` and ``complex`` from C++ to Python:
 
 .. image:: ../plots/images/cpp_vector_bool_long_double_py_list_bool_int_float_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 This is broadly symmetric with the Python to C++ performance except that ``bool`` values are twice as quick.
@@ -252,7 +252,7 @@ Another area of interest is the conversion of a list of ``bytes`` or ``str`` bet
 In these tests a list of of ``bytes`` or ``str`` objects of lengths 2, 16, 128 and 1024 are used to  convert from Python to C++.
 
 .. image:: ../plots/images/cpp_py_list_bytes_vector_vector_char_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 This graph shows a characteristic rise in rate for larger list lengths of larger objects.
@@ -274,7 +274,7 @@ bytes[1024]     0.15 to 0.4             2,500 to 6,800
 This is the inverse, converting a C++ ``std::vector<std::vector<char>>`` to a Python list of ``bytes``:
 
 .. image:: ../plots/images/cpp_vector_vector_char_py_list_bytes_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 =============== ======================= =========================== ===================
@@ -296,7 +296,7 @@ Similarly for converting a a Python list of ``str`` to and from a C++ ``std::vec
 First Python -> C++:
 
 .. image:: ../plots/images/cpp_py_list_str_vector_string_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 Notably with small strings (2 and 16 long) are about eight times faster that for bytes.
@@ -314,7 +314,7 @@ str[1024]       0.1 to 0.6              1,600 to 10,000
 And C++ -> Python:
 
 .. image:: ../plots/images/cpp_vector_string_py_list_str_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 =============== ======================= =========================== ===================
@@ -350,7 +350,7 @@ Here is the rate graph for converting a Python ``set`` to C++ ``std::unordered_s
 ``int``, ``float`` and ``complex`` objects:
 
 .. image:: ../plots/images/cpp_py_set_int_float_unordered_set_long_double_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 Here is the time per object compared with a list:
@@ -369,7 +369,7 @@ And the reverse, converting a C++ ``std::unordered_set<T>`` to a Python ``set`` 
 ``int``, ``float`` and ``complex`` objects:
 
 .. image:: ../plots/images/cpp_unordered_set_long_double_py_set_int_float_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 The conversion and insertion of C++ to Python is significantly faster that from Python to C++.
@@ -390,7 +390,7 @@ Set of ``bytes``
 Here is the rate graph for converting a Python ``set`` of ``bytes`` to C++ ``std::unordered_set<std::vector<char>>``:
 
 .. image:: ../plots/images/cpp_py_set_bytes_unordered_set_vector_char_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 =============== ======================= =========================== ===================
@@ -414,7 +414,7 @@ bytes[1024]     1.0                                 0.15 to 0.4                 
 And the reverse, converting a C++ ``std::unordered_set<std::vector<char>>`` to a Python ``set`` of ``bytes``:
 
 .. image:: ../plots/images/cpp_unordered_set_vector_char_to_py_set_multiple_std_vector_char_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 
@@ -444,7 +444,7 @@ Set of ``str``
 Here is the rate graph for converting a Python ``set`` of ``str`` to C++ ``std::unordered_set<std::string>``:
 
 .. image:: ../plots/images/cpp_py_set_str_unordered_set_string_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 =============== ======================= =========================== ===================
@@ -470,7 +470,7 @@ bytes[1024]     0.5 to 2.0                          0.1 to 0.6                  
 And the reverse, converting a C++ ``std::unordered_set<std::string>`` to a Python ``set`` of ``str``:
 
 .. image:: ../plots/images/cpp_unordered_set_string_to_py_set_multiple_std_string_rate.png
-    :height: 300px
+    :height: 600px
     :align: center
 
 

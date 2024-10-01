@@ -211,7 +211,7 @@ def _test_new_dict_unordered_map_bytes():
             # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
             index = random.randint(0, byte_length - 1)
             random_bytes[index] = (random_bytes[index] + 1) % 256
-        print(f'Actual dict length: {len(original):16,d}')
+        # print(f'Actual dict length: {len(original):16,d}')
         time_start = time.perf_counter()
         cPyCppContainers.new_dict_from_std_unordered_map_bytes_bytes(original)
         time_exec = time.perf_counter() - time_start
@@ -259,7 +259,7 @@ def _test_new_dict_map_str():
             # Shuffle is quite expensive. Try something simpler, chose a random value and increment it with roll over.
             index = random.randint(0, byte_length - 1)
             random_bytes[index] = (random_bytes[index] + 1) % 128
-        print(f'Actual dict length: {len(original):16,d}')
+        # print(f'Actual dict length: {len(original):16,d}')
         time_start = time.perf_counter()
         cPyCppContainers.new_dict_from_std_map_str_str(original)
         time_exec = time.perf_counter() - time_start

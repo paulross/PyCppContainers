@@ -58,7 +58,15 @@ html_theme = 'classic'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+todo_include_todos = True
+todo_link_only = True
+
 # -- Options for Latex output -------------------------------------------------
+latex_elements = {
+
+    'preamble': r'''\usepackage{lscape}'''
+}
+
 latex_documents = [
     (
         'index',
@@ -68,6 +76,3 @@ latex_documents = [
         'manual',
     )
 ]
-
-todo_include_todos = True
-todo_link_only = True

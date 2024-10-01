@@ -62,7 +62,7 @@ plot "dat/roundtrip_dict_unordered_map_int_int.dat" using 1:(1e6 * ($4 - $6)):(1
 
 # Rate plots
 set ylabel "Time per Item (µs)"
-set yrange [0.01:1]
+# set yrange [0.01:1]
 
 set terminal svg size 800,600           # choose the file format
 set output "images/roundtrip_dict_unordered_map_ints_floats_complex_rate.svg"   # choose the output device
