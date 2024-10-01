@@ -140,51 +140,58 @@ Bytes conversion time from C++ to Python or the reverse takes asymptotically and
 
 .. code-block:: text
 
-    t (ns) = 17 * length / 50,000
+    t (ns) = 1200 * length / 50,000
 
 For a single C++ ``std::string`` to and from Python ``str`` of different lengths:
 
-.. list-table::
-   :widths: 20 25 25 50
+.. list-table:: String Conversion Time. Times in nanoseconds.
+   :widths: 30 20 20 20 60
    :header-rows: 1
 
    * - Length
-     - C++ to Python (µs)
-     - Python to C++ (µs)
+     - C++ to Py
+     - Py to C++
+     - Ratio
      - Notes
    * - 2
-     - 0.0309
-     - 0.0052
+     - 30.9
+     - 5.2
+     - 5.9x
      -
    * - 16
-     - 0.0337
-     - 0.0045
+     - 33.7
+     - 4.5
+     - 7.5x
      -
    * - 128
-     - 0.0301
-     - 0.0634
+     - 30.1
+     - 63.4
+     - 0.48x
      -
    * - 1024
-     - 0.126
-     - 0.0667
-     - Corresponds to about 8 to 15 Gb/s, Python to C++ being about twice as fast.
+     - 126
+     - 66.7
+     - 1.9x
+     - Corresponds to about 8 to 15 Gb/s.
    * - 8192
-     - 0.435
-     - 0.122
-     - Corresponds to about 20 to 65 Gb/s, Python to C++ being about thrice as fast.
+     - 435
+     - 122
+     - 3.6x
+     - Corresponds to about 20 to 65 Gb/s.
    * - 65536
-     - 3.46
-     - 1.53
-     - Corresponds to about 20 to 40 Gb/s, Python to C++ being about twice as fast.
+     - 3,460
+     - 1,530
+     - 2.3x
+     - Corresponds to about 20 to 40 Gb/s.
 
 String conversion time from C++ to Python or the reverse takes asymptotically and roughly:
 
 .. code-block:: text
 
-    t (ns) = 15 * length / 24,000
+    t (ns) = 900 * length / 24,000
 
-This is about twice the time for ``bytes`` and ``std::vector<char>``.
-
+This is about twice the time for ``bytes`` to an from ``std::vector<char>``.
+Presumably this is because of the complexities of the Unicode implementation.
 
 Python List to and from a C++ ``std::vector<T>``
 ----------------------------------------------------------
@@ -194,7 +201,8 @@ Each container test is repeated 5 times and the min/mean/max/std. dev. is record
 The min value is regarded as the most consistent one as other results may be affected by arbitrary context switching.
 The tests are run on containers of lengths up to 1m items.
 
-For example here is the total time to convert a list of ``bool``, ``int``, ``float`` and ``complex`` Python values to C++ for various list lengths:
+For example here is the total time to convert a list of ``bool``, ``int``, ``float`` and ``complex`` Python values to
+C++ for various list lengths:
 
 .. image:: ../plots/images/cpp_py_list_bool_int_float_vector_bool_long_double_time.png
     :height: 300px
@@ -211,7 +219,8 @@ These rate plots have the following design features:
 * The line shows the minimum time per object in µs.
 
 
-Here is the rate of converting a list of ``bool``, ``int``, ``float`` and ``complex`` Python values to C++ for various list lengths:
+Here is the same data plotted as a *rate of conversion* of a list of ``bool``, ``int``, ``float`` and ``complex``
+Python values to C++ for various list lengths:
 
 .. image:: ../plots/images/cpp_py_list_bool_int_float_vector_bool_long_double_rate.png
     :height: 300px
