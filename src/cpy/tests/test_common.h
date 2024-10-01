@@ -2,8 +2,8 @@
 // Created by Paul Ross on 22/05/2021.
 //
 
-#ifndef PYTHONCPPHOMOGENEOUSCONTAINERS_TEST_COMMON_H
-#define PYTHONCPPHOMOGENEOUSCONTAINERS_TEST_COMMON_H
+#ifndef PY_CPP_CONTAINERS_TEST_COMMON_H
+#define PY_CPP_CONTAINERS_TEST_COMMON_H
 
 #include <Python.h>
 
@@ -1124,4 +1124,4 @@ new_py_dict_bytes(size_t size, size_t str_len);
 PyObject *
 new_py_dict_string(size_t size, size_t str_len);
 
-#endif // PYTHONCPPHOMOGENEOUSCONTAINERS_TEST_COMMON_H
+#endif // PY_CPP_CONTAINERS_TEST_COMMON_H

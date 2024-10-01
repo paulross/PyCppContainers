@@ -467,6 +467,12 @@ def declarations() -> CodeCount:
     """Returns the C++ code for all declarations."""
     code_lines: typing.List[str] = []
     count_decl = 0
+    # Header guards
+    #ifndef PY_CPP_CONTAINERS_TESTFRAMEWORK_H
+    #define PY_CPP_CONTAINERS_TESTFRAMEWORK_H
+    header_guard = f'PY_CPP_CONTAINERS_{AUTO_FILE_NAME.upper()}_H'
+    code_lines.append(f'#ifndef {header_guard}')
+    code_lines.append(f'#define {header_guard}')
     with code_gen_documentation.cpp_comment_section(code_lines, 'Declaration file', '='):
         with code_gen_documentation.get_codegen_please_no_edit_warning_context(code_lines):
             # Version information
@@ -475,6 +481,7 @@ def declarations() -> CodeCount:
             code_lines.append('//')
 
             code_lines.extend(code_gen_documentation.documentation(UNARY_COLLECTIONS, CPP_TYPE_TO_FUNCS))
+
             code_lines.append('#include <Python.h>')
             code_lines.append('')
             for include in REQUIRED_INCLUDES:
@@ -493,6 +500,8 @@ def declarations() -> CodeCount:
         code_lines.append('')
         code_lines.append('} ' + code_gen_documentation.comment_str(f' namespace {CPP_NAMESPACE}'))
         code_lines.append('')
+    code_lines.append('')
+    code_lines.append(f'#endif // {header_guard}')
     return CodeCount(code_lines, count_decl)
 
 

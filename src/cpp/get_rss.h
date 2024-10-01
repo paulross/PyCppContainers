@@ -2,8 +2,8 @@
 // Created by Paul Ross on 26/05/2021.
 //
 
-#ifndef PYTHONCPPHOMOGENEOUSCONTAINERS_GET_RSS_H
-#define PYTHONCPPHOMOGENEOUSCONTAINERS_GET_RSS_H
+#ifndef PY_CPP_CONTAINERS_GET_RSS_H
+#define PY_CPP_CONTAINERS_GET_RSS_H
 
 #include <iostream>
 
@@ -88,4 +88,4 @@ protected:
 
 std::ostream &operator<<(std::ostream &os, const RSSSnapshot &rss);
 
-#endif //PYTHONCPPHOMOGENEOUSCONTAINERS_GET_RSS_H
+#endif //PY_CPP_CONTAINERS_GET_RSS_H

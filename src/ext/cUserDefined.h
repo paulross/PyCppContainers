@@ -2,8 +2,8 @@
 // Created by Paul Ross on 08/02/2022.
 //
 
-#ifndef PYTHONCPPHOMOGENEOUSCONTAINERS_CUSERDEFINED_H
-#define PYTHONCPPHOMOGENEOUSCONTAINERS_CUSERDEFINED_H
+#ifndef PY_CPP_CONTAINERS_CUSERDEFINED_H
+#define PY_CPP_CONTAINERS_CUSERDEFINED_H
 
 #include <string>
 #include <utility>
@@ -69,4 +69,4 @@ namespace Python_Cpp_Containers {
 
 } // namespace Python_Cpp_Containers
 
-#endif //PYTHONCPPHOMOGENEOUSCONTAINERS_CUSERDEFINED_H
+#endif //PY_CPP_CONTAINERS_CUSERDEFINED_H

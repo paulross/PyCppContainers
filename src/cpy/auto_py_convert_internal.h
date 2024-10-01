@@ -1,3 +1,5 @@
+#ifndef PY_CPP_CONTAINERS_AUTO_PY_CONVERT_INTERNAL_H
+#define PY_CPP_CONTAINERS_AUTO_PY_CONVERT_INTERNAL_H
 //============================ Declaration file ===========================
 //#########################################################################
 //####### Auto-generated code - do not edit. Seriously, do NOT edit. ######
@@ -4123,3 +4125,5 @@ py_dict_to_cpp_std_map_like<std::map, std::u32string, std::u32string>(PyObject* 
 
 //========================= END: Declaration file =========================
 
+
+#endif // PY_CPP_CONTAINERS_AUTO_PY_CONVERT_INTERNAL_H

@@ -2,8 +2,8 @@
 // Created by Paul Ross on 20/05/2021.
 //
 
-#ifndef PYTHONCPPHOMOGENEOUSCONTAINERS_TESTFRAMEWORK_H
-#define PYTHONCPPHOMOGENEOUSCONTAINERS_TESTFRAMEWORK_H
+#ifndef PY_CPP_CONTAINERS_TESTFRAMEWORK_H
+#define PY_CPP_CONTAINERS_TESTFRAMEWORK_H
 #include <list>
 #include <map>
 #include <string>
@@ -198,4 +198,4 @@ std::vector<char> unique_vector_char(int width);
 size_t count_of_unique_string();
 void reset_count_of_unique_string();
 
-#endif //PYTHONCPPHOMOGENEOUSCONTAINERS_TESTFRAMEWORK_H
+#endif //PY_CPP_CONTAINERS_TESTFRAMEWORK_H

@@ -2,8 +2,8 @@
 // Created by Paul Ross on 09/10/2021.
 //
 
-#ifndef PYTHONCPPHOMOGENEOUSCONTAINERS_PYTHON_OBJECT_CONVERT_H
-#define PYTHONCPPHOMOGENEOUSCONTAINERS_PYTHON_OBJECT_CONVERT_H
+#ifndef PY_CPP_CONTAINERS_PYTHON_OBJECT_CONVERT_H
+#define PY_CPP_CONTAINERS_PYTHON_OBJECT_CONVERT_H
 
 #include <Python.h>
 
@@ -294,4 +294,4 @@ namespace Python_Cpp_Containers {
     std::u32string py_unicode32_to_cpp_u32string(PyObject *op);
 
 } // namespace Python_Cpp_Containers
-#endif //PYTHONCPPHOMOGENEOUSCONTAINERS_PYTHON_OBJECT_CONVERT_H
+#endif //PY_CPP_CONTAINERS_PYTHON_OBJECT_CONVERT_H
