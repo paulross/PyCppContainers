@@ -42,7 +42,7 @@ Then in your C++ code include:
 
     #include "python_convert.h"
 
-Which gives you access to the whole :ref:`PyCppContainers_CppAPI` in the namespace ``Python_Cpp_Containers``.
+Which gives you access to the whole :ref:`PythonCppContainers.Cpp_API` in the namespace ``Python_Cpp_Containers``.
 
 Errors
 -------------------

@@ -8,9 +8,53 @@
 C++ Performance Tests
 ==============================
 
-These tests are in ``src/cpy/tests/test_performance.h`` and ``src/cpy/tests/test_performance.cpp``.
+Test Procedure
+--------------------------
+
+The main entry point to the ``PyCppContainers`` project is in ``src/main.cpp`` and runs the functional, performance and
+memory tests.
+
+The performance tests are in ``src/cpy/tests/test_performance.h`` and ``src/cpy/tests/test_performance.cpp``.
 There are a number of macros ``TEST_PERFORMANCE_*`` there that control which tests are run.
-Running all tests takes about 900 seconds.
+Running all tests takes about 20 minutes.
+
+The tests can be run by building and running the C++ binary from the project root:
+
+.. code-block:: shell
+
+    cmake --build cmake-build-release --target clean -- -j 6
+    cmake --build cmake-build-release --target PyCppContainers -- -j 6
+    cmake-build-release/PyCppContainers
+
+The output is large and looks like this:
+
+.. code-block:: shell
+
+    cmake-build-release/PyCppContainers
+    Hello, World!
+    Python version: 3.12.1
+    test_functional_all START
+    RSS(Mb): was:     29.047 now:     29.062 diff:     +0.016 Peak was:     29.047 now:     29.062 diff:     +0.016 test_vector_to_py_tuple<bool>
+    RSS(Mb): was:     29.062 now:     29.074 diff:     +0.012 Peak was:     29.062 now:     29.074 diff:     +0.012 test_vector_to_py_tuple<long>
+    RSS(Mb): was:     29.074 now:     29.098 diff:     +0.023 Peak was:     29.074 now:     29.098 diff:     +0.023 test_vector_to_py_tuple<double>
+    8<---- Snip ---->8
+
+
+The complete output can be captured to ``perf_notes/cpp_test_results.txt`` with this command:
+
+.. code-block:: shell
+
+    caffeinate time cmake-build-release/PyCppContainers > perf_notes/cpp_test_results.txt
+
+Then there is a Python script ``perf_notes/write_dat_files_for_cpp_test_results.py`` that will extract all the
+performance data into ``perf_notes/dat`` suitable for gnuplot.
+Copy those ``*.dat`` files into ``docs/sphinx/source/plots/dat`` then ``cd`` into ``docs/sphinx/source/plots`` and run
+``gnuplot -p *.plt`` to update all the performance plots referenced in the documentation.
+
+.. note::
+
+    See :ref:`PythonCppContainers.Performance.Round_trip` for the Python plots which can be built by gnuplot at the
+    same time.
 
 Conversion of Fundamental Types
 ------------------------------------
@@ -18,67 +62,85 @@ Conversion of Fundamental Types
 These C++ functions test the cost of converting ints, floats and bytes objects between Python and C++.
 These test are executed if the macro ``TEST_PERFORMANCE_FUNDAMENTAL_TYPES`` is defined.
 
-.. list-table::
-   :widths: 40 25 25 30
+.. list-table:: Fundamental Type Conversion Time. Times in nanoseconds.
+   :widths: 30 20 20 20 60
    :header-rows: 1
 
-   * - Operation
-     - C++ to Python (µs)
-     - Python to C++ (µs)
+   * - Type C++/Py
+     - C++ to Py
+     - Py to C++
+     - Ratio
      - Notes
-   * - C++ ``bool`` <-> Python ``bool``
-     - 0.0027
-     - 0.0016
-     - The mean is around 400m/s
-   * - C++ ``long`` <-> Python ``int``
-     - 0.0146
-     - 0.0046
-     - The mean is around 50m/s. Converting C++ to Python is around x3 times the reverse.
-   * - C++ ``double`` <-> Python ``float``
-     - 0.0086
-     - 0.0027
-     - The mean is around 200m/s. Converting C++ to Python is around x3 times the reverse.
-   * - C++ ``std::complex<double>`` <-> Python ``complex``
-     - 0.0122
-     - 0.0049
-     - The mean is around 125m/s. Converting C++ to Python is around x2.5 times the reverse.
+   * - ``bool``/``bool``
+     - 2.7
+     - 1.6
+     - 1.7x
+     - The mean is around 450m/s
+   * - ``long``/``int``
+     - 14.6
+     - 4.6
+     - 3.2x
+     - The mean is around 100m/s.
+   * - ``double``/``float``
+     - 8.6
+     - 2.7
+     - 3.2x
+     - The mean is around 180m/s.
+   * - ``complex<double>``/``complex``
+     - 12.2
+     - 4.9
+     - 2.5x
+     - The mean is around 120m/s.
+
+Converting from C++ to Python is always slower than from Python to C++.
 
 For a single C++ ``std::vector<char>`` to and from Python ``bytes`` of different lengths:
 
-.. list-table::
-   :widths: 20 25 25 50
+.. list-table:: Fundamental Type Conversion Time. Times in nanoseconds.
+   :widths: 30 20 20 20 60
    :header-rows: 1
 
    * - Length
-     - C++ to Python (µs)
-     - Python to C++ (µs)
+     - C++ to Py
+     - Py to C++
+     - Ratio
      - Notes
    * - 2
-     - 0.0173
-     - 0.0047
+     - 17.3
+     - 4.7
+     - 3.7x
      -
    * - 16
-     - 0.0169
-     - 0.0040
+     - 16.9
+     - 4.0
+     - 4.2x
      -
    * - 128
-     - 0.0201
-     - 0.0641
+     - 20.1
+     - 64.1
+     - 0.31x
      -
    * - 1024
-     - 0.0807
-     - 0.0671
+     - 80.7
+     - 67.1
+     - 1.2x
      - Corresponds to about 14 Gb/s
    * - 8192
-     - 0.1317
-     - 0.1197
+     - 131.7
+     - 119.7
+     - 1.1x
      - Corresponds to about 64 Gb/s
    * - 65536
-     - 1.567
-     - 1.551
+     - 1,567
+     - 1,551
+     - 1.0x
      - Corresponds to about 41 Gb/s
 
-Bytes conversion time from C++ to Python or the reverse takes asymptotically and roughly: t (µs) = 0.017 * length / 50,000
+Bytes conversion time from C++ to Python or the reverse takes asymptotically and roughly:
+
+.. code-block:: text
+
+    t (ns) = 17 * length / 50,000
 
 For a single C++ ``std::string`` to and from Python ``str`` of different lengths:
 
@@ -115,7 +177,12 @@ For a single C++ ``std::string`` to and from Python ``str`` of different lengths
      - 1.53
      - Corresponds to about 20 to 40 Gb/s, Python to C++ being about twice as fast.
 
-String conversion time from C++ to Python or the reverse takes asymptotically and roughly: t (µs) = 0.015 * length / 24,000.
+String conversion time from C++ to Python or the reverse takes asymptotically and roughly:
+
+.. code-block:: text
+
+    t (ns) = 15 * length / 24,000
+
 This is about twice the time for ``bytes`` and ``std::vector<char>``.
 
 

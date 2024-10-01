@@ -10,22 +10,7 @@ Performance
 
 Here are some benchmarks for converting Python containers to and from their C++ equivalents.
 
-The C++ code was compiled with ``-O3`` and run on the following hardware:
-
-.. code-block:: none
-
-    Model Name:	                MacBook Pro
-    Model Identifier:           MacBookPro15,2
-    Processor Name:             Intel Core i7
-    Processor Speed:            2.7 GHz
-    Number of Processors:       1
-    Total Number of Cores:      4
-    L2 Cache (per Core):        256 KB
-    L3 Cache:                   8 MB
-    Hyper-Threading Technology: Enabled
-    Memory:                     16 GB
-
-    System Version:             macOS 10.14.6
+The C++ code was compiled with ``-O3`` and run on Apple M1 (2020) CPU running Mac OS X 13.5.1 (Ventura) with 16 GB RAM.
 
 .. toctree::
    :maxdepth: 4
