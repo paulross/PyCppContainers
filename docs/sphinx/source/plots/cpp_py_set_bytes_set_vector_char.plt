@@ -44,7 +44,7 @@ set key left
 # First the raw time graphs:
 set ylabel "Time (µs)"
 
-set terminal svg size 1400,700           # choose the file format
+set terminal svg size 800,600           # choose the file format
 set output "images/cpp_py_set_bytes_unordered_set_vector_char_time.svg"   # choose the output device
 
 plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_char_16.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
@@ -57,7 +57,7 @@ plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_cha
     "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_char_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
     "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_char_2.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
-set terminal png size 1400,700           # choose the file format
+set terminal png size 800,600           # choose the file format
 set output "images/cpp_py_set_bytes_unordered_set_vector_char_time.png"   # choose the output device
 
 plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_char_16.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
@@ -74,7 +74,7 @@ plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_cha
 set ylabel "Time per Item (µs)"
 # set yrange [0.1:10]
 
-set terminal svg size 1400,700           # choose the file format
+set terminal svg size 800,600           # choose the file format
 set output "images/cpp_py_set_bytes_unordered_set_vector_char_rate.svg"   # choose the output device
 
 plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_char_16.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
@@ -87,7 +87,7 @@ plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_cha
     t "String length 1024" with candlesticks whiskerbars 0.5 linetype 7,\
     "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_char_1024.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 7
 
-set terminal png size 1400,700           # choose the file format
+set terminal png size 800,600           # choose the file format
 set output "images/cpp_py_set_bytes_unordered_set_vector_char_rate.png"   # choose the output device
 
 plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_char_16.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
@@ -110,7 +110,7 @@ set key left
 # First the raw time graph:
 set ylabel "Time (µs)"
 
-set terminal svg size 1400,700           # choose the file format
+set terminal svg size 800,600           # choose the file format
 set output "images/cpp_unordered_set_vector_char_to_py_set_multiple_std_vector_char_time.svg"   # choose the output device
 
 plot "dat/test_unordered_set_vector_char_to_py_set_multiple_std_vector_char_16.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
@@ -123,7 +123,7 @@ plot "dat/test_unordered_set_vector_char_to_py_set_multiple_std_vector_char_16.d
     "dat/test_unordered_set_vector_char_to_py_set_multiple_std_vector_char_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
     "dat/test_unordered_set_vector_char_to_py_set_multiple_std_vector_char_2.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
-set terminal png size 1400,700           # choose the file format
+set terminal png size 800,600           # choose the file format
 set output "images/cpp_unordered_set_vector_char_to_py_set_multiple_std_vector_char_time.png"   # choose the output device
 
 plot "dat/test_unordered_set_vector_char_to_py_set_multiple_std_vector_char_16.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
@@ -139,7 +139,7 @@ plot "dat/test_unordered_set_vector_char_to_py_set_multiple_std_vector_char_16.d
 # Now the rate graph.
 set ylabel "Time per Item (µs)"
 
-set terminal svg size 1400,700           # choose the file format
+set terminal svg size 800,600           # choose the file format
 set output "images/cpp_unordered_set_vector_char_to_py_set_multiple_std_vector_char_rate.svg"   # choose the output device
 
 plot "dat/test_unordered_set_vector_char_to_py_set_multiple_std_vector_char_16.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
@@ -152,7 +152,7 @@ plot "dat/test_unordered_set_vector_char_to_py_set_multiple_std_vector_char_16.d
     t "Bytes length 1024" with candlesticks whiskerbars 0.5 linetype 7,\
     "dat/test_unordered_set_vector_char_to_py_set_multiple_std_vector_char_1024.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 7
 
-set terminal png size 1400,700           # choose the file format
+set terminal png size 800,600           # choose the file format
 set output "images/cpp_unordered_set_vector_char_to_py_set_multiple_std_vector_char_rate.png"   # choose the output device
 
 plot "dat/test_unordered_set_vector_char_to_py_set_multiple_std_vector_char_16.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \

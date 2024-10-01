@@ -36,7 +36,7 @@ rate_1_000_000_000(x) = latency + x / 1e9
 
 # Time plots
 set ylabel "Time (µs)"
-set terminal svg size 1400,700           # choose the file format
+set terminal svg size 800,600           # choose the file format
 set output "images/roundtrip_set_ints_and_floats_time.svg"   # choose the output device
 
 plot "dat/roundtrip_set_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
@@ -48,7 +48,7 @@ plot "dat/roundtrip_set_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7)
     "dat/roundtrip_set_int.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.1f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
     "dat/roundtrip_set_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.1f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
-set terminal png size 1400,700           # choose the file format
+set terminal png size 800,600           # choose the file format
 set output "images/roundtrip_set_ints_and_floats_time.png"   # choose the output device
 
 plot "dat/roundtrip_set_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
@@ -64,7 +64,7 @@ plot "dat/roundtrip_set_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7)
 set ylabel "Time per Item (µs)"
 set yrange [0.1:1]
 
-set terminal svg size 1400,700           # choose the file format
+set terminal svg size 800,600           # choose the file format
 set output "images/roundtrip_set_ints_and_floats_rate.svg"   # choose the output device
 
 plot "dat/roundtrip_set_int.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
@@ -77,7 +77,7 @@ plot "dat/roundtrip_set_int.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):
         t "Set [complex] <-> C++ <std::complex<double>>" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_set_complex.dat" using 1:(1e6 * $3 / $1) t "Minimum Set [complex] <-> C++ <std::complex<double>>" with lines
 
-set terminal png size 1400,700           # choose the file format
+set terminal png size 800,600           # choose the file format
 set output "images/roundtrip_set_ints_and_floats_rate.png"   # choose the output device
 
 plot "dat/roundtrip_set_int.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
