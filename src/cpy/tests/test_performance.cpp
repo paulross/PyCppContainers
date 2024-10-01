@@ -1495,6 +1495,11 @@ int test_perf_py_set_bytes_to_unordered_set_vector_char_multiple(TestResultS &te
     return result;
 }
 
+/**
+ * Create a \c std::unordered_set<std::string> with unique strings.
+ * Then for repeat times time the convertion of this C++ object to a Python object with
+ * \c Python_Cpp_Containers::cpp_std_unordered_set_to_py_set()
+ */
 int
 test_unordered_set_string_to_py_set_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
     std::unordered_set<std::string> cpp_set;
@@ -1515,6 +1520,7 @@ test_unordered_set_string_to_py_set_multiple(TestResultS &test_results, size_t s
     return 0;
 }
 
+/** Invoke \c test_unordered_set_string_to_py_set_multiple() with different size values and containers. */
 int test_perf_unordered_set_string_to_py_set_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
@@ -1529,13 +1535,18 @@ int test_perf_unordered_set_string_to_py_set_multiple(TestResultS &test_results,
     return result;
 }
 
+/**
+ * Create a Python set of strings with \c new_py_set_string()
+ * Then for repeat times time the convertion of this Python object to a C++ object with
+ * \c Python_Cpp_Containers::py_set_to_cpp_std_unordered_set()
+ */
 int test_py_set_str_to_unordered_set_string_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                      size_t repeat) {
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
-    PyObject * op = new_py_set_string(size, str_len);
+    PyObject *op = new_py_set_string(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
         std::unordered_set<std::string> cpp_set;
         ExecClock exec_clock;
@@ -1552,6 +1563,7 @@ int test_py_set_str_to_unordered_set_string_multiple(TestResultS &test_results, 
     return result;
 }
 
+/** Invoke \c test_py_set_str_to_unordered_set_string_multiple() with different size values and containers. */
 int test_perf_py_set_str_to_unordered_set_string_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
@@ -1560,6 +1572,172 @@ int test_perf_py_set_str_to_unordered_set_string_multiple(TestResultS &test_resu
         for (size_t size = MIN_SIZE_OF_CONTAINER;
              size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
             result |= test_py_set_str_to_unordered_set_string_multiple(test_results, size, str_len, repeat);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+/**
+ * Create a \c std::unordered_set<std::u16string> with unique strings.
+ * Then for repeat times time the convertion of this C++ object to a Python object with
+ * \c Python_Cpp_Containers::cpp_std_unordered_set_to_py_set()
+ */
+int
+test_unordered_set_u16string_to_py_set_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    std::unordered_set<std::u16string> cpp_set;
+    for (size_t i = 0; i < size; ++i) {
+        cpp_set.insert(unique_u16string(str_len));
+    }
+    std::ostringstream title;
+    title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
+    TestResult test_result(title.str());
+    for (size_t i = 0; i < repeat; ++i) {
+        ExecClock exec_clock;
+        PyObject * op = Python_Cpp_Containers::cpp_std_unordered_set_to_py_set(cpp_set);
+        double exec_time = exec_clock.seconds();
+        Py_DECREF(op);
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    test_results.push_back(test_result);
+    return 0;
+}
+
+/** Invoke \c test_unordered_set_u16string_to_py_set_multiple() with different size values and containers. */
+int test_perf_unordered_set_u16string_to_py_set_multiple(TestResultS &test_results, size_t repeat) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
+         str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_unordered_set_u16string_to_py_set_multiple(test_results, size, str_len, repeat);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+/**
+ * Create a Python set of strings with \c new_py_set_string()
+ * Then for repeat times time the convertion of this Python object to a C++ object with
+ * \c Python_Cpp_Containers::py_set_to_cpp_std_unordered_set()
+ */
+int test_py_set_str16_to_unordered_set_u16string_multiple(TestResultS &test_results, size_t size, size_t str_len,
+                                                          size_t repeat) {
+    int result = 0;
+    std::ostringstream title;
+    title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
+    TestResult test_result(title.str());
+    PyObject *op = new_py_set_u16string(size, str_len);
+    for (size_t i = 0; i < repeat; ++i) {
+        std::unordered_set<std::string> cpp_set;
+        ExecClock exec_clock;
+        int err = Python_Cpp_Containers::py_set_to_cpp_std_unordered_set(op, cpp_set);
+        double exec_time = exec_clock.seconds();
+        if (err) {
+            result = -1;
+            break;
+        }
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    Py_DECREF(op);
+    test_results.push_back(test_result);
+    return result;
+}
+
+/** Invoke \c test_py_set_str16_to_unordered_set_u16string_multiple() with different size values and containers. */
+int test_perf_py_set_str16_to_unordered_set_u16string_multiple(TestResultS &test_results, size_t repeat) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
+         str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_py_set_str16_to_unordered_set_u16string_multiple(test_results, size, str_len, repeat);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+/**
+ * Create a \c std::unordered_set<std::u32string> with unique strings.
+ * Then for repeat times time the convertion of this C++ object to a Python object with
+ * \c Python_Cpp_Containers::cpp_std_unordered_set_to_py_set()
+ */
+int
+test_unordered_set_u32string_to_py_set_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    std::unordered_set<std::u32string> cpp_set;
+    for (size_t i = 0; i < size; ++i) {
+        cpp_set.insert(unique_u32string(str_len));
+    }
+    std::ostringstream title;
+    title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
+    TestResult test_result(title.str());
+    for (size_t i = 0; i < repeat; ++i) {
+        ExecClock exec_clock;
+        PyObject * op = Python_Cpp_Containers::cpp_std_unordered_set_to_py_set(cpp_set);
+        double exec_time = exec_clock.seconds();
+        Py_DECREF(op);
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    test_results.push_back(test_result);
+    return 0;
+}
+
+/** Invoke \c test_unordered_set_u32string_to_py_set_multiple() with different size values and containers. */
+int test_perf_unordered_set_u32string_to_py_set_multiple(TestResultS &test_results, size_t repeat) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
+         str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_unordered_set_u32string_to_py_set_multiple(test_results, size, str_len, repeat);
+        }
+    }
+    RSS_SNAPSHOT_REPORT;
+    return result;
+}
+
+/**
+ * Create a Python set of strings with \c new_py_set_string()
+ * Then for repeat times time the convertion of this Python object to a C++ object with
+ * \c Python_Cpp_Containers::py_set_to_cpp_std_unordered_set()
+ */
+int test_py_set_str32_to_unordered_set_u32string_multiple(TestResultS &test_results, size_t size, size_t str_len,
+                                                          size_t repeat) {
+    int result = 0;
+    std::ostringstream title;
+    title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
+    TestResult test_result(title.str());
+    PyObject *op = new_py_set_u32string(size, str_len);
+    for (size_t i = 0; i < repeat; ++i) {
+        std::unordered_set<std::string> cpp_set;
+        ExecClock exec_clock;
+        int err = Python_Cpp_Containers::py_set_to_cpp_std_unordered_set(op, cpp_set);
+        double exec_time = exec_clock.seconds();
+        if (err) {
+            result = -1;
+            break;
+        }
+        test_result.execTimeAdd(0, exec_time, 1, size);
+    }
+    Py_DECREF(op);
+    test_results.push_back(test_result);
+    return result;
+}
+
+/** Invoke \c test_py_set_str32_to_unordered_set_u32string_multiple() with different size values and containers. */
+int test_perf_py_set_str32_to_unordered_set_u32string_multiple(TestResultS &test_results, size_t repeat) {
+    RSS_SNAPSHOT_WITHOUT_TYPE;
+    int result = 0;
+    for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
+         str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
+        for (size_t size = MIN_SIZE_OF_CONTAINER;
+             size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
+            result |= test_py_set_str32_to_unordered_set_u32string_multiple(test_results, size, str_len, repeat);
         }
     }
     RSS_SNAPSHOT_REPORT;
@@ -2041,22 +2219,22 @@ int test_perf_py_dict_to_cpp_std_map_string_multiple(TestResultS &test_results, 
 }
 
 #define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
-//// Control object testing
-//#define TEST_PERFORMANCE_OBJECT_BOOL
-//#define TEST_PERFORMANCE_OBJECT_LONG
-//#define TEST_PERFORMANCE_OBJECT_DOUBLE
-//#define TEST_PERFORMANCE_OBJECT_COMPLEX
-//#define TEST_PERFORMANCE_OBJECT_BYTES
-//#define TEST_PERFORMANCE_OBJECT_STRING
+// Control object testing
+#define TEST_PERFORMANCE_OBJECT_BOOL
+#define TEST_PERFORMANCE_OBJECT_LONG
+#define TEST_PERFORMANCE_OBJECT_DOUBLE
+#define TEST_PERFORMANCE_OBJECT_COMPLEX
+#define TEST_PERFORMANCE_OBJECT_BYTES
+#define TEST_PERFORMANCE_OBJECT_STRING
 #define TEST_PERFORMANCE_OBJECT_STRING_16
-//#define TEST_PERFORMANCE_OBJECT_STRING_32
+#define TEST_PERFORMANCE_OBJECT_STRING_32
 
-//// Control container testing
-//#define TEST_PERFORMANCE_TUPLES
-//#define TEST_PERFORMANCE_LISTS
-//#define TEST_PERFORMANCE_SETS
-//#define TEST_PERFORMANCE_DICTS
-//
+// Control container testing
+#define TEST_PERFORMANCE_TUPLES
+#define TEST_PERFORMANCE_LISTS
+#define TEST_PERFORMANCE_SETS
+#define TEST_PERFORMANCE_DICTS
+
 
 void test_performance_all(TestResultS &test_results) {
     std::cout << __FUNCTION__ << " START" << std::endl;
@@ -2417,6 +2595,14 @@ void test_performance_all(TestResultS &test_results) {
     test_perf_unordered_set_string_to_py_set_multiple(test_results, TEST_REPEAT);
     test_perf_py_set_str_to_unordered_set_string_multiple(test_results, TEST_REPEAT);
 #endif // TEST_PERFORMANCE_OBJECT_STRING
+#ifdef TEST_PERFORMANCE_OBJECT_STRING_16
+    test_perf_unordered_set_u16string_to_py_set_multiple(test_results, TEST_REPEAT);
+    test_perf_py_set_str16_to_unordered_set_u16string_multiple(test_results, TEST_REPEAT);
+#endif // TEST_PERFORMANCE_OBJECT_STRING_16
+#ifdef TEST_PERFORMANCE_OBJECT_STRING_32
+    test_perf_unordered_set_u32string_to_py_set_multiple(test_results, TEST_REPEAT);
+    test_perf_py_set_str32_to_unordered_set_u32string_multiple(test_results, TEST_REPEAT);
+#endif // TEST_PERFORMANCE_OBJECT_STRING_32
 #endif // TEST_PERFORMANCE_SETS
 #ifdef TEST_PERFORMANCE_DICTS
     // Test dicts.
