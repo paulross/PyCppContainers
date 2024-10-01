@@ -10,6 +10,10 @@
 
 using namespace Python_Cpp_Containers;
 
+/**
+ * Take a Python \c bytes object, convert it to a \c std::vector<char> then convert that back to a Python \c bytes
+ * object.
+ */
 static PyObject *
 new_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
     if (py_bytes_check(arg)) {
@@ -19,7 +23,10 @@ new_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
     return NULL;
 }
 
-
+/**
+ * Take a Python \c str object (8 bit characters), convert it to a \c std::string then convert that back to a Python
+ * \c str object.
+ */
 static PyObject *
 new_str(PyObject *Py_UNUSED(module), PyObject *arg) {
     if (py_unicode8_check(arg)) {
