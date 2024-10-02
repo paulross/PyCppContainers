@@ -159,3 +159,31 @@ Testing Memory Usage
 Building and Testing Everything for Multiple Python Versions
 =================================================================
 
+The script ``build_all.sh`` will execute:
+
+- C++ clean and build debug and release versions.
+- Run C++ debug build and the associated tests (this omits C++ performance tests).
+- Run C++ release build and the all the tests including C++ performance tests.
+- For each Python version (currently 3.8, 3.9, 3.10, 3.11, 3.12, 3.13) it:
+    - Creates a new virtual environment.
+    - Runs ``pip install -r requirements-dev.txt``.
+    - Runs ``python setup.py develop``.
+    - Runs ``pytest tests/ -x`` to catch any functional errors.
+    - Runs ``pytest tests/ -vs --runslow --pymemtrace`` to run all tests.
+    - Runs ``pytest tests/ -vs --runslow --pymemtrace`` to run all tests.
+    - Runs ``python setup.py bdist_wheel`` to create the wheels.
+    - Runs ``python setup.py sdist`` to create the source distribution.
+
+If any of these fail the script will halt with a failure indication.
+
+The output is verbose typically 30,000 lines.
+
+The typical time breakdown is:
+
+- C++ debug and release builds: 5 minutes.
+- C++ debug tests (3,000+): 40 minutes.
+- C++ release tests (around 25,000): about 6.5 hours
+- Python; create environment and run all tests (127): around 1 hour per Python version.
+
+For all Python versions (6 currently) this takes about 12 to 13 hours.
+
