@@ -54,6 +54,9 @@ coverage.xml
 *.log
 local_settings.py
 
+# We want to keep all log files in perf_notes/
+!perf_notes/**/*.log
+
 # Compressed logs
 *.log.tgz
 
