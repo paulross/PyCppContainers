@@ -1,0 +1,20 @@
+# Unicode string performance, Python to C++. Mac Mini B:
+# 2 October 2024 at 12:56:27 BST
+# From perf_notes/cpp_test_results.txt
+# Fundamental types:
+# 8 bit
+# ======
+#
+# Python -> C++
+# -------------
+# HEAD: Fail   Scale  Repeat            Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+# $1      $2      $3      $4                 $5              $6              $7              $8        $9           $10 $11
+TEST:    0         2    1000000   0.006176815     0.000003319     0.006173209     0.006182918        20        3237.9 test_py_str_to_cpp_string_multiple_2[1000000]
+TEST:    0        16    1000000   0.007333573     0.000004223     0.007330334     0.007346251        20        2727.2 test_py_str_to_cpp_string_multiple_16[1000000]
+TEST:    0       128    1000000   0.077593984     0.005359461     0.070420583     0.085804625        20         257.8 test_py_str_to_cpp_string_multiple_128[1000000]
+TEST:    0      1024    1000000   0.089523303     0.005118394     0.083854375     0.100696042        20         223.4 test_py_str_to_cpp_string_multiple_1024[1000000]
+TEST:    0      8192    1000000   0.266933671     0.015144741     0.243118751     0.292431167        20          74.9 test_py_str_to_cpp_string_multiple_8192[1000000]
+TEST:    0     65536    1000000   2.123572144     0.033200797     2.094082043     2.250884334        20           9.4 test_py_str_to_cpp_string_multiple_65536[1000000]
+#
+# NOTES:
+# - The above is pretty similar to the data in version 0.2

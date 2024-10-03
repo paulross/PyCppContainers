@@ -1,0 +1,21 @@
+# Unicode string performance, Python to C++. Mac Mini B:
+# 2 October 2024 at 12:56:27 BST
+# From perf_notes/cpp_test_results.txt
+# Fundamental types:
+# 32 bit
+# ======
+#
+# C++ -> Python
+# -------------
+# HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+# $1      $2      $3      $4              $5              $6              $7              $8        $9           $10 $11
+TEST:    0         2  1000000     0.044683823     0.002890114     0.040840209     0.048879126        20         447.6 test_cpp_u32string_to_py_str32_multiple_2[1000000]
+TEST:    0        16  1000000     0.249225642     0.011375113     0.233679833     0.271066042        20          80.2 test_cpp_u32string_to_py_str32_multiple_32[1000000]
+TEST:    0       128  1000000     1.023829955     0.009710184     1.005457626     1.044050126        20          19.5 test_cpp_u32string_to_py_str32_multiple_128[1000000]
+TEST:    0      1024  1000000     6.735237898     0.031750375     6.680839667     6.832778668        20           3.0 test_cpp_u32string_to_py_str32_multiple_1024[1000000]
+TEST:    0      8192  1000000    53.187598769     0.114578230    53.028910543    53.416468667        20           0.4 test_cpp_u32string_to_py_str32_multiple_8192[1000000]
+TEST:    0     65536  1000000   429.282977688     1.372580931   427.808455626   434.008575291        20           0.0 test_cpp_u32string_to_py_str32_multiple_65536[1000000]
+#
+# NOTES:
+# - The C++ to Python is seriously bad. This is calling Python_Cpp_Containers::cpp_u32string_to_py_unicode16()
+    which calls PyUnicode_New() and PyUnicode_WriteChar() in a loop.

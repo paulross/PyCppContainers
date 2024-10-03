@@ -1,7 +1,109 @@
-Unicode string performance, Python to C++. MacBookPro 13 inch:
+Unicode string performance, Python to C++. Mac Mini B:
+2 October 2024 at 12:56:27 BST
+
+From perf_notes/cpp_test_results.txt
+
+Fundamental types:
+
+8 bit
+======
+
+C++ -> Python
+-------------
+HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+$1      $2      $3      $4              $5              $6              $7              $8        $9           $10 $11
+TEST:    0 1000000      20     0.058759109     0.003645734     0.053923376     0.066701584        20         340.4 test_cpp_string_to_py_str_multiple_2[1000000]
+TEST:    0 1000000      20     0.060736565     0.001276392     0.058984251     0.063327876        20         329.3 test_cpp_string_to_py_str_multiple_16[1000000]
+TEST:    0 1000000      20     0.064648476     0.001873584     0.061841501     0.069060916        20         309.4 test_cpp_string_to_py_str_multiple_128[1000000]
+TEST:    0 1000000      20     0.197420682     0.011602980     0.185850333     0.219071125        20         101.3 test_cpp_string_to_py_str_multiple_1024[1000000]
+TEST:    0 1000000      20     0.720809661     0.017942847     0.686475625     0.746969209        20          27.7 test_cpp_string_to_py_str_multiple_8192[1000000]
+TEST:    0 1000000      20     5.359504186     0.024684586     5.327452417     5.432398459        20           3.7 test_cpp_string_to_py_str_multiple_65536[1000000]
+
+Python -> C++
+-------------
+HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+$1      $2      $3      $4              $5              $6              $7              $8        $9           $10 $11
+TEST:    0 1000000      20     0.006176815     0.000003319     0.006173209     0.006182918        20        3237.9 test_py_str_to_cpp_string_multiple_2[1000000]
+TEST:    0 1000000      20     0.007333573     0.000004223     0.007330334     0.007346251        20        2727.2 test_py_str_to_cpp_string_multiple_16[1000000]
+TEST:    0 1000000      20     0.077593984     0.005359461     0.070420583     0.085804625        20         257.8 test_py_str_to_cpp_string_multiple_128[1000000]
+TEST:    0 1000000      20     0.089523303     0.005118394     0.083854375     0.100696042        20         223.4 test_py_str_to_cpp_string_multiple_1024[1000000]
+TEST:    0 1000000      20     0.266933671     0.015144741     0.243118751     0.292431167        20          74.9 test_py_str_to_cpp_string_multiple_8192[1000000]
+TEST:    0 1000000      20     2.123572144     0.033200797     2.094082043     2.250884334        20           9.4 test_py_str_to_cpp_string_multiple_65536[1000000]
+
+NOTES:
+- The above is pretty similar to the data in version 0.2
+
+16 bit
+======
+
+C++ -> Python
+-------------
+HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+$1      $2      $3      $4              $5              $6              $7              $8        $9           $10 $11
+TEST:    0 1000000      20     0.042588886     0.001377939     0.040422959     0.043991375        20         469.6 test_cpp_u16string_to_py_str16_multiple_2[1000000]
+TEST:    0 1000000      20     0.147994407     0.009139400     0.138898917     0.164160334        20         135.1 test_cpp_u16string_to_py_str16_multiple_16[1000000]
+TEST:    0 1000000      20     0.873698398     0.009309133     0.854021875     0.887453251        20          22.9 test_cpp_u16string_to_py_str16_multiple_128[1000000]
+TEST:    0 1000000      20     6.716434430     0.026116913     6.675454917     6.768655084        20           3.0 test_cpp_u16string_to_py_str16_multiple_1024[1000000]
+TEST:    0 1000000      20    63.329128475     7.383649449    53.119942417    82.049977584        20           0.3 test_cpp_u16string_to_py_str16_multiple_8192[1000000]
+TEST:    0 1000000      20   434.770099001    15.165859601   423.448348083   486.720068750        20           0.0 test_cpp_u16string_to_py_str16_multiple_65536[1000000]
+
+NOTES:
+- The C++ to Python is seriously bad. This is calling Python_Cpp_Containers::cpp_u16string_to_py_unicode16()
+    which calls PyUnicode_New() and PyUnicode_WriteChar() in a loop.
+
+Python -> C++
+-------------
+HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+$1      $2      $3      $4              $5              $6              $7              $8        $9           $10 $11
+TEST:    0 1000000      20     0.008109303     0.000006100     0.008102167     0.008129042        20        2466.3 test_py_str16_to_cpp_u16string_multiple_2[1000000]
+TEST:    0 1000000      20     0.078421778     0.005190042     0.071888541     0.088546043        20         255.0 test_py_str16_to_cpp_u16string_multiple_16[1000000]
+TEST:    0 1000000      20     0.135103696     0.009849180     0.123247876     0.161659084        20         148.0 test_py_str16_to_cpp_u16string_multiple_128[1000000]
+TEST:    0 1000000      20     0.115050209     0.007282402     0.105869334     0.128821043        20         173.8 test_py_str16_to_cpp_u16string_multiple_1024[1000000]
+TEST:    0 1000000      20     0.458368734     0.017611174     0.432019208     0.486256001        20          43.6 test_py_str16_to_cpp_u16string_multiple_8192[1000000]
+TEST:    0 1000000      20     5.448628694     0.024358348     5.403639833     5.521592875        20           3.7 test_py_str16_to_cpp_u16string_multiple_65536[1000000]
+
+NOTES:
+- This is OK, it calls std::u16string ret((const char16_t *)PyUnicode_2BYTE_DATA(op), PyUnicode_GET_LENGTH(op));
+
+32 bit
+======
+
+C++ -> Python
+-------------
+HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+$1      $2      $3      $4              $5              $6              $7              $8        $9           $10 $11
+TEST:    0 1000000      20     0.044683823     0.002890114     0.040840209     0.048879126        20         447.6 test_cpp_u32string_to_py_str32_multiple_2[1000000]
+TEST:    0 1000000      20     0.249225642     0.011375113     0.233679833     0.271066042        20          80.2 test_cpp_u32string_to_py_str32_multiple_32[1000000]
+TEST:    0 1000000      20     1.023829955     0.009710184     1.005457626     1.044050126        20          19.5 test_cpp_u32string_to_py_str32_multiple_128[1000000]
+TEST:    0 1000000      20     6.735237898     0.031750375     6.680839667     6.832778668        20           3.0 test_cpp_u32string_to_py_str32_multiple_1024[1000000]
+TEST:    0 1000000      20    53.187598769     0.114578230    53.028910543    53.416468667        20           0.4 test_cpp_u32string_to_py_str32_multiple_8192[1000000]
+TEST:    0 1000000      20   429.282977688     1.372580931   427.808455626   434.008575291        20           0.0 test_cpp_u32string_to_py_str32_multiple_65536[1000000]
+
+NOTES:
+- The C++ to Python is seriously bad. This is calling Python_Cpp_Containers::cpp_u32string_to_py_unicode16()
+    which calls PyUnicode_New() and PyUnicode_WriteChar() in a loop.
+
+Python -> C++
+-------------
+HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+$1      $2      $3      $4              $5              $6              $7              $8        $9           $10 $11
+TEST:    0 1000000      20     0.007344234     0.000049091     0.007326501     0.007543208        20        2723.2 test_py_str32_to_cpp_u32string_multiple_2[1000000]
+TEST:    0 1000000      20     0.077141528     0.006414912     0.071097542     0.095550751        20         259.3 test_py_str32_to_cpp_u32string_multiple_32[1000000]
+TEST:    0 1000000      20     0.144473686     0.012002486     0.127959959     0.168075458        20         138.4 test_py_str32_to_cpp_u32string_multiple_128[1000000]
+TEST:    0 1000000      20     0.165254003     0.011043742     0.152708750     0.185491626        20         121.0 test_py_str32_to_cpp_u32string_multiple_1024[1000000]
+TEST:    0 1000000      20     0.853880155     0.014881503     0.822144209     0.878523792        20          23.4 test_py_str32_to_cpp_u32string_multiple_8192[1000000]
+TEST:    0 1000000      20    10.891868471     0.187687075    10.764805500    11.638142875        20           1.8 test_py_str32_to_cpp_u32string_multiple_65536[1000000]
+
+NOTES:
+- This is OK, it calls std::u32string ret((const char32_t *)PyUnicode_4BYTE_DATA(op), PyUnicode_GET_LENGTH(op));
+
+
+
+TODO: Update this:
 
 8 bit:
 HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+$1      $2      $3      $4              $5              $6              $7              $8        $9           $10 $11
 TEST:    0       1       5     0.000000412     0.000000322     0.000000238     0.000001056         5    12138868.7 test_py_list_str_to_list_like_string_multiple-std::list<std::string>[1024]>():[1]
 TEST:    0       2       5     0.000000499     0.000000086     0.000000420     0.000000652         5    10018032.5 test_py_list_str_to_list_like_string_multiple-std::list<std::string>[1024]>():[2]
 TEST:    0       4       5     0.000000933     0.000000178     0.000000801     0.000001286         5     5360780.5 test_py_list_str_to_list_like_string_multiple-std::list<std::string>[1024]>():[4]
@@ -26,6 +128,7 @@ TEST:    0 1048576       5     1.186573077     0.464911131     0.834378476     2
 
 16 bit:
 HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+$1      $2      $3      $4              $5              $6              $7              $8        $9           $10 $11
 TEST:    0       1       5     0.000000408     0.000000308     0.000000234     0.000001024         5    12257906.3 test_py_list_str16_to_list_like_u16string_multiple-std::list<std::u16string>[1024]>():[1]
 TEST:    0       2       5     0.000000510     0.000000089     0.000000425     0.000000656         5     9794319.3 test_py_list_str16_to_list_like_u16string_multiple-std::list<std::u16string>[1024]>():[2]
 TEST:    0       4       5     0.000001033     0.000000301     0.000000814     0.000001628         5     4842615.0 test_py_list_str16_to_list_like_u16string_multiple-std::list<std::u16string>[1024]>():[4]
@@ -50,6 +153,7 @@ TEST:    0 1048576       5     3.058880837     2.346627957     1.572572062     7
 
 32 bit:
 HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+$1      $2      $3      $4              $5              $6              $7              $8        $9           $10 $11
 TEST:    0       1       5     0.000000488     0.000000654     0.000000151     0.000001796         5    10239606.8 test_py_list_str32_to_list_like_u32string_multiple-std::list<std::u32string>[1024]>():[1]
 TEST:    0       2       5     0.000000336     0.000000119     0.000000262     0.000000573         5    14858841.0 test_py_list_str32_to_list_like_u32string_multiple-std::list<std::u32string>[1024]>():[2]
 TEST:    0       4       5     0.000000885     0.000000520     0.000000594     0.000001923         5     5649079.2 test_py_list_str32_to_list_like_u32string_multiple-std::list<std::u32string>[1024]>():[4]

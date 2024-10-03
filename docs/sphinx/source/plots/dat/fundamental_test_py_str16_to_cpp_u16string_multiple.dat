@@ -1,0 +1,20 @@
+# Unicode string performance, Python to C++. Mac Mini B:
+# 2 October 2024 at 12:56:27 BST
+# From perf_notes/cpp_test_results.txt
+# Fundamental types:
+# 16 bit
+# ======
+#
+# Python -> C++
+# -------------
+# HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+# $1      $2      $3      $4              $5              $6              $7              $8        $9           $10 $11
+TEST:    0         2    1000000     0.008109303     0.000006100     0.008102167     0.008129042        20        2466.3 test_py_str16_to_cpp_u16string_multiple_2[1000000]
+TEST:    0        16    1000000     0.078421778     0.005190042     0.071888541     0.088546043        20         255.0 test_py_str16_to_cpp_u16string_multiple_16[1000000]
+TEST:    0       128    1000000     0.135103696     0.009849180     0.123247876     0.161659084        20         148.0 test_py_str16_to_cpp_u16string_multiple_128[1000000]
+TEST:    0      1024    1000000     0.115050209     0.007282402     0.105869334     0.128821043        20         173.8 test_py_str16_to_cpp_u16string_multiple_1024[1000000]
+TEST:    0      8192    1000000     0.458368734     0.017611174     0.432019208     0.486256001        20          43.6 test_py_str16_to_cpp_u16string_multiple_8192[1000000]
+TEST:    0     65536    1000000     5.448628694     0.024358348     5.403639833     5.521592875        20           3.7 test_py_str16_to_cpp_u16string_multiple_65536[1000000]
+#
+# NOTES:
+# - This is OK, it calls std::u16string ret((const char16_t *)PyUnicode_2BYTE_DATA(op), PyUnicode_GET_LENGTH(op));
