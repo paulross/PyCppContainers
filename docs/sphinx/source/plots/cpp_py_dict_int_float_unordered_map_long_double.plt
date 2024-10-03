@@ -98,7 +98,7 @@ plot "dat/test_cpp_std_unordered_map_to_py_dict_multiple_long_long.dat" using 3:
 
 # Now the rate graphs.
 # Python to C++
-set title "Rate of copying a Python dict to a C++ std::unordered_map<K, V> for int, double, complex."
+set title "Rate of Copying a Python dict to a C++ std::unordered_map<K, V> for int, double, complex."
 set key right
 set ylabel "Time per Item (µs)"
 set yrange [0.01:1.0]
@@ -134,7 +134,7 @@ plot "dat/test_py_dict_to_cpp_std_unordered_map_multiple_long_long.dat" using 3:
 set terminal svg size 800,400           # choose the file format
 set output "images/cpp_unordered_map_long_double_py_dict_int_float_rate.svg"   # choose the output device
 
-set title "Rate of copying a C++ std::unordered_map<K, V> to a Python set of int, float, complex."
+set title "Rate of Copying a C++ std::unordered_map<K, V> to a Python set of int, float, complex."
 set ylabel "Time per Item (µs)"
 
 plot "dat/test_cpp_std_unordered_map_to_py_dict_multiple_long_long.dat" using 3:(1e6 * ($5 - $6) / $3):(1e6 * $7 / $3):(1e6 * $8 / $3):(1e6 * ($5 + $6) / $3) \
