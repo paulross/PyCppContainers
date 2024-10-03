@@ -226,7 +226,7 @@ int test_cpp_string_to_py_str_multiple(TestResultS &test_results, size_t string_
             Py_DECREF(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, string_size);
     }
     test_results.push_back(test_result);
     return 0;
@@ -244,7 +244,7 @@ int test_py_str_to_cpp_string_multiple(TestResultS &test_results, size_t string_
             volatile auto temp = Python_Cpp_Containers::py_unicode8_to_cpp_string(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, string_size);
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
@@ -263,7 +263,7 @@ int test_cpp_u16string_to_py_str16_multiple(TestResultS &test_results, size_t st
             Py_DECREF(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, string_size);
     }
     test_results.push_back(test_result);
     return 0;
@@ -281,7 +281,7 @@ int test_py_str16_to_cpp_u16string_multiple(TestResultS &test_results, size_t st
             volatile auto temp = Python_Cpp_Containers::py_unicode16_to_cpp_u16string(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, string_size);
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
@@ -300,7 +300,7 @@ int test_cpp_u32string_to_py_str32_multiple(TestResultS &test_results, size_t st
             Py_DECREF(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, string_size);
     }
     test_results.push_back(test_result);
     return 0;
@@ -318,7 +318,7 @@ int test_py_str32_to_cpp_u32string_multiple(TestResultS &test_results, size_t st
             volatile auto temp = Python_Cpp_Containers::py_unicode32_to_cpp_u32string(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, string_size);
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
