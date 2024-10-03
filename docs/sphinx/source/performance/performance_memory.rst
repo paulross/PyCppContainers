@@ -59,7 +59,7 @@ Python List of bytes
 The following is a plot of RSS and change of RSS over time:
 
 .. image:: ../plots/images/pymemtrace_list_bytes.png
-    :height: 600px
+    :height: 400px
     :align: center
 
 This result is rather surprising.
@@ -79,7 +79,7 @@ Python List of floats
 For comparison here is the time/memory plot of round-tripping a list of Python ``float`` as a C++ ``std::vector`` or ``std::list``:
 
 .. image:: ../plots/images/pymemtrace_list_float.png
-    :height: 600px
+    :height: 400px
     :align: center
 
 The memory usage is not significantly different but using a ``std::list`` takes about twice as long.
@@ -115,7 +115,7 @@ The code looks like this:
 The following is a plot of RSS and change of RSS over time:
 
 .. image:: ../plots/images/pymemtrace_set_bytes.png
-    :height: 600px
+    :height: 400px
     :align: center
 
 In the set case constructing the original set takes around 1500Mb.
@@ -162,7 +162,7 @@ The code looks like this:
 The following is a plot of RSS and change of RSS over time:
 
 .. image:: ../plots/images/pymemtrace_dict_bytes.png
-    :height: 600px
+    :height: 400px
     :align: center
 
 In the dictionary case constructing the original dict takes around 1500Mb.
@@ -186,7 +186,7 @@ dict or bytes allocators or the C++ ``std::unordered_map<T>`` or ``std::vector<c
 Similar results are obtained for a Python dict was round-tripped to a C++ ``std::map<std::string, std::string>`` and back to a new Python dict.
 
 .. image:: ../plots/images/pymemtrace_dict_str.png
-    :height: 600px
+    :height: 400px
     :align: center
 
 This is broadly similar to the results for ``std::unordered_map<std::vector<char>, std::vector<char>>``.
@@ -214,7 +214,7 @@ For example here is the code for a list:
 The following is a plot of RSS and change of RSS over time for list, set, dict:
 
 .. image:: ../plots/images/pymemtrace_list_set_dict_bytes_one_item.png
-    :height: 600px
+    :height: 400px
     :align: center
 
 This graph shows that there are no memory leaks on container construction.

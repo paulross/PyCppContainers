@@ -36,7 +36,7 @@ rate_1_000_000_000(x) = latency + x / 1e9
 
 # Time plots
 set ylabel "Time (µs)"
-set terminal svg size 800,600           # choose the file format
+set terminal svg size 800,400           # choose the file format
 set output "images/roundtrip_list_list_bytes_time.svg"   # choose the output device
 
 plot "dat/roundtrip_list_list_bytes_Byte_length_2.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
@@ -50,7 +50,7 @@ plot "dat/roundtrip_list_list_bytes_Byte_length_2.dat" using 1:(1e6 * ($4 - $6))
     "dat/roundtrip_list_list_bytes_Byte_length_2.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
     "dat/roundtrip_list_list_bytes_Byte_length_2.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
-set terminal png size 800,600           # choose the file format
+set terminal png size 800,400           # choose the file format
 set output "images/roundtrip_list_list_bytes_time.png"   # choose the output device
 
 plot "dat/roundtrip_list_list_bytes_Byte_length_2.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
@@ -68,7 +68,7 @@ plot "dat/roundtrip_list_list_bytes_Byte_length_2.dat" using 1:(1e6 * ($4 - $6))
 set ylabel "Time per Item (µs)"
 set yrange [:10]
 
-set terminal svg size 800,600           # choose the file format
+set terminal svg size 800,400           # choose the file format
 set output "images/roundtrip_list_list_bytes_rate.svg"   # choose the output device
 
 plot "dat/roundtrip_list_list_bytes_Byte_length_2.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
@@ -84,7 +84,7 @@ plot "dat/roundtrip_list_list_bytes_Byte_length_2.dat" using 1:(1e6 * ($4 - $6) 
         t "List [bytes] <-> C++ std::list<std::vector<char>> Length 1024" with candlesticks whiskerbars 0.5,\
     "dat/roundtrip_list_list_bytes_Byte_length_1024.dat" using 1:(1e6 * $3 / $1) t "Minimum List [bytes] <-> C++ std::list<std::vector<char>> Length 1024" with lines
 
-set terminal png size 800,600           # choose the file format
+set terminal png size 800,400           # choose the file format
 set output "images/roundtrip_list_list_bytes_rate.png"   # choose the output device
 
 plot "dat/roundtrip_list_list_bytes_Byte_length_2.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \

@@ -11,7 +11,7 @@ set datafile separator whitespace
 
 set boxwidth 0.2 relative
 
-set terminal png size 800,600           # choose the file format
+set terminal png size 800,400           # choose the file format
 set output "images/scrap.png"   # choose the output device
 
 #plot "dat/scrap.dat" using 3:7 with linespoints

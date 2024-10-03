@@ -37,7 +37,7 @@ rate_1_000_000_000(x) = latency + x / 1e9
 # Time plots
 set ylabel "Time (µs)"
 
-set terminal svg size 800,600           # choose the file format
+set terminal svg size 800,400           # choose the file format
 set output "images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_time.svg"   # choose the output device
 
 plot "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
@@ -62,7 +62,7 @@ plot "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(1e
     "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
     "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
-set terminal png size 800,600           # choose the file format
+set terminal png size 800,400           # choose the file format
 set output "images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_time.png"   # choose the output device
 
 plot "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
@@ -91,7 +91,7 @@ plot "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(1e
 set ylabel "Time per Item (µs)"
 #set yrange [0.1:10]
 
-set terminal svg size 800,600           # choose the file format
+set terminal svg size 800,400           # choose the file format
 set output "images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_rate.svg"   # choose the output device
 
 plot "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
@@ -133,7 +133,7 @@ plot "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(1e
     "dat/roundtrip_dict_unordered_map_int_str32_String_length_1024.dat" using 1:(1e6 * $3 / $1) \
         t "" with lines
 
-set terminal png size 800,600           # choose the file format
+set terminal png size 800,400           # choose the file format
 set output "images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_rate.png"   # choose the output device
 
 plot "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
@@ -179,7 +179,7 @@ plot "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(1e
 set ylabel "Time per Item (µs)"
 #set yrange [0.1:10]
 
-set terminal svg size 800,600           # choose the file format
+set terminal svg size 800,400           # choose the file format
 set output "images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_1024_rate.svg"   # choose the output device
 
 plot "dat/roundtrip_dict_unordered_map_int_str_String_length_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
@@ -197,7 +197,7 @@ plot "dat/roundtrip_dict_unordered_map_int_str_String_length_1024.dat" using 1:(
     "dat/roundtrip_dict_unordered_map_int_str32_String_length_1024.dat" using 1:(1e6 * $3 / $1) \
         t "" with lines
 
-set terminal png size 800,600           # choose the file format
+set terminal png size 800,400           # choose the file format
 set output "images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_1024_rate.png"   # choose the output device
 
 plot "dat/roundtrip_dict_unordered_map_int_str_String_length_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
