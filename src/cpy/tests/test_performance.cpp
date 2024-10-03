@@ -188,7 +188,7 @@ test_cpp_vector_char_to_py_bytes_multiple(TestResultS &test_results, size_t stri
             Py_DECREF(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, string_size);
     }
     test_results.push_back(test_result);
     return 0;
@@ -207,7 +207,7 @@ test_py_bytes_to_cpp_vector_char_multiple(TestResultS &test_results, size_t stri
             volatile auto temp = Python_Cpp_Containers::py_bytes_to_cpp_vector_char(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, string_size);
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
