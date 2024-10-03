@@ -335,6 +335,31 @@ str[128]        0.6 to 2                0.5 to 1.7                  64 to 220
 str[1024]       2 to 8                  0.125 to 0.5                125 to 500
 =============== ======================= =========================== =========================== ===================
 
+Unicode Strings of Different Codepoint Sizes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Here is a plot of round tripping a dict of ``[int, str]`` for unicode sizes of 8 bit, 16 bit and 32 bit:
+
+
+.. image:: ../plots/images/roundtrip_dict_map_int_str_8_16_32_String_length_rate.png
+    :height: 600px
+    :align: center
+
+.. todo::
+
+    Commentary.
+
+
+And, simplified for 1024 length strings.
+
+.. image:: ../plots/images/roundtrip_dict_map_int_str_8_16_32_String_length_1024_rate.png
+    :height: 600px
+    :align: center
+
+.. todo::
+
+    Commentary.
+
 Summary
 ------------------
 
