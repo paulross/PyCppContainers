@@ -338,8 +338,29 @@ str[1024]       2 to 8                  0.125 to 0.5                125 to 500
 Unicode Strings of Different Codepoint Sizes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here is a plot of round tripping a dict of ``[int, str]`` for unicode sizes of 8 bit, 16 bit and 32 bit:
+Here is a plot of round tripping a dict of ``[int, str]`` for unicode sizes of 8 bit, 16 bit and 32 bit to a
+C++ ``std::map`` and back:
 
+.. image:: ../plots/images/roundtrip_dict_map_int_str_8_16_32_String_length_rate.png
+    :height: 600px
+    :align: center
+
+.. todo::
+
+    Commentary.
+
+
+And, simplified for 1024 length strings.
+
+.. image:: ../plots/images/roundtrip_dict_map_int_str_8_16_32_String_length_1024_rate.png
+    :height: 600px
+    :align: center
+
+.. todo::
+
+    Commentary.
+
+And similar plots for converting to a ``std::unordered_map``:
 
 .. image:: ../plots/images/roundtrip_dict_map_int_str_8_16_32_String_length_rate.png
     :height: 600px
