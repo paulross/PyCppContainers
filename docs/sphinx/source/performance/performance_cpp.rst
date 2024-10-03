@@ -16,7 +16,7 @@ memory tests.
 
 The performance tests are in ``src/cpy/tests/test_performance.h`` and ``src/cpy/tests/test_performance.cpp``.
 There are a number of macros ``TEST_PERFORMANCE_*`` there that control which tests are run.
-Running all tests takes about 20 minutes.
+Running all tests takes about 6.5 hours.
 
 The tests can be run by building and running the C++ binary from the project root:
 
@@ -26,25 +26,53 @@ The tests can be run by building and running the C++ binary from the project roo
     cmake --build cmake-build-release --target PyCppContainers -- -j 6
     cmake-build-release/PyCppContainers
 
+.. note::
+
+    The debug build includes more exhaustive internal tests (using ``assert()``) but excludes the performance tests as
+    they take a *very* long time for a debug build.
+
 The output is large and looks like this:
+
+.. raw:: latex
+
+    \begin{landscape}
 
 .. code-block:: shell
 
-    cmake-build-release/PyCppContainers
+    $ cmake-build-release/PyCppContainers
+    ---> C++ release tests
     Hello, World!
     Python version: 3.12.1
     test_functional_all START
-    RSS(Mb): was:     29.047 now:     29.062 diff:     +0.016 Peak was:     29.047 now:     29.062 diff:     +0.016 test_vector_to_py_tuple<bool>
-    RSS(Mb): was:     29.062 now:     29.074 diff:     +0.012 Peak was:     29.062 now:     29.074 diff:     +0.012 test_vector_to_py_tuple<long>
-    RSS(Mb): was:     29.074 now:     29.098 diff:     +0.023 Peak was:     29.074 now:     29.098 diff:     +0.023 test_vector_to_py_tuple<double>
+    RSS(Mb): was:     16.523 now:     16.531 diff:     +0.008 Peak was:     16.523 now:     16.531 diff:     +0.008 test_vector_to_py_tuple<bool>
+    RSS(Mb): was:     16.531 now:     16.535 diff:     +0.004 Peak was:     16.531 now:     16.535 diff:     +0.004 test_vector_to_py_tuple<long>
+    RSS(Mb): was:     16.535 now:     16.539 diff:     +0.004 Peak was:     16.535 now:     16.539 diff:     +0.004 test_vector_to_py_tuple<double>
+
     8<---- Snip ---->8
 
+    TEST:    0    4096       1     0.002047584             N/A             N/A             N/A         1         488.4 test_py_tuple_str32_to_vector std::string[2048]>():[4096]
+    TEST:    0    8192       1     0.004002917             N/A             N/A             N/A         1         249.8 test_py_tuple_str32_to_vector std::string[2048]>():[8192]
+    TEST:    0   16384       1     0.008183250             N/A             N/A             N/A         1         122.2 test_py_tuple_str32_to_vector std::string[2048]>():[16384]
+    TEST:    0   32768       1     0.039068668             N/A             N/A             N/A         1          25.6 test_py_tuple_str32_to_vector std::string[2048]>():[32768]
+    TEST:    0   65536       1     0.044092626             N/A             N/A             N/A         1          22.7 test_py_tuple_str32_to_vector std::string[2048]>():[65536]
+    TEST:    0    4096       1     4.745317500             N/A             N/A             N/A         1           0.2 test_unordered_set_bytes_to_py_set std::string[1048576]>():[4096]
+    TAIL: Passed=24192/24192 Failed=0/24192
+    All tests pass.
+
+    ====RSS(Mb): was:      9.262 now:    844.883 diff:   +835.621 Peak was:      9.262 now:   3593.207 diff:  +3583.945 main.cpp
+    Total execution time:    23880.011 (s)
+    Count of unique strings created: 131724750
+    Bye, bye! Returning 0
+
+.. raw:: latex
+
+    \end{landscape}
 
 The complete output can be captured to ``perf_notes/cpp_test_results.txt`` with this command:
 
 .. code-block:: shell
 
-    caffeinate time cmake-build-release/PyCppContainers > perf_notes/cpp_test_results.txt
+    $ time cmake-build-release/PyCppContainers > perf_notes/cpp_test_results.txt
 
 Then there is a Python script ``perf_notes/write_dat_files_for_cpp_test_results.py`` that will extract all the
 performance data into ``perf_notes/dat`` suitable for gnuplot.
@@ -62,6 +90,24 @@ Conversion of Fundamental Types
 These C++ functions test the cost of converting ints, floats and bytes objects between Python and C++.
 These test are executed if the macro ``TEST_PERFORMANCE_FUNDAMENTAL_TYPES`` is defined.
 
+Numeric Types
+^^^^^^^^^^^^^^^^^
+
+..
+    From perf_notes/cpp_test_results.txt
+    HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+    TEST:    0 1000000      20     0.001561753     0.000001978     0.001560542     0.001567459        20       12806.1 test_bool_to_py_bool_multiple[1000000]
+    TEST:    0 1000000      20     0.001468528     0.000027571     0.001455168     0.001562000        20       13619.1 test_py_bool_to_cpp_bool_multiple[1000000]
+    TEST:    0 1000000      20     0.020391246     0.002205520     0.018449710     0.024430667        20         980.8 test_long_to_py_int_multiple[1000000]
+    TEST:    0 1000000      20     0.004190838     0.000008678     0.004167083     0.004201125        20        4772.3 test_py_int_to_cpp_long_multiple[1000000]
+    TEST:    0 1000000      20     0.015347088     0.000493604     0.014248792     0.015617834        20        1303.2 test_double_to_py_float_multiple[1000000]
+    TEST:    0 1000000      20     0.005575696     0.000007624     0.005568000     0.005591876        20        3587.0 test_py_float_to_cpp_double_multiple[1000000]
+    TEST:    0 1000000      20     0.022577623     0.000916127     0.021249167     0.025298459        20         885.8 test_complex_to_py_complex_multiple[1000000]
+    TEST:    0 1000000      20     0.006424378     0.000006946     0.006420126     0.006452625        20        3113.1 test_py_complex_to_cpp_complex_multiple[1000000]
+
+    Example: test_bool_to_py_bool_multiple() C++ to Python. Min is 0.001560542 for 1e6 conversions. So 1e9 * 0.00156 / 1e6 = 1.56
+    Example: test_py_bool_to_cpp_bool_multiple() Python to C++. Min is 0.001455168 for 1e6 conversions. So 1e9 * 0.00146 / 1e6 = 1.46
+
 .. list-table:: Fundamental Type Conversion Time. Times in nanoseconds.
    :widths: 30 20 20 20 60
    :header-rows: 1
@@ -72,31 +118,70 @@ These test are executed if the macro ``TEST_PERFORMANCE_FUNDAMENTAL_TYPES`` is d
      - Ratio
      - Notes
    * - ``bool``/``bool``
-     - 2.7
-     - 1.6
-     - 1.7x
-     - The mean is around 450m/s
+     - 1.56
+     - 1.46
+     - 1.07x
+     - The mean is around 660 million/s
    * - ``long``/``int``
-     - 14.6
-     - 4.6
-     - 3.2x
-     - The mean is around 100m/s.
+     - 18.4
+     - 4.16
+     - 4.42x
+     - The mean is around 88 million/s.
    * - ``double``/``float``
-     - 8.6
-     - 2.7
-     - 3.2x
-     - The mean is around 180m/s.
+     - 14.2
+     - 5.56
+     - 2.55x
+     - The mean is around 100 million/s.
    * - ``complex<double>``/``complex``
-     - 12.2
-     - 4.9
-     - 2.5x
-     - The mean is around 120m/s.
+     - 21.2
+     - 6.42
+     - 3.30x
+     - The mean is around 72 million/s.
 
 Converting from C++ to Python is always slower than from Python to C++.
 
+
+``bytes``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 For a single C++ ``std::vector<char>`` to and from Python ``bytes`` of different lengths:
 
-.. list-table:: Fundamental Type Conversion Time. Times in nanoseconds.
+..
+    From perf_notes/cpp_test_results.txt
+    HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+    TEST:    0 1000000      20     0.057439107     0.006509894     0.052396208     0.075423792        20         348.2 test_cpp_vector_char_to_py_bytes_multiple_2[1000000]
+    TEST:    0 1000000      20     0.053159580     0.000777435     0.052021209     0.054217417        20         376.2 test_cpp_vector_char_to_py_bytes_multiple_16[1000000]
+    TEST:    0 1000000      20     0.054709067     0.000891610     0.053596959     0.056247709        20         365.6 test_cpp_vector_char_to_py_bytes_multiple_128[1000000]
+    TEST:    0 1000000      20     0.119114457     0.009596428     0.107581917     0.139490666        20         167.9 test_cpp_vector_char_to_py_bytes_multiple_1024[1000000]
+    TEST:    0 1000000      20     0.300614207     0.017573230     0.271704084     0.328277376        20          66.5 test_cpp_vector_char_to_py_bytes_multiple_8192[1000000]
+    TEST:    0 1000000      20     2.420889067     0.030892970     2.374831875     2.488255167        20           8.3 test_cpp_vector_char_to_py_bytes_multiple_65536[1000000]
+    TEST:    0 1000000      20     0.056535515     0.003379383     0.051730335     0.062494459        20         353.8 test_py_bytes_to_cpp_vector_char_multiple_2[1000000]
+    TEST:    0 1000000      20     0.054382388     0.002028227     0.052218167     0.059590500        20         367.8 test_py_bytes_to_cpp_vector_char_multiple_16[1000000]
+    TEST:    0 1000000      20     0.072021513     0.002964195     0.068870083     0.078325250        20         277.7 test_py_bytes_to_cpp_vector_char_multiple_128[1000000]
+    TEST:    0 1000000      20     0.091097832     0.005092673     0.083415293     0.101530751        20         219.5 test_py_bytes_to_cpp_vector_char_multiple_1024[1000000]
+    TEST:    0 1000000      20     0.263217424     0.015400919     0.240177208     0.287619668        20          76.0 test_py_bytes_to_cpp_vector_char_multiple_8192[1000000]
+    TEST:    0 1000000      20     2.124635850     0.017340990     2.084605542     2.158811208        20           9.4 test_py_bytes_to_cpp_vector_char_multiple_65536[1000000]
+
+    Example: test_cpp_vector_char_to_py_bytes_multiple_2() C++ to Python. Min is 0.052396208 for 1e6 conversions. So 1e9 * 0.0524 / 1e6 = 52.4
+    Example: test_py_bytes_to_cpp_vector_char_multiple_2() Python to C++. Min is 0.051730335 for 1e6 conversions. So 1e9 * 0.0517 / 1e6 = 51.7
+
+.. image:: ../plots/images/test_cpp_vector_char_to_py_bytes.png
+    :height: 600px
+    :align: center
+
+.. todo::
+
+    Commentary.
+
+.. image:: ../plots/images/test_py_bytes_to_cpp_vector_char_multiple.dat.png
+    :height: 600px
+    :align: center
+
+.. todo::
+
+    Commentary.
+
+.. list-table:: ``bytes`` Conversion Time. Times in nanoseconds.
    :widths: 30 20 20 20 60
    :header-rows: 1
 
@@ -106,43 +191,97 @@ For a single C++ ``std::vector<char>`` to and from Python ``bytes`` of different
      - Ratio
      - Notes
    * - 2
-     - 17.3
-     - 4.7
-     - 3.7x
+     - 52.4
+     - 51.7
+     - 1.01x
      -
    * - 16
-     - 16.9
-     - 4.0
-     - 4.2x
+     - 52.0
+     - 52.2
+     - 0.996x
      -
    * - 128
-     - 20.1
-     - 64.1
-     - 0.31x
+     - 53.6
+     - 68.9
+     - 0.778x
      -
    * - 1024
-     - 80.7
-     - 67.1
-     - 1.2x
-     - Corresponds to about 14 Gb/s
+     - 108
+     - 83.4
+     - 1.30x
+     - Corresponds to about 11 Gb/s
    * - 8192
-     - 131.7
-     - 119.7
-     - 1.1x
-     - Corresponds to about 64 Gb/s
+     - 272
+     - 240
+     - 1.13x
+     - Corresponds to about 32 Gb/s
    * - 65536
-     - 1,567
-     - 1,551
-     - 1.0x
-     - Corresponds to about 41 Gb/s
-
-Bytes conversion time from C++ to Python or the reverse takes asymptotically and roughly:
-
-.. code-block:: text
-
-    t (ns) = 1200 * length / 50,000
+     - 2,375
+     - 2,085
+     - 1.14x
+     - Corresponds to about 29 Gb/s
 
 For a single C++ ``std::string`` to and from Python ``str`` of different lengths:
+
+Strings
+^^^^^^^^^^^^^^^^^^^^^^
+
+..
+    From perf_notes/cpp_test_results.txt
+    HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+    TEST:    0 1000000      20     0.058759109     0.003645734     0.053923376     0.066701584        20         340.4 test_cpp_string_to_py_str_multiple_2[1000000]
+    TEST:    0 1000000      20     0.060736565     0.001276392     0.058984251     0.063327876        20         329.3 test_cpp_string_to_py_str_multiple_16[1000000]
+    TEST:    0 1000000      20     0.064648476     0.001873584     0.061841501     0.069060916        20         309.4 test_cpp_string_to_py_str_multiple_128[1000000]
+    TEST:    0 1000000      20     0.197420682     0.011602980     0.185850333     0.219071125        20         101.3 test_cpp_string_to_py_str_multiple_1024[1000000]
+    TEST:    0 1000000      20     0.720809661     0.017942847     0.686475625     0.746969209        20          27.7 test_cpp_string_to_py_str_multiple_8192[1000000]
+    TEST:    0 1000000      20     5.359504186     0.024684586     5.327452417     5.432398459        20           3.7 test_cpp_string_to_py_str_multiple_65536[1000000]
+    TEST:    0 1000000      20     0.006176815     0.000003319     0.006173209     0.006182918        20        3237.9 test_py_str_to_cpp_string_multiple_2[1000000]
+    TEST:    0 1000000      20     0.007333573     0.000004223     0.007330334     0.007346251        20        2727.2 test_py_str_to_cpp_string_multiple_16[1000000]
+    TEST:    0 1000000      20     0.077593984     0.005359461     0.070420583     0.085804625        20         257.8 test_py_str_to_cpp_string_multiple_128[1000000]
+    TEST:    0 1000000      20     0.089523303     0.005118394     0.083854375     0.100696042        20         223.4 test_py_str_to_cpp_string_multiple_1024[1000000]
+    TEST:    0 1000000      20     0.266933671     0.015144741     0.243118751     0.292431167        20          74.9 test_py_str_to_cpp_string_multiple_8192[1000000]
+    TEST:    0 1000000      20     2.123572144     0.033200797     2.094082043     2.250884334        20           9.4 test_py_str_to_cpp_string_multiple_65536[1000000]
+    TEST:    0 1000000      20     0.042588886     0.001377939     0.040422959     0.043991375        20         469.6 test_cpp_u16string_to_py_str16_multiple_2[1000000]
+    TEST:    0 1000000      20     0.147994407     0.009139400     0.138898917     0.164160334        20         135.1 test_cpp_u16string_to_py_str16_multiple_16[1000000]
+    TEST:    0 1000000      20     0.873698398     0.009309133     0.854021875     0.887453251        20          22.9 test_cpp_u16string_to_py_str16_multiple_128[1000000]
+    TEST:    0 1000000      20     6.716434430     0.026116913     6.675454917     6.768655084        20           3.0 test_cpp_u16string_to_py_str16_multiple_1024[1000000]
+    TEST:    0 1000000      20    63.329128475     7.383649449    53.119942417    82.049977584        20           0.3 test_cpp_u16string_to_py_str16_multiple_8192[1000000]
+    TEST:    0 1000000      20   434.770099001    15.165859601   423.448348083   486.720068750        20           0.0 test_cpp_u16string_to_py_str16_multiple_65536[1000000]
+    TEST:    0 1000000      20     0.008109303     0.000006100     0.008102167     0.008129042        20        2466.3 test_py_str16_to_cpp_u16string_multiple_2[1000000]
+    TEST:    0 1000000      20     0.078421778     0.005190042     0.071888541     0.088546043        20         255.0 test_py_str16_to_cpp_u16string_multiple_16[1000000]
+    TEST:    0 1000000      20     0.135103696     0.009849180     0.123247876     0.161659084        20         148.0 test_py_str16_to_cpp_u16string_multiple_128[1000000]
+    TEST:    0 1000000      20     0.115050209     0.007282402     0.105869334     0.128821043        20         173.8 test_py_str16_to_cpp_u16string_multiple_1024[1000000]
+    TEST:    0 1000000      20     0.458368734     0.017611174     0.432019208     0.486256001        20          43.6 test_py_str16_to_cpp_u16string_multiple_8192[1000000]
+    TEST:    0 1000000      20     5.448628694     0.024358348     5.403639833     5.521592875        20           3.7 test_py_str16_to_cpp_u16string_multiple_65536[1000000]
+    TEST:    0 1000000      20     0.044683823     0.002890114     0.040840209     0.048879126        20         447.6 test_cpp_u32string_to_py_str32_multiple_2[1000000]
+    TEST:    0 1000000      20     0.249225642     0.011375113     0.233679833     0.271066042        20          80.2 test_cpp_u32string_to_py_str32_multiple_32[1000000]
+    TEST:    0 1000000      20     1.023829955     0.009710184     1.005457626     1.044050126        20          19.5 test_cpp_u32string_to_py_str32_multiple_128[1000000]
+    TEST:    0 1000000      20     6.735237898     0.031750375     6.680839667     6.832778668        20           3.0 test_cpp_u32string_to_py_str32_multiple_1024[1000000]
+    TEST:    0 1000000      20    53.187598769     0.114578230    53.028910543    53.416468667        20           0.4 test_cpp_u32string_to_py_str32_multiple_8192[1000000]
+    TEST:    0 1000000      20   429.282977688     1.372580931   427.808455626   434.008575291        20           0.0 test_cpp_u32string_to_py_str32_multiple_65536[1000000]
+    TEST:    0 1000000      20     0.007344234     0.000049091     0.007326501     0.007543208        20        2723.2 test_py_str32_to_cpp_u32string_multiple_2[1000000]
+    TEST:    0 1000000      20     0.077141528     0.006414912     0.071097542     0.095550751        20         259.3 test_py_str32_to_cpp_u32string_multiple_32[1000000]
+    TEST:    0 1000000      20     0.144473686     0.012002486     0.127959959     0.168075458        20         138.4 test_py_str32_to_cpp_u32string_multiple_128[1000000]
+    TEST:    0 1000000      20     0.165254003     0.011043742     0.152708750     0.185491626        20         121.0 test_py_str32_to_cpp_u32string_multiple_1024[1000000]
+    TEST:    0 1000000      20     0.853880155     0.014881503     0.822144209     0.878523792        20          23.4 test_py_str32_to_cpp_u32string_multiple_8192[1000000]
+    TEST:    0 1000000      20    10.891868471     0.187687075    10.764805500    11.638142875        20           1.8 test_py_str32_to_cpp_u32string_multiple_65536[1000000]
+
+    See also:
+    C++ to Python: fundamental_string_8_16_32.plt
+    Python to C++: fundamental_py_to_cpp_string_8_16_32.plt
+
+C++ to Python:
+
+.. image:: ../plots/images/fundamental_string_8_16_32.png
+    :height: 600px
+    :align: center
+
+Python to C++:
+
+.. image:: ../plots/images/fundamental_py_to_cpp_string_8_16_32.png
+    :height: 600px
+    :align: center
+
 
 .. list-table:: String Conversion Time. Times in nanoseconds.
    :widths: 30 20 20 20 60

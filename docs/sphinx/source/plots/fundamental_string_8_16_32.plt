@@ -25,6 +25,8 @@ rate_10_000_000(x) = latency + x / 1e7
 rate_100_000_000(x) = latency + x / 1e8
 # 1,000,000,000 items per second
 rate_1_000_000_000(x) = latency + x / 1e9
+# 10,000,000,000 items per second
+rate_10_000_000_000(x) = latency + x / 1e10
 
 set boxwidth 0.2 relative
 
@@ -47,6 +49,10 @@ plot "dat/fundamental_test_cpp_string_to_py_str_multiple.dat" \
         using 3:(1e6 * ($5 - $6) / $4):(1e6 * $7 / $4):(1e6 * $8 / $4):(1e6 * ($5 + $6) / $4) \
         t "Python str 32 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2, \
         "dat/fundamental_test_cpp_u32string_to_py_str32_multiple.dat" using 3:($7 * 1e6 / $4) \
-         t "Minimum Dict Python str 32 bit -> C++" with lines linewidth 2
+         t "Minimum Dict Python str 32 bit -> C++" with lines linewidth 2, \
+    "dat/fundamental_test_cpp_u32string_to_py_str32_multiple.dat" using 3:(rate_100_000_000($3) * 1e6) \
+        t sprintf("Guide: %.3f µs + 100 MB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2, \
+    "dat/fundamental_test_cpp_u32string_to_py_str32_multiple.dat" using 3:(rate_10_000_000_000($3) * 1e6) \
+        t sprintf("Guide: %.3f µs + 10 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2
 
 reset

@@ -12,6 +12,8 @@ Here are some benchmarks for converting Python containers to and from their C++ 
 
 The C++ code was compiled with ``-O3`` and run on Apple M1 (2020) CPU running Mac OS X 13.5.1 (Ventura) with 16 GB RAM.
 
+These test results are built with Python 3.12.
+
 .. toctree::
    :maxdepth: 4
    :caption: Contents:
