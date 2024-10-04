@@ -118,6 +118,7 @@ namespace Python_Cpp_Containers {
 
     /** Returns 1 if the Python object is a 16 bit Unicode string. */
     int py_unicode16_check(PyObject *op) {
+        assert(! PyErr_Occurred());
         return PyUnicode_Check(op) && PyUnicode_KIND(op) == PyUnicode_2BYTE_KIND;
     }
 
@@ -155,6 +156,7 @@ namespace Python_Cpp_Containers {
 
     /** Converts a Python 16 bit Unicode string to a C++ \c std::u16string. */
     std::u16string py_unicode16_to_cpp_u16string(PyObject *op) {
+        assert(! PyErr_Occurred());
         assert(op);
         assert(py_unicode16_check(op));
         std::u16string ret((const char16_t *)PyUnicode_2BYTE_DATA(op), PyUnicode_GET_LENGTH(op));
@@ -165,6 +167,7 @@ namespace Python_Cpp_Containers {
 
     /** Returns 1 if the Python object is a 32 bit Unicode string. */
     int py_unicode32_check(PyObject *op) {
+        assert(! PyErr_Occurred());
         int unicode_kind = PyUnicode_KIND(op);
         return PyUnicode_Check(op) && unicode_kind == PyUnicode_4BYTE_KIND;
     }
@@ -204,6 +207,7 @@ namespace Python_Cpp_Containers {
 
     /** Converts a Python 32 bit Unicode string to a C++ \c std::u32string. */
     std::u32string py_unicode32_to_cpp_u32string(PyObject *op) {
+        assert(! PyErr_Occurred());
         assert(op);
         assert(py_unicode32_check(op));
         std::u32string ret((const char32_t *)PyUnicode_4BYTE_DATA(op), PyUnicode_GET_LENGTH(op));
