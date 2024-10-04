@@ -35,6 +35,7 @@ rate_1_000_000_000_000(x) = latency + x / 1e12
 set boxwidth 0.2 relative
 
 set key top left
+set key font ",9"
 
 # First C++ bytes to Python 
 set title "Conversion Time Converting a C++ vector<char> to Python bytes."

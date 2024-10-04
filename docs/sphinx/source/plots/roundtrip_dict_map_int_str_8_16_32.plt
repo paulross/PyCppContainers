@@ -17,6 +17,7 @@ set pointsize 1
 set datafile separator whitespace
 
 set key top left
+set key font ",9"
 set boxwidth 0.2 relative
 
 # Some rate lines

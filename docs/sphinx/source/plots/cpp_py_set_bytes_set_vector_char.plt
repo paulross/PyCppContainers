@@ -37,9 +37,10 @@ set boxwidth 0.2 relative
 # ======================
 # Python to C++
 # ======================
-set title "Time to copy a Python set of bytes to and from C++ std::unordered_setby bytes lengths."
+set title "Copy a Python set of bytes to and from C++ std::unordered_setby bytes lengths."
 
 set key left
+set key font ",9"
 
 # First the raw time graphs:
 set ylabel "Time (µs)"
@@ -103,9 +104,10 @@ plot "dat/test_py_set_bytes_to_unordered_set_vector_char_multiple_std_vector_cha
 # ======================
 # C++ to Python
 # ======================
-set title "Time to copy a C++ std::unordered_set of std::vector<char> to a Python set of bytesbylengths."
+set title "Copy a C++ std::unordered_set of std::vector<char> to a Python set of bytes by length."
 
 set key left
+set key font ",9"
 
 # First the raw time graph:
 set ylabel "Time (µs)"

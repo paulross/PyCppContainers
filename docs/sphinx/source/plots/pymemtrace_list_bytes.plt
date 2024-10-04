@@ -20,6 +20,7 @@ set datafile separator whitespace
 #fit cost(x) "perf_size_of.dat" using 1:2 via a,b
 
 set key left
+set key font ",9"
 
 set terminal svg size 700,400           # choose the file format
 set output "images/pymemtrace_list_bytes.svg"   # choose the output device

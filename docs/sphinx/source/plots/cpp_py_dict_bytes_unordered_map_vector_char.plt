@@ -1,4 +1,4 @@
-set title "Time to copy a Python dict of bytes to and from C++ std::unordered_mapby bytes lengths."
+set title "Copy a Python dict of bytes to and from C++ std::unordered_mapby bytes lengths."
 set grid
 
 set logscale x
@@ -34,6 +34,7 @@ rate_100_000_000(x) = latency + x / 1e8
 rate_1_000_000_000(x) = latency + x / 1e9
 
 set key left
+set key font ",9"
 set boxwidth 0.2 relative
 
 # First the raw time graph:
@@ -96,9 +97,10 @@ plot "dat/test_py_dict_to_cpp_std_unordered_map_vector_char_multiple_std_vector_
 # ======================
 # C++ to Python
 # ======================
-set title "Time to copy a C++ std::unordered_map of std::vector<char> to a Python dict of bytesbylengths."
+set title "Copy a C++ std::unordered_map of std::vector<char> to a Python dict of bytes by length."
 
 set key left
+set key font ",9"
 
 # First the raw time graph:
 set ylabel "Time (µs)"

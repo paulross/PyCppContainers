@@ -61,13 +61,13 @@ For example running the debug tests:
 
 .. code-block:: shell
 
-    ./cmake-build-debug/PyCppContainers
+    time cmake-build-debug/PyCppContainers
     Hello, World!
     Python version: 3.12.1
     test_functional_all START
-    RSS(Mb): was:     14.551 now:     14.594 diff:     +0.043 Peak was:     14.551 now:     14.594 diff:     +0.043 test_vector_to_py_tuple<bool>
-    RSS(Mb): was:     14.594 now:     14.602 diff:     +0.008 Peak was:     14.594 now:     14.602 diff:     +0.008 test_vector_to_py_tuple<long>
-    RSS(Mb): was:     14.602 now:     14.617 diff:     +0.016 Peak was:     14.602 now:     14.617 diff:     +0.016 test_vector_to_py_tuple<double>
+    RSS(Mb): was:     17.555 now:     17.613 diff:     +0.059 Peak was:     17.555 now:     17.613 diff:     +0.059 test_vector_to_py_tuple<bool>
+    RSS(Mb): was:     17.617 now:     17.660 diff:     +0.043 Peak was:     17.617 now:     17.660 diff:     +0.043 test_vector_to_py_tuple<long>
+    RSS(Mb): was:     17.660 now:     17.664 diff:     +0.004 Peak was:     17.660 now:     17.664 diff:     +0.004 test_vector_to_py_tuple<double>
     8<---- Snip ---->8
     RSS(Mb): was:     16.762 now:     16.805 diff:     +0.043 Peak was:     16.762 now:     16.805 diff:     +0.043 test_cpp_std_map_to_py_dict_string
     RSS(Mb): was:     16.805 now:     16.828 diff:     +0.023 Peak was:     16.805 now:     16.828 diff:     +0.023 test_py_dict_to_cpp_std_map_like_string
@@ -79,29 +79,32 @@ This is followed by the test results:
 
 .. code-block:: shell
 
-    Number of tests: 82
+    Number of tests: 3333
     REGEX_HEAD: "HEAD:\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)"
     REGEX_TEST: "TEST:\s+(\d+)\s+(\d+)\s+(\d+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+([0-9+-.]+)\s+(\d+)\s+([0-9+-.]+)\s+(\S+)"
     REGEX_TAIL: "TAIL:\s+(.+)"
     HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
-    TEST:    0 1048576       1     0.003036695             N/A             N/A             N/A         1         329.3 test_functional_tuple_setitem():[1048576]
-    TEST:    0 1048576       1     0.000766948             N/A             N/A             N/A         1        1303.9 test_functional_list_setitem():[1048576]
-    TEST:    0 1048576       1     0.000942830             N/A             N/A             N/A         1        1060.6 test_functional_set_add():[1048576]
-    8<---- Snip ---->8
-    TEST:    0    1024       1     0.030543838             N/A             N/A             N/A         1          32.7 test_py_dict_to_cpp_std_map_like_bytesstd::map<std::string[32]>>():[1024]
-    TEST:    0    1024       1     0.000364432             N/A             N/A             N/A         1        2744.0 test_cpp_std_map_like_to_py_dict_stringstd::map<std::string[32]>>():[1024]
-    TEST:    0    1024       1     0.003625261             N/A             N/A             N/A         1         275.8 test_py_dict_to_cpp_std_map_like_stringstd::map<std::string[32]>>():[1024]
-    TAIL: Passed=82/82 Failed=0/82
+    TEST:    0 1048576       1     0.001676959             N/A             N/A             N/A         1         596.3 test_functional_tuple_setitem():[1048576]
+    TEST:    0 1048576       1     0.000595792             N/A             N/A             N/A         1        1678.4 test_functional_list_setitem():[1048576]
+    TEST:    0 1048576       1     0.000947000             N/A             N/A             N/A         1        1056.0 test_functional_set_add():[1048576]    8<---- Snip ---->8
+    TEST:    0   32768       1     0.117341292             N/A             N/A             N/A         1           8.5 test_py_tuple_str32_to_vector std::string[2048]>():[32768]
+    TEST:    0   65536       1     0.249899958             N/A             N/A             N/A         1           4.0 test_py_tuple_str32_to_vector std::string[2048]>():[65536]
+    TEST:    0    4096       1     4.806965084             N/A             N/A             N/A         1           0.2 test_unordered_set_bytes_to_py_set std::string[1048576]>():[4096]
+    TAIL: Passed=3333/3333 Failed=0/3333
     All tests pass.
 
-    ====RSS(Mb): was:      7.184 now:     16.875 diff:     +9.691 Peak was:      7.184 now:     16.883 diff:     +9.699 main.cpp
-    Total execution time:        0.980 (s)
-    Count of unique strings created: 16394
+    ====RSS(Mb): was:     10.012 now:    180.496 diff:   +170.484 Peak was:     10.012 now:   3250.059 diff:  +3240.047 main.cpp
+    Total execution time:     2370.715 (s)
+    Count of unique strings created: 5895690
     Bye, bye! Returning 0
+         2371.63 real      2324.66 user        32.06 sys
 
-This takes, typically, under a second.
+This takes, typically, 40 minutes.
 A return code of 0 is success.
 If there are any failing tests then the return code will be the number of failing tests.
+
+The release tests are similar but they include all the performance tests which take a long while.
+Run time is around six hours.
 
 ================================
 Building and Testing Python Code

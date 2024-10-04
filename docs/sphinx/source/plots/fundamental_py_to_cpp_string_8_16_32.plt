@@ -36,6 +36,7 @@ rate_1_000_000_000_000(x) = latency + x / 1e12
 set boxwidth 0.2 relative
 
 set key top left
+set key font ",9"
 
 set terminal png size 700,400           # choose the file format
 set output "images/fundamental_py_to_cpp_string_8_16_32.png"   # choose the output device

@@ -36,8 +36,9 @@ set boxwidth 0.2 relative
 
 # First the raw time graphs:
 # Python to C++
-set title "Time to copy a Python list of bool, int, float to a C++ std::vector<T>."
+set title "Copy a Python list of bool, int, float to a C++ std::vector<T>."
 set key left
+set key font ",9"
 set ylabel "Time (µs)"
 
 set terminal svg size 700,400           # choose the file format
@@ -74,7 +75,7 @@ plot "dat/test_py_list_to_vector_multiple_bool.dat" using 3:(1e6 * ($5 - $6)):(1
 set terminal svg size 700,400           # choose the file format
 set output "images/cpp_vector_bool_long_double_py_list_bool_int_float_time.svg"   # choose the output device
 
-set title "Time to copy a C++ std::vector<T> to a Python list of bool, int, float."
+set title "Copy a C++ std::vector<T> to a Python list of bool, int, float."
 set ylabel "Time (µs)"
 
 plot "dat/test_vector_to_py_list_multiple_bool.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
@@ -108,6 +109,7 @@ plot "dat/test_vector_to_py_list_multiple_bool.dat" using 3:(1e6 * ($5 - $6)):(1
 # Python to C++
 set title "Copy a Python list of bool, int, float, complex to a C++ std::vector<T>."
 set key right
+set key font ",9"
 set ylabel "Time per Item (µs)"
 #set yrange [0.001:0.1]
 

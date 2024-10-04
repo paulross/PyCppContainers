@@ -36,8 +36,9 @@ set boxwidth 0.2 relative
 
 # First the raw time graphs:
 # Python to C++
-set title "Time to copy a Python dict to a C++ std::unordered_map<K, V> for int, double, complex."
+set title "Copy a Python dict to a C++ std::unordered_map<K, V> for int, double, complex."
 set key left
+set key font ",9"
 set ylabel "Time (µs)"
 
 set terminal svg size 700,400           # choose the file format
@@ -70,7 +71,7 @@ plot "dat/test_py_dict_to_cpp_std_unordered_map_multiple_long_long.dat" using 3:
 set terminal svg size 700,400           # choose the file format
 set output "images/cpp_unordered_map_long_double_py_dict_int_float_time.svg"   # choose the output device
 
-set title "Time to copy a C++ std::unordered_map<K, V> for long, double, std::complex to a Python dict."
+set title "Copy a C++ std::unordered_map<K, V> for long, double, std::complex to a Python dict."
 set ylabel "Time (µs)"
 
 plot "dat/test_cpp_std_unordered_map_to_py_dict_multiple_long_long.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
@@ -100,6 +101,7 @@ plot "dat/test_cpp_std_unordered_map_to_py_dict_multiple_long_long.dat" using 3:
 # Python to C++
 set title "Copy a Python dict to a C++ std::unordered_map<K, V> for int, double, complex."
 set key right
+set key font ",9"
 set ylabel "Time per Item (µs)"
 #set yrange [0.01:1.0]
 
