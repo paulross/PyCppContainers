@@ -373,7 +373,6 @@ Here is an example from this library using 16 bit unicode characters:
         return ret;
     }
 
-
 The conversion time of 10 GB/s is about thrice the time for ``bytes`` to an from a ``std::vector<char>``.
 Presumably this is because of the complexities of the Unicode implementation.
 
@@ -717,8 +716,31 @@ Converting Containers of Objects
 TODO: test_list_like_u16string_to_py_list_multiple-std_list_std_u16string_2.dat
 3 types of string. 4 sizes. list/list and list/vector so 24
 
+..
+    cpp_py_list_str16_vector_u16string.plt
+    images/cpp_py_list_str16_vector_u16string_rate.png
+    images/cpp_py_list_str16_vector_u16string_rate.svg
+    images/cpp_py_list_str16_vector_u16string_time.png
+    images/cpp_py_list_str16_vector_u16string_time.svg
+    images/cpp_vector_u16string_py_list_str16_rate.png
+    images/cpp_vector_u16string_py_list_str16_rate.svg
+    images/cpp_vector_u16string_py_list_str16_time.png
+    images/cpp_vector_u16string_py_list_str16_time.svg
 
-TODO: test_py_list_str16_to_list_like_u16string_multiple-std_list_std_u16string_2.dat
+C++ to Python:
+
+.. image:: ../plots/images/cpp_vector_u16string_py_list_str16_rate.png
+    :height: 400px
+    :align: center
+
+Python to C++:
+
+.. image:: ../plots/images/cpp_py_list_str16_vector_u16string_rate.png
+    :height: 400px
+    :align: center
+
+
+TODO: test_py_list_str16_to_list_like_u32string_multiple-std_list_std_u32string_2.dat
 3 types of string. 4 sizes. list/list and list/vector so 24
 
 TODO: test_unordered_set_u16string_to_py_set_multiple_std_string_16.dat
