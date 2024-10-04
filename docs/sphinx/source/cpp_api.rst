@@ -28,7 +28,7 @@ Reasons for failure can be:
 * The ``PyObject *`` is not the expected Python container, for example passing  a Python tuple when a list is expected.
 * A member of the Python container can not be converted to C++ type ``<T>``.
 
-In the error case a ``PyErr_...`` will be set.
+In the error case a ``PyErr_...`` will be set and the given container cleared.
 
 Python ``tuple`` to ``std::vector`` or ``std::list``
 -----------------------------------------------------------
@@ -256,7 +256,7 @@ Error Indication
 --------------------------
 
 All of the conversion functions from C++ to Python return an ``PyObject *``.
-If this is non-NULL it is a *new reference* and it is te responsibility of the caller to dispose off it.
+If this is non-NULL it is a *new reference* and it is the responsibility of the caller to dispose off it.
 
 On failure these functions will return NULL
 Reasons for failure can be:
@@ -317,8 +317,6 @@ C++ ``std::vector`` or ``std::list`` to Python ``list``
 
 API
 ^^^^
-
-.. code-block:: cpp
 
 To convert to a Python ``list``:
 
