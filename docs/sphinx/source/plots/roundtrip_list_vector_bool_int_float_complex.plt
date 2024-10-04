@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Time to convert a Python List to a C++ std::vector then back to a Python List."
+set title "Python List to a C++ std::vector then back to a Python List."
 set xlabel "List length"
 
 set logscale y
@@ -66,7 +66,7 @@ plot "dat/roundtrip_list_vector_bool.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(
 
 # Rate plots
 set ylabel "Time per Item (µs)"
-set yrange [0.001:1]
+#set yrange [0.001:1]
 
 set terminal svg size 700,400           # choose the file format
 set output "images/roundtrip_list_vector_bool_int_float_complex_rate.svg"   # choose the output device

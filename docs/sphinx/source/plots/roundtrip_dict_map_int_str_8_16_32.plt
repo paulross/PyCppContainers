@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Time to convert a Python dict [int, str] for word sizes 8, 16, 32 to C++ std::map then back to a Python dict."
+set title "Python dict [int, str] for word sizes 8, 16, 32 to C++ std::map then back to a Python dict."
 set xlabel "Dict length"
 
 set logscale y

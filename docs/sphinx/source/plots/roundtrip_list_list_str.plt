@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Time to convert a Python List [str] to a C++ std::list<std::string> then back to a Python List."
+set title "Python List [str] to a C++ std::list<std::string> then back to a Python List."
 set xlabel "List length"
 
 set logscale y
@@ -66,7 +66,7 @@ plot "dat/roundtrip_list_list_str_String_length_2.dat" using 1:(1e6 * ($4 - $6))
 
 # Rate plots
 set ylabel "Time per Item (µs)"
-set yrange [:10]
+#set yrange [:10]
 
 set terminal svg size 700,400           # choose the file format
 set output "images/roundtrip_list_list_str_rate.svg"   # choose the output device

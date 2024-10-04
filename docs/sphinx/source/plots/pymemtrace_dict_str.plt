@@ -5,7 +5,7 @@ set xlabel "Time (s)"
 
 #set logscale y
 set ylabel "RSS (Mb)"
-set yrange [0:5e3]
+#set yrange [0:5e3]
 # set ytics 8,35,3
 
 # set logscale y2

@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Time to convert a Python Set [bytes] to a C++ std::unordered_set<std::vector<char>> then back to a Python Set."
+set title "Python Set [bytes] to a C++ std::unordered_set<std::vector<char>> then back to a Python Set."
 set xlabel "Set length"
 
 set logscale y
@@ -68,7 +68,7 @@ plot "dat/roundtrip_set_bytes_Byte_length_16.dat" using 1:(1e6 * ($4 - $6)):(1e6
 
 # Rate plots
 set ylabel "Time per Item (µs)"
-set yrange [:10]
+#set yrange [:10]
 
 set terminal svg size 700,400           # choose the file format
 set output "images/roundtrip_set_bytes_rate.svg"   # choose the output device

@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Time to convert a Python Set to a C++ std::unordered_set then back to a Python Set."
+set title "Python Set to a C++ std::unordered_set then back to a Python Set."
 set xlabel "List length"
 
 set logscale y
@@ -62,7 +62,7 @@ plot "dat/roundtrip_set_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7)
 
 # Rate plots
 set ylabel "Time per Item (µs)"
-set yrange [0.1:1]
+#set yrange [0.1:1]
 
 set terminal svg size 700,400           # choose the file format
 set output "images/roundtrip_set_ints_and_floats_rate.svg"   # choose the output device

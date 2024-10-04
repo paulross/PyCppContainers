@@ -1,4 +1,4 @@
-set title "Time to copy a Python dict of bytes to and from C++ std::unordered_map with different bytes lengths."
+set title "Time to copy a Python dict of bytes to and from C++ std::unordered_mapby bytes lengths."
 set grid
 
 set logscale x
@@ -65,7 +65,7 @@ plot "dat/test_py_dict_to_cpp_std_unordered_map_vector_char_multiple_std_vector_
 
 # Now the rate graph.
 set ylabel "Time per Item (µs)"
-set yrange [0.1:]
+#set yrange [0.1:]
 
 set terminal svg size 700,400           # choose the file format
 set output "images/cpp_py_dict_bytes_unordered_map_vector_char_rate.svg"   # choose the output device
@@ -96,13 +96,13 @@ plot "dat/test_py_dict_to_cpp_std_unordered_map_vector_char_multiple_std_vector_
 # ======================
 # C++ to Python
 # ======================
-set title "Time to copy a C++ std::unordered_map of std::vector<char> to a Python dict of bytes with different lengths."
+set title "Time to copy a C++ std::unordered_map of std::vector<char> to a Python dict of bytesbylengths."
 
 set key left
 
 # First the raw time graph:
 set ylabel "Time (µs)"
-set yrange [:]
+#set yrange [:]
 
 set terminal svg size 700,400           # choose the file format
 set output "images/cpp_unordered_map_vector_char_to_py_dict_multiple_std_vector_char_time.svg"   # choose the output device
@@ -130,7 +130,7 @@ plot "dat/test_cpp_std_unordered_map_to_py_dict_vector_char_multiple_std_vector_
 
 # Now the rate graph.
 set ylabel "Time per Item (µs)"
-set yrange [0.01:10]
+#set yrange [0.01:10]
 
 set terminal svg size 700,400           # choose the file format
 set output "images/cpp_unordered_map_vector_char_to_py_dict_multiple_std_vector_char_rate.svg"   # choose the output device

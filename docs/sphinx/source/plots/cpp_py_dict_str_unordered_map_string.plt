@@ -95,7 +95,7 @@ plot "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_16.da
 # ======================
 # C++ to Python
 # ======================
-set title "Time to copy a C++ std::unordered_map of std::string to a Python dict of str with different lengths."
+set title "Time to copy a C++ std::unordered_map of std::string to a Python dict of strbylengths."
 
 set key left
 
@@ -128,7 +128,7 @@ plot "dat/test_cpp_std_unordered_map_to_py_dict_string_multiple_std_string_16.da
 
 # Now the rate graph.
 set ylabel "Time per Item (µs)"
-set yrange [0.01:10]
+#set yrange [0.01:10]
 
 set terminal svg size 700,400           # choose the file format
 set output "images/cpp_unordered_map_string_to_py_dict_multiple_std_string_rate.svg"   # choose the output device

@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Time to convert a Python dict to a C++ std::map then back to a Python dict."
+set title "Python dict to a C++ std::map then back to a Python dict."
 set xlabel "Dict length"
 
 set logscale y
@@ -62,7 +62,7 @@ plot "dat/roundtrip_dict_map_int_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(
 
 # Rate plots
 set ylabel "Time per Item (µs)"
-set yrange [0.01:1]
+#set yrange [0.01:1]
 
 set terminal svg size 700,400           # choose the file format
 set output "images/roundtrip_dict_map_ints_floats_complex_rate.svg"   # choose the output device

@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Time to convert a Python List to a C++ std::list then back to a Python List."
+set title "Python List to a C++ std::list then back to a Python List."
 set xlabel "List length"
 
 set logscale y

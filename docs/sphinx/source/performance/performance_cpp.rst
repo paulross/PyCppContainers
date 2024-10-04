@@ -376,8 +376,6 @@ Here is an example from this library using 16 bit unicode characters:
 The conversion time of 10 GB/s is about thrice the time for ``bytes`` to an from a ``std::vector<char>``.
 Presumably this is because of the complexities of the Unicode implementation.
 
-TODO: WIP
-
 Python List to and from a C++ ``std::vector<T>``
 ----------------------------------------------------------
 
@@ -428,7 +426,11 @@ And the reverse converting a list of ``bool``, ``int``, ``float`` and ``complex`
     :height: 400px
     :align: center
 
-This is broadly symmetric with the Python to C++ performance except that ``bool`` values are twice as quick.
+This is broadly symmetric with the Python to C++ performance except that ``bool`` values are twice as quick compared
+with Python to C++.
+
+
+TODO: WIP
 
 Lists of ``bytes``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -474,7 +476,7 @@ bytes[1024]     0.1 to 0.6              1,600 to 10,000
 This shows that converting C++ to Python is about twice as fast as the other way around.
 This is in line with the performance of conversion of fundamental types described above.
 
-Lists of ``str``
+Lists of ``str`` [8 bit]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Similarly for converting a a Python list of ``str`` to and from a C++ ``std::vector<std::string>``.
@@ -513,7 +515,66 @@ str[1024]       0.15 to 0.6             1,700 to 6,800
 
 Slightly slower than the twice the time for converting ``bytes`` especially for small strings
 this is abut twice the time for converting ``bytes`` but otherwise very similar to Python ``bytes``
-to a C++ ``std::vector<std::vector<char>>``:
+to a C++ ``std::vector<std::vector<char>>``
+
+Lists of ``str`` [16 bit]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TODO: test_list_like_u16string_to_py_list_multiple-std_list_std_u16string_2.dat
+3 types of string. 4 sizes. list/list and list/vector so 24
+
+..
+    cpp_py_list_str16_vector_u16string.plt
+    images/cpp_py_list_str16_vector_u16string_rate.png
+    images/cpp_py_list_str16_vector_u16string_rate.svg
+    images/cpp_py_list_str16_vector_u16string_time.png
+    images/cpp_py_list_str16_vector_u16string_time.svg
+    images/cpp_vector_u16string_py_list_str16_rate.png
+    images/cpp_vector_u16string_py_list_str16_rate.svg
+    images/cpp_vector_u16string_py_list_str16_time.png
+    images/cpp_vector_u16string_py_list_str16_time.svg
+
+C++ to Python:
+
+.. image:: ../plots/images/cpp_vector_u16string_py_list_str16_rate.png
+    :height: 400px
+    :align: center
+
+Python to C++:
+
+.. image:: ../plots/images/cpp_py_list_str16_vector_u16string_rate.png
+    :height: 400px
+    :align: center
+
+
+Lists of ``str`` [32 bit]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TODO: test_py_list_str16_to_list_like_u32string_multiple-std_list_std_u32string_2.dat
+3 types of string. 4 sizes. list/list and list/vector so 24
+
+..
+    cpp_py_list_str32_vector_u32string.plt
+    images/cpp_py_list_str32_vector_u32string_rate.png
+    images/cpp_py_list_str32_vector_u32string_rate.svg
+    images/cpp_py_list_str32_vector_u32string_time.png
+    images/cpp_py_list_str32_vector_u32string_time.svg
+    images/cpp_vector_u32string_py_list_str32_rate.png
+    images/cpp_vector_u32string_py_list_str32_rate.svg
+    images/cpp_vector_u32string_py_list_str32_time.png
+    images/cpp_vector_u32string_py_list_str32_time.svg
+
+C++ to Python:
+
+.. image:: ../plots/images/cpp_vector_u32string_py_list_str32_rate.png
+    :height: 400px
+    :align: center
+
+Python to C++:
+
+.. image:: ../plots/images/cpp_py_list_str32_vector_u32string_rate.png
+    :height: 400px
+    :align: center
 
 Python Tuple to and from a C++ ``std::vector<T>``
 ----------------------------------------------------------
@@ -622,9 +683,8 @@ bytes[1024]     0.6                                 0.1 to 0.6                  
 =============== =================================== =================================== =========== ===================
 
 
-Set of ``str``
+Set of ``str`` (8 bit)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 
 Here is the rate graph for converting a Python ``set`` of ``str`` to C++ ``std::unordered_set<std::string>``:
 
@@ -650,8 +710,6 @@ bytes[128]      0.4                                 0.07                        
 bytes[1024]     0.5 to 2.0                          0.1 to 0.6                          ~x5
 =============== =================================== =================================== =========== ===================
 
-
-
 And the reverse, converting a C++ ``std::unordered_set<std::string>`` to a Python ``set`` of ``str``:
 
 .. image:: ../plots/images/cpp_unordered_set_string_to_py_set_multiple_std_string_rate.png
@@ -676,6 +734,82 @@ bytes[16]       0.08                                0.03                        
 bytes[128]      0.15                                0.03                                x5
 bytes[1024]     0.8                                 0.15                                x5
 =============== =================================== =================================== =========== ===================
+
+
+Set of ``str`` (16 bit)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Here is the rate graph for converting a Python ``set`` of ``str`` to C++ ``std::unordered_set<std::u16string>``:
+
+
+TODO: test_unordered_set_u16string_to_py_set_multiple_std_string_16.dat
+6 files
+
+..
+    $ gnuplot -p cpp_py_set_str16_set_u16string.plt
+    "cpp_py_set_str16_set_u16string.plt" line 116: warning: Cannot find or open file "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_2.dat"
+    "cpp_py_set_str16_set_u16string.plt" line 116: warning: Cannot find or open file "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_2.dat"
+    "cpp_py_set_str16_set_u16string.plt" line 128: warning: Cannot find or open file "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_2.dat"
+    "cpp_py_set_str16_set_u16string.plt" line 128: warning: Cannot find or open file "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_2.dat"
+
+    cpp_py_set_str16_set_u16string.plt
+    images/cpp_py_set_str16_unordered_set_u16string_rate.png
+    images/cpp_py_set_str16_unordered_set_u16string_rate.svg
+    images/cpp_py_set_str16_unordered_set_u16string_time.png
+    images/cpp_py_set_str16_unordered_set_u16string_time.svg
+    images/cpp_unordered_set_u16string_to_py_set_multiple_std_string_rate.png
+    images/cpp_unordered_set_u16string_to_py_set_multiple_std_string_rate.svg
+    images/cpp_unordered_set_u16string_to_py_set_multiple_std_string_time.png
+    images/cpp_unordered_set_u16string_to_py_set_multiple_std_string_time.svg
+
+C++ to Python:
+
+.. image:: ../plots/images/cpp_unordered_set_u16string_to_py_set_multiple_std_string_rate.png
+    :height: 400px
+    :align: center
+
+Python to C++:
+
+.. image:: ../plots/images/cpp_py_set_str16_unordered_set_u16string_rate.png
+    :height: 400px
+    :align: center
+
+Set of ``str`` (32 bit)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Here is the rate graph for converting a Python ``set`` of ``str`` to C++ ``std::unordered_set<std::u32string>``:
+
+TODO: test_unordered_set_u32string_to_py_set_multiple_std_string_32.dat
+6 files
+
+..
+    $ gnuplot -p cpp_py_set_str32_set_u32string.plt
+    "cpp_py_set_str32_set_u32string.plt" line 132: warning: Cannot find or open file "dat/test_unordered_set_u32string_to_py_set_multiple_std_string_2.dat"
+    "cpp_py_set_str32_set_u32string.plt" line 132: warning: Cannot find or open file "dat/test_unordered_set_u32string_to_py_set_multiple_std_string_2.dat"
+    "cpp_py_set_str32_set_u32string.plt" line 128: warning: Cannot find or open file "dat/test_unordered_set_u32string_to_py_set_multiple_std_string_2.dat"
+    "cpp_py_set_str32_set_u32string.plt" line 128: warning: Cannot find or open file "dat/test_unordered_set_u32string_to_py_set_multiple_std_string_2.dat"
+
+    cpp_py_set_str32_set_u32string.plt
+    images/cpp_py_set_str32_unordered_set_u32string_rate.png
+    images/cpp_py_set_str32_unordered_set_u32string_rate.svg
+    images/cpp_py_set_str32_unordered_set_u32string_time.png
+    images/cpp_py_set_str32_unordered_set_u32string_time.svg
+    images/cpp_unordered_set_u32string_to_py_set_multiple_std_string_rate.png
+    images/cpp_unordered_set_u32string_to_py_set_multiple_std_string_rate.svg
+    images/cpp_unordered_set_u32string_to_py_set_multiple_std_string_time.png
+    images/cpp_unordered_set_u32string_to_py_set_multiple_std_string_time.svg
+
+C++ to Python:
+
+.. image:: ../plots/images/cpp_unordered_set_u32string_to_py_set_multiple_std_string_rate.png
+    :height: 400px
+    :align: center
+
+Python to C++:
+
+.. image:: ../plots/images/cpp_py_set_str32_unordered_set_u32string_rate.png
+    :height: 400px
+    :align: center
 
 Python Dict to and from a C++ ``std::unordered_map<K, V>``
 -------------------------------------------------------------
@@ -711,37 +845,3 @@ Converting Containers of Objects
 * For Python ``list`` containing ``bytes`` and ``str`` objects are converted at a rate of 2 to 5 Gib/s, with some latency.
 * Python ``set`` <-> C++ ``std::unordered_set`` and Python ``dict`` <-> C++ ``std::unordered_map`` conversion is
   typically x3 to x10 times slower than for lists and tuples.
-
-
-TODO: test_list_like_u16string_to_py_list_multiple-std_list_std_u16string_2.dat
-3 types of string. 4 sizes. list/list and list/vector so 24
-
-..
-    cpp_py_list_str16_vector_u16string.plt
-    images/cpp_py_list_str16_vector_u16string_rate.png
-    images/cpp_py_list_str16_vector_u16string_rate.svg
-    images/cpp_py_list_str16_vector_u16string_time.png
-    images/cpp_py_list_str16_vector_u16string_time.svg
-    images/cpp_vector_u16string_py_list_str16_rate.png
-    images/cpp_vector_u16string_py_list_str16_rate.svg
-    images/cpp_vector_u16string_py_list_str16_time.png
-    images/cpp_vector_u16string_py_list_str16_time.svg
-
-C++ to Python:
-
-.. image:: ../plots/images/cpp_vector_u16string_py_list_str16_rate.png
-    :height: 400px
-    :align: center
-
-Python to C++:
-
-.. image:: ../plots/images/cpp_py_list_str16_vector_u16string_rate.png
-    :height: 400px
-    :align: center
-
-
-TODO: test_py_list_str16_to_list_like_u32string_multiple-std_list_std_u32string_2.dat
-3 types of string. 4 sizes. list/list and list/vector so 24
-
-TODO: test_unordered_set_u16string_to_py_set_multiple_std_string_16.dat
-6 files
