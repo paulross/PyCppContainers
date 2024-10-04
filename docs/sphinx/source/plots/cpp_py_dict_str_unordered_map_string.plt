@@ -1,4 +1,4 @@
-set title "Time to copy a Python dict of str to a C++ unordered_map with different string lengths."
+set title "Time to copy a Python dict of str to a C++ unordered_map by string lengths."
 set grid
 
 set logscale x

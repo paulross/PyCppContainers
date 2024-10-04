@@ -1,4 +1,4 @@
-set title "Time to copy a Python set of str to a C++ set with different string lengths."
+set title "Time to copy a Python set of str to a C++ set by string lengths."
 set grid
 
 set logscale x

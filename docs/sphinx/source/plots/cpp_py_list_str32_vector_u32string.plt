@@ -36,7 +36,7 @@ set key left
 set boxwidth 0.2 relative
 
 # First the raw time graph:
-set title "Time to copy a Python list of str to a C++ std::vector<std::u32string> with different string lengths."
+set title "Time to copy a Python list of str to a C++ std::vector<std::u32string> by string lengths."
 set ylabel "Time (µs)"
 
 
@@ -73,7 +73,7 @@ plot "dat/test_list_like_u32string_to_py_list_multiple-std_list_std_u32string_2.
 set terminal svg size 700,400           # choose the file format
 set output "images/cpp_vector_u32string_py_list_str32_time.svg"   # choose the output device
 
-set title "Time to copy a C++ std::vector<std::u32string> to a Python list of str with different string lengths."
+set title "Time to copy a C++ std::vector<std::u32string> to a Python list of str by string lengths."
 set ylabel "Time (µs)"
 
 plot "dat/test_list_like_u32string_to_py_list_multiple-std_vector_std_u32string_2.dat" using 3:(1e6 * ($5 - $6)):(1e6 * $7):(1e6 * $8):(1e6 * ($5 + $6)) \
@@ -104,7 +104,7 @@ plot "dat/test_list_like_u32string_to_py_list_multiple-std_vector_std_u32string_
     "dat/test_list_like_u32string_to_py_list_multiple-std_vector_std_u32string_2.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
 # Now the rate graph.
-set title "Rate of Copying a Python list of str to a C++ std::vector<std::u32string> with different string lengths."
+set title "Rate of Copying a Python list of str to a C++ std::vector<std::u32string> by string lengths."
 set ylabel "Time per Item (µs)"
 set yrange[0.001:1]
 
@@ -143,7 +143,7 @@ plot "dat/test_list_like_u32string_to_py_list_multiple-std_list_std_u32string_2.
 set terminal svg size 700,400           # choose the file format
 set output "images/cpp_vector_u32string_py_list_str32_rate.svg"   # choose the output device
 
-set title "Rate of Copying a C++ std::vector<std::u32string> to a Python list of str with different string lengths."
+set title "Rate of Copying a C++ std::vector<std::u32string> to a Python list of str by string lengths."
 set ylabel "Time per Item (µs)"
 #set yrange[0.01:1]
 
