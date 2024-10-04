@@ -138,16 +138,18 @@ namespace Python_Cpp_Containers {
         assert(! PyErr_Occurred());
         PyObject *ret = PyUnicode_New(s.size(), 65535);
         assert(py_unicode16_check(ret));
-        for (std::basic_string<char16_t>::size_type i = 0; i < s.size(); ++i) {
+        for (std::u16string::size_type i = 0; i < s.size(); ++i) {
             int result = PyUnicode_WriteChar(ret, i, s[i]);
             if (result) {
                 PyErr_Format(PyExc_SystemError,
                              "PyUnicode_WriteChar() failed to write at [%ld] returning %d.", i, result
                 );
+                Py_DECREF(ret);
                 return NULL;
             }
         }
         assert(py_unicode16_check(ret));
+        assert(! PyErr_Occurred());
         return ret;
     }
 
@@ -185,16 +187,18 @@ namespace Python_Cpp_Containers {
         assert(! PyErr_Occurred());
         PyObject *ret = PyUnicode_New(s.size(), 1114111);
         assert(py_unicode32_check(ret));
-        for (std::basic_string<char32_t>::size_type i = 0; i < s.size(); ++i) {
+        for (std::u32string::size_type i = 0; i < s.size(); ++i) {
             int result = PyUnicode_WriteChar(ret, i, s[i]);
             if (result) {
                 PyErr_Format(PyExc_SystemError,
                              "PyUnicode_WriteChar() failed to write at [%ld] returning %d.", i, result
                 );
+                Py_DECREF(ret);
                 return NULL;
             }
         }
         assert(py_unicode32_check(ret));
+        assert(! PyErr_Occurred());
         return ret;
     }
 
