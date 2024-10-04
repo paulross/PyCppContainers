@@ -39,7 +39,7 @@ set key top left
 # First C++ bytes to Python 
 set title "Conversion Time Converting a C++ vector<char> to Python bytes."
 
-set terminal png size 800,400           # choose the file format
+set terminal png size 700,400           # choose the file format
 set output "images/test_cpp_vector_char_to_py_bytes.png"   # choose the output device
 
 plot "dat/test_cpp_vector_char_to_py_bytes.dat" \
@@ -55,7 +55,7 @@ plot "dat/test_cpp_vector_char_to_py_bytes.dat" \
 # Python bytes to C++ 
 set title "Conversion Time Converting Python bytes to a C++ vector<char>."
 
-set terminal png size 800,400           # choose the file format
+set terminal png size 700,400           # choose the file format
 set output "images/test_py_bytes_to_cpp_vector_char_multiple.dat.png"   # choose the output device
 
 plot "dat/test_py_bytes_to_cpp_vector_char_multiple.dat" \

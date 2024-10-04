@@ -37,7 +37,7 @@ set boxwidth 0.2 relative
 
 set key top left
 
-set terminal png size 800,400           # choose the file format
+set terminal png size 700,400           # choose the file format
 set output "images/fundamental_py_to_cpp_string_8_16_32.png"   # choose the output device
 
 plot "dat/fundamental_test_py_str_to_cpp_string_multiple.dat" \
