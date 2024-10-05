@@ -7,6 +7,8 @@
 C++ API
 ****************************
 
+This chapter describes the C++ API to this library.
+
 Include File and Namespace
 ============================
 

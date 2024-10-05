@@ -20,11 +20,9 @@ It assumes that you are in your chosen directory and have done:
 
     $ git pull https://github.com/paulross/PyCppContainers.git
 
-
 ================================
 Building and Testing C++ Code
 ================================
-
 
 --------------------------------
 Building C++ Code
@@ -110,11 +108,16 @@ Run time is around six hours.
 Building and Testing Python Code
 ================================
 
-
 --------------------------------
 Building Python Code
 --------------------------------
 
+To build all the Python code create a virtual environment then:
+
+.. code-block:: shell
+
+    $ pip install -r requirements-dev.txt
+    $ python setup.py develop
 
 --------------------------------
 Testing Python Code
@@ -127,7 +130,7 @@ The Python tests check these things:
   Usually round tripping Python structures to C++ and back again.
 - Memory usage testing for Python C extensions that use this C++ library.
 
-As a basic:
+As a basic, from your virtual environment:
 
 .. code-block:: shell
 
@@ -145,18 +148,108 @@ As a basic:
 
     ======================= 81 passed, 46 skipped, 1 xfailed in 2.74s ========================
 
-Many of the tests are skipped as they are slow, such as performance tests.
+By default this only does the functional tests and skips the others such as performance and memory tests.
 To run these tests you need to add the arguments ``--runslow`` and ``-pymemtrace`` respectively, see below.
 
 Testing Performance
 --------------------------------
 
+To include all the performance tests:
 
+.. code-block:: shell
+
+    $ pytest tests/ --runslow
+
+Example:
+
+.. code-block:: shell
+
+    $ time pytest tests --runslow
+    ============================================ test session starts ============================================
+    platform darwin -- Python 3.11.6, pytest-8.3.3, pluggy-1.5.0
+    rootdir: /Users/paulross/CLionProjects/PythonCppHomogeneousContainers
+    configfile: pytest.ini
+    collected 128 items
+
+    tests/unit/test_cPyCppContainers.py ......x..................................................................                                                                                                                                                                    [ 57%]
+    tests/unit/test_cUserDefined.py .........                                                                                                                                                                                                                                        [ 64%]
+    tests/unit/test_perf_cPyCppContainers.py .........................
+    ..........                                                                                                                                                                                                     [ 91%]
+    tests/unit/test_with_pymemtrace.py ...........                                                                                                                                                                                                                                   [100%]
+
+    ================================ 127 passed, 1 xfailed in 3395.04s (0:56:35) ================================
+    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_152728_23142.log
+    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_152739_23142.log
+    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_152756_23142.log
+    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_152818_23142.log
+    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_152846_23142.log
+    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_152908_23142.log
+    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_153912_23142.log
+    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_154444_23142.log
+    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_155042_23142.log
+    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_155134_23142.log
+    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_155239_23142.log
 
 Testing Memory Usage
 --------------------------------
 
+To include all the memory tests:
 
+.. code-block:: shell
+
+    $ pytest tests/ --pymemtrace
+
+=========================================
+Building the Documentation
+=========================================
+
+This describes how create the documentation with ``Sphinx`` or ``doxygen``.
+
+--------------------------------
+``gnuplot`` Plots
+--------------------------------
+
+To recreate the ``gnuplot`` plot images that are used by the documentation from the project directory:
+
+.. code-block:: shell
+
+    $ cd docs/sphinx/source/plots
+    $ gnuplot -p *.plt
+
+--------------------------------
+Sphinx
+--------------------------------
+
+To build the HTML and PDF documentation from the project directory:
+
+.. code-block:: shell
+
+    $ cd docs/sphinx
+    $ make clean
+    $ make html latexpdf
+    $ cp build/latex/PythonCppContainers.pdf ..
+    $ open build/html/index.html
+    $ open ../PythonCppContainers.pdf
+
+--------------------------------
+Doxygen
+--------------------------------
+
+To build the HTML Doxygen documentation from the project directory:
+
+.. code-block:: shell
+
+    $ cd docs
+    $ doxygen PythonCppContainers.dox
+    $ open doxygen/html/index.html
+
+The Doxygen PDF:
+
+.. code-block:: shell
+
+    $ cd docs/doxygen/latex
+    $ make pdf
+    $ cp refman.pdf ../../PythonCppContainers_Doxygen.pdf
 
 =================================================================
 Building and Testing Everything for Multiple Python Versions
@@ -173,7 +266,6 @@ The script ``build_all.sh`` will execute:
     - Runs ``python setup.py develop``.
     - Runs ``pytest tests/ -x`` to catch any functional errors.
     - Runs ``pytest tests/ -vs --runslow --pymemtrace`` to run all tests.
-    - Runs ``pytest tests/ -vs --runslow --pymemtrace`` to run all tests.
     - Runs ``python setup.py bdist_wheel`` to create the wheels.
     - Runs ``python setup.py sdist`` to create the source distribution.
 
@@ -186,7 +278,8 @@ The typical time breakdown is:
 - C++ debug and release builds: 5 minutes.
 - C++ debug tests (3,000+): 40 minutes.
 - C++ release tests (around 25,000): about 6.5 hours
-- Python; create environment and run all tests (127): around 1 hour per Python version.
+- Python: create environment and run all tests (127): around 1 hour per Python version.
 
 For all Python versions (6 currently) this takes about 12 to 13 hours.
 
+This does not build the documentation.
