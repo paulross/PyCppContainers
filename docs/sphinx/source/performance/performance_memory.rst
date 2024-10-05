@@ -13,6 +13,8 @@ To examine the typical memory use a round-trip was made between Python to C++ an
 The container was 1m long and each member was 1k bytes, so a total of 1Gb to convert to C++ and back to a new
 Python container.
 
+These tests were made using Python 3.12.
+
 The creation/destruction was repeated 10 times and the memory profiled using
 `pymemtrace <https://pypi.org/project/pymemtrace/>`_.
 
@@ -65,7 +67,7 @@ The following is a plot of RSS and change of RSS over time:
     :height: 400px
     :align: center
 
-This result is rather surprising.
+This result is unsurprising.
 The maximum RSS should reflect that at some point the following are held in memory:
 
 - Basic Python, say 30Mb
@@ -73,8 +75,11 @@ The maximum RSS should reflect that at some point the following are held in memo
 - The C++ ``std::vector<std::string>``, 1024Mb.
 - The new Python list of bytes, 1024Mb.
 
-This would be a total of 3102Mb.
-However we are seeing a maximum RSS of only around 2200Mb.
+This would be a total of 3102Mb which is, broadly speaking the maximum RSS that we are seeing.
+
+.. note::
+
+    Earlier Python versions with different memory managers displayed significantly lower maximum RSS of around 2200 MB.
 
 Python List of floats
 ------------------------------------------------

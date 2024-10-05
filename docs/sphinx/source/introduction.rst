@@ -130,10 +130,6 @@ with Pythons C-API:
         }
     }
 
-.. raw:: latex
-
-    \pagebreak
-
 And the inverse, ``read_from_vector`` creating a new Python list from a C++ ``std::vector<double>``:
 
 .. code-block:: cpp
@@ -209,11 +205,11 @@ Used in these containers:
    * - **C++ Container**
      - **Python Equivalent**
    * - ``std::vector``
-     - Both a ``tuple`` or ``list``
+     - Either a ``tuple`` or ``list``
    * - ``std::list``
-     - Both a ``tuple`` or ``list``
+     - Either a ``tuple`` or ``list``
    * - ``std::unordered_set``
-     - Both a ``set`` or ``frozenset``
+     - Either a ``set`` or ``frozenset``
    * - ``std::unordered_map``
      - ``dict``
    * - ``std::map``
@@ -228,7 +224,7 @@ Supporting all these conversions would normally require 352 conversion functions
 This project simplifies this by using a mix of C++ templates and code generators to reduce this number to just
 **six** hand written templates for all 352 cases.
 
-Usage
+Using This Library
 ========================
 
 Python to C++
@@ -284,11 +280,14 @@ Suppose the C++ data source is a ``std::map<long, std::string>>`` and we need th
 
 .. code-block:: cpp
 
+    #include "python_convert.h"
+
     PyObject *convert_cpp_data_to_py() {
         std::map<long, std::string> map;
         // Populate map from the C++ data source
         // ...
-        return cpp_std_map_like_to_py_dict(map);
+        // Now convert to a Python dict:
+        return Python_Cpp_Containers::cpp_std_map_like_to_py_dict(map);
     }
 
 C++ to Python
@@ -345,9 +344,11 @@ Suppose the Python data source is a ``typing.Dict[int, str]`` and this needs to 
 
 .. code-block:: cpp
 
+    #include "python_convert.h"
+
     void convert_py_data_to_cpp(PyObject *arg) {
         std::unordered_map<long, std::string> map;
-        if (py_dict_to_cpp_std_map_like(arg, map)) {
+        if (Python_Cpp_Containers::py_dict_to_cpp_std_map_like(arg, map)) {
             // Handle error...
         } else {
             // Use map...
