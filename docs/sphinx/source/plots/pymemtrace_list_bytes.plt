@@ -1,6 +1,6 @@
 #set logscale x
 set grid
-set title "Memory usage of creating a 1m list of 1k bytes and round-tripping it through C++ 10 times."
+set title "Creating a 1m list of 1k bytes and round-tripping it through C++ 10 times."
 set xlabel "Time (s)"
 
 #set logscale y

@@ -72,10 +72,11 @@ Process a tuple of Python ``float``:
 
     void tuple_float_to_cpp(PyObject *arg) {
         std::vector<double> vec;
-        if (! py_tuple_to_cpp_std_list_like(arg, vec)) {
+        if (py_tuple_to_cpp_std_list_like(arg, vec)) {
             // Handle error...
+        } else {
+            // Use vec...
         }
-        // Use vec...
     }
 
 Python ``list`` to ``std::vector`` or ``std::list``
@@ -118,10 +119,11 @@ Process a list of Python ``float``:
 
     void list_float_to_cpp(PyObject *arg) {
         std::list<double> list;
-        if (! py_list_to_cpp_std_list_like(arg, list)) {
+        if (py_list_to_cpp_std_list_like(arg, list)) {
             // Handle error...
+        } else {
+            // Use vec...
         }
-        // Use vec...
     }
 
 Python ``set`` to ``std::unordered_set``
@@ -159,10 +161,11 @@ Process a set of Python ``float``:
 
     void set_float_to_cpp(PyObject *arg) {
         std::unordered_set<double> set;
-        if (! py_set_to_cpp_std_unordered_set(arg, set)) {
+        if (py_set_to_cpp_std_unordered_set(arg, set)) {
             // Handle error...
+        } else {
+            // Use set...
         }
-        // Use set...
     }
 
 Python ``frozenset`` to ``std::unordered_set``
@@ -200,10 +203,11 @@ Process a frozenset of Python ``float``:
 
     void frozenset_float_to_cpp(PyObject *arg) {
         std::unordered_set<double> frozenset;
-        if (! py_frozenset_to_cpp_std_unordered_set(arg, frozenset)) {
+        if (py_frozenset_to_cpp_std_unordered_set(arg, frozenset)) {
             // Handle error...
+        } else {
+            // Use frozenset...
         }
-        // Use frozenset...
     }
 
 Python ``dict`` to ``std::unordered_map`` or ``std::map``
@@ -245,7 +249,7 @@ Process a dict of Python ``[int, float]``:
 
     void dict_int_float_to_cpp(PyObject *arg) {
         std::unordered_map<long, double> map;
-        if (! py_dict_to_cpp_std_map_like(arg, map)) {
+        if (py_dict_to_cpp_std_map_like(arg, map)) {
             // Handle error...
         }
         // Use map...
@@ -465,12 +469,23 @@ Arguments
 Example
 ^^^^^^^^^^^^^^^
 
-Create a dict of Python ``[int, float]``:
+Create a dict of Python ``[int, float]`` from a ``std::unordered_map<long, double>``:
 
 .. code-block:: cpp
 
     PyObject *map_double_to_list() {
         std::unordered_map<long, double> map;
+        // Populate map
+        // ...
+        return cpp_std_map_like_to_py_dict(map);
+    }
+
+Create a dict of Python ``[int, str]`` from a ``std::map<long, std::string>``:
+
+.. code-block:: cpp
+
+    PyObject *map_double_to_list() {
+        std::map<long, std::string> map;
         // Populate map
         // ...
         return cpp_std_map_like_to_py_dict(map);

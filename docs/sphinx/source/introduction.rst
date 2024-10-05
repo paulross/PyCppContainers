@@ -58,7 +58,7 @@ A similar example is where data is being created from a C++ application and need
 
           Python        |   This Library (C++/Python)   |  Some C++ Library
     ------------------- . ----------------------------- . ------------------
-                        .                               .   C++ data feed
+                        .                               .  C++ data source
                         .                               .        |
                         .           /<---------------------------/
                         .           |                   .
@@ -66,7 +66,7 @@ A similar example is where data is being created from a C++ application and need
                         .           |                   .
             /<---------------------/                    .
             |           .                               .
-    Python data feed    .                               .
+        Python data     .                               .
             |           .                               .
 
 And an alternative example is where data is being created from a Python application and needs to be represented in C++:
@@ -76,7 +76,7 @@ And an alternative example is where data is being created from a Python applicat
           Python        |   This Library (C++/Python)   |  Some C++ Library
     ------------------- . ----------------------------- . ------------------
             |           .                               .
-     Python data feed   .                               .
+    Python data source  .                               .
             |           .                               .
             \---------------------->\                   .
                         .           |                   .
@@ -84,7 +84,7 @@ And an alternative example is where data is being created from a Python applicat
                         .           |                   .
                         .           \------------------------------>\
                         .                               .           |
-                        .                               .  Process C++ data feed
+                        .                               .    Process C++ data
 
 So how do you convert data from Python to C++ *in general*?
 Here is an example of how to do this, but it is problematical.
@@ -253,7 +253,36 @@ Using the library is as simple as this, from Python to C++:
     int err = Python_Cpp_Containers::py_list_to_cpp_std_list_like(op, cpp_vector);
     // Handle error checking...
 
-And from C++ to Python:
+So given the example above where data is being created from a C++ application and needs to be represented in Python:
+
+.. code-block:: text
+
+          Python        |   This Library (C++/Python)   |  Some C++ Library
+    ------------------- . ----------------------------- . ------------------
+                        .                               .  C++ data source
+                        .                               .        |
+                        .           /<---------------------------/
+                        .           |                   .
+                        .  Convert C++ data to Python   .
+                        .           |                   .
+            /<---------------------/                    .
+            |           .                               .
+        Python data     .                               .
+            |           .                               .
+
+Suppose the C++ data source is a ``std::map<long, std::string>>`` and we need this a Python dict
+``typing.Dict[int, str]`` then the conversion code in this library is as simple as this:
+
+.. code-block:: cpp
+
+    PyObject *convert_cpp_data_to_py() {
+        std::map<long, std::string> map;
+        // Populate map from the C++ data source
+        // ...
+        return cpp_std_map_like_to_py_dict(map);
+    }
+
+A simple example of converting from C++ to Python:
 
 .. code-block:: cpp
 
@@ -275,6 +304,38 @@ And from C++ to Python:
 
     If you were to change the C++ container to a ``std::list<double>`` the function call
     ``py_list_to_cpp_std_list_like()`` and ``cpp_std_list_like_to_py_list()`` are the same.
+
+
+The other example above where data is being created from a Python application and needs to be represented in C++:
+
+.. code-block:: text
+
+          Python        |   This Library (C++/Python)   |  Some C++ Library
+    ------------------- . ----------------------------- . ------------------
+            |           .                               .
+    Python data source  .                               .
+            |           .                               .
+            \---------------------->\                   .
+                        .           |                   .
+                        .  Convert Python data to C++   .
+                        .           |                   .
+                        .           \------------------------------>\
+                        .                               .           |
+                        .                               .    Process C++ data
+
+Suppose the Python data source is a ``typing.Dict[int, str]`` and this needs to be converted to a C++
+``std::map<long, std::string>>`` then the conversion code in this library is as simple as this:
+
+.. code-block:: cpp
+
+    void convert_py_data_to_cpp(PyObject *arg) {
+        std::unordered_map<long, std::string> map;
+        if (py_dict_to_cpp_std_map_like(arg, map)) {
+            // Handle error...
+        } else {
+            // Use map...
+        }
+    }
 
 The Hand Written Functions
 =============================

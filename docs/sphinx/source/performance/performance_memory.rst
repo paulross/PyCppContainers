@@ -8,8 +8,10 @@
 Memory Use
 =====================
 
-To examine the typical memory use a round-trip was made between Python to C++ and back to Python with a container (``list``, ``set`` or ``dict``) of ``bytes``.
-The container was 1m long and each member was 1k bytes, so a total of 1Gb to convert to C++ and back to a new Python container.
+To examine the typical memory use a round-trip was made between Python to C++ and back to Python with a container
+(``list``, ``set`` or ``dict``) of ``bytes``.
+The container was 1m long and each member was 1k bytes, so a total of 1Gb to convert to C++ and back to a new
+Python container.
 
 The creation/destruction was repeated 10 times and the memory profiled using
 `pymemtrace <https://pypi.org/project/pymemtrace/>`_.
@@ -27,7 +29,8 @@ The code to do this for a ``list`` is something like:
             original = [b' ' * 1024 for _i in range(1024 * 1024)]
             new_list = cPyCppContainers.new_list_bytes(original)
 
-`pymemtrace <https://pypi.org/project/pymemtrace/>`_ produces a log file of memory usage such as (not the actual data that created the plot below):
+`pymemtrace <https://pypi.org/project/pymemtrace/>`_ produces a log file of memory usage such as (not the actual data
+that created the plot below):
 
 .. raw:: latex
 
