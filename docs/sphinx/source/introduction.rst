@@ -231,7 +231,13 @@ This project simplifies this by using a mix of C++ templates and code generators
 Usage
 ========================
 
+Python to C++
+-------------------
+
 Using the library is as simple as this, from Python to C++:
+
+General Case
+^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
@@ -252,6 +258,9 @@ Using the library is as simple as this, from Python to C++:
     // converted to C++ doubles.
     int err = Python_Cpp_Containers::py_list_to_cpp_std_list_like(op, cpp_vector);
     // Handle error checking...
+
+Example
+^^^^^^^^^^^^^^^
 
 So given the example above where data is being created from a C++ application and needs to be represented in Python:
 
@@ -282,6 +291,12 @@ Suppose the C++ data source is a ``std::map<long, std::string>>`` and we need th
         return cpp_std_map_like_to_py_dict(map);
     }
 
+C++ to Python
+-------------------
+
+General Case
+^^^^^^^^^^^^^^^^^^^
+
 A simple example of converting from C++ to Python:
 
 .. code-block:: cpp
@@ -305,6 +320,8 @@ A simple example of converting from C++ to Python:
     If you were to change the C++ container to a ``std::list<double>`` the function call
     ``py_list_to_cpp_std_list_like()`` and ``cpp_std_list_like_to_py_list()`` are the same.
 
+Example
+^^^^^^^^^^^^^^^^^^
 
 The other example above where data is being created from a Python application and needs to be represented in C++:
 
