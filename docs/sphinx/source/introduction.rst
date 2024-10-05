@@ -43,7 +43,7 @@ results need to be presented in Python:
                         .           |                   .
                         .  Convert C++ data to Python   .
                         .           |                   .
-            /<---------------------/                    .
+            /<----------------------/                    .
             |           .                               .
     Process Python data .                               .
             |           .                               .
@@ -64,7 +64,7 @@ A similar example is where data is being created from a C++ application and need
                         .           |                   .
                         .  Convert C++ data to Python   .
                         .           |                   .
-            /<---------------------/                    .
+            /<----------------------/                    .
             |           .                               .
         Python data     .                               .
             |           .                               .
@@ -265,7 +265,7 @@ So given the example above where data is being created from a C++ application an
                         .           |                   .
                         .  Convert C++ data to Python   .
                         .           |                   .
-            /<---------------------/                    .
+            /<----------------------/                    .
             |           .                               .
         Python data     .                               .
             |           .                               .
