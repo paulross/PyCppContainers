@@ -1,5 +1,5 @@
       Event        dEvent  Clock        What     File                                                                            #line Function                                  RSS         dRSS
-NEXT: 0            +0      2233.732510  CALL     /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 192 _test_new_dict_unordered_map_bytes    485081088    485081088
+NEXT: 0            +0      2233.732510  CALL     test_with_pymemtrace.py# 192 _test_new_dict_unordered_map_bytes    485081088    485081088
 PREV: 215354       +215354 2234.240823  RETURN   /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 370 randint                             485089280            0
 NEXT: 215355       +215355 2234.241128  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             485699584       610304
 PREV: 411694       +196339 2234.747485  RETURN   /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 370 randint                             485699584            0
@@ -8,10 +8,10 @@ PREV: 804710       +393015 2235.741882  RETURN   /Library/Frameworks/Python.fram
 NEXT: 804711       +393016 2235.742952  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             498225152      2625536
 PREV: 6310408      +5505697 2251.715625  RETURN   /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 370 randint                            1418768384            0
 NEXT: 6310409      +5505698 2251.722553  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                            1422970880      4202496
-PREV: 9455577      +3145168 2259.431683  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1962033152            0
-NEXT: 9455578      +3145169 2261.491098  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3125624832   1163591680
-NEXT: 9455579      +1      2261.918119  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 217 perf_counter                       2256461824   -869163008
-PREV: 9455582      +3      2261.918140  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 218 append                             2256461824            0
+PREV: 9455577      +3145168 2259.431683  C_CALL   test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1962033152            0
+NEXT: 9455578      +3145169 2261.491098  C_RETURN test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3125624832   1163591680
+NEXT: 9455579      +1      2261.918119  C_CALL   test_with_pymemtrace.py# 217 perf_counter                       2256461824   -869163008
+PREV: 9455582      +3      2261.918140  C_RETURN test_with_pymemtrace.py# 218 append                             2256461824            0
 NEXT: 9455583      +4      2262.167905  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             444010496  -1812451328
 PREV: 9848848      +393265 2263.055365  RETURN   /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 370 randint                             447266816            0
 NEXT: 9848849      +393266 2263.055983  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             448598016      1331200
@@ -19,60 +19,60 @@ PREV: 10242506     +393657 2264.036700  RETURN   /Library/Frameworks/Python.fram
 NEXT: 10242507     +393658 2264.037907  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             456204288      2641920
 PREV: 11028674     +786167 2265.966172  RETURN   /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 370 randint                             547954688            0
 NEXT: 11028675     +786168 2265.969215  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             553201664      5246976
-PREV: 18895641     +7866966 2285.240964  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1888514048            0
-NEXT: 18895642     +7866967 2287.303681  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3673862144   1785348096
-NEXT: 18895643     +1      2287.690896  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 217 perf_counter                       2239238144  -1434624000
-PREV: 18895646     +3      2287.690919  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 218 append                             2239238144            0
+PREV: 18895641     +7866966 2285.240964  C_CALL   test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1888514048            0
+NEXT: 18895642     +7866967 2287.303681  C_RETURN test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3673862144   1785348096
+NEXT: 18895643     +1      2287.690896  C_CALL   test_with_pymemtrace.py# 217 perf_counter                       2239238144  -1434624000
+PREV: 18895646     +3      2287.690919  C_RETURN test_with_pymemtrace.py# 218 append                             2239238144            0
 NEXT: 18895647     +4      2287.922304  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             485089280  -1754148864
-PREV: 28333149     +9437502 2311.011555  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1933967360            0
-NEXT: 28333150     +9437503 2313.023670  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   4172808192   2238840832
-NEXT: 28333151     +1      2313.342656  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 217 perf_counter                       2304073728  -1868734464
-PREV: 28333154     +3      2313.342675  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 218 append                             2304073728            0
+PREV: 28333149     +9437502 2311.011555  C_CALL   test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1933967360            0
+NEXT: 28333150     +9437503 2313.023670  C_RETURN test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   4172808192   2238840832
+NEXT: 28333151     +1      2313.342656  C_CALL   test_with_pymemtrace.py# 217 perf_counter                       2304073728  -1868734464
+PREV: 28333154     +3      2313.342675  C_RETURN test_with_pymemtrace.py# 218 append                             2304073728            0
 NEXT: 28333155     +4      2313.589524  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             470392832  -1833680896
 PREV: 29906580     +1573425 2317.361565  RETURN   /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 370 randint                             578523136            0
 NEXT: 29906581     +1573426 2317.363568  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             581804032      3280896
-PREV: 37773303     +7866722 2336.683688  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1922465792            0
-NEXT: 37773304     +7866723 2338.711418  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3448619008   1526153216
-NEXT: 37773305     +1      2339.061052  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 217 perf_counter                       2289786880  -1158832128
-PREV: 37773308     +3      2339.061078  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 218 append                             2289786880            0
+PREV: 37773303     +7866722 2336.683688  C_CALL   test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1922465792            0
+NEXT: 37773304     +7866723 2338.711418  C_RETURN test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3448619008   1526153216
+NEXT: 37773305     +1      2339.061052  C_CALL   test_with_pymemtrace.py# 217 perf_counter                       2289786880  -1158832128
+PREV: 37773308     +3      2339.061078  C_RETURN test_with_pymemtrace.py# 218 append                             2289786880            0
 NEXT: 37773309     +4      2339.314739  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             496791552  -1792995328
-PREV: 47210951     +9437642 2362.321058  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1937289216            0
-NEXT: 47210952     +9437643 2364.288227  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3765018624   1827729408
-NEXT: 47210953     +1      2364.573395  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 217 perf_counter                       2221617152  -1543401472
-PREV: 47210956     +3      2364.573512  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 218 append                             2221617152            0
+PREV: 47210951     +9437642 2362.321058  C_CALL   test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1937289216            0
+NEXT: 47210952     +9437643 2364.288227  C_RETURN test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3765018624   1827729408
+NEXT: 47210953     +1      2364.573395  C_CALL   test_with_pymemtrace.py# 217 perf_counter                       2221617152  -1543401472
+PREV: 47210956     +3      2364.573512  C_RETURN test_with_pymemtrace.py# 218 append                             2221617152            0
 NEXT: 47210957     +4      2364.852725  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             477753344  -1743863808
 PREV: 47603742     +392785 2365.748556  RETURN   /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 370 randint                             492855296            0
 NEXT: 47603743     +392786 2365.749218  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             494170112      1314816
 PREV: 47996430     +392687 2366.803363  RETURN   /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 370 randint                             495333376            0
 NEXT: 47996431     +392688 2366.804568  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             497954816      2621440
-PREV: 56645819     +8649388 2388.031302  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1930461184            0
-NEXT: 56645820     +8649389 2390.030924  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3674906624   1744445440
-NEXT: 56645821     +1      2390.333824  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 217 perf_counter                       2284617728  -1390288896
-PREV: 56645824     +3      2390.333845  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 218 append                             2284617728            0
+PREV: 56645819     +8649388 2388.031302  C_CALL   test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1930461184            0
+NEXT: 56645820     +8649389 2390.030924  C_RETURN test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3674906624   1744445440
+NEXT: 56645821     +1      2390.333824  C_CALL   test_with_pymemtrace.py# 217 perf_counter                       2284617728  -1390288896
+PREV: 56645824     +3      2390.333845  C_RETURN test_with_pymemtrace.py# 218 append                             2284617728            0
 NEXT: 56645825     +4      2390.580666  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             496443392  -1788174336
 PREV: 58220296     +1574471 2394.376817  RETURN   /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 370 randint                             598167552            0
 NEXT: 58220297     +1574472 2394.377489  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             598237184        69632
-PREV: 66085413     +7865116 2413.621582  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1937199104            0
-NEXT: 66085414     +7865117 2415.554669  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3927638016   1990438912
-NEXT: 66085415     +1      2415.870592  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 217 perf_counter                       2040012800  -1887625216
-PREV: 66085418     +3      2415.870610  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 218 append                             2040012800            0
+PREV: 66085413     +7865116 2413.621582  C_CALL   test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1937199104            0
+NEXT: 66085414     +7865117 2415.554669  C_RETURN test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3927638016   1990438912
+NEXT: 66085415     +1      2415.870592  C_CALL   test_with_pymemtrace.py# 217 perf_counter                       2040012800  -1887625216
+PREV: 66085418     +3      2415.870610  C_RETURN test_with_pymemtrace.py# 218 append                             2040012800            0
 NEXT: 66085419     +4      2416.122212  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             475545600  -1564467200
-PREV: 75525215     +9439796 2439.196265  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1924272128            0
-NEXT: 75525216     +9439797 2441.082728  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   4263424000   2339151872
-NEXT: 75525217     +1      2441.384745  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 217 perf_counter                       2308907008  -1954516992
-PREV: 75525220     +3      2441.384765  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 218 append                             2308907008            0
+PREV: 75525215     +9439796 2439.196265  C_CALL   test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1924272128            0
+NEXT: 75525216     +9439797 2441.082728  C_RETURN test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   4263424000   2339151872
+NEXT: 75525217     +1      2441.384745  C_CALL   test_with_pymemtrace.py# 217 perf_counter                       2308907008  -1954516992
+PREV: 75525220     +3      2441.384765  C_RETURN test_with_pymemtrace.py# 218 append                             2308907008            0
 NEXT: 75525221     +4      2441.572171  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             472154112  -1836752896
-PREV: 84962895     +9437674 2464.626199  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1920987136            0
-NEXT: 84962896     +9437675 2466.632456  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3954372608   2033385472
-NEXT: 84962897     +1      2466.929928  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 217 perf_counter                       2150821888  -1803550720
-PREV: 84962900     +3      2466.929954  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 218 append                             2150830080         8192
+PREV: 84962895     +9437674 2464.626199  C_CALL   test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1920987136            0
+NEXT: 84962896     +9437675 2466.632456  C_RETURN test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3954372608   2033385472
+NEXT: 84962897     +1      2466.929928  C_CALL   test_with_pymemtrace.py# 217 perf_counter                       2150821888  -1803550720
+PREV: 84962900     +3      2466.929954  C_RETURN test_with_pymemtrace.py# 218 append                             2150830080         8192
 NEXT: 84962901     +4      2467.166886  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             455192576  -1695637504
 PREV: 86536878     +1573977 2470.978068  RETURN   /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 370 randint                             556777472            0
 NEXT: 86536879     +1573978 2470.980538  CALL     /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/random.py     # 366 randint                             562012160      5234688
-PREV: 94401807     +7864928 2490.309122  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1901125632            0
-NEXT: 94401808     +7864929 2492.262149  C_RETURN /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3570335744   1669210112
-NEXT: 94401809     +1      2492.546914  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 217 perf_counter                       2010054656  -1560281088
-PREV: 94401823     +14     2492.547073  CALL     /Users/paulross/pyenvs/cPyCppContainers_3.10/lib/python3.10/site-packages/psutil/_common.py# 498 wrapper                            2010173440        32768
-NEXT: 94401824     +15     2492.547123  CALL     /Users/paulross/pyenvs/cPyCppContainers_3.10/lib/python3.10/site-packages/psutil/__init__.py#1098 memory_info                        2010251264        77824
-PREV: 94401849     +25     2492.547281  RETURN   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 224 _test_new_dict_unordered_map_bytes   2010431488            0
-NEXT: 94401850     +26     2492.761758  C_CALL   /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/tests/unit/test_with_pymemtrace.py# 231 __exit__                            451080192  -1559351296
+PREV: 94401807     +7864928 2490.309122  C_CALL   test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   1901125632            0
+NEXT: 94401808     +7864929 2492.262149  C_RETURN test_with_pymemtrace.py# 216 new_dict_from_std_unordered_map_bytes_bytes   3570335744   1669210112
+NEXT: 94401809     +1      2492.546914  C_CALL   test_with_pymemtrace.py# 217 perf_counter                       2010054656  -1560281088
+PREV: 94401823     +14     2492.547073  CALL     cPyCppContainers_3.10/lib/python3.10/site-packages/psutil/_common.py# 498 wrapper                            2010173440        32768
+NEXT: 94401824     +15     2492.547123  CALL     cPyCppContainers_3.10/lib/python3.10/site-packages/psutil/__init__.py#1098 memory_info                        2010251264        77824
+PREV: 94401849     +25     2492.547281  RETURN   test_with_pymemtrace.py# 224 _test_new_dict_unordered_map_bytes   2010431488            0
+NEXT: 94401850     +26     2492.761758  C_CALL   test_with_pymemtrace.py# 231 __exit__                            451080192  -1559351296
