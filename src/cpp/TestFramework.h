@@ -130,6 +130,7 @@ public:
     size_t numTests(size_t scale) const;
     size_t testCount(size_t scale) const { return _results.at(scale).count; }
     // Execution time
+    double totalTime(size_t scale) const;
     // execTime() returns the mean of the results or 0.0 if no results
     double execTime(size_t scale) const;
     // Standard deviation, 0.0 if < 2 results.

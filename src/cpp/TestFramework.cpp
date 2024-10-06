@@ -63,6 +63,14 @@ size_t TestResult::numTests(size_t scale) const {
     return _results.at(scale)._execTimeS.size();
 }
 
+double TestResult::totalTime(size_t scale) const {
+    double r = 0.0;
+    for (auto &iter: _results.at(scale)._execTimeS) {
+        r += iter;
+    }
+    return r;
+}
+
 double TestResult::execTime(size_t scale) const {
     double r = 0.0;
     size_t count = 0;
