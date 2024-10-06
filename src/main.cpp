@@ -5,13 +5,17 @@
 
 #include <cpp/save_stream_state.h>
 
-#define TEST_FUNCTIONAL_ALL 1
+#define TEST_INTERNAL_ALL 1
+#define TEST_FUNCTIONAL_ALL 0
 // Controls execution of test_performance_all() which takes a long time.
-#define TEST_PERFORMANCE_ALL 1
+#define TEST_PERFORMANCE_ALL 0
 // Controls execution of test_memory_all().
-#define TEST_MEMORY_ALL 1
+#define TEST_MEMORY_ALL 0
 
 #include "cpy/tests/test_functional.h"
+#if TEST_INTERNAL_ALL
+#include "cpy/tests/test_internal.h"
+#endif
 #if TEST_PERFORMANCE_ALL
 #include "cpy/tests/test_performance.h"
 #endif
@@ -22,17 +26,23 @@
 int test_all() {
     TestResultS test_results;
 
+#if TEST_INTERNAL_ALL
+    test_internal_all(test_results);
+#endif
+
 #if TEST_FUNCTIONAL_ALL
     // With debug this take around 130 seconds.
     // With release this takes around 900 seconds.
     test_functional_all(test_results);
 #endif
-#ifdef NDEBUG
+
+//#ifdef NDEBUG
 #if TEST_PERFORMANCE_ALL
     // These take a long time
     test_performance_all(test_results);
+//#endif
 #endif
-#endif
+
 #if TEST_MEMORY_ALL
     test_memory_all(test_results);
 #endif

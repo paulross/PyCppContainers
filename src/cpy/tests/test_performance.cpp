@@ -35,35 +35,35 @@ const size_t INC_STRING_LENGTH_MULTIPLE = 8; // How much to increment the string
 
 #pragma mark Testing of object conversion
 
-int test_bool_to_py_bool_multiple(TestResultS &test_results, size_t size, size_t repeat) {
+int test_bool_to_py_bool_multiple(TestResultS &test_results, size_t test_count, size_t repeat) {
     std::ostringstream title;
-    title << __FUNCTION__ << "[" << size << "]";
+    title << __FUNCTION__ << "[" << test_count << "]";
     TestResult test_result(title.str());
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
-        for (size_t j = 0; j < size; ++j) {
+        for (size_t j = 0; j < test_count; ++j) {
             PyObject * op = Python_Cpp_Containers::cpp_bool_to_py_bool(true);
             Py_DECREF(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, test_count, 1);
     }
     test_results.push_back(test_result);
     return 0;
 }
 
-int test_py_bool_to_cpp_bool_multiple(TestResultS &test_results, size_t size, size_t repeat) {
+int test_py_bool_to_cpp_bool_multiple(TestResultS &test_results, size_t test_count, size_t repeat) {
     std::ostringstream title;
-    title << __FUNCTION__ << "[" << size << "]";
+    title << __FUNCTION__ << "[" << test_count << "]";
     TestResult test_result(title.str());
     PyObject * op = Python_Cpp_Containers::cpp_bool_to_py_bool(true);
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
-        for (size_t j = 0; j < size; ++j) {
+        for (size_t j = 0; j < test_count; ++j) {
             volatile auto temp = Python_Cpp_Containers::py_bool_to_cpp_bool(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, test_count, 1);
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
@@ -175,150 +175,174 @@ int test_py_complex_to_cpp_complex_multiple(TestResultS &test_results, size_t si
     return 0;
 }
 
+/**
+ * Create a C++ \c std::string of the length \c string_size then test converting this to a Python \c bytes this
+ * \c repeat times.
+ * The timing for each test is made by summing the conversion \c test_count times.
+ * A single \c TestResult is added to the \c tests_results which will have \c repeat individual execution timings.
+ *
+ * @param test_results The list of test results to add a single TestResult.
+ * @param string_size The length of the string to convert.
+ * @param test_count The number of times the conversion is made for the measured execution time. Divide the measured
+ *  execution time by this number to get the individual conversion execution time.
+ *  Chose this to be higher for fast conversions, lower (or even unity) for slow ones.
+ * @param repeat The number of individual execution timings that make up a single test.
+ *  Chose this to give a decent min/mean/std. dev./max.
+ *  About 5 seems about right.
+ * @return Zero.
+ */
 int
-test_cpp_vector_char_to_py_bytes_multiple(TestResultS &test_results, size_t string_size, size_t size, size_t repeat) {
+test_cpp_vector_char_to_py_bytes_multiple(TestResultS &test_results, size_t string_size, size_t test_count,
+                                          size_t repeat) {
     std::ostringstream title;
-    title << __FUNCTION__ << "_" << string_size << "[" << size << "]";
+    title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
     std::vector<char> str(string_size, ' ');
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
-        for (size_t j = 0; j < size; ++j) {
+        for (size_t j = 0; j < test_count; ++j) {
             PyObject * op = Python_Cpp_Containers::cpp_vector_char_to_py_bytes(str);
             Py_DECREF(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, size, string_size);
+        test_result.execTimeAdd(0, exec_time, test_count, string_size);
     }
     test_results.push_back(test_result);
     return 0;
 }
 
 int
-test_py_bytes_to_cpp_vector_char_multiple(TestResultS &test_results, size_t string_size, size_t size, size_t repeat) {
+test_py_bytes_to_cpp_vector_char_multiple(TestResultS &test_results, size_t string_size, size_t test_count,
+                                          size_t repeat) {
     std::ostringstream title;
-    title << __FUNCTION__ << "_" << string_size << "[" << size << "]";
+    title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
     std::vector<char> str(string_size, ' ');
     PyObject * op = Python_Cpp_Containers::cpp_vector_char_to_py_bytes(str);
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
-        for (size_t j = 0; j < size; ++j) {
+        for (size_t j = 0; j < test_count; ++j) {
             volatile auto temp = Python_Cpp_Containers::py_bytes_to_cpp_vector_char(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, size, string_size);
+        test_result.execTimeAdd(0, exec_time, test_count, string_size);
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
     return 0;
 }
 
-int test_cpp_string_to_py_str_multiple(TestResultS &test_results, size_t string_size, size_t size, size_t repeat) {
+int
+test_cpp_string_to_py_str_multiple(TestResultS &test_results, size_t string_size, size_t test_count, size_t repeat) {
     std::ostringstream title;
-    title << __FUNCTION__ << "_" << string_size << "[" << size << "]";
+    title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
     std::string str(string_size, ' ');
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
-        for (size_t j = 0; j < size; ++j) {
+        for (size_t j = 0; j < test_count; ++j) {
             PyObject * op = Python_Cpp_Containers::cpp_string_to_py_unicode8(str);
             Py_DECREF(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, size, string_size);
+        test_result.execTimeAdd(0, exec_time, test_count, string_size);
     }
     test_results.push_back(test_result);
     return 0;
 }
 
-int test_py_str_to_cpp_string_multiple(TestResultS &test_results, size_t string_size, size_t size, size_t repeat) {
+int
+test_py_str_to_cpp_string_multiple(TestResultS &test_results, size_t string_size, size_t test_count, size_t repeat) {
     std::ostringstream title;
-    title << __FUNCTION__ << "_" << string_size << "[" << size << "]";
+    title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
     std::string str(string_size, ' ');
     PyObject * op = Python_Cpp_Containers::cpp_string_to_py_unicode8(str);
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
-        for (size_t j = 0; j < size; ++j) {
+        for (size_t j = 0; j < test_count; ++j) {
             volatile auto temp = Python_Cpp_Containers::py_unicode8_to_cpp_string(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, size, string_size);
+        test_result.execTimeAdd(0, exec_time, test_count, string_size);
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
     return 0;
 }
 
-int test_cpp_u16string_to_py_str16_multiple(TestResultS &test_results, size_t string_size, size_t size, size_t repeat) {
+int test_cpp_u16string_to_py_str16_multiple(TestResultS &test_results, size_t string_size, size_t test_count,
+                                            size_t repeat) {
     std::ostringstream title;
-    title << __FUNCTION__ << "_" << string_size << "[" << size << "]";
+    title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
     std::u16string str(string_size, u' ');
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
-        for (size_t j = 0; j < size; ++j) {
+        for (size_t j = 0; j < test_count; ++j) {
             PyObject * op = Python_Cpp_Containers::cpp_u16string_to_py_unicode16(str);
             Py_DECREF(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, size, string_size);
+        test_result.execTimeAdd(0, exec_time, test_count, string_size);
     }
     test_results.push_back(test_result);
     return 0;
 }
 
-int test_py_str16_to_cpp_u16string_multiple(TestResultS &test_results, size_t string_size, size_t size, size_t repeat) {
+int test_py_str16_to_cpp_u16string_multiple(TestResultS &test_results, size_t string_size, size_t test_count,
+                                            size_t repeat) {
     std::ostringstream title;
-    title << __FUNCTION__ << "_" << string_size << "[" << size << "]";
+    title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
     std::u16string str(string_size, u' ');
     PyObject * op = Python_Cpp_Containers::cpp_u16string_to_py_unicode16(str);
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
-        for (size_t j = 0; j < size; ++j) {
+        for (size_t j = 0; j < test_count; ++j) {
             volatile auto temp = Python_Cpp_Containers::py_unicode16_to_cpp_u16string(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, size, string_size);
+        test_result.execTimeAdd(0, exec_time, test_count, string_size);
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
     return 0;
 }
 
-int test_cpp_u32string_to_py_str32_multiple(TestResultS &test_results, size_t string_size, size_t size, size_t repeat) {
+int test_cpp_u32string_to_py_str32_multiple(TestResultS &test_results, size_t string_size, size_t test_count,
+                                            size_t repeat) {
     std::ostringstream title;
-    title << __FUNCTION__ << "_" << string_size << "[" << size << "]";
+    title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
     std::u32string str(string_size, u' ');
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
-        for (size_t j = 0; j < size; ++j) {
+        for (size_t j = 0; j < test_count; ++j) {
             PyObject * op = Python_Cpp_Containers::cpp_u32string_to_py_unicode32(str);
             Py_DECREF(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, size, string_size);
+        test_result.execTimeAdd(0, exec_time, test_count, string_size);
     }
     test_results.push_back(test_result);
     return 0;
 }
 
-int test_py_str32_to_cpp_u32string_multiple(TestResultS &test_results, size_t string_size, size_t size, size_t repeat) {
+int test_py_str32_to_cpp_u32string_multiple(TestResultS &test_results, size_t string_size, size_t test_count,
+                                            size_t repeat) {
     std::ostringstream title;
-    title << __FUNCTION__ << "_" << string_size << "[" << size << "]";
+    title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
     std::u32string str(string_size, u' ');
     PyObject * op = Python_Cpp_Containers::cpp_u32string_to_py_unicode32(str);
     for (size_t i = 0; i < repeat; ++i) {
         ExecClock exec_clock;
-        for (size_t j = 0; j < size; ++j) {
+        for (size_t j = 0; j < test_count; ++j) {
             volatile auto temp = Python_Cpp_Containers::py_unicode32_to_cpp_u32string(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, size, string_size);
+        test_result.execTimeAdd(0, exec_time, test_count, string_size);
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
@@ -2247,20 +2271,20 @@ int test_perf_py_dict_to_cpp_std_map_string_multiple(TestResultS &test_results, 
 
 #define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
 // Control object testing
-#define TEST_PERFORMANCE_OBJECT_BOOL
-#define TEST_PERFORMANCE_OBJECT_LONG
-#define TEST_PERFORMANCE_OBJECT_DOUBLE
-#define TEST_PERFORMANCE_OBJECT_COMPLEX
+//#define TEST_PERFORMANCE_OBJECT_BOOL
+//#define TEST_PERFORMANCE_OBJECT_LONG
+//#define TEST_PERFORMANCE_OBJECT_DOUBLE
+//#define TEST_PERFORMANCE_OBJECT_COMPLEX
 #define TEST_PERFORMANCE_OBJECT_BYTES
-#define TEST_PERFORMANCE_OBJECT_STRING
-#define TEST_PERFORMANCE_OBJECT_STRING_16
-#define TEST_PERFORMANCE_OBJECT_STRING_32
+//#define TEST_PERFORMANCE_OBJECT_STRING
+//#define TEST_PERFORMANCE_OBJECT_STRING_16
+//#define TEST_PERFORMANCE_OBJECT_STRING_32
 
 // Control container testing
-#define TEST_PERFORMANCE_TUPLES
-#define TEST_PERFORMANCE_LISTS
-#define TEST_PERFORMANCE_SETS
-#define TEST_PERFORMANCE_DICTS
+//#define TEST_PERFORMANCE_TUPLES
+//#define TEST_PERFORMANCE_LISTS
+//#define TEST_PERFORMANCE_SETS
+//#define TEST_PERFORMANCE_DICTS
 
 
 void test_performance_all(TestResultS &test_results) {
@@ -2269,15 +2293,18 @@ void test_performance_all(TestResultS &test_results) {
 #ifdef TEST_PERFORMANCE_FUNDAMENTAL_TYPES
     // Fundamental type tests
     {
-        size_t fundamental_types_test_size = 1000 * 1000;
+        size_t fundamental_types_test_count = 1000 * 1000;
+        size_t fundamental_types_test_count_array = 100;
         size_t fundamental_types_test_repeat = TEST_REPEAT * 4;
+        size_t fundamental_types_test_repeat_array = TEST_REPEAT;
         RSSSnapshot rss("TEST_PERFORMANCE_FUNDAMENTAL_TYPES");
 #ifdef TEST_PERFORMANCE_OBJECT_BOOL
         // boolean
         {
             RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_BOOL");
-            test_bool_to_py_bool_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
-            test_py_bool_to_cpp_bool_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+            test_bool_to_py_bool_multiple(test_results, fundamental_types_test_count, fundamental_types_test_repeat);
+            test_py_bool_to_cpp_bool_multiple(test_results, fundamental_types_test_count,
+                                              fundamental_types_test_repeat);
             std::cout << rss_inner << std::endl;
         }
 #endif
@@ -2285,8 +2312,8 @@ void test_performance_all(TestResultS &test_results) {
         // Integer
         {
             RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_LONG");
-            test_long_to_py_int_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
-            test_py_int_to_cpp_long_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
+            test_long_to_py_int_multiple(test_results, fundamental_types_test_count, fundamental_types_test_repeat);
+            test_py_int_to_cpp_long_multiple(test_results, fundamental_types_test_count, fundamental_types_test_repeat);
             std::cout << rss_inner << std::endl;
         }
 #endif
@@ -2294,8 +2321,8 @@ void test_performance_all(TestResultS &test_results) {
         // Floating point
         {
             RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_DOUBLE");
-            test_double_to_py_float_multiple(test_results, fundamental_types_test_size, fundamental_types_test_repeat);
-            test_py_float_to_cpp_double_multiple(test_results, fundamental_types_test_size,
+            test_double_to_py_float_multiple(test_results, fundamental_types_test_count, fundamental_types_test_repeat);
+            test_py_float_to_cpp_double_multiple(test_results, fundamental_types_test_count,
                                                  fundamental_types_test_repeat);
             std::cout << rss_inner << std::endl;
         }
@@ -2304,9 +2331,9 @@ void test_performance_all(TestResultS &test_results) {
         // Complex numbers
         {
             RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_COMPLEX");
-            test_complex_to_py_complex_multiple(test_results, fundamental_types_test_size,
+            test_complex_to_py_complex_multiple(test_results, fundamental_types_test_count,
                                                 fundamental_types_test_repeat);
-            test_py_complex_to_cpp_complex_multiple(test_results, fundamental_types_test_size,
+            test_py_complex_to_cpp_complex_multiple(test_results, fundamental_types_test_count,
                                                     fundamental_types_test_repeat);
             std::cout << rss_inner << std::endl;
         }
@@ -2315,30 +2342,16 @@ void test_performance_all(TestResultS &test_results) {
         // Strings of bytes of various sizes.
         {
             RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_BYTES");
-            test_cpp_vector_char_to_py_bytes_multiple(test_results, 2, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
-            test_cpp_vector_char_to_py_bytes_multiple(test_results, 16, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
-            test_cpp_vector_char_to_py_bytes_multiple(test_results, 128, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
-            test_cpp_vector_char_to_py_bytes_multiple(test_results, 1024, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
-            test_cpp_vector_char_to_py_bytes_multiple(test_results, 1024 * 8, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
-            test_cpp_vector_char_to_py_bytes_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
-            test_py_bytes_to_cpp_vector_char_multiple(test_results, 2, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
-            test_py_bytes_to_cpp_vector_char_multiple(test_results, 16, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
-            test_py_bytes_to_cpp_vector_char_multiple(test_results, 128, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
-            test_py_bytes_to_cpp_vector_char_multiple(test_results, 1024, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
-            test_py_bytes_to_cpp_vector_char_multiple(test_results, 1024 * 8, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
-            test_py_bytes_to_cpp_vector_char_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
-                                                      fundamental_types_test_repeat);
+            for (ssize_t string_size = 1; string_size <= 1 << 20; string_size *= 2) {
+                test_cpp_vector_char_to_py_bytes_multiple(test_results, string_size, fundamental_types_test_count_array,
+                                                          fundamental_types_test_repeat_array);
+
+            }
+            for (ssize_t string_size = 1; string_size <= 1 << 20; string_size *= 2) {
+                test_py_bytes_to_cpp_vector_char_multiple(test_results, string_size, fundamental_types_test_count_array,
+                                                          fundamental_types_test_repeat_array);
+
+            }
             std::cout << rss_inner << std::endl;
         }
 #endif
@@ -2346,30 +2359,14 @@ void test_performance_all(TestResultS &test_results) {
         // Strings of various sizes.
         {
             RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_STRING");
-            test_cpp_string_to_py_str_multiple(test_results, 2, fundamental_types_test_size,
-                                               fundamental_types_test_repeat);
-            test_cpp_string_to_py_str_multiple(test_results, 16, fundamental_types_test_size,
-                                               fundamental_types_test_repeat);
-            test_cpp_string_to_py_str_multiple(test_results, 128, fundamental_types_test_size,
-                                               fundamental_types_test_repeat);
-            test_cpp_string_to_py_str_multiple(test_results, 1024, fundamental_types_test_size,
-                                               fundamental_types_test_repeat);
-            test_cpp_string_to_py_str_multiple(test_results, 1024 * 8, fundamental_types_test_size,
-                                               fundamental_types_test_repeat);
-            test_cpp_string_to_py_str_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
-                                               fundamental_types_test_repeat);
-            test_py_str_to_cpp_string_multiple(test_results, 2, fundamental_types_test_size,
-                                               fundamental_types_test_repeat);
-            test_py_str_to_cpp_string_multiple(test_results, 16, fundamental_types_test_size,
-                                               fundamental_types_test_repeat);
-            test_py_str_to_cpp_string_multiple(test_results, 128, fundamental_types_test_size,
-                                               fundamental_types_test_repeat);
-            test_py_str_to_cpp_string_multiple(test_results, 1024, fundamental_types_test_size,
-                                               fundamental_types_test_repeat);
-            test_py_str_to_cpp_string_multiple(test_results, 1024 * 8, fundamental_types_test_size,
-                                               fundamental_types_test_repeat);
-            test_py_str_to_cpp_string_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
-                                               fundamental_types_test_repeat);
+            for (ssize_t string_size = 1; string_size <= 1 << 20; string_size *= 2) {
+                test_cpp_string_to_py_str_multiple(test_results, string_size, fundamental_types_test_count_array,
+                                                   fundamental_types_test_repeat_array);
+            }
+            for (ssize_t string_size = 1; string_size <= 1 << 20; string_size *= 2) {
+                test_py_str_to_cpp_string_multiple(test_results, string_size, fundamental_types_test_count_array,
+                                                   fundamental_types_test_repeat_array);
+            }
             std::cout << rss_inner << std::endl;
         }
 #endif // TEST_PERFORMANCE_OBJECT_STRING
@@ -2377,30 +2374,14 @@ void test_performance_all(TestResultS &test_results) {
         // Strings of various sizes.
         {
             RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_STRING_16");
-            test_cpp_u16string_to_py_str16_multiple(test_results, 2, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_cpp_u16string_to_py_str16_multiple(test_results, 16, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_cpp_u16string_to_py_str16_multiple(test_results, 128, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_cpp_u16string_to_py_str16_multiple(test_results, 1024, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_cpp_u16string_to_py_str16_multiple(test_results, 1024 * 8, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_cpp_u16string_to_py_str16_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_py_str16_to_cpp_u16string_multiple(test_results, 2, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_py_str16_to_cpp_u16string_multiple(test_results, 16, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_py_str16_to_cpp_u16string_multiple(test_results, 128, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_py_str16_to_cpp_u16string_multiple(test_results, 1024, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_py_str16_to_cpp_u16string_multiple(test_results, 1024 * 8, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_py_str16_to_cpp_u16string_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
+            for (ssize_t string_size = 1; string_size <= 1 << 20; string_size *= 2) {
+                test_cpp_u16string_to_py_str16_multiple(test_results, string_size, fundamental_types_test_count_array,
+                                                        fundamental_types_test_repeat_array);
+            }
+            for (ssize_t string_size = 1; string_size <= 1 << 20; string_size *= 2) {
+                test_py_str16_to_cpp_u16string_multiple(test_results, string_size, fundamental_types_test_count_array,
+                                                        fundamental_types_test_repeat_array);
+            }
             std::cout << rss_inner << std::endl;
         }
 #endif // TEST_PERFORMANCE_OBJECT_STRING_16
@@ -2408,30 +2389,14 @@ void test_performance_all(TestResultS &test_results) {
         // Strings of various sizes.
         {
             RSSSnapshot rss_inner("TEST_PERFORMANCE_OBJECT_STRING_32");
-            test_cpp_u32string_to_py_str32_multiple(test_results, 2, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_cpp_u32string_to_py_str32_multiple(test_results, 32, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_cpp_u32string_to_py_str32_multiple(test_results, 128, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_cpp_u32string_to_py_str32_multiple(test_results, 1024, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_cpp_u32string_to_py_str32_multiple(test_results, 1024 * 8, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_cpp_u32string_to_py_str32_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_py_str32_to_cpp_u32string_multiple(test_results, 2, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_py_str32_to_cpp_u32string_multiple(test_results, 32, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_py_str32_to_cpp_u32string_multiple(test_results, 128, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_py_str32_to_cpp_u32string_multiple(test_results, 1024, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_py_str32_to_cpp_u32string_multiple(test_results, 1024 * 8, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
-            test_py_str32_to_cpp_u32string_multiple(test_results, 1024 * 8 * 8, fundamental_types_test_size,
-                                                    fundamental_types_test_repeat);
+            for (ssize_t string_size = 1; string_size <= 1 << 20; string_size *= 2) {
+                test_cpp_u32string_to_py_str32_multiple(test_results, string_size, fundamental_types_test_count_array,
+                                                        fundamental_types_test_repeat_array);
+            }
+            for (ssize_t string_size = 1; string_size <= 1 << 20; string_size *= 2) {
+                test_py_str32_to_cpp_u32string_multiple(test_results, string_size, fundamental_types_test_count_array,
+                                                        fundamental_types_test_repeat_array);
+            }
             std::cout << rss_inner << std::endl;
         }
 #endif // TEST_PERFORMANCE_OBJECT_STRING_32

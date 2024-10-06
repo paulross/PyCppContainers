@@ -35,6 +35,9 @@ private:
  *          statistical feel for the execution time.
  * count - The number of atomic operations that the execution time has measured.
  *
+ * NOTE: execTime() gives the mean time of all of the executions. This needs to be divided by \c count
+ * to get the execution time of a single operation.
+ *
  * For example timing sorting a vector.
  * scale: might have a range 32, 64, 128, 256, 512, 1024 (vector length).
  * repeat might be 10 to get some min/max/mean/std. dev. values for variety.

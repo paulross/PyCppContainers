@@ -114,7 +114,9 @@ add_executable(
 
         src/ext/cPyCppContainers.cpp
         src/ext/cUserDefined.cpp
-        src/ext/cUserDefined.h)
+        src/ext/cUserDefined.h
+        src/cpy/tests/test_internal.cpp
+        src/cpy/tests/test_internal.h)
 
 #SET(CMAKE_BUILD_RPATH "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9")
 #MESSAGE("CMAKE_BUILD_RPATH:" ${CMAKE_BUILD_RPATH})
