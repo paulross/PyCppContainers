@@ -5,10 +5,14 @@
 #include "test_internal.h"
 
 /**
+ * Compare two doubles to see if they are 'similar'.
+ * If possible this normalises the two values to unity before comparing them with
+ * \c std::numeric_limits<double>::epsilon()
  *
  * @param a
  * @param b
- * @return Zero if the two arguments are equal. This allows result |= doubles_cmp(value, expected);
+ * @return Zero if the two arguments are equal, non-zero if they are out of range.
+ *  This allows: <tt>result |= doubles_cmp(value, expected);</tt>
  */
 int doubles_cmp(double a, double b) {
     int ret = 0;
@@ -23,6 +27,11 @@ int doubles_cmp(double a, double b) {
     return ret;
 }
 
+/**
+ * This demonstrates that the number or tests is the summ of all the test_counts for each added result.
+ *
+ * @param test_results
+ */
 void test_internal_test_result_test_count(TestResultS &test_results) {
     // Mock up a test result
     std::ostringstream title;
@@ -41,7 +50,7 @@ void test_internal_test_result_test_count(TestResultS &test_results) {
     // Now check the test result object
     failed |= mock_test_result.failed() != 0;
     auto temp = mock_test_result.testCount(mock_scale);
-    failed |= mock_test_result.testCount(mock_scale) != 0;
+    failed |= temp != 4 * mock_test_count;
 
     // Now add the test result of this function.
     TestResult test_result(title.str());
@@ -49,6 +58,11 @@ void test_internal_test_result_test_count(TestResultS &test_results) {
     test_results.push_back(test_result);
 }
 
+/**
+ * This demonstrates that the total execution time is the sum of all the sub-test execution time.
+ *
+ * @param test_results
+ */
 void test_internal_test_result_total_time(TestResultS &test_results) {
     // Mock up a test result
     std::ostringstream title;
@@ -66,8 +80,8 @@ void test_internal_test_result_total_time(TestResultS &test_results) {
     int failed = 0;
     // Now check the test result object
     failed |= mock_test_result.failed() != 0;
-    auto temp = mock_test_result.testCount(mock_scale);
-    failed |= doubles_cmp(mock_test_result.totalTime(mock_scale), 0.0);
+    auto temp = mock_test_result.totalTime(mock_scale);
+    failed |= doubles_cmp(mock_test_result.totalTime(mock_scale), 1.0 + 2.0 + 3.0 + 4.0);
 
     // Now add the test result of this function.
     TestResult test_result(title.str());
@@ -118,7 +132,7 @@ void test_internal_test_result_exec_time(TestResultS &test_results) {
     // Now check the test result object
     failed |= mock_test_result.failed() != 0;
     auto temp = mock_test_result.execTime(mock_scale);
-    failed |= doubles_cmp(mock_test_result.execTime(mock_scale), 2.5);
+    failed |= doubles_cmp(temp, (1.0 + 2.0 + 3.0 + 4.0) / 4.0);
 
     // Now add the test result of this function.
     TestResult test_result(title.str());
@@ -159,6 +173,33 @@ void test_internal_test_result_string(TestResultS &test_results) {
     test_results.push_back(test_result);
 }
 
+void test_internal_test_result_atomic_test_mean_exec_time(TestResultS &test_results) {
+    // Mock up a test result
+    std::ostringstream title;
+    title << __FUNCTION__;
+    ExecClock exec_clock; // For the real test.
+    TestResult mock_test_result(title.str());
+    // Unused
+    size_t mock_test_count = 100;
+    size_t mock_scale = 99;
+    // Now add 4 (mock_repeat) tests results, each has 100 atomic tests.
+    mock_test_result.execTimeAdd(0, 1.0, mock_test_count, mock_scale);
+    mock_test_result.execTimeAdd(0, 2.0, mock_test_count, mock_scale);
+    mock_test_result.execTimeAdd(0, 3.0, mock_test_count, mock_scale);
+    mock_test_result.execTimeAdd(0, 4.0, mock_test_count, mock_scale);
+    int failed = 0;
+    // Now check the test result object
+    std::ostringstream result_stream;
+    failed |= mock_test_result.failed() != 0;
+    auto temp = mock_test_result.atomicTestMeanExecTime(mock_scale);
+    failed |= doubles_cmp(temp, (1.0 + 2.0 + 3.0 + 4.0) / (4 * mock_test_count));
+
+    // Now add the test result of this function.
+    TestResult test_result(title.str());
+    test_result.execTimeAdd(failed, exec_clock.seconds(), 1, 1);
+    test_results.push_back(test_result);
+}
+
 void test_internal_all(TestResultS &test_results) {
     std::cout << __FUNCTION__ << " START" << std::endl;
     RSSSnapshot rss_overall("==== test_functional.cpp");
@@ -168,6 +209,7 @@ void test_internal_all(TestResultS &test_results) {
     test_internal_test_result_exec_time_min_max(test_results);
     test_internal_test_result_exec_time(test_results);
     test_internal_test_result_string(test_results);
+    test_internal_test_result_atomic_test_mean_exec_time(test_results);
 
     std::cout << "==== " << rss_overall << std::endl;
     std::cout << __FUNCTION__ << " FINISH" << std::endl;

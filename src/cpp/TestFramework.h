@@ -133,6 +133,7 @@ public:
     double totalTime(size_t scale) const;
     // execTime() returns the mean of the results or 0.0 if no results
     double execTime(size_t scale) const;
+    double atomicTestMeanExecTime(size_t scale) const;
     // Standard deviation, 0.0 if < 2 results.
     double execTimeStdDev(size_t scale) const;
     bool hasExecTimeStdDev(size_t scale) const { return numTests(scale) > 1; }

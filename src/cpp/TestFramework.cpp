@@ -65,22 +65,37 @@ size_t TestResult::numTests(size_t scale) const {
 
 double TestResult::totalTime(size_t scale) const {
     double r = 0.0;
-    for (auto &iter: _results.at(scale)._execTimeS) {
-        r += iter;
+    if (_results.count(scale)) {
+        for (auto &iter: _results.at(scale)._execTimeS) {
+            r += iter;
+        }
     }
     return r;
 }
 
+/**
+ * Returns the mean of the execution times.
+ * This does not take into account the atomic test counts.
+ */
 double TestResult::execTime(size_t scale) const {
     double r = 0.0;
-    size_t count = 0;
-    // Calculate the mean
-    for (auto &iter: _results.at(scale)._execTimeS) {
-        r += iter;
-        ++count;
+    if (_results.count(scale)) {
+        for (auto &iter: _results.at(scale)._execTimeS) {
+            r += iter;
+        }
+        r /= _results.at(scale)._execTimeS.size();
     }
-    if (count) {
-        return r / count;
+    return r;
+}
+
+/**
+ * Returns the sum of the execution times divided by the number of atomic tests.
+ */
+double TestResult::atomicTestMeanExecTime(size_t scale) const {
+    double r = 0.0;
+    if (_results.count(scale)) {
+        r = totalTime(scale);
+        r /= _results.at(scale).count;
     }
     return r;
 }
@@ -102,12 +117,14 @@ double TestResult::execTimeStdDev(size_t scale) const {
 
 double TestResult::execTimeMin(size_t scale) const {
     double r = 0.0;
-    for (auto &val: _results.at(scale)._execTimeS) {
-        assert(val >= 0.0);
-        if (r == 0.0) {
-            r = val;
-        } else {
-            r = std::min(r, val);
+    if (_results.count(scale)) {
+        for (auto &val: _results.at(scale)._execTimeS) {
+            assert(val >= 0.0);
+            if (r == 0.0) {
+                r = val;
+            } else {
+                r = std::min(r, val);
+            }
         }
     }
     return r;
@@ -115,9 +132,11 @@ double TestResult::execTimeMin(size_t scale) const {
 
 double TestResult::execTimeMax(size_t scale) const {
     double r = 0.0;
-    for (auto &val: _results.at(scale)._execTimeS) {
-        assert(val >= 0.0);
-        r = std::max(r, val);
+    if (_results.count(scale)) {
+        for (auto &val: _results.at(scale)._execTimeS) {
+            assert(val >= 0.0);
+            r = std::max(r, val);
+        }
     }
     return r;
 }
