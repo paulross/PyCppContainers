@@ -16,4 +16,5 @@ Summary
 * Dicts and sets are about 3-10x slower than lists and tuples.
   This can be explained by, whilst both list and dict operations are O(1),
   the list insert is much faster as an insert into a dict/set involves hashing.
+* Memory usage matches the object data sizes.
 * There are no memory leaks in this library.
