@@ -160,10 +160,118 @@ void test_internal_test_result_string(TestResultS &test_results) {
     failed |= mock_test_result.failed() != 0;
     result_stream << mock_test_result;
     auto result_string = result_stream.str();
-    std::cout << "TRACE:" << result_string << std::endl;
+    // std::cout << "TRACE:" << result_string << std::endl;
     //       HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
     std::string exp_string(
             "TEST:    0      99       4     2.500000000     1.118033989     1.000000000     4.000000000       400         160.0 test_internal_test_result_string"
+            );
+    failed |= result_string != exp_string;
+
+    // Now add the test result of this function.
+    TestResult test_result(title.str());
+    test_result.execTimeAdd(failed, exec_clock.seconds(), 1, 1);
+    test_results.push_back(test_result);
+}
+
+void test_internal_test_result_string_multiple_a(TestResultS &test_results) {
+    // Mock up a test result
+    std::ostringstream title;
+    title << __FUNCTION__;
+    ExecClock exec_clock; // For the real test.
+    TestResult mock_test_result(title.str());
+    // Unused
+    size_t mock_test_count = 100;
+    size_t mock_scale = 99;
+    // Now add 4 (mock_repeat) tests results
+    mock_test_result.execTimeAdd(0, 1.0, mock_test_count, 2);
+    mock_test_result.execTimeAdd(0, 2.0, mock_test_count, 4);
+    mock_test_result.execTimeAdd(0, 3.0, mock_test_count, 8);
+    mock_test_result.execTimeAdd(0, 4.0, mock_test_count, 16);
+    int failed = 0;
+
+    auto scale = mock_test_result.scaleValues();
+    // Now check the test result object
+    std::ostringstream result_stream;
+    failed |= mock_test_result.failed() != 0;
+    result_stream << mock_test_result;
+    auto result_string = result_stream.str();
+    //std::cout << "TRACE:" << result_string << std::endl;
+    //       HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+    std::string exp_string(
+            "TEST:    0       2       1     1.000000000             N/A             N/A             N/A       100         100.0 test_internal_test_result_string_multiple_a\n"
+            "TEST:    0       4       1     2.000000000             N/A             N/A             N/A       100          50.0 test_internal_test_result_string_multiple_a\n"
+            "TEST:    0       8       1     3.000000000             N/A             N/A             N/A       100          33.3 test_internal_test_result_string_multiple_a\n"
+            "TEST:    0      16       1     4.000000000             N/A             N/A             N/A       100          25.0 test_internal_test_result_string_multiple_a"
+            );
+    failed |= result_string != exp_string;
+
+    // Now add the test result of this function.
+    TestResult test_result(title.str());
+    test_result.execTimeAdd(failed, exec_clock.seconds(), 1, 1);
+    test_results.push_back(test_result);
+}
+
+void test_internal_test_result_string_multiple_b(TestResultS &test_results) {
+    // Mock up a test result
+    std::ostringstream title;
+    title << __FUNCTION__;
+    ExecClock exec_clock; // For the real test.
+    TestResult mock_test_result(title.str());
+    // Unused
+    size_t mock_test_count = 100;
+    size_t mock_scale = 99;
+    // Now add 4 (mock_repeat) tests results
+    mock_test_result.execTimeAdd(0, 1.0, mock_test_count, 2);
+    mock_test_result.execTimeAdd(0, 2.0, mock_test_count, 2);
+    mock_test_result.execTimeAdd(0, 3.0, mock_test_count, 4);
+    mock_test_result.execTimeAdd(0, 4.0, mock_test_count, 4);
+    int failed = 0;
+
+    auto scale = mock_test_result.scaleValues();
+    // Now check the test result object
+    std::ostringstream result_stream;
+    failed |= mock_test_result.failed() != 0;
+    result_stream << mock_test_result;
+    auto result_string = result_stream.str();
+    //std::cout << "TRACE:" << result_string << std::endl;
+    //       HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+    std::string exp_string(
+            "TEST:    0       2       2     1.500000000     0.500000000     1.000000000     2.000000000       200         133.3 test_internal_test_result_string_multiple_b\n"
+            "TEST:    0       4       2     3.500000000     0.500000000     3.000000000     4.000000000       200          57.1 test_internal_test_result_string_multiple_b"
+            );
+    failed |= result_string != exp_string;
+
+    // Now add the test result of this function.
+    TestResult test_result(title.str());
+    test_result.execTimeAdd(failed, exec_clock.seconds(), 1, 1);
+    test_results.push_back(test_result);
+}
+
+/**
+ * Example of a very fast test where using the "Rate" column can recover the mean time with accuracy.
+ *
+ * @param test_results
+ */
+void test_internal_test_result_string_using_rate(TestResultS &test_results) {
+    // Mock up a test result
+    std::ostringstream title;
+    title << __FUNCTION__;
+    ExecClock exec_clock; // For the real test.
+    TestResult mock_test_result(title.str());
+    // Unused
+    size_t mock_test_count = 1;
+    size_t mock_scale = 99;
+    mock_test_result.execTimeAdd(0, 1.23456789e-9, mock_test_count, mock_scale);
+    int failed = 0;
+    // Now check the test result object
+    std::ostringstream result_stream;
+    failed |= mock_test_result.failed() != 0;
+    result_stream << mock_test_result;
+    auto result_string = result_stream.str();
+    //std::cout << "TRACE:" << result_string << std::endl;
+    //       HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+    std::string exp_string(
+            "TEST:    0      99       1     0.000000001             N/A             N/A             N/A         1   810000007.4 test_internal_test_result_string_using_rate"
             );
     failed |= result_string != exp_string;
 
@@ -209,6 +317,9 @@ void test_internal_all(TestResultS &test_results) {
     test_internal_test_result_exec_time_min_max(test_results);
     test_internal_test_result_exec_time(test_results);
     test_internal_test_result_string(test_results);
+    test_internal_test_result_string_multiple_a(test_results);
+    test_internal_test_result_string_multiple_b(test_results);
+    test_internal_test_result_string_using_rate(test_results);
     test_internal_test_result_atomic_test_mean_exec_time(test_results);
 
     std::cout << "==== " << rss_overall << std::endl;

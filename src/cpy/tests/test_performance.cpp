@@ -81,7 +81,7 @@ int test_long_to_py_int_multiple(TestResultS &test_results, size_t size, size_t 
             Py_DECREF(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, 1);
     }
     test_results.push_back(test_result);
     return 0;
@@ -98,7 +98,7 @@ int test_py_int_to_cpp_long_multiple(TestResultS &test_results, size_t size, siz
             volatile auto temp = Python_Cpp_Containers::py_long_to_cpp_long(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, 1);
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
@@ -116,7 +116,7 @@ int test_double_to_py_float_multiple(TestResultS &test_results, size_t size, siz
             Py_DECREF(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, 1);
     }
     test_results.push_back(test_result);
     return 0;
@@ -133,7 +133,7 @@ int test_py_float_to_cpp_double_multiple(TestResultS &test_results, size_t size,
             volatile auto temp = Python_Cpp_Containers::py_float_to_cpp_double(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, 1);
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
@@ -151,7 +151,7 @@ int test_complex_to_py_complex_multiple(TestResultS &test_results, size_t size, 
             Py_DECREF(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, 1);
     }
     test_results.push_back(test_result);
     return 0;
@@ -168,7 +168,7 @@ int test_py_complex_to_cpp_complex_multiple(TestResultS &test_results, size_t si
             volatile auto temp = Python_Cpp_Containers::py_complex_to_cpp_complex(op);
         }
         double exec_time = exec_clock.seconds();
-        test_result.execTimeAdd(0, exec_time, 1, size);
+        test_result.execTimeAdd(0, exec_time, size, 1);
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
@@ -2271,14 +2271,14 @@ int test_perf_py_dict_to_cpp_std_map_string_multiple(TestResultS &test_results, 
 
 #define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
 // Control object testing
-//#define TEST_PERFORMANCE_OBJECT_BOOL
-//#define TEST_PERFORMANCE_OBJECT_LONG
-//#define TEST_PERFORMANCE_OBJECT_DOUBLE
-//#define TEST_PERFORMANCE_OBJECT_COMPLEX
+#define TEST_PERFORMANCE_OBJECT_BOOL
+#define TEST_PERFORMANCE_OBJECT_LONG
+#define TEST_PERFORMANCE_OBJECT_DOUBLE
+#define TEST_PERFORMANCE_OBJECT_COMPLEX
 #define TEST_PERFORMANCE_OBJECT_BYTES
-//#define TEST_PERFORMANCE_OBJECT_STRING
-//#define TEST_PERFORMANCE_OBJECT_STRING_16
-//#define TEST_PERFORMANCE_OBJECT_STRING_32
+#define TEST_PERFORMANCE_OBJECT_STRING
+#define TEST_PERFORMANCE_OBJECT_STRING_16
+#define TEST_PERFORMANCE_OBJECT_STRING_32
 
 // Control container testing
 //#define TEST_PERFORMANCE_TUPLES

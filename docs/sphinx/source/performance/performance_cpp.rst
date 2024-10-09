@@ -90,6 +90,8 @@ Conversion of Fundamental Types
 These C++ functions test the cost of converting ints, floats and bytes objects between Python and C++.
 These test are executed if the macro ``TEST_PERFORMANCE_FUNDAMENTAL_TYPES`` is defined.
 
+TODO: Revise *.dat files from here.
+
 Numeric Types
 ^^^^^^^^^^^^^^^^^
 
@@ -117,22 +119,22 @@ Numeric Types
      - Py to C++
      - Ratio
      - Notes
-   * - ``bool``/``bool``
+   * - ``bool``, ``bool``
      - 1.56
      - 1.46
      - 1.07x
      - The mean is around 660 million/s
-   * - ``long``/``int``
+   * - ``long``, ``int``
      - 18.4
      - 4.16
      - 4.42x
      - The mean is around 88 million/s.
-   * - ``double``/``float``
+   * - ``double``, ``float``
      - 14.2
      - 5.56
      - 2.55x
      - The mean is around 100 million/s.
-   * - ``complex<double>`` / ``complex``
+   * - ``complex<double>``, ``complex``
      - 21.2
      - 6.42
      - 3.30x
@@ -145,22 +147,22 @@ the object
 The actual tests in ``src/cpy/tests/test_performance.cpp`` are:
 
 .. list-table:: Fundamental Type Conversion Time Test Code.
-   :widths: 30 40 40
+   :widths: 20 40 40
    :header-rows: 1
 
    * - Type C++/Py
      - C++ to Py Test
      - Py to C++ Test
-   * - ``bool``/``bool``
+   * - ``bool``, ``bool``
      - ``test_bool_to_py_bool_multiple()`` calls ``cpp_bool_to_py_bool()``.
      - ``test_py_bool_to_bool_multiple()`` calls ``py_bool_to_cpp_bool()``.
-   * - ``long``/``int``
+   * - ``long``, ``int``
      - ``test_long_to_py_int_multiple()`` calls ``cpp_long_to_py_long()``.
      - ``test_py_int_to_cpp_long_multiple()`` calls ``py_long_to_cpp_long()``.
-   * - ``double``/``float``
+   * - ``double``, ``float``
      - ``test_double_to_py_float_multiple()`` calls ``cpp_double_to_py_float()``.
      - ``test_py_float_to_cpp_double_multiple()`` calls ``cpp_double_to_py_float()``.
-   * - ``complex<double>`` / ``complex``
+   * - ``complex<double>``, ``complex``
      - ``test_complex_to_py_complex_multiple()`` calls ``cpp_complex_to_py_complex()``.
      - ``test_py_complex_to_cpp_complex_multiple()`` calls ``py_complex_to_cpp_complex()``.
 
@@ -188,23 +190,36 @@ For a single C++ ``std::vector<char>`` to and from Python ``bytes`` of different
     Example: test_cpp_vector_char_to_py_bytes_multiple_2() C++ to Python. Min is 0.052396208 for 1e6 conversions. So 1e9 * 0.0524 / 1e6 = 52.4
     Example: test_py_bytes_to_cpp_vector_char_multiple_2() Python to C++. Min is 0.051730335 for 1e6 conversions. So 1e9 * 0.0517 / 1e6 = 51.7
 
-From C++ to Python (test in ``src/cpy/tests/test_performance.cpp`` is
-``test_cpp_vector_char_to_py_bytes_multiple()`` which calls ``cpp_vector_char_to_py_bytes()``):
+..
+    gnuplot file docs/sphinx/source/plots/fundamental_bytes.plt
 
-.. image:: ../plots/images/test_cpp_vector_char_to_py_bytes.png
+.. image:: ../plots/images/fundamental_cpp_vector_char_to_py_bytes.png
     :height: 400px
     :align: center
 
 This shows a linear rate asymptotic to around 30 GB/s.
 
-From Python to C++ to Python (test in ``src/cpy/tests/test_performance.cpp`` is
-``test_py_bytes_to_cpp_vector_char_multiple()`` which calls ``py_bytes_to_cpp_vector_char()``):
-
-.. image:: ../plots/images/test_py_bytes_to_cpp_vector_char_multiple.dat.png
+.. image:: ../plots/images/fundamental_py_bytes_to_cpp_vector_char_multiple.png
     :height: 400px
     :align: center
 
 This is symmetric with the performance of Python to C++.
+
+The tests are in ``src/cpy/tests/test_performance.cpp``:
+
+.. list-table:: Bytes Conversion Time Test Code.
+   :widths: 15 40 30
+   :header-rows: 1
+
+   * - Conversion
+     - Test Function
+     - Calls
+   * - C++ to Python
+     - ``test_cpp_vector_char_to_py_bytes_multiple()``
+     - ``cpp_vector_char_to_py_bytes()``.
+   * - Python to C++
+     - ``test_py_bytes_to_cpp_vector_char_multiple()``
+     - ``py_bytes_to_cpp_vector_char()``.
 
 Strings
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -274,15 +289,32 @@ lengths and different word sizes.
      - ``cpp_u32string_to_py_unicode32()``.
 
 
-.. image:: ../plots/images/fundamental_string_8_16_32.png
+..
+    Not used as this is better demonstrated with the three individual graphs.
+
+    .. image:: ../plots/images/fundamental_string_cpp_to_py_8_16_32.png
+        :height: 400px
+        :align: center
+
+.. image:: ../plots/images/fundamental_string_cpp_to_py_8.png
     :height: 400px
     :align: center
 
 Firstly the 8 bit Unicode converts consistently at a rate of around 10 GB/s.
 This compares with the conversion of ``std::vector<char>`` to ``bytes`` objects at 30 GB/s (above).
-The threefold increase can be possible explained by having more internal checks on unicode objects.
+The threefold increase can be possibly explained by having more internal checks on unicode objects.
 
-However the conversion of ``std::u16string`` and ``std::u32string`` to Python ``str`` is around 100 times slower than
+However the 16/32 bit word strings are a different story, around 100 MB/s or 100x slower than 8 bit strings:
+
+.. image:: ../plots/images/fundamental_string_cpp_to_py_16.png
+    :height: 400px
+    :align: center
+
+.. image:: ../plots/images/fundamental_string_cpp_to_py_32.png
+    :height: 400px
+    :align: center
+
+The conversion of ``std::u16string`` and ``std::u32string`` to Python ``str`` is around 100 times slower than
 for 8 bit strings.
 An explanation might be the way the Python Unicode `C-API <https://docs.python.org/3/c-api/index.html>`_ works.
 There are several ways of
@@ -310,8 +342,10 @@ Here is an example from this library using 16 bit unicode characters:
         for (std::u16string::size_type i = 0; i < s.size(); ++i) {
             int result = PyUnicode_WriteChar(ret, i, s[i]);
             if (result) {
-                PyErr_Format(PyExc_SystemError,
-                             "PyUnicode_WriteChar() failed to write at [%ld] returning %d.", i, result
+                PyErr_Format(
+                    PyExc_SystemError,
+                    "PyUnicode_WriteChar() failed to write at [%ld] returning %d.",
+                    i, result
                 );
                 Py_DECREF(ret);
                 return NULL;
@@ -359,6 +393,21 @@ And the plot of Python ``str`` to C++ ``std::string``, ``std::u16string`` and ``
     :height: 400px
     :align: center
 
+..
+    Not used as they are pretty much the same and covered by the above graph.
+
+    .. image:: ../plots/images/fundamental_py_to_cpp_string_8.png
+        :height: 400px
+        :align: center
+
+    .. image:: ../plots/images/fundamental_py_to_cpp_string_16.png
+        :height: 400px
+        :align: center
+
+    .. image:: ../plots/images/fundamental_py_to_cpp_string_32.png
+        :height: 400px
+        :align: center
+
 This is much more consistent, typically asymptotic to 10 GB/s.
 The conversion code does involve ``memcpy()`` (presumably).
 Here is an example from this library using 16 bit unicode characters:
@@ -369,12 +418,17 @@ Here is an example from this library using 16 bit unicode characters:
         assert(! PyErr_Occurred());
         assert(op);
         assert(py_unicode16_check(op));
-        std::u16string ret((const char16_t *)PyUnicode_2BYTE_DATA(op), PyUnicode_GET_LENGTH(op));
+        std::u16string ret(
+            (const char16_t *)PyUnicode_2BYTE_DATA(op), PyUnicode_GET_LENGTH(op)
+        );
         return ret;
     }
 
 The conversion time of 10 GB/s is about thrice the time for ``bytes`` to an from a ``std::vector<char>``.
 Presumably this is because of the complexities of the Unicode implementation.
+
+TODO: Revise *.plt files from here.
+TODO: Revise *.dat files from here.
 
 Python List to and from a C++ ``std::vector<T>``
 ----------------------------------------------------------

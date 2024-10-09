@@ -9,12 +9,27 @@
 # -------------
 # HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
 # $1      $2      $3      $4              $5              $6              $7              $8        $9           $10 $11
-TEST:    0       2   1000000     0.042588886     0.001377939     0.040422959     0.043991375        20         469.6 test_cpp_u16string_to_py_str16_multiple_2[1000000]
-TEST:    0      16   1000000     0.147994407     0.009139400     0.138898917     0.164160334        20         135.1 test_cpp_u16string_to_py_str16_multiple_16[1000000]
-TEST:    0     128   1000000     0.873698398     0.009309133     0.854021875     0.887453251        20          22.9 test_cpp_u16string_to_py_str16_multiple_128[1000000]
-TEST:    0    1024   1000000     6.716434430     0.026116913     6.675454917     6.768655084        20           3.0 test_cpp_u16string_to_py_str16_multiple_1024[1000000]
-TEST:    0    8182   1000000    63.329128475     7.383649449    53.119942417    82.049977584        20           0.3 test_cpp_u16string_to_py_str16_multiple_8192[1000000]
-TEST:    0   65536   1000000   434.770099001    15.165859601   423.448348083   486.720068750        20           0.0 test_cpp_u16string_to_py_str16_multiple_65536[1000000]
+TEST:    0       1       5     0.000004991     0.000001375     0.000004249     0.000007739       500   100182331.8 test_cpp_u16string_to_py_str16_multiple_1[100]
+TEST:    0       2       5     0.000004961     0.000000061     0.000004873     0.000005046       500   100775975.0 test_cpp_u16string_to_py_str16_multiple_2[100]
+TEST:    0       4       5     0.000007041     0.000000141     0.000006838     0.000007210       500    71013648.8 test_cpp_u16string_to_py_str16_multiple_4[100]
+TEST:    0       8       5     0.000010055     0.000000131     0.000009884     0.000010240       500    49728977.1 test_cpp_u16string_to_py_str16_multiple_8[100]
+TEST:    0      16       5     0.000017291     0.000000358     0.000016888     0.000017892       500    28916275.8 test_cpp_u16string_to_py_str16_multiple_16[100]
+TEST:    0      32       5     0.000029117     0.000000361     0.000028826     0.000029817       500    17172275.7 test_cpp_u16string_to_py_str16_multiple_32[100]
+TEST:    0      64       5     0.000053777     0.000000208     0.000053597     0.000054144       500     9297568.7 test_cpp_u16string_to_py_str16_multiple_64[100]
+TEST:    0     128       5     0.000109197     0.000012756     0.000102471     0.000134701       500     4578859.4 test_cpp_u16string_to_py_str16_multiple_128[100]
+TEST:    0     256       5     0.000219891     0.000003006     0.000217885     0.000225864       500     2273850.8 test_cpp_u16string_to_py_str16_multiple_256[100]
+TEST:    0     512       5     0.000816416     0.000290422     0.000446319     0.001340534       500      612433.0 test_cpp_u16string_to_py_str16_multiple_512[100]
+TEST:    0    1024       5     0.001503414     0.000376692     0.000894362     0.002084417       500      332576.5 test_cpp_u16string_to_py_str16_multiple_1024[100]
+TEST:    0    2048       5     0.002001204     0.000410766     0.001634754     0.002529579       500      249849.7 test_cpp_u16string_to_py_str16_multiple_2048[100]
+TEST:    0    4096       5     0.004679027     0.000802430     0.003501502     0.005862756       500      106859.8 test_cpp_u16string_to_py_str16_multiple_4096[100]
+TEST:    0    8192       5     0.007761915     0.000509287     0.006961308     0.008291546       500       64417.1 test_cpp_u16string_to_py_str16_multiple_8192[100]
+TEST:    0   16384       5     0.016790195     0.002244882     0.014867056     0.021187603       500       29779.3 test_cpp_u16string_to_py_str16_multiple_16384[100]
+TEST:    0   32768       5     0.035298315     0.003997717     0.027515457     0.038299373       500       14165.0 test_cpp_u16string_to_py_str16_multiple_32768[100]
+TEST:    0   65536       5     0.063171960     0.005519499     0.058563996     0.073911797       500        7914.9 test_cpp_u16string_to_py_str16_multiple_65536[100]
+TEST:    0  131072       5     0.137180243     0.011392632     0.118352297     0.152311717       500        3644.8 test_cpp_u16string_to_py_str16_multiple_131072[100]
+TEST:    0  262144       5     0.252020015     0.048918463     0.186398434     0.316588508       500        1984.0 test_cpp_u16string_to_py_str16_multiple_262144[100]
+TEST:    0  524288       5     0.347407921     0.013257919     0.336246669     0.371740052       500        1439.2 test_cpp_u16string_to_py_str16_multiple_524288[100]
+TEST:    0 1048576       5     0.697344706     0.018627718     0.678223729     0.724822060       500         717.0 test_cpp_u16string_to_py_str16_multiple_1048576[100]
 #
 # NOTES:
 # - The C++ to Python is seriously bad. This is calling Python_Cpp_Containers::cpp_u16string_to_py_unicode16()

@@ -1,9 +1,9 @@
 set grid
 
-set title "Conversion Time of a Single 8/16/32 bit String Python to C++."
+set title "Conversion of a Single 8/16/32 bit String Python to C++."
 
 set logscale x
-set xlabel "Size of String in Characters"
+set xlabel "Size of String"
 
 set logscale y
 set ylabel "Time per String (µs)"
@@ -39,28 +39,85 @@ set key top left
 set key font ",9"
 
 set terminal png size 700,400           # choose the file format
+
+# All 8/16/32 together
 set output "images/fundamental_py_to_cpp_string_8_16_32.png"   # choose the output device
 
-plot "dat/fundamental_test_py_str_to_cpp_string_multiple.dat" \
-        using 3:(1e6 * ($5 - $6) / $4):(1e6 * $7 / $4):(1e6 * $8 / $4):(1e6 * ($5 + $6) / $4) \
+plot \
+    "dat/fundamental_test_py_str_to_cpp_string_multiple.dat" \
+        using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
         t "Python str 8 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2,\
-        "dat/fundamental_test_py_str_to_cpp_string_multiple.dat" using 3:($7 * 1e6 / $4) \
-         t "Minimum Python str 8 bit -> C++" with lines linewidth 2, \
+    "dat/fundamental_test_py_str_to_cpp_string_multiple.dat" using 3:(1e6 * $7 * $4 / $9) \
+        t "Minimum Python str 8 bit -> C++" with lines linewidth 2, \
     "dat/fundamental_test_py_str16_to_cpp_u16string_multiple.dat" \
-        using 3:(1e6 * ($5 - $6) / $4):(1e6 * $7 / $4):(1e6 * $8 / $4):(1e6 * ($5 + $6) / $4) \
+        using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
         t "Python str 16 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2, \
-        "dat/fundamental_test_py_str16_to_cpp_u16string_multiple.dat" using 3:($7 * 1e6 / $4) \
+    "dat/fundamental_test_py_str16_to_cpp_u16string_multiple.dat" using 3:(1e6 * $7 * $4 / $9) \
          t "Minimum Python str 16 bit -> C++" with lines linewidth 2, \
     "dat/fundamental_test_py_str32_to_cpp_u32string_multiple.dat" \
-        using 3:(1e6 * ($5 - $6) / $4):(1e6 * $7 / $4):(1e6 * $8 / $4):(1e6 * ($5 + $6) / $4) \
+        using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
         t "Python str 32 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2, \
-        "dat/fundamental_test_py_str32_to_cpp_u32string_multiple.dat" using 3:($7 * 1e6 / $4) \
+    "dat/fundamental_test_py_str32_to_cpp_u32string_multiple.dat" using 3:(1e6 * $7 * $4 / $9) \
          t "Minimum Python str 32 bit -> C++" with lines linewidth 2, \
-    "dat/fundamental_test_cpp_u32string_to_py_str32_multiple.dat" using 3:(rate_1_000_000_000($3) * 1e6) \
+    "dat/fundamental_test_py_str_to_cpp_string_multiple.dat" using 3:(rate_1_000_000_000($3) * 1e6) \
         t sprintf("Guide: %.3f µs + 1 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2, \
-    "dat/fundamental_test_cpp_u32string_to_py_str32_multiple.dat" using 3:(rate_10_000_000_000($3) * 1e6) \
+    "dat/fundamental_test_py_str_to_cpp_string_multiple.dat" using 3:(rate_10_000_000_000($3) * 1e6) \
         t sprintf("Guide: %.3f µs + 10 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2, \
-    "dat/fundamental_test_cpp_u32string_to_py_str32_multiple.dat" using 3:(rate_100_000_000_000($3) * 1e6) \
+    "dat/fundamental_test_py_str_to_cpp_string_multiple.dat" using 3:(rate_100_000_000_000($3) * 1e6) \
+        t sprintf("Guide: %.3f µs + 100 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2
+
+# 8 bit only
+set title "Conversion of a Single 8 bit String Python to C++."
+
+set output "images/fundamental_py_to_cpp_string_8.png"   # choose the output device
+
+plot \
+    "dat/fundamental_test_py_str_to_cpp_string_multiple.dat" \
+        using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
+        t "Python str 8 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2,\
+    "dat/fundamental_test_py_str_to_cpp_string_multiple.dat" using 3:(1e6 * $7 * $4 / $9) \
+         t "Minimum Python str 8 bit -> C++" with lines linewidth 2, \
+    "dat/fundamental_test_py_str_to_cpp_string_multiple.dat" using 3:(rate_1_000_000_000($3) * 1e6) \
+        t sprintf("Guide: %.3f µs + 1 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2, \
+    "dat/fundamental_test_py_str_to_cpp_string_multiple.dat" using 3:(rate_10_000_000_000($3) * 1e6) \
+        t sprintf("Guide: %.3f µs + 10 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2, \
+    "dat/fundamental_test_py_str_to_cpp_string_multiple.dat" using 3:(rate_100_000_000_000($3) * 1e6) \
+        t sprintf("Guide: %.3f µs + 100 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2
+
+# 16 bit only
+set title "Conversion of a Single 16 bit String Python to C++."
+
+set output "images/fundamental_py_to_cpp_string_16.png"   # choose the output device
+
+plot \
+    "dat/fundamental_test_py_str16_to_cpp_u16string_multiple.dat" \
+        using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
+        t "Python str 16 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2,\
+    "dat/fundamental_test_py_str16_to_cpp_u16string_multiple.dat" using 3:(1e6 * $7 * $4 / $9) \
+         t "Minimum Python str 16 bit -> C++" with lines linewidth 2, \
+    "dat/fundamental_test_py_str16_to_cpp_u16string_multiple.dat" using 3:(rate_1_000_000_000($3) * 1e6) \
+        t sprintf("Guide: %.3f µs + 1 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2, \
+    "dat/fundamental_test_py_str16_to_cpp_u16string_multiple.dat" using 3:(rate_10_000_000_000($3) * 1e6) \
+        t sprintf("Guide: %.3f µs + 10 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2, \
+    "dat/fundamental_test_py_str16_to_cpp_u16string_multiple.dat" using 3:(rate_100_000_000_000($3) * 1e6) \
+        t sprintf("Guide: %.3f µs + 100 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2
+
+# 32 bit only
+set title "Conversion of a Single 32 bit String Python to C++."
+
+set output "images/fundamental_py_to_cpp_string_32.png"   # choose the output device
+
+plot \
+    "dat/fundamental_test_py_str32_to_cpp_u32string_multiple.dat" \
+        using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
+        t "Python str 32 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2,\
+    "dat/fundamental_test_py_str32_to_cpp_u32string_multiple.dat" using 3:(1e6 * $7 * $4 / $9) \
+         t "Minimum Python str 32 bit -> C++" with lines linewidth 2, \
+    "dat/fundamental_test_py_str32_to_cpp_u32string_multiple.dat" using 3:(rate_1_000_000_000($3) * 1e6) \
+        t sprintf("Guide: %.3f µs + 1 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2, \
+    "dat/fundamental_test_py_str32_to_cpp_u32string_multiple.dat" using 3:(rate_10_000_000_000($3) * 1e6) \
+        t sprintf("Guide: %.3f µs + 10 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2, \
+    "dat/fundamental_test_py_str32_to_cpp_u32string_multiple.dat" using 3:(rate_100_000_000_000($3) * 1e6) \
         t sprintf("Guide: %.3f µs + 100 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2
 
 reset

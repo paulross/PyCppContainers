@@ -156,10 +156,35 @@ std::vector<size_t> TestResult::scaleValues() const {
 static const int TIME_PRECISION = 9;
 static const int TIME_WIDTH = 16;
 
+/**
+ * Note on The Output
+ * ---------------------
+ * Example output (with header and $ gnuplot guide).
+ *
+ * \code
+ * #HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+ * #  $1   $2      $3      $4              $5              $6              $7              $8        $9           $10 $11
+ * TEST:    0      99       4     2.500000000     1.118033989     1.000000000     4.000000000       400         160.0 test_internal_test_result_string
+ * \endcode
+ *
+ * In this case we have repeated the tests four times, each of these tests has a timed operation (the 'atomic' test)
+ * that is repeated 100 times for each individual execution time.
+ *
+ * The total time to run all of these tests is: Repeat * Mean in seconds, in this case 10.0 (s).
+ * The mean time for each atomic test is: Repeat * Mean / Count, in this case 10.0 / 400 = 0.025 (s)
+ * The minimum atomic time is: Repeat * Min.(s) / Count, in this case 4 * 1.0 / 400 = 0.010 (s)
+ * The maximum atomic time is: Repeat * Max.(s) / Count, in this case 4 * 4.0 / 400 = 0.040 (s)
+ * The standard deviation atomic time is: Repeat * Std.Dev.(s) / Count, in this case 4 * 1.11 / 400 = +/- 0.0111 (s)
+ *
+ * @param os The stream to write to.
+ * @param result The tests result.
+ * @return The stream for chaining.
+ */
 std::ostream &operator<<(std::ostream &os, const TestResult &result) {
     StreamFormatState stream_state(os); // Preserve state
+    std::string prefix = "";
     for (auto scale: result.scaleValues()) {
-        os << "TEST: ";
+        os << prefix << "TEST: ";
         os << std::setw(4) << result.failed(scale);
         // Scale of the test
         os << std::setw(8) << scale;
@@ -195,6 +220,7 @@ std::ostream &operator<<(std::ostream &os, const TestResult &result) {
             os << std::setw(14) << "N/A";
         }
         os << " " << result.name();
+        prefix = "\n";
     }
     return os;
 }

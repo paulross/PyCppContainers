@@ -9,12 +9,27 @@
 # -------------
 # HEAD: Fail   Scale  Repeat            Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
 # $1      $2      $3      $4                 $5              $6              $7              $8        $9           $10 $11
-TEST:    0         2    1000000   0.007344234     0.000049091     0.007326501     0.007543208        20        2723.2 test_py_str32_to_cpp_u32string_multiple_2[1000000]
-TEST:    0        16    1000000   0.077141528     0.006414912     0.071097542     0.095550751        20         259.3 test_py_str32_to_cpp_u32string_multiple_32[1000000]
-TEST:    0       128    1000000   0.144473686     0.012002486     0.127959959     0.168075458        20         138.4 test_py_str32_to_cpp_u32string_multiple_128[1000000]
-TEST:    0      1024    1000000   0.165254003     0.011043742     0.152708750     0.185491626        20         121.0 test_py_str32_to_cpp_u32string_multiple_1024[1000000]
-TEST:    0      8192    1000000   0.853880155     0.014881503     0.822144209     0.878523792        20          23.4 test_py_str32_to_cpp_u32string_multiple_8192[1000000]
-TEST:    0     65536    1000000  10.891868471     0.187687075    10.764805500    11.638142875        20           1.8 test_py_str32_to_cpp_u32string_multiple_65536[1000000]
+TEST:    0       1       5     0.000000808     0.000000033     0.000000774     0.000000863       500   618582209.6 test_py_str32_to_cpp_u32string_multiple_1[100]
+TEST:    0       2       5     0.000000639     0.000000012     0.000000628     0.000000657       500   782595085.3 test_py_str32_to_cpp_u32string_multiple_2[100]
+TEST:    0       4       5     0.000000633     0.000000005     0.000000626     0.000000639       500   789764650.1 test_py_str32_to_cpp_u32string_multiple_4[100]
+TEST:    0       8       5     0.000004990     0.000000036     0.000004946     0.000005053       500   100194377.1 test_py_str32_to_cpp_u32string_multiple_8[100]
+TEST:    0      16       5     0.000005042     0.000000035     0.000005005     0.000005107       500    99165030.4 test_py_str32_to_cpp_u32string_multiple_16[100]
+TEST:    0      32       5     0.000005216     0.000000019     0.000005195     0.000005248       500    95853382.7 test_py_str32_to_cpp_u32string_multiple_32[100]
+TEST:    0      64       5     0.000012312     0.000000203     0.000012149     0.000012696       500    40611116.1 test_py_str32_to_cpp_u32string_multiple_64[100]
+TEST:    0     128       5     0.000010726     0.000000071     0.000010678     0.000010867       500    46616134.8 test_py_str32_to_cpp_u32string_multiple_128[100]
+TEST:    0     256       5     0.000007149     0.000000228     0.000007030     0.000007606       500    69938873.4 test_py_str32_to_cpp_u32string_multiple_256[100]
+TEST:    0     512       5     0.000007680     0.000000075     0.000007614     0.000007820       500    65101623.6 test_py_str32_to_cpp_u32string_multiple_512[100]
+TEST:    0    1024       5     0.000011157     0.000000164     0.000011065     0.000011484       500    44815316.1 test_py_str32_to_cpp_u32string_multiple_1024[100]
+TEST:    0    2048       5     0.000016160     0.000000214     0.000016032     0.000016588       500    30941168.5 test_py_str32_to_cpp_u32string_multiple_2048[100]
+TEST:    0    4096       5     0.000040510     0.000015846     0.000030189     0.000071268       500    12342540.0 test_py_str32_to_cpp_u32string_multiple_4096[100]
+TEST:    0    8192       5     0.000128349     0.000010299     0.000121513     0.000148855       500     3895631.4 test_py_str32_to_cpp_u32string_multiple_8192[100]
+TEST:    0   16384       5     0.000190263     0.000002311     0.000187988     0.000194595       500     2627945.5 test_py_str32_to_cpp_u32string_multiple_16384[100]
+TEST:    0   32768       5     0.000337014     0.000004687     0.000332757     0.000344769       500     1483618.3 test_py_str32_to_cpp_u32string_multiple_32768[100]
+TEST:    0   65536       5     0.000785819     0.000004675     0.000782969     0.000795137       500      636278.8 test_py_str32_to_cpp_u32string_multiple_65536[100]
+TEST:    0  131072       5     0.001653614     0.000031896     0.001634857     0.001717245       500      302368.1 test_py_str32_to_cpp_u32string_multiple_131072[100]
+TEST:    0  262144       5     0.003235894     0.000026166     0.003204493     0.003271654       500      154516.8 test_py_str32_to_cpp_u32string_multiple_262144[100]
+TEST:    0  524288       5     0.006729959     0.000218650     0.006393188     0.006958693       500       74294.7 test_py_str32_to_cpp_u32string_multiple_524288[100]
+TEST:    0 1048576       5     0.022176331     0.001870492     0.020420838     0.024820524       500       22546.6 test_py_str32_to_cpp_u32string_multiple_1048576[100]
 #
 # NOTES:
 # - This is OK, it calls std::u32string ret((const char32_t *)PyUnicode_4BYTE_DATA(op), PyUnicode_GET_LENGTH(op));
