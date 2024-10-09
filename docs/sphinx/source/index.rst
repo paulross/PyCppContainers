@@ -17,8 +17,8 @@ Python/C++ Container's Documentation
    usage
    build_test
    cpp_api
-   user_defined_types
    design
+   user_defined_types
    performance
    todo
 

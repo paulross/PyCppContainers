@@ -84,7 +84,8 @@ This would be a total of 3102Mb which is, broadly speaking the maximum RSS that 
 Python List of floats
 ------------------------------------------------
 
-For comparison here is the time/memory plot of round-tripping a list of Python ``float`` as a C++ ``std::vector`` or ``std::list``:
+For comparison here is the time/memory plot of round-tripping a list of Python ``float`` as a C++ ``std::vector``
+or ``std::list``:
 
 .. image:: ../plots/images/pymemtrace_list_float.png
     :height: 400px

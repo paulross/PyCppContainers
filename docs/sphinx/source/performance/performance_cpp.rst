@@ -84,13 +84,13 @@ Copy those ``*.dat`` files into ``docs/sphinx/source/plots/dat`` then ``cd`` int
     See :ref:`PythonCppContainers.Performance.Round_trip` for the Python plots which can be built by gnuplot at the
     same time.
 
-Conversion of Fundamental Types
+Fundamental Types
 ------------------------------------
 
 These C++ functions test the cost of converting ints, floats and bytes objects between Python and C++.
 These test are executed if the macro ``TEST_PERFORMANCE_FUNDAMENTAL_TYPES`` is defined.
 
-TODO: Revise *.dat files from here.
+TODO: Revise \*.dat files from here.
 
 Numeric Types
 ^^^^^^^^^^^^^^^^^
@@ -427,8 +427,8 @@ Here is an example from this library using 16 bit unicode characters:
 The conversion time of 10 GB/s is about thrice the time for ``bytes`` to an from a ``std::vector<char>``.
 Presumably this is because of the complexities of the Unicode implementation.
 
-TODO: Revise *.plt files from here.
-TODO: Revise *.dat files from here.
+TODO: Revise \*.plt files from here.
+TODO: Revise \*.dat files from here.
 
 Python List to and from a C++ ``std::vector<T>``
 ----------------------------------------------------------
