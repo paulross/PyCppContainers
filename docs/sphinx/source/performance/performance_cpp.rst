@@ -221,6 +221,8 @@ The tests are in ``src/cpy/tests/test_performance.cpp``:
      - ``test_py_bytes_to_cpp_vector_char_multiple()``
      - ``py_bytes_to_cpp_vector_char()``.
 
+.. _PyCppContainers.Performance.Cpp.Fundamental.Strings:
+
 Strings
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -427,9 +429,6 @@ Here is an example from this library using 16 bit unicode characters:
 The conversion time of 10 GB/s is about thrice the time for ``bytes`` to an from a ``std::vector<char>``.
 Presumably this is because of the complexities of the Unicode implementation.
 
-TODO: Revise \*.plt files from here.
-TODO: Revise \*.dat files from here.
-
 Python List to and from a C++ ``std::vector<T>``
 ----------------------------------------------------------
 
@@ -470,9 +469,8 @@ Lists of ``bool``, ``int``, ``float`` and ``complex``
 
 The rate plot is shown above, it shows that:
 
-* ``int``, ``float`` and ``complex`` take 0.01 µs per object to convert.
-* ``bool`` objects take around 0.006 µs per object, roughly twice as fast.
-
+* ``int``, ``float`` and ``complex`` take 0.01 µs per object to convert from C++ to Python.
+* ``bool`` objects take around 0.007 µs per object.
 
 And the reverse converting a list of ``bool``, ``int``, ``float`` and ``complex`` from C++ to Python:
 
@@ -480,11 +478,8 @@ And the reverse converting a list of ``bool``, ``int``, ``float`` and ``complex`
     :height: 400px
     :align: center
 
-This is broadly symmetric with the Python to C++ performance except that ``bool`` values are twice as quick compared
-with Python to C++.
-
-
-TODO: WIP
+This is broadly symmetric with the Python to C++ performance except that ``bool`` values are twice as quick (typically
+0.003 µs per  object) compared with Python to C++.
 
 Lists of ``bytes``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -548,8 +543,8 @@ Object          ~Time per object (µs)   Rate Mb/s                   Notes
 =============== ======================= =========================== ===================
 str[2]          0.01                    200
 str[16]         0.01                    1600
-str[128]        0.07                    1,800
-str[1024]       0.1 to 0.6              1,600 to 10,000
+str[128]        0.08                    1,600
+str[1024]       0.1 to 0.8              1,300 to 10,000
 =============== ======================= =========================== ===================
 
 And C++ -> Python:
@@ -564,7 +559,7 @@ Object          ~Time per object (µs)   Rate Mb/s                   Notes
 str[2]          0.03                    70
 str[16]         0.03                    500
 str[128]        0.03 to 0.1             1,300 to 4,000
-str[1024]       0.15 to 0.6             1,700 to 6,800
+str[1024]       0.15 to 0.8             1,300 to 6,800
 =============== ======================= =========================== ===================
 
 Slightly slower than the twice the time for converting ``bytes`` especially for small strings
@@ -574,8 +569,6 @@ to a C++ ``std::vector<std::vector<char>>``
 Lists of ``str`` [16 bit]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TODO: test_list_like_u16string_to_py_list_multiple-std_list_std_u16string_2.dat
-3 types of string. 4 sizes. list/list and list/vector so 24
 
 ..
     cpp_py_list_str16_vector_u16string.plt
@@ -594,18 +587,39 @@ C++ to Python:
     :height: 400px
     :align: center
 
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+str[2]          0.03                    70
+str[16]         0.1                     160
+str[128]        0.9                     140
+str[1024]       7                       145
+=============== ======================= =========================== ===================
+
+This is about 100x slower than that for 8 bit strings which is aligned with the performance of
+:ref:`PyCppContainers.Performance.Cpp.Fundamental.Strings`.
+
 Python to C++:
 
 .. image:: ../plots/images/cpp_py_list_str16_vector_u16string_rate.png
     :height: 400px
     :align: center
 
+=============== ======================= =========================== ===================
+Object          ~Time per object (µs)   Rate Mb/s                   Notes
+=============== ======================= =========================== ===================
+str[2]          0.03                    70
+str[16]         0.1                     160
+str[128]        0.9                     140
+str[1024]       7                       145
+=============== ======================= =========================== ===================
+
+This is symmetric performance with the C++ to Python conversion code.
 
 Lists of ``str`` [32 bit]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TODO: test_py_list_str16_to_list_like_u32string_multiple-std_list_std_u32string_2.dat
-3 types of string. 4 sizes. list/list and list/vector so 24
+The performance is very close to that of 16 bit strings:
 
 ..
     cpp_py_list_str32_vector_u32string.plt
@@ -653,17 +667,16 @@ Here is the rate graph for converting a Python ``set`` to C++ ``std::unordered_s
     :height: 400px
     :align: center
 
-Here is the time per object compared with a list:
-
 =============== =================================== =================================== =========== ===================
 Object          set (µs)                            list (µs)                           Ratio       Notes
 =============== =================================== =================================== =========== ===================
-int             0.09                                0.01                                x9
-double          0.1                                 0.01                                x10
-complex         0.1                                 0.01                                x10
+int             0.03                                0.01                                3x
+double          0.05                                0.01                                5x
+complex         0.05                                0.01                                5x
 =============== =================================== =================================== =========== ===================
 
-The cost of insertion is O(N) for both list and set but due to the hashing heeded for the set it is about 10x slower.
+The cost of insertion is O(N) for both list and set but due to the hashing heeded for the set it is about 3x to 5x
+slower.
 
 And the reverse, converting a C++ ``std::unordered_set<T>`` to a Python ``set`` to for Python
 ``int``, ``float`` and ``complex`` objects:
@@ -678,11 +691,10 @@ Here is the time per object compared with a list:
 =============== =================================== =================================== =========== ===================
 Object          set (µs)                            list (µs)                           Ratio       Notes
 =============== =================================== =================================== =========== ===================
-int             0.02                                0.01                                x2
-double          0.025                               0.01                                x2.5
-complex         0.04                                0.01                                x4
+int             0.02                                0.01                                2x
+double          0.06                                0.01                                6x
+complex         0.04                                0.01                                4x
 =============== =================================== =================================== =========== ===================
-
 
 Set of ``bytes``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -696,8 +708,8 @@ Here is the rate graph for converting a Python ``set`` of ``bytes`` to C++ ``std
 =============== ======================= =========================== ===================
 Object          ~Time per object (µs)   Rate Mb/s                   Notes
 =============== ======================= =========================== ===================
-bytes[16]       0.4                     40
-bytes[128]      0.5                     250
+bytes[16]       0.2                     80
+bytes[128]      0.3                     400
 bytes[1024]     1.0                     1,000
 =============== ======================= =========================== ===================
 
@@ -706,9 +718,9 @@ Here is the time per object compared with a list:
 =============== =================================== =================================== =========== ===================
 Object          set (µs)                            list (µs)                           Ratio       Notes
 =============== =================================== =================================== =========== ===================
-bytes[16]       0.4                                 0.06                                x7
-bytes[128]      0.5                                 0.06                                x8
-bytes[1024]     1.0                                 0.15 to 0.4                         x2.5 to x7
+bytes[16]       0.2                                 0.06                                3x
+bytes[128]      0.3                                 0.06                                5x
+bytes[1024]     1.0                                 0.15 to 0.4                         x2.5 to 6x
 =============== =================================== =================================== =========== ===================
 
 And the reverse, converting a C++ ``std::unordered_set<std::vector<char>>`` to a Python ``set`` of ``bytes``:
@@ -723,7 +735,7 @@ Object          ~Time per object (µs)   Rate Mb/s                   Notes
 =============== ======================= =========================== ===================
 bytes[16]       0.05                    320
 bytes[128]      0.1                     1,280
-bytes[1024]     0.6                     1,600
+bytes[1024]     0.8                     1,300
 =============== ======================= =========================== ===================
 
 Here is the time per object compared with a list:
@@ -731,11 +743,12 @@ Here is the time per object compared with a list:
 =============== =================================== =================================== =========== ===================
 Object          set (µs)                            list (µs)                           Ratio       Notes
 =============== =================================== =================================== =========== ===================
-bytes[16]       0.05                                0.015 to 0.04                       x3 to x1.25
-bytes[128]      0.1                                 0.02 to 0.09                        x1 to x5
-bytes[1024]     0.6                                 0.1 to 0.6                          x1 to x6
+bytes[16]       0.05                                0.015 to 0.04                       1x to 3x
+bytes[128]      0.1                                 0.02 to 0.09                        1x to 5x
+bytes[1024]     0.8                                 0.1 to 0.6                          1.25x to x8
 =============== =================================== =================================== =========== ===================
 
+TODO: WIP
 
 Set of ``str`` (8 bit)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
