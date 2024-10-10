@@ -161,18 +161,18 @@ As a basic, from your virtual environment:
 .. code-block:: shell
 
     $ pytest tests/
-    ================================== test session starts ===================================
+    ================================ test session starts ==============================
     platform darwin -- Python 3.12.1, pytest-8.3.3, pluggy-1.5.0
     rootdir: PyCppContainers, configfile: pytest.ini
     collected 128 items
 
-    tests/unit/test_cPyCppContainers.py ......x....................................... [ 35%]
-    ...........................                                                        [ 57%]
-    tests/unit/test_cUserDefined.py .........                                          [ 64%]
-    tests/unit/test_perf_cPyCppContainers.py sssssssssssssssssssssssssssssssssss       [ 91%]
-    tests/unit/test_with_pymemtrace.py sssssssssss                                     [100%]
+    tests/unit/test_cPyCppContainers.py ......x................................. [ 35%]
+    .................................                                            [ 57%]
+    tests/unit/test_cUserDefined.py .........                                    [ 64%]
+    tests/unit/test_perf_cPyCppContainers.py sssssssssssssssssssssssssssssssssss [ 91%]
+    tests/unit/test_with_pymemtrace.py sssssssssss                               [100%]
 
-    ======================= 81 passed, 46 skipped, 1 xfailed in 2.74s ========================
+    ====================== 81 passed, 46 skipped, 1 xfailed in 2.74s ==================
 
 By default this only does the functional tests and skips the others such as performance and memory tests.
 To run these tests you need to add the arguments ``--runslow`` and ``-pymemtrace`` respectively, see below.
@@ -192,18 +192,19 @@ Example:
 
 
     $ time pytest tests --runslow
-    =============================================== test session starts ================================================
+    ============================ test session starts ==================================
     platform darwin -- Python 3.12.1, pytest-8.3.3, pluggy-1.5.0
     rootdir: PythonCppHomogeneousContainers
     configfile: pytest.ini
     collected 128 items
 
-    tests/unit/test_cPyCppContainers.py ......x.................................................................. [ 57%]
-    tests/unit/test_cUserDefined.py .........                                                                     [ 64%]
-    tests/unit/test_perf_cPyCppContainers.py ...................................                                  [ 91%]
-    tests/unit/test_with_pymemtrace.py sssssssssss                                                                [100%]
+    tests/unit/test_cPyCppContainers.py ......x................................. [ 35%]
+    .................................                                            [ 57%]
+    tests/unit/test_cUserDefined.py .........                                    [ 64%]
+    tests/unit/test_perf_cPyCppContainers.py ................................... [ 91%]
+    tests/unit/test_with_pymemtrace.py sssssssssss                               [100%]
 
-    ======================= 116 passed, 11 skipped, 1 xfailed in 1595.44s (0:26:35) ====================================
+    =========== 116 passed, 11 skipped, 1 xfailed in 1595.44s (0:26:35) ===============
     pytest tests --runslow  1122.24s user 376.19s system 93% cpu 26:35.99 total
 
 
@@ -215,18 +216,19 @@ To include all the memory tests, this takes about 20 minutes:
 .. code-block:: shell
 
     $ time pytest tests --pymemtrace
-    ================================================ test session starts ===============================================
+    ============================ test session starts ==================================
     platform darwin -- Python 3.12.1, pytest-8.3.3, pluggy-1.5.0
     rootdir: PythonCppHomogeneousContainers
     configfile: pytest.ini
     collected 128 items
 
-    tests/unit/test_cPyCppContainers.py ......x.................................................................. [ 57%]
-    tests/unit/test_cUserDefined.py .........                                                                     [ 64%]
-    tests/unit/test_perf_cPyCppContainers.py sssssssssssssssssssssssssssssssssss                                  [ 91%]
-    tests/unit/test_with_pymemtrace.py ...........                                                                [100%]
+    tests/unit/test_cPyCppContainers.py ......x................................. [ 35%]
+    .................................                                            [ 57%]
+    tests/unit/test_cUserDefined.py .........                                    [ 64%]
+    tests/unit/test_perf_cPyCppContainers.py sssssssssssssssssssssssssssssssssss [ 91%]
+    tests/unit/test_with_pymemtrace.py ...........                               [100%]
 
-    ======================== 92 passed, 35 skipped, 1 xfailed in 1237.96s (0:20:37) ====================================
+    ============= 92 passed, 35 skipped, 1 xfailed in 1237.96s (0:20:37) ==============
     Opening log file 20241010_102101_11927.log
     Opening log file 20241010_102106_11927.log
     Opening log file 20241010_102115_11927.log
@@ -239,6 +241,8 @@ To include all the memory tests, this takes about 20 minutes:
     Opening log file 20241010_104003_11927.log
     Opening log file 20241010_104051_11927.log
     pytest tests --pymemtrace  982.16s user 248.42s system 99% cpu 20:38.30 total
+
+Running with both ``--runslow`` and ``--pymentrace`` takes about an hour.
 
 =========================================
 Building the Documentation
@@ -254,29 +258,31 @@ Recreating Plot Data
 --------------------------------
 
 If required the performance data can recreated.
-Firstly the C++ performance, from the project root:
+Firstly the C++ performance, from the project directory:
 
 .. code-block:: shell
 
     $ # Pipe the results of the C++ tests to a specific file.
     $ cmake-build-release/PyCppContainers > perf_notes/cpp_test_results.txt
     $ cd perf_notes
-    $ # Run this script that will take the C++ output and split it into .dat files in perf_notes/dat.
+    $ # Run this script that will take the C++ output and split it into .dat files
+    $ # in perf_notes/dat.
     $ python write_dat_files_for_cpp_test_results.py
 
-Now for the Python tests, from the project root:
+Now for the Python tests, from the project directory, this takes about an hour:
 
 .. code-block:: shell
 
     $ # Pipe the results of the Python tests to a specific file.
     $ pytest tests --runslow --pymemtrace -vs > perf_notes/python_test_results.txt
     $ cd perf_notes
-    $ # Run this script that will take the Python output and split it into .dat files in perf_notes/dat.
+    $ # Run this script that will take the Python output and split it into .dat files
+    $ # in perf_notes/dat.
     $ python write_dat_files_for_python_test_results.py
 
 .. code-block:: shell
 
-    $ # Copy the .dat files to the documentation ready for gnuplot, from project root.
+    $ # Copy the .dat files to the documentation ready for gnuplot, from project directory.
     $ cp perf_notes/dat/*.dat docs/sphinx/source/plots/dat
 
 .. note:: Memory plots

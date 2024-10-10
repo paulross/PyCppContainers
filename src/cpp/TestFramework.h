@@ -102,7 +102,7 @@ private:
  }
  * \endcode
  *
- * Note on \c gnuplot
+ * Note on gnuplot
  * ---------------------
  *
  * See also: <tt>std::ostream &operator<<(std::ostream &os, const TestResult &result)</tt>
@@ -125,46 +125,64 @@ private:
  * TEST:    0      99       4     2.500000000     1.118033989     1.000000000     4.000000000       400         160.0 test_internal_test_result_string
  * \endcode
  *
- * The total time to run all of these tests is: ($5 * $4), in this case 10.0 (s).
- * The mean time for each atomic test is: ($5 * $4 / $9), in this case 10.0 / 400 = 0.025 (s)
- * The standard deviation atomic time is: ($6 / ($9 / $4)) or ($6 * $4 / $9), in this case 4 * 1.11 / 400 = +/- 0.0111 (s)
- * The minimum atomic time is: ($7 / ($9 / $4)) or ($7 * $4 / $9), in this case 4 * 1.0 / 400 = 0.010 (s)
- * The maximum atomic time is: ($8 / ($9 / $4)) or ($8 * $4 / $9), in this case 4 * 4.0 / 400 = 0.040 (s)
+ * So:
+ *
+ *  - The total time to run all of these tests is: <tt>($5 * $4)</tt>, in this case 10.0 (s).
+ *  - The mean time for each atomic test is: <tt>($5 * $4 / $9)</tt>, in this case 10.0 / 400 = 0.025 (s)
+ *  - The standard deviation atomic time is: <tt>($6 / ($9 / $4))</tt> or <tt>($6 * $4 / $9)</tt>, in this case 4 * 1.11 / 400 = +/- 0.0111 (s)
+ *  - The minimum atomic time is: <tt>($7 / ($9 / $4))</tt> or <tt>($7 * $4 / $9)</tt>, in this case 4 * 1.0 / 400 = 0.010 (s)
+ *  - The maximum atomic time is: <tt>($8 / ($9 / $4))</tt> or <tt>($8 * $4 / $9)</tt>, in this case 4 * 4.0 / 400 = 0.040 (s)
+ *
+ * Candlestick plots, from gnuplot: "Both require five columns of data: the x value, followed (in order) by
+ * the opening, low, high, and closing prices."
  *
  * So a suitable gnuplot statement for a candle stick plot with time in µs is:
  *
- * From gnuplot: "Both require five columns of data: the x value, followed (in order) by
- * the opening, low, high, and closing prices.
- *
- * In our case the:
+ * \code
  * opening  : Mean - Std.Dev    (($5 - $6) * $4 / $9)
  * low      : Min               ($7 * $4 / $9)
  * high     : Max               ($8 * $4 / $9)
  * closing  : Mean + Std.Dev    (($5 + $6) * $4 / $9)
+ * \endcode
+ *
+ * And for a suitable gnuplot statement for a candle stick plot with rate in µs / object is:
+ *
+ * \code
+ * opening  : Mean - Std.Dev    (($5 - $6) * $4 / ($9 * $3))
+ * low      : Min               ($7 * $4 / ($9 * $3))
+ * high     : Max               ($8 * $4 / ($9 * $3))
+ * closing  : Mean + Std.Dev    (($5 + $6) * $4 / ($9 * $3))
+ * \endcode
  *
  * So for a time plot:
  *
+ * \code
  * plot "dat/test_cpp_vector_char_to_py_bytes.dat" \
  *      using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
  *      t "Python str 8 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2,\
  *      "dat/test_cpp_vector_char_to_py_bytes.dat" using 3:(1e6 * $7 * $4 / $9) \
  *       t "Minimum Python str 8 bit -> C++" with lines linewidth 2, \
+ * \endcode
  *
  * And for a rate plot:
  *
+ * \code
  * plot "dat/test_cpp_vector_char_to_py_bytes.dat" \
  *      using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
  *      t "Python str 8 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2,\
  *      "dat/test_cpp_vector_char_to_py_bytes.dat" using 3:(1e6 * $7 * $4 / ($9 * $3)) \
  *       t "Minimum Python str 8 bit -> C++" with lines linewidth 2, \
+ * \endcode
  *
  * NOTE: Time plot was, in error:
  *
+ * \code
  * plot "dat/test_cpp_vector_char_to_py_bytes.dat" \
  *      using 3:(1e6 * ($5 - $6) / $4):(1e6 * $7 / $4):(1e6 * $8 / $4):(1e6 * ($5 + $6) / $4) \
  *      t "Python str 8 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2,\
  *      "dat/test_cpp_vector_char_to_py_bytes.dat" using 3:($7 * 1e6 / $4) \
  *       t "Minimum Python str 8 bit -> C++" with lines linewidth 2, \
+ * \endcode
  *
  * Note on Using the Rate Column
  * -------------------------------
