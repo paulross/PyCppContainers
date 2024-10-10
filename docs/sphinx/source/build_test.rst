@@ -180,7 +180,7 @@ To run these tests you need to add the arguments ``--runslow`` and ``-pymemtrace
 Testing Performance
 --------------------------------
 
-To include all the performance tests:
+To include all the performance tests, this takes about 25 minutes:
 
 .. code-block:: shell
 
@@ -210,7 +210,7 @@ Example:
 Testing Memory Usage
 --------------------------------
 
-To include all the memory tests:
+To include all the memory tests, this takes about 20 minutes:
 
 .. code-block:: shell
 
@@ -226,9 +226,19 @@ To include all the memory tests:
     tests/unit/test_perf_cPyCppContainers.py sssssssssssssssssssssssssssssssssss                                  [ 91%]
     tests/unit/test_with_pymemtrace.py ...........                                                                [100%]
 
-    ======================= 116 passed, 11 skipped, 1 xfailed in 1595.44s (0:26:35) ====================================
-    pytest tests --pymemtrace  1122.24s user 376.19s system 93% cpu 26:35.99 total
-
+    ======================== 92 passed, 35 skipped, 1 xfailed in 1237.96s (0:20:37) ====================================
+    Opening log file 20241010_102101_11927.log
+    Opening log file 20241010_102106_11927.log
+    Opening log file 20241010_102115_11927.log
+    Opening log file 20241010_102136_11927.log
+    Opening log file 20241010_102202_11927.log
+    Opening log file 20241010_102214_11927.log
+    Opening log file 20241010_103049_11927.log
+    Opening log file 20241010_103453_11927.log
+    Opening log file 20241010_103925_11927.log
+    Opening log file 20241010_104003_11927.log
+    Opening log file 20241010_104051_11927.log
+    pytest tests --pymemtrace  982.16s user 248.42s system 99% cpu 20:38.30 total
 
 =========================================
 Building the Documentation
