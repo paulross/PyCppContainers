@@ -2281,10 +2281,10 @@ int test_perf_py_dict_to_cpp_std_map_string_multiple(TestResultS &test_results, 
 #define TEST_PERFORMANCE_OBJECT_STRING_32
 
 // Control container testing
-//#define TEST_PERFORMANCE_TUPLES
-//#define TEST_PERFORMANCE_LISTS
-//#define TEST_PERFORMANCE_SETS
-//#define TEST_PERFORMANCE_DICTS
+#define TEST_PERFORMANCE_TUPLES
+#define TEST_PERFORMANCE_LISTS
+#define TEST_PERFORMANCE_SETS
+#define TEST_PERFORMANCE_DICTS
 
 
 void test_performance_all(TestResultS &test_results) {
