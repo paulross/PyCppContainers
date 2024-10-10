@@ -1,3 +1,6 @@
+"""
+See: https://docs.pytest.org/en/7.1.x/example/simple.html#control-skipping-of-tests-according-to-command-line-option
+"""
 import pytest
 
 
@@ -18,15 +21,17 @@ def pytest_configure(config):
 def pytest_collection_modifyitems(config, items):
     if config.getoption("--runslow"):
         # --runslow given in cli: do not skip slow tests
-        return
+        pass
+    else:
+        skip_slow = pytest.mark.skip(reason="need --runslow option to run")
+        for item in items:
+            if "slow" in item.keywords:
+                item.add_marker(skip_slow)
     if config.getoption("--pymemtrace"):
         # --pymemtrace given in cli: do not skip pymemtrace tests
-        return
-    skip_slow = pytest.mark.skip(reason="need --runslow option to run")
-    for item in items:
-        if "slow" in item.keywords:
-            item.add_marker(skip_slow)
-    skip_pymemtrace = pytest.mark.skip(reason="need --pymemtrace option to run")
-    for item in items:
-        if "pymemtrace" in item.keywords:
-            item.add_marker(skip_pymemtrace)
+        pass
+    else:
+        skip_pymemtrace = pytest.mark.skip(reason="need --pymemtrace option to run")
+        for item in items:
+            if "pymemtrace" in item.keywords:
+                item.add_marker(skip_pymemtrace)
