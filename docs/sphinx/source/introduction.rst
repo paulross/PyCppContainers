@@ -86,8 +86,7 @@ And an alternative example is where data is being created from a Python applicat
                         .                               .           |
                         .                               .    Process C++ data
 
-So how do you convert data from Python to C++ *in general*?
-Here is an example of how to do this, but it is problematical.
+Here is an example of how to do this, but it is problematic when converting data from Python to C++ *in general*.
 
 .. raw:: latex
 
@@ -155,11 +154,13 @@ This is tedious and error prone.
 Why This Project
 =========================
 
-This project makes extensive use of C++ templates, partial template specialisation and code generation to dramatically
+This project simplifies the problem of converting data from Python to C++ and vice versa *in general*.
+
+The project makes extensive use of C++ templates, partial template specialisation and code generation to dramatically
 reduce the amount of hand maintained code.
 It also converts many runtime errors to compile time errors.
-There are just six handwritten functions support 352 resulting functions to support two way conversion of this set of
-types and containers:
+There are just six handwritten functions that support 352 resulting functions to support two way conversion of this
+set of types and containers:
 
 .. list-table:: **Supported Object types.**
    :widths: 15 10 40
@@ -232,7 +233,7 @@ Python to C++
 
 Using the library is as simple as this, from Python to C++:
 
-General Case
+C++ Code
 ^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
@@ -254,6 +255,8 @@ General Case
     // converted to C++ doubles.
     int err = Python_Cpp_Containers::py_list_to_cpp_std_list_like(op, cpp_vector);
     // Handle error checking...
+
+TODO: This is messed up.
 
 Example
 ^^^^^^^^^^^^^^^
