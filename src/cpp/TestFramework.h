@@ -142,13 +142,23 @@ private:
  * high     : Max               ($8 * $4 / $9)
  * closing  : Mean + Std.Dev    (($5 + $6) * $4 / $9)
  *
+ * So for a time plot:
+ *
  * plot "dat/test_cpp_vector_char_to_py_bytes.dat" \
  *      using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
  *      t "Python str 8 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2,\
  *      "dat/test_cpp_vector_char_to_py_bytes.dat" using 3:(1e6 * $7 * $4 / $9) \
  *       t "Minimum Python str 8 bit -> C++" with lines linewidth 2, \
  *
- * NOTE: Was, in error:
+ * And for a rate plot:
+ *
+ * plot "dat/test_cpp_vector_char_to_py_bytes.dat" \
+ *      using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
+ *      t "Python str 8 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2,\
+ *      "dat/test_cpp_vector_char_to_py_bytes.dat" using 3:(1e6 * $7 * $4 / ($9 * $3)) \
+ *       t "Minimum Python str 8 bit -> C++" with lines linewidth 2, \
+ *
+ * NOTE: Time plot was, in error:
  *
  * plot "dat/test_cpp_vector_char_to_py_bytes.dat" \
  *      using 3:(1e6 * ($5 - $6) / $4):(1e6 * $7 / $4):(1e6 * $8 / $4):(1e6 * ($5 + $6) / $4) \
