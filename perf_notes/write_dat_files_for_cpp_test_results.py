@@ -2,13 +2,24 @@
 This is a fairly crude way of parsing the output of the C++ performance code into different .dat files that
 gnuplot can use.
 
+This works on the output of:
+
+.. code-block:: shell
+
+    $ time cmake-build-release/PyCppContainers
+
 Example:
-    HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
-TEST:    0       1       5     0.000001235     0.000002290     0.000000065     0.000005814         5     4048910.8 test_vector_to_py_list_multiple<bool>[1]
-TEST:    0    1024       5     0.000015565     0.000000977     0.000015067     0.000017520         5      321231.5 test_vector_string_to_py_list_multiple<std::string[8]>():[1024]
+
+.. code-block:: text
+
+        HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
+    TEST:    0       1       5     0.000001235     0.000002290     0.000000065     0.000005814         5     4048910.8 test_vector_to_py_list_multiple<bool>[1]
+    TEST:    0    1024       5     0.000015565     0.000000977     0.000015067     0.000017520         5      321231.5 test_vector_string_to_py_list_multiple<std::string[8]>():[1024]
 
 It is fairly fragile as things like 'test_cpp_std_unordered_map_to_py_dict_multiple<double, double>[1]' will match
 wrongly as it uses split().
+
+It writes the .dat files to dat/.
 """
 import os.path
 import re
