@@ -25,6 +25,30 @@ Building and Testing C++ Code
 ================================
 
 --------------------------------
+Code Generation
+--------------------------------
+
+If necessary run the code generator:
+
+.. code-block:: shell
+
+    cd src/py
+    python3 code_gen.py
+
+Which should give you something like:
+
+.. code-block:: shell
+
+    Version: 0.4.0
+    Target directory "src/cpy"
+    Writing declarations to "src/cpy/auto_py_convert_internal.h"
+    Wrote 4125 lines of code with 356 declarations.
+    Writing definitions to  "src/cpy/auto_py_convert_internal.cpp"
+    Wrote 3971 lines of code with 352 definitions.
+
+    Process finished with exit code 0
+
+--------------------------------
 Building C++ Code
 --------------------------------
 
@@ -118,6 +142,8 @@ To build all the Python code create a virtual environment then:
 
     $ pip install -r requirements-dev.txt
     $ python setup.py develop
+
+This takes a minute or so.
 
 --------------------------------
 Testing Python Code
