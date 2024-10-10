@@ -1,9 +1,9 @@
 .. moduleauthor:: Paul Ross <apaulross@gmail.com>
 .. sectionauthor:: Paul Ross <apaulross@gmail.com>
 
-.. PythonCppContainers Design
+.. PyCppContainers Design
 
-.. _PythonCppContainers.Design:
+.. _PyCppContainers.Design:
 
 Design
 ==================

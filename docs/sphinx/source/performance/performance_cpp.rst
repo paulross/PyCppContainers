@@ -3,7 +3,7 @@
 
 .. C++ performance
 
-.. _PythonCppContainers.Performance.Cpp:
+.. _PyCppContainers.Performance.Cpp:
 
 C++ Performance Tests
 ==============================
@@ -81,7 +81,7 @@ Copy those ``*.dat`` files into ``docs/sphinx/source/plots/dat`` then ``cd`` int
 
 .. note::
 
-    See :ref:`PythonCppContainers.Performance.Round_trip` for the Python plots which can be built by gnuplot at the
+    See :ref:`PyCppContainers.Performance.Round_trip` for the Python plots which can be built by gnuplot at the
     same time.
 
 Fundamental Types

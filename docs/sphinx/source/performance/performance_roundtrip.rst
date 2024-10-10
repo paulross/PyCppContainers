@@ -3,7 +3,7 @@
 
 .. Python to C++ to Python Round trip performance
 
-.. _PythonCppContainers.Performance.Round_trip:
+.. _PyCppContainers.Performance.Round_trip:
 
 Round-trip Python to C++ and back to Python
 =================================================

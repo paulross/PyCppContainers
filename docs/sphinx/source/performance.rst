@@ -1,9 +1,9 @@
 .. moduleauthor:: Paul Ross <apaulross@gmail.com>
 .. sectionauthor:: Paul Ross <apaulross@gmail.com>
 
-.. PythonCppContainers Performance
+.. PyCppContainers Performance
 
-.. _PythonCppContainers.Performance:
+.. _PyCppContainers.Performance:
 
 ===================
 Performance

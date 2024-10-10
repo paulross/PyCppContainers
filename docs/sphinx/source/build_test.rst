@@ -7,7 +7,7 @@
     contain the root `toctree` directive.
 
 
-.. _PythonCppContainers_BuildTest:
+.. _PyCppContainers_BuildTest:
 
 ***************************************
 Building and Testing
@@ -190,31 +190,22 @@ Example:
 
 .. code-block:: shell
 
+
     $ time pytest tests --runslow
-    ============================================ test session starts ============================================
-    platform darwin -- Python 3.11.6, pytest-8.3.3, pluggy-1.5.0
-    rootdir: /Users/paulross/CLionProjects/PythonCppHomogeneousContainers
+    =============================================== test session starts ================================================
+    platform darwin -- Python 3.12.1, pytest-8.3.3, pluggy-1.5.0
+    rootdir: PythonCppHomogeneousContainers
     configfile: pytest.ini
     collected 128 items
 
-    tests/unit/test_cPyCppContainers.py ......x..................................................................                                                                                                                                                                    [ 57%]
-    tests/unit/test_cUserDefined.py .........                                                                                                                                                                                                                                        [ 64%]
-    tests/unit/test_perf_cPyCppContainers.py .........................
-    ..........                                                                                                                                                                                                     [ 91%]
-    tests/unit/test_with_pymemtrace.py ...........                                                                                                                                                                                                                                   [100%]
+    tests/unit/test_cPyCppContainers.py ......x.................................................................. [ 57%]
+    tests/unit/test_cUserDefined.py .........                                                                     [ 64%]
+    tests/unit/test_perf_cPyCppContainers.py ...................................                                  [ 91%]
+    tests/unit/test_with_pymemtrace.py sssssssssss                                                                [100%]
 
-    ================================ 127 passed, 1 xfailed in 3395.04s (0:56:35) ================================
-    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_152728_23142.log
-    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_152739_23142.log
-    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_152756_23142.log
-    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_152818_23142.log
-    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_152846_23142.log
-    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_152908_23142.log
-    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_153912_23142.log
-    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_154444_23142.log
-    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_155042_23142.log
-    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_155134_23142.log
-    Opening log file /Users/paulross/CLionProjects/PythonCppHomogeneousContainers/20241004_155239_23142.log
+    ======================= 116 passed, 11 skipped, 1 xfailed in 1595.44s (0:26:35) ====================================
+    pytest tests --runslow  1122.24s user 376.19s system 93% cpu 26:35.99 total
+
 
 Testing Memory Usage
 --------------------------------
@@ -223,16 +214,67 @@ To include all the memory tests:
 
 .. code-block:: shell
 
-    $ pytest tests/ --pymemtrace
+    $ time pytest tests --pymemtrace
+    ================================================ test session starts ===============================================
+    platform darwin -- Python 3.12.1, pytest-8.3.3, pluggy-1.5.0
+    rootdir: PythonCppHomogeneousContainers
+    configfile: pytest.ini
+    collected 128 items
+
+    tests/unit/test_cPyCppContainers.py ......x.................................................................. [ 57%]
+    tests/unit/test_cUserDefined.py .........                                                                     [ 64%]
+    tests/unit/test_perf_cPyCppContainers.py sssssssssssssssssssssssssssssssssss                                  [ 91%]
+    tests/unit/test_with_pymemtrace.py ...........                                                                [100%]
+
+    ======================= 116 passed, 11 skipped, 1 xfailed in 1595.44s (0:26:35) ====================================
+    pytest tests --pymemtrace  1122.24s user 376.19s system 93% cpu 26:35.99 total
+
 
 =========================================
 Building the Documentation
 =========================================
 
-This describes how create the documentation with ``Sphinx`` or ``doxygen``.
+This describes how create the documentation with ``gnuplot``, ``Sphinx`` or ``doxygen``.
 
 --------------------------------
 ``gnuplot`` Plots
+--------------------------------
+
+Recreating Plot Data
+--------------------------------
+
+If required the performance data can recreated.
+Firstly the C++ performance, from the project root:
+
+.. code-block:: shell
+
+    $ # Pipe the results of the C++ tests to a specific file.
+    $ cmake-build-release/PyCppContainers > perf_notes/cpp_test_results.txt
+    $ cd perf_notes
+    $ # Run this script that will take the C++ output and split it into .dat files in perf_notes/dat.
+    $ python write_dat_files_for_cpp_test_results.py
+
+Now for the Python tests, from the project root:
+
+.. code-block:: shell
+
+    $ # Pipe the results of the Python tests to a specific file.
+    $ pytest tests --runslow --pymemtrace -vs > perf_notes/python_test_results.txt
+    $ cd perf_notes
+    $ # Run this script that will take the Python output and split it into .dat files in perf_notes/dat.
+    $ python write_dat_files_for_python_test_results.py
+
+.. code-block:: shell
+
+    $ # Copy the .dat files to the documentation ready for gnuplot, from project root.
+    $ cp perf_notes/dat/*.dat docs/sphinx/source/plots/dat
+
+.. note:: Memory plots
+
+    The .dat files for memory plots are not (yet) automated and have to be done by hand by copying the ``pymemtrace``
+    log files.
+
+Recreating Plot Images
 --------------------------------
 
 To recreate the ``gnuplot`` plot images that are used by the documentation from the project directory:
@@ -253,9 +295,9 @@ To build the HTML and PDF documentation from the project directory:
     $ cd docs/sphinx
     $ make clean
     $ make html latexpdf
-    $ cp build/latex/PythonCppContainers.pdf ..
+    $ cp build/latex/PyCppContainers.pdf ..
     $ open build/html/index.html
-    $ open ../PythonCppContainers.pdf
+    $ open ../PyCppContainers.pdf
 
 --------------------------------
 Doxygen
@@ -266,7 +308,7 @@ To build the HTML Doxygen documentation from the project directory:
 .. code-block:: shell
 
     $ cd docs
-    $ doxygen PythonCppContainers.dox
+    $ doxygen PyCppContainers.dox
     $ open doxygen/html/index.html
 
 The Doxygen PDF:
@@ -275,7 +317,7 @@ The Doxygen PDF:
 
     $ cd docs/doxygen/latex
     $ make pdf
-    $ cp refman.pdf ../../PythonCppContainers_Doxygen.pdf
+    $ cp refman.pdf ../../PyCppContainers_Doxygen.pdf
 
 =================================================================
 Building and Testing Everything for Multiple Python Versions
@@ -286,7 +328,7 @@ The script ``build_all.sh`` will execute:
 - C++ clean and build debug and release versions.
 - Run C++ debug build and the associated tests (this omits C++ performance tests).
 - Run C++ release build and the all the tests including C++ performance tests.
-- For each Python version (currently 3.8, 3.9, 3.10, 3.11, 3.12, 3.13) it:
+- For each Python version ( currently 3.8, 3.9, 3.10, 3.11, 3.12, 3.13 ) it:
     - Creates a new virtual environment.
     - Runs ``pip install -r requirements-dev.txt``.
     - Runs ``python setup.py develop``.

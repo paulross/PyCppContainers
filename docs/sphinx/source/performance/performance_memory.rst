@@ -3,7 +3,7 @@
 
 .. Memory usage
 
-.. _PythonCppContainers.Performance.Memory:
+.. _PyCppContainers.Performance.Memory:
 
 Memory Use
 =====================
