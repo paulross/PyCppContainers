@@ -64,6 +64,16 @@ Then the extension has the following instantiations for ``bool``, ``int``, ``flo
         return new_list<std::string>(arg);
     }
 
+    static PyObject *
+    new_list_str16(PyObject *Py_UNUSED(module), PyObject *arg) {
+        return new_list<std::u16string>(arg);
+    }
+
+    static PyObject *
+    new_list_str32(PyObject *Py_UNUSED(module), PyObject *arg) {
+        return new_list<std::u32string>(arg);
+    }
+
 Similar code exists for Python sets and dicts of specific types.
 Since the tuple conversion C++ code is essentially identical to the list conversion code no performance tests are done on tuples.
 It might be that the Python C API for tuples is significantly different than for list but this is considered unlikely.

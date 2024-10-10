@@ -10,13 +10,13 @@ def test_version():
 @pytest.mark.parametrize(
     'given',
     (
-        'abc',
-        # Examples from http://www.i18nguy.com/unicode-example.html
-        # 'Михаил Горбачёв',  # Mikhail Gorbachev
-        'François Truffaut',
-        'Mika Häkkinen',
-        'Céline Dion',
-        'Johann Strauß',
+            'abc',
+            # Examples from http://www.i18nguy.com/unicode-example.html
+            # 'Михаил Горбачёв',  # Mikhail Gorbachev
+            'François Truffaut',
+            'Mika Häkkinen',
+            'Céline Dion',
+            'Johann Strauß',
     ),
 )
 def test_new_str(given):
@@ -24,16 +24,69 @@ def test_new_str(given):
     assert result == given
 
 
-@pytest.mark.xfail
+@pytest.mark.parametrize(
+    'given, error',
+    (
+            (
+                    'Михаил Горбачёв',  # Mikhail Gorbachev
+                    'new_str() argument is not a 8 bit unicode string but type str',
+            ),
+    ),
+)
+def test_new_str_fail(given, error):
+    with pytest.raises(ValueError) as err:
+        cPyCppContainers.new_str(given)
+    assert err.value.args[0] == error
+
+
 @pytest.mark.parametrize(
     'given',
     (
-        'Михаил Горбачёв',  # Mikhail Gorbachev
+            # The euro symbol as 16 bit unicode
+            '\u8000',
     ),
 )
-def test_new_str_fail(given):
-    result = cPyCppContainers.new_str(given)
+def test_new_str16(given):
+    result = cPyCppContainers.new_str16(given)
     assert result == given
+
+
+@pytest.mark.parametrize(
+    'given, error',
+    (
+            ('abc', 'new_str16() argument is not a 16 bit unicode string but type str',),
+            ('\U00018000', 'new_str16() argument is not a 16 bit unicode string but type str',),
+    ),
+)
+def test_new_str16_fail(given, error):
+    with pytest.raises(ValueError) as err:
+        cPyCppContainers.new_str16(given)
+    assert err.value.args[0] == error
+
+
+@pytest.mark.parametrize(
+    'given',
+    (
+            # The euro symbol as 32 bit unicode
+            '\U00018000',
+    ),
+)
+def test_new_str32(given):
+    result = cPyCppContainers.new_str32(given)
+    assert result == given
+
+
+@pytest.mark.parametrize(
+    'given, error',
+    (
+            ('abc', 'new_str32() argument is not a 32 bit unicode string but type str',),
+            ('\u8000', 'new_str32() argument is not a 32 bit unicode string but type str',),
+    ),
+)
+def test_new_str32_fail(given, error):
+    with pytest.raises(ValueError) as err:
+        cPyCppContainers.new_str32(given)
+    assert err.value.args[0] == error
 
 
 @pytest.mark.parametrize(
@@ -482,8 +535,8 @@ def test_new_dict_from_std_unordered_map_float_float_raises(given, expected):
     with pytest.raises(ValueError) as err:
         cPyCppContainers.new_dict_from_std_unordered_map_float_float(given)
     assert err.value.args[0] == expected
-    
-    
+
+
 @pytest.mark.parametrize(
     'given',
     (

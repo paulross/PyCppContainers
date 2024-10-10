@@ -104,7 +104,79 @@ BYTES_LISTS = {
     k: get_random_bytes(LIST_OF_BYTE_VALUES, max(SIZE_DOUBLING)) for k in SIZE_DOUBLING_BYTE_LENGTH
 }
 
+# String tests
+@pytest.mark.slow
+def test_new_str():
+    results = []
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    for size in SIZE_DOUBLING:
+        original = ' ' * (size // 2)
+        timer = TimedResults()
+        for _r in range(REPEAT):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_str(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+    # pprint.pprint(results)
+    print()
+    print('test_new_str()')
+    rss_new = proc.memory_info().rss
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:+,d}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
 
+
+@pytest.mark.slow
+def test_new_str16():
+    results = []
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    for size in SIZE_DOUBLING:
+        original = str_16(size // 2)
+        timer = TimedResults()
+        for _r in range(REPEAT):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_str16(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+    # pprint.pprint(results)
+    print()
+    print('test_new_str16()')
+    rss_new = proc.memory_info().rss
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:+,d}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+
+
+@pytest.mark.slow
+def test_new_str32():
+    results = []
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    for size in SIZE_DOUBLING:
+        original = str_32(size // 2)
+        timer = TimedResults()
+        for _r in range(REPEAT):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_str32(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+    # pprint.pprint(results)
+    print()
+    print('test_new_str32()')
+    rss_new = proc.memory_info().rss
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:+,d}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+
+# Lists <-> vectors.
 @pytest.mark.slow
 def test_new_list_vector_bool():
     results = []
@@ -121,7 +193,7 @@ def test_new_list_vector_bool():
         results.append((size, timer))
     # pprint.pprint(results)
     print()
-    print('test_new_list_vector_bool():')
+    print('test_new_list_vector_bool()')
     rss_new = proc.memory_info().rss
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:+,d}')
     print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
@@ -146,7 +218,7 @@ def test_new_list_vector_int():
     # pprint.pprint(results)
     print()
     rss_new = proc.memory_info().rss
-    print('test_new_list_vector_int():')
+    print('test_new_list_vector_int()')
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:+,d}')
     print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
     for s, t in results:
@@ -341,7 +413,7 @@ def test_new_list_list_bool():
         results.append((size, timer))
     # pprint.pprint(results)
     print()
-    print('test_new_list_list_bool():')
+    print('test_new_list_list_bool()')
     rss_new = proc.memory_info().rss
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:+,d}')
     print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
@@ -366,7 +438,7 @@ def test_new_list_list_int():
     # pprint.pprint(results)
     print()
     rss_new = proc.memory_info().rss
-    print('test_new_list_list_int():')
+    print('test_new_list_list_int()')
     print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:+,d}')
     print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
     for s, t in results:
