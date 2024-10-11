@@ -21,8 +21,9 @@ This project is about converting Python containers such as ``list``, ``tuple``, 
 containing homogeneous types such as ``bool``, ``int``, ``float``, ``complex``, ``bytes``, ``str`` or user defined
 types to and from their C++ equivalent.
 
-Here is a general example of the use of this library where Python data needs to be passed to a C++ library and those
-results need to be presented in Python:
+Here is a general example of the use of this library where Python data needs to be passed to and from a C++ library and
+those results need to be presented in Python.
+Like this, visually:
 
 .. code-block:: text
 
@@ -37,7 +38,7 @@ results need to be presented in Python:
                         .           |                   .
                         .           \---------------------------->\
                         .                               .         |
-                        .                               .   Process C++ data
+                        .                               .  Process C++ data
                         .                               .         |
                         .           /<----------------------------/
                         .           |                   .
@@ -48,45 +49,7 @@ results need to be presented in Python:
     Process Python data .                               .
             |           .                               .
 
-.. raw:: latex
-
-    \pagebreak
-
-A similar example is where data is being created from a C++ application and needs to be represented in Python:
-
-.. code-block:: text
-
-          Python        |   This Library (C++/Python)   |  Some C++ Library
-    ------------------- . ----------------------------- . ------------------
-                        .                               .  C++ data source
-                        .                               .        |
-                        .           /<---------------------------/
-                        .           |                   .
-                        .  Convert C++ data to Python   .
-                        .           |                   .
-            /<----------------------/                    .
-            |           .                               .
-        Python data     .                               .
-            |           .                               .
-
-And an alternative example is where data is being created from a Python application and needs to be represented in C++:
-
-.. code-block:: text
-
-          Python        |   This Library (C++/Python)   |  Some C++ Library
-    ------------------- . ----------------------------- . ------------------
-            |           .                               .
-    Python data source  .                               .
-            |           .                               .
-            \---------------------->\                   .
-                        .           |                   .
-                        .  Convert Python data to C++   .
-                        .           |                   .
-                        .           \------------------------------>\
-                        .                               .           |
-                        .                               .    Process C++ data
-
-Here is an example of how to do this, but it is problematic when converting data from Python to C++ *in general*.
+Here is a, problematic, example of how to do this:
 
 .. raw:: latex
 
@@ -147,9 +110,11 @@ There is no error handling shown here, and all errors would be runtime errors.
 However if you need to support other object types, say lists of ``int``, ``str``, ``bytes`` then each one needs a pair
 of hand written functions; Python to C++ and C++ to Python.
 It gets worse when you want to support other containers such as ``tuple``, ``list``, ``set``, ``frozenset``, ``dict``.
+You end up with hundreds of functions, all individually named, to handle all the combinations.
 Then you have to write individual conversion functions, and their tests, for all the combinations of object types *and*
 containers.
-This is tedious and error prone.
+
+This is tedious and error prone and hard to extend in the general case.
 
 Why This Project
 =========================
@@ -159,8 +124,8 @@ This project simplifies the problem of converting data from Python to C++ and vi
 The project makes extensive use of C++ templates, partial template specialisation and code generation to dramatically
 reduce the amount of hand maintained code.
 It also converts many runtime errors to compile time errors.
-There are just six handwritten functions that support 352 resulting functions to support two way conversion of this
-set of types and containers:
+
+The types and containers this library supports are:
 
 .. list-table:: **Supported Object types.**
    :widths: 15 10 40
@@ -231,7 +196,24 @@ Using This Library
 Python to C++
 -------------------
 
-Using the library is as simple as this, from Python to C++:
+Using the library is as simple as this, suppose you have data in Python that needs to be passed to a C++ library:
+
+.. code-block:: text
+
+          Python        |   This Library (C++/Python)   |  Some C++ Library
+    ------------------- . ----------------------------- . ------------------
+            |           .                               .
+    Python data source  .                               .
+            |           .                               .
+            \---------------------->\                   .
+                        .           |                   .
+                        .  Convert Python data to C++   .
+                        .           |                   .
+                        .           \------------------------------>\
+                        .                               .           |
+                        .                               .    Process C++ data
+
+The C++ code using this library looks like this:
 
 C++ Code
 ^^^^^^^^^^^^^^^^^^^
@@ -243,25 +225,45 @@ C++ Code
     // Create a Python list of floats: [21.0, 42.0, 3.0]
     PyObject *op = Py_BuildValue("[ddd]", 21.0, 42.0, 3.0);
 
-    // Create the C++ vector...
+    // Create the C++ vector that we want to convert this data to...
     std::vector<double> cpp_vector;
 
-    // Template specialisation will automatically invoke the appropriate
+    // The template specialisation will automatically invoke the appropriate
     // function call.
     // It will be a compile time error if the container/type function
-    // is not available.
+    // is not supported.
     // At run time this will return zero on success, non-zero on failure,
     // for example if op is not a Python tuple or members of op can not be
     // converted to C++ doubles.
     int err = Python_Cpp_Containers::py_list_to_cpp_std_list_like(op, cpp_vector);
-    // Handle error checking...
+    // Handle error checking if err is non-zero...
 
-TODO: This is messed up.
+.. note::
 
-Example
-^^^^^^^^^^^^^^^
+    If you were to change the C++ container to a ``std::list<double>`` the function call
+    ``py_list_to_cpp_std_list_like()`` would be the same.
+    Of course ``py_list_to_cpp_std_list_like()`` would then dispatch to code handling a ``std::list<double>``.
 
-So given the example above where data is being created from a C++ application and needs to be represented in Python:
+Another example, suppose the Python data source is a ``typing.Dict[int, str]`` and this needs to be converted to a
+C++ ``std::map<long, std::string>>`` then a function using the conversion code using this library is as simple as this:
+
+.. code-block:: cpp
+
+    #include "python_convert.h"
+
+    void convert_py_data_to_cpp(PyObject *arg) {
+        std::unordered_map<long, std::string> map;
+        if (Python_Cpp_Containers::py_dict_to_cpp_std_map_like(arg, map)) {
+            // Handle error...
+        } else {
+            // Use the map...
+        }
+    }
+
+C++ to Python
+-------------------
+
+Suppose that you have data from a C++ library and this data needs to be represented in Python:
 
 .. code-block:: text
 
@@ -278,28 +280,7 @@ So given the example above where data is being created from a C++ application an
         Python data     .                               .
             |           .                               .
 
-Suppose the C++ data source is a ``std::map<long, std::string>>`` and we need this a Python dict
-``typing.Dict[int, str]`` then the conversion code in this library is as simple as this:
-
-.. code-block:: cpp
-
-    #include "python_convert.h"
-
-    PyObject *convert_cpp_data_to_py() {
-        std::map<long, std::string> map;
-        // Populate map from the C++ data source
-        // ...
-        // Now convert to a Python dict:
-        return Python_Cpp_Containers::cpp_std_map_like_to_py_dict(map);
-    }
-
-C++ to Python
--------------------
-
-General Case
-^^^^^^^^^^^^^^^^^^^
-
-A simple example of converting from C++ to Python:
+The C++ code using this library looks like this:
 
 .. code-block:: cpp
 
@@ -320,49 +301,29 @@ A simple example of converting from C++ to Python:
 .. note::
 
     If you were to change the C++ container to a ``std::list<double>`` the function call
-    ``py_list_to_cpp_std_list_like()`` and ``cpp_std_list_like_to_py_list()`` are the same.
+    ``cpp_std_list_like_to_py_list()`` would be the same.
+    Of course ``cpp_std_list_like_to_py_list()`` would then dispatch to code handling a ``std::list<double>``.
 
-Example
-^^^^^^^^^^^^^^^^^^
-
-The other example above where data is being created from a Python application and needs to be represented in C++:
-
-.. code-block:: text
-
-          Python        |   This Library (C++/Python)   |  Some C++ Library
-    ------------------- . ----------------------------- . ------------------
-            |           .                               .
-    Python data source  .                               .
-            |           .                               .
-            \---------------------->\                   .
-                        .           |                   .
-                        .  Convert Python data to C++   .
-                        .           |                   .
-                        .           \------------------------------>\
-                        .                               .           |
-                        .                               .    Process C++ data
-
-Suppose the Python data source is a ``typing.Dict[int, str]`` and this needs to be converted to a C++
-``std::map<long, std::string>>`` then the conversion code in this library is as simple as this:
+Another example, suppose the C++ data source is a ``std::map<long, std::string>>`` and we need this a Python dict
+``typing.Dict[int, str]`` then the conversion code in this library is as simple as this:
 
 .. code-block:: cpp
 
     #include "python_convert.h"
 
-    void convert_py_data_to_cpp(PyObject *arg) {
-        std::unordered_map<long, std::string> map;
-        if (Python_Cpp_Containers::py_dict_to_cpp_std_map_like(arg, map)) {
-            // Handle error...
-        } else {
-            // Use map...
-        }
+    PyObject *convert_cpp_data_to_py() {
+        std::map<long, std::string> map;
+        // Populate map from the C++ data source
+        // ...
+        // Now convert to a Python dict:
+        return Python_Cpp_Containers::cpp_std_map_like_to_py_dict(map);
     }
 
 The Hand Written Functions
 =============================
 
-There are only six non-trivial hand written functions along with a much larger of generated functions that successively
-specialise these handwritten functions.
+At the heart off this library here are only six non-trivial hand written functions along with a much larger of
+generated functions that successively specialise these handwritten functions.
 They are defined as templates in ``src/cpy/python_object_convert.h``.
 
 * Two C++ templates for Python ``tuple`` / ``list`` to and from ``std::list`` or ``std::vector`` for all types.
