@@ -29,9 +29,53 @@ new_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
  */
 static PyObject *
 new_str(PyObject *Py_UNUSED(module), PyObject *arg) {
+    assert(! PyErr_Occurred());
     if (py_unicode8_check(arg)) {
         std::string vec = py_unicode8_to_cpp_string(arg);
         return cpp_string_to_py_unicode8(vec);
+    } else {
+        PyErr_Format(
+                PyExc_ValueError,
+                "new_str() argument is not a 8 bit unicode string but type %s", arg->ob_type->tp_name
+        );
+    }
+    return NULL;
+}
+
+/**
+ * Take a Python \c str object (16 bit characters), convert it to a \c std::string then convert that back to a Python
+ * \c str object.
+ */
+static PyObject *
+new_str16(PyObject *Py_UNUSED(module), PyObject *arg) {
+    assert(! PyErr_Occurred());
+    if (py_unicode16_check(arg)) {
+        std::u16string vec = py_unicode16_to_cpp_u16string(arg);
+        return cpp_u16string_to_py_unicode16(vec);
+    } else {
+        PyErr_Format(
+        PyExc_ValueError,
+        "new_str16() argument is not a 16 bit unicode string but type %s", arg->ob_type->tp_name
+        );
+    }
+    return NULL;
+}
+
+/**
+ * Take a Python \c str object (32 bit characters), convert it to a \c std::string then convert that back to a Python
+ * \c str object.
+ */
+static PyObject *
+new_str32(PyObject *Py_UNUSED(module), PyObject *arg) {
+    assert(! PyErr_Occurred());
+    if (py_unicode32_check(arg)) {
+        std::u32string vec = py_unicode32_to_cpp_u32string(arg);
+        return cpp_u32string_to_py_unicode32(vec);
+    } else {
+        PyErr_Format(
+                PyExc_ValueError,
+                "new_str32() argument is not a 32 bit unicode string but type %s", arg->ob_type->tp_name
+        );
     }
     return NULL;
 }
@@ -646,6 +690,10 @@ static PyMethodDef cPyCppContainersMethods[] = {
 //                "Take a bytes and return a new str object."},
         {"new_str", new_str, METH_O,
                 "Take a str and return a new str object."},
+        {"new_str16", new_str16, METH_O,
+                "Take a str (16 bit) and return a new str object."},
+        {"new_str32", new_str32, METH_O,
+                "Take a str (32 bit) and return a new str object."},
         {"list_x2", list_x2, METH_O,
                 "Take a list of floats and return a new list with the values doubled."},
         {"tuple_reverse", tuple_reverse, METH_O,
