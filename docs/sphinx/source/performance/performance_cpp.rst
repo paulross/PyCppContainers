@@ -90,8 +90,6 @@ Fundamental Types
 These C++ functions test the cost of converting ints, floats and bytes objects between Python and C++.
 These test are executed if the macro ``TEST_PERFORMANCE_FUNDAMENTAL_TYPES`` is defined.
 
-TODO: Revise \*.dat files from here.
-
 Numeric Types
 ^^^^^^^^^^^^^^^^^
 
@@ -748,8 +746,6 @@ bytes[128]      0.1                                 0.02 to 0.09                
 bytes[1024]     0.8                                 0.1 to 0.6                          1.25x to x8
 =============== =================================== =================================== =========== ===================
 
-TODO: WIP
-
 Set of ``str`` (8 bit)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -762,9 +758,9 @@ Here is the rate graph for converting a Python ``set`` of ``str`` to C++ ``std::
 =============== ======================= =========================== ===================
 Object          ~Time per object (µs)   Rate Mb/s                   Notes
 =============== ======================= =========================== ===================
-bytes[16]       0.2                     80
-bytes[128]      0.4                     3000
-bytes[1024]     0.5 to 2.0              500 to 2,000
+string[16]      0.1                     160
+string[128]     0.2                     640
+string[1024]    0.7 to 1.0              1,000 to 1,500
 =============== ======================= =========================== ===================
 
 Here is the time per object compared with a list:
@@ -772,9 +768,9 @@ Here is the time per object compared with a list:
 =============== =================================== =================================== =========== ===================
 Object          set (µs)                            list (µs)                           Ratio       Notes
 =============== =================================== =================================== =========== ===================
-bytes[16]       0.2                                 0.01                                x20
-bytes[128]      0.4                                 0.07                                x6
-bytes[1024]     0.5 to 2.0                          0.1 to 0.6                          ~x5
+string[16]      0.1                                 0.01                                10x
+string[128]     0.2                                 0.08                                2.5x
+string[1024]    0.7 to 1.0                          0.1 to 0.8                          ~8x
 =============== =================================== =================================== =========== ===================
 
 And the reverse, converting a C++ ``std::unordered_set<std::string>`` to a Python ``set`` of ``str``:
@@ -787,9 +783,9 @@ And the reverse, converting a C++ ``std::unordered_set<std::string>`` to a Pytho
 =============== ======================= =========================== ===================
 Object          ~Time per object (µs)   Rate Mb/s                   Notes
 =============== ======================= =========================== ===================
-bytes[16]       0.08                    200
-bytes[128]      0.15                    850
-bytes[1024]     0.8                     1,300
+string[16]      0.08                    200
+string[128]     0.1                     1,300
+string[1024     0.8                     1,300
 =============== ======================= =========================== ===================
 
 Here is the time per object compared with a list:
@@ -797,43 +793,15 @@ Here is the time per object compared with a list:
 =============== =================================== =================================== =========== ===================
 Object          set (µs)                            list (µs)                           Ratio       Notes
 =============== =================================== =================================== =========== ===================
-bytes[16]       0.08                                0.03                                x3
-bytes[128]      0.15                                0.03                                x5
-bytes[1024]     0.8                                 0.15                                x5
+string[16]      0.08                                0.03                                3x
+string[128]     0.1                                 0.03 to 0.1                         1x to 3x
+string[1024]    0.8                                 0.15 to 0.8                         1x to 5x
 =============== =================================== =================================== =========== ===================
-
 
 Set of ``str`` (16 bit)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Here is the rate graph for converting a Python ``set`` of ``str`` to C++ ``std::unordered_set<std::u16string>``:
-
-
-TODO: test_unordered_set_u16string_to_py_set_multiple_std_string_16.dat
-6 files
-
-..
-    $ gnuplot -p cpp_py_set_str16_set_u16string.plt
-    "cpp_py_set_str16_set_u16string.plt" line 116: warning: Cannot find or open file "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_2.dat"
-    "cpp_py_set_str16_set_u16string.plt" line 116: warning: Cannot find or open file "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_2.dat"
-    "cpp_py_set_str16_set_u16string.plt" line 128: warning: Cannot find or open file "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_2.dat"
-    "cpp_py_set_str16_set_u16string.plt" line 128: warning: Cannot find or open file "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_2.dat"
-
-    cpp_py_set_str16_set_u16string.plt
-    images/cpp_py_set_str16_unordered_set_u16string_rate.png
-    images/cpp_py_set_str16_unordered_set_u16string_rate.svg
-    images/cpp_py_set_str16_unordered_set_u16string_time.png
-    images/cpp_py_set_str16_unordered_set_u16string_time.svg
-    images/cpp_unordered_set_u16string_to_py_set_multiple_std_string_rate.png
-    images/cpp_unordered_set_u16string_to_py_set_multiple_std_string_rate.svg
-    images/cpp_unordered_set_u16string_to_py_set_multiple_std_string_time.png
-    images/cpp_unordered_set_u16string_to_py_set_multiple_std_string_time.svg
-
-C++ to Python:
-
-.. image:: ../plots/images/cpp_unordered_set_u16string_to_py_set_multiple_std_string_rate.png
-    :height: 400px
-    :align: center
 
 Python to C++:
 
@@ -841,30 +809,42 @@ Python to C++:
     :height: 400px
     :align: center
 
+This is pretty much comparable with the 8 bit string conversion from Python to C++.
+
+And the reverse, from C++ to Python:
+
+.. image:: ../plots/images/cpp_unordered_set_u16string_to_py_set_multiple_std_string_rate.png
+    :height: 400px
+    :align: center
+
+Because of the issues identified in :ref:`PyCppContainers.Performance.Cpp.Fundamental.Strings` string16 conversion of
+``std::u16string`` and ``std::u32string`` to Python ``str`` is around 100 times slower than
+for 8 bit strings.
+
+Here is the comparison with 8 bit strings:
+
+=============== =================================== =================================== =========== ===================
+Object          8 bit (µs)                          16 bit (µs)                         Ratio       Notes
+=============== =================================== =================================== =========== ===================
+string[16]      0.08                                0.15                                2x
+string[128]     0.1                                 1                                   10x
+string[1024]    0.8                                 8                                   10x
+=============== =================================== =================================== =========== ===================
+
 Set of ``str`` (32 bit)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Here is the rate graph for converting a Python ``set`` of ``str`` to C++ ``std::unordered_set<std::u32string>``:
 
-TODO: test_unordered_set_u32string_to_py_set_multiple_std_string_32.dat
-6 files
+Python to C++:
 
-..
-    $ gnuplot -p cpp_py_set_str32_set_u32string.plt
-    "cpp_py_set_str32_set_u32string.plt" line 132: warning: Cannot find or open file "dat/test_unordered_set_u32string_to_py_set_multiple_std_string_2.dat"
-    "cpp_py_set_str32_set_u32string.plt" line 132: warning: Cannot find or open file "dat/test_unordered_set_u32string_to_py_set_multiple_std_string_2.dat"
-    "cpp_py_set_str32_set_u32string.plt" line 128: warning: Cannot find or open file "dat/test_unordered_set_u32string_to_py_set_multiple_std_string_2.dat"
-    "cpp_py_set_str32_set_u32string.plt" line 128: warning: Cannot find or open file "dat/test_unordered_set_u32string_to_py_set_multiple_std_string_2.dat"
+.. image:: ../plots/images/cpp_py_set_str32_unordered_set_u32string_rate.png
+    :height: 400px
+    :align: center
 
-    cpp_py_set_str32_set_u32string.plt
-    images/cpp_py_set_str32_unordered_set_u32string_rate.png
-    images/cpp_py_set_str32_unordered_set_u32string_rate.svg
-    images/cpp_py_set_str32_unordered_set_u32string_time.png
-    images/cpp_py_set_str32_unordered_set_u32string_time.svg
-    images/cpp_unordered_set_u32string_to_py_set_multiple_std_string_rate.png
-    images/cpp_unordered_set_u32string_to_py_set_multiple_std_string_rate.svg
-    images/cpp_unordered_set_u32string_to_py_set_multiple_std_string_time.png
-    images/cpp_unordered_set_u32string_to_py_set_multiple_std_string_time.svg
+This is pretty much comparable with the 8 and 16 bit string conversion from Python to C++.
+
+And the reverse, from C++ to Python:
 
 C++ to Python:
 
@@ -872,11 +852,7 @@ C++ to Python:
     :height: 400px
     :align: center
 
-Python to C++:
-
-.. image:: ../plots/images/cpp_py_set_str32_unordered_set_u32string_rate.png
-    :height: 400px
-    :align: center
+This is essentially the same as for 16 bit strings.
 
 Python Dict to and from a C++ ``std::unordered_map<K, V>``
 -------------------------------------------------------------
@@ -903,6 +879,8 @@ Converting Individual Objects
 * Converting ``bytes`` from C++ to Python is the same as from Python to C++. This is memory bound at around 50 Gb/s.
 * With ``str`` then Python to C++ is about twice as fast as C++ to Python. With the former performance is twice as fast
   as ``bytes``, for the latter it is broadly similar to ``bytes`` conversion.
+* Converting C++ to Python strings with word sizes of 16 and 32 bits is typically 10x to 100x than for 8 bits because of
+  the Python C-API. Conversion from Python to C++ is pretty much identical for all string word sizes of 8/16/32 bits.
 
 Converting Containers of Objects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

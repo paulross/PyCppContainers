@@ -546,8 +546,7 @@ This template has these parameters:
      - A pointer to a function that checks that the ``PyObject *`` argument is the correct container type, for example
        a ``tuple``.
        The function signature is ``int PyUnaryContainer_Check(PyObject *)``.
-       This returns non-zero if the Python container is as expected.
-       TODO
+       This returns non-zero if the Python container is not as expected.
    * - ``PyUnaryContainer_Size``
      - A pointer to a function that returns the size of the Python container.
        The function signature is ``Py_ssize_t PyUnaryContainer_Size(PyObject *op)``.
