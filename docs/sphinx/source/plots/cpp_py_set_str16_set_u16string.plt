@@ -49,8 +49,8 @@ plot "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_16.dat" us
         t "Python Set, string length 128" with candlesticks whiskerbars 0.5,\
     "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
         t "Python Set, string length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_2.dat" using 3:(rate_1_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2
+    "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_16.dat" using 3:(rate_1_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
+    "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_16.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
 # Now the rate graph.
 set ylabel "Time per Item (µs)"
@@ -71,7 +71,7 @@ plot "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_16.dat" us
 # ======================
 # C++ to Python
 # ======================
-set title "Copy a C++ std::unordered_set<std::u16string> to a Python set of str by length."
+set title "Copy a C++ std::unordered_set<std::u16string> to a Python set of str by length." noenhanced
 
 set key left
 set key font ",9"
@@ -88,8 +88,8 @@ plot "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_16.dat" usi
         t "Set, bytes length 128" with candlesticks whiskerbars 0.5,\
     "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
         t "Set, bytes length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_2.dat" using 3:(rate_1_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2
+    "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_16.dat" using 3:(rate_1_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
+    "dat/test_unordered_set_u16string_to_py_set_multiple_std_string_16.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
 # Now the rate graph.
 set ylabel "Time per Item (µs)"

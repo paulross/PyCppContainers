@@ -36,7 +36,7 @@ set boxwidth 0.2 relative
 
 # First the raw time graphs:
 # Python to C++
-set title "Copy a Python set of int, float, complex to a C++ std::unordered_set<T>."
+set title "Copy a Python set of int, float, complex to a C++ std::unordered_set<T>." noenhanced
 set key left
 set key font ",9"
 set ylabel "Time (µs)"
@@ -55,7 +55,7 @@ plot "dat/test_py_set_to_unordered_set_multiple_long.dat" using 3:(1e6 * ($5 - $
     "dat/test_py_set_to_unordered_set_multiple_long.dat" using 3:(rate_1_000_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1000m objects/s", latency*1e6) with lines dashtype 2 lw 0.5
 
 # C++ to Python
-set title "Copy a C++ std::unordered_set<T> to a Python set of int, float, complex."
+set title "Copy a C++ std::unordered_set<T> to a Python set of int, float, complex." noenhanced
 set ylabel "Time (µs)"
 
 set terminal png size 700,400           # choose the file format
@@ -73,7 +73,7 @@ plot "dat/test_unordered_set_to_py_set_multiple_long.dat" using 3:(1e6 * ($5 - $
 
 # Now the rate graphs.
 # Python to C++
-set title "Copy a Python set of int, float, complex to a C++ std::unordered_set<T>."
+set title "Copy a Python set of int, float, complex to a C++ std::unordered_set<T>." noenhanced
 set key right
 set key font ",9"
 set ylabel "Time per Item (µs)"
@@ -94,7 +94,7 @@ plot "dat/test_py_set_to_unordered_set_multiple_long.dat" using 3:(1e6 * ($5 - $
         "dat/test_py_set_to_unordered_set_multiple_std_complex_double.dat" using 3:(1e6 * $7 / $3) t "" with lines
 
 # C++ to Python
-set title "Copy a C++ std::unordered_set<T> to a Python set of int, float, complex."
+set title "Copy a C++ std::unordered_set<T> to a Python set of int, float, complex." noenhanced
 set ylabel "Time per Item (µs)"
 set yrange [0.001:1]
 

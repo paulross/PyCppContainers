@@ -153,11 +153,11 @@ def main() -> int:
     for k in rst_files:
         rst_image_superset |= rst_files[k]
     unused_img = image_files - rst_image_superset
-    print(f' Unused image files [{len(unused_img)}] '.center(75, '-'))
+    print(f' Unused image files {len(unused_img)} of {len(image_files)} '.center(75, '-'))
     # pprint.pprint(sorted(strip_project_root_and_plot_path(p) for p in unused_dat))
     for img in sorted([strip_project_root_and_plot_path(p) for p in unused_img]):
         print(img)
-    print(f' Unused image files [{len(unused_img)}] DONE '.center(75, '-'))
+    print(f' Unused image files {len(unused_img)} of {len(image_files)} DONE '.center(75, '-'))
 
 
 if __name__ == '__main__':

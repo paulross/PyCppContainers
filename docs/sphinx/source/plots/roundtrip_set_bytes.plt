@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Python Set [bytes] to a C++ std::unordered_set<std::vector<char>> then back to a Python Set."
+set title "Python Set [bytes] to a C++ std::unordered_set<std::vector<char>> then back to a Python Set." noenhanced
 set xlabel "Set length"
 
 set logscale y
