@@ -40,21 +40,6 @@ set boxwidth 0.2 relative
 set title "Copy a Python tuple of str to a C++ std::vector<std::string> by string lengths."
 set ylabel "Time (µs)"
 
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_py_tuple_str_vector_string_time.svg"   # choose the output device
-
-plot "dat/test_py_tuple_str_to_vector_string_multiple_std_string_2.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Tuple -> C++, string length 2" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_tuple_str_to_vector_string_multiple_std_string_16.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Tuple -> C++, string length 16" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_tuple_str_to_vector_string_multiple_std_string_128.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Tuple -> C++, string length 128" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_tuple_str_to_vector_string_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Tuple -> C++, string length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_tuple_str_to_vector_string_multiple_std_string_2.dat" using 3:(rate_1_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_py_tuple_str_to_vector_string_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_py_tuple_str_to_vector_string_multiple_std_string_2.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 2
-
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_py_tuple_str_vector_string_time.png"   # choose the output device
 
@@ -70,23 +55,8 @@ plot "dat/test_py_tuple_str_to_vector_string_multiple_std_string_2.dat" using 3:
     "dat/test_py_tuple_str_to_vector_string_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
     "dat/test_py_tuple_str_to_vector_string_multiple_std_string_2.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_vector_string_py_tuple_str_time.svg"   # choose the output device
-
 set title "Copy a C++ std::vector<std::string> to a Python tuple of str by string lengths."
 set ylabel "Time (µs)"
-
-plot "dat/test_vector_string_to_py_tuple_multiple_std_string_2.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "C++ Tuple -> Python, string length 2" with candlesticks whiskerbars 0.5,\
-    "dat/test_vector_string_to_py_tuple_multiple_std_string_16.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "C++ Tuple -> Python, string length 16" with candlesticks whiskerbars 0.5,\
-    "dat/test_vector_string_to_py_tuple_multiple_std_string_128.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "C++ Tuple -> Python, string length 128" with candlesticks whiskerbars 0.5,\
-    "dat/test_vector_string_to_py_tuple_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "C++ Tuple -> Python, string length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/test_vector_string_to_py_tuple_multiple_std_string_2.dat" using 3:(rate_1_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_vector_string_to_py_tuple_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_vector_string_to_py_tuple_multiple_std_string_2.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_vector_string_py_tuple_str_time.png"   # choose the output device
@@ -107,22 +77,6 @@ plot "dat/test_vector_string_to_py_tuple_multiple_std_string_2.dat" using 3:(1e6
 set title "Copy a Python tuple of str to a C++ std::vector<std::string> by string lengths."
 set ylabel "Time per Item (µs)"
 
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_py_tuple_str_vector_string_rate.svg"   # choose the output device
-
-plot "dat/test_py_tuple_str_to_vector_string_multiple_std_string_2.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "Python Tuple -> C++, string length 2" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_tuple_str_to_vector_string_multiple_std_string_2.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_py_tuple_str_to_vector_string_multiple_std_string_16.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "Python Tuple -> C++, string length 16" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_tuple_str_to_vector_string_multiple_std_string_16.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_py_tuple_str_to_vector_string_multiple_std_string_128.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "Python Tuple -> C++, string length 128" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_tuple_str_to_vector_string_multiple_std_string_128.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_py_tuple_str_to_vector_string_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "Python Tuple -> C++, string length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_tuple_str_to_vector_string_multiple_std_string_1024.dat" using 3:(1e6 * $7 / $3) t "" with lines
-
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_py_tuple_str_vector_string_rate.png"   # choose the output device
 
@@ -139,24 +93,8 @@ plot "dat/test_py_tuple_str_to_vector_string_multiple_std_string_2.dat" using 3:
         t "Python Tuple -> C++, string length 1024" with candlesticks whiskerbars 0.5,\
     "dat/test_py_tuple_str_to_vector_string_multiple_std_string_1024.dat" using 3:(1e6 * $7 / $3) t "" with lines
 
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_vector_string_py_tuple_str_rate.svg"   # choose the output device
-
 set title "Copy a C++ std::vector<std::string> to a Python tuple of str by string lengths."
 set ylabel "Time per Item (µs)"
-
-plot "dat/test_vector_string_to_py_tuple_multiple_std_string_2.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-            t "C+ Tuple -> Python, string length 2" with candlesticks whiskerbars 0.5,\
-    "dat/test_vector_string_to_py_tuple_multiple_std_string_2.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_vector_string_to_py_tuple_multiple_std_string_16.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "C+ Tuple -> Python, string length 16" with candlesticks whiskerbars 0.5,\
-    "dat/test_vector_string_to_py_tuple_multiple_std_string_16.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_vector_string_to_py_tuple_multiple_std_string_128.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "C+ Tuple -> Python, string length 128" with candlesticks whiskerbars 0.5,\
-    "dat/test_vector_string_to_py_tuple_multiple_std_string_128.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_vector_string_to_py_tuple_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "C+ Tuple -> Python, string length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/test_vector_string_to_py_tuple_multiple_std_string_1024.dat" using 3:(1e6 * $7 / $3) t "" with lines
 
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_vector_string_py_tuple_str_rate.png"   # choose the output device

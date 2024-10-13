@@ -37,17 +37,6 @@ rate_1_000_000_000(x) = latency + x / 1e9
 
 # Time plots
 set ylabel "Time (µs)"
-set terminal svg size 700,400           # choose the file format
-set output "images/roundtrip_dict_map_ints_floats_complex_time.svg"   # choose the output device
-
-plot "dat/roundtrip_dict_map_int_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
-         t "Dict [int, int] <-> C++ <long, long>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_map_float_float.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
-        t "Dict [float, float] <-> C++ <double, double>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_map_complex_complex.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
-        t "Dict [complex, complex] <-> C++ <std::complex<double>, std::complex<double>>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_map_int_int.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_dict_map_int_int.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5
 
 set terminal png size 700,400           # choose the file format
 set output "images/roundtrip_dict_map_ints_floats_complex_time.png"   # choose the output device
@@ -64,19 +53,6 @@ plot "dat/roundtrip_dict_map_int_int.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(
 # Rate plots
 set ylabel "Time per Item (µs)"
 #set yrange [0.01:1]
-
-set terminal svg size 700,400           # choose the file format
-set output "images/roundtrip_dict_map_ints_floats_complex_rate.svg"   # choose the output device
-
-plot "dat/roundtrip_dict_map_int_int.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "Dict [int, int] <-> C++ <long, long>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_map_int_int.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [int, int] <-> C++ <long, long>" with lines, \
-    "dat/roundtrip_dict_map_float_float.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "Dict [float, float] <-> C++ <double, double>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_map_float_float.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [float, float] <-> C++ <double, double>" with lines, \
-    "dat/roundtrip_dict_map_complex_complex.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "Dict [complex, complex] <-> C++ <std::complex<double>, std::complex<double>>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_map_complex_complex.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [complex, complex] <-> C++ <std::complex<double>, std::complex<double>>" with lines
 
 set terminal png size 700,400           # choose the file format
 set output "images/roundtrip_dict_map_ints_floats_complex_rate.png"   # choose the output device

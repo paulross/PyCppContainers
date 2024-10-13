@@ -41,21 +41,6 @@ set key left
 set key font ",9"
 set ylabel "Time (µs)"
 
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_py_tuple_bool_int_float_vector_bool_long_double_time.svg"   # choose the output device
-
-plot "dat/test_py_tuple_to_vector_multiple_bool.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Tuple[bool] -> C++" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_tuple_to_vector_multiple_long.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Tuple[int] -> C++" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_tuple_to_vector_multiple_double.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Tuple[double] -> C++" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_tuple_to_vector_multiple_std_complex_double.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Tuple[complex] -> C++" with candlesticks whiskerbars 0.5,\
-    "dat/test_vector_to_py_tuple_multiple_bool.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 0.5, \
-    "dat/test_vector_to_py_tuple_multiple_bool.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 0.5, \
-    "dat/test_vector_to_py_tuple_multiple_bool.dat" using 3:(rate_1_000_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1000m objects/s", latency*1e6) with lines dashtype 2 lw 0.5
-
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_py_tuple_bool_int_float_vector_bool_long_double_time.png"   # choose the output device
 
@@ -72,23 +57,8 @@ plot "dat/test_py_tuple_to_vector_multiple_bool.dat" using 3:(1e6 * ($5 - $6) * 
     "dat/test_vector_to_py_tuple_multiple_bool.dat" using 3:(rate_1_000_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1000m objects/s", latency*1e6) with lines dashtype 2 lw 0.5
 
 # C++ to Python
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_vector_bool_long_double_py_tuple_bool_int_float_time.svg"   # choose the output device
-
 set title "Copy a C++ std::vector<T> to a Python tuple of bool, int, float."
 set ylabel "Time (µs)"
-
-plot "dat/test_vector_to_py_tuple_multiple_bool.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "C++ Tuple<bool> -> Python" with candlesticks whiskerbars 0.5,\
-    "dat/test_vector_to_py_tuple_multiple_long.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "C++ Tuple<long> -> Python" with candlesticks whiskerbars 0.5,\
-    "dat/test_vector_to_py_tuple_multiple_std_complex_double.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "C++ Tuple<double> -> Python" with candlesticks whiskerbars 0.5,\
-    "dat/test_vector_to_py_tuple_multiple_std_complex_double.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "C++ Tuple<std::complex<double>> -> Python" with candlesticks whiskerbars 0.5,\
-    "dat/test_vector_to_py_tuple_multiple_bool.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_vector_to_py_tuple_multiple_bool.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_vector_to_py_tuple_multiple_bool.dat" using 3:(rate_1_000_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1000m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_vector_bool_long_double_py_tuple_bool_int_float_time.png"   # choose the output device
@@ -114,22 +84,6 @@ set ylabel "Time per Item (µs)"
 #set yrange [0.001:0.1]
 
 
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_py_tuple_bool_int_float_vector_bool_long_double_rate.svg"   # choose the output device
-
-plot "dat/test_py_tuple_to_vector_multiple_bool.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "Python Tuple[bool] -> C++" with candlesticks whiskerbars 0.5,\
-        "dat/test_py_tuple_to_vector_multiple_bool.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_py_tuple_to_vector_multiple_long.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "Python Tuple[int] -> C++" with candlesticks whiskerbars 0.5,\
-        "dat/test_py_tuple_to_vector_multiple_long.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_py_tuple_to_vector_multiple_double.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "Python Tuple[double] -> C++" with candlesticks whiskerbars 0.5,\
-        "dat/test_py_tuple_to_vector_multiple_double.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_py_tuple_to_vector_multiple_std_complex_double.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "Python Tuple[complex] -> C++" with candlesticks whiskerbars 0.5,\
-        "dat/test_py_tuple_to_vector_multiple_std_complex_double.dat" using 3:(1e6 * $7 / $3) t "" with lines
-
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_py_tuple_bool_int_float_vector_bool_long_double_rate.png"   # choose the output device
 
@@ -147,24 +101,8 @@ plot "dat/test_py_tuple_to_vector_multiple_bool.dat" using 3:(1e6 * ($5 - $6) * 
         "dat/test_py_tuple_to_vector_multiple_std_complex_double.dat" using 3:(1e6 * $7 / $3) t "" with lines
 
 # C++ to Python
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_vector_bool_long_double_py_tuple_bool_int_float_rate.svg"   # choose the output device
-
 set title "Copy a C++ std::vector<T> to a Python tuple of bool, int, float."
 set ylabel "Time per Item (µs)"
-
-plot "dat/test_vector_to_py_tuple_multiple_bool.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "C++ Tuple<bool> -> Python" with candlesticks whiskerbars 0.5,\
-        "dat/test_vector_to_py_tuple_multiple_bool.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_vector_to_py_tuple_multiple_long.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "C++ Tuple<long> -> Python" with candlesticks whiskerbars 0.5,\
-        "dat/test_vector_to_py_tuple_multiple_long.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_vector_to_py_tuple_multiple_double.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "C++ Tuple<double> -> Python" with candlesticks whiskerbars 0.5,\
-        "dat/test_vector_to_py_tuple_multiple_double.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_vector_to_py_tuple_multiple_std_complex_double.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "C++ Tuple<std::complex<double>> -> Python" with candlesticks whiskerbars 0.5,\
-        "dat/test_vector_to_py_tuple_multiple_std_complex_double.dat" using 3:(1e6 * $7 / $3) t "" with lines
 
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_vector_bool_long_double_py_tuple_bool_int_float_rate.png"   # choose the output device

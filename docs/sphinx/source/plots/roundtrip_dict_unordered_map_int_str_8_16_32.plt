@@ -38,31 +38,6 @@ rate_1_000_000_000(x) = latency + x / 1e9
 # Time plots
 set ylabel "Time (µs)"
 
-set terminal svg size 700,400           # choose the file format
-set output "images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_time.svg"   # choose the output device
-
-plot "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
-        t "str8 <-> std::string Length 16" with candlesticks whiskerbars 0.5, \
-    "dat/roundtrip_dict_unordered_map_int_str_String_length_128.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
-        t "str8 <-> std::string Length 128" with candlesticks whiskerbars 0.5, \
-    "dat/roundtrip_dict_unordered_map_int_str_String_length_1024.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
-        t "str8 <-> std::string Length 1024" with candlesticks whiskerbars 0.5, \
-    "dat/roundtrip_dict_unordered_map_int_str16_String_length_16.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
-        t "str16 <-> std::u16string Length 16" with candlesticks whiskerbars 0.5, \
-    "dat/roundtrip_dict_unordered_map_int_str16_String_length_128.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
-        t "str16 <-> std::u16string Length 128" with candlesticks whiskerbars 0.5, \
-    "dat/roundtrip_dict_unordered_map_int_str16_String_length_1024.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
-        t "str16 <-> std::u16string Length 1024" with candlesticks whiskerbars 0.5, \
-    "dat/roundtrip_dict_unordered_map_int_str32_String_length_16.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
-        t "str32 <-> std::u32string Length 16" with candlesticks whiskerbars 0.5, \
-    "dat/roundtrip_dict_unordered_map_int_str32_String_length_128.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
-        t "str32 <-> std::u32string Length 128" with candlesticks whiskerbars 0.5, \
-    "dat/roundtrip_dict_unordered_map_int_str32_String_length_1024.dat" using 1:(1e6 * ($4 - $6)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
-        t "str32 <-> std::u32string Length 1024" with candlesticks whiskerbars 0.5, \
-    "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(rate_100_000($1) * 1e6) t sprintf("Guide: %.3f µs + 0.1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(rate_1_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines lw 2 dashtype 5, \
-    "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(rate_10_000_000($1) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines lw 2 dashtype 5
-
 set terminal png size 700,400           # choose the file format
 set output "images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_time.png"   # choose the output device
 
@@ -91,48 +66,6 @@ plot "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(1e
 # Rate plots
 set ylabel "Time per Item (µs)"
 #set yrange [0.1:10]
-
-set terminal svg size 700,400           # choose the file format
-set output "images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_rate.svg"   # choose the output device
-
-plot "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "str8 <-> std::string Length 16" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(1e6 * $3 / $1) \
-        t "" with lines, \
-    "dat/roundtrip_dict_unordered_map_int_str_String_length_128.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "str8 <-> std::string Length 128" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_int_str_String_length_128.dat" using 1:(1e6 * $3 / $1) \
-        t "" with lines, \
-    "dat/roundtrip_dict_unordered_map_int_str_String_length_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "str8 <-> std::string Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_int_str_String_length_1024.dat" using 1:(1e6 * $3 / $1) \
-        t "" with lines, \
-        \
-    "dat/roundtrip_dict_unordered_map_int_str16_String_length_16.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "str16 <-> std::u16string Length 16" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_int_str16_String_length_16.dat" using 1:(1e6 * $3 / $1) \
-        t "" with lines, \
-    "dat/roundtrip_dict_unordered_map_int_str16_String_length_128.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "str16 <-> std::u16string Length 128" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_int_str16_String_length_128.dat" using 1:(1e6 * $3 / $1) \
-        t "" with lines, \
-    "dat/roundtrip_dict_unordered_map_int_str16_String_length_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "str16 <-> std::u16string Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_int_str16_String_length_1024.dat" using 1:(1e6 * $3 / $1) \
-        t "" with lines, \
-        \
-    "dat/roundtrip_dict_unordered_map_int_str32_String_length_16.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "str32 <-> std::u32string Length 16" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_int_str32_String_length_16.dat" using 1:(1e6 * $3 / $1) \
-        t "" with lines, \
-    "dat/roundtrip_dict_unordered_map_int_str32_String_length_128.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "str32 <-> std::u32string Length 128" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_int_str32_String_length_128.dat" using 1:(1e6 * $3 / $1) \
-        t "" with lines, \
-    "dat/roundtrip_dict_unordered_map_int_str32_String_length_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "str32 <-> std::u32string Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_int_str32_String_length_1024.dat" using 1:(1e6 * $3 / $1) \
-        t "" with lines
 
 set terminal png size 700,400           # choose the file format
 set output "images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_rate.png"   # choose the output device
@@ -179,24 +112,6 @@ plot "dat/roundtrip_dict_unordered_map_int_str_String_length_16.dat" using 1:(1e
 # Rate plots, 1024 string length.
 set ylabel "Time per Item (µs)"
 #set yrange [0.1:10]
-
-set terminal svg size 700,400           # choose the file format
-set output "images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_1024_rate.svg"   # choose the output device
-
-plot "dat/roundtrip_dict_unordered_map_int_str_String_length_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "str8 <-> std::string Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_int_str_String_length_1024.dat" using 1:(1e6 * $3 / $1) \
-        t "" with lines, \
-        \
-    "dat/roundtrip_dict_unordered_map_int_str16_String_length_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "str16 <-> std::u16string Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_int_str16_String_length_1024.dat" using 1:(1e6 * $3 / $1) \
-        t "" with lines, \
-        \
-    "dat/roundtrip_dict_unordered_map_int_str32_String_length_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "str32 <-> std::u32string Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_int_str32_String_length_1024.dat" using 1:(1e6 * $3 / $1) \
-        t "" with lines
 
 set terminal png size 700,400           # choose the file format
 set output "images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_1024_rate.png"   # choose the output device

@@ -41,19 +41,6 @@ set key left
 set key font ",9"
 set ylabel "Time (µs)"
 
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_py_set_int_float_unordered_set_long_double_time.svg"   # choose the output device
-
-plot "dat/test_py_set_to_unordered_set_multiple_long.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Set[int] -> C++" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_set_to_unordered_set_multiple_double.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Set[double] -> C++" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_set_to_unordered_set_multiple_std_complex_double.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Set[complex] -> C++" with candlesticks whiskerbars 0.5,\
-    "dat/test_unordered_set_to_py_set_multiple_long.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 0.5, \
-    "dat/test_unordered_set_to_py_set_multiple_long.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 0.5, \
-    "dat/test_unordered_set_to_py_set_multiple_long.dat" using 3:(rate_1_000_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1000m objects/s", latency*1e6) with lines dashtype 2 lw 0.5
-
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_py_set_int_float_unordered_set_long_double_time.png"   # choose the output device
 
@@ -68,21 +55,8 @@ plot "dat/test_py_set_to_unordered_set_multiple_long.dat" using 3:(1e6 * ($5 - $
     "dat/test_py_set_to_unordered_set_multiple_long.dat" using 3:(rate_1_000_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1000m objects/s", latency*1e6) with lines dashtype 2 lw 0.5
 
 # C++ to Python
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_unordered_set_long_double_py_set_int_float_time.svg"   # choose the output device
-
 set title "Copy a C++ std::unordered_set<T> to a Python set of int, float, complex."
 set ylabel "Time (µs)"
-
-plot "dat/test_unordered_set_to_py_set_multiple_long.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "C++ Set<long> -> Python" with candlesticks whiskerbars 0.5,\
-    "dat/test_unordered_set_to_py_set_multiple_std_complex_double.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "C++ Set<double> -> Python" with candlesticks whiskerbars 0.5,\
-    "dat/test_unordered_set_to_py_set_multiple_std_complex_double.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "C++ Set<std::complex<double>> -> Python" with candlesticks whiskerbars 0.5,\
-    "dat/test_unordered_set_to_py_set_multiple_long.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_unordered_set_to_py_set_multiple_long.dat" using 3:(rate_100_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 100m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_unordered_set_to_py_set_multiple_long.dat" using 3:(rate_1_000_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1000m objects/s", latency*1e6) with lines dashtype 2 lw 2
 
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_unordered_set_long_double_py_set_int_float_time.png"   # choose the output device
@@ -106,19 +80,6 @@ set ylabel "Time per Item (µs)"
 set yrange [0.01:1]
 
 
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_py_set_int_float_unordered_set_long_double_rate.svg"   # choose the output device
-
-plot "dat/test_py_set_to_unordered_set_multiple_long.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "Python Set[int] -> C++" with candlesticks whiskerbars 0.5,\
-        "dat/test_py_set_to_unordered_set_multiple_long.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_py_set_to_unordered_set_multiple_double.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "Python Set[double] -> C++" with candlesticks whiskerbars 0.5,\
-        "dat/test_py_set_to_unordered_set_multiple_double.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_py_set_to_unordered_set_multiple_std_complex_double.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "Python Set[complex] -> C++" with candlesticks whiskerbars 0.5,\
-        "dat/test_py_set_to_unordered_set_multiple_std_complex_double.dat" using 3:(1e6 * $7 / $3) t "" with lines
-
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_py_set_int_float_unordered_set_long_double_rate.png"   # choose the output device
 
@@ -133,22 +94,9 @@ plot "dat/test_py_set_to_unordered_set_multiple_long.dat" using 3:(1e6 * ($5 - $
         "dat/test_py_set_to_unordered_set_multiple_std_complex_double.dat" using 3:(1e6 * $7 / $3) t "" with lines
 
 # C++ to Python
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_unordered_set_long_double_py_set_int_float_rate.svg"   # choose the output device
-
 set title "Copy a C++ std::unordered_set<T> to a Python set of int, float, complex."
 set ylabel "Time per Item (µs)"
 set yrange [0.001:1]
-
-plot "dat/test_unordered_set_to_py_set_multiple_long.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "C++ Set<long> -> Python" with candlesticks whiskerbars 0.5,\
-        "dat/test_unordered_set_to_py_set_multiple_long.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_unordered_set_to_py_set_multiple_double.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "C++ Set<double> -> Python" with candlesticks whiskerbars 0.5,\
-        "dat/test_unordered_set_to_py_set_multiple_double.dat" using 3:(1e6 * $7 / $3) t "" with lines, \
-    "dat/test_unordered_set_to_py_set_multiple_std_complex_double.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-        t "C++ Set<std::complex<double>> -> Python" with candlesticks whiskerbars 0.5,\
-        "dat/test_unordered_set_to_py_set_multiple_std_complex_double.dat" using 3:(1e6 * $7 / $3) t "" with lines
 
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_unordered_set_long_double_py_set_int_float_rate.png"   # choose the output device

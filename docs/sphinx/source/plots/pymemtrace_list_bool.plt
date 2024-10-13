@@ -22,12 +22,6 @@ set datafile separator whitespace
 set key left
 set key font ",9"
 
-set terminal svg size 700,400           # choose the file format
-set output "images/pymemtrace_list_bool.svg"   # choose the output device
-
-plot "dat/pymemtrace_list_vector_bool.dat" using 4:($9 / (1024 * 1024)) t "RSS std::vector<double> (Mb)" with linespoints axes x1y1 pt 1 lw 1, \
-    "dat/pymemtrace_list_list_bool.dat" using 4:($9 / (1024 * 1024)) t "RSS std::list<double> (Mb)" with linespoints axes x1y1 pt 2 lw 1
-
 set terminal png size 700,400           # choose the file format
 set output "images/pymemtrace_list_bool.png"   # choose the output device
 

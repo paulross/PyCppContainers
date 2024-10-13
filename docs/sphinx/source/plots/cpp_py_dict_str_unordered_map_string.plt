@@ -40,18 +40,6 @@ set boxwidth 0.2 relative
 # First the raw time graph:
 set ylabel "Time (µs)"
 
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_py_dict_str_unordered_map_string_time.svg"   # choose the output device
-
-plot "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_16.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Dict, string length 16" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_128.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Dict, string length 128" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Python Dict, string length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_2.dat" using 3:(rate_1_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2
-
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_py_dict_str_unordered_map_string_time.png"   # choose the output device
 
@@ -66,19 +54,6 @@ plot "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_16.da
 
 # Now the rate graph.
 set ylabel "Time per Item (µs)"
-
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_py_dict_str_unordered_map_string_rate.svg"   # choose the output device
-
-plot "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_16.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-    t "String length 16" with candlesticks whiskerbars 0.5 linetype 2,\
-    "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_16.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 2, \
-    "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_128.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-    t "String length 128" with candlesticks whiskerbars 0.5 linetype 4,\
-    "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_128.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 4, \
-    "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-    t "String length 1024" with candlesticks whiskerbars 0.5 linetype 7,\
-    "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_1024.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 7
 
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_py_dict_str_unordered_map_string_rate.png"   # choose the output device
@@ -104,18 +79,6 @@ set key font ",9"
 # First the raw time graph:
 set ylabel "Time (µs)"
 
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_unordered_map_string_to_py_dict_multiple_std_string_time.svg"   # choose the output device
-
-plot "dat/test_cpp_std_unordered_map_to_py_dict_string_multiple_std_string_16.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Dict, bytes length 16" with candlesticks whiskerbars 0.5,\
-    "dat/test_cpp_std_unordered_map_to_py_dict_string_multiple_std_string_128.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Dict, bytes length 128" with candlesticks whiskerbars 0.5,\
-    "dat/test_cpp_std_unordered_map_to_py_dict_string_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6) * $4 / $9):(1e6 * $7 * $4 / $9):(1e6 * $8 * $4 / $9):(1e6 * ($5 + $6) * $4 / $9) \
-        t "Dict, bytes length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/test_cpp_std_unordered_map_to_py_dict_string_multiple_std_string_2.dat" using 3:(rate_1_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 1m objects/s", latency*1e6) with lines dashtype 2 lw 2, \
-    "dat/test_cpp_std_unordered_map_to_py_dict_string_multiple_std_string_2.dat" using 3:(rate_10_000_000($3) * 1e6) t sprintf("Guide: %.3f µs + 10m objects/s", latency*1e6) with lines dashtype 2 lw 2
-
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_unordered_map_string_to_py_dict_multiple_std_string_time.png"   # choose the output device
 
@@ -131,19 +94,6 @@ plot "dat/test_cpp_std_unordered_map_to_py_dict_string_multiple_std_string_16.da
 # Now the rate graph.
 set ylabel "Time per Item (µs)"
 #set yrange [0.01:10]
-
-set terminal svg size 700,400           # choose the file format
-set output "images/cpp_unordered_map_string_to_py_dict_multiple_std_string_rate.svg"   # choose the output device
-
-plot "dat/test_cpp_std_unordered_map_to_py_dict_string_multiple_std_string_16.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-    t "String length 16" with candlesticks whiskerbars 0.5 linetype 2,\
-    "dat/test_cpp_std_unordered_map_to_py_dict_string_multiple_std_string_16.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 2, \
-    "dat/test_cpp_std_unordered_map_to_py_dict_string_multiple_std_string_128.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-    t "String length 128" with candlesticks whiskerbars 0.5 linetype 4,\
-    "dat/test_cpp_std_unordered_map_to_py_dict_string_multiple_std_string_128.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 4, \
-    "dat/test_cpp_std_unordered_map_to_py_dict_string_multiple_std_string_1024.dat" using 3:(1e6 * ($5 - $6) * $4 / ($9 * $3)):(1e6 * $7 * $4 / ($9 * $3)):(1e6 * $8 * $4 / ($9 * $3)):(1e6 * ($5 + $6) * $4 / ($9 * $3)) \
-    t "String length 1024" with candlesticks whiskerbars 0.5 linetype 7,\
-    "dat/test_cpp_std_unordered_map_to_py_dict_string_multiple_std_string_1024.dat" using 3:(1e6 * $7 / $3) t "" with lines linetype 7
 
 set terminal png size 700,400           # choose the file format
 set output "images/cpp_unordered_map_string_to_py_dict_multiple_std_string_rate.png"   # choose the output device

@@ -22,12 +22,6 @@ set datafile separator whitespace
 set key left
 set key font ",9"
 
-set terminal svg size 700,400           # choose the file format
-set output "images/pymemtrace_dict_str.svg"   # choose the output device
-
-plot "dat/pymemtrace_dict_str.dat" using 4:($9 / (1024 * 1024)) t "RSS (Mb)" with linespoints axes x1y1 pt 1 lw 1, \
-    "dat/pymemtrace_dict_str.dat" using 4:($10 / (1024 * 1024)) t "dRSS (Mb)" with points axes x1y2 pt 2 lw 1
-
 #plot "dat/test_with_pymemtrace.dat" using 4:9 t "RSS" with linespoints axes x1y1 pt 1 lw 1
 
 #reset
