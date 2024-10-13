@@ -17,7 +17,6 @@ set pointsize 1
 set datafile separator whitespace
 # Curve fit
 #cost(x) = a + (b / (x/1024))
-#fit cost(x) "perf_size_of.dat" using 1:2 via a,b
 
 set key left
 set key font ",9"
