@@ -36,6 +36,7 @@ const size_t INC_STRING_LENGTH_MULTIPLE = 8; // How much to increment the string
 #pragma mark Testing of object conversion
 
 int test_bool_to_py_bool_multiple(TestResultS &test_results, size_t test_count, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "[" << test_count << "]";
     TestResult test_result(title.str());
@@ -49,10 +50,12 @@ int test_bool_to_py_bool_multiple(TestResultS &test_results, size_t test_count, 
         test_result.execTimeAdd(0, exec_time, test_count, 1);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int test_py_bool_to_cpp_bool_multiple(TestResultS &test_results, size_t test_count, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "[" << test_count << "]";
     TestResult test_result(title.str());
@@ -67,10 +70,12 @@ int test_py_bool_to_cpp_bool_multiple(TestResultS &test_results, size_t test_cou
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int test_long_to_py_int_multiple(TestResultS &test_results, size_t size, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "[" << size << "]";
     TestResult test_result(title.str());
@@ -84,10 +89,12 @@ int test_long_to_py_int_multiple(TestResultS &test_results, size_t size, size_t 
         test_result.execTimeAdd(0, exec_time, size, 1);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int test_py_int_to_cpp_long_multiple(TestResultS &test_results, size_t size, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "[" << size << "]";
     TestResult test_result(title.str());
@@ -102,10 +109,12 @@ int test_py_int_to_cpp_long_multiple(TestResultS &test_results, size_t size, siz
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int test_double_to_py_float_multiple(TestResultS &test_results, size_t size, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "[" << size << "]";
     TestResult test_result(title.str());
@@ -119,10 +128,12 @@ int test_double_to_py_float_multiple(TestResultS &test_results, size_t size, siz
         test_result.execTimeAdd(0, exec_time, size, 1);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int test_py_float_to_cpp_double_multiple(TestResultS &test_results, size_t size, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "[" << size << "]";
     TestResult test_result(title.str());
@@ -137,10 +148,12 @@ int test_py_float_to_cpp_double_multiple(TestResultS &test_results, size_t size,
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int test_complex_to_py_complex_multiple(TestResultS &test_results, size_t size, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "[" << size << "]";
     TestResult test_result(title.str());
@@ -154,10 +167,12 @@ int test_complex_to_py_complex_multiple(TestResultS &test_results, size_t size, 
         test_result.execTimeAdd(0, exec_time, size, 1);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int test_py_complex_to_cpp_complex_multiple(TestResultS &test_results, size_t size, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "[" << size << "]";
     TestResult test_result(title.str());
@@ -172,6 +187,7 @@ int test_py_complex_to_cpp_complex_multiple(TestResultS &test_results, size_t si
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
@@ -194,6 +210,7 @@ int test_py_complex_to_cpp_complex_multiple(TestResultS &test_results, size_t si
 int
 test_cpp_vector_char_to_py_bytes_multiple(TestResultS &test_results, size_t string_size, size_t test_count,
                                           size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
@@ -208,12 +225,14 @@ test_cpp_vector_char_to_py_bytes_multiple(TestResultS &test_results, size_t stri
         test_result.execTimeAdd(0, exec_time, test_count, string_size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int
 test_py_bytes_to_cpp_vector_char_multiple(TestResultS &test_results, size_t string_size, size_t test_count,
                                           size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
@@ -229,11 +248,13 @@ test_py_bytes_to_cpp_vector_char_multiple(TestResultS &test_results, size_t stri
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int
 test_cpp_string_to_py_str_multiple(TestResultS &test_results, size_t string_size, size_t test_count, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
@@ -248,11 +269,13 @@ test_cpp_string_to_py_str_multiple(TestResultS &test_results, size_t string_size
         test_result.execTimeAdd(0, exec_time, test_count, string_size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int
 test_py_str_to_cpp_string_multiple(TestResultS &test_results, size_t string_size, size_t test_count, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
@@ -268,11 +291,13 @@ test_py_str_to_cpp_string_multiple(TestResultS &test_results, size_t string_size
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int test_cpp_u16string_to_py_str16_multiple(TestResultS &test_results, size_t string_size, size_t test_count,
                                             size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
@@ -287,11 +312,13 @@ int test_cpp_u16string_to_py_str16_multiple(TestResultS &test_results, size_t st
         test_result.execTimeAdd(0, exec_time, test_count, string_size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int test_py_str16_to_cpp_u16string_multiple(TestResultS &test_results, size_t string_size, size_t test_count,
                                             size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
@@ -307,11 +334,13 @@ int test_py_str16_to_cpp_u16string_multiple(TestResultS &test_results, size_t st
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int test_cpp_u32string_to_py_str32_multiple(TestResultS &test_results, size_t string_size, size_t test_count,
                                             size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
@@ -326,11 +355,13 @@ int test_cpp_u32string_to_py_str32_multiple(TestResultS &test_results, size_t st
         test_result.execTimeAdd(0, exec_time, test_count, string_size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int test_py_str32_to_cpp_u32string_multiple(TestResultS &test_results, size_t string_size, size_t test_count,
                                             size_t repeat) {
+    assert(! PyErr_Occurred());
     std::ostringstream title;
     title << __FUNCTION__ << "_" << string_size << "[" << test_count << "]";
     TestResult test_result(title.str());
@@ -346,6 +377,7 @@ int test_py_str32_to_cpp_u32string_multiple(TestResultS &test_results, size_t st
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
@@ -354,6 +386,7 @@ int test_py_str32_to_cpp_u32string_multiple(TestResultS &test_results, size_t st
 template<template<typename ...> class ListLike, typename T>
 int test_list_like_to_py_tuple_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat,
                                         const std::string &container_type) {
+    assert(! PyErr_Occurred());
     ListLike<T> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
         cpp_vector.push_back(T(i));
@@ -369,6 +402,7 @@ int test_list_like_to_py_tuple_multiple(TestResultS &test_results, const std::st
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
@@ -384,29 +418,34 @@ int test_list_to_py_tuple_multiple(TestResultS &test_results, const std::string 
 
 template<typename T>
 int test_perf_vector_to_py_tuple_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_vector_to_py_tuple_multiple<T>(test_results, type, size, repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 template<typename T>
 int test_perf_list_to_py_tuple_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_list_to_py_tuple_multiple<T>(test_results, type, size, repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 template<template<typename ...> class ListLike, typename T, PyObject *(*ConvertCppToPy)(const T &)>
 int test_py_tuple_to_list_like_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat,
                                         const std::string &container_type) {
+    assert(! PyErr_Occurred());
     PyObject * op = Python_Cpp_Containers::py_list_new(size);
     int result = 0;
     double exec_time = -1.0;
@@ -443,6 +482,7 @@ int test_py_tuple_to_list_like_multiple(TestResultS &test_results, const std::st
             test_results.push_back(test_result);
         }
     }
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -460,23 +500,27 @@ int test_py_tuple_to_list_multiple(TestResultS &test_results, const std::string 
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
 int test_perf_py_tuple_to_vector_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_py_tuple_to_vector_multiple<T, ConvertCppToPy>(test_results, type, size, repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
 int test_perf_py_tuple_to_list_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_py_tuple_to_list_multiple<T, ConvertCppToPy>(test_results, type, size, repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -484,6 +528,7 @@ template<template<typename ...> class ListLike>
 int
 test_list_like_vector_char_to_py_tuple_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat,
                                                 const std::string &container_type) {
+    assert(! PyErr_Occurred());
     ListLike<std::vector<char>> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
         cpp_vector.push_back(std::vector<char>(str_len, ' '));
@@ -500,6 +545,7 @@ test_list_like_vector_char_to_py_tuple_multiple(TestResultS &test_results, size_
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
@@ -516,6 +562,7 @@ test_list_vector_char_to_py_tuple_multiple(TestResultS &test_results, size_t siz
 }
 
 int test_perf_vector_vector_char_to_py_tuple_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -526,10 +573,12 @@ int test_perf_vector_vector_char_to_py_tuple_multiple(TestResultS &test_results,
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_list_vector_char_to_py_tuple_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -540,6 +589,7 @@ int test_perf_list_vector_char_to_py_tuple_multiple(TestResultS &test_results, s
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -547,6 +597,7 @@ template<template<typename ...> class ListLike>
 int
 test_py_tuple_bytes_to_list_like_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                       size_t repeat, const std::string &container_type) {
+    assert(! PyErr_Occurred());
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "-" << container_type << "<char>" << "[" << str_len << "]>" << "():" << "[" << size << "]";
@@ -565,6 +616,7 @@ test_py_tuple_bytes_to_list_like_vector_char_multiple(TestResultS &test_results,
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -583,6 +635,7 @@ test_py_tuple_bytes_to_list_vector_char_multiple(TestResultS &test_results, size
 }
 
 int test_perf_py_tuple_to_vector_vector_char_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -593,10 +646,12 @@ int test_perf_py_tuple_to_vector_vector_char_multiple(TestResultS &test_results,
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_py_tuple_to_list_vector_char_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -607,12 +662,14 @@ int test_perf_py_tuple_to_list_vector_char_multiple(TestResultS &test_results, s
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 template<template<typename ...> class ListLike>
 int test_list_like_string_to_py_tuple_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat,
                                                const std::string &container_type) {
+    assert(! PyErr_Occurred());
     ListLike<std::string> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
         cpp_vector.push_back(std::string(str_len, ' '));
@@ -629,6 +686,7 @@ int test_list_like_string_to_py_tuple_multiple(TestResultS &test_results, size_t
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
@@ -641,6 +699,7 @@ int test_list_string_to_py_tuple_multiple(TestResultS &test_results, size_t size
 }
 
 int test_perf_vector_string_to_py_tuple_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -651,10 +710,12 @@ int test_perf_vector_string_to_py_tuple_multiple(TestResultS &test_results, size
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_list_string_to_py_tuple_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -665,6 +726,7 @@ int test_perf_list_string_to_py_tuple_multiple(TestResultS &test_results, size_t
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -672,6 +734,7 @@ template<template<typename ...> class ListLike>
 int
 test_py_tuple_str_to_list_like_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat,
                                                const std::string &container_type) {
+    assert(! PyErr_Occurred());
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "-" << container_type << "<std::string>" << "[" << str_len << "]>" << "():" << "["
@@ -691,6 +754,7 @@ test_py_tuple_str_to_list_like_string_multiple(TestResultS &test_results, size_t
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -707,6 +771,7 @@ test_py_tuple_str_to_list_string_multiple(TestResultS &test_results, size_t size
 }
 
 int test_perf_py_tuple_to_vector_string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -717,10 +782,12 @@ int test_perf_py_tuple_to_vector_string_multiple(TestResultS &test_results, size
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_py_tuple_to_list_string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -731,6 +798,7 @@ int test_perf_py_tuple_to_list_string_multiple(TestResultS &test_results, size_t
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -739,6 +807,7 @@ int test_perf_py_tuple_to_list_string_multiple(TestResultS &test_results, size_t
 template<template<typename ...> class ListLike, typename T>
 int test_list_like_to_py_list_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat,
                                        const std::string &container_type) {
+    assert(! PyErr_Occurred());
     ListLike<T> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
         cpp_vector.push_back(T(i));
@@ -754,6 +823,7 @@ int test_list_like_to_py_list_multiple(TestResultS &test_results, const std::str
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
@@ -769,29 +839,34 @@ int test_list_to_py_list_multiple(TestResultS &test_results, const std::string &
 
 template<typename T>
 int test_perf_vector_to_py_list_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_vector_to_py_list_multiple<T>(test_results, type, size, repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 template<typename T>
 int test_perf_list_to_py_list_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_list_to_py_list_multiple<T>(test_results, type, size, repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 template<template<typename ...> class ListLike, typename T, PyObject *(*ConvertCppToPy)(const T &)>
 int test_py_list_to_list_like_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat,
                                        const std::string &container_type) {
+    assert(! PyErr_Occurred());
     PyObject * op = Python_Cpp_Containers::py_list_new(size);
     int result = 0;
     double exec_time = -1.0;
@@ -828,6 +903,7 @@ int test_py_list_to_list_like_multiple(TestResultS &test_results, const std::str
             test_results.push_back(test_result);
         }
     }
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -845,23 +921,27 @@ int test_py_list_to_list_multiple(TestResultS &test_results, const std::string &
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
 int test_perf_py_list_to_vector_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_py_list_to_vector_multiple<T, ConvertCppToPy>(test_results, type, size, repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
 int test_perf_py_list_to_list_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_py_list_to_list_multiple<T, ConvertCppToPy>(test_results, type, size, repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -869,6 +949,7 @@ template<template<typename ...> class ListLike>
 int
 test_list_like_vector_char_to_py_list_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat,
                                                const std::string &container_type) {
+    assert(! PyErr_Occurred());
     ListLike<std::vector<char>> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
         cpp_vector.push_back(std::vector<char>(str_len, ' '));
@@ -885,6 +966,7 @@ test_list_like_vector_char_to_py_list_multiple(TestResultS &test_results, size_t
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
@@ -898,6 +980,7 @@ int test_list_vector_char_to_py_list_multiple(TestResultS &test_results, size_t 
 }
 
 int test_perf_vector_vector_char_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -908,10 +991,12 @@ int test_perf_vector_vector_char_to_py_list_multiple(TestResultS &test_results, 
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_list_vector_char_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -922,6 +1007,7 @@ int test_perf_list_vector_char_to_py_list_multiple(TestResultS &test_results, si
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -931,6 +1017,7 @@ template<
 int
 test_py_list_bytes_to_list_like_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                      size_t repeat, const std::string &container_type) {
+    assert(! PyErr_Occurred());
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "-" << container_type << "<" << "std::vector<char>" << ">" << "[" << str_len << "]>"
@@ -950,6 +1037,7 @@ test_py_list_bytes_to_list_like_vector_char_multiple(TestResultS &test_results, 
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -968,6 +1056,7 @@ test_py_list_bytes_to_list_vector_char_multiple(TestResultS &test_results, size_
 }
 
 int test_perf_py_list_to_vector_vector_char_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -978,10 +1067,12 @@ int test_perf_py_list_to_vector_vector_char_multiple(TestResultS &test_results, 
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_py_list_to_list_vector_char_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -992,6 +1083,7 @@ int test_perf_py_list_to_list_vector_char_multiple(TestResultS &test_results, si
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1000,6 +1092,7 @@ template<
 >
 int test_list_like_string_to_py_list_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat,
                                               const std::string &container_type) {
+    assert(! PyErr_Occurred());
     ListLike<std::string> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
         cpp_vector.push_back(std::string(str_len, ' '));
@@ -1016,6 +1109,7 @@ int test_list_like_string_to_py_list_multiple(TestResultS &test_results, size_t 
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
@@ -1024,6 +1118,7 @@ template<
 >
 int test_list_like_u16string_to_py_list_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat,
                                                  const std::string &container_type) {
+    assert(! PyErr_Occurred());
     ListLike<std::u16string> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
         cpp_vector.push_back(std::u16string(str_len, u' '));
@@ -1040,6 +1135,7 @@ int test_list_like_u16string_to_py_list_multiple(TestResultS &test_results, size
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
@@ -1048,6 +1144,7 @@ template<
 >
 int test_list_like_u32string_to_py_list_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat,
                                                  const std::string &container_type) {
+    assert(! PyErr_Occurred());
     ListLike<std::u32string> cpp_vector;
     for (size_t i = 0; i < size; ++i) {
         cpp_vector.push_back(std::u32string(str_len, u' '));
@@ -1064,6 +1161,7 @@ int test_list_like_u32string_to_py_list_multiple(TestResultS &test_results, size
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
@@ -1076,6 +1174,7 @@ int test_list_string_to_py_list_multiple(TestResultS &test_results, size_t size,
 }
 
 int test_perf_vector_string_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -1086,10 +1185,12 @@ int test_perf_vector_string_to_py_list_multiple(TestResultS &test_results, size_
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_list_string_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -1100,6 +1201,7 @@ int test_perf_list_string_to_py_list_multiple(TestResultS &test_results, size_t 
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1113,6 +1215,7 @@ int test_list_u16string_to_py_list_multiple(TestResultS &test_results, size_t si
 }
 
 int test_perf_vector_u16string_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -1123,10 +1226,12 @@ int test_perf_vector_u16string_to_py_list_multiple(TestResultS &test_results, si
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_list_u16string_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -1137,6 +1242,7 @@ int test_perf_list_u16string_to_py_list_multiple(TestResultS &test_results, size
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1150,6 +1256,7 @@ int test_list_u32string_to_py_list_multiple(TestResultS &test_results, size_t si
 }
 
 int test_perf_vector_u32string_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -1160,10 +1267,12 @@ int test_perf_vector_u32string_to_py_list_multiple(TestResultS &test_results, si
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_list_u32string_to_py_list_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -1174,6 +1283,7 @@ int test_perf_list_u32string_to_py_list_multiple(TestResultS &test_results, size
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1183,6 +1293,7 @@ template<
 int
 test_py_list_str_to_list_like_string_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat,
                                               const std::string &container_type) {
+    assert(! PyErr_Occurred());
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "-" << container_type << "<std::string>" << "[" << str_len << "]>" << "():" << "[" << size
@@ -1202,6 +1313,7 @@ test_py_list_str_to_list_like_string_multiple(TestResultS &test_results, size_t 
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1212,6 +1324,7 @@ int
 test_py_list_str16_to_list_like_u16string_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                    size_t repeat,
                                                    const std::string &container_type) {
+    assert(! PyErr_Occurred());
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "-" << container_type << "<std::u16string>" << "[" << str_len << "]>" << "():" << "["
@@ -1231,6 +1344,7 @@ test_py_list_str16_to_list_like_u16string_multiple(TestResultS &test_results, si
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1241,6 +1355,7 @@ int
 test_py_list_str32_to_list_like_u32string_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                    size_t repeat,
                                                    const std::string &container_type) {
+    assert(! PyErr_Occurred());
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "-" << container_type << "<std::u32string>" << "[" << str_len << "]>" << "():" << "["
@@ -1260,6 +1375,7 @@ test_py_list_str32_to_list_like_u32string_multiple(TestResultS &test_results, si
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1275,6 +1391,7 @@ test_py_list_str_to_list_string_multiple(TestResultS &test_results, size_t size,
 }
 
 int test_perf_py_list_to_vector_string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -1285,10 +1402,12 @@ int test_perf_py_list_to_vector_string_multiple(TestResultS &test_results, size_
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_py_list_to_list_string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -1299,6 +1418,7 @@ int test_perf_py_list_to_list_string_multiple(TestResultS &test_results, size_t 
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1315,6 +1435,7 @@ test_py_list_str16_to_list_u16string_multiple(TestResultS &test_results, size_t 
 }
 
 int test_perf_py_list_to_vector_u16string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -1325,10 +1446,12 @@ int test_perf_py_list_to_vector_u16string_multiple(TestResultS &test_results, si
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_py_list_to_list_u16string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -1339,6 +1462,7 @@ int test_perf_py_list_to_list_u16string_multiple(TestResultS &test_results, size
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1355,6 +1479,7 @@ test_py_list_str32_to_list_u32string_multiple(TestResultS &test_results, size_t 
 }
 
 int test_perf_py_list_to_vector_u32string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -1365,10 +1490,12 @@ int test_perf_py_list_to_vector_u32string_multiple(TestResultS &test_results, si
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_py_list_to_list_u32string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_NON_HASHABLE;
@@ -1379,6 +1506,7 @@ int test_perf_py_list_to_list_u32string_multiple(TestResultS &test_results, size
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1387,6 +1515,7 @@ int test_perf_py_list_to_list_u32string_multiple(TestResultS &test_results, size
 template<typename T>
 int
 test_unordered_set_to_py_set_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::unordered_set<T> cpp_set;
     for (size_t i = 0; i < size; ++i) {
         cpp_set.insert(T(i));
@@ -1402,23 +1531,27 @@ test_unordered_set_to_py_set_multiple(TestResultS &test_results, const std::stri
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 template<typename T>
 int test_perf_unordered_set_to_py_set_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_unordered_set_to_py_set_multiple<T>(test_results, type, size, repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
 int
 test_py_set_to_unordered_set_multiple(TestResultS &test_results, const std::string &type, size_t size, size_t repeat) {
+    assert(! PyErr_Occurred());
     PyObject * op = PySet_New(NULL);
     int result = 0;
     double exec_time = -1.0;
@@ -1456,22 +1589,30 @@ test_py_set_to_unordered_set_multiple(TestResultS &test_results, const std::stri
         }
     }
     // Check PyErr_Occurred
+    if (result == 0) {
+        assert(! PyErr_Occurred());
+    } else {
+        assert(PyErr_Occurred());
+    }
     return result;
 }
 
 template<typename T, PyObject *(*ConvertCppToPy)(const T &)>
 int test_perf_py_set_to_unordered_set_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER; size < LIMIT_SIZE_OF_CONTAINER; size *= INC_SIZE_OF_CONTAINER_MULTIPLE) {
         result |= test_py_set_to_unordered_set_multiple<T, ConvertCppToPy>(test_results, type, size, repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_unordered_set_vector_char_to_py_set_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                       size_t repeat) {
+    assert(! PyErr_Occurred());
     std::unordered_set<std::vector<char>> cpp_set;
     for (size_t i = 0; i < size; ++i) {
         cpp_set.insert(unique_vector_char(str_len));
@@ -1487,10 +1628,12 @@ int test_unordered_set_vector_char_to_py_set_multiple(TestResultS &test_results,
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 int test_perf_unordered_set_vector_char_to_py_set_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -1501,11 +1644,13 @@ int test_perf_unordered_set_vector_char_to_py_set_multiple(TestResultS &test_res
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_py_set_bytes_to_unordered_set_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                             size_t repeat) {
+    assert(! PyErr_Occurred());
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "<std::vector<char>[" << str_len << "]>" << "():" << "[" << size << "]";
@@ -1524,10 +1669,12 @@ int test_py_set_bytes_to_unordered_set_vector_char_multiple(TestResultS &test_re
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_py_set_bytes_to_unordered_set_vector_char_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -1538,6 +1685,7 @@ int test_perf_py_set_bytes_to_unordered_set_vector_char_multiple(TestResultS &te
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1548,6 +1696,7 @@ int test_perf_py_set_bytes_to_unordered_set_vector_char_multiple(TestResultS &te
  */
 int
 test_unordered_set_string_to_py_set_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::unordered_set<std::string> cpp_set;
     for (size_t i = 0; i < size; ++i) {
         cpp_set.insert(unique_string(str_len));
@@ -1563,11 +1712,13 @@ test_unordered_set_string_to_py_set_multiple(TestResultS &test_results, size_t s
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 /** Invoke \c test_unordered_set_string_to_py_set_multiple() with different size values and containers. */
 int test_perf_unordered_set_string_to_py_set_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -1578,6 +1729,7 @@ int test_perf_unordered_set_string_to_py_set_multiple(TestResultS &test_results,
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1588,6 +1740,7 @@ int test_perf_unordered_set_string_to_py_set_multiple(TestResultS &test_results,
  */
 int test_py_set_str_to_unordered_set_string_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                      size_t repeat) {
+    assert(! PyErr_Occurred());
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
@@ -1606,11 +1759,13 @@ int test_py_set_str_to_unordered_set_string_multiple(TestResultS &test_results, 
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
 /** Invoke \c test_py_set_str_to_unordered_set_string_multiple() with different size values and containers. */
 int test_perf_py_set_str_to_unordered_set_string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -1621,6 +1776,7 @@ int test_perf_py_set_str_to_unordered_set_string_multiple(TestResultS &test_resu
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1631,6 +1787,7 @@ int test_perf_py_set_str_to_unordered_set_string_multiple(TestResultS &test_resu
  */
 int
 test_unordered_set_u16string_to_py_set_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::unordered_set<std::u16string> cpp_set;
     for (size_t i = 0; i < size; ++i) {
         cpp_set.insert(unique_u16string(str_len));
@@ -1646,11 +1803,13 @@ test_unordered_set_u16string_to_py_set_multiple(TestResultS &test_results, size_
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 /** Invoke \c test_unordered_set_u16string_to_py_set_multiple() with different size values and containers. */
 int test_perf_unordered_set_u16string_to_py_set_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -1661,6 +1820,7 @@ int test_perf_unordered_set_u16string_to_py_set_multiple(TestResultS &test_resul
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1671,13 +1831,14 @@ int test_perf_unordered_set_u16string_to_py_set_multiple(TestResultS &test_resul
  */
 int test_py_set_str16_to_unordered_set_u16string_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                           size_t repeat) {
+    assert(! PyErr_Occurred());
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     PyObject * op = new_py_set_u16string(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
-        std::unordered_set<std::string> cpp_set;
+        std::unordered_set<std::u16string> cpp_set;
         ExecClock exec_clock;
         int err = Python_Cpp_Containers::py_set_to_cpp_std_unordered_set(op, cpp_set);
         double exec_time = exec_clock.seconds();
@@ -1689,13 +1850,18 @@ int test_py_set_str16_to_unordered_set_u16string_multiple(TestResultS &test_resu
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
+// TODO: Use SET_RESULT_IF_PY_ERR_OCCURRED everywhere???
+// Or not as a simple assert should be OK as test_functional should catch the errors
 /** Invoke \c test_py_set_str16_to_unordered_set_u16string_multiple() with different size values and containers. */
 int test_perf_py_set_str16_to_unordered_set_u16string_multiple(TestResultS &test_results, size_t repeat) {
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
+    SET_RESULT_IF_PY_ERR_OCCURRED;
+    assert(! PyErr_Occurred());
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
          str_len < LIMIT_STRING_LENGTH; str_len *= INC_STRING_LENGTH_MULTIPLE) {
         for (size_t size = MIN_SIZE_OF_CONTAINER;
@@ -1704,6 +1870,8 @@ int test_perf_py_set_str16_to_unordered_set_u16string_multiple(TestResultS &test
         }
     }
     RSS_SNAPSHOT_REPORT;
+    SET_RESULT_IF_PY_ERR_OCCURRED;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1714,6 +1882,7 @@ int test_perf_py_set_str16_to_unordered_set_u16string_multiple(TestResultS &test
  */
 int
 test_unordered_set_u32string_to_py_set_multiple(TestResultS &test_results, size_t size, size_t str_len, size_t repeat) {
+    assert(! PyErr_Occurred());
     std::unordered_set<std::u32string> cpp_set;
     for (size_t i = 0; i < size; ++i) {
         cpp_set.insert(unique_u32string(str_len));
@@ -1729,11 +1898,13 @@ test_unordered_set_u32string_to_py_set_multiple(TestResultS &test_results, size_
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
 /** Invoke \c test_unordered_set_u32string_to_py_set_multiple() with different size values and containers. */
 int test_perf_unordered_set_u32string_to_py_set_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -1744,6 +1915,7 @@ int test_perf_unordered_set_u32string_to_py_set_multiple(TestResultS &test_resul
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1754,13 +1926,14 @@ int test_perf_unordered_set_u32string_to_py_set_multiple(TestResultS &test_resul
  */
 int test_py_set_str32_to_unordered_set_u32string_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                           size_t repeat) {
+    assert(! PyErr_Occurred());
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "<std::string[" << str_len << "]>" << "():" << "[" << size << "]";
     TestResult test_result(title.str());
     PyObject * op = new_py_set_u32string(size, str_len);
     for (size_t i = 0; i < repeat; ++i) {
-        std::unordered_set<std::string> cpp_set;
+        std::unordered_set<std::u32string> cpp_set;
         ExecClock exec_clock;
         int err = Python_Cpp_Containers::py_set_to_cpp_std_unordered_set(op, cpp_set);
         double exec_time = exec_clock.seconds();
@@ -1772,11 +1945,13 @@ int test_py_set_str32_to_unordered_set_u32string_multiple(TestResultS &test_resu
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
 /** Invoke \c test_py_set_str32_to_unordered_set_u32string_multiple() with different size values and containers. */
 int test_perf_py_set_str32_to_unordered_set_u32string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -1787,6 +1962,7 @@ int test_perf_py_set_str32_to_unordered_set_u32string_multiple(TestResultS &test
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1795,6 +1971,7 @@ int test_perf_py_set_str32_to_unordered_set_u32string_multiple(TestResultS &test
 template<template<typename ...> class MapLike, typename K, typename V>
 int test_cpp_std_map_like_to_py_dict_multiple(TestResultS &test_results, const std::string &type, size_t size,
                                               size_t repeat, const std::string &container_type) {
+    assert(! PyErr_Occurred());
     MapLike<K, V> cpp_map;
     for (size_t i = 0; i < size; ++i) {
         cpp_map[static_cast<K>(i)] = static_cast<V>(i);
@@ -1810,6 +1987,7 @@ int test_cpp_std_map_like_to_py_dict_multiple(TestResultS &test_results, const s
         test_result.execTimeAdd(0, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return 0;
 }
 
@@ -1830,6 +2008,7 @@ int test_cpp_std_map_to_py_dict_multiple(TestResultS &test_results, const std::s
 template<typename K, typename V>
 int
 test_perf_cpp_std_unordered_map_to_py_dict_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_CONTAINER_TYPE_AND_TYPE("std::unordered_map", type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER;
@@ -1837,12 +2016,14 @@ test_perf_cpp_std_unordered_map_to_py_dict_multiple(TestResultS &test_results, c
         result |= test_cpp_std_unordered_map_to_py_dict_multiple<K, V>(test_results, type, size, repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 template<typename K, typename V>
 int
 test_perf_cpp_std_map_to_py_dict_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_CONTAINER_TYPE_AND_TYPE("std::map", type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER;
@@ -1850,6 +2031,7 @@ test_perf_cpp_std_map_to_py_dict_multiple(TestResultS &test_results, const std::
         result |= test_cpp_std_map_to_py_dict_multiple<K, V>(test_results, type, size, repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1862,6 +2044,7 @@ template<
 >
 int test_py_dict_to_cpp_std_map_like_multiple(TestResultS &test_results, const std::string &type, size_t size,
                                               size_t repeat, const std::string &container_type) {
+    assert(! PyErr_Occurred());
     PyObject * op = PyDict_New();
     PyObject * py_k = NULL;
     PyObject * py_v = NULL;
@@ -1928,6 +2111,7 @@ int test_py_dict_to_cpp_std_map_like_multiple(TestResultS &test_results, const s
         }
         Py_DECREF(op);
     }
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1965,6 +2149,7 @@ template<
 >
 int
 test_perf_py_dict_to_cpp_std_unordered_map_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER;
@@ -1973,6 +2158,7 @@ test_perf_py_dict_to_cpp_std_unordered_map_multiple(TestResultS &test_results, c
                                                                                              repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -1984,6 +2170,7 @@ template<
 >
 int
 test_perf_py_dict_to_cpp_std_map_multiple(TestResultS &test_results, const std::string &type, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITH_TYPE(type);
     int result = 0;
     for (size_t size = MIN_SIZE_OF_CONTAINER;
@@ -1992,6 +2179,7 @@ test_perf_py_dict_to_cpp_std_map_multiple(TestResultS &test_results, const std::
                                                                                    repeat);
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -2000,6 +2188,7 @@ template<
 >
 int test_cpp_std_map_like_to_py_dict_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                           size_t repeat, const std::string &container_type) {
+    assert(! PyErr_Occurred());
     int result = 0;
     MapLike<std::vector<char>, std::vector<char>> cpp_map;
     for (size_t i = 0; i < size; ++i) {
@@ -2022,6 +2211,7 @@ int test_cpp_std_map_like_to_py_dict_vector_char_multiple(TestResultS &test_resu
         test_result.execTimeAdd(result, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -2038,6 +2228,7 @@ int test_cpp_std_map_to_py_dict_vector_char_multiple(TestResultS &test_results, 
 }
 
 int test_perf_cpp_std_unordered_map_to_py_dict_vector_char_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -2048,10 +2239,12 @@ int test_perf_cpp_std_unordered_map_to_py_dict_vector_char_multiple(TestResultS 
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_cpp_std_map_to_py_dict_vector_char_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -2062,6 +2255,7 @@ int test_perf_cpp_std_map_to_py_dict_vector_char_multiple(TestResultS &test_resu
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -2073,6 +2267,7 @@ template<
 >
 int test_py_dict_to_cpp_std_map_like_vector_char_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                           size_t repeat, const std::string &container_type) {
+    assert(! PyErr_Occurred());
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "-" << container_type << "<std::vector<char>>[" << str_len << "]>" << "():" << "[" << size
@@ -2092,6 +2287,7 @@ int test_py_dict_to_cpp_std_map_like_vector_char_multiple(TestResultS &test_resu
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -2108,6 +2304,7 @@ int test_py_dict_to_cpp_std_map_vector_char_multiple(TestResultS &test_results, 
 }
 
 int test_perf_py_dict_to_cpp_std_unordered_map_vector_char_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -2118,10 +2315,12 @@ int test_perf_py_dict_to_cpp_std_unordered_map_vector_char_multiple(TestResultS 
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_py_dict_to_cpp_std_map_vector_char_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -2132,6 +2331,7 @@ int test_perf_py_dict_to_cpp_std_map_vector_char_multiple(TestResultS &test_resu
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -2140,6 +2340,7 @@ template<
 >
 int test_cpp_std_map_like_to_py_dict_string_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                      size_t repeat, const std::string &container_type) {
+    assert(! PyErr_Occurred());
     int result = 0;
     MapLike<std::string, std::string> cpp_map;
     for (size_t i = 0; i < size; ++i) {
@@ -2161,6 +2362,7 @@ int test_cpp_std_map_like_to_py_dict_string_multiple(TestResultS &test_results, 
         test_result.execTimeAdd(result, exec_time, 1, size);
     }
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -2176,6 +2378,7 @@ int test_cpp_std_map_to_py_dict_string_multiple(TestResultS &test_results, size_
 }
 
 int test_perf_cpp_std_unordered_map_to_py_dict_string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -2186,10 +2389,12 @@ int test_perf_cpp_std_unordered_map_to_py_dict_string_multiple(TestResultS &test
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_cpp_std_map_to_py_dict_string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -2200,6 +2405,7 @@ int test_perf_cpp_std_map_to_py_dict_string_multiple(TestResultS &test_results, 
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -2208,6 +2414,7 @@ template<
 >
 int test_py_dict_to_cpp_std_map_like_string_multiple(TestResultS &test_results, size_t size, size_t str_len,
                                                      size_t repeat, const std::string &container_type) {
+    assert(! PyErr_Occurred());
     int result = 0;
     std::ostringstream title;
     title << __FUNCTION__ << "-" << container_type << "<std::string>[" << str_len << "]>" << "():" << "[" << size
@@ -2227,6 +2434,7 @@ int test_py_dict_to_cpp_std_map_like_string_multiple(TestResultS &test_results, 
     }
     Py_DECREF(op);
     test_results.push_back(test_result);
+    assert(! PyErr_Occurred());
     return result;
 }
 
@@ -2242,6 +2450,7 @@ int test_py_dict_to_cpp_std_map_string_multiple(TestResultS &test_results, size_
 }
 
 int test_perf_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -2252,10 +2461,12 @@ int test_perf_py_dict_to_cpp_std_unordered_map_string_multiple(TestResultS &test
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
 int test_perf_py_dict_to_cpp_std_map_string_multiple(TestResultS &test_results, size_t repeat) {
+    assert(! PyErr_Occurred());
     RSS_SNAPSHOT_WITHOUT_TYPE;
     int result = 0;
     for (size_t str_len = MIN_STRING_LENGTH_HASHABLE;
@@ -2266,29 +2477,31 @@ int test_perf_py_dict_to_cpp_std_map_string_multiple(TestResultS &test_results, 
         }
     }
     RSS_SNAPSHOT_REPORT;
+    assert(! PyErr_Occurred());
     return result;
 }
 
-#define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
+//#define TEST_PERFORMANCE_FUNDAMENTAL_TYPES
 // Control object testing
-#define TEST_PERFORMANCE_OBJECT_BOOL
-#define TEST_PERFORMANCE_OBJECT_LONG
-#define TEST_PERFORMANCE_OBJECT_DOUBLE
-#define TEST_PERFORMANCE_OBJECT_COMPLEX
-#define TEST_PERFORMANCE_OBJECT_BYTES
-#define TEST_PERFORMANCE_OBJECT_STRING
+//#define TEST_PERFORMANCE_OBJECT_BOOL
+//#define TEST_PERFORMANCE_OBJECT_LONG
+//#define TEST_PERFORMANCE_OBJECT_DOUBLE
+//#define TEST_PERFORMANCE_OBJECT_COMPLEX
+//#define TEST_PERFORMANCE_OBJECT_BYTES
+//#define TEST_PERFORMANCE_OBJECT_STRING
 #define TEST_PERFORMANCE_OBJECT_STRING_16
 #define TEST_PERFORMANCE_OBJECT_STRING_32
 
 // Control container testing
-#define TEST_PERFORMANCE_TUPLES
-#define TEST_PERFORMANCE_LISTS
+//#define TEST_PERFORMANCE_TUPLES
+//#define TEST_PERFORMANCE_LISTS
 #define TEST_PERFORMANCE_SETS
-#define TEST_PERFORMANCE_DICTS
+//#define TEST_PERFORMANCE_DICTS
 
 
 void test_performance_all(TestResultS &test_results) {
     std::cout << __FUNCTION__ << " START" << std::endl;
+    assert(! PyErr_Occurred());
     RSSSnapshot rss_overall("==== test_performance.cpp");
 #ifdef TEST_PERFORMANCE_FUNDAMENTAL_TYPES
     // Fundamental type tests
@@ -2668,4 +2881,5 @@ void test_performance_all(TestResultS &test_results) {
 #endif // TEST_PERFORMANCE_DICTS
     std::cout << "==== " << rss_overall << std::endl;
     std::cout << __FUNCTION__ << " FINISH" << std::endl;
+    assert(! PyErr_Occurred());
 }

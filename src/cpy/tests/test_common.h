@@ -161,6 +161,16 @@ const int PY_ERR_ON_EXIT_RETURN_CODE = -2;
         }                                       \
     } while(0)
 
+// PyErr_Print clears the error: https://docs.python.org/3/c-api/exceptions.html#c.PyErr_Print
+#define SET_RESULT_IF_PY_ERR_OCCURRED             \
+    do {                                          \
+        if (PyErr_Occurred()) {                   \
+            PyErr_Print();    \
+            result = PY_ERR_ON_ENTRY_RETURN_CODE; \
+        }                                         \
+    } while(0)
+
+
 #pragma mark Comparison templates
 
 /**
@@ -404,6 +414,14 @@ template <>
 int
 compare_set<std::string>(const std::unordered_set<std::string> &cpp_set, PyObject *op);
 
+template <>
+int
+compare_set<std::u16string>(const std::unordered_set<std::u16string> &cpp_set, PyObject *op);
+
+template <>
+int
+compare_set<std::u32string>(const std::unordered_set<std::u32string> &cpp_set, PyObject *op);
+
 /**
  * Compare a Python \c dict with a C++ \c std::unordered_map or \c std::map.
  *
@@ -493,6 +511,18 @@ compare_dict<
 template <>
 int
 compare_dict<
+        std::unordered_map, std::u16string, std::u16string
+        >(const std::unordered_map<std::u16string, std::u16string> &cpp_map, PyObject *op);
+
+template <>
+int
+compare_dict<
+        std::unordered_map, std::u32string, std::u32string
+        >(const std::unordered_map<std::u32string, std::u32string> &cpp_map, PyObject *op);
+
+template <>
+int
+compare_dict<
         std::map, std::vector<char>, std::vector<char>
         >(const std::map<std::vector<char>, std::vector<char>> &cpp_map, PyObject *op);
 
@@ -501,6 +531,18 @@ int
 compare_dict<
         std::map, std::string, std::string
         >(const std::map<std::string, std::string> &cpp_map, PyObject *op);
+
+template <>
+int
+compare_dict<
+        std::map, std::u16string, std::u16string
+        >(const std::map<std::u16string, std::u16string> &cpp_map, PyObject *op);
+
+template <>
+int
+compare_dict<
+        std::map, std::u32string, std::u32string
+        >(const std::map<std::u32string, std::u32string> &cpp_map, PyObject *op);
 
 #pragma mark Tests of containers of strings.
 
@@ -523,6 +565,10 @@ int test_py_list_bytes_to_vector(TestResultS &test_results, size_t size, size_t 
 // Functional test of list of string
 int test_vector_string_to_py_list(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_list_str_to_vector(TestResultS &test_results, size_t size, size_t str_len);
+int test_vector_u16string_to_py_list(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_list_str16_to_vector(TestResultS &test_results, size_t size, size_t str_len);
+int test_vector_u32string_to_py_list(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_list_str32_to_vector(TestResultS &test_results, size_t size, size_t str_len);
 
 // Functional tests of sets of bytes
 int test_unordered_set_bytes_to_py_set(TestResultS &test_results, size_t size, size_t str_len);
@@ -530,6 +576,10 @@ int test_py_set_bytes_to_unordered_set(TestResultS &test_results, size_t size, s
 // Functional tests of sets of strings
 int test_unordered_set_string_to_py_set(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_set_string_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len);
+int test_unordered_set_u16string_to_py_set(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_set_string16_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len);
+int test_unordered_set_u32string_to_py_set(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_set_string32_to_unordered_set(TestResultS &test_results, size_t size, size_t str_len);
 
 // Functional tests of dict of bytes to and from std::unordered_map
 int test_cpp_std_unordered_map_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len);
@@ -537,6 +587,10 @@ int test_py_dict_to_cpp_std_unordered_map_bytes(TestResultS &test_results, size_
 // Functional tests of dict of strings to and from std::unordered_map
 int test_cpp_std_unordered_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_dict_to_cpp_std_unordered_map_string(TestResultS &test_results, size_t size, size_t str_len);
+int test_cpp_std_unordered_map_to_py_dict_string16(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_dict_to_cpp_std_unordered_map_u16string(TestResultS &test_results, size_t size, size_t str_len);
+int test_cpp_std_unordered_map_to_py_dict_string32(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_dict_to_cpp_std_unordered_map_u32string(TestResultS &test_results, size_t size, size_t str_len);
 
 // Functional tests of dict of bytes to and from std::map
 int test_cpp_std_map_to_py_dict_bytes(TestResultS &test_results, size_t size, size_t str_len);
@@ -544,6 +598,10 @@ int test_py_dict_to_cpp_std_map_bytes(TestResultS &test_results, size_t size, si
 // Functional tests of dict of strings to and from std::map
 int test_cpp_std_map_to_py_dict_string(TestResultS &test_results, size_t size, size_t str_len);
 int test_py_dict_to_cpp_std_map_string(TestResultS &test_results, size_t size, size_t str_len);
+int test_cpp_std_map_to_py_dict_string16(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_dict_to_cpp_std_map_string16(TestResultS &test_results, size_t size, size_t str_len);
+int test_cpp_std_map_to_py_dict_string32(TestResultS &test_results, size_t size, size_t str_len);
+int test_py_dict_to_cpp_std_map_string32(TestResultS &test_results, size_t size, size_t str_len);
 
 #pragma mark Generic test templates
 
@@ -1127,5 +1185,9 @@ PyObject *
 new_py_dict_bytes(size_t size, size_t str_len);
 PyObject *
 new_py_dict_string(size_t size, size_t str_len);
+PyObject *
+new_py_dict_string16(size_t size, size_t str_len);
+PyObject *
+new_py_dict_string32(size_t size, size_t str_len);
 
 #endif // PY_CPP_CONTAINERS_TEST_COMMON_H

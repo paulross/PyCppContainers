@@ -128,11 +128,7 @@ void test_example_py_dict_to_cpp_std_unordered_map() {
  */
 void test_functional_tuple_setitem(TestResultS &test_results) {
     int result = 0; // 0 is success.
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_ENTRY_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     ExecClock exec_clock;
     double exec_time = -1.0;
     ssize_t size = 1 << 20;
@@ -161,11 +157,7 @@ void test_functional_tuple_setitem(TestResultS &test_results) {
     } else {
         result = 9;
     }
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_EXIT_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     REPORT_TEST_OUTPUT;
 }
 
@@ -176,11 +168,7 @@ void test_functional_tuple_setitem(TestResultS &test_results) {
  */
 void test_functional_list_setitem(TestResultS &test_results) {
     int result = 0; // 0 is success.
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_ENTRY_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     ExecClock exec_clock;
     double exec_time = -1.0;
     ssize_t size = 1 << 20;
@@ -209,11 +197,7 @@ void test_functional_list_setitem(TestResultS &test_results) {
     } else {
         result = 9;
     }
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_EXIT_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     REPORT_TEST_OUTPUT;
 }
 
@@ -224,11 +208,7 @@ void test_functional_list_setitem(TestResultS &test_results) {
  */
 void test_functional_set_add(TestResultS &test_results) {
     int result = 0; // 0 is success.
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_ENTRY_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     ExecClock exec_clock;
     double exec_time = -1.0;
     ssize_t size = 1 << 20;
@@ -261,11 +241,7 @@ void test_functional_set_add(TestResultS &test_results) {
     } else {
         result = 9;
     }
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_EXIT_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     REPORT_TEST_OUTPUT;
 }
 
@@ -277,11 +253,7 @@ void test_functional_set_add(TestResultS &test_results) {
  */
 void test_functional_set_add_from_iterable(TestResultS &test_results) {
     int result = 0; // 0 is success.
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_ENTRY_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     ExecClock exec_clock;
     double exec_time = -1.0;
     ssize_t size = 1 << 20;
@@ -302,11 +274,7 @@ void test_functional_set_add_from_iterable(TestResultS &test_results) {
     Py_XDECREF(list);
     result |= Py_REFCNT(py_str) != 0;
 
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_EXIT_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     REPORT_TEST_OUTPUT;
 }
 
@@ -317,11 +285,7 @@ void test_functional_set_add_from_iterable(TestResultS &test_results) {
  */
 void test_functional_frozenset_add(TestResultS &test_results) {
     int result = 0; // 0 is success.
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_ENTRY_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     ExecClock exec_clock;
     double exec_time = -1.0;
     ssize_t size = 1 << 20;
@@ -354,11 +318,7 @@ void test_functional_frozenset_add(TestResultS &test_results) {
     } else {
         result = 9;
     }
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_EXIT_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     REPORT_TEST_OUTPUT;
 }
 
@@ -370,11 +330,7 @@ void test_functional_frozenset_add(TestResultS &test_results) {
  */
 void test_functional_frozenset_add_from_iterable(TestResultS &test_results) {
     int result = 0; // 0 is success.
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_ENTRY_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     ExecClock exec_clock;
     double exec_time = -1.0;
     ssize_t size = 1 << 20;
@@ -395,11 +351,7 @@ void test_functional_frozenset_add_from_iterable(TestResultS &test_results) {
     Py_XDECREF(list);
     result |= Py_REFCNT(py_str) != 0;
 
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_EXIT_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     REPORT_TEST_OUTPUT;
 }
 
@@ -410,11 +362,7 @@ void test_functional_frozenset_add_from_iterable(TestResultS &test_results) {
  */
 void test_functional_dict_setitem(TestResultS &test_results) {
     int result = 0; // 0 is success.
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_ENTRY_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     ExecClock exec_clock;
     double exec_time = -1.0;
     ssize_t size = 1 << 20;
@@ -459,11 +407,7 @@ void test_functional_dict_setitem(TestResultS &test_results) {
     } else {
         result = 9;
     }
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_EXIT_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     REPORT_TEST_OUTPUT;
 }
 
@@ -474,11 +418,7 @@ void test_functional_dict_setitem(TestResultS &test_results) {
  */
 void test_functional_dict_copy(TestResultS &test_results) {
     int result = 0; // 0 is success.
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_ENTRY_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     ExecClock exec_clock;
     double exec_time = -1.0;
     ssize_t size = 1 << 20;
@@ -534,11 +474,7 @@ void test_functional_dict_copy(TestResultS &test_results) {
     } else {
         result = 9;
     }
-    if (PyErr_Occurred()) {
-        // Clear the error
-        PyErr_Print();
-        result = PY_ERR_ON_EXIT_RETURN_CODE;
-    }
+    SET_RESULT_IF_PY_ERR_OCCURRED;
     REPORT_TEST_OUTPUT;
 }
 
@@ -619,9 +555,12 @@ void test_functional_list(TestResultS &test_results) {
     test_py_list_bytes_to_vector(test_results, 1024, 32);
     test_vector_string_to_py_list(test_results, 1024, 32);
     test_py_list_str_to_vector(test_results, 1024, 32);
-    // TODO: Rename test string/str to string8/str8
-    // TODO: Add test for string16
-    // TODO: Add test for string32
+    // Add test for string16
+    test_vector_u16string_to_py_list(test_results, 1024, 32);
+    test_py_list_str16_to_vector(test_results, 1024, 32);
+    // Add test for string32
+    test_vector_u32string_to_py_list(test_results, 1024, 32);
+    test_py_list_str32_to_vector(test_results, 1024, 32);
 }
 
 void test_functional_set(TestResultS &test_results) {
@@ -645,9 +584,12 @@ void test_functional_set(TestResultS &test_results) {
     test_unordered_set_bytes_to_py_set(test_results, 1024, 32);
     test_unordered_set_string_to_py_set(test_results, 1024, 32);
     test_py_set_string_to_unordered_set(test_results, 1024, 32);
-    // TODO: Rename test string/str to string8/str8
-    // TODO: Add test for string16
-    // TODO: Add test for string32
+    // Add test for string16
+    test_unordered_set_u16string_to_py_set(test_results, 1024, 32);
+    test_py_set_string16_to_unordered_set(test_results, 1024, 32);
+    // Add test for string32
+    test_unordered_set_u32string_to_py_set(test_results, 1024, 32);
+    test_py_set_string32_to_unordered_set(test_results, 1024, 32);
 }
 
 void test_functional_dict_with_std_unordred_map(TestResultS &test_results) {
@@ -704,9 +646,12 @@ void test_functional_dict_with_std_unordred_map(TestResultS &test_results) {
     test_py_dict_to_cpp_std_unordered_map_bytes(test_results, 1024, 32);
     test_cpp_std_unordered_map_to_py_dict_string(test_results, 1024, 32);
     test_py_dict_to_cpp_std_unordered_map_string(test_results, 1024, 32);
-    // TODO: Rename test string/str to string8/str8
-    // TODO: Add test for string16
-    // TODO: Add test for string32
+    // Add test for string16
+    test_cpp_std_unordered_map_to_py_dict_string16(test_results, 1024, 32);
+    test_py_dict_to_cpp_std_unordered_map_u16string(test_results, 1024, 32);
+    // Add test for string32
+    test_cpp_std_unordered_map_to_py_dict_string32(test_results, 1024, 32);
+    test_py_dict_to_cpp_std_unordered_map_u32string(test_results, 1024, 32);
 }
 
 void test_functional_dict_with_std_map(TestResultS &test_results) {
@@ -763,9 +708,12 @@ void test_functional_dict_with_std_map(TestResultS &test_results) {
     test_py_dict_to_cpp_std_map_bytes(test_results, 1024, 32);
     test_cpp_std_map_to_py_dict_string(test_results, 1024, 32);
     test_py_dict_to_cpp_std_map_string(test_results, 1024, 32);
-    // TODO: Rename test string/str to string8/str8
-    // TODO: Add test for string16
-    // TODO: Add test for string32
+    // Add test for string16
+    test_cpp_std_map_to_py_dict_string16(test_results, 1024, 32);
+    test_py_dict_to_cpp_std_map_string16(test_results, 1024, 32);
+    // Add test for string32
+    test_cpp_std_map_to_py_dict_string32(test_results, 1024, 32);
+    test_py_dict_to_cpp_std_map_string32(test_results, 1024, 32);
 }
 
 #pragma mark # MARK: Invoke all tests.

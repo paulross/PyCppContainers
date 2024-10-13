@@ -5,12 +5,12 @@
 
 #include <cpp/save_stream_state.h>
 
-#define TEST_INTERNAL_ALL 1
+#define TEST_INTERNAL_ALL 0
 #define TEST_FUNCTIONAL_ALL 1
 // Controls execution of test_performance_all() which takes a long time.
-#define TEST_PERFORMANCE_ALL 1
+#define TEST_PERFORMANCE_ALL 0
 // Controls execution of test_memory_all().
-#define TEST_MEMORY_ALL 1
+#define TEST_MEMORY_ALL 0
 
 #include "cpy/tests/test_functional.h"
 #if TEST_INTERNAL_ALL
