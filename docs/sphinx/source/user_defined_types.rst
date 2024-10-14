@@ -7,10 +7,11 @@
 User Defined Types
 ********************************
 
-.. contents:: Contents
-   :depth: 2
-   :local:
-   :backlinks: none
+.. Commented out
+    .. contents:: Contents
+       :depth: 2
+       :local:
+       :backlinks: none
 
 This shows how to support conversion of containers of user defined types between Python and C++.
 
@@ -28,12 +29,55 @@ This is probably best done by example.
 User Defined Types in a C Extension
 ============================================
 
-This example will demonstrate supporting the conversion of ``std::vector`` s of a user defined C++ class with a ``list`` of Python equivalents.
+This example will demonstrate supporting the conversion of ``std::vector`` s of a user defined C++ class with a
+``list`` of Python equivalents.
 
-The C++ Class Declared in the File ``cUserDefined.h``
+A Python Class
+-------------------------------------------------------
+
+This is based on `the example in the Python documentation <https://docs.python.org/3/extending/newtypes_tutorial.html#adding-data-and-methods-to-the-basic-example>`_
+That is varied slightly for this example:
+
+- The module name is ``cUserDefined`` (rather than ``custom`` in the original example).
+- The code for the C extension is in ``cUserDefined.cpp``.
+
+In this example the ``CustomObject`` class is created in this project in ``src/ext/cUserDefined.cpp``.
+It looks like this:
+
+.. code-block:: c
+
+    typedef struct {
+        PyObject_HEAD
+        PyObject *first; /* first name */
+        PyObject *last;  /* last name */
+        int number;
+    } CustomObject;
+
+This also has a method ``name()`` that combines the first and last names such as this:
+
+.. code-block:: c
+
+    static PyObject *
+    Custom_name(CustomObject *self, PyObject *Py_UNUSED(ignored)) {
+        return PyUnicode_FromFormat("%S %S", self->first, self->last);
+    }
+
+Once the Python extension is built it can be used in Python like this:
+
+.. code-block::
+
+    >>> import cUserDefined
+    >>> custom_object = cUserDefined.Custom('François', 'Truffaut', 21468)
+    >>> custom_object.name()
+    'François Truffaut'
+
+So much for the CPython example, now for the equivalent code in C++.
+
+C++ Class Declared in the File ``cUserDefined.h``
 ----------------------------------------------------------
 
-Here is an example of a user defined C++ class that contains a first name, second name and a number.:
+Here is the user defined pure C++ class that contains a first name, second name and a number which mirrors the CPython
+code above:
 
 .. code-block:: cpp
 
@@ -57,45 +101,16 @@ Here is an example of a user defined C++ class that contains a first name, secon
         long m_number;
     };
 
+Now add some conversion code from the CPython ``CustomObject`` to the C++ ``CppCustomObject``:
 
-The Python Equivalent in the File ``cUserDefined.cpp``
--------------------------------------------------------
-
-This is based on `the example in the Python documentation <https://docs.python.org/3/extending/newtypes_tutorial.html#adding-data-and-methods-to-the-basic-example>`_
-That is varied slightly for this example:
-
-- The module name is ``cUserDefined`` (rather than ``custom`` in the original example).
-- The code for the C extension is in ``cUserDefined.cpp``.
-
-In this example a ``CustomObject`` class is created in ``cUserDefined.cpp``:
-
-.. code-block:: c
-
-    typedef struct {
-        PyObject_HEAD
-        PyObject *first; /* first name */
-        PyObject *last;  /* last name */
-        int number;
-    } CustomObject;
-
-This also has a method ``name()`` that combines the first and last names.
-Once the module is built it can be used in Python like this:
-
-.. code-block::
-
-    >>> import cUserDefined
-    >>> custom_object = cUserDefined.Custom('François', 'Truffaut', 21468)
-    >>> custom_object.name()
-    'François Truffaut'
-
-
-Adding Conversion Code in ``cUserDefined.cpp``
+Conversion Code in ``cUserDefined.cpp``
 ---------------------------------------------------
 
 In the Python C extension add the verification and conversion code between the Python ``CustomObject`` and the C++
 ``CppCustomObject``.
 
-First the include files:
+First the include files, this ensures we have access to the C++ ``CppCustomObject`` class definition and this library's
+conversion machinery:
 
 .. code-block:: cpp
 
@@ -105,7 +120,8 @@ First the include files:
 Checking the Python Type
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The the code to verify the Python type and its contents.
+We need to know that any ``PyObject`` is really a ``CustomObject``.
+Her is the code to verify the Python type and its contents.
 
 .. code-block:: cpp
 
@@ -126,7 +142,7 @@ The the code to verify the Python type and its contents.
 From C++ to Python
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The code to convert from a C++ ``CppCustomObject`` to a Python ``CustomObject``:
+The code to convert from a C++ ``CppCustomObject`` to a new Python ``CustomObject``:
 
 .. code-block:: cpp
 
@@ -144,7 +160,7 @@ The code to convert from a C++ ``CppCustomObject`` to a Python ``CustomObject``:
 From Python to C++
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The code to convert from a Python ``CustomObject`` to a C++ ``CppCustomObject``:
+The code to convert from a Python ``CustomObject`` to a new C++ ``CppCustomObject``:
 
 .. code-block:: cpp
 
@@ -153,8 +169,8 @@ The code to convert from a Python ``CustomObject`` to a C++ ``CppCustomObject``:
         assert(py_custom_object_check(op));
         CustomObject *p = (CustomObject *) op;
         return CppCustomObject(
-                Python_Cpp_Containers::py_unicode_to_cpp_string(p->first),
-                Python_Cpp_Containers::py_unicode_to_cpp_string(p->last),
+                Python_Cpp_Containers::py_unicode8_to_cpp_string(p->first),
+                Python_Cpp_Containers::py_unicode8_to_cpp_string(p->last),
                 p->number
         );
     }
@@ -163,7 +179,7 @@ Template Specialisation Declarations in ``cUserDefined.h``
 -------------------------------------------------------------
 
 In the file, ``cUserDefined.h``, include this project's header file and then in this project's namespace declare
-the specialisations to convert to and from a ``std::vector`` of these objects:
+the specialisations to call this library's generic functions to convert to and from a ``std::vector`` of these objects:
 
 .. code-block:: cpp
 
@@ -174,72 +190,75 @@ From C++ to Python
 
 .. code-block:: cpp
 
-    namespace Python_Cpp_Containers {
-        // Specialised declaration
-        // C++ to Python
-        template<>
-        PyObject *
-        cpp_std_list_like_to_py_list<CppCustomObject>(
-            const std::vector<CppCustomObject> &container
-        );
-    } // namespace Python_Cpp_Containers
+    using namespace Python_Cpp_Containers;
+
+    // Specialised declaration
+    // C++ to Python
+    template<>
+    PyObject *
+    cpp_std_list_like_to_py_list<CppCustomObject>(
+        const std::vector<CppCustomObject> &container
+    );
 
 From Python to C++
 ^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
-    namespace Python_Cpp_Containers {
-        // Specialised declaration
-        // Python to C++
-        template<>
-        int
-        py_list_to_cpp_std_list_like<CppCustomObject>(
-            PyObject *op, std::vector<CppCustomObject> &container
-        );
-    } // namespace Python_Cpp_Containers
+    using namespace Python_Cpp_Containers;
+
+    // Specialised declaration
+    // Python to C++
+    template<>
+    int
+    py_list_to_cpp_std_list_like<CppCustomObject>(
+        PyObject *op, std::vector<CppCustomObject> &container
+    );
+
+TODO: WIP
 
 Template Specialisation Definitions in ``cUserDefined.cpp``
 -------------------------------------------------------------
 
-In the file ``cUserDefined.cpp`` implement the specialisations, these are just one-liners calling the generic conversion code.
+In the file ``cUserDefined.cpp`` implement the specialisations, these are just one-liners calling the generic
+conversion code.
 
 From C++ to Python
 ^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
-    namespace Python_Cpp_Containers {
-        // Specialised implementations
-        template<>
-        PyObject *
-        cpp_std_list_like_to_py_list<CppCustomObject>(
-            const std::vector<CppCustomObject> &container
-        ) {
-            return generic_cpp_std_list_like_to_py_list<
-                    CppCustomObject, &cpp_custom_object_to_py_custom_object
-            >(container);
-        }
-    } // namespace Python_Cpp_Containers
+    using namespace Python_Cpp_Containers;
+
+    // Specialised implementations
+    template<>
+    PyObject *
+    cpp_std_list_like_to_py_list<CppCustomObject>(
+        const std::vector<CppCustomObject> &container
+    ) {
+        return generic_cpp_std_list_like_to_py_list<
+                CppCustomObject, &cpp_custom_object_to_py_custom_object
+        >(container);
+    }
 
 From Python to C++
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
-    namespace Python_Cpp_Containers {
-        template<>
-        int
-        py_list_to_cpp_std_list_like<CppCustomObject>(
-            PyObject *op, std::vector<CppCustomObject> &container
-        ) {
-            return generic_py_list_to_cpp_std_list_like<
-                    CppCustomObject,
-                    &py_custom_object_check,
-                    &py_custom_object_to_cpp_custom_object
-            >(op, container);
-        }
-    } // namespace Python_Cpp_Containers
+    using namespace Python_Cpp_Containers;
+
+    template<>
+    int
+    py_list_to_cpp_std_list_like<CppCustomObject>(
+        PyObject *op, std::vector<CppCustomObject> &container
+    ) {
+        return generic_py_list_to_cpp_std_list_like<
+                CppCustomObject,
+                &py_custom_object_check,
+                &py_custom_object_to_cpp_custom_object
+        >(op, container);
+    }
 
 Now you have all the code needed to convert sequences of these objects between C++ and Python.
 
