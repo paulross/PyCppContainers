@@ -139,7 +139,7 @@ namespace Python_Cpp_Containers {
         assert(! PyErr_Occurred());
         PyObject *ret = PyUnicode_New(s.size(), 65535);
         assert(py_unicode16_check(ret));
-#if 1
+#if 0
         for (std::u16string::size_type i = 0; i < s.size(); ++i) {
             int result = PyUnicode_WriteChar(ret, i, s[i]);
             if (result) {
@@ -202,7 +202,7 @@ namespace Python_Cpp_Containers {
         assert(! PyErr_Occurred());
         PyObject *ret = PyUnicode_New(s.size(), 1114111);
         assert(py_unicode32_check(ret));
-#if 1
+#if 0
         for (std::u32string::size_type i = 0; i < s.size(); ++i) {
             int result = PyUnicode_WriteChar(ret, i, s[i]);
             if (result) {
