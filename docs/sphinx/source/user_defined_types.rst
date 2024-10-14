@@ -112,6 +112,7 @@ The ``setup.py`` file would include this Extension definition:
         'cUserDefined',
         sources=[
             'src/ext/cUserDefined.cpp',
+            # Include this libraries source files.
             'src/cpy/auto_py_convert_internal.cpp',
             'src/cpy/python_container_convert.cpp',
             'src/cpy/python_object_convert.cpp',
@@ -199,13 +200,11 @@ Now add some conversion code from the CPython ``CustomObject`` to the C++ ``CppC
 Conversion Code
 ---------------
 
-In the Python C extension add the verification and conversion code between the Python ``CustomObject`` and the C++
-``CppCustomObject``.
+Now, in the Python C extension add the verification and conversion code between the Python ``CustomObject`` and
+the C++ ``CppCustomObject``.
 
-This code is in ``cUserDefined.cpp``.
-
-First the include files, this ensures that we have access to the C++ ``CppCustomObject`` class definition and this
-library's conversion machinery:
+This code is in ``cUserDefined.cpp`` and include the necessary files, this ensures that we have access to the C++
+``CppCustomObject`` class definition and this library's conversion machinery:
 
 .. _PyCppContainers.user_define_types.c_extension.conversion.py_to_cpp:
 
@@ -283,7 +282,7 @@ From Python to C++
             PyObject *op, std::vector<CppCustomObject> &container
         );
 
-    }
+    } // namespace Python_Cpp_Containers
 
 In the file ``cUserDefined.cpp`` implement the specialisation, this is just a one-liner calling the generic
 conversion code in this library with the types and functions we have created.
@@ -308,7 +307,7 @@ conversion code in this library with the types and functions we have created.
             >(op, container);
         }
 
-    }
+    } // namespace Python_Cpp_Containers
 
 .. _PyCppContainers.user_define_types.c_extension.template_specialisation.cpp_to_py:
 
@@ -332,7 +331,7 @@ And for the reverse:
             const std::vector<CppCustomObject> &container
         );
 
-    }
+    } // namespace Python_Cpp_Containers
 
 In the file ``cUserDefined.cpp`` implement the specialisation, this is just a one-liner calling the generic
 conversion code in this library.
@@ -356,7 +355,7 @@ conversion code in this library.
             >(container);
         }
 
-    }
+    } // namespace Python_Cpp_Containers
 
 .. note::
 
@@ -413,9 +412,9 @@ Here is an example of converting a Python ``list`` of ``CustomObject`` to a C++ 
 Example of Round-trip Conversion
 --------------------------------------
 
-Here is a complete example that takes a list of Python ``CustomObject`` and creates a list of C++
-``CppCustomObject`` with the first name and last name reversed in C++.
-Then it converts that C++ ``std::vector`` of ``CppCustomObject`` back to a new list of of Python ``CustomObject``.
+Here is a complete example that takes a list of Python ``CustomObject`` and creates a C++
+``std::vector<CppCustomObject>`` with the first name and last name reversed in C++.
+Then it converts that C++ ``std::vector<CppCustomObject>`` back to a new list of of Python ``CustomObject``.
 
 In ``cUserDefined.cpp``:
 
@@ -489,13 +488,8 @@ First add two specialised declarations in ``cUserDefined.h``:
 .. code-block:: cpp
 
     namespace Python_Cpp_Containers {
+
         // Specialised declarations
-        // C++ to Python
-        template<>
-        PyObject *
-        cpp_std_map_like_to_py_dict<std::map, long, CppCustomObject>(
-            const std::map<long, CppCustomObject> &map
-        );
 
         // Python to C++
         template <>
@@ -503,34 +497,19 @@ First add two specialised declarations in ``cUserDefined.h``:
         py_dict_to_cpp_std_map_like<std::map, long, CppCustomObject>(
             PyObject* op, std::map<long, CppCustomObject> &map
         );
-    } // namespace Python_Cpp_Containers
 
-
-And their definitions in ``cUserDefined.cpp``.
-Again these are just one-liners to this project's generic functions (expanded for clarity).
-
-From C++ to Python
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. code-block:: cpp
-
-    namespace Python_Cpp_Containers {
-        // Specialised definitions
         // C++ to Python
         template<>
         PyObject *
         cpp_std_map_like_to_py_dict<std::map, long, CppCustomObject>(
             const std::map<long, CppCustomObject> &map
-        ) {
-            return generic_cpp_std_map_like_to_py_dict<
-                std::map,
-                long,
-                CppCustomObject,
-                &cpp_long_to_py_long,
-                &cpp_custom_object_to_py_custom_object
-            >(map);
-        }
+        );
+
     } // namespace Python_Cpp_Containers
+
+
+And their definitions in ``cUserDefined.cpp``.
+Again these are just one-liners to this project's generic functions (expanded for clarity).
 
 From Python to C++
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -538,6 +517,7 @@ From Python to C++
 .. code-block:: cpp
 
     namespace Python_Cpp_Containers {
+
         // Python to C++
         template <>
         int
@@ -554,8 +534,33 @@ From Python to C++
                 &py_custom_object_to_cpp_custom_object
             >(op, map);
         }
+
     } // namespace Python_Cpp_Containers
 
+From C++ to Python
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+    namespace Python_Cpp_Containers {
+
+        // Specialised definitions
+        // C++ to Python
+        template<>
+        PyObject *
+        cpp_std_map_like_to_py_dict<std::map, long, CppCustomObject>(
+            const std::map<long, CppCustomObject> &map
+        ) {
+            return generic_cpp_std_map_like_to_py_dict<
+                std::map,
+                long,
+                CppCustomObject,
+                &cpp_long_to_py_long,
+                &cpp_custom_object_to_py_custom_object
+            >(map);
+        }
+
+    } // namespace Python_Cpp_Containers
 
 Example Code
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
