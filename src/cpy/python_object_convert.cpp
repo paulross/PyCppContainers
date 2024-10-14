@@ -139,6 +139,7 @@ namespace Python_Cpp_Containers {
         assert(! PyErr_Occurred());
         PyObject *ret = PyUnicode_New(s.size(), 65535);
         assert(py_unicode16_check(ret));
+#if 1
         for (std::u16string::size_type i = 0; i < s.size(); ++i) {
             int result = PyUnicode_WriteChar(ret, i, s[i]);
             if (result) {
@@ -149,6 +150,17 @@ namespace Python_Cpp_Containers {
                 return NULL;
             }
         }
+#else
+        void *dest = PyUnicode_DATA(ret);
+        const void *src = s.c_str();
+        auto str_size = s.size();
+        rsize_t size = s.size() * sizeof(std::u16string::value_type);
+        if (memcpy(dest, src, size) != dest) {
+            // memcpy failure
+            Py_DECREF(ret);
+            return NULL;
+        }
+#endif
         assert(py_unicode16_check(ret));
         assert(! PyErr_Occurred());
         return ret;
@@ -190,6 +202,7 @@ namespace Python_Cpp_Containers {
         assert(! PyErr_Occurred());
         PyObject *ret = PyUnicode_New(s.size(), 1114111);
         assert(py_unicode32_check(ret));
+#if 1
         for (std::u32string::size_type i = 0; i < s.size(); ++i) {
             int result = PyUnicode_WriteChar(ret, i, s[i]);
             if (result) {
@@ -200,6 +213,17 @@ namespace Python_Cpp_Containers {
                 return NULL;
             }
         }
+#else
+        void *dest = PyUnicode_DATA(ret);
+        const void *src = s.c_str();
+        auto str_size = s.size();
+        rsize_t size = s.size() * sizeof(std::u32string::value_type);
+        if (memcpy(dest, src, size) != dest) {
+            // memcpy failure
+            Py_DECREF(ret);
+            return NULL;
+        }
+#endif
         assert(py_unicode32_check(ret));
         assert(! PyErr_Occurred());
         return ret;
