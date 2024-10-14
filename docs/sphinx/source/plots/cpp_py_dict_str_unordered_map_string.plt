@@ -71,7 +71,7 @@ plot "dat/test_py_dict_to_cpp_std_unordered_map_string_multiple_std_string_16.da
 # ======================
 # C++ to Python
 # ======================
-set title "Copy a C++ std::unordered_map of std::string to a Python dict of str by length."
+set title "Copy a C++ std::unordered_map of std::string to a Python dict of str by length."  noenhanced
 
 set key left
 set key font ",9"

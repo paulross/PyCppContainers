@@ -1,6 +1,6 @@
 #set logscale x
 set grid
-set title "Creating a 0.5m dict of 1k bytes and round-tripping it through a C++ std::unordered_map 10 times."
+set title "Creating a 0.5m dict of 1k bytes and round-tripping it through a C++ std::unordered_map 10 times." noenhanced
 set xlabel "Time (s)"
 
 #set logscale y

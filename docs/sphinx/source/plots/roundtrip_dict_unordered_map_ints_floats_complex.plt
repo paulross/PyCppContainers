@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Python dict to a C++ std::unordered_map then back to a Python dict."
+set title "Python dict to a C++ std::unordered_map then back to a Python dict." noenhanced
 set xlabel "Dict length"
 
 set logscale y

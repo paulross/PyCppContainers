@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Python Set to a C++ std::unordered_set then back to a Python Set."
+set title "Python Set to a C++ std::unordered_set then back to a Python Set." noenhanced
 set xlabel "List length"
 
 set logscale y

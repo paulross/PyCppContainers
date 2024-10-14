@@ -71,7 +71,7 @@ plot "dat/test_py_set_str_to_unordered_set_string_multiple_std_string_16.dat" us
 # ======================
 # C++ to Python
 # ======================
-set title "Copy a C++ std::unordered_set of std::string to a Python set of str by length."
+set title "Copy a C++ std::unordered_set of std::string to a Python set of str by length." noenhanced
 
 set key left
 set key font ",9"

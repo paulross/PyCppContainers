@@ -1,4 +1,4 @@
-set title "Copy a Python dict of bytes to and from C++ std::unordered_mapby bytes lengths."
+set title "Copy a Python dict of bytes to and from C++ std::unordered_map by bytes lengths." noenhanced
 set grid
 
 set logscale x
@@ -72,7 +72,7 @@ plot "dat/test_py_dict_to_cpp_std_unordered_map_vector_char_multiple_std_vector_
 # ======================
 # C++ to Python
 # ======================
-set title "Copy a C++ std::unordered_map of std::vector<char> to a Python dict of bytes by length."
+set title "Copy a C++ std::unordered_map of std::vector<char> to a Python dict of bytes by length." noenhanced
 
 set key left
 set key font ",9"
