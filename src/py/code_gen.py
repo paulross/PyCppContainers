@@ -25,7 +25,7 @@ logger = logging.getLogger(__file__)
 #: The namespace that all the C++ code lives within.
 CPP_NAMESPACE = 'Python_Cpp_Containers'
 
-PROJECT_VERSION = '0.3.2'
+PROJECT_VERSION = '0.4.0'
 
 #: This is the map of type conversion functions between Python and C/C++ that we are going to need.
 #: These refer to handwritten functions.

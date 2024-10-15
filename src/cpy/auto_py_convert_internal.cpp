@@ -3,7 +3,7 @@
 //####### Auto-generated code - do not edit. Seriously, do NOT edit. ######
 //#########################################################################
 //
-// Version: 0.3.2
+// Version: 0.4.0
 //
 // Conversion from homogeneous data structures in Python and C++
 // 

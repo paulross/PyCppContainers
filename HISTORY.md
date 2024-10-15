@@ -1,5 +1,10 @@
 # History
 
+## Version 0.4.0
+
+- Support std::u16string and std:u32string
+- Fairly major documentation and test changes.
+
 ## Version 0.3.2
 
 - Support Python versions 3.8 to 3.13.
