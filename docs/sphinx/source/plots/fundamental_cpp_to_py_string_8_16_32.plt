@@ -54,8 +54,6 @@ plot \
         t "Python str 32 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2, \
     "dat/fundamental_test_cpp_u32string_to_py_str32_multiple.dat" using 3:(1e6 * $7 * $4 / $9) \
         t "Minimum Python str 32 bit -> C++" with lines linewidth 2, \
-    "dat/fundamental_test_cpp_string_to_py_str_multiple.dat" using 3:(rate_100_000_000($3) * 1e6) \
-        t sprintf("Guide: %.3f µs + 100 MB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2, \
     "dat/fundamental_test_cpp_string_to_py_str_multiple.dat" using 3:(rate_10_000_000_000($3) * 1e6) \
         t sprintf("Guide: %.3f µs + 10 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2
 
@@ -78,7 +76,6 @@ plot \
 
 # 16 bit strings.
 set title "Conversion of a Single 16 bit String C++ to Python."
-latency = 0.04e-6
 
 set output "images/fundamental_string_cpp_to_py_16.png"   # choose the output device
 
@@ -88,12 +85,11 @@ plot \
         t "Python str 16 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2,\
     "dat/fundamental_test_cpp_u16string_to_py_str16_multiple.dat" using 3:(1e6 * $7 * $4 / $9) \
         t "Minimum Python str 16 bit -> C++" with lines, \
-    "dat/fundamental_test_cpp_string_to_py_str_multiple.dat" using 3:(rate_100_000_000($3) * 1e6) \
-        t sprintf("Guide: %.3f µs + 100 MB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2
+    "dat/fundamental_test_cpp_string_to_py_str_multiple.dat" using 3:(rate_10_000_000_000($3) * 1e6) \
+        t sprintf("Guide: %.3f µs + 10 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2
 
 # 32 bit strings.
 set title "Conversion of a Single 32 bit String C++ to Python."
-latency = 0.02e-6
 
 set output "images/fundamental_string_cpp_to_py_32.png"   # choose the output device
 
@@ -103,7 +99,7 @@ plot \
         t "Python str 32 bit -> C++" with candlesticks whiskerbars 0.5 linewidth 2,\
     "dat/fundamental_test_cpp_u32string_to_py_str32_multiple.dat" using 3:(1e6 * $7 * $4 / $9) \
         t "Minimum Python str 32 bit -> C++" with lines, \
-    "dat/fundamental_test_cpp_string_to_py_str_multiple.dat" using 3:(rate_100_000_000($3) * 1e6) \
-        t sprintf("Guide: %.3f µs + 100 MB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2
+    "dat/fundamental_test_cpp_string_to_py_str_multiple.dat" using 3:(rate_10_000_000_000($3) * 1e6) \
+        t sprintf("Guide: %.3f µs + 10 GB/s", latency*1e6) with lines smooth bezier dashtype 3 lw 2
 
 reset
