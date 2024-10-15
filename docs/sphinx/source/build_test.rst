@@ -176,6 +176,7 @@ As a basic, from your virtual environment:
 
 By default this only does the functional tests and skips the others such as performance and memory tests.
 To run these tests you need to add the arguments ``--runslow`` and ``-pymemtrace`` respectively, see below.
+This takes about 40 minutes.
 
 Testing Performance
 --------------------------------
@@ -242,7 +243,7 @@ To include all the memory tests, this takes about 20 minutes:
     Opening log file 20241010_104051_11927.log
     pytest tests --pymemtrace  982.16s user 248.42s system 99% cpu 20:38.30 total
 
-Running with both ``--runslow`` and ``--pymentrace`` takes about an hour.
+Running with both ``--runslow`` and ``--pymentrace`` takes about about 40 minutes.
 
 =========================================
 Building the Documentation
@@ -269,7 +270,7 @@ Firstly the C++ performance, from the project directory:
     $ # in perf_notes/dat.
     $ python write_dat_files_for_cpp_test_results.py
 
-Now for the Python tests, from the project directory, this takes about an hour:
+Now for the Python tests, from the project directory, this takes about about 40 minutes:
 
 .. code-block:: shell
 
@@ -362,7 +363,8 @@ The typical time breakdown is:
 - C++ debug and release builds: 5 minutes.
 - C++ debug tests (3,000+): 40 minutes.
 - C++ release tests (around 25,000): about 40 minutes.
-- Python: create environment and run all tests, including slow and memory tests (127): around 1 hour per Python version.
+- Python: create environment and run all tests, including slow and memory tests (127): around 45 minutes per Python
+  version.
 
 For all Python versions (6 currently) this takes about eight hours.
 
