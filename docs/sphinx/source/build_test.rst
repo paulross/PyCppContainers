@@ -361,9 +361,9 @@ The typical time breakdown is:
 
 - C++ debug and release builds: 5 minutes.
 - C++ debug tests (3,000+): 40 minutes.
-- C++ release tests (around 25,000): about 6.5 hours
-- Python: create environment and run all tests (127): around 1 hour per Python version.
+- C++ release tests (around 25,000): about 40 minutes.
+- Python: create environment and run all tests, including slow and memory tests (127): around 1 hour per Python version.
 
-For all Python versions (6 currently) this takes about 12 to 13 hours.
+For all Python versions (6 currently) this takes about eight hours.
 
 This does not build the documentation.

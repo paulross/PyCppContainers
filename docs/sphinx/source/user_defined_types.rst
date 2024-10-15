@@ -270,7 +270,7 @@ From Python to C++
 
 .. code-block:: cpp
 
-    #include "cpy/python_convert.h"
+    #include "python_convert.h"
 
     // Specialised declaration in cUserDefined.h
 
@@ -318,7 +318,7 @@ And for the reverse:
 
 .. code-block:: cpp
 
-    #include "cpy/python_convert.h"
+    #include "python_convert.h"
 
     // Specialised declaration in cUserDefined.h
 

@@ -45,7 +45,7 @@ Which should give you something like:
 Build Configuration
 --------------------------
 
-You need to compile the following C++ files by adding them to your makefile or CMakeLists.txt:
+You need to compile the following C++ files by adding them to your makefile or ``CMakeLists.txt``:
 This project has a ``CMakeLists.txt`` as an example.
 
 .. code-block:: none
@@ -137,7 +137,7 @@ At the beginning of the extension C/C++ code we have:
 
 .. code-block:: cpp
 
-    #include "cpy/python_convert.h"
+    #include "python_convert.h"
 
 For convenience we use the namespace that the conversion code is within:
 
@@ -246,14 +246,15 @@ Here is the extension code that call this:
     /** Reverse a tuple of bytes in C++. */
     static PyObject *
     tuple_reverse(PyObject *Py_UNUSED(module), PyObject *arg) {
-        std::vector<std::string> vec;
+        std::vector<std::vector<char>> vec;
         if (!py_tuple_to_cpp_std_vector(arg, vec)) {
             return cpp_std_vector_to_py_tuple(reverse_vector(vec));
         }
         return NULL;
     }
 
-Once again the declaration ``std::vector<std::string> vec;`` ensures that the correct instantiations of conversion functions are called.
+Once again the declaration ``std::vector<std::vector<char>> vec;`` ensures that the correct instantiations of
+the conversion functions are called.
 
 When the extension is built it can be used like this:
 
@@ -275,7 +276,7 @@ The C++ code in the extension is this:
     /** Creates a new dict[bytes, int] with the values incremented by 1 in C++ */
     static PyObject *
     dict_inc(PyObject *Py_UNUSED(module), PyObject *arg) {
-        std::unordered_map<std::string, long> dict;
+        std::unordered_map<std::vector<char>, long> dict;
         /* Copy the Python structure to the C++ one. */
         if (!py_dict_to_cpp_std_unordered_map(arg, dict)) {
             /* Increment. */
