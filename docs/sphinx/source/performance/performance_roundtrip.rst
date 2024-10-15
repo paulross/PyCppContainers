@@ -8,10 +8,12 @@
 Round-trip Python to C++ and back to Python
 =================================================
 
+TODO: WIP whe have removed // 2 from the container size test.
+
 Python Objects
 ------------------------------------------------
 
-This shows the perfromance of converting a Python single object to its C++ equivalent and back again.
+This shows the performance of converting a Python single object to its C++ equivalent and back again.
 
 Python Bytes
 ^^^^^^^^^^^^^^
@@ -118,7 +120,7 @@ This template converts a Python list to C++ and back:
 
 .. code-block:: cpp
 
-    #include "cpy/python_convert.h"
+    #include "python_convert.h"
 
     using namespace Python_Cpp_Containers;
 

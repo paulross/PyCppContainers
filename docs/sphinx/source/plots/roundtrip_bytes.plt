@@ -50,6 +50,7 @@ set output "images/roundtrip_bytes_time.png"   # choose the output device
 
 plot "dat/roundtrip_bytes.dat" using 1:(max(1e6 * ($4 - $6), 0.01)):(1e6 * $3):(1e6 * $7):(1e6 * ($4 + $6)) \
         t "bytes <-> C++ std::vector<char>" with candlesticks whiskerbars 0.5, \
+    "dat/roundtrip_bytes.dat" using 1:(1e6 * $3) t "Min bytes <-> C++ std::vector<char>" with lines, \
     "dat/roundtrip_bytes.dat" using 1:(rate_10_000_000_000($1) * 1e6) t sprintf("Guide: %.2f µs + 10 GB/s", latency*1e6) with lines lw 2 dashtype 5
 
 #plot "dat/roundtrip_bytes.dat" using 1:(1e6 * $3) \
