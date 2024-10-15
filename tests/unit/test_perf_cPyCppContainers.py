@@ -105,13 +105,38 @@ BYTES_LISTS = {
 }
 
 # String tests
+# @pytest.mark.slow
+def test_new_bytes():
+    results = []
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    for size in SIZE_DOUBLING:
+        original = b' ' * size
+        timer = TimedResults()
+        for _r in range(REPEAT):
+            time_start = time.perf_counter()
+            cPyCppContainers.new_bytes(original)
+            time_exec = time.perf_counter() - time_start
+            timer.add(time_exec)
+        results.append((size, timer))
+    # pprint.pprint(results)
+    print()
+    print('test_new_bytes()')
+    rss_new = proc.memory_info().rss
+    print(f'RSS was {rss:,d} now {rss_new:,d} diff: {rss_new - rss:+,d}')
+    print(f'{"Size":<8s} {results[0][1].str_header():s} {"Min/Size e9":>12s}')
+    for s, t in results:
+        print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
+
+
+# String tests
 @pytest.mark.slow
 def test_new_str():
     results = []
     proc = psutil.Process()
     rss = proc.memory_info().rss
     for size in SIZE_DOUBLING:
-        original = ' ' * (size // 2)
+        original = ' ' * size
         timer = TimedResults()
         for _r in range(REPEAT):
             time_start = time.perf_counter()
@@ -135,7 +160,7 @@ def test_new_str16():
     proc = psutil.Process()
     rss = proc.memory_info().rss
     for size in SIZE_DOUBLING:
-        original = str_16(size // 2)
+        original = str_16(size)
         timer = TimedResults()
         for _r in range(REPEAT):
             time_start = time.perf_counter()
@@ -159,7 +184,7 @@ def test_new_str32():
     proc = psutil.Process()
     rss = proc.memory_info().rss
     for size in SIZE_DOUBLING:
-        original = str_32(size // 2)
+        original = str_32(size)
         timer = TimedResults()
         for _r in range(REPEAT):
             time_start = time.perf_counter()
@@ -183,7 +208,7 @@ def test_new_list_vector_bool():
     proc = psutil.Process()
     rss = proc.memory_info().rss
     for size in SIZE_DOUBLING:
-        original = [True, False, ] * (size // 2)
+        original = [True, False, ] * size
         timer = TimedResults()
         for _r in range(REPEAT):
             time_start = time.perf_counter()
