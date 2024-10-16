@@ -19,6 +19,64 @@ from pymemtrace import cPyMemTrace
 import cPyCppContainers
 
 
+def _test_new_str(char: str, scale: int, test_function: typing.Callable):
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    # 1Gb
+    total_bytes = 2**20 * 2**10
+    original = char * (total_bytes // scale)
+    results = []
+    for _r in range(10):
+        time_start = time.perf_counter()
+        test_function(original)
+        time_exec = time.perf_counter() - time_start
+        results.append(time_exec)
+        # del original
+    # print()
+    # print('\n'.join(f'{v:8.3f}' for v in results))
+    print(f'Time: Min: {min(results):8.3f} Mean: {sum(results) / len(results):8.3f} Max: {max(results):8.3f}')
+    rss_new = proc.memory_info().rss
+    print(f'_test_new_str(): Total bytes {total_bytes:16,d} RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
+
+
+@pytest.mark.pymemtrace
+def test_new_str():
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    # with cPyMemTrace.Profile():
+    with cPyMemTrace.Profile(4096 * 16):
+        _test_new_str(' ', 1, cPyCppContainers.new_str)
+    gc.collect()
+    rss_new = proc.memory_info().rss
+    print(f'test_new_str(): RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
+
+
+@pytest.mark.pymemtrace
+def test_new_str16():
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    # with cPyMemTrace.Profile():
+    with cPyMemTrace.Profile(4096 * 16):
+        # The euro symbol as 16 bit unicode
+        _test_new_str('\u8000', 2, cPyCppContainers.new_str16)
+    gc.collect()
+    rss_new = proc.memory_info().rss
+    print(f'test_new_str(): RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
+
+
+@pytest.mark.pymemtrace
+def test_new_str32():
+    proc = psutil.Process()
+    rss = proc.memory_info().rss
+    # with cPyMemTrace.Profile():
+    with cPyMemTrace.Profile(4096 * 16):
+        # The euro symbol as 32 bit unicode
+        _test_new_str('\U00018000', 4, cPyCppContainers.new_str32)
+    gc.collect()
+    rss_new = proc.memory_info().rss
+    print(f'test_new_str(): RSS was {rss:16,d} now {rss_new:16,d} diff: {rss_new - rss:+16,d}')
+
+
 def _test_new_list_bool(test_function):
     proc = psutil.Process()
     rss = proc.memory_info().rss
