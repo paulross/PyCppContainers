@@ -104,8 +104,8 @@ BYTES_LISTS = {
     k: get_random_bytes(LIST_OF_BYTE_VALUES, max(SIZE_DOUBLING)) for k in SIZE_DOUBLING_BYTE_LENGTH
 }
 
-# String tests
-# @pytest.mark.slow
+# Fundamental string and bytes tests.
+@pytest.mark.slow
 def test_new_bytes():
     results = []
     proc = psutil.Process()
