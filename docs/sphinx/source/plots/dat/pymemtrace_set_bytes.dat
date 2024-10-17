@@ -1,3 +1,4 @@
+# From: perf_notes/pymemtrace_logs/Python312/20241017_100657_20792.log
 #     Event        dEvent  Clock        What     File                   line Function                                  RSS         dRSS
 # $1  $2           $3      $4           $5       $6                        $7 $8                                         $9          $10
 NEXT: 0            +0      111.181956   CALL     tests/unit/test_with_pymemtrace.py 224 _test_new_set_bytes                 228753408    228753408

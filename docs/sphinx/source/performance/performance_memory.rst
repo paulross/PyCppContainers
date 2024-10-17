@@ -8,6 +8,61 @@
 Memory Use
 =====================
 
+Single Bytes and Strings
+------------------------
+
+
+
+.. code-block:: python
+
+    import cPyCppContainers
+    import cPyMemTrace
+
+    def test_new_bytes():
+        with cPyMemTrace.Profile(4096 * 16):
+            original = b' ' * FUNDAMENTAL_TYPES_STR_BYTES_SIZE
+            results = []
+            for _r in range(FUNDAMENTAL_TYPES_STR_BYTES_REPEAT):
+                cPyCppContainers.new_bytes(original)
+            // This helps cPyMemTrace complete.
+            gc.collect()
+
+
+Bytes
+^^^^^
+
+Creating a 1GB bytes object and round-tripping it between a C++ ``std::vector<char>`` and back to a new Python bytes
+object.
+
+.. image:: ../plots/images/pymemtrace_new_bytes.png
+    :height: 400px
+    :align: center
+
+Strings
+^^^^^^^
+
+Strings with 8 bit characters, this 1GB of 8 bit characters:
+
+.. image:: ../plots/images/pymemtrace_new_str.png
+    :height: 400px
+    :align: center
+
+Strings with 16 bit characters, this 0.5GB of 8 bit characters:
+
+.. image:: ../plots/images/pymemtrace_new_str16.png
+    :height: 400px
+    :align: center
+
+
+Strings with 32 bit characters, this 0.25GB of 8 bit characters:
+
+.. image:: ../plots/images/pymemtrace_new_str32.png
+    :height: 400px
+    :align: center
+
+Containers
+----------
+
 To examine the typical memory use a round-trip was made between Python to C++ and back to Python with a container
 (``list``, ``set`` or ``dict``) of ``bytes``.
 The container was 1m long and each member was 1k bytes, so a total of 1Gb to convert to C++ and back to a new
@@ -59,7 +114,7 @@ that created the plot below):
     \end{landscape}
 
 Python List of bytes
-------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^
 
 The following is a plot of RSS and change of RSS over time:
 
@@ -82,12 +137,12 @@ This would be a total of 3102Mb which is, broadly speaking the maximum RSS that 
     Earlier Python versions with different memory managers displayed significantly lower maximum RSS of around 2200 MB.
 
 Python List of floats
-------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^
 
 For comparison here is the time/memory plot of round-tripping a list of Python ``float`` as a C++ ``std::vector``
 or ``std::list``:
 
-.. image:: ../plots/images/pymemtrace_list_float.png
+.. image:: ../plots/images/pymemtrace_list_list_float.png
     :height: 400px
     :align: center
 
@@ -95,7 +150,7 @@ The memory usage is not significantly different but using a ``std::list`` takes 
 
 
 Python Set of bytes
-------------------------------------------------
+^^^^^^^^^^^^^^^^^^^
 
 A similar test was made of a gigabyte sized Python set of bytes.
 Each key and value were 1024 bytes long and the set was 1m long.
@@ -142,7 +197,7 @@ In theory the maximum RSS use should be:
 This would be a total of 3102Mb.
 
 Python Dictionary of ``bytes`` or ``str``
-------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A similar test was made of a gigabyte sized Python dict of bytes.
 Each key and value were 1024 bytes long and the dictionary was 0.5m long.
@@ -203,7 +258,7 @@ This is broadly similar to the results for ``std::unordered_map<std::vector<char
 All these graphs show that there are no memory leaks.
 
 Containers of Just One Object
-------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This test was to create a list, set or dict with one entry of 1024 bytes and then convert it 10,000,000 times to a C++
 container and then back to Python.

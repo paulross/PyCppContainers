@@ -1,0 +1,42 @@
+# From: perf_notes/pymemtrace_logs/Python312/20241017_100513_20792.log
+#     Event        dEvent  Clock        What     File                   line Function                                  RSS         dRSS
+# $1  $2           $3      $4           $5       $6                        $7 $8                                         $9          $10
+NEXT: 0            +0      10.110075    CALL     tests/unit/test_with_pymemtrace.py  52 _test_new_str                        35938304     35938304
+PREV: 54           +54     10.110214    RETURN   venv/lib/python3.12/site-packages/psutil/_common.py 506 wrapper                              35938304            0
+NEXT: 55           +55     10.378917    C_CALL   tests/unit/test_with_pymemtrace.py  59 perf_counter                       1109684224   1073745920
+PREV: 57           +2      10.378934    C_CALL   tests/unit/test_with_pymemtrace.py  60 new_str                            1109684224            0
+NEXT: 58           +3      11.204513    C_RETURN tests/unit/test_with_pymemtrace.py  60 new_str                            1769291776    659607552
+NEXT: 59           +1      11.225343    C_CALL   tests/unit/test_with_pymemtrace.py  61 perf_counter                       1029255168   -740036608
+PREV: 65           +6      11.225375    C_CALL   tests/unit/test_with_pymemtrace.py  60 new_str                            1029255168            0
+NEXT: 66           +7      12.039527    C_RETURN tests/unit/test_with_pymemtrace.py  60 new_str                            1910571008    881315840
+NEXT: 67           +1      12.064173    C_CALL   tests/unit/test_with_pymemtrace.py  61 perf_counter                       1066299392   -844271616
+PREV: 73           +6      12.064206    C_CALL   tests/unit/test_with_pymemtrace.py  60 new_str                            1066299392            0
+NEXT: 74           +7      12.875651    C_RETURN tests/unit/test_with_pymemtrace.py  60 new_str                            2049634304    983334912
+NEXT: 75           +1      12.922505    C_CALL   tests/unit/test_with_pymemtrace.py  61 perf_counter                       1109073920   -940560384
+PREV: 81           +6      12.922655    C_CALL   tests/unit/test_with_pymemtrace.py  60 new_str                            1109073920            0
+NEXT: 82           +7      13.683936    C_RETURN tests/unit/test_with_pymemtrace.py  60 new_str                            1867345920    758272000
+NEXT: 83           +1      13.706823    C_CALL   tests/unit/test_with_pymemtrace.py  61 perf_counter                       1109602304   -757743616
+PREV: 89           +6      13.706849    C_CALL   tests/unit/test_with_pymemtrace.py  60 new_str                            1109602304            0
+NEXT: 90           +7      14.465539    C_RETURN tests/unit/test_with_pymemtrace.py  60 new_str                            2125459456   1015857152
+NEXT: 91           +1      14.494193    C_CALL   tests/unit/test_with_pymemtrace.py  61 perf_counter                       1109581824  -1015877632
+PREV: 97           +6      14.494223    C_CALL   tests/unit/test_with_pymemtrace.py  60 new_str                            1109581824            0
+NEXT: 98           +7      15.210609    C_RETURN tests/unit/test_with_pymemtrace.py  60 new_str                            2183327744   1073745920
+NEXT: 99           +1      15.237356    C_CALL   tests/unit/test_with_pymemtrace.py  61 perf_counter                       1109581824  -1073745920
+PREV: 105          +6      15.237390    C_CALL   tests/unit/test_with_pymemtrace.py  60 new_str                            1109581824            0
+NEXT: 106          +7      16.009398    C_RETURN tests/unit/test_with_pymemtrace.py  60 new_str                            2183327744   1073745920
+NEXT: 107          +1      16.041807    C_CALL   tests/unit/test_with_pymemtrace.py  61 perf_counter                       1109581824  -1073745920
+PREV: 113          +6      16.041843    C_CALL   tests/unit/test_with_pymemtrace.py  60 new_str                            1109581824            0
+NEXT: 114          +7      16.766700    C_RETURN tests/unit/test_with_pymemtrace.py  60 new_str                            2183233536   1073651712
+NEXT: 115          +1      16.810601    C_CALL   tests/unit/test_with_pymemtrace.py  61 perf_counter                       1109487616  -1073745920
+PREV: 121          +6      16.810676    C_CALL   tests/unit/test_with_pymemtrace.py  60 new_str                            1109487616            0
+NEXT: 122          +7      17.970009    C_RETURN tests/unit/test_with_pymemtrace.py  60 new_str                            1579618304    470130688
+NEXT: 123          +1      17.988534    C_CALL   tests/unit/test_with_pymemtrace.py  61 perf_counter                        946683904   -632934400
+PREV: 129          +6      17.988582    C_CALL   tests/unit/test_with_pymemtrace.py  60 new_str                             946696192            0
+NEXT: 130          +7      18.833117    C_RETURN tests/unit/test_with_pymemtrace.py  60 new_str                            1702461440    755765248
+NEXT: 131          +1      18.858855    C_CALL   tests/unit/test_with_pymemtrace.py  61 perf_counter                        978726912   -723734528
+PREV: 143          +12     18.859026    C_CALL   tests/unit/test_with_pymemtrace.py  63 print                               978845696         8192
+NEXT: 144          +13     18.859116    C_RETURN tests/unit/test_with_pymemtrace.py  63 print                               978968576       122880
+PREV: 145          +1      18.859149    CALL     venv/lib/python3.12/site-packages/psutil/_common.py 498 wrapper                             979005440        36864
+NEXT: 146          +2      18.859216    CALL     venv/lib/python3.12/site-packages/psutil/__init__.py1098 memory_info                         979099648        94208
+PREV: 171          +25     18.859436    RETURN   tests/unit/test_with_pymemtrace.py  65 _test_new_str                       979292160            0
+NEXT: 172          +26     18.909491    C_CALL   tests/unit/test_with_pymemtrace.py  72 __exit__                              9838592   -969453568
