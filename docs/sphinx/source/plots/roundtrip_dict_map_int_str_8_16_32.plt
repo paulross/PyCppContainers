@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Python dict [int, str] for word sizes 8, 16, 32 to C++ std::map then back to a Python dict."
+set title "Python dict [int, str] for word sizes 8, 16, 32 to C++ std::map Roundtrip."
 set xlabel "Dict length"
 
 set logscale y
@@ -65,7 +65,7 @@ plot "dat/roundtrip_dict_map_int_str_String_length_16.dat" using 1:(1e6 * ($4 - 
 
 # Rate plots
 set ylabel "Time per Item (µs)"
-#set yrange [0.1:10]
+set yrange [0.1:10]
 
 set terminal png size 700,400           # choose the file format
 set output "images/roundtrip_dict_map_int_str_8_16_32_String_length_rate.png"   # choose the output device
@@ -111,7 +111,7 @@ plot "dat/roundtrip_dict_map_int_str_String_length_16.dat" using 1:(1e6 * ($4 - 
 
 # Rate plots, 1024 string length.
 set ylabel "Time per Item (µs)"
-#set yrange [0.1:10]
+set yrange [0.1:10]
 
 set terminal png size 700,400           # choose the file format
 set output "images/roundtrip_dict_map_int_str_8_16_32_String_length_1024_rate.png"   # choose the output device

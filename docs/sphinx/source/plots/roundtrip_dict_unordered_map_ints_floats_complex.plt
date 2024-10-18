@@ -52,19 +52,19 @@ plot "dat/roundtrip_dict_unordered_map_int_int.dat" using 1:(1e6 * ($4 - $6)):(1
 
 # Rate plots
 set ylabel "Time per Item (µs)"
-# set yrange [0.01:1]
+set yrange [0.01:10]
 
 set terminal png size 700,400           # choose the file format
 set output "images/roundtrip_dict_unordered_map_ints_floats_complex_rate.png"   # choose the output device
 
 plot "dat/roundtrip_dict_unordered_map_int_int.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "Dict [int, int] <-> C++ <long, long>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_int_int.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [int, int] <-> C++ <long, long>" with lines, \
+        t "Python int <-> C++ long" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_dict_unordered_map_int_int.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict Python int <-> C++ long" with lines, \
     "dat/roundtrip_dict_unordered_map_float_float.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "Dict [float, float] <-> C++ <double, double>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_float_float.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [float, float] <-> C++ <double, double>" with lines, \
+        t "Python float <-> C++ double" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_dict_unordered_map_float_float.dat" using 1:(1e6 * $3 / $1) t "Minimum Python float <-> C++ double" with lines, \
     "dat/roundtrip_dict_unordered_map_complex_complex.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "Dict [complex, complex] <-> C++ <std::complex<double>, std::complex<double>>" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_complex_complex.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [complex, complex] <-> C++ <std::complex<double>, std::complex<double>>" with lines
+        t "Python complex <-> C++ std::complex<double>" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_dict_unordered_map_complex_complex.dat" using 1:(1e6 * $3 / $1) t "Minimum Python complex <-> C++ std::complex<double>" with lines
 
 reset

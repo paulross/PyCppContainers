@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Python dict [bytes, bytes] to a C++ std::map<std::vector<char>, std::vector<char>> then back to a Python dict."
+set title "Python dict bytes <-> C++ std::map<std::vector<char>> Roundtrip."
 set xlabel "Dict length"
 
 set logscale y
@@ -50,19 +50,19 @@ plot "dat/roundtrip_dict_map_bytes_bytes_Byte_length_16.dat" using 1:(1e6 * ($4 
 
 # Rate plots
 set ylabel "Time per Item (µs)"
-#set yrange [0.1:10]
+set yrange [0.1:10]
 
 set terminal png size 700,400           # choose the file format
 set output "images/roundtrip_dict_map_bytes_bytes_Byte_length_rate.png"   # choose the output device
 
 plot "dat/roundtrip_dict_map_bytes_bytes_Byte_length_16.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "Dict [bytes, bytes] <-> C++ std::map<std::vector<char>, std::vector<char>> Length 16" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_map_bytes_bytes_Byte_length_16.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [bytes, bytes] <-> C++ std::map<std::vector<char>, std::vector<char>> Length 16" with lines, \
+        t "Bytes length 16" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_dict_map_bytes_bytes_Byte_length_16.dat" using 1:(1e6 * $3 / $1) t "Minimum, bytes length 16" with lines, \
     "dat/roundtrip_dict_map_bytes_bytes_Byte_length_128.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "Dict [bytes, bytes] <-> C++ std::map<std::vector<char>, std::vector<char>> Length 128" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_map_bytes_bytes_Byte_length_128.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [bytes, bytes] <-> C++ std::map<std::vector<char>, std::vector<char>> Length 128" with lines, \
+        t "Bytes length 128" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_dict_map_bytes_bytes_Byte_length_128.dat" using 1:(1e6 * $3 / $1) t "Minimum, bytes length 128" with lines, \
     "dat/roundtrip_dict_map_bytes_bytes_Byte_length_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "Dict [bytes, bytes] <-> C++ std::map<std::vector<char>, std::vector<char>> Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_map_bytes_bytes_Byte_length_1024.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [bytes, bytes] <-> C++ std::map<std::vector<char>, std::vector<char>> Length 1024" with lines
+        t "Bytes length 1024" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_dict_map_bytes_bytes_Byte_length_1024.dat" using 1:(1e6 * $3 / $1) t "Minimum, bytes length 1024" with lines
 
 reset

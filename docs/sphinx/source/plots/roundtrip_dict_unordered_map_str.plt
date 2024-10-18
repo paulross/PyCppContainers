@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Python dict [bytes, bytes] to a C++ std::unordered_map<std::string, std::string> then back to a Python dict." noenhanced
+set title "Python dict [str] to a C++ std::unordered_map<std::string> Roundtrip." noenhanced
 set xlabel "Dict length"
 
 set logscale y
@@ -53,19 +53,19 @@ plot "dat/roundtrip_dict_unordered_map_str_str_String_length_16.dat" using 1:(1e
 
 # Rate plots
 set ylabel "Time per Item (µs)"
-#set yrange [0.1:10]
+set yrange [0.1:100]
 
 set terminal png size 700,400           # choose the file format
 set output "images/roundtrip_dict_unordered_map_str_str_String_length_rate.png"   # choose the output device
 
 plot "dat/roundtrip_dict_unordered_map_str_str_String_length_16.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "Dict [bytes, bytes] <-> C++ std::unordered_map<std::string, std::string> Length 16" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_str_str_String_length_16.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [bytes, bytes] <-> C++ std::unordered_map<std::string, std::string> Length 16" with lines, \
+        t "Length 16" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_dict_unordered_map_str_str_String_length_16.dat" using 1:(1e6 * $3 / $1) t "Minimum, length 16" with lines, \
     "dat/roundtrip_dict_unordered_map_str_str_String_length_128.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "Dict [bytes, bytes] <-> C++ std::unordered_map<std::string, std::string> Length 128" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_str_str_String_length_128.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [bytes, bytes] <-> C++ std::unordered_map<std::string, std::string> Length 128" with lines, \
+        t "Length 128" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_dict_unordered_map_str_str_String_length_128.dat" using 1:(1e6 * $3 / $1) t "Minimum, length 128" with lines, \
     "dat/roundtrip_dict_unordered_map_str_str_String_length_1024.dat" using 1:(1e6 * ($4 - $6) / $1):(1e6 * $3 / $1):(1e6 * $7 / $1):(1e6 * ($4 + $6) / $1) \
-        t "Dict [bytes, bytes] <-> C++ std::unordered_map<std::string, std::string> Length 1024" with candlesticks whiskerbars 0.5,\
-    "dat/roundtrip_dict_unordered_map_str_str_String_length_1024.dat" using 1:(1e6 * $3 / $1) t "Minimum Dict [bytes, bytes] <-> C++ std::unordered_map<std::string, std::string> Length 1024" with lines
+        t "Length 1024" with candlesticks whiskerbars 0.5,\
+    "dat/roundtrip_dict_unordered_map_str_str_String_length_1024.dat" using 1:(1e6 * $3 / $1) t "Minimum, length 1024" with lines
 
 reset

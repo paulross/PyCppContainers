@@ -11,7 +11,10 @@ Memory Use
 Single Bytes and Strings
 ------------------------
 
-
+Here is a typical test that takes a single 1GB bytes object, passes it into ``cPyCppContainers.new_bytes()`` which
+creates a new C++ ``std::vector<char>`` then converts that back into a new Python bytes object.
+This is repeated 10 times under the watchful eye of ``cPyMemTrace.Profile()``.
+The test is from ``tests/unit/test_with_pymemtrace.py``:
 
 .. code-block:: python
 
@@ -20,9 +23,9 @@ Single Bytes and Strings
 
     def test_new_bytes():
         with cPyMemTrace.Profile(4096 * 16):
-            original = b' ' * FUNDAMENTAL_TYPES_STR_BYTES_SIZE
+            original = b' ' * (2 << 30)
             results = []
-            for _r in range(FUNDAMENTAL_TYPES_STR_BYTES_REPEAT):
+            for _r in range(10):
                 cPyCppContainers.new_bytes(original)
             // This helps cPyMemTrace complete.
             gc.collect()
@@ -38,6 +41,8 @@ object.
     :height: 400px
     :align: center
 
+This demonstrates that there is no memory leak in converting these objects.
+
 Strings
 ^^^^^^^
 
@@ -47,14 +52,14 @@ Strings with 8 bit characters, this 1GB of 8 bit characters:
     :height: 400px
     :align: center
 
-Strings with 16 bit characters, this 0.5GB of 8 bit characters:
+Strings with 16 bit characters, this 0.5GB of 16 bit characters:
 
 .. image:: ../plots/images/pymemtrace_new_str16.png
     :height: 400px
     :align: center
 
 
-Strings with 32 bit characters, this 0.25GB of 8 bit characters:
+Strings with 32 bit characters, this 0.25GB of 32 bit characters:
 
 .. image:: ../plots/images/pymemtrace_new_str32.png
     :height: 400px

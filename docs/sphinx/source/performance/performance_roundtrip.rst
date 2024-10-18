@@ -8,8 +8,6 @@
 Round-trip Python to C++ and back to Python
 =================================================
 
-TODO: WIP whe have removed // 2 from the container size test.
-
 Python Objects
 ------------------------------------------------
 
@@ -35,6 +33,7 @@ The test code looks like this:
             timer = TimedResults()
             for _r in range(REPEAT):
                 time_start = time.perf_counter()
+                # See below for this function.
                 cPyCppContainers.new_bytes(original)
                 time_exec = time.perf_counter() - time_start
                 timer.add(time_exec)
@@ -48,7 +47,37 @@ The test code looks like this:
         for s, t in results:
             print(f'{s:<8d} {t} {1e9 * t.min() / s:12.1f}')
 
+And the C/C++ code that provides the function ``cPyCppContainers.new_bytes()``:
+
+.. code-block:: cpp
+
+    /**
+     * Take a Python \c bytes object, convert it to a \c std::vector<char> then convert that back to a Python \c bytes
+     * object.
+     */
+    static PyObject *
+    new_bytes(PyObject *Py_UNUSED(module), PyObject *arg) {
+        assert(! PyErr_Occurred());
+        PyObject *ret = NULL;
+        if (py_bytes_check(arg)) {
+            std::vector<char> vec = py_bytes_to_cpp_vector_char(arg);
+            ret = cpp_vector_char_to_py_bytes(vec);
+        } else {
+            PyErr_Format(
+                PyExc_ValueError,
+                "new_bytes() argument is not bytes but type %s", arg->ob_type->tp_name
+            );
+            ret = NULL;
+        }
+        assert(ret || PyErr_Occurred());
+        return ret;
+    }
+
 And the output looks like this:
+
+.. raw:: latex
+
+    \begin{landscape}
 
 .. code-block:: text
 
@@ -76,13 +105,17 @@ And the output looks like this:
     524288              5      0.000017699      0.000066024      0.000017893      0.000107562      0.000258436       14.602          0.0
     1048576             5      0.000034801      0.000130087      0.000035806      0.000207265      0.000500793       14.390          0.0
 
+.. raw:: latex
+
+    \end{landscape}
+
 When plotted in time the performance looks like this:
 
 .. image:: ../plots/images/roundtrip_bytes_time.png
     :height: 400px
     :align: center
 
-This is asymptotic to slightly over 10 GB/s round trip conversion time.
+This is asymptotic to around 5 GB/s round trip conversion time.
 
 The rate plot, that is the time value divided by the length of the bytes is:
 
@@ -183,7 +216,7 @@ Since the tuple conversion C++ code is essentially identical to the list convers
 It might be that the Python C API for tuples is significantly different than for list but this is considered unlikely.
 
 Python Lists
-------------------------------------------------
+------------
 
 
 Python List of ``bool``, ``int``, ``float`` and ``complex``
@@ -198,8 +231,8 @@ C++ ``std::vector``:
 
 These are typically *round trip* converted at:
 
-* 0.01 µs per object for booleans, say 100m objects a second.
-* 0.025 µs per object for ``int``, ``float`` and ``complex``, say 40m objects a second.
+* 0.02 µs per object for booleans, say 50m objects a second.
+* 0.04 µs per object for ``int``, ``float`` and ``complex``, say 25m objects a second.
 
 And the *round trip* performance of a Python list of ``bool``, ``int``, ``float`` and ``complex`` numbers via a
 C++ ``std::list``:
@@ -210,8 +243,10 @@ C++ ``std::list``:
 
 These are typically *round trip* converted at:
 
-* 0.1 µs per object for booleans, say 100m objects a second. This is about 10x the cost of using a ``std::vector``.
-
+* 0.08 µs per object for booleans, say 120m objects a second.
+  This is about 8x the cost of using a ``std::vector``.
+* 0.9 µs per object for other objects, say 10m objects a second.
+  This is about 2x the cost of using a ``std::vector``.
 
 Python List of ``bytes``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -283,15 +318,15 @@ Here is the *round trip* performance of a Python set of ``int``, ``float`` and `
 
 These are typically *round trip* converted at (for sets < 100,000 long):
 
-* 0.15 µs per object for ``int``, say 6m objects a second.
+* 0.1 µs per object for ``int``, say 10m objects a second.
 * 0.2 µs per object for ``float``, say 5m objects a second.
 * 0.3 µs per object for ``complex``, say 3m objects a second.
 
 The *round trip* time for a list takes 0.025 µs for ``int``, ``float`` and ``complex`` so a set takes:
 
-* 6x longer for an ``int``
-* 8x longer for a ``float``.
-* 12x longer for a ``complex`` number.
+* 2.5x longer for an ``int``
+* 5x longer for a ``float``.
+* 8x longer for a ``complex`` number.
 
 An explanation would be that the cost of hashing and insertion (and possible re-hashing the container) dominates the
 performance compared to the cost of object conversion.
@@ -312,9 +347,9 @@ Here is the time per object compared with a list:
 =============== =================================== =================================== =========== ===================
 Object          set (µs)                            list (µs)                           Ratio       Notes
 =============== =================================== =================================== =========== ===================
-bytes[16]       ~0.6                                0.1                                 x6
-bytes[128]      0.6 to 1.5                          0.1                                 x6 to x15
-bytes[1024]     1.0 to 5.0                          0.4 to 2                            x2.5
+bytes[16]       ~0.6                                0.1                                 6x
+bytes[128]      0.6 to 1.5                          0.1                                 6x to 15x
+bytes[1024]     1.0 to 5.0                          0.4 to 2                            2.5x
 =============== =================================== =================================== =========== ===================
 
 Again, the cost of hashing and insertion explains the difference.
@@ -332,9 +367,7 @@ bytes[1024]     1.0 to 5.0              0.2 to 1                    200 to 1000
 Python Set of ``str``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TODO:
-
-And a Python set of ``str`` for different lengths; 16, 128 and 1024 bytes long:
+And a Python set of ``str`` (8 bit) for different lengths; 16, 128 and 1024 bytes long:
 
 .. image:: ../plots/images/roundtrip_set_str_rate.png
     :height: 400px
@@ -347,9 +380,9 @@ Here is the time per object compared with a list:
 =============== =================================== =================================== =========== ===================
 Object          set (µs)                            list (µs)                           Ratio       Notes
 =============== =================================== =================================== =========== ===================
-str[16]         0.3                                 0.05 to 0.1                         x3 to x6
-str[128]        0.8                                 0.2 to 0.4                          x2 to x4
-str[1024]       1.0 to 5.0                          0.4 to 1.5                          x1 to x10
+str[16]         0.3                                 0.05 to 0.1                         3x to 6x
+str[128]        0.8                                 0.2 to 0.4                          2x to 44
+str[1024]       1.0 to 5.0                          0.4 to 1.5                          1x to 10x
 =============== =================================== =================================== =========== ===================
 
 Again, the cost of hashing and insertion explains the difference.
@@ -359,8 +392,8 @@ Given the size of each object this *round trip* time for sets can be summarised 
 =============== ======================= =========================== =========================== ===================
 Object          Time per object (µs)    Rate (million/s)            Rate (Mb/s)                 Notes
 =============== ======================= =========================== =========================== ===================
-bytes[16]       ~0.6                    1.7                         27
-bytes[128]      0.6 to 1.5              0.7 to 1.7                  90 to 220
+bytes[16]       0.3                     3                           48
+bytes[128]      0.8                     1.25                        160
 bytes[1024]     1.0 to 5.0              0.2 to 1                    200 to 1000
 =============== ======================= =========================== =========================== ===================
 
@@ -370,7 +403,9 @@ Python Dictionaries
 Python Dict of ``int``, ``float`` and ``complex``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here is the round trip time for a Python dict to and from a C++ ``std::unordered_map<long, long>``.
+Here is the round trip time for a Python dict to and from a C++ ``std::unordered_map`` for integers, floats and complex
+numbers.
+The keys and values are the same type.
 This plots the *round trip* cost *per key/value pair* against dict size.
 
 .. image:: ../plots/images/roundtrip_dict_unordered_map_ints_floats_complex_rate.png
@@ -383,11 +418,12 @@ And for conversion via a C++ ``std::map``:
     :height: 400px
     :align: center
 
+The results for ``std::unordered_map`` and ``std::map`` are nearly identical.
+
 These are typically *round trip* converted at:
 
-TODO:
 
-* 0.2 µs per object for an int or float, say fm objects a second.
+* 0.2 µs per object for an int or float, say 5m objects a second.
 * 0.25 µs per object for a complex number, say 4m objects a second.
 
 This is identical to the values for the set but includes the conversion time for both key and value.
@@ -395,8 +431,6 @@ The hashing, insertion and potential re-hashing dominate the performance.
 
 Python Dict of ``bytes``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-TODO:
 
 Here is the *round trip* time for a Python dict [bytes, bytes] to and from a C++
 ``std::unordered_map<std::vector<char>, std::vector<char>>`` for different lengths; 16, 128 and 1024 bytes long.
@@ -412,20 +446,23 @@ And via a C++ ``std::map``:
     :height: 400px
     :align: center
 
+The ``std::map`` takes a shade longer than the ``std::unordered_map``.
+
 This *round trip* time for both keys and values for dicts can be summarised as:
 
 =============== ======================= =========================== =========================== ===================
 Object          Time per object (µs)    Rate (million/s)            Rate (Mb/s)                 Notes
 =============== ======================= =========================== =========================== ===================
-bytes[16]       0.5                     2                           32
-bytes[128]      0.6 to 2                0.5 to 1.5                  64 to 256
-bytes[1024]     2 to 6                  0.15 to 0.5                 150 to 512
+bytes[16]       0.5                     2                           64
+bytes[128]      0.6 to 1                1 to 1.5                    256 to 425
+bytes[1024]     1 to 6                  0.15 to 1.0                 300 to 2000
 =============== ======================= =========================== =========================== ===================
 
 Python Dict of ``str``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here is the *round trip* time for a Python dict [str, str] to and from a C++
+
+Here is the *round trip* time for a Python dict [str, str] (8 bit strings) to and from a C++
 ``std::unordered_map<std::string, std::string>`` for different lengths; 16, 128 and 1024 bytes long.
 The key and the value are the same length.
 
@@ -439,34 +476,43 @@ And via a C++ ``std::map``:
     :height: 400px
     :align: center
 
+The ``std::map`` is near identical to the ``std::unordered_map``.
+
 This *round trip* time for both keys and values for dicts can be summarised as:
 
 =============== ======================= =========================== =========================== ===================
 Object          Time per object (µs)    Rate (million/s)            Rate (Mb/s)                 Notes
 =============== ======================= =========================== =========================== ===================
-str[16]         0.4 to 1                1 to 2.5                    16 to 48
-str[128]        0.6 to 2                0.5 to 1.7                  64 to 220
-str[1024]       2 to 8                  0.125 to 0.5                125 to 500
+str[16]         0.3                     3                           96
+str[128]        0.6 to 1                1 to 1.7                    256 to 440
+str[1024]       1 to 10                 0.1 to 1                    200 to 2000
 =============== ======================= =========================== =========================== ===================
 
 Unicode Strings of Different Codepoint Sizes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-TODO: roundtrip_list_vector_str16_String_length_2.dat etc.
-
-
-
 Here is a plot of round tripping a dict of ``[int, str]`` for unicode sizes of 8 bit, 16 bit and 32 bit to a
-C++ ``std::map`` and back:
+C++ ``std::unordered_map`` and back:
+
+
+.. image:: ../plots/images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_rate.png
+    :height: 400px
+    :align: center
+
+This is probably best shown in simplified form for 1024 length strings only:
+
+.. image:: ../plots/images/roundtrip_dict_unordered_map_int_str_8_16_32_String_length_1024_rate.png
+    :height: 400px
+    :align: center
+
+As expected, the 16 bit strings take around twice as long to convert as the 8 bit strings and the 32 bit strings take
+around four times as long to convert as the 8 bit strings.
+
+And similar plots for converting to a ``std::map``:
 
 .. image:: ../plots/images/roundtrip_dict_map_int_str_8_16_32_String_length_rate.png
     :height: 400px
     :align: center
-
-.. todo::
-
-    Commentary.
-
 
 And, simplified for 1024 length strings.
 
@@ -474,32 +520,7 @@ And, simplified for 1024 length strings.
     :height: 400px
     :align: center
 
-.. todo::
-
-    Commentary.
-
-And similar plots for converting to a ``std::unordered_map``:
-
-.. image:: ../plots/images/roundtrip_dict_map_int_str_8_16_32_String_length_rate.png
-    :height: 400px
-    :align: center
-
-.. todo::
-
-    Commentary.
-
-
-And, simplified for 1024 length strings.
-
-.. image:: ../plots/images/roundtrip_dict_map_int_str_8_16_32_String_length_1024_rate.png
-    :height: 400px
-    :align: center
-
-.. todo::
-
-    Commentary.
-
-TODO: add roundtrip_list_vector_str16_String_length_2.dat (8 files).
+The ``std::map`` is near identical to the ``std::unordered_map``.
 
 Summary
 ------------------
