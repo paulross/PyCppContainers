@@ -1,7 +1,5 @@
 # Python and C++ Containers
 
-TODO: Update this.
-
 Python is well known for it's ability to handle *heterogeneous* data in containers such as lists.
 But what if you need to convert to and from C++ containers such as ``std::vector<T>`` that require *homogeneous* data types?
 
@@ -48,9 +46,8 @@ This approach means that new types and containers can be added with ease.
 
 ### C++ To Python
 
-TODO:
-
-Suppose that you have a Python list of floats that needs to be passed to a C++ function that expects `std::vector<double>`.
+Suppose that you have a Python list of floats that needs to be passed to a C++ function that expects
+`std::vector<double>`.
 Then that C++ function modifies that vector and you need the result as a new Python list of floats.
 With this library your code will be as simple as this:
 
