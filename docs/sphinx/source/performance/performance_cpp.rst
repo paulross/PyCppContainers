@@ -226,43 +226,111 @@ Strings
 
 ..
     From perf_notes/cpp_test_results.txt
-    HEAD: Fail   Scale  Repeat         Mean(s)     Std.Dev.(s)         Min.(s)         Max.(s)     Count      Rate(/s) Name
-    TEST:    0 1000000      20     0.058759109     0.003645734     0.053923376     0.066701584        20         340.4 test_cpp_string_to_py_str_multiple_2[1000000]
-    TEST:    0 1000000      20     0.060736565     0.001276392     0.058984251     0.063327876        20         329.3 test_cpp_string_to_py_str_multiple_16[1000000]
-    TEST:    0 1000000      20     0.064648476     0.001873584     0.061841501     0.069060916        20         309.4 test_cpp_string_to_py_str_multiple_128[1000000]
-    TEST:    0 1000000      20     0.197420682     0.011602980     0.185850333     0.219071125        20         101.3 test_cpp_string_to_py_str_multiple_1024[1000000]
-    TEST:    0 1000000      20     0.720809661     0.017942847     0.686475625     0.746969209        20          27.7 test_cpp_string_to_py_str_multiple_8192[1000000]
-    TEST:    0 1000000      20     5.359504186     0.024684586     5.327452417     5.432398459        20           3.7 test_cpp_string_to_py_str_multiple_65536[1000000]
-    TEST:    0 1000000      20     0.006176815     0.000003319     0.006173209     0.006182918        20        3237.9 test_py_str_to_cpp_string_multiple_2[1000000]
-    TEST:    0 1000000      20     0.007333573     0.000004223     0.007330334     0.007346251        20        2727.2 test_py_str_to_cpp_string_multiple_16[1000000]
-    TEST:    0 1000000      20     0.077593984     0.005359461     0.070420583     0.085804625        20         257.8 test_py_str_to_cpp_string_multiple_128[1000000]
-    TEST:    0 1000000      20     0.089523303     0.005118394     0.083854375     0.100696042        20         223.4 test_py_str_to_cpp_string_multiple_1024[1000000]
-    TEST:    0 1000000      20     0.266933671     0.015144741     0.243118751     0.292431167        20          74.9 test_py_str_to_cpp_string_multiple_8192[1000000]
-    TEST:    0 1000000      20     2.123572144     0.033200797     2.094082043     2.250884334        20           9.4 test_py_str_to_cpp_string_multiple_65536[1000000]
-    TEST:    0 1000000      20     0.042588886     0.001377939     0.040422959     0.043991375        20         469.6 test_cpp_u16string_to_py_str16_multiple_2[1000000]
-    TEST:    0 1000000      20     0.147994407     0.009139400     0.138898917     0.164160334        20         135.1 test_cpp_u16string_to_py_str16_multiple_16[1000000]
-    TEST:    0 1000000      20     0.873698398     0.009309133     0.854021875     0.887453251        20          22.9 test_cpp_u16string_to_py_str16_multiple_128[1000000]
-    TEST:    0 1000000      20     6.716434430     0.026116913     6.675454917     6.768655084        20           3.0 test_cpp_u16string_to_py_str16_multiple_1024[1000000]
-    TEST:    0 1000000      20    63.329128475     7.383649449    53.119942417    82.049977584        20           0.3 test_cpp_u16string_to_py_str16_multiple_8192[1000000]
-    TEST:    0 1000000      20   434.770099001    15.165859601   423.448348083   486.720068750        20           0.0 test_cpp_u16string_to_py_str16_multiple_65536[1000000]
-    TEST:    0 1000000      20     0.008109303     0.000006100     0.008102167     0.008129042        20        2466.3 test_py_str16_to_cpp_u16string_multiple_2[1000000]
-    TEST:    0 1000000      20     0.078421778     0.005190042     0.071888541     0.088546043        20         255.0 test_py_str16_to_cpp_u16string_multiple_16[1000000]
-    TEST:    0 1000000      20     0.135103696     0.009849180     0.123247876     0.161659084        20         148.0 test_py_str16_to_cpp_u16string_multiple_128[1000000]
-    TEST:    0 1000000      20     0.115050209     0.007282402     0.105869334     0.128821043        20         173.8 test_py_str16_to_cpp_u16string_multiple_1024[1000000]
-    TEST:    0 1000000      20     0.458368734     0.017611174     0.432019208     0.486256001        20          43.6 test_py_str16_to_cpp_u16string_multiple_8192[1000000]
-    TEST:    0 1000000      20     5.448628694     0.024358348     5.403639833     5.521592875        20           3.7 test_py_str16_to_cpp_u16string_multiple_65536[1000000]
-    TEST:    0 1000000      20     0.044683823     0.002890114     0.040840209     0.048879126        20         447.6 test_cpp_u32string_to_py_str32_multiple_2[1000000]
-    TEST:    0 1000000      20     0.249225642     0.011375113     0.233679833     0.271066042        20          80.2 test_cpp_u32string_to_py_str32_multiple_32[1000000]
-    TEST:    0 1000000      20     1.023829955     0.009710184     1.005457626     1.044050126        20          19.5 test_cpp_u32string_to_py_str32_multiple_128[1000000]
-    TEST:    0 1000000      20     6.735237898     0.031750375     6.680839667     6.832778668        20           3.0 test_cpp_u32string_to_py_str32_multiple_1024[1000000]
-    TEST:    0 1000000      20    53.187598769     0.114578230    53.028910543    53.416468667        20           0.4 test_cpp_u32string_to_py_str32_multiple_8192[1000000]
-    TEST:    0 1000000      20   429.282977688     1.372580931   427.808455626   434.008575291        20           0.0 test_cpp_u32string_to_py_str32_multiple_65536[1000000]
-    TEST:    0 1000000      20     0.007344234     0.000049091     0.007326501     0.007543208        20        2723.2 test_py_str32_to_cpp_u32string_multiple_2[1000000]
-    TEST:    0 1000000      20     0.077141528     0.006414912     0.071097542     0.095550751        20         259.3 test_py_str32_to_cpp_u32string_multiple_32[1000000]
-    TEST:    0 1000000      20     0.144473686     0.012002486     0.127959959     0.168075458        20         138.4 test_py_str32_to_cpp_u32string_multiple_128[1000000]
-    TEST:    0 1000000      20     0.165254003     0.011043742     0.152708750     0.185491626        20         121.0 test_py_str32_to_cpp_u32string_multiple_1024[1000000]
-    TEST:    0 1000000      20     0.853880155     0.014881503     0.822144209     0.878523792        20          23.4 test_py_str32_to_cpp_u32string_multiple_8192[1000000]
-    TEST:    0 1000000      20    10.891868471     0.187687075    10.764805500    11.638142875        20           1.8 test_py_str32_to_cpp_u32string_multiple_65536[1000000]
+    TEST:    0       1       5     0.000000825     0.000000713     0.000000458     0.000002250       500   605693519.1 test_cpp_string_to_py_str_multiple_1[100]
+    TEST:    0       2       5     0.000005992     0.000000671     0.000005625     0.000007334       500    83440415.2 test_cpp_string_to_py_str_multiple_2[100]
+    TEST:    0       4       5     0.000006034     0.000000116     0.000005917     0.000006208       500    82867892.0 test_cpp_string_to_py_str_multiple_4[100]
+    TEST:    0       8       5     0.000006334     0.000000126     0.000006250     0.000006583       500    78945290.9 test_cpp_string_to_py_str_multiple_8[100]
+    TEST:    0      16       5     0.000006434     0.000000078     0.000006376     0.000006585       500    77715777.9 test_cpp_string_to_py_str_multiple_16[100]
+    TEST:    0      32       5     0.000006884     0.000001581     0.000006041     0.000010043       500    72633245.7 test_cpp_string_to_py_str_multiple_32[100]
+    TEST:    0      64       5     0.000006409     0.000000089     0.000006333     0.000006585       500    78016508.3 test_cpp_string_to_py_str_multiple_64[100]
+    TEST:    0     128       5     0.000006575     0.000000170     0.000006376     0.000006750       500    76039844.9 test_cpp_string_to_py_str_multiple_128[100]
+    TEST:    0     256       5     0.000007326     0.000000163     0.000007208     0.000007626       500    68254726.6 test_cpp_string_to_py_str_multiple_256[100]
+    TEST:    0     512       5     0.000022009     0.000000031     0.000021958     0.000022043       500    22718288.7 test_cpp_string_to_py_str_multiple_512[100]
+    TEST:    0    1024       5     0.000019192     0.000001099     0.000018418     0.000021375       500    26052114.7 test_cpp_string_to_py_str_multiple_1024[100]
+    TEST:    0    2048       5     0.000025092     0.000000140     0.000024917     0.000025334       500    19926749.3 test_cpp_string_to_py_str_multiple_2048[100]
+    TEST:    0    4096       5     0.000038526     0.000001009     0.000038001     0.000040543       500    12978416.9 test_cpp_string_to_py_str_multiple_4096[100]
+    TEST:    0    8192       5     0.000070676     0.000012702     0.000063459     0.000096042       500     7074587.4 test_cpp_string_to_py_str_multiple_8192[100]
+    TEST:    0   16384       5     0.000113050     0.000000327     0.000112667     0.000113584       500     4422802.2 test_cpp_string_to_py_str_multiple_16384[100]
+    TEST:    0   32768       5     0.000222467     0.000002329     0.000220293     0.000226501       500     2247523.3 test_cpp_string_to_py_str_multiple_32768[100]
+    TEST:    0   65536       5     0.000443984     0.000003823     0.000440125     0.000449208       500     1126167.5 test_cpp_string_to_py_str_multiple_65536[100]
+    TEST:    0  131072       5     0.000978834     0.000013382     0.000958543     0.000991584       500      510811.9 test_cpp_string_to_py_str_multiple_131072[100]
+    TEST:    0  262144       5     0.001939942     0.000147498     0.001842710     0.002230668       500      257739.6 test_cpp_string_to_py_str_multiple_262144[100]
+    TEST:    0  524288       5     0.003767250     0.000021094     0.003742916     0.003793001       500      132722.8 test_cpp_string_to_py_str_multiple_524288[100]
+    TEST:    0 1048576       5     0.007558742     0.000023559     0.007531541     0.007594959       500       66148.6 test_cpp_string_to_py_str_multiple_1048576[100]
+    TEST:    0       1       5     0.000000517     0.000000033     0.000000458     0.000000542       500   966930961.1 test_py_str_to_cpp_string_multiple_1[100]
+    TEST:    0       2       5     0.000000550     0.000000017     0.000000542     0.000000584       500   908595311.6 test_py_str_to_cpp_string_multiple_2[100]
+    TEST:    0       4       5     0.000000709     0.000000026     0.000000667     0.000000750       500   705517144.1 test_py_str_to_cpp_string_multiple_4[100]
+    TEST:    0       8       5     0.000000551     0.000000016     0.000000542     0.000000584       500   907935355.0 test_py_str_to_cpp_string_multiple_8[100]
+    TEST:    0      16       5     0.000000642     0.000000021     0.000000625     0.000000667       500   778452436.6 test_py_str_to_cpp_string_multiple_16[100]
+    TEST:    0      32       5     0.000007017     0.000000057     0.000006959     0.000007125       500    71254506.8 test_py_str_to_cpp_string_multiple_32[100]
+    TEST:    0      64       5     0.000007067     0.000000068     0.000007001     0.000007168       500    70748376.3 test_py_str_to_cpp_string_multiple_64[100]
+    TEST:    0     128       5     0.000007009     0.000000041     0.000006960     0.000007084       500    71337870.4 test_py_str_to_cpp_string_multiple_128[100]
+    TEST:    0     256       5     0.000013726     0.000000346     0.000013542     0.000014418       500    36428014.6 test_py_str_to_cpp_string_multiple_256[100]
+    TEST:    0     512       5     0.000014576     0.000000546     0.000014293     0.000015667       500    34303669.8 test_py_str_to_cpp_string_multiple_512[100]
+    TEST:    0    1024       5     0.000008084     0.000000271     0.000007918     0.000008626       500    61852864.4 test_py_str_to_cpp_string_multiple_1024[100]
+    TEST:    0    2048       5     0.000010001     0.000000027     0.000009958     0.000010043       500    49997500.1 test_py_str_to_cpp_string_multiple_2048[100]
+    TEST:    0    4096       5     0.000014417     0.000000105     0.000014333     0.000014626       500    34681038.5 test_py_str_to_cpp_string_multiple_4096[100]
+    TEST:    0    8192       5     0.000022375     0.000000145     0.000022166     0.000022542       500    22345869.4 test_py_str_to_cpp_string_multiple_8192[100]
+    TEST:    0   16384       5     0.000038501     0.000000124     0.000038334     0.000038708       500    12986776.9 test_py_str_to_cpp_string_multiple_16384[100]
+    TEST:    0   32768       5     0.000072509     0.000001081     0.000071918     0.000074668       500     6895686.2 test_py_str_to_cpp_string_multiple_32768[100]
+    TEST:    0   65536       5     0.000179126     0.000000603     0.000177960     0.000179584       500     2791339.0 test_py_str_to_cpp_string_multiple_65536[100]
+    TEST:    0  131072       5     0.000390534     0.000002914     0.000386917     0.000394333       500     1280299.2 test_py_str_to_cpp_string_multiple_131072[100]
+    TEST:    0  262144       5     0.000767200     0.000000210     0.000766917     0.000767459       500      651720.1 test_py_str_to_cpp_string_multiple_262144[100]
+    TEST:    0  524288       5     0.001598442     0.000001516     0.001596791     0.001601000       500      312804.6 test_py_str_to_cpp_string_multiple_524288[100]
+    TEST:    0 1048576       5     0.003206151     0.000006507     0.003198918     0.003216958       500      155950.3 test_py_str_to_cpp_string_multiple_1048576[100]
+    TEST:    0       1       5     0.000005459     0.000000209     0.000005333     0.000005875       500    91593544.5 test_cpp_u16string_to_py_str16_multiple_1[100]
+    TEST:    0       2       5     0.000005534     0.000000049     0.000005501     0.000005625       500    90352192.8 test_cpp_u16string_to_py_str16_multiple_2[100]
+    TEST:    0       4       5     0.000005359     0.000000033     0.000005292     0.000005375       500    93302730.0 test_cpp_u16string_to_py_str16_multiple_4[100]
+    TEST:    0       8       5     0.000005517     0.000000033     0.000005501     0.000005583       500    90627322.3 test_cpp_u16string_to_py_str16_multiple_8[100]
+    TEST:    0      16       5     0.000005992     0.000000775     0.000005583     0.000007541       500    83445985.4 test_cpp_u16string_to_py_str16_multiple_16[100]
+    TEST:    0      32       5     0.000005792     0.000000563     0.000005501     0.000006918       500    86324476.4 test_cpp_u16string_to_py_str16_multiple_32[100]
+    TEST:    0      64       5     0.000005925     0.000000600     0.000005625     0.000007125       500    84381064.9 test_cpp_u16string_to_py_str16_multiple_64[100]
+    TEST:    0     128       5     0.000006159     0.000000546     0.000005875     0.000007251       500    81185964.6 test_cpp_u16string_to_py_str16_multiple_128[100]
+    TEST:    0     256       5     0.000018142     0.000000097     0.000018084     0.000018334       500    27559901.4 test_cpp_u16string_to_py_str16_multiple_256[100]
+    TEST:    0     512       5     0.000012617     0.000000093     0.000012543     0.000012792       500    39628129.6 test_cpp_u16string_to_py_str16_multiple_512[100]
+    TEST:    0    1024       5     0.000014601     0.000000063     0.000014541     0.000014710       500    34244933.5 test_cpp_u16string_to_py_str16_multiple_1024[100]
+    TEST:    0    2048       5     0.000019567     0.000000676     0.000019167     0.000020918       500    25552835.6 test_cpp_u16string_to_py_str16_multiple_2048[100]
+    TEST:    0    4096       5     0.000027001     0.000000037     0.000026958     0.000027043       500    18518038.4 test_cpp_u16string_to_py_str16_multiple_4096[100]
+    TEST:    0    8192       5     0.000042984     0.000000043     0.000042917     0.000043042       500    11632316.4 test_cpp_u16string_to_py_str16_multiple_8192[100]
+    TEST:    0   16384       5     0.000076617     0.000000378     0.000076209     0.000077333       500     6525924.2 test_cpp_u16string_to_py_str16_multiple_16384[100]
+    TEST:    0   32768       5     0.000191709     0.000000286     0.000191209     0.000192001       500     2608121.0 test_cpp_u16string_to_py_str16_multiple_32768[100]
+    TEST:    0   65536       5     0.000405501     0.000001863     0.000403543     0.000408834       500     1233044.1 test_cpp_u16string_to_py_str16_multiple_65536[100]
+    TEST:    0  131072       5     0.000779467     0.000002159     0.000777625     0.000782334       500      641464.1 test_cpp_u16string_to_py_str16_multiple_131072[100]
+    TEST:    0  262144       5     0.001599725     0.000001883     0.001597708     0.001602626       500      312553.7 test_cpp_u16string_to_py_str16_multiple_262144[100]
+    TEST:    0  524288       5     0.003191584     0.000012781     0.003181042     0.003214001       500      156662.0 test_cpp_u16string_to_py_str16_multiple_524288[100]
+    TEST:    0 1048576       5     0.006447292     0.000078934     0.006402042     0.006604833       500       77551.9 test_cpp_u16string_to_py_str16_multiple_1048576[100]
+    TEST:    0       1       5     0.000000551     0.000000031     0.000000501     0.000000584       500   907935355.0 test_py_str16_to_cpp_u16string_multiple_1[100]
+    TEST:    0       2       5     0.000000708     0.000000000     0.000000708     0.000000708       500   705716302.0 test_py_str16_to_cpp_u16string_multiple_2[100]
+    TEST:    0       4       5     0.000000551     0.000000017     0.000000542     0.000000584       500   907935355.0 test_py_str16_to_cpp_u16string_multiple_4[100]
+    TEST:    0       8       5     0.000000625     0.000000026     0.000000584     0.000000666       500   799616184.2 test_py_str16_to_cpp_u16string_multiple_8[100]
+    TEST:    0      16       5     0.000007042     0.000000026     0.000007001     0.000007084       500    71001547.8 test_py_str16_to_cpp_u16string_multiple_16[100]
+    TEST:    0      32       5     0.000007034     0.000000049     0.000007001     0.000007125       500    71084320.2 test_py_str16_to_cpp_u16string_multiple_32[100]
+    TEST:    0      64       5     0.000007009     0.000000016     0.000007001     0.000007042       500    71339906.1 test_py_str16_to_cpp_u16string_multiple_64[100]
+    TEST:    0     128       5     0.000013626     0.000000070     0.000013542     0.000013750       500    36695362.4 test_py_str16_to_cpp_u16string_multiple_128[100]
+    TEST:    0     256       5     0.000014201     0.000000072     0.000014126     0.000014334       500    35209036.0 test_py_str16_to_cpp_u16string_multiple_256[100]
+    TEST:    0     512       5     0.000007900     0.000000050     0.000007875     0.000008001       500    63287133.7 test_py_str16_to_cpp_u16string_multiple_512[100]
+    TEST:    0    1024       5     0.000009959     0.000000064     0.000009917     0.000010083       500    50206348.1 test_py_str16_to_cpp_u16string_multiple_1024[100]
+    TEST:    0    2048       5     0.000014350     0.000000043     0.000014293     0.000014418       500    34841991.6 test_py_str16_to_cpp_u16string_multiple_2048[100]
+    TEST:    0    4096       5     0.000022284     0.000000017     0.000022250     0.000022293       500    22437724.1 test_py_str16_to_cpp_u16string_multiple_4096[100]
+    TEST:    0    8192       5     0.000038342     0.000000085     0.000038251     0.000038501       500    13040427.9 test_py_str16_to_cpp_u16string_multiple_8192[100]
+    TEST:    0   16384       5     0.000072275     0.000000334     0.000072042     0.000072916       500     6918011.9 test_py_str16_to_cpp_u16string_multiple_16384[100]
+    TEST:    0   32768       5     0.000178742     0.000001099     0.000177958     0.000180875       500     2797329.6 test_py_str16_to_cpp_u16string_multiple_32768[100]
+    TEST:    0   65536       5     0.000388750     0.000000169     0.000388542     0.000388959       500     1286172.6 test_py_str16_to_cpp_u16string_multiple_65536[100]
+    TEST:    0  131072       5     0.000768358     0.000001254     0.000767083     0.000770416       500      650737.9 test_py_str16_to_cpp_u16string_multiple_131072[100]
+    TEST:    0  262144       5     0.001594251     0.000001115     0.001592876     0.001595960       500      313627.0 test_py_str16_to_cpp_u16string_multiple_262144[100]
+    TEST:    0  524288       5     0.003240167     0.000073959     0.003191501     0.003385001       500      154313.0 test_py_str16_to_cpp_u16string_multiple_524288[100]
+    TEST:    0 1048576       5     0.006464342     0.000159860     0.006356708     0.006770875       500       77347.4 test_py_str16_to_cpp_u16string_multiple_1048576[100]
+    TEST:    0       1       5     0.000005909     0.000000630     0.000005583     0.000007168       500    84618118.4 test_cpp_u32string_to_py_str32_multiple_1[100]
+    TEST:    0       2       5     0.000005517     0.000000120     0.000005418     0.000005751       500    90627322.3 test_cpp_u32string_to_py_str32_multiple_2[100]
+    TEST:    0       4       5     0.000005559     0.000000020     0.000005542     0.000005583       500    89945852.6 test_cpp_u32string_to_py_str32_multiple_4[100]
+    TEST:    0       8       5     0.000005667     0.000000046     0.000005625     0.000005751       500    88228547.2 test_cpp_u32string_to_py_str32_multiple_8[100]
+    TEST:    0      16       5     0.000005567     0.000000114     0.000005501     0.000005793       500    89810141.4 test_cpp_u32string_to_py_str32_multiple_16[100]
+    TEST:    0      32       5     0.000005651     0.000000094     0.000005583     0.000005834       500    88484612.5 test_cpp_u32string_to_py_str32_multiple_32[100]
+    TEST:    0      64       5     0.000005976     0.000000097     0.000005917     0.000006167       500    83672205.8 test_cpp_u32string_to_py_str32_multiple_64[100]
+    TEST:    0     128       5     0.000017075     0.000001400     0.000016375     0.000019875       500    29281719.4 test_cpp_u32string_to_py_str32_multiple_128[100]
+    TEST:    0     256       5     0.000012817     0.000000198     0.000012668     0.000013209       500    39010384.6 test_cpp_u32string_to_py_str32_multiple_256[100]
+    TEST:    0     512       5     0.000014884     0.000000350     0.000014708     0.000015584       500    33593797.2 test_cpp_u32string_to_py_str32_multiple_512[100]
+    TEST:    0    1024       5     0.000019576     0.000000568     0.000019251     0.000020709       500    25541870.8 test_cpp_u32string_to_py_str32_multiple_1024[100]
+    TEST:    0    2048       5     0.000028392     0.000000432     0.000028083     0.000029251       500    17610532.5 test_cpp_u32string_to_py_str32_multiple_2048[100]
+    TEST:    0    4096       5     0.000045992     0.000001470     0.000044583     0.000048583       500    10871432.3 test_cpp_u32string_to_py_str32_multiple_4096[100]
+    TEST:    0    8192       5     0.000080825     0.000002673     0.000079292     0.000086166       500     6186181.8 test_cpp_u32string_to_py_str32_multiple_8192[100]
+    TEST:    0   16384       5     0.000193401     0.000003490     0.000191250     0.000200334       500     2585306.1 test_cpp_u32string_to_py_str32_multiple_16384[100]
+    TEST:    0   32768       5     0.000408067     0.000010493     0.000398500     0.000424293       500     1225288.1 test_cpp_u32string_to_py_str32_multiple_32768[100]
+    TEST:    0   65536       5     0.000792234     0.000008657     0.000784043     0.000805793       500      631126.6 test_cpp_u32string_to_py_str32_multiple_65536[100]
+    TEST:    0  131072       5     0.001775650     0.000035680     0.001733042     0.001832626       500      281587.0 test_cpp_u32string_to_py_str32_multiple_131072[100]
+    TEST:    0  262144       5     0.003592500     0.000289659     0.003189709     0.003948084       500      139178.8 test_cpp_u32string_to_py_str32_multiple_262144[100]
+    TEST:    0  524288       5     0.006444426     0.000010620     0.006431918     0.006461667       500       77586.4 test_cpp_u32string_to_py_str32_multiple_524288[100]
+    TEST:    0 1048576       5     0.013857950     0.000388258     0.013567708     0.014610293       500       36080.4 test_cpp_u32string_to_py_str32_multiple_1048576[100]
 
     See also:
     C++ to Python: fundamental_string_8_16_32.plt
@@ -289,12 +357,6 @@ lengths and different word sizes.
      - ``cpp_u32string_to_py_unicode32()``.
 
 
-..
-    Not used as this is better demonstrated with the three individual graphs.
-
-    .. image:: ../plots/images/fundamental_string_cpp_to_py_8_16_32.png
-        :height: 400px
-        :align: center
 
 .. image:: ../plots/images/fundamental_string_cpp_to_py_8.png
     :height: 400px
@@ -304,18 +366,10 @@ Firstly the 8 bit Unicode converts consistently at a rate of around 10 GB/s.
 This compares with the conversion of ``std::vector<char>`` to ``bytes`` objects at 30 GB/s (above).
 The threefold increase can be possibly explained by having more internal checks on unicode objects.
 
-However the 16/32 bit word strings are a different story, around 100 MB/s or 100x slower than 8 bit strings:
+Intermezzo: Creating Python 16/32 bit Unicode strings
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. image:: ../plots/images/fundamental_string_cpp_to_py_16.png
-    :height: 400px
-    :align: center
-
-.. image:: ../plots/images/fundamental_string_cpp_to_py_32.png
-    :height: 400px
-    :align: center
-
-The conversion of ``std::u16string`` and ``std::u32string`` to Python ``str`` is around 100 times slower than
-for 8 bit strings.
+Initially this code was 100x slower than for 8 bit string and this section describes why.
 An explanation might be the way the Python Unicode `C-API <https://docs.python.org/3/c-api/index.html>`_ works.
 There are several ways of
 `creating <https://docs.python.org/3/c-api/unicode.html#creating-and-accessing-unicode-strings>`_
@@ -331,6 +385,7 @@ what we want.
 Instead we use `PyUnicode_New <https://docs.python.org/3/c-api/unicode.html#c.PyUnicode_New>`_ with a suitable
 ``maxchar`` to ensure that we get the correct word size.
 Then we copy each character into the Unicode string in a loop.
+
 Here is an example from this library using 16 bit unicode characters:
 
 .. code-block:: cpp
@@ -356,17 +411,56 @@ Here is an example from this library using 16 bit unicode characters:
         return ret;
     }
 
-This loop, the type conversions and the
+This code make the conversion of ``std::u16string`` and ``std::u32string`` to Python ``str`` around 100 times slower
+than for 8 bit strings. This loop, the type conversions and the
 `PyUnicode_WriteChar <https://docs.python.org/3/c-api/unicode.html#c.PyUnicode_WriteChar>`_ internal checks is probably
 what is causing the slowdown.
 
-See the notes on ``cpp_u16string_to_py_unicode16()`` and ``cpp_u16string_to_py_unicode16()`` for more information.
+To overcome this the memory was copied directly:
 
-.. todo::
+.. code-block:: cpp
 
-    Find a faster version of converting ``std::u16string`` and ``std::u32string`` to Python ``str`` in version 0.5.0
-    of this library.
-    Possibly use some form of ``memcpy()``?
+    PyObject *cpp_u16string_to_py_unicode16(const std::u16string &s) {
+        assert(! PyErr_Occurred());
+        PyObject *ret = PyUnicode_New(s.size(), 65535);
+        assert(py_unicode16_check(ret));
+        void *dest = PyUnicode_DATA(ret);
+        const void *src = s.c_str();
+        rsize_t size = s.size() * sizeof(std::u16string::value_type);
+        if (memcpy(dest, src, size) != dest) {
+            // memcpy failure
+            Py_DECREF(ret);
+            return NULL;
+        }
+        assert(! PyErr_Occurred());
+        return ret;
+    }
+
+This gives 16/32 bit conversion the same performance as 8 bit conversion.
+
+See the notes on ``cpp_u16string_to_py_unicode16()`` and ``cpp_u32string_to_py_unicode32()`` in
+``src/cpy/python_object_convert.cpp`` for more information.
+
+Back to 8/16/32 bit C++ to Python Strings
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+So now the 16/32 bit word strings are the same speed as 8 bit strings:
+
+.. image:: ../plots/images/fundamental_string_cpp_to_py_16.png
+    :height: 400px
+    :align: center
+
+.. image:: ../plots/images/fundamental_string_cpp_to_py_32.png
+    :height: 400px
+    :align: center
+
+Or all three 8/16/32 bit plotted together:
+
+.. image:: ../plots/images/fundamental_string_cpp_to_py_8_16_32.png
+    :height: 400px
+    :align: center
+
+
 
 Python to C++:
 
